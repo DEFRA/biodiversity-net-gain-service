@@ -14,7 +14,6 @@
     "build:css": "bin/build-css",
     "start": "node ./src/index.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "unit-test": "lab -c -r console -o stdout -r lcov -o lcov.info",
     "lint": "standard"    
   },
   "dependencies": {
