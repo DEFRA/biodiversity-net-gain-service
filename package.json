@@ -1,0 +1,87 @@
+{
+  "name": "biodiversity-net-gain-service",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "postinstall": "npm run lerna:bootstrap",
+    "lerna:bootstrap": "lerna bootstrap",
+    "lerna:clean": "lerna clean",
+    "lint": "standard",
+    "unit-test": "jest --runInBand",
+    "test": "npm run lint && npm run unit-test"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "eslint": "^7.18.0",
+    "eslint-plugin-jest": "^26.0.0",
+    "jest": "^27.4.7",
+    "lerna": "^4.0.0",
+    "standard": "^16.0.4"
+  },
+  "standard": {
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "ignore": [
+      "**/dist/*.js",
+      "packages/api/webpack.config.cjs",
+      ".husky"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "env": {
+      "node": true,
+      "jest": true,
+      "es6": true,
+      "es2021": true
+    },
+    "ignorePatterns": [
+      "**/dist/*.js"
+    ],
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "jest"
+    ]
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "@babel/plugin-transform-modules-commonjs"
+        ]
+      }
+    }
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/**/src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      ""
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "projects": [
+      "<rootDir>/packages/*"
+    ],
+    "testEnvironment": "node",
+    "testRunner": "jest-circus/runner",
+    "silent": true
+  }
+}
