@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% set pageHeading = "Hello or World?" %}
+
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+          {{ govukRadios({
+            idPrefix: "helloWorld",
+            name: "helloWorld",
+            fieldset: {
+              legend: {
+                text: pageHeading,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: [
+              {
+                value: "Hello",
+                text: "Hello",
+                checked: true
+              },
+              {
+                value: "World",
+                text: "World",
+                checked: false
+              }
+            ]
+          }) }}
+  
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+
+          <p>{{ helloWorld }}</p>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
