@@ -10,9 +10,7 @@ const views = {
         compile: (src, options) => {
           const template = Nunjucks.compile(src, options.environment)
 
-          return (context) => {
-            return template.render(context)
-          }
+          return context => template.render(context)
         },
         prepare: (options, next) => {
           options.compileOptions.environment = Nunjucks.configure([

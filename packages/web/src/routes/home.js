@@ -3,9 +3,7 @@ import Joi from '@hapi/joi'
 const home = [{
   method: 'GET',
   path: '/',
-  handler: (request, h) => {
-    return h.view('home')
-  }
+  handler: (request, h) => h.view('home')
 }, {
   method: 'POST',
   path: '/',

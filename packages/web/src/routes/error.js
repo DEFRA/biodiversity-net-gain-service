@@ -1,7 +1,7 @@
 const error = {
   method: 'GET',
   path: '/error',
-  handler: (request, h) => {
+  handler: () => {
     throw new Error('test')
   }
 }

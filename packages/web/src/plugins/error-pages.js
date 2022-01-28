@@ -1,6 +1,6 @@
 const plugin = {
   name: 'error-pages',
-  register: (server, options) => {
+  register: (server) => {
     server.ext('onPreResponse', (request, h) => {
       const response = request.response
 

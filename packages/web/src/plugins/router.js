@@ -12,7 +12,7 @@ const routes = [].concat(
 
 const router = {
   name: 'router',
-  register: (server) => { server.route(routes) }
+  register: server => { server.route(routes) }
 }
 
 export default router
