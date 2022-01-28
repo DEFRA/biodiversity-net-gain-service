@@ -1,4 +1,4 @@
-# Biodiversity Net Gains Web App
+# Application to register web app
 
 #### Installation && build
 `npm i`
