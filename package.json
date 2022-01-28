@@ -2,6 +2,8 @@
   "name": "biodiversity-net-gain-service",
   "type": "module",
   "private": false,
+  "author": "DEFRA",
+  "license": "OGL",
   "scripts": {
     "postinstall": "npm run lerna:bootstrap",
     "lerna:bootstrap": "lerna bootstrap",

@@ -4,6 +4,8 @@
   "type": "module",
   "description": "",
   "main": "index.js",
+  "author": "DEFRA",
+  "license": "OGL",
   "scripts": {
     "postinstall": "npm run build",
     "build": "bin/build",
@@ -15,8 +17,6 @@
     "unit-test": "lab -c -r console -o stdout -r lcov -o lcov.info",
     "lint": "standard"    
   },
-  "author": "DEFRA",
-  "license": "ISC",
   "dependencies": {
     "@hapi/boom": "9.1.4",
     "@hapi/hapi": "20.2.1",

@@ -15,15 +15,20 @@
 See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
 
 To install and build all packages
+
 `npm i`
 
 To run linting and tests
+
 `npm run test`
 
 To install individual packages
-`cd packages/web`
-`npm i`
-`npm run start`
+
+```
+cd packages/web
+npm i
+npm run start
+```
 
 ## Installation, run options, running
 
