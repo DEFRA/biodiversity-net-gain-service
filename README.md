@@ -8,13 +8,27 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_biodiversity-net-gain-service&metric=coverage)](https://sonarcloud.io/dashboard?id=DEFRA_biodiversity-net-gain-service)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_biodiversity-net-gain-service&metric=bugs)](https://sonarcloud.io/dashboard?id=DEFRA_biodiversity-net-gain-service)
 
-
-#### TODO: CI buttons
-
 [Lerna](https://lerna.js.org/) managed nodejs project for Biodiversity Net Gain service
 
 ## Getting started
 
+See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
+
+To install and build all packages
+`npm i`
+
+To run linting and tests
+`npm run test`
+
+To install individual packages
+`cd packages/web`
+`npm i`
+`npm run start`
+
 ## Installation, run options, running
 
 ## Packages
+
+| Package | Description | Runnable |
+| ----------- | ----------- | ----------- |
+| [web](packages/web) | Client side web application for registration journey | Y | 
