@@ -27,7 +27,7 @@ const views = {
     },
     path: './src/views',
     // We need to handle tests running from root of repository, instead of root of the node application
-    relativeTo: process.cwd().indexOf('packages/web') > -1 ? process.cwd() : Path.join(process.cwd(), 'packages/web'),
+    relativeTo: process.cwd().indexOf('packages/application-to-register-webapp') > -1 ? process.cwd() : Path.join(process.cwd(), 'packages/application-to-register-webapp'),
     isCached: true,
     context: {
       assetPath: '/assets',

@@ -25,7 +25,7 @@ To run linting and tests
 To install individual packages
 
 ```
-cd packages/web
+cd packages/application-to-register-webapp
 npm i
 npm run start
 ```
@@ -36,4 +36,4 @@ npm run start
 
 | Package | Description | Runnable |
 | ----------- | ----------- | ----------- |
-| [web](packages/web) | Client side web application for registration journey | Y | 
+| [application-to-register-webapp](packages/application-to-register-webapp) | Client side web application for registration journey | Y | 
