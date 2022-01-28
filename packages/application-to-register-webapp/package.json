@@ -1,0 +1,34 @@
+{
+  "name": "application-to-register-webapp",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "",
+  "main": "src/index.js",
+  "author": "DEFRA",
+  "license": "OGL",
+  "scripts": {
+    "postinstall": "npm run build",
+    "build": "bin/build",
+    "build:clean": "bin/build-clean-public",
+    "build:copy-static": "bin/build-copy-static",
+    "build:css": "bin/build-css",
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "lint": "standard"    
+  },
+  "dependencies": {
+    "@hapi/boom": "9.1.4",
+    "@hapi/hapi": "20.2.1",
+    "@hapi/inert": "6.0.5",
+    "@hapi/joi": "17.1.1",
+    "@hapi/vision": "6.1.0",
+    "blipp": "4.0.2",
+    "govuk-frontend": "4.0.0",
+    "hapi-pino": "9.1.1",
+    "nunjucks": "3.2.3"
+  },
+  "devDependencies": {
+    "node-sass": "7.0.1",
+    "standard": "16.0.4"
+  }
+}
