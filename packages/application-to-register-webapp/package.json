@@ -24,7 +24,7 @@
     "@hapi/vision": "6.1.0",
     "blipp": "4.0.2",
     "govuk-frontend": "4.0.0",
-    "hapi-pino": "9.1.1",
+    "hapi-pino": "9.1.2",
     "nunjucks": "3.2.3"
   },
   "devDependencies": {
