@@ -1,0 +1,14 @@
+FROM        node:16.13.2-alpine
+LABEL       author="Tedd Mason"
+
+ENV         PORT=3000
+
+WORKDIR     /usr/src/packages/application-to-register-webapp
+
+COPY        package*.json ./
+COPY        . .
+RUN         npm ci
+
+EXPOSE      $PORT
+
+CMD         [ "npm", "start" ]

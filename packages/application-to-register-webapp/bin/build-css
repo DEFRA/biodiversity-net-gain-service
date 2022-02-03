@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 node-sass --output-style=expanded \
   --output=src/public/build/stylesheets \

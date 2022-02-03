@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  ##############################################################################################################
+  # Biodiversity net gain service - Application to register webapp - web app found on localhost:3000
+  ##############################################################################################################
+  api:
+    image: biodiversity-net-gain-service/application-to-register-webapp:${TAG:-latest}
+    ports:
+      - "3000:3000"
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure

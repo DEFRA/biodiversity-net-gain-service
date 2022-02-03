@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 npm run build:clean
 npm run build:copy-static
