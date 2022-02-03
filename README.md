@@ -22,7 +22,7 @@ To run linting and tests
 
 `npm run test`
 
-## Running the applications
+## Installation, run options, running
 
 #### Swarm mode (rootful docker required)
 
@@ -30,7 +30,6 @@ To run linting and tests
 
 ```
 docker swarm init
-
 ```
 
 Build application images and run containers in swarm mode
@@ -62,8 +61,6 @@ npm run docker:stop-compose
 ```
 
 To run apps individually view their respective README files.
-
-## Installation, run options, running
 
 ## Packages
 
