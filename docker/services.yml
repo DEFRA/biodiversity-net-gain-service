@@ -1,9 +1,9 @@
-version: "3.8"
+version: "3.9"
 services:
   ##############################################################################################################
   # Biodiversity net gain service - Application to register webapp - web app found on localhost:3000
   ##############################################################################################################
-  api:
+  webapp:
     image: biodiversity-net-gain-service/application-to-register-webapp:${TAG:-latest}
     ports:
       - "3000:3000"

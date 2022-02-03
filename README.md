@@ -22,13 +22,46 @@ To run linting and tests
 
 `npm run test`
 
-To install individual packages
+## Running the applications
+
+#### Swarm mode (rootful docker required)
+
+`optional` First set docker to swarm mode if not already
 
 ```
-cd packages/application-to-register-webapp
-npm i
-npm run start
+docker swarm init
+
 ```
+
+Build application images and run containers in swarm mode
+
+```
+npm run docker:build
+npm run docker:start-swarm:local
+```
+
+#### docker-compose up (not swarm mode) if rootless docker necessary
+
+To build the application images and run the containers without a swarm
+
+```
+npm run docker:build
+npm run docker:start-compose
+```
+
+View the running containers
+
+```
+docker ps
+```
+
+Stop the running containers
+
+```
+npm run docker:stop-compose
+```
+
+To run apps individually view their respective README files.
 
 ## Installation, run options, running
 
