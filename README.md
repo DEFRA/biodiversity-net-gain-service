@@ -36,7 +36,7 @@ Build application images and run containers in swarm mode
 
 ```
 npm run docker:build
-npm run docker:start-swarm:local
+npm run docker:start-swarm
 ```
 
 #### docker-compose up (not swarm mode) if rootless docker necessary
