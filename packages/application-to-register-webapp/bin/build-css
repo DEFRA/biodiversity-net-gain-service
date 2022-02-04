@@ -1,5 +1,6 @@
 #!/bin/sh
 
-node-sass --output-style=expanded \
-  --output=src/public/build/stylesheets \
-  client/sass
+sass --load-path=. \
+  --no-source-map \
+  --quiet \
+  client/sass:src/public/build/stylesheets
