@@ -24,6 +24,7 @@
     "@hapi/hapi": "20.2.1",
     "@hapi/inert": "6.0.5",
     "@hapi/vision": "6.1.0",
+    "@hapi/yar": "^10.1.1",
     "blipp": "4.0.2",
     "govuk-frontend": "4.0.0",
     "hapi-pino": "9.1.2",

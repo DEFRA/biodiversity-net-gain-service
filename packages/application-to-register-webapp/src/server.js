@@ -4,6 +4,7 @@ import views from './plugins/views.js'
 import router from './plugins/router.js'
 import errorPages from './plugins/error-pages.js'
 import logging from './plugins/logging.js'
+import session from './plugins/session.js'
 import Blipp from 'blipp'
 
 const createServer = async () => {
@@ -27,6 +28,7 @@ const init = async server => {
   await server.register(router)
   await server.register(errorPages)
   await server.register(logging)
+  await server.register(session)
   await server.register(Blipp)
 
   // Start the server
