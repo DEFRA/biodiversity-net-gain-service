@@ -12,6 +12,10 @@
 
 ## Getting started
 
+#### Secrets
+
+Before building and running the docker containers the secrets files within docker/env/ will need updating accordingly to run
+
 See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
 
 To install and build all packages
