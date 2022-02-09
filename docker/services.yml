@@ -7,6 +7,10 @@ services:
     image: biodiversity-net-gain-service/application-to-register-webapp:${TAG:-latest}
     ports:
       - "3000:3000"
+    env_file:
+      - ./env/webapp.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     deploy:
       mode: replicated
       replicas: 1

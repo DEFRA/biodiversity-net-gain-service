@@ -105,3 +105,6 @@ dist
 
 # Docker volumes
 docker/volumes/redis/dump.rdb
+
+# vscode debug file
+.vscode/

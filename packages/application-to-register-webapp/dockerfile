@@ -1,5 +1,5 @@
 FROM        node:16.13.2-alpine
-LABEL       author="Tedd Mason"
+LABEL       author="DEFRA"
 
 ENV         PORT=3000
 

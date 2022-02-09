@@ -3,7 +3,7 @@ import Joi from 'joi'
 const home = [{
   method: 'GET',
   path: '/',
-  handler: (request, h) => {
+  handler: async (request, h) => {
     return h.view('home', {
       helloWorld: request.yar.get('helloWorld') || 'session not set' // show helloWorld from session or not set
     })
@@ -13,9 +13,7 @@ const home = [{
   path: '/',
   handler: (request, h) => {
     request.yar.set('helloWorld', request.payload.helloWorld)
-    return h.view('home', {
-      helloWorld: request.payload.helloWorld
-    })
+    return h.redirect('/')
   },
   options: {
     validate: {

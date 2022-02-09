@@ -5,11 +5,14 @@ const session = {
   plugin: Yar,
   options: {
     cookieOptions: {
-      password: 'thisisthecookiepasswordforsession',
-      isSecure: false,
-      isHttpOnly: true
+      password: 'the-password-must-be-at-least-32-characters-long',
+      isSecure: true
     },
-    maxCookieSize: 1024 // set this to 0 to force session storage to cache when installed
+    maxCookieSize: 0,
+    cache: {
+      cache: 'redis_cache',
+      expiresIn: 24 * 60 * 60 * 1000
+    }
   }
 }
 

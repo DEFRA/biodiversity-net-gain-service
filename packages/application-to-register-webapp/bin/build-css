@@ -3,4 +3,4 @@
 sass --load-path=. \
   --no-source-map \
   --quiet \
-  client/sass:src/public/build/stylesheets
+  client/sass:public/build/stylesheets
