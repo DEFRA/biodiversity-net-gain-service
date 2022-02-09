@@ -1,11 +1,10 @@
-// TODO: add configuration to config object
 import Yar from '@hapi/yar'
 
 const session = {
   plugin: Yar,
   options: {
     cookieOptions: {
-      password: 'the-password-must-be-at-least-32-characters-long',
+      password: process.env.SESSION_COOKIE_PASSWORD,
       isSecure: true
     },
     maxCookieSize: 0,
