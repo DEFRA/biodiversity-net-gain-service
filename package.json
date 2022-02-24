@@ -10,7 +10,12 @@
     "lerna:clean": "lerna clean",
     "lint": "standard",
     "unit-test": "jest --runInBand",
-    "test": "npm run lint && npm run unit-test"
+    "test": "npm run lint && npm run unit-test",
+    "docker:build": "docker-compose -f docker/services.build.yml build",
+    "docker:start-swarm": "docker stack deploy -c docker/infrastructure.yml -c docker/services.yml bng",
+    "docker:stop-swarm": "docker stack rm bng",
+    "docker:start-compose": "docker-compose -f docker/infrastructure.yml -f docker/services.yml up -d",
+    "docker:stop-compose": "docker-compose -f docker/infrastructure.yml -f docker/services.yml down"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.16.8",
@@ -85,5 +90,8 @@
     "testEnvironment": "node",
     "testRunner": "jest-circus/runner",
     "silent": true
+  },
+  "dependencies": {
+    "catbox-memory": "^4.0.1"
   }
 }

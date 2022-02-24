@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-mkdir src/public
-mkdir src/public/static
-cp client/static/* src/public/static
+mkdir public
+mkdir public/static
+cp client/static/* public/static
