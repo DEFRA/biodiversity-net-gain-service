@@ -1,24 +1,21 @@
+import dirname from '../../dirname.cjs'
+
 const publicRoutes = [{
   method: 'GET',
   path: '/robots.txt',
   handler: {
-    file: 'src/public/static/robots.txt'
+    file: `${dirname}/public/static/robots.txt`
   }
 }, {
   method: 'GET',
-  path: '/assets/all.js',
-  handler: {
-    file: 'node_modules/govuk-frontend/govuk/all.js'
-  }
-}, {
-  method: 'GET',
-  path: '/assets/{path*}',
+  path: '/public/{path*}',
   handler: {
     directory: {
       path: [
-        'src/public/static',
-        'src/public/build',
-        'node_modules/govuk-frontend/govuk/assets'
+        `${dirname}/public/static`,
+        `${dirname}/public/build`,
+        `${dirname}/node_modules/govuk-frontend/govuk`,
+        `${dirname}/node_modules/govuk-frontend/govuk/assets`
       ]
     }
   }

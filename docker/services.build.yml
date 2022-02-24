@@ -1,0 +1,13 @@
+##############################################################################################################
+# Common project docker build options.
+# This builds the docker images
+##############################################################################################################
+services:
+  ##############################################################################################################
+  # Biodiversity net gain service application to register webapp
+  ##############################################################################################################
+  application-to-register-webapp:
+    image: biodiversity-net-gain-service/application-to-register-webapp:${TAG:-latest}
+    build:
+      context: ../packages/application-to-register-webapp
+      dockerfile: ${PROJECT_DOCKERFILE:-dockerfile}

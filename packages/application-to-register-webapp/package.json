@@ -14,21 +14,26 @@
     "build:css": "bin/build-css",
     "start": "node ./src/index.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "lint": "standard"    
+    "lint": "standard",
+    "docker:build": "docker build . -t application-to-register-webapp",
+    "docker:start": "docker run --name application-to-register-webapp -p 3000:3000 -d application-to-register-webapp",
+    "docker:stop": "docker kill application-to-register-webapp && docker rm application-to-register-webapp"
   },
   "dependencies": {
     "@hapi/boom": "9.1.4",
+    "@hapi/catbox-redis": "^6.0.2",
     "@hapi/hapi": "20.2.1",
     "@hapi/inert": "6.0.5",
-    "@hapi/joi": "17.1.1",
     "@hapi/vision": "6.1.0",
+    "@hapi/yar": "^10.1.1",
     "blipp": "4.0.2",
     "govuk-frontend": "4.0.0",
     "hapi-pino": "9.1.2",
-    "nunjucks": "3.2.3"
+    "joi": "^17.6.0",
+    "nunjucks": "3.2.3",
+    "sass": "^1.49.7"
   },
   "devDependencies": {
-    "node-sass": "7.0.1",
     "standard": "16.0.4"
   }
 }

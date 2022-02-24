@@ -1,16 +1,19 @@
-import Joi from '@hapi/joi'
+import Joi from 'joi'
 
 const home = [{
   method: 'GET',
   path: '/',
-  handler: (request, h) => h.view('home')
+  handler: async (request, h) => {
+    return h.view('home', {
+      helloWorld: request.yar.get('helloWorld') || 'session not set' // show helloWorld from session or not set
+    })
+  }
 }, {
   method: 'POST',
   path: '/',
   handler: (request, h) => {
-    return h.view('home', {
-      helloWorld: request.payload.helloWorld
-    })
+    request.yar.set('helloWorld', request.payload.helloWorld)
+    return h.redirect('/')
   },
   options: {
     validate: {

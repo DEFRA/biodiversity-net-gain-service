@@ -12,6 +12,10 @@
 
 ## Getting started
 
+#### Secrets
+
+Before building and running the docker containers the secrets files within docker/env/ will need updating accordingly to run
+
 See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
 
 To install and build all packages
@@ -22,15 +26,45 @@ To run linting and tests
 
 `npm run test`
 
-To install individual packages
-
-```
-cd packages/application-to-register-webapp
-npm i
-npm run start
-```
-
 ## Installation, run options, running
+
+#### Swarm mode (rootful docker required)
+
+`optional` First set docker to swarm mode if not already
+
+```
+docker swarm init
+```
+
+Build application images and run containers in swarm mode
+
+```
+npm run docker:build
+npm run docker:start-swarm
+```
+
+#### docker-compose up (not swarm mode) if rootless docker necessary
+
+To build the application images and run the containers without a swarm
+
+```
+npm run docker:build
+npm run docker:start-compose
+```
+
+View the running containers
+
+```
+docker ps
+```
+
+Stop the running containers
+
+```
+npm run docker:stop-compose
+```
+
+To run apps individually view their respective README files.
 
 ## Packages
 

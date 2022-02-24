@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Docker volumes
+docker/volumes/redis/dump.rdb
+
+# vscode debug file
+.vscode/
