@@ -1,6 +1,8 @@
 version: "3.9"
+secrets:
+  POSTGRES_PASSWORD:
+    file: ./secrets/POSTGRES_PASSWORD
 services:
-
   ##############################################################################################################
   # Redis - on port 6379
   ##############################################################################################################
@@ -14,15 +16,35 @@ services:
       restart_policy:
         condition: on-failure
 
-  ##############################################################################################################
-  # Redis commander on port 8081
-  ##############################################################################################################
-  redis_commander:
-    image: rediscommander/redis-commander
+  # ##############################################################################################################
+  # # Postgres + Postgis on port 5432
+  # ##############################################################################################################
+  postgis:
+    image: postgis/postgis:13-3.2-alpine
+    user: "${UID:-1000}:${GID:-1000}"
     ports:
-      - "8081:8081"
+      - "5432:5432"
     environment:
-      - REDIS_HOSTS=local:redis:6379
-    deploy:
-      restart_policy:
-        condition: on-failure
+      - POSTGRES_PASSWORD_FILE=/run/secrets/POSTGRES_PASSWORD
+    secrets:
+      - POSTGRES_PASSWORD
+    volumes:
+      # take uid/gid lists from host readonly
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - ./volumes/postgis:/var/lib/postgresql/data
+      - ./src/postgis/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  ##############################################################################################################
+  # Geoserver on port 
+  ##############################################################################################################
+  geoserver:
+    image: oscarfonts/geoserver
+    environment:
+      # Set UID/GID for container to match host, unix user defaults to 1000 but set env vars UID or GID to use your own
+      - CUSTOM_UID=${UID:-1000}
+      - CUSTOM_GID=${GID:-1000}
+    volumes:
+      - ./volumes/geoserver:/var/local/geoserver
+    ports:
+      - "8080:8080"

@@ -14,7 +14,15 @@
 
 #### Secrets
 
-Before building and running the docker containers the secrets files within docker/env/ will need updating accordingly to run
+Before building and running the docker containers the secrets files needed creating in docker/secrets
+The name of the file is the secret name (no extension), the contents are plain text of the value of the secret
+
+
+| App | Secret Name | Notes |
+| ----------- | ----------- | ----------- |
+| pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
+| postgis | POSTGRES_PASSWORD | ----------- |
+| application_to_register_webapp | SESSION_COOKIE_PASSWORD | minimum 32 characters |
 
 See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
 
@@ -36,35 +44,42 @@ To run linting and tests
 docker swarm init
 ```
 
-Build application images and run containers in swarm mode
+Create pgadmin docker volume and give it permissions for pgadmin process to access (can't pass in uid/gid for pgadmin image)
+
+```
+mkdir docker/volumes/pgadmin
+sudo chown -R 5050:5050 docker/volumes/pgadmin
+```
+
+
+Create postgis volume (container takes care of permissions)
+Postgres does not like any files existing in the data directory when initialising the database
+
+```
+mkdir docker/volumes/postgis
+```
+
+Create geoserver data directory, this will be stored in source control at somepoint to store configuration/layers etc, however TODO is to strip out security risks and inject with build.
+Therefore for the time being the workspace, datastore and layers need creating manually through the geoserver interface at http://localhost:8080/geoserver
+
+```
+mkdir docker/volumes/geoserver
+```
+
+
+Build application images and run containers in swarm mode, `npm run docker:start-dev` includes development tools such as redis commander and pgadmin, switch this out for `npm run docker:start` if those tools are not required, ie when deployed to cloud/production environments
 
 ```
 npm run docker:build
-npm run docker:start-swarm
+npm run docker:start-dev
 ```
 
-#### docker-compose up (not swarm mode) if rootless docker necessary
 
-To build the application images and run the containers without a swarm
-
-```
-npm run docker:build
-npm run docker:start-compose
-```
-
-View the running containers
+To stop the swarm and tear down the services
 
 ```
-docker ps
+npm run docker:stop
 ```
-
-Stop the running containers
-
-```
-npm run docker:stop-compose
-```
-
-To run apps individually view their respective README files.
 
 ## Packages
 

@@ -1,0 +1,35 @@
+version: "3.9"
+secrets:
+  PGADMIN_DEFAULT_PASSWORD:
+    file: ./secrets/PGADMIN_DEFAULT_PASSWORD
+services:
+  ##############################################################################################################
+  # PGAdmin4 on port 8083
+  ##############################################################################################################
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=/run/secrets/PGADMIN_DEFAULT_PASSWORD
+    secrets:
+      - PGADMIN_DEFAULT_PASSWORD
+    env_file:
+      - ./env/pgadmin.env
+    volumes:
+      # to persist pgadmin configuration mkdir ./volumes/pgadmin && sudo chown 5050:5050 ./volumes/pgadmin
+      # this pgadmin image doesn't have capacity to accept host uid:gid override
+      - ./volumes/pgadmin:/var/lib/pgadmin
+    ports:
+      - "8083:8083"
+
+  ##############################################################################################################
+  # Redis commander on port 8081
+  ##############################################################################################################
+  redis_commander:
+    image: rediscommander/redis-commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    deploy:
+      restart_policy:
+        condition: on-failure
