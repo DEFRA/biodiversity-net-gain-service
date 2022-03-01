@@ -1,6 +1,6 @@
 # biodiversity-net-gain-service
 
-#### For Natural England
+### For Natural England
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_biodiversity-net-gain-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=DEFRA_biodiversity-net-gain-service)
@@ -12,7 +12,7 @@
 
 ## Getting started
 
-#### Secrets
+### Secrets
 
 Before building and running the docker containers the secrets files needed creating in docker/secrets
 The name of the file is the secret name (no extension), the contents are plain text of the value of the secret
@@ -36,7 +36,7 @@ To run linting and tests
 
 ## Installation, run options, running
 
-#### Swarm mode (rootful docker required)
+### Swarm mode (rootful docker required)
 
 `optional` First set docker to swarm mode if not already
 
@@ -80,6 +80,28 @@ To stop the swarm and tear down the services
 ```
 npm run docker:stop
 ```
+
+### docker-compose up (not swarm mode) if rootless docker necessary
+
+To build the application images and run the containers without a swarm
+
+```
+npm run docker:build
+npm run docker:start-compose
+```
+
+View the running containers
+
+```
+docker ps
+```
+
+Stop the running containers
+
+```
+npm run docker:stop-compose
+```
+
 
 ## Packages
 
