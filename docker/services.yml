@@ -16,8 +16,6 @@ services:
       - SESSION_COOKIE_PASSWORD
     env_file:
       - ./env/webapp.env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     deploy:
       mode: replicated
       replicas: 1
