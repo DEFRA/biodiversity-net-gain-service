@@ -21,17 +21,15 @@ services:
   # ##############################################################################################################
   postgis:
     image: postgis/postgis:13-3.2-alpine
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "postgres"
     ports:
       - "5432:5432"
     environment:
+      - PGDATA=/var/lib/postgresql/data
       - POSTGRES_PASSWORD_FILE=/run/secrets/POSTGRES_PASSWORD
     secrets:
       - POSTGRES_PASSWORD
     volumes:
-      # take uid/gid lists from host readonly
-      - /etc/passwd:/etc/passwd:ro
-      - /etc/group:/etc/group:ro
       - ./volumes/postgis:/var/lib/postgresql/data
       - ./src/postgis/init.sql:/docker-entrypoint-initdb.d/init.sql
 

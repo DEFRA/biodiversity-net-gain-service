@@ -8,14 +8,16 @@ services:
   ##############################################################################################################
   pgadmin:
     image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_PASSWORD=/run/secrets/PGADMIN_DEFAULT_PASSWORD
+    user: pgadmin
     secrets:
       - PGADMIN_DEFAULT_PASSWORD
     env_file:
       - ./env/pgadmin.env
+    # The pgadmin4 Docker image does not seem to support use of <<secret name>>_FILE syntax to read a secret from a file.
+    # Read the secret from the file and set the associated environment variable manually.
+    entrypoint: [ '/bin/sh', '-c', 'export PGADMIN_DEFAULT_PASSWORD=$$(cat /run/secrets/PGADMIN_DEFAULT_PASSWORD) && /entrypoint.sh' ]
     volumes:
-      # to persist pgadmin configuration mkdir ./volumes/pgadmin && sudo chown 5050:5050 ./volumes/pgadmin
+      # to persist pgadmin configuration mkdir ./volumes/pgadmin && sudo chown <<host UID>>:<<host GID>> ./volumes/pgadmin
       # this pgadmin image doesn't have capacity to accept host uid:gid override
       - ./volumes/pgadmin:/var/lib/pgadmin
     ports:
@@ -33,3 +35,4 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
+      

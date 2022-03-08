@@ -44,7 +44,7 @@ To run linting and tests
 docker swarm init
 ```
 
-Create pgadmin docker volume and give it permissions for pgadmin process to access (can't pass in uid/gid for pgadmin image)
+Create pgadmin docker volume and give it permissions for pgadmin process to access, see /docker/infrastructure.development.yml for more detail
 
 ```
 mkdir docker/volumes/pgadmin
@@ -53,10 +53,11 @@ sudo chown -R 5050:5050 docker/volumes/pgadmin
 
 
 Create postgis volume (container takes care of permissions)
-Postgres does not like any files existing in the data directory when initialising the database
+Postgres does not like any files existing in the data directory when initialising the database and give access to container uid, see /docker/infrastructure.yml for more detail
 
 ```
 mkdir docker/volumes/postgis
+sudo chown -R 70:70 docker/volumes/postgis
 ```
 
 Create geoserver data directory, this will be stored in source control at somepoint to store configuration/layers etc, however TODO is to strip out security risks and inject with build.
