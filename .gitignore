@@ -104,7 +104,9 @@ dist
 .tern-port
 
 # Docker volumes
-docker/volumes/redis/dump.rdb
+docker/volumes/pgadmin
+docker/volumes/postgis
+docker/volumes/geoserver
 
 # vscode debug file
 .vscode/
