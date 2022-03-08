@@ -1,17 +1,21 @@
 version: "3.9"
+secrets:
+  SESSION_COOKIE_PASSWORD:
+    file: ./secrets/SESSION_COOKIE_PASSWORD
 services:
   ##############################################################################################################
   # Biodiversity net gain service - Application to register webapp - web app found on localhost:3000
   ##############################################################################################################
   webapp:
-    image: biodiversity-net-gain-service/application-to-register-webapp:${TAG:-latest}
+    image: bng/application-to-register-webapp:${TAG:-latest}
     ports:
       - "3000:3000"
+    environment:
+      - SESSION_COOKIE_PASSWORD=/run/secrets/SESSION_COOKIE_PASSWORD
+    secrets:
+      - SESSION_COOKIE_PASSWORD
     env_file:
       - ./env/webapp.env
-      - ./env/webapp.secrets.env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     deploy:
       mode: replicated
       replicas: 1
