@@ -1,13 +1,13 @@
-import homeRoutes from '../routes/home.js'
 import aboutRoutes from '../routes/about.js'
 import publicRoutes from '../routes/public.js'
 import errorRoute from '../routes/error.js'
+import startRoute from '../routes/start.js'
 
 const routes = [].concat(
-  homeRoutes,
   aboutRoutes,
   publicRoutes,
-  errorRoute
+  errorRoute,
+  startRoute
 )
 
 const router = {
