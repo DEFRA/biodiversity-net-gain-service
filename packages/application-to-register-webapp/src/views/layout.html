@@ -66,22 +66,6 @@
     html: 'This is a new service – <a class="govuk-link" href="#">give feedback</a> to help us to improve it.'
   }) }}
 
-  <!-- Hide the back link if Javascript is not available -->
-  <noscript>
-    <style>#back-link {display: none} </style>
-  </noscript>
-
-  {% if (not hideBackLink) %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "#",
-        attributes: {
-            id: "back-link",
-            onclick: "window.history.go(-1); return false;"
-        }
-    }) }}
-  {% endif %}
-  
 {% endblock %}
 
 {% block content %}
