@@ -1,0 +1,27 @@
+Using docker compose to deploy to azure container instances
+
+https://docs.microsoft.com/en-us/azure/container-instances/tutorial-docker-compose
+
+docker context use default
+
+# build images for service
+docker-compose -f services.build.yml build
+
+# push image to azure container registry
+docker-compose -f services.build.yml push
+
+cd packages/application-to-register-webapp
+
+docker context use bnglocaldev
+
+docker compose up
+
+docker ps
+
+docker logs application-to-register-webapp_webapp -f
+
+
+try for web app with containers
+https://docs.microsoft.com/en-gb/azure/app-service/tutorial-multi-container-app
+
+

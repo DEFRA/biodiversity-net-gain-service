@@ -1,7 +1,7 @@
 FROM        node:16.13.2-alpine
 LABEL       author="DEFRA"
 
-ENV         PORT=3000
+ENV         PORT=80
 
 WORKDIR     /usr/src/packages/application-to-register-webapp
 

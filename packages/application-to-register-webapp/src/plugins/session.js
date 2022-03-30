@@ -1,12 +1,14 @@
 import Yar from '@hapi/yar'
 import { SESSION_COOKIE_PASSWORD } from '../utils/config.js'
 
+console.log(SESSION_COOKIE_PASSWORD)
+
 const session = {
   plugin: Yar,
   options: {
     cookieOptions: {
       password: SESSION_COOKIE_PASSWORD,
-      isSecure: true
+      isSecure: false // set to false to cover deployment to non SSL on azure container instances
     },
     maxCookieSize: 0,
     cache: {
