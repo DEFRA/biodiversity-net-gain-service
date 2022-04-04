@@ -31,7 +31,7 @@
     "hapi-pino": "9.1.2",
     "joi": "^17.6.0",
     "nunjucks": "3.2.3",
-    "sass": "^1.49.7"
+    "sass": "^1.49.11"
   },
   "devDependencies": {
     "standard": "16.0.4"
