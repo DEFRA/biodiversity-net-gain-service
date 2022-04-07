@@ -19,7 +19,7 @@
     "docker:stop-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml down"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
+    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "eslint": "^8.8.0",
     "eslint-plugin-jest": "^26.0.0",
