@@ -7,7 +7,7 @@ import logging from './plugins/logging.js'
 import session from './plugins/session.js'
 import cache from './plugins/cache.js'
 import Blipp from 'blipp'
-import { SERVER_PORT } from './config.js'
+import { SERVER_PORT } from './utils/config.js'
 
 const createServer = async options => {
   // Create the hapi server

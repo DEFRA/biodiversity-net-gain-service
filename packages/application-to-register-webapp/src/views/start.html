@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% set pageHeading = "Register land for off-site biodiversity gain" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+
+      <p class="gem-c-lead-paragraph">How to register land used for biodiversity gain that is linked to a development.</p>
+      
+
+      <p class="govuk-body">If you're the developer, you need to do this registration before development works can begin.</p>  
+      <p class="govuk-body">If you're the consultant you can register on behalf of landowners or developers.</p>  
+      
+      <h2 id="before-you-apply" class="govuk-heading-m">Before you register</h2>
+      <p>Before you register please check you have have completed everything listed here.</p>
+
+      <h3 id="before-you-apply" class="govuk-heading-s">What you'll need from the off-site landowner</h3>
+      <p class="govuk-body">You need the following from the landowner:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>signed consent to register the land</li>
+        <li>a copy of the certificate of ownership, if the land is not registered with HM Land Registry</li>
+        <li>the boundary of the land</li>
+        <li>details of the available habitat enhancements, including habitat type, area or length and condition</li>
+        <li>draft or final <a class="govuk-link" href="#">habitat or management monitoring plan </a> </li>
+      </ul> 
+      
+      <h3 id="before-you-apply" class="govuk-heading-s">Interested third parties</h3>
+      <p class="govuk-body">You need to confirm with all <a class="govuk-link" href="#">interested third parties</a> that your registration does not conflict with their interests.</p>   
+      <p class="govuk-body">A third party can be someone who has shooting rights, public right of way or is the mortage lender.</p> 
+      
+      <h3 id="before-you-apply" class="govuk-heading-s">Planning application</h3>
+      <p class="govuk-body">The developer needs to submit a planning application using the <a class="govuk-link" href="https://www.planningportal.co.uk/">Planning portal</a>.</p> 
+      <p class="govuk-body">As part of their planning application, they need to include a draft <a class="govuk-link" href="#">biodiversity gain plan</a>. </p>
+      <p class="govuk-body">The draft biodiversity gain plan needs to include:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>site reference number from this registration</a> </li>
+        <li>completed <a class="govuk-link" href="http://publications.naturalengland.org.uk/publication/6049804846366720"> biodiversity metric 3.0 calculations</a>, that includes the onsite and off-site, baseline and post development data</li>
+      </ul>
+      <p class="govuk-body">The Local Planning Authority could give planning permission with drafts of the plans. However, the developer will need to get approval of the final plans before they can begin development works.</p> 
+
+      <h3 id="before-you-apply" class="govuk-heading-s">Legal agreements</h3>
+      <p class="govuk-body">You need legal agreements that secure funds from a developer to pay for the biodiversity gain for 30 years or more.</p>  
+      <p class="govuk-body">You can use a signed agreement called a <a class="govuk-link" href="https://www.gov.uk/guidance/planning-obligations">planning obligation</a>, which is between a landowner and a developer.</p>  
+      <p class="govuk-body">If you do not have a planning obligation, you need 2 other signed agreements:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>a <a class="govuk-link" href="#">conservation covenant</a> that secures the biodiversity gain for 30 years or more</li>
+        <li>a financial agreement that secures funding from a developer for the biodiversity gain</li>
+      </ul>     
+
+      <h2 id="check-what-you-need" class="govuk-heading-m">Register</h2>
+
+      <p class="govuk-body">It costs £240 to register. You can pay by debit or credit card.</p>
+      
+      {{ govukButton({
+        text: "Start now",
+        href: "/",
+        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+        isStartButton: true
+      }) }}
+    </div>
+  </div>
+{% endblock %}

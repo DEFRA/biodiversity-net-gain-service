@@ -1,10 +1,11 @@
 import Yar from '@hapi/yar'
+import { SESSION_COOKIE_PASSWORD } from '../utils/config.js'
 
 const session = {
   plugin: Yar,
   options: {
     cookieOptions: {
-      password: process.env.SESSION_COOKIE_PASSWORD,
+      password: SESSION_COOKIE_PASSWORD,
       isSecure: true
     },
     maxCookieSize: 0,
