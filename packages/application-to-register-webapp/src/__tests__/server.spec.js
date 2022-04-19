@@ -1,5 +1,5 @@
 import { createServer, init } from '../server.js'
-import serverOptions from './server-options.js'
+import serverOptions from '../__mocks__/server-options.js'
 
 describe('The server', () => {
   it('starts', async () => {
@@ -14,7 +14,7 @@ describe('The server', () => {
     await init(server)
     const response = await server.inject({
       method: 'GET',
-      url: '/'
+      url: '/session'
     })
     expect(response.statusCode).toEqual(200)
     expect(response.payload).toContain('Hello or World?')
@@ -26,7 +26,7 @@ describe('The server', () => {
     await init(server)
     const response = await server.inject({
       method: 'POST',
-      url: '/',
+      url: '/session',
       payload: {
         helloWorld: 'hello'
       }
