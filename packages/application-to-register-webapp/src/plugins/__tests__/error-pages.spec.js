@@ -1,6 +1,6 @@
 import plugin from '../error-pages.js'
 import { createServer, init } from '../../server.js'
-import serverOptions from '../../__test__/server-options.js'
+import serverOptions from '../../__mocks__/server-options.js'
 
 describe('error-pages', () => {
   it('is a plugin', () => {
