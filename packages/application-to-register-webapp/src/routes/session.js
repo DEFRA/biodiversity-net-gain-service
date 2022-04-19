@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const home = [{
+const session = [{
   method: 'GET',
   path: '/session',
   handler: async (request, h) => {
@@ -24,4 +24,4 @@ const home = [{
   }
 }]
 
-export default home
+export default session
