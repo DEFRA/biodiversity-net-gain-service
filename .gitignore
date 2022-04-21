@@ -110,3 +110,6 @@ docker/volumes/geoserver
 
 # vscode debug file
 .vscode/
+
+# vscode code-workspace file
+*.code-workspace

@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "trusted-file-queue",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "pwdefbng",
+      "connectionStringSetting": "AzureSignalRConnectionString",
+      "direction": "out"
+    }
+    
+  ]
+}

@@ -5,3 +5,11 @@ $govuk-fonts-path: '#{$govuk-assets-path}fonts/';
 $govuk-global-styles: true;
 
 @import "node_modules/govuk-frontend/govuk/all";
+
+#map {
+  margin: 0;
+  height: 50vh;
+  width: 100%;
+  font-family: sans-serif;
+  background-color: #fafafa;
+}

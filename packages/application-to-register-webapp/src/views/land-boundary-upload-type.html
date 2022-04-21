@@ -1,0 +1,45 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "How do you want to provide the land boundary for the off-site?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "landBoundaryUploadType",
+          name: "landBoundaryUploadType",
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "geospatialData",
+              text: "Upload geospatial data file",
+              hint: {
+                text: "GeoJSON, KML or Shape files"
+              },
+              checked: false
+            },
+            {
+              value: "documentOrImage",
+              text: "Upload document or image",
+              hint: {
+                text: "PDF, jpg or PNG files"
+              },
+              checked: false
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

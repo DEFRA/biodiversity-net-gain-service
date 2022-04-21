@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "untrusted-file-queue",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "trustedFileQueue",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "trusted-file-queue",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}

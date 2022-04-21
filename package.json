@@ -3,7 +3,7 @@
   "type": "module",
   "private": false,
   "author": "DEFRA",
-  "license": "OGL",
+  "license": "OGL-UK-3.0",
   "scripts": {
     "postinstall": "npm run lerna:bootstrap",
     "lerna:bootstrap": "lerna bootstrap",
@@ -34,7 +34,7 @@
       "jest": true
     },
     "ignore": [
-      "**/dist/*.js",
+      "**/public/build/js/*.js",
       "packages/api/webpack.config.cjs",
       ".husky"
     ]

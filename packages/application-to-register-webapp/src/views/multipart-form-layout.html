@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block content %}
+
+  {% if errorSummary %}
+      {{ govukErrorSummary(errorSummary) }}
+  {% endif %}
+
+  <form method="post" novalidate="novalidate" enctype="multipart/form-data">
+    {% block formContent %}
+    {% endblock %}
+  </form>
+{% endblock %}
