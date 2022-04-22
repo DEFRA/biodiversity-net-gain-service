@@ -6,7 +6,7 @@ const session = {
   options: {
     cookieOptions: {
       password: SESSION_COOKIE_PASSWORD,
-      isSecure: true
+      isSecure: false // set to false to cover deployment to non SSL on azure container instances
     },
     maxCookieSize: 0,
     cache: {
