@@ -72,7 +72,7 @@ const uploadGeospatialLandBoundaryRoutes = [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB * 1024,
+      maxBytes: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false
