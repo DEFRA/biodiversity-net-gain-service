@@ -1,7 +1,7 @@
 FROM        node:16.13.2-alpine
 LABEL       author="DEFRA"
 
-ENV         PORT=80
+ENV         PORT=80 REDIS_HOST=redis
 
 WORKDIR     /usr/src/packages/application-to-register-webapp
 
