@@ -11,6 +11,9 @@ import { Map, View } from 'ol'
 import sync from 'ol-hashed'
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
+import MousePosition from 'ol/control/MousePosition'
+import { ScaleLine, defaults as defaultControls } from 'ol/control'
+import { createStringXY } from 'ol/coordinate'
 import 'ol/ol.css'
 
 let token
@@ -94,9 +97,11 @@ const getOrdnanceSurveyLayer = (options) => {
   })
 }
 
-const getLandBoundarySource = () => {
+const getLandBoundarySource = (config) => {
   return new VectorSource({
-    format: new GeoJSON(),
+    format: new GeoJSON({
+      dataProjection: `EPSG:${config.epsg}`
+    }),
     url: '/geospatial-land-boundary'
   })
 }
@@ -113,9 +118,9 @@ const getLandBoundaryStyle = () => {
   })
 }
 
-const getLandBoundaryLayer = () => {
+const getLandBoundaryLayer = (config) => {
   return new VectorLayer({
-    source: getLandBoundarySource(),
+    source: getLandBoundarySource(config),
     style: getLandBoundaryStyle()
   })
 }
@@ -125,15 +130,33 @@ const getView = (config) => {
     projection: `EPSG:${config.epsg}`,
     center: config.centroid,
     extent: config.extent,
-    zoom: 13,
+    zoom: config.epsg === '27700' ? 13 : 17,
     showFullExtent: true
+  })
+}
+
+const getScaleBarControl = () => {
+  return new ScaleLine({
+    bar: true,
+    steps: 4,
+    text: true,
+    minWidth: 140
+  })
+}
+
+const getMousePositionControl = (config) => {
+  return new MousePosition({
+    coordinateFormat: createStringXY(4),
+    projection: `EPSG:${config.epsg}`,
+    className: '.map-coordinates',
+    target: document.getElementById('map-coordinates')
   })
 }
 
 const getMapOptions = async (config) => {
   const capabilityOptions = await getOptionsFromCapabilities(config)
   const ordnanceSurveyLayer = getOrdnanceSurveyLayer(capabilityOptions)
-  const landBoundaryLayer = getLandBoundaryLayer()
+  const landBoundaryLayer = getLandBoundaryLayer(config)
   return {
     layers: [ordnanceSurveyLayer, landBoundaryLayer],
     view: getView(config)
@@ -142,7 +165,10 @@ const getMapOptions = async (config) => {
 
 const getMap = async (config) => {
   const options = await getMapOptions(config)
+  const scaleBarControl = getScaleBarControl()
+  const mousePositionControl = getMousePositionControl(config)
   return new Map({
+    controls: defaultControls().extend([scaleBarControl, mousePositionControl]),
     target: 'map',
     layers: options.layers,
     view: options.view,
