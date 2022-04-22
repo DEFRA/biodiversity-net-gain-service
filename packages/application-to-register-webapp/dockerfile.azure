@@ -1,0 +1,14 @@
+FROM        node:16.13.2-alpine
+LABEL       author="DEFRA"
+
+ENV         PORT=80
+
+WORKDIR     /usr/src/packages/application-to-register-webapp
+
+COPY        package*.json ./
+COPY        . .
+RUN         npm ci
+
+EXPOSE      $PORT
+
+CMD         [ "npm", "start" ]

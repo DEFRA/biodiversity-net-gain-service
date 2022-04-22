@@ -1,0 +1,45 @@
+#######
+# This docker file is for deployment to azure infrastructure flavour
+#######
+version: "3.9"
+secrets:
+  SESSION_COOKIE_PASSWORD:
+    file: ./secrets/SESSION_COOKIE_PASSWORD
+  POSTGRES_PASSWORD:
+    file: ./secrets/POSTGRES_PASSWORD
+services:
+    ##############################################################################################################
+  # Redis - on port 6379
+  ##############################################################################################################
+  redis:
+    image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
+    container_name: redis
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "6379:6379"
+    # volumes:
+    #   - ${WEBAPP_STORAGE_HOME}/volumes/redis:/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  ##############################################################################################################
+  # Biodiversity net gain service - Application to register webapp
+  ##############################################################################################################
+  webapp:
+    image: bngcr.azurecr.io/application-to-register-webapp:latest
+    container_name: webapp
+    ports:
+      - "80:80"
+    # environment:
+    #   - SESSION_COOKIE_PASSWORD=/run/secrets/SESSION_COOKIE_PASSWORD
+    # secrets:
+    #   - SESSION_COOKIE_PASSWORD
+    env_file:
+      - ./env/webapp.env
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
