@@ -24,6 +24,26 @@ services:
       restart_policy:
         condition: on-failure
 
+  postgres:
+    image: postgis/postgis:13-3.2-alpine
+    container_name: postgis
+    user: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   user: pgadmin
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=ubuntu@localhost.localdomain
+  #     - PGADMIN_LISTEN_PORT=8083
+  #     - PGADMIN_DEFAULT_PASSWORD=password
+  #   ports:
+  #     - "8083:8083"
+
   ##############################################################################################################
   # Biodiversity net gain service - Application to register webapp
   ##############################################################################################################
