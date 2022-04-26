@@ -8,7 +8,6 @@ import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import { Fill, Stroke, Style } from 'ol/style'
 import { Map, View } from 'ol'
-import sync from 'ol-hashed'
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
 import MousePosition from 'ol/control/MousePosition'
@@ -183,8 +182,7 @@ const initialiseMap = (config) => {
       if (config.epsg === '27700') {
         initialise27700Projection()
       }
-      const map = await getMap(config)
-      sync(map)
+      await getMap(config)
     }
   )()
 }
