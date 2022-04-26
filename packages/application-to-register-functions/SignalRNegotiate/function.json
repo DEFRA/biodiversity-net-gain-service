@@ -17,7 +17,7 @@
       "type": "signalRConnectionInfo",
       "name": "connectionInfo",
       "userId": "{userId}",
-      "hubName": "pwdefbng",
+      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
       "direction": "in"
     }
   ]
