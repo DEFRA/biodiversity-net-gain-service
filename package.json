@@ -26,6 +26,7 @@
     "eslint-plugin-jest": "^26.1.4",
     "jest": "^27.5.1",
     "lerna": "^4.0.0",
+    "markdownlint-cli": "^0.31.1",
     "standard": "^16.0.4"
   },
   "standard": {

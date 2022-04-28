@@ -1,0 +1,58 @@
+# Application to register web app
+
+## Prerequisites
+
+### Common dependencies
+
+Prerequisite dependencies used by multiple packages within this repository are documented in [Prerequisites](../../docs/prerequisites.md)
+
+## Installation and running options as standalone application
+
+warning: other service dependencies will be missing, install and run from root of the repository to run whole package of applications
+
+### Environment variables
+
+| name    | description | mandatory |
+|---------|-------------|-----------|
+| AZURE_STORAGE_ACCOUNT | Microsoft Azure storage account name | Y |
+| AZURE_STORAGE_ACCESS_KEY | Microsoft Azure storage account shared access key | Y |
+| MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) | Y |
+| SIGNALR_URL | Microsoft Azure SignalR connection URL (see the note below) | Y |  
+| SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
+
+#### Setting the SIGNALR_URL environment variable
+
+This environment variable **MUST** be set to the URL used to access the **SignalRNegotiate** API endpoint provided by the [application-to-register-fuctions](../application-to-register-functions/)
+package **minus** the **/negotiate** path element. For example, if the API endpoint is **<http://localhost:7071/api/negotiate>** the environment variable **must** be set to **<http://localhost:7071/api>**.
+
+If HTTP triggered functions in the [application-to-register-fuctions](../application-to-register-functions/) package are accessed through an API Gateway, the environment variable **MUST** reference
+the API Gateway accordingly.
+
+### to run locally
+
+Install and build the application
+
+`npm i`
+
+Run the application
+
+`npm run start`
+
+### to run in a docker container
+
+To build and start the container
+
+```bash
+npm run docker:build
+npm run docker:start
+```
+
+To stop and clear the container
+
+```bash
+npm run docker:stop
+```
+
+#### Testing
+
+Tests require execution from the root of the mono-repository
