@@ -33,7 +33,9 @@ Prerequisite dependencies used by multiple packages within this repository are d
 |---------|-------------|-----------|
 | APPINSIGHTS_INSTRUMENTATIONKEY | Instrumentation key controlling if telemetry is sent to the ApplicationInsights service | Y |
 | APPLICATIONINSIGHTS_CONNECTION_STRING | ApplicationInsights service connection string used by the function app | Y |
-| AZURE_SIGNALR_HUB_NAME | Name of the SignalR hub facilitating communication between the functions and web application | Y|
+| AZURE_SIGNALR_HUB_NAME | Name of the SignalR hub facilitating communication between the functions and web application | Y |
+| AZURE_STORAGE_ACCOUNT | Microsoft Azure storage account name | Y |
+| AZURE_STORAGE_ACCESS_KEY | Microsoft Azure storage account shared access key | Y |
 | AzureWebJobsStorage | Storage account connection string used by the function app | Y |
 | FUNCTIONS_EXTENSION_VERSION | Functions runtime version (**must be ~4**) | Y |
 | FUNCTIONS_WORKER_RUNTIME | The language worker runtime to load in the function app (**must be node**) | Y |
