@@ -39,8 +39,6 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | AzureWebJobsStorage | Storage account connection string used by the function app | Y |
 | FUNCTIONS_EXTENSION_VERSION | Functions runtime version (**must be ~4**) | Y |
 | FUNCTIONS_WORKER_RUNTIME | The language worker runtime to load in the function app (**must be node**) | Y |
-| ORDNANCE_SURVEY_API_KEY | Key used to access Ordnance Survey APIs | Y |
-| ORDNANCE_SURVEY_API_SECRET | Secret used to access Ordnance Survey APIs | Y |
 | WEBSITE_CONTENTAZUREFILECONNECTIONSTRING | Connection string for storage account where the function app code and configuration are stored in event-driven scaling plans running on Windows | Plan dependent |
 | WEBSITE_CONTENTSHARE | The file path to the function app code and configuration in an event-driven scaling plan on Windows | Plan dependent |
 | WEBSITE_NODE_DEFAULT_VERSION | Default version of Node.js (**must be ~16**) |
