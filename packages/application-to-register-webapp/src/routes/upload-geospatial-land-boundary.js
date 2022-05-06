@@ -1,8 +1,9 @@
 // import Joi from 'joi'
 import { logger } from 'defra-logging-facade'
+import { handleEvents } from '../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../utils/azure-storage.js'
 import constants from '../utils/constants.js'
-import { uploadFile } from '../utils/upload.js'
+import { uploadFiles } from '../utils/upload.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -10,7 +11,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    const landBoundaryData = await uploadFile(logger, request, h, config)
+    const landBoundaryData = (await uploadFiles(logger, request, h, config))[0]
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, landBoundaryData.location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, landBoundaryData.mapConfig)
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
@@ -47,7 +48,8 @@ const buildQueueConfig = (config) => {
 
 const buildFunctionConfig = (config) => {
   config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage
+    uploadFunction: uploadStreamAndQueueMessage,
+    handleEventsFunction: handleEvents
   }
 }
 
@@ -57,8 +59,7 @@ const buildSignalRConfig = (sessionId, config) => {
     // The session ID is used as the SignalR userID.
     // This ensures that notification of the processed upload is only sent to
     // the SignalR client connection associated with this session.
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`,
-    eventName: 'geospatial-land-boundary-processed'
+    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
   }
 }
 

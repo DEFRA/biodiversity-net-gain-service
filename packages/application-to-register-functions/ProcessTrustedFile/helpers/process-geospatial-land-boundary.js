@@ -22,7 +22,7 @@ export default async function (context, fileLocation) {
   }
   context.bindings.signalRMessages = [{
     userId: fileDirectory.substring(0, fileDirectory.indexOf('/')),
-    target: 'geospatial-land-boundary-processed',
+    target: `Processed ${filename}${fileExtension}`,
     arguments: [landBoundaryData]
   }]
 }

@@ -1,31 +1,29 @@
-import { signalRConnector } from '@defra/bng-connectors-lib'
 import { upload } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
 
-const uploadFile = async (logger, request, h, config) => {
-  const promises = []
+const uploadFiles = async (logger, request, h, config) => {
+  const events = []
   // Return a promise for processing the multipart request.
   // This code is inspired by https://stackoverflow.com/questions/50522383/promisifying-multiparty
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form()
     form.on('part', function (part) {
       if (!part.filename) resolve()
-      logger.log(`Uploading ${part.filename}`)
-      const uploadConfig = createUploadConfiguration(logger, config)
-      // Prepare to send this part of the multipart request for processing.
-      promises.push(upload(logger, uploadConfig, part))
+      // Send this part of the multipart request for processing
+      handlePart(logger, part, config)
+      events.push(`Processed ${part.filename}`)
     })
     form.on('error', function (err) {
       reject(err)
     })
     form.on('close', async function () {
       try {
-        // Send the upload for procssing.
-        resolve(await processUpload(logger, promises, config.signalRConfig))
+        // Resolve the promise when all parts of the upload have been processed.
+        const eventData = await config.functionConfig.handleEventsFunction(config, events)
+        resolve(eventData)
       } catch (err) {
         reject(err)
       }
-      resolve()
     })
     form.parse(request.raw.req)
   })
@@ -40,31 +38,10 @@ const createUploadConfiguration = (logger, config, fileDetails) => {
   return uploadConfig
 }
 
-// TO DO - Encapsulate this functionality in the Azure SignalR connector.
-const processUpload = async (logger, promises, config) => {
-  logger.log('Processing upload')
-  // Prepare for SignalR to send a notification when the upload has been processed.
-  const connection = signalRConnector.createConnection(logger, config.url)
-  await connection.start()
-  // Send the upload for processing.
-  await Promise.all(promises)
-  // Return a promise to be resolved when the upload has been processed.
-  return createUploadProcessedPromise(logger, connection, config.eventName)
+const handlePart = (logger, part, config) => {
+  logger.log(`Uploading ${part.filename}`)
+  const uploadConfig = createUploadConfiguration(logger, config)
+  upload(logger, uploadConfig, part)
 }
 
-const createUploadProcessedPromise = (logger, connection, eventName) => {
-  return new Promise((resolve, reject) => {
-    // TO DO - Add error handling support.
-    connection.on(eventName, async (data) => {
-      try {
-        // The upload has been processed.
-        // Resolve the promise with metadata associated with the processed upload.
-        resolve(data)
-      } finally {
-        await connection.stop()
-      }
-    })
-  })
-}
-
-export { uploadFile }
+export { uploadFiles }
