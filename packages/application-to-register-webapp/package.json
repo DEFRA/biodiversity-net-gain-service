@@ -46,8 +46,15 @@
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "standard": "16.0.4",
+    "stream-to-promise": "^3.0.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
+  },
+  "standard": {
+    "env": {
+      "node": true,
+      "jest": true
+    }
   }
 }

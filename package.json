@@ -22,6 +22,7 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^28.0.3",
     "eslint": "^8.13.0",
     "eslint-plugin-jest": "^26.1.4",
     "jest": "^27.5.1",
@@ -91,6 +92,19 @@
       "<rootDir>/packages/*"
     ],
     "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx",
+      "ts",
+      "tsx",
+      "node",
+      "mjs"
+    ],
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest",
+      "^.+\\.mjs$": "babel-jest"
+    },
     "testRunner": "jest-circus/runner",
     "silent": true
   },
