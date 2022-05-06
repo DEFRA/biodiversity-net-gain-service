@@ -10,7 +10,7 @@
     {
       "type": "signalR",
       "name": "signalRMessages",
-      "hubName": "pwdefbng",
+      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
       "connectionStringSetting": "AzureSignalRConnectionString",
       "direction": "out"
     }
