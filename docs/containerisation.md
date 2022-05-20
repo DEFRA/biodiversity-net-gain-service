@@ -4,7 +4,7 @@
 
 Docker based containerisation is used for the following:
 
-* Substitution of cloud services during local development.
+* Substitution of cloud services during local development and unit tests where alternatives to mocking are required.
 * Packaging and running of:
   * [application-to-register-webapp](../packages/application-to-register-webapp)
 
@@ -109,3 +109,21 @@ Stop the running containers
 ```bash
 npm run docker:stop-compose
 ```
+
+## Cloud Service Containers
+
+### Redis
+
+A [Redis container](https://hub.docker.com/_/redis/) provides a substitute for [Azure Cache For Redis](https://azure.microsoft.com/en-gb/services/cache/). A [Redis Commander container](https://hub.docker.com/r/rediscommander/redis-commander/#!) provides a Graphical User Interface for the Redis container.
+
+### Postgres
+
+A [Postgres container](https://hub.docker.com/_/postgres/) provides a substitute for [Azure Database For Postgres](https://azure.microsoft.com/en-gb/services/postgresql/). A [pgadmin4 container](https://hub.docker.com/r/dpage/pgadmin4/#!) provides a Graphical User Interface for the Postgres container.
+
+### Azure Storage
+
+An [Azurite container](https://hub.docker.com/_/microsoft-azure-storage-azurite) provides a substitute for [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction).
+
+### Azure SignalR
+
+A custom container running the [Azure SignalR emulator](https://github.com/Azure/azure-signalr/blob/dev/docs/emulator.md) and [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local) provides a subsitute for [Azure Serverless SignalR](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-functions-javascript).

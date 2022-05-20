@@ -27,7 +27,7 @@ Prerequisite dependencies used by multiple packages within this repository are d
 * Messages placed on the **untrusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessUntrustedFile** function.
 * Messages placed on the **trusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessTrustedFile** function.
 
-## App settings / environment variables
+## App settings / environment variables for deployment to Microsoft Azure
 
 | name    | description | mandatory |
 |---------|-------------|-----------|
@@ -42,6 +42,26 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | WEBSITE_CONTENTAZUREFILECONNECTIONSTRING | Connection string for storage account where the function app code and configuration are stored in event-driven scaling plans running on Windows | Plan dependent |
 | WEBSITE_CONTENTSHARE | The file path to the function app code and configuration in an event-driven scaling plan on Windows | Plan dependent |
 | WEBSITE_NODE_DEFAULT_VERSION | Default version of Node.js (**must be ~16**) |
+
+### App settings / environment variables for use with Azurite
+
+When connecting to an [Azurite container](../../docs/containerisation.md/#azure-storage) a [local.settings.json](../../docker/azure-services/local.settings.json) file containing a compatible set of app settings **must** be used. This file:
+
+* excludes all app settings / environment variables providing connecivity to Microsoft Azure services
+* includes app settings / environment variables required to provide connecivity between the Azurite container and:
+
+  * Azure Functions
+  * [GDAL](https://gdal.org/) software called by Azure Functions
+
+To switch between connection to Microsoft Azure infrstructure and an Azurite container, the creation of a symbolic link called **local.settings.json** within the directory containing this file which refererences the required local.settings.json file is recommended.
+
+#### Mandatory Azurite specific app settings /environment variables
+
+| name | description |
+|------|-------------|
+| AZURE_BLOB_SERVICE_URL | URL used to access the Azurite blob service |
+| AZURE_QUEUE_SERVICE_URL | URL used to access the Azurite queue service |
+| AZURE_STORAGE_CONNECTION_STRING | Connection string linking GDAL and Azurite |
 
 ## Installation
 
