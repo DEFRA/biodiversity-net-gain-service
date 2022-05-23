@@ -16,7 +16,7 @@
     "docker:start-dev": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml -c docker/services.yml bng",
     "docker:start-dev-infrastructure": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml bng",
     "docker:stop": "docker stack rm bng",
-    "docker:start-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml up -d --build",
+    "docker:start-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml up -d",
     "docker:stop-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml down"
   },
   "devDependencies": {
