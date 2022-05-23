@@ -17,6 +17,6 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@defra/bng-errors-lib": "0.0.1",
-    "gdal-async": "^3.4.2"
+    "gdal-async": "^3.5.0"
   }
 }

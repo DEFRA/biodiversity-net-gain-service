@@ -5,7 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AZURE_SIGNALR_HUB_NAME": "bng",
     "AzureWebJobsStorage": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;",
-    "AZURE_STORAGE_CONNECTION_STRING":"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;EndpointSuffix=localhost:10000;",
+    "AZURE_STORAGE_CONNECTION_STRING":"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://devstoreaccount1.blob.localhost:10000;",
     "AZURE_BLOB_SERVICE_URL":"http://127.0.0.1:10000/devstoreaccount1",
     "AZURE_QUEUE_SERVICE_URL":"http://127.0.0.1:10001/devstoreaccount1",
     "AZURE_STORAGE_ACCOUNT": "devstoreaccount1",
