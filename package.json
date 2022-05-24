@@ -12,6 +12,7 @@
     "unit-test": "jest --runInBand",
     "test": "npm run lint && npm run unit-test",
     "docker:build": "docker-compose -f docker/services.build.yml build",
+    "docker:build-dev-infrastructure": "docker-compose -f docker/infrastructure.development.build.yml build",
     "docker:start": "docker stack deploy -c docker/infrastructure.yml -c docker/services.yml bng",
     "docker:start-dev": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml -c docker/services.yml bng",
     "docker:start-dev-infrastructure": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml bng",
