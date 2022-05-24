@@ -16,6 +16,7 @@
 | ----------- | ----------- | ----------- |
 | [application-to-register-functions](packages/application-to-register-functions) | Microsoft Azure functions for registration journey  | Y |
 | [application-to-register-webapp](packages/application-to-register-webapp) | Client side web application for registration journey | Y |
+| [azurite-bootstrap-service](packages/azurite-bootstrap-service) | A service for creating Biodiversity Net Gain Service Azure storage infrastructure within an [Azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) instance | Y |
 | [connectors-lib](packages/connectors-lib) | A library providing connectivity to various dependencies such as cloud resources | N |
 | [document-service](packages/connectors-lib) | A library providing cloud vendor agnostic document related functionality | N |
 | [errors](packages/errors) | Custom errors used by the Biodiversity Net Gain service | N |

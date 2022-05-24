@@ -6,7 +6,8 @@
 * Either of:
   * Rootful Docker 20.x or above
   * Rootless Docker 20.x or above and compatible version of Docker Compose
-* UNIX based operating system
+* UNIX based operating system with bash and the nc utility installed
+  * If using Microsoft Windows, you may wish to consider using the [Windows Subsystem For Linux](https://docs.microsoft.com/en-us/windows/wsl/about).
 
 ## Runtime Prerequisites
 
