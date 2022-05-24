@@ -5,6 +5,10 @@
   "private": false,
   "description": "A library providing connectivity functionality for the Biodiversity Net Gain service",
   "main": "src/connectors.js",
+  "exports": {
+    ".": "./src/connectors/index.js",
+    "./azure-storage": "./src/helpers/azure-storage.js"
+  },
   "scripts": {
     "test": "echo \\\"Error: run tests from root\\\" && exit 1"
   },
