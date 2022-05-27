@@ -21,6 +21,7 @@
     "docker:stop": "docker kill application-to-register-webapp && docker rm application-to-register-webapp"
   },
   "dependencies": {
+    "@defra/bng-azure-storage-test-utils": "^0.0.1",
     "@defra/bng-connectors-lib": "^0.0.1",
     "@defra/bng-document-service": "^0.0.1",
     "@hapi/boom": "9.1.4",

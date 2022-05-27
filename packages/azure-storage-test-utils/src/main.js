@@ -1,0 +1,47 @@
+import { getBlobServiceClient, getQueueServiceClient } from '@defra/bng-connectors-lib/azure-storage'
+import { logger } from 'defra-logging-facade'
+
+const containerNames = ['trusted', 'untrusted']
+const queueNames = ['trusted-file-queue', 'untrusted-file-queue']
+
+const blobServiceClient = getBlobServiceClient()
+const queueServiceClient = getQueueServiceClient()
+
+const recreateContainer = async (containerName) => {
+  const containerClient = await blobServiceClient.getContainerClient(containerName)
+  await containerClient.deleteIfExists()
+  await containerClient.createIfNotExists()
+  logger.log(`(Re)created ${containerName} container`)
+}
+
+const recreateContainers = async () => {
+  for await (const containerName of containerNames) {
+    await recreateContainer(containerName)
+  }
+}
+
+const clearQueues = async () => {
+  for await (const queueName of queueNames) {
+    await clearQueue(queueName)
+  }
+}
+
+const clearQueue = async (queueName) => {
+  const queueClient = await queueServiceClient.getQueueClient(queueName)
+  await queueClient.clearMessages()
+  logger.log(`Cleared ${queueName} queue`)
+}
+
+const blobExists = async (containerName, blobName) => {
+  return blobServiceClient.getContainerClient(containerName).getBlockBlobClient(blobName).exists()
+}
+
+const isUploadComplete = async (containerName, blobName, checkDelayMillis) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      resolve(await blobExists(containerName, blobName))
+    }, checkDelayMillis)
+  })
+}
+
+export { blobExists, clearQueues, isUploadComplete, recreateContainers }
