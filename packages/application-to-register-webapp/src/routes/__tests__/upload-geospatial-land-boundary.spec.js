@@ -1,6 +1,6 @@
 import { startServer, uploadFile } from './helpers/server.js'
 import serverOptions from '../../__mocks__/server-options.js'
-import { clearQueues, recreateContainers } from '@defra/bng-azure-storage-test-utils'
+import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 
 const GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME = 'geospatialLandBoundary'
 const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
@@ -10,6 +10,10 @@ let server
 jest.mock('../../utils/azure-signalr.js')
 
 describe(url, () => {
+  beforeAll(async () => {
+    await recreateQueues()
+  })
+
   beforeEach(async () => {
     server = await startServer(serverOptions)
     await recreateContainers()

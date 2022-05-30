@@ -20,6 +20,19 @@ const recreateContainers = async () => {
   }
 }
 
+const recreateQueue = async (queueName) => {
+  const queueClient = await queueServiceClient.getQueueClient(queueName)
+  await queueClient.deleteIfExists()
+  await queueClient.createIfNotExists()
+  logger.log(`(Re)created ${queueName} queue`)
+}
+
+const recreateQueues = async () => {
+  for await (const queueName of queueNames) {
+    await recreateQueue(queueName)
+  }
+}
+
 const clearQueues = async () => {
   for await (const queueName of queueNames) {
     await clearQueue(queueName)
@@ -44,4 +57,4 @@ const isUploadComplete = async (containerName, blobName, checkDelayMillis) => {
   })
 }
 
-export { blobExists, clearQueues, isUploadComplete, recreateContainers }
+export { blobExists, clearQueues, isUploadComplete, recreateContainers, recreateQueues }
