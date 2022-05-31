@@ -1,12 +1,13 @@
 // import Joi from 'joi'
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage } from '../utils/azure-storage.js'
-import constants from '../utils/constants.js'
-import { uploadFiles } from '../utils/upload.js'
+import { handleEvents } from '../../utils/azure-signalr.js'
+import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
+import constants from '../../utils/constants.js'
+import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
   get: async (request, h) => {
+    await handleEvents({}, [])
     return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
   },
   post: async (request, h) => {
@@ -41,7 +42,7 @@ const buildQueueConfig = (config) => {
   // Queue based triggering is used as blob triggering can experience delays
   // due to its poll based nature.
   config.queueConfig = {
-    uploadType: constants.uploadTypes.GEOSPATIAL_LAND_BOUNDARY,
+    uploadType: constants.uploadTypes.GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE,
     queueName: 'untrusted-file-queue'
   }
 }

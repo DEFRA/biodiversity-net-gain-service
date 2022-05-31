@@ -1,4 +1,4 @@
-// Ordance Survey map initialisation is inspired by https://github.com/OrdnanceSurvey/OS-Data-Hub-API-Demos/tree/3ec3062d286985f7fc899a20be91649ce5d70e03/Airports/Airports-OAuth
+// Ordnance Survey map initialisation is inspired by https://github.com/OrdnanceSurvey/OS-Data-Hub-API-Demos/tree/3ec3062d286985f7fc899a20be91649ce5d70e03/Airports/Airports-OAuth
 import proj4 from 'proj4'
 import { get as getProjection } from 'ol/proj'
 import { register } from 'ol/proj/proj4'
@@ -27,7 +27,7 @@ const initialise27700Projection = () => {
 }
 
 const setToken = async () => {
-  const response = await fetch('/os-api-token') // eslint-disable-line
+  const response = await fetch('/land/os-api-token') // eslint-disable-line
   const data = await response.json()
   if (data.access_token) {
     token = data.access_token
@@ -101,7 +101,7 @@ const getLandBoundarySource = (config) => {
     format: new GeoJSON({
       dataProjection: `EPSG:${config.epsg}`
     }),
-    url: '/geospatial-land-boundary'
+    url: '/land/geospatial-land-boundary'
   })
 }
 

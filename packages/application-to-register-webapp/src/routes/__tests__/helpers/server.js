@@ -1,4 +1,5 @@
 import { createServer, init } from '../../../server.js'
+import { getServer } from '../../../../.jest/setup.js'
 import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
@@ -11,10 +12,20 @@ const startServer = async (options) => {
 }
 
 const uploadFile = async (uploadConfig) => {
+  const expectedResponseCode =
+    uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath
+      ? 500
+      : 302
+
   const formData = new FormData()
-  const stream = fs.createReadStream(uploadConfig.filePath)
-  fs.readFileSync(uploadConfig.filePath)
-  formData.append(uploadConfig.formName, stream, uploadConfig.filePath)
+
+  if (uploadConfig.filePath) {
+    const stream = fs.createReadStream(uploadConfig.filePath)
+    fs.readFileSync(uploadConfig.filePath)
+    formData.append(uploadConfig.formName, stream, uploadConfig.filePath)
+  } else {
+    formData.append(uploadConfig.formName, 'non-form data')
+  }
   const payload = await streamToPromise(formData)
   const options = {
     url: uploadConfig.url,
@@ -22,23 +33,42 @@ const uploadFile = async (uploadConfig) => {
     headers: formData.getHeaders(),
     payload
   }
+
+  if (uploadConfig.generateFormDataError) {
+    delete options.headers
+  }
+
   const { handleEvents } = require('../../../utils/azure-signalr.js')
+
   handleEvents.mockImplementation(async (config, events) => {
-    const uploadComplete = await isUploadComplete('untrusted', `${config.blobConfig.blobName}${events[0].split(' ')[1]}`, 1000)
-    if (uploadComplete) {
-      return uploadConfig.eventData
+    const blobName = `${config.blobConfig.blobName}${events[0].split(' ')[1]}`
+    const uploadComplete = await isUploadComplete('untrusted', blobName, 1000)
+
+    if (uploadConfig.generateHandleEventsError || !uploadComplete) {
+      throw new Error(`Upload of ${config.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
     } else {
-      throw new Error(`Upload of ${config.filePath} timed out`)
+      return uploadConfig.eventData
     }
   })
-  const response = await submitPostRequest(uploadConfig.server, options, 302)
+
+  const response = await submitRequest(options, expectedResponseCode)
   return response
 }
 
-const submitPostRequest = async (server, options, expectedResponseCode = 200) => {
-  const response = await server.inject(options)
+const submitGetRequest = async (options, expectedResponseCode = 200) => {
+  options.method = 'GET'
+  return submitRequest(options, expectedResponseCode)
+}
+
+const submitPostRequest = async (options, expectedResponseCode = 302) => {
+  options.method = 'POST'
+  return submitRequest(options, expectedResponseCode)
+}
+
+const submitRequest = async (options, expectedResponseCode) => {
+  const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
   return response
 }
 
-export { startServer, submitPostRequest, uploadFile }
+export { startServer, submitGetRequest, submitPostRequest, uploadFile }

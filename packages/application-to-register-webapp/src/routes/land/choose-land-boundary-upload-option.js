@@ -1,5 +1,5 @@
 // import Joi from 'joi'
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {

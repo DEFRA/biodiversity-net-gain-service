@@ -1,17 +1,18 @@
 const ABOUT = 'about'
-const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'confirm-geospatial-land-boundary'
+const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/confirm-land-boundary'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
-const GEOSPATIAL_LAND_BOUNDARY = 'geospatial-land-boundary'
+const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
+const GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
-const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary-upload-type'
-const OS_API_TOKEN = 'os-api-token'
+const LAND_BOUNDARY_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
+const OS_API_TOKEN = 'land/os-api-token'
 const PUBLIC = 'public'
 const SESSION = 'session'
 const START = 'start'
-const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'upload-geospatial-land-boundary'
+const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
@@ -38,7 +39,7 @@ const routes = {
 }
 
 const uploadTypes = {
-  GEOSPATIAL_LAND_BOUNDARY
+  GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE
 }
 
 const views = Object.assign({}, routes)

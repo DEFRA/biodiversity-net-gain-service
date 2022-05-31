@@ -1,5 +1,5 @@
 // import Joi from 'joi'
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
 const handlers = {

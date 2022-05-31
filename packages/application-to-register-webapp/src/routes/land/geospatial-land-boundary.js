@@ -1,5 +1,5 @@
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
 // A route to retrieve a geospatial land boundary from Azure blob storage for display on a map.

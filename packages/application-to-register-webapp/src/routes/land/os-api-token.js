@@ -1,4 +1,4 @@
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import axios from 'axios'
 
 // A route to retrieve an OAuth bearer token for accessing Ordnance Survey APIs.

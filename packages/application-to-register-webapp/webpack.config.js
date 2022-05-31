@@ -9,7 +9,7 @@ const inDev = env === 'dev' || env === 'development'
 
 export default {
   entry: {
-    confirmGeospatialLandBoundary: './src/client/js/pages/confirm-geospatial-land-boundary.js'
+    confirmLandBoundary: './src/client/js/pages/land/confirm-land-boundary.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
@@ -34,9 +34,9 @@ export default {
   plugins: [
     new HtmlPlugin({
       inject: false,
-      filename: '../views/confirm-geospatial-land-boundary.html',
-      template: 'src/views/webpack/confirm-geospatial-land-boundary.html',
-      chunks: ['confirmGeospatialLandBoundary']
+      filename: '../views/land/confirm-land-boundary.html',
+      template: 'src/views/webpack/land/confirm-land-boundary.html',
+      chunks: ['confirmLandBoundary']
     })
   ]
 }

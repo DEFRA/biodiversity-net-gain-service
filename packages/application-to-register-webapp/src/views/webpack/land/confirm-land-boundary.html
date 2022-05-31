@@ -40,11 +40,11 @@
   </div>
 
   <% htmlWebpackPlugin.files.js.forEach(file => { %>
-    <script src="<%= file.replace('../js/', '/public/js/') %>"></script>
+    <script src="<%= file.replace('../../js/', '/public/js/') %>"></script>
   <% }) %>
   <script>
     const safeMapConfig = {{ mapConfig | dump | safe }}
-    confirmGeospatialLandBoundary.initialiseMap(safeMapConfig)
+    confirmLandBoundary.initialiseMap(safeMapConfig)
     </script>
 {% endblock %}
 
