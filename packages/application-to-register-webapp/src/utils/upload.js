@@ -8,10 +8,13 @@ const uploadFiles = async (logger, request, h, config) => {
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form()
     form.on('part', function (part) {
-      if (!part.filename) resolve()
-      // Send this part of the multipart request for processing
-      handlePart(logger, part, config)
-      events.push(`Processed ${part.filename}`)
+      if (!part.filename) {
+        reject(new Error('Non-file received'))
+      } else {
+        // Send this part of the multipart request for processing
+        handlePart(logger, part, config)
+        events.push(`Processed ${part.filename}`)
+      }
     })
     form.on('error', function (err) {
       reject(err)
