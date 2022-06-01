@@ -1,0 +1,37 @@
+version: "3.9"
+secrets:
+  PGADMIN_DEFAULT_PASSWORD:
+    file: ./secrets/PGADMIN_DEFAULT_PASSWORD
+services:
+  ##############################################################################################################
+  # PGAdmin4 on port 8083
+  ##############################################################################################################
+  pgadmin:
+    image: dpage/pgadmin4
+    user: pgadmin
+    secrets:
+      - PGADMIN_DEFAULT_PASSWORD
+    env_file:
+      - ./env/pgadmin.env
+    # The pgadmin4 Docker image does not seem to support use of <<secret name>>_FILE syntax to read a secret from a file.
+    # Read the secret from the file and set the associated environment variable manually.
+    entrypoint: [ '/bin/sh', '-c', 'export PGADMIN_DEFAULT_PASSWORD=$$(cat /run/secrets/PGADMIN_DEFAULT_PASSWORD) && /entrypoint.sh' ]
+    volumes:
+      # to persist pgadmin configuration mkdir ./volumes/pgadmin && sudo chown <<host UID>>:<<host GID>> ./volumes/pgadmin
+      # this pgadmin image doesn't have capacity to accept host uid:gid override
+      - ./volumes/pgadmin:/var/lib/pgadmin
+    ports:
+      - "8083:8083"
+
+  ##############################################################################################################
+  # Redis commander on port 8081
+  ##############################################################################################################
+  redis_commander:
+    image: rediscommander/redis-commander
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./env/rediscommander.env
+    deploy:
+      restart_policy:
+        condition: on-failure
