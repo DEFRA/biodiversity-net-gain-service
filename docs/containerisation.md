@@ -20,6 +20,8 @@ The name of the file is the secret name (no extension), the contents are plain t
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
 | postgis | POSTGRES_PASSWORD | ----------- |
 | application_to_register_webapp | SESSION_COOKIE_PASSWORD | minimum 32 characters |
+| application_to_register_webapp | AZURE_STORAGE_ACCOUNT | ----------- |
+| application_to_register_webapp | AZURE_STORAGE_ACCESS_KEY | ----------- |
 
 See [Github actions workflow document](../.github/workflows/build.yaml) for build and CI details
 

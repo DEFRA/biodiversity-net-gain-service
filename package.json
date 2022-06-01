@@ -108,8 +108,5 @@
     },
     "testRunner": "jest-circus/runner",
     "silent": true
-  },
-  "dependencies": {
-    "catbox-memory": "^4.0.1"
   }
 }
