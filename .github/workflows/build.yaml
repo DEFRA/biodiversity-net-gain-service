@@ -25,8 +25,14 @@ jobs:
     - name: Run markdown linting check
       run: |
         node_modules/.bin/markdownlint $PWD/README.md '$PWD/!(docker)/**/*.md'
+    - name: Build test dependencies
+      run: npm run docker:build-dev-infrastructure
+    - name: Start test dependencies
+      run: npm run docker:start-dev-infrastructure
     - name: Run tests
-      run: npm run test  
+      run: npm run test
+    - name: Tear down test dependencies
+      run: npm run docker:stop-dev-infrastructure
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:

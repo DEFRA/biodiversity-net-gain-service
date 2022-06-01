@@ -11,14 +11,14 @@
     "lint": "standard",
     "unit-test": "jest --runInBand",
     "test": "npm run lint && npm run unit-test",
-    "docker:build": "docker-compose -f docker/services.build.yml build",
+    "docker:build-services": "docker-compose -f docker/services.build.yml build",
     "docker:build-dev-infrastructure": "docker-compose -f docker/infrastructure.development.build.yml build",
-    "docker:start": "docker stack deploy -c docker/infrastructure.yml -c docker/services.yml bng",
-    "docker:start-dev": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml -c docker/services.yml bng",
-    "docker:start-dev-infrastructure": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml bng",
-    "docker:stop": "docker stack rm bng",
-    "docker:start-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml up -d",
-    "docker:stop-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml down"
+    "docker:start-infrastructure": "docker-compose -f docker/infrastructure.yml up -d",
+    "docker:start-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml up -d",
+    "docker:start-services": "docker-compose -f docker/services.yml up -d",
+    "docker:stop-infrastructure": "docker-compose -f docker/infrastructure.yml down",
+    "docker:stop-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml down",
+    "docker:stop-services": "docker-compose -f docker/services.yml down"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.17.9",
