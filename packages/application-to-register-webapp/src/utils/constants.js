@@ -8,12 +8,20 @@ const GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
+const NO = 'no'
+const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
 const PUBLIC = 'public'
 const SESSION = 'session'
 const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
+const YES = 'yes'
 
+const confirmLandBoundaryOptions = {
+  NO,
+  NO_AGAIN,
+  YES
+}
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
@@ -49,6 +57,7 @@ for (const [key, value] of Object.entries(routes)) {
 }
 
 export default Object.freeze({
+  confirmLandBoundaryOptions,
   landBoundaryUploadTypes,
   redisKeys,
   routes,
