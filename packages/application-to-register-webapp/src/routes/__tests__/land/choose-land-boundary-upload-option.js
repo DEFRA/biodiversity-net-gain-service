@@ -19,7 +19,7 @@ describe(url, () => {
     it('should allow a selection to upload a land boundary using a geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.GEOSPATIAL_DATA
       const response = await submitPostRequest(postOptions)
-      // Perform a GET request using the existing session cooke to provide test coverage for the case
+      // Perform a GET request using the existing session cookie to provide test coverage for the case
       // where an existing upload type is selected.
       const cookie = response.headers['set-cookie'][0].split(';')[0]
       await submitGetRequest({
