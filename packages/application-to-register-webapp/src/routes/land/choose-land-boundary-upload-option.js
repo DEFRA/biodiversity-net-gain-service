@@ -15,7 +15,13 @@ const handlers = {
         ? constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         : constants.routes.UPLOAD_LAND_BOUNDARY_DOCUMENT
 
-    return h.redirect(route)
+    // TO DO - Remove temporary land boundary document route handling when corresponding functionality is
+    // available.
+    if (route === constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY) {
+      return h.redirect(route)
+    } else {
+      return h.view('404').code(404)
+    }
   }
 }
 
