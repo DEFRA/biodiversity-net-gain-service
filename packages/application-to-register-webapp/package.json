@@ -21,7 +21,6 @@
     "docker:stop": "docker kill application-to-register-webapp && docker rm application-to-register-webapp"
   },
   "dependencies": {
-    "@defra/bng-azure-storage-test-utils": "^0.0.1",
     "@defra/bng-connectors-lib": "^0.0.1",
     "@defra/bng-document-service": "^0.0.1",
     "@hapi/boom": "9.1.4",
@@ -43,6 +42,7 @@
     "sass": "^1.50.1"
   },
   "devDependencies": {
+    "@defra/bng-azure-storage-test-utils": "^0.0.1",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
