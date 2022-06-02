@@ -7,7 +7,6 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
   get: async (request, h) => {
-    await handleEvents({}, [])
     return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
   },
   post: async (request, h) => {
