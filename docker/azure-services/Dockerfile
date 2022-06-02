@@ -16,9 +16,15 @@ RUN useradd --shell /usr/sbin/nologin node
 # Install and initialise the SignalR emulator.
 WORKDIR /home/node/asrs-emulator
 RUN dotnet tool install --tool-path /usr/local/bin Microsoft.Azure.SignalR.Emulator --version 1.0.0-preview1-10809 && asrs-emulator upstream init
-# Prepare to run the Azure function that performs SignalR negotiation using the emulator.
+# Prepare to run the Azure functions that:
+# - process trusted files
+# - perform SignalR negotiation using the emulator
 WORKDIR /home/node/Projects/biodiversity-net-gain-service/packages/application-to-register-functions
+COPY ./packages/application-to-register-functions/ProcessTrustedFile ProcessTrustedFile
+# Overwrite the function which processes trusted files with a test double.
+COPY ./docker/azure-services/test-doubles/ProcessTrustedFile/index.mjs ProcessTrustedFile/index.mjs
 COPY ./packages/application-to-register-functions/SignalRNegotiate SignalRNegotiate
+COPY ./packages/application-to-register-functions/package.json .
 COPY ./packages/application-to-register-functions/host.json .
 COPY ./docker/azure-services/local.settings.json .
 # Ensure correct directory and file ownership by the unprivileged user.
