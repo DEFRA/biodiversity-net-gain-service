@@ -39,10 +39,9 @@ const setToken = async () => {
 }
 
 const getFetchOptions = () => {
-  const fetchOptions = {
+  return {
     headers: { Authorization: `Bearer ${token}` }
   }
-  return fetchOptions
 }
 
 const getOptionsFromCapabilities = async config => {
