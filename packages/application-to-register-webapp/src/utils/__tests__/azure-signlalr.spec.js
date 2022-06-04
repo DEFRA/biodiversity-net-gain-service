@@ -10,7 +10,7 @@ describe('Azure SignalR integration', () => {
         message: Buffer.from('Test message').toString('base64'),
         // Delay message processing for two seconds to simulate real processing.
         options: { visibilityTimeout: 2 },
-        queueName: 'trusted-file-queue'
+        queueName: 'signalr-test-queue'
       },
       signalRConfig: {
         url: 'http://localhost:8082/api?userId=Test'

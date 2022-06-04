@@ -20,9 +20,10 @@ RUN dotnet tool install --tool-path /usr/local/bin Microsoft.Azure.SignalR.Emula
 # - process trusted files
 # - perform SignalR negotiation using the emulator
 WORKDIR /home/node/Projects/biodiversity-net-gain-service/packages/application-to-register-functions
-COPY ./packages/application-to-register-functions/ProcessTrustedFile ProcessTrustedFile
-# Overwrite the function which processes trusted files with a test double.
-COPY ./docker/azure-services/test-doubles/ProcessTrustedFile/index.mjs ProcessTrustedFile/index.mjs
+# Use the function which processes trusted files as the basis of a test double for sending SignslR notifications.
+COPY ./packages/application-to-register-functions/ProcessTrustedFile SignalRTest
+COPY ./docker/azure-services/SignalRTest/index.mjs SignalRTest/index.mjs
+COPY ./docker/azure-services/SignalRTest/function.json SignalRTest/function.json
 COPY ./packages/application-to-register-functions/SignalRNegotiate SignalRNegotiate
 COPY ./packages/application-to-register-functions/package.json .
 COPY ./packages/application-to-register-functions/host.json .

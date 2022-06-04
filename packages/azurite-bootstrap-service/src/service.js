@@ -5,7 +5,7 @@ const blobServiceClient = getBlobServiceClient()
 const queueServiceClient = getQueueServiceClient()
 
 const containers = ['trusted', 'untrusted']
-const queues = ['trusted-file-queue', 'untrusted-file-queue'];
+const queues = ['signalr-test-queue', 'trusted-file-queue', 'untrusted-file-queue'];
 (
   async () => {
     for await (const container of containers) {
