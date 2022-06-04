@@ -7,7 +7,7 @@ import VectorSource from 'ol/source/Vector'
 import TileLayer from 'ol/layer/Tile'
 import VectorLayer from 'ol/layer/Vector'
 import { Fill, Stroke, Style } from 'ol/style'
-import { Map, View } from 'ol'
+import { Map as OpenLayersMap, View } from 'ol'
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
 import MousePosition from 'ol/control/MousePosition'
@@ -39,12 +39,13 @@ const setToken = async () => {
 }
 
 const getFetchOptions = () => {
-  const fetchOptions = {}
-  fetchOptions.headers = { Authorization: `Bearer ${token}` }
+  const fetchOptions = {
+    headers: { Authorization: `Bearer ${token}` }
+  }
   return fetchOptions
 }
 
-const getOptionsFromCapabilities = async (config) => {
+const getOptionsFromCapabilities = async config => {
   const url = 'https://api.os.uk/maps/raster/v1/wmts?request=GetCapabilities&service=WMTS'
   const parser = new WMTSCapabilities()
   const response = await fetch(url, getFetchOptions()) // eslint-disable-line
@@ -55,8 +56,8 @@ const getOptionsFromCapabilities = async (config) => {
   })
 }
 
-const getBase64TileSource = async (blob) => {
-  return new Promise((resolve, reject) => {
+const getBase64TileSource = async blob => {
+  return new Promise((resolve, _reject) => {
     const reader = new FileReader() //eslint-disable-line
     reader.onloadend = () => {
       resolve(reader.result)
@@ -81,7 +82,7 @@ const tileLoad = (tile, src) => {
   )()
 }
 
-const getOrdnanceSurveySource = (options) => {
+const getOrdnanceSurveySource = options => {
   const tileSource = new WMTS({
     attributions: '&copy; <a href="http://www.ordnancesurvey.co.uk/">Ordnance Survey</a>',
     tileLoadFunction: tileLoad,
@@ -90,13 +91,13 @@ const getOrdnanceSurveySource = (options) => {
   return tileSource
 }
 
-const getOrdnanceSurveyLayer = (options) => {
+const getOrdnanceSurveyLayer = options => {
   return new TileLayer({
     source: getOrdnanceSurveySource(options)
   })
 }
 
-const getLandBoundarySource = (config) => {
+const getLandBoundarySource = config => {
   return new VectorSource({
     format: new GeoJSON({
       dataProjection: `EPSG:${config.epsg}`
@@ -117,14 +118,14 @@ const getLandBoundaryStyle = () => {
   })
 }
 
-const getLandBoundaryLayer = (config) => {
+const getLandBoundaryLayer = config => {
   return new VectorLayer({
     source: getLandBoundarySource(config),
     style: getLandBoundaryStyle()
   })
 }
 
-const getView = (config) => {
+const getView = config => {
   return new View({
     projection: `EPSG:${config.epsg}`,
     center: config.centroid,
@@ -143,7 +144,7 @@ const getScaleBarControl = () => {
   })
 }
 
-const getMousePositionControl = (config) => {
+const getMousePositionControl = config => {
   return new MousePosition({
     coordinateFormat: createStringXY(4),
     projection: `EPSG:${config.epsg}`,
@@ -152,7 +153,7 @@ const getMousePositionControl = (config) => {
   })
 }
 
-const getMapOptions = async (config) => {
+const getMapOptions = async config => {
   const capabilityOptions = await getOptionsFromCapabilities(config)
   const ordnanceSurveyLayer = getOrdnanceSurveyLayer(capabilityOptions)
   const landBoundaryLayer = getLandBoundaryLayer(config)
@@ -162,11 +163,11 @@ const getMapOptions = async (config) => {
   }
 }
 
-const getMap = async (config) => {
+const getMap = async config => {
   const options = await getMapOptions(config)
   const scaleBarControl = getScaleBarControl()
   const mousePositionControl = getMousePositionControl(config)
-  return new Map({
+  return new OpenLayersMap({
     controls: defaultControls().extend([scaleBarControl, mousePositionControl]),
     target: 'map',
     layers: options.layers,
@@ -175,7 +176,7 @@ const getMap = async (config) => {
   })
 }
 
-const initialiseMap = (config) => {
+const initialiseMap = config => {
   (
     async () => {
       await setToken()
