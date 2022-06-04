@@ -27,6 +27,8 @@ jobs:
         node_modules/.bin/markdownlint $PWD/README.md '$PWD/!(docker)/**/*.md'
     - name: Build test dependencies
       run: npm run docker:build-dev-infrastructure
+      env:
+       DOCKER_BUILDKIT: 1
     - name: Start test dependencies
       run: npm run docker:start-dev-infrastructure
     - name: Run tests
