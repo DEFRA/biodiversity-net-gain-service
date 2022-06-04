@@ -2,7 +2,7 @@ import { getBlobServiceClient, getQueueServiceClient } from '@defra/bng-connecto
 import { logger } from 'defra-logging-facade'
 
 const containerNames = ['trusted', 'untrusted']
-const queueNames = ['trusted-file-queue', 'untrusted-file-queue']
+const queueNames = ['signalr-test-queue', 'trusted-file-queue', 'untrusted-file-queue']
 
 const blobServiceClient = getBlobServiceClient()
 const queueServiceClient = getQueueServiceClient()
