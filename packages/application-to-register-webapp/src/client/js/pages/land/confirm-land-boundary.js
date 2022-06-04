@@ -57,12 +57,16 @@ const getOptionsFromCapabilities = async config => {
 }
 
 const getBase64TileSource = async blob => {
-  return new Promise((resolve, _reject) => {
-    const reader = new FileReader() //eslint-disable-line
-    reader.onloadend = () => {
-      resolve(reader.result)
+  return new Promise((resolve, reject) => {
+    try {
+      const reader = new FileReader() //eslint-disable-line
+      reader.onloadend = () => {
+        resolve(reader.result)
+      }
+      reader.readAsDataURL(blob)
+    } catch (err) {
+      reject(err)
     }
-    reader.readAsDataURL(blob)
   })
 }
 
@@ -83,12 +87,11 @@ const tileLoad = (tile, src) => {
 }
 
 const getOrdnanceSurveySource = options => {
-  const tileSource = new WMTS({
+  return new WMTS({
     attributions: '&copy; <a href="http://www.ordnancesurvey.co.uk/">Ordnance Survey</a>',
     tileLoadFunction: tileLoad,
     ...options
   })
-  return tileSource
 }
 
 const getOrdnanceSurveyLayer = options => {
