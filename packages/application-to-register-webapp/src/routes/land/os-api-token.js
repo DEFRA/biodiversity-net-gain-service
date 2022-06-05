@@ -18,14 +18,12 @@ const options = {
   url: 'https://api.os.uk/oauth2/token/v1'
 }
 
-const getToken = async (request) => {
+const getToken = async () => {
   const response = await axios.request(options)
   return response.data
 }
-const ordnanceSurveyApiTokenRoutes = {
+export default {
   method: 'GET',
   path: constants.routes.OS_API_TOKEN,
   handler: getToken
 }
-
-export default ordnanceSurveyApiTokenRoutes

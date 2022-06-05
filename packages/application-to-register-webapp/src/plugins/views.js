@@ -33,8 +33,8 @@ const views = {
     relativeTo: dirname,
     isCached: process.env.NODE_ENV !== 'development',
     context: {
-      assetPath: '/public',
       serviceName,
+      assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`
       // analyticsAccount: analyticsAccount
     }

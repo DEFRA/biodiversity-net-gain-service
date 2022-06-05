@@ -1,4 +1,3 @@
-// import Joi from 'joi'
 import { logger } from 'defra-logging-facade'
 import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
@@ -6,7 +5,7 @@ import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
-  get: async (request, h) => {
+  get: async (_request, h) => {
     return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
   },
   post: async (request, h) => {
@@ -18,7 +17,7 @@ const handlers = {
   }
 }
 
-const buildConfig = (sessionId) => {
+const buildConfig = sessionId => {
   const config = {}
   buildBlobConfig(sessionId, config)
   buildQueueConfig(config)
@@ -36,7 +35,7 @@ const buildBlobConfig = (sessionId, config) => {
   }
 }
 
-const buildQueueConfig = (config) => {
+const buildQueueConfig = config => {
   // Configuration for storage queue based triggering of upload processing.
   // Queue based triggering is used as blob triggering can experience delays
   // due to its poll based nature.
@@ -46,7 +45,7 @@ const buildQueueConfig = (config) => {
   }
 }
 
-const buildFunctionConfig = (config) => {
+const buildFunctionConfig = config => {
   config.functionConfig = {
     uploadFunction: uploadStreamAndQueueMessage,
     handleEventsFunction: handleEvents
@@ -63,7 +62,7 @@ const buildSignalRConfig = (sessionId, config) => {
   }
 }
 
-const uploadGeospatialLandBoundaryRoutes = [{
+export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
   handler: handlers.get
@@ -73,12 +72,10 @@ const uploadGeospatialLandBoundaryRoutes = [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB * 1024 * 1024,
+      maxBytes: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false
     }
   }
 }]
-
-export default uploadGeospatialLandBoundaryRoutes

@@ -3,7 +3,7 @@ import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
 // A route to retrieve a geospatial land boundary from Azure blob storage for display on a map.
-const downloadLandBoundary = async (request) => {
+const downloadLandBoundary = async request => {
   const config = {
     containerName: 'trusted',
     blobName: request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
@@ -18,10 +18,8 @@ const downloadLandBoundary = async (request) => {
   }
 }
 
-const geospatialLandBoundaryRoutes = {
+export default {
   method: 'GET',
   path: constants.routes.GEOSPATIAL_LAND_BOUNDARY,
   handler: downloadLandBoundary
 }
-
-export default geospatialLandBoundaryRoutes

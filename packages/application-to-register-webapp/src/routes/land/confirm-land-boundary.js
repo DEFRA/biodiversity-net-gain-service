@@ -1,4 +1,3 @@
-// import Joi from 'joi'
 import constants from '../../utils/constants.js'
 
 const handlers = {
@@ -32,7 +31,7 @@ const handlers = {
   }
 }
 
-const confirmGeospatialLandBoundaryRoutes = [{
+export default [{
   method: 'GET',
   path: constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
   handler: handlers.get
@@ -41,5 +40,3 @@ const confirmGeospatialLandBoundaryRoutes = [{
   path: constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
   handler: handlers.post
 }]
-
-export default confirmGeospatialLandBoundaryRoutes

@@ -1,4 +1,3 @@
-// import Joi from 'joi'
 import constants from '../../utils/constants.js'
 
 const handlers = {
@@ -25,7 +24,7 @@ const handlers = {
   }
 }
 
-const getContext = async (request) => {
+const getContext = async request => {
   const landBoundaryUploadType = request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE)
   let context
   if (landBoundaryUploadType) {
@@ -36,7 +35,7 @@ const getContext = async (request) => {
   return context
 }
 
-const landBoundaryUploadTypeRoutes = [{
+export default [{
   method: 'GET',
   path: constants.routes.LAND_BOUNDARY_UPLOAD_TYPE,
   handler: handlers.get
@@ -45,5 +44,3 @@ const landBoundaryUploadTypeRoutes = [{
   path: constants.routes.LAND_BOUNDARY_UPLOAD_TYPE,
   handler: handlers.post
 }]
-
-export default landBoundaryUploadTypeRoutes
