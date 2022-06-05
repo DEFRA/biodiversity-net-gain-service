@@ -11,6 +11,7 @@ const createUploadConfiguration = (logger, config) => {
   const uploadConfig = JSON.parse(JSON.stringify(config))
   // Delete all configuration that does not need to be passed to the configured functions.
   delete uploadConfig.functionConfig
+  logger.log('Upload configuration has been created')
   return uploadConfig
 }
 
