@@ -10,11 +10,9 @@ const processLandBoundary = async (logger, config) => {
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
     geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
+    logger.log('Land boundary has been converted to GeoJSON')
     // Return the configuration used to display the boundary on a map.
     return await createMapConfig(dataset, bufferDistance)
-  } catch (err) {
-    // TO DO - Remove this call and let errors be thrown to the calling code.
-    await sendErrorDetails(err)
   } finally {
     closeDatasetIfNeeded(dataset)
     closeDatasetIfNeeded(geoJsonDataset)
@@ -28,20 +26,6 @@ const closeDatasetIfNeeded = (dataset) => {
     } catch (error) {
       // Do nothing
     }
-  }
-}
-
-const sendErrorDetails = async (err) => {
-  const errorDetails = {
-    message: err.message
-  }
-
-  if (err.authorityKey) {
-    errorDetails.authorityKey = err.authorityKey
-  }
-
-  if (err.code) {
-    errorDetails.code = err.code
   }
 }
 
