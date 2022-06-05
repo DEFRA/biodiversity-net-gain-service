@@ -9,7 +9,7 @@ const inDev = env === 'dev' || env === 'development'
 
 export default {
   entry: {
-    confirmLandBoundary: './src/client/js/pages/land/confirm-land-boundary.js'
+    confirmLandBoundary: './client/js/pages/land/confirm-land-boundary.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
