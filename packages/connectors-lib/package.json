@@ -23,5 +23,9 @@
     "@azure/storage-blob": "^12.9.0",
     "@azure/storage-queue": "^12.8.0",
     "@microsoft/signalr": "^6.0.4"
+  },
+  "devDependencies": {
+    "@defra/bng-azure-storage-test-utils": "^0.0.1",
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   }
 }
