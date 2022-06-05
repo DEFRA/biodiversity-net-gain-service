@@ -1,13 +1,10 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
-const createConnection = (logger, url) => {
-  const connection =
-    new HubConnectionBuilder()
-      .withUrl(url)
-      .configureLogging(LogLevel.Warning)
-      .build()
-
-  return connection
+const createConnection = (_logger, url) => {
+  return new HubConnectionBuilder()
+    .withUrl(url)
+    .configureLogging(LogLevel.Warning)
+    .build()
 }
 
 export const signalRConnector = Object.freeze({

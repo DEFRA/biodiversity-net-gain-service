@@ -1,16 +1,16 @@
 import { blobStorageConnector, queueStorageConnector } from '@defra/bng-connectors-lib'
 
 const uploadStreamAndQueueMessage = async (logger, config, stream) => {
-  addFileDetailsToConfiguration(logger, config, stream.filename)
+  addFileDetailsToConfiguration(config, stream.filename)
   await blobStorageConnector.uploadStream(logger, config.blobConfig, stream)
   // TO DO - Current Azure functions download blobs from Azure manually as streams rather than
   // relying on the contents of a storage queue message to enable Azure to provide blobs as function
-  // inputs (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-input?tabs=in-process%2Cextensionv5&pivots=programming-language-javascript#tabpanel_1_javascript).
+  // inputs (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-input)
   //  As such use of Azure storage queues could be replaced with Azure service bus queues.
-  await queueStorageConnector.sendMessage(logger, config.queueConfig)
+  await queueStorageConnector.sendMessage(config.queueConfig)
 }
 
-const addFileDetailsToConfiguration = (logger, config, filename) => {
+const addFileDetailsToConfiguration = (config, filename) => {
   config.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
 
   const message = {

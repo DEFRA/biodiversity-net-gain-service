@@ -1,5 +1,4 @@
 import { handleEvents } from '../azure-signalr.js'
-import { logger } from 'defra-logging-facade'
 import { queueStorageConnector } from '@defra/bng-connectors-lib'
 
 describe('Azure SignalR integration', () => {
@@ -17,7 +16,7 @@ describe('Azure SignalR integration', () => {
       }
     }
     // Send a message to trigger a function that should cause the SignalR emulator to send an event.
-    await queueStorageConnector.sendMessage(logger, config.queueConfig)
+    await queueStorageConnector.sendMessage(config.queueConfig)
 
     // Wait for the SignalR event associated with message processing.
     await expect(handleEvents(config, ['Test event'])).resolves.toStrictEqual([{ mock: 'data' }])

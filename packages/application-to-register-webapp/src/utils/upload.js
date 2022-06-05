@@ -1,7 +1,7 @@
 import { upload } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
 
-const uploadFiles = async (logger, request, h, config) => {
+const uploadFiles = async (logger, request, config) => {
   const events = []
   // Return a promise for processing the multipart request.
   // This code is inspired by https://stackoverflow.com/questions/50522383/promisifying-multiparty
@@ -32,7 +32,7 @@ const uploadFiles = async (logger, request, h, config) => {
   })
 }
 
-const createUploadConfiguration = (logger, config, fileDetails) => {
+const createUploadConfiguration = (config) => {
   // Clone the original configuration and retain the configured function used to perform the upload.
   const uploadConfig = JSON.parse(JSON.stringify(config))
   uploadConfig.functionConfig.uploadFunction = config.functionConfig.uploadFunction
@@ -43,7 +43,7 @@ const createUploadConfiguration = (logger, config, fileDetails) => {
 
 const handlePart = (logger, part, config) => {
   logger.log(`Uploading ${part.filename}`)
-  const uploadConfig = createUploadConfiguration(logger, config)
+  const uploadConfig = createUploadConfiguration(config)
   upload(logger, uploadConfig, part)
 }
 

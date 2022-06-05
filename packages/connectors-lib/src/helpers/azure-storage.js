@@ -5,7 +5,7 @@ const azureStorageAccountName = process.env.AZURE_STORAGE_ACCOUNT
 const azureBlobStorageUrl = process.env.AZURE_BLOB_SERVICE_URL || `https://${azureStorageAccountName}.blob.core.windows.net`
 const azureQueueStorageUrl = process.env.AZURE_QUEUE_SERVICE_URL || `https://${azureStorageAccountName}.queue.core.windows.net`
 
-const getCredential = (StorageSharedKeyCredentialConstructorFunction) => {
+const getCredential = StorageSharedKeyCredentialConstructorFunction => {
   // TO DO - Switch to DefaultAzureCredential with managed identity.
   const azureStorageAccessKey = process.env.AZURE_STORAGE_ACCESS_KEY
 
@@ -33,12 +33,8 @@ const blobServiceClient = initialiseBlobServiceClient()
 
 const queueServiceClient = initialiseQueueServiceClient()
 
-const getBlobServiceClient = () => {
-  return blobServiceClient
-}
+const getBlobServiceClient = () => blobServiceClient
 
-const getQueueServiceClient = () => {
-  return queueServiceClient
-}
+const getQueueServiceClient = () => queueServiceClient
 
 export { getBlobServiceClient, getQueueServiceClient }

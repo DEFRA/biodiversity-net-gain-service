@@ -10,7 +10,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    const landBoundaryData = (await uploadFiles(logger, request, h, config))[0]
+    const landBoundaryData = (await uploadFiles(logger, request, config))[0]
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, landBoundaryData.location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, landBoundaryData.mapConfig)
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
