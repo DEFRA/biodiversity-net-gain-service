@@ -19,7 +19,7 @@ const processLandBoundary = async (logger, config) => {
   }
 }
 
-const closeDatasetIfNeeded = (dataset) => {
+const closeDatasetIfNeeded = dataset => {
   if (dataset) {
     try {
       dataset.close()
@@ -29,7 +29,7 @@ const closeDatasetIfNeeded = (dataset) => {
   }
 }
 
-const validateDataset = async (dataset) => {
+const validateDataset = async dataset => {
   // Check that one layer is present and uses a supported coordinate system containing one feature.
   if (await dataset.layers.countAsync() === 1) {
     await validateLayer(await dataset.layers.getAsync(0))
@@ -38,7 +38,7 @@ const validateDataset = async (dataset) => {
   }
 }
 
-const validateLayer = async (layer) => {
+const validateLayer = async layer => {
   if (layer.srs) {
     validateSpatialReferenceSystem(layer.srs)
     await validateFeatures(layer.features)
@@ -47,7 +47,7 @@ const validateLayer = async (layer) => {
   }
 }
 
-const validateSpatialReferenceSystem = (srs) => {
+const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
   if (authorityCode !== '27700' && authorityCode !== '4326') {
     throw new CoordinateSystemValidationError(
@@ -55,7 +55,7 @@ const validateSpatialReferenceSystem = (srs) => {
   }
 }
 
-const validateFeatures = async (features) => {
+const validateFeatures = async features => {
   if (await features.countAsync() !== 1) {
     throw new ValidationError('INVALID-FEATURE-COUNT', 'Land boundaries must contain a single feature')
   }
