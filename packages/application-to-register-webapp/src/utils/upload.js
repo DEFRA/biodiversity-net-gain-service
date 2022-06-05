@@ -32,7 +32,7 @@ const uploadFiles = async (logger, request, config) => {
   })
 }
 
-const createUploadConfiguration = (config) => {
+const createUploadConfiguration = config => {
   // Clone the original configuration and retain the configured function used to perform the upload.
   const uploadConfig = JSON.parse(JSON.stringify(config))
   uploadConfig.functionConfig.uploadFunction = config.functionConfig.uploadFunction

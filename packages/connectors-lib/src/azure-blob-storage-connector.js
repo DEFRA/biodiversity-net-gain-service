@@ -5,25 +5,27 @@ const blobServiceClient = getBlobServiceClient()
 const downloadStreamIfExists = async (logger, config) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
   const blobExists = await blockBlobClient.exists()
+  let returnValue
 
   if (blobExists) {
-    return blockBlobClient.download()
+    returnValue = blockBlobClient.download()
   } else {
     logger.log('Blob does not exist')
-    Promise.resolve(undefined)
   }
+  return returnValue
 }
 
 const downloadToBufferIfExists = async (logger, config) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
   const blobExists = await blockBlobClient.exists()
+  let returnValue
 
   if (blobExists) {
-    return blockBlobClient.downloadToBuffer(0)
+    returnValue = blockBlobClient.downloadToBuffer(0)
   } else {
     logger.log('Blob does not exist')
-    Promise.resolve(undefined)
   }
+  return returnValue
 }
 
 const uploadStream = async (config, stream) => {

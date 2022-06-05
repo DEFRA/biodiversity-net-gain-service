@@ -73,13 +73,11 @@ const createMapConfig = async (dataset, bufferDistance) => {
 
   const bufferedGeometry = await featureGeometry.bufferAsync(bufferDistance)
   const envelope = await bufferedGeometry.getEnvelopeAsync()
-  const mapConfig = {
+  return {
     centroid: JSON.parse(featureGeometry.centroid().toJSON()).coordinates,
     epsg: layer.srs.getAuthorityCode() === '4326' ? '3857' : layer.srs.getAuthorityCode(),
     extent: [envelope.minX, envelope.minY, envelope.maxX, envelope.maxY]
   }
-
-  return mapConfig
 }
 
 export { processLandBoundary }

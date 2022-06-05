@@ -5,9 +5,7 @@ import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
-  get: async (_request, h) => {
-    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-  },
+  get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     const landBoundaryData = (await uploadFiles(logger, request, config))[0]
