@@ -4,7 +4,7 @@ import { signalRConnector } from '@defra/bng-connectors-lib'
 const createPromiseForEvent = (connection, event) => {
   return new Promise((resolve, reject) => {
     // TO DO - Add error handling support.
-    connection.on(event, async (data) => {
+    connection.on(event, async data => {
       resolve(data)
     })
   })
