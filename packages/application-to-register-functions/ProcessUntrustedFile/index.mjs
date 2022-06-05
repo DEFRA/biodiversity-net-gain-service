@@ -19,11 +19,11 @@ export default async function (context, message) {
   const response = await blobStorageConnector.downloadStreamIfExists(context, config)
 
   if (response) {
-    const config = {
+    const blobConfig = {
       blobName: message.location,
       containerName: 'trusted'
     }
-    await blobStorageConnector.uploadStream(config, response.readableStreamBody)
+    await blobStorageConnector.uploadStream(blobConfig, response.readableStreamBody)
     context.bindings.trustedFileQueue = message
   } else {
     context.log('Blob does not exist')
