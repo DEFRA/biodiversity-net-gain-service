@@ -13,7 +13,7 @@ describe('The Azure blob storage connector', () => {
     await recreateContainers()
   })
 
-  it('should upload a stream to blob storage and allow subsequent download', async () => {
+  it('should upload a stream to blob storage and allow subsequent download using environment variable configuration', async () => {
     const mockData = { mock: 'data' }
     await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
     await expect(blobExists(config.containerName, config.blobName)).resolves.toStrictEqual(true)
@@ -32,8 +32,22 @@ describe('The Azure blob storage connector', () => {
     const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
     expect(buffer).toBeUndefined()
   })
-  it('should return undefined if an attempt is made to download a non-existent blob as a stream', async () => {
-    const response = await blobStorageConnector.downloadStreamIfExists(logger, config)
-    expect(response).toBeUndefined()
+  it('should return undefined if an attempt is made to download a non-existent blob as a stream', done => {
+    jest.isolateModules(async () => {
+      // Use default storage queue configuration with a mock to increase test coverage.
+      delete process.env.AZURE_QUEUE_SERVICE_URL
+      try {
+        jest.mock('../helpers/azure-storage.js')
+        const { getQueueServiceClient } = require('../helpers/azure-storage.js')
+        getQueueServiceClient.mockImplementation(() => {})
+        const response = await blobStorageConnector.downloadStreamIfExists(logger, config)
+        setImmediate(() => {
+          expect(response).toBeUndefined()
+          done()
+        })
+      } catch (err) {
+        done(err)
+      }
+    })
   })
 })
