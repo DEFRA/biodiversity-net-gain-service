@@ -52,6 +52,8 @@ When connecting to an [Azurite container](../../docs/containerisation.md/#azure-
 
   * Azure Functions
   * [GDAL](https://gdal.org/) software called by Azure Functions
+* uses the hostname **azurite** to ensure connectivity to an [Azurite container](../../docs/containerisation.md/#azure-storage) when the Azure Functions runtime is used in a containerised environment
+  * When connecting from Azure Functions in a non-containerised local environment, the hostname **azurite** must resolve to the local IP address of the host machine.
 
 To switch between connection to Microsoft Azure infrstructure and an Azurite container, the creation of a symbolic link called **local.settings.json** within the directory containing this file which refererences the required local.settings.json file is recommended.
 
