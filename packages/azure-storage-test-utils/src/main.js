@@ -57,4 +57,9 @@ const isUploadComplete = async (containerName, blobName, checkDelayMillis) => {
   })
 }
 
-export { blobExists, clearQueues, isUploadComplete, recreateContainers, recreateQueues }
+const receiveMessages = async (queueName, queueReceiveMessageOptions) => {
+  const queueClient = await queueServiceClient.getQueueClient(queueName)
+  return queueClient.receiveMessages(queueReceiveMessageOptions)
+}
+
+export { blobExists, clearQueues, isUploadComplete, receiveMessages, recreateContainers, recreateQueues }
