@@ -7,6 +7,6 @@ const sendMessage = async config => {
   await queueClient.sendMessage(config.message, config.options)
 }
 
-export const queueStorageConnector = Object.freeze({
+export const storageQueueConnector = Object.freeze({
   sendMessage
 })
