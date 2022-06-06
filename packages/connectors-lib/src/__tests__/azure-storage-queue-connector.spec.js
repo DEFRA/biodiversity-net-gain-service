@@ -1,5 +1,5 @@
 import { receiveMessages, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-import { storageQueueConnector } from '../azure-storage-queue-connector.js'
+import { storageQueueConnector } from '../connectors.js'
 
 const base64 = 'base64'
 

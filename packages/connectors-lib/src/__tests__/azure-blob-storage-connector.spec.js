@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { blobExists, recreateContainers } from '@defra/bng-azure-storage-test-utils'
-import { blobStorageConnector } from '../azure-blob-storage-connector.js'
+import { blobStorageConnector } from '../connectors.js'
 import { logger } from 'defra-logging-facade'
 
 const config = {
