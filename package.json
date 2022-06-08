@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.16.11",
     "eslint": "^8.13.0",
     "eslint-plugin-jest": "^26.1.4",
-    "jest": "^27.5.1",
+    "jest": "^28.1.1",
     "lerna": "^4.0.0",
     "standard": "^16.0.4"
   },
