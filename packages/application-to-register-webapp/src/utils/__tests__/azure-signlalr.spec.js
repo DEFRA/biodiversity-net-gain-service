@@ -1,6 +1,7 @@
 import processGeospatialLandBoundaryEvent from '../../routes/land/helpers/process-geospatial-land-boundary-event.js'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { handleEvents } from '../azure-signalr.js'
+import { recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import { storageQueueConnector } from '@defra/bng-connectors-lib'
 
 const baseQueueConfig = {
@@ -26,6 +27,11 @@ const sendMessage = async message => {
   await storageQueueConnector.sendMessage(config.queueConfig)
   return handleEvents(config, [`Processed ${message}`])
 }
+
+beforeEach(async () => {
+  await recreateQueues()
+})
+
 describe('Azure SignalR integration', () => {
   it('should respond to an event indicating successful processing', async () => {
     // Connect to the SignalR emulator and wait for an event associated with message processing
