@@ -16,7 +16,8 @@ const createPromiseForEvent = (connection, event, config) => {
     })
   })
 
-  const timeoutPromise = new Promise((resolve, reject) => {
+  // eslint-disable-next-line
+  const timeoutPromise = new Promise((_resolve, reject) => {
     timeoutId = setTimeout(() => {
       reject(new Error(`${event} timed out`))
     }, config.timeout || 30000)
