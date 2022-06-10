@@ -1,3 +1,4 @@
+import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
 import path from 'path'
 
@@ -14,15 +15,29 @@ export default async function (context, fileLocation) {
     outputLocation: `/vsiaz/trusted/${processedFileLocation}`
   }
 
-  // TO DO - Handle processing errors by sending an error back to the client through SignalR.
-  const mapConfig = await processLandBoundary(context, config)
-  const landBoundaryData = {
-    location: processedFileLocation,
-    mapConfig
-  }
-  context.bindings.signalRMessages = [{
+  const signalRMessage = {
     userId: fileDirectory.substring(0, fileDirectory.indexOf('/')),
-    target: `Processed ${filename}${fileExtension}`,
-    arguments: [landBoundaryData]
-  }]
+    target: `Processed ${filename}${fileExtension}`
+  }
+
+  try {
+    const mapConfig = await processLandBoundary(context, config)
+    signalRMessage.arguments = [{
+      location: processedFileLocation,
+      mapConfig
+    }]
+  } catch (err) {
+    if (err instanceof CoordinateSystemValidationError) {
+      signalRMessage.arguments = [{
+        authorityKey: err.authorityKey,
+        errorCode: err.code
+      }]
+    } else if (err instanceof ValidationError) {
+      signalRMessage.arguments = [{ errorCode: err.code }]
+    } else {
+      signalRMessage.arguments = [{ errorMessage: err.message }]
+    }
+  } finally {
+    context.bindings.signalRMessages = [signalRMessage]
+  }
 }

@@ -1,3 +1,4 @@
+import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
 import { logger } from 'defra-logging-facade'
 import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
@@ -53,6 +54,8 @@ const buildFunctionConfig = config => {
 // TO DO - Refactor to reduce direct coupling to Microsoft Azure.
 const buildSignalRConfig = (sessionId, config) => {
   config.signalRConfig = {
+    eventProcessingFunction: processGeospatialLandBoundaryEvent,
+    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 30000,
     // The session ID is used as the SignalR userID.
     // This ensures that notification of the processed upload is only sent to
     // the SignalR client connection associated with this session.

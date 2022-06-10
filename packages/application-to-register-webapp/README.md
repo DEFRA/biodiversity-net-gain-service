@@ -21,6 +21,7 @@ warning: other service dependencies will be missing, install and run from root o
 | MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) | Y |
 | SIGNALR_URL | Microsoft Azure SignalR connection URL (see the note below) | Y |  
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
+| UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
 
 #### Setting the SIGNALR_URL environment variable
 

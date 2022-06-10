@@ -1,19 +1,34 @@
 import { logger } from 'defra-logging-facade'
 import { signalRConnector } from '@defra/bng-connectors-lib'
 
-const createPromiseForEvent = (connection, event) => {
-  return new Promise((resolve, reject) => {
-    // TO DO - Add error handling support.
+const createPromiseForEvent = (connection, event, config) => {
+  let timeoutId
+  const eventPromise = new Promise((resolve, reject) => {
     connection.on(event, async data => {
-      resolve(data)
+      try {
+        config.eventProcessingFunction(data)
+        resolve(data)
+      } catch (err) {
+        reject(err)
+      } finally {
+        clearTimeout(timeoutId)
+      }
     })
   })
+
+  const timeoutPromise = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error(`${event} timed out`))
+    }, config.timeout || 30000)
+  })
+
+  return Promise.race([eventPromise, timeoutPromise])
 }
 
-const createPromisesForEvents = (connection, events) => {
+const createPromisesForEvents = (connection, events, config) => {
   const promises = []
   for (const event of events) {
-    promises.push(createPromiseForEvent(connection, event))
+    promises.push(createPromiseForEvent(connection, event, config))
   }
   return promises
 }
@@ -22,7 +37,7 @@ const handleEvents = async (config, events) => {
   let eventData
   const connection = signalRConnector.createConnection(logger, config.signalRConfig.url)
   await connection.start()
-  const promises = createPromisesForEvents(connection, events)
+  const promises = createPromisesForEvents(connection, events, config.signalRConfig)
   try {
     eventData = await Promise.all(promises)
   } finally {
