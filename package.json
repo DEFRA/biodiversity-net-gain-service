@@ -74,7 +74,13 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/**/src/**/*.js"
+      "<rootDir>/**/src/**/*.js",
+      "<rootDir>/**/*.mjs",
+      "<rootDir>/**/ProcessTrustedFile/**/*.js",
+      "<rootDir>/**/ProcessUntrustedFile/**/*.js",
+      "<rootDir>/**/SignalRNegotiate/**/*.js",
+      "!<rootDir>/**/__tests__/**",
+      "!<rootDir>/**/__mocks__/**"
     ],
     "coveragePathIgnorePatterns": [
       ""
@@ -95,19 +101,6 @@
       "<rootDir>/packages/*"
     ],
     "testEnvironment": "node",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx",
-      "ts",
-      "tsx",
-      "node",
-      "mjs"
-    ],
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest",
-      "^.+\\.mjs$": "babel-jest"
-    },
     "testRunner": "jest-circus/runner",
     "silent": true
   }
