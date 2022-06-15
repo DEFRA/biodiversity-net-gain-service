@@ -1,27 +1,20 @@
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
-import path from 'path'
 
-export default async function (context, fileLocation) {
-  const fileExtension = path.extname(fileLocation)
-  const fileDirectory = path.dirname(fileLocation)
-  const filename = path.basename(fileLocation, fileExtension)
-  const processedFileLocation = `${fileDirectory}/${filename}.geojson`
+export default async function (context, config) {
+  const processedFileLocation =
+   `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}.geojson`
   // Use the GDAL virtual file system to convert a geospatial land boundary uploaded
   // by a user to GeoJSON.
-  const config = {
+  const landBoundaryConfig = {
     bufferDistance: process.env.LAND_BOUNDARY_BUFFER_DISTANCE || 500,
-    inputLocation: `${fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/trusted/${fileLocation}`,
+    inputLocation: `${config.fileConfig.fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/trusted/${config.fileConfig.fileLocation}`,
     outputLocation: `/vsiaz/trusted/${processedFileLocation}`
   }
 
-  const signalRMessage = {
-    userId: fileDirectory.substring(0, fileDirectory.indexOf('/')),
-    target: `Processed ${filename}${fileExtension}`
-  }
-
+  const signalRMessage = Object.assign({}, config.signalRMessageConfig)
   try {
-    const mapConfig = await processLandBoundary(context, config)
+    const mapConfig = await processLandBoundary(context, landBoundaryConfig)
     signalRMessage.arguments = [{
       location: processedFileLocation,
       mapConfig
