@@ -1,9 +1,9 @@
-// TO DO - Add file sanitisation to this function.
+// TO DO - Add security processing to this function.
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 export default async function (context, message) {
   context.log('Processing', JSON.stringify(message))
-  context.log.warn('Transferring untrusted file to trusted container WITHOUT SANITISATION')
+  context.log.warn('Transferring untrusted file to trusted container WITHOUT SECURITY PROCESSING')
   // Blob based triggering of Azure functions can be delayed due to its polling based implementation and event grid based
   // blob triggering of Azure functions is in preview.
   // Use Azure storage queues combined with blob storage to ensure responsive processing while event grid based blob triggering
