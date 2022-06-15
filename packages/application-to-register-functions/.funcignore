@@ -1,0 +1,5 @@
+.git*
+.vscode
+local.settings.json
+__mocks__
+**/__tests__
