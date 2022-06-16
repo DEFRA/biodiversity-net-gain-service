@@ -15,6 +15,12 @@ export default async function (context, message) {
         errorCode: 'failure'
       }]
       break
+    case 'failure with upload type':
+      signalRMessage.arguments = [{
+        uploadType: 'mockUploadType',
+        errorCode: 'failure'
+      }]
+      break
     case 'failure with error code':
       signalRMessage.arguments = [{ errorCode: 'failure' }]
       break
