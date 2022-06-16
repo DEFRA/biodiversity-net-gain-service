@@ -6,7 +6,8 @@
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
   "scripts": {
     "lint": "standard",
-    "test": "npm run lint"
+    "test": "npm run lint",
+    "start": "func start"
   },
   "repository": {
     "type": "git",

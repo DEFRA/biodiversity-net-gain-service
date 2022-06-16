@@ -12,105 +12,88 @@ Docker based containerisation is used for the following:
 
 ### Secrets
 
-Before building and running the docker containers the secrets files need creating in docker/secrets.
-The name of the file is the secret name (no extension), the contents are plain text of the value of the secret
+Before building and running the docker containers appropriate secrets files need creating.
 
 | App | Secret Name | Notes |
 | ----------- | ----------- | ----------- |
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
 | postgis | POSTGRES_PASSWORD | ----------- |
-| application_to_register_webapp | SESSION_COOKIE_PASSWORD | minimum 32 characters |
-| application_to_register_webapp | AZURE_STORAGE_ACCOUNT | ----------- |
-| application_to_register_webapp | AZURE_STORAGE_ACCESS_KEY | ----------- |
+| application_to_register_webapp | WEBAPP_SECRETS | see WEBAPP_SECRETS template below for contents |
+
+### WEBAPP_SECRETS template
+
+Note that this secrets template is prepopulated with variables necessary for locally run containers. See the webapp ReadMe for further information on variables.
+
+```
+export SERVER_PORT=3000
+export REDIS_HOST=redis
+export REDIS_PORT=6379
+export SESSION_COOKIE_PASSWORD=the-password-must-be-at-least-32-characters-long
+export AZURE_STORAGE_ACCOUNT=devstoreaccount1
+export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+export AZURE_BLOB_SERVICE_URL=http://azurite:10000/${AZURE_STORAGE_ACCOUNT}
+export AZURE_QUEUE_SERVICE_URL=http://azurite:10001/${AZURE_STORAGE_ACCOUNT}
+export ORDNANCE_SURVEY_API_KEY=
+export ORDNANCE_SURVEY_API_SECRET=
+export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB=50
+export SIGNALR_URL="http://azure_services:7071/api"
+```
 
 See [Github actions workflow document](../.github/workflows/build.yaml) for build and CI details
 
-To install and build all packages
-
-`npm i`
-
-To run linting and tests
-
-`npm run test`
-
-## Installation, run options, running
-
-### Swarm mode (rootful docker required)
-
-`optional` First set docker to swarm mode if not already
+### Development container build process
 
 ```bash
-docker swarm init
+#To build the application images, local dev infrastructure and start containers locally that support development
+npm run docker:build-services
+npm run docker:build-dev-infrastructure
+npm run docker:start-infrastructure
+npm run docker:start-dev-infrastructure
+
+#At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
+#To run linting and tests (from repository root)
+
+npm run test
+```
+Ensure that all the tests pass before continuing the build process.
+
+Next we need the serverless function app running
+
+Prerequisites and environment variables can be found here: [function docs](../packages/application-to-register-functions/README.md)
+
+```bash
+#Run the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
+cd packages/application-to-register-functions
+npm run start
 ```
 
-Create pgadmin docker volume and give it permissions for pgadmin process to access, see /docker/infrastructure.development.yml for more detail
+Leave the functions running and move to a new terminal or the previous.
+
+At this point if wanting to run the webapp as a local process (for development/debug) then see the [webapp docs](../packages/application-to-register-webapp/README.md)
+
+Otherwise to run the webapp as a container, continue...
+
+Back at the repository root directory
 
 ```bash
-mkdir docker/volumes/pgadmin
-sudo chown -R 5050:5050 docker/volumes/pgadmin
+npm run docker:start-services
 ```
 
-Create postgis volume (container takes care of permissions)
-Postgres does not like any files existing in the data directory when initialising the database and give access to container uid, see /docker/infrastructure.yml for more detail
+Browse to localhost:3000 where everything should now be running and available
+
+### Docker tips
+
+You can view the running containers
 
 ```bash
-mkdir docker/volumes/postgis
-sudo chown -R 70:70 docker/volumes/postgis
-```
-
-### Note that for a rootless docker set up the ownership of the postgis and pgadmin volume directories need setting as follows
-
-Calculate UID And GID for the host user mapped to the postgres and pgadmin container users:
-
-Host UID = (Minimum subuid for rootless docker host user defined in /etc/subuid + container UID) - 1
-
-Host GID = (Minimum subgid for rootless docker host user defined in /etc/subgid + container GID) - 1
-
-```bash
-sudo chown -R <<postgres Host UID>>:<<postgres Host GID>>  docker/volumes/postgis
-sudo chown -R <<pgadmin Host UID>>:<<pgadmin Host GID>>  docker/volumes/pgadmin
-```
-
-Create geoserver data directory, this will be stored in source control at somepoint to store configuration/layers etc, however TODO is to strip out security risks and inject with build.
-Therefore for the time being the workspace, datastore and layers need creating manually through the geoserver interface at <http://localhost:8080/geoserver>
-
-```bash
-mkdir docker/volumes/geoserver
-```
-
-Build application images and run containers in swarm mode, `npm run docker:start-dev` includes development tools such as redis commander and pgadmin, switch this out for `npm run docker:start` if those tools are not required, ie when deployed to cloud/production environments
-
-```bash
-npm run docker:build
-npm run docker:start-dev
-```
-
-To stop the swarm and tear down the services
-
-```bash
-npm run docker:stop
-```
-
-### docker-compose up (not swarm mode) if rootless docker necessary
-
-To build the application images and run the containers without a swarm
-
-```bash
-npm run docker:build
-npm run docker:start-compose
-```
-
-View the running containers
-
-```bash
+# view running containers
 docker ps
+
+# view container logs
+docker container logs {container_id_or_first_few_characters} -f # -f to watch log output
 ```
 
-Stop the running containers
-
-```bash
-npm run docker:stop-compose
-```
+See the docker scripts in [package.json](../package.json) for individual stop commands or use `npm run docker:stop` to stop all containers
 
 ## Cloud Service Containers
 

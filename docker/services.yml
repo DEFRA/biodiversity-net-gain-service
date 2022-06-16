@@ -1,11 +1,7 @@
 version: "3.9"
 secrets:
-  SESSION_COOKIE_PASSWORD:
-    file: ./secrets/SESSION_COOKIE_PASSWORD
-  AZURE_STORAGE_ACCOUNT:
-    file: ./secrets/AZURE_STORAGE_ACCOUNT
-  AZURE_STORAGE_ACCESS_KEY:
-    file: ./secrets/AZURE_STORAGE_ACCESS_KEY
+  WEBAPP_ENV:
+    file: ./secrets/WEBAPP_ENV
 services:
   ##############################################################################################################
   # Biodiversity net gain service - Application to register webapp - web app found on localhost:3000
@@ -14,17 +10,6 @@ services:
     image: bng/application-to-register-webapp:${TAG:-latest}
     ports:
       - "3000:3000"
-    environment:
-      - SESSION_COOKIE_PASSWORD=/run/secrets/SESSION_COOKIE_PASSWORD
     secrets:
-      - SESSION_COOKIE_PASSWORD
-      - AZURE_STORAGE_ACCOUNT
-      - AZURE_STORAGE_ACCESS_KEY
-    env_file:
-      - ./env/webapp.env
-    entrypoint: [ '/bin/sh', '-c', "export SESSION_COOKIE_PASSWORD=$$(cat /run/secrets/SESSION_COOKIE_PASSWORD) && export AZURE_STORAGE_ACCOUNT=$$(cat /run/secrets/AZURE_STORAGE_ACCOUNT) && export AZURE_STORAGE_ACCESS_KEY=$$(cat /run/secrets/AZURE_STORAGE_ACCESS_KEY) && npm run start" ]
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      - WEBAPP_ENV
+    entrypoint: [ '/bin/sh', '-c', "source /run/secrets/WEBAPP_ENV && npm run start" ]
