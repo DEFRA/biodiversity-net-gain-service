@@ -15,7 +15,7 @@
     "docker:build-services": "docker-compose -f docker/services.build.yml build",
     "docker:build-dev-infrastructure": "docker-compose -f docker/infrastructure.development.build.yml build",
     "docker:start-infrastructure": "docker-compose -f docker/infrastructure.yml up -d",
-    "docker:start-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml up -d && npm run bootstrap-azurite",
+    "docker:start-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml up -d",
     "docker:start-dev-tools": "docker-compose -f docker/dev-tools.yml up -d",
     "docker:start-services": "docker-compose -f docker/services.yml up -d",
     "docker:stop-infrastructure": "docker-compose -f docker/infrastructure.yml down",
