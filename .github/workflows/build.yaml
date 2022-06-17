@@ -31,6 +31,9 @@ jobs:
        DOCKER_BUILDKIT: 1
     - name: Start test dependencies
       run: npm run docker:start-dev-infrastructure
+    - name: Add azure_services to hosts
+      run: |
+        sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
     - name: Run tests
       run: npm run test
     - name: Tear down test dependencies
