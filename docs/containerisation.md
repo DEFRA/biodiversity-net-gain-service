@@ -47,7 +47,6 @@ See [Github actions workflow document](../.github/workflows/build.yaml) for buil
 #To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
 npm run docker:build-dev-infrastructure
-npm run docker:start-infrastructure
 npm run docker:start-dev-infrastructure
 
 #At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
@@ -76,6 +75,7 @@ Otherwise to run the webapp as a container, continue...
 Back at the repository root directory
 
 ```bash
+npm run docker:start-infrastructure
 npm run docker:start-services
 ```
 
