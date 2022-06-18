@@ -18,5 +18,10 @@
   "dependencies": {
     "@defra/bng-errors-lib": "0.0.1",
     "gdal-async": "^3.5.0"
+  },
+  "devDependencies": {
+    "@defra/bng-connectors-lib": "0.0.1",
+    "@defra/bng-azure-storage-test-utils": "0.0.1",
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   }
 }
