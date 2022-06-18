@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "land-boundary-4258",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4258" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -2.569598452165867, 51.478713498379719 ], [ -2.568817675821408, 51.478893351935191 ], [ -2.569063673847744, 51.478467031244421 ], [ -2.569063673847744, 51.478467031244421 ], [ -2.569598452165867, 51.478713498379719 ] ] ] } }
+]
+}

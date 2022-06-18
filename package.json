@@ -9,7 +9,7 @@
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean",
     "lint": "standard",
-    "unit-test": "jest --runInBand",
+    "unit-test": "./bin/run-unit-tests",
     "test": "npm run lint && npm run unit-test",
     "bootstrap-azurite": "node ./packages/azurite-bootstrap-service/src/service.js",
     "docker:build-services": "docker-compose -f docker/services.build.yml build",
