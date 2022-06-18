@@ -53,7 +53,7 @@ describe('Trusted file processing', () => {
     jest.isolateModules(async () => {
       try {
         const filename = 'mock-data.json'
-        const userId = 'mockUserId'
+        const userId = 'mockSessionId'
         const uploadType = 'unknown-upload-type'
         const expectedSignalRMessage = {
           userId,
@@ -82,7 +82,7 @@ describe('Trusted file processing', () => {
 })
 
 const buildConfig = fileExtension => {
-  const userId = 'mock-user-id'
+  const userId = 'mock-session-id'
   const filenameRoot = 'mock-data'
   const fileDirectory = `${userId}/mockUploadType`
   const filename = `${filenameRoot}${fileExtension}`
@@ -116,7 +116,7 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
     try {
       jest.mock('@defra/bng-geoprocessing-service')
       const testConfig = buildConfig(fileExtension)
-      const geoprocessingService = (await import('@defra/bng-geoprocessing-service'))
+      const geoprocessingService = await import('@defra/bng-geoprocessing-service')
       geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
         return testConfig.mapConfig
       })
