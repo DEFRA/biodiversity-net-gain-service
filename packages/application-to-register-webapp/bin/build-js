@@ -1,3 +1,2 @@
 #!/bin/sh
-# cp -r src/client/js public/
 webpack
