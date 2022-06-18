@@ -1,4 +1,3 @@
-import gdal from 'gdal-async'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 
 const processLandBoundary = async (logger, config) => {
@@ -6,13 +5,24 @@ const processLandBoundary = async (logger, config) => {
   let geoJsonDataset
   const bufferDistance = config.bufferDistance || 500
   try {
+    // Workaround for https://github.com/naturalatlas/node-gdal/issues/207.
+    // The published solution does not appear to be effective for unit tests
+    // associated with this module.
+    //
+    // Load the module that links to GDAL dynamically so that unit tests
+    // mocking this module do not load attempt to load the native module that
+    // links to GDAL.
+    //
+    // This allows the unit test file associated with this file to be the only
+    // unit test file that loads the native module linking to GDAL.
+    const gdal = (await import('gdal-async')).default
     dataset = await gdal.openAsync(config.inputLocation)
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
     geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
     logger.log('Land boundary has been converted to GeoJSON')
     // Return the configuration used to display the boundary on a map.
-    return await createMapConfig(dataset, bufferDistance)
+    return await createMapConfig(dataset, bufferDistance, gdal)
   } finally {
     closeDatasetIfNeeded(dataset)
     closeDatasetIfNeeded(geoJsonDataset)
@@ -30,7 +40,7 @@ const closeDatasetIfNeeded = dataset => {
 }
 
 const validateDataset = async dataset => {
-  // Check that one layer is present and uses a supported coordinate system containing one feature.
+  // Check that one layer is present and uses a supported coordinate reference system containing one feature.
   if (await dataset.layers.countAsync() === 1) {
     await validateLayer(await dataset.layers.getAsync(0))
   } else {
@@ -43,7 +53,7 @@ const validateLayer = async layer => {
     validateSpatialReferenceSystem(layer.srs)
     await validateFeatures(layer.features)
   } else {
-    throw new ValidationError('MISSING-COORDINATE-SYSTEM', 'Missing coordinate system - geospatial uploads must use the OSGB36 or WGS84 coordinate system')
+    throw new ValidationError('MISSING-COORDINATE-SYSTEM', 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system')
   }
 }
 
@@ -51,7 +61,7 @@ const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
   if (authorityCode !== '27700' && authorityCode !== '4326') {
     throw new CoordinateSystemValidationError(
-      authorityCode, 'INVALID-COORDINATE-SYSTEM', 'Land boundaries must use the OSGB36 or WGS84 coordinate system')
+      authorityCode, 'INVALID-COORDINATE-SYSTEM', 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
   }
 }
 
@@ -61,7 +71,7 @@ const validateFeatures = async features => {
   }
 }
 
-const createMapConfig = async (dataset, bufferDistance) => {
+const createMapConfig = async (dataset, bufferDistance, gdal) => {
   const layer = await dataset.layers.getAsync(0)
   const feature = await layer.features.firstAsync()
   const featureGeometry = feature.getGeometry().clone()
