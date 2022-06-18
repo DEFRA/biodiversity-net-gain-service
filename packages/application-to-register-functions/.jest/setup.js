@@ -8,8 +8,8 @@ let context
 beforeEach(async () => {
   jest.resetAllMocks()
   context = new Context()
-  recreateContainers(),
-  recreateQueues()
+  await recreateContainers(),
+  await recreateQueues()
 })
 
 afterEach(async () => {
