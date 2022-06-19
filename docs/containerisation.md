@@ -24,7 +24,7 @@ Before building and running the docker containers appropriate secrets files need
 
 Note that this secrets template is prepopulated with variables necessary for locally run containers. See the webapp ReadMe for further information on variables.
 
-```
+```bash
 export SERVER_PORT=3000
 export REDIS_HOST=redis
 export REDIS_PORT=6379
@@ -52,8 +52,10 @@ npm run docker:start-dev-infrastructure
 #At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
 #To run linting and tests (from repository root)
 
+```bash
 npm run test
 ```
+
 Ensure that all the tests pass before continuing the build process.
 
 Next we need the serverless function app running
