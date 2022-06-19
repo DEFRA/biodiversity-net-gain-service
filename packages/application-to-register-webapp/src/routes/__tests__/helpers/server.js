@@ -3,7 +3,7 @@ import { getServer } from '../../../../.jest/setup.js'
 import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
-import { isUploadComplete } from '@defra/bng-azure-storage-test-utils'
+import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -47,6 +47,19 @@ const uploadFile = async (uploadConfig) => {
     if (uploadConfig.generateHandleEventsError || !uploadComplete) {
       throw new Error(`Upload of ${config.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
     } else {
+      // Check that a message corresponding to the uploaded blob has been queued.
+      // This has to be checked in this mock implementation because the web application session ID is generated dynamically.
+      const expectedMessage = {
+        uploadType: uploadConfig.uploadType,
+        location: blobName
+      }
+
+      const response = await receiveMessages('untrusted-file-queue')
+      const receivedMessageItems = response.receivedMessageItems
+      expect(receivedMessageItems.length).toBe(1)
+      const message = receivedMessageItems[0]
+      const jsonMessage = JSON.parse(Buffer.from(message.messageText, 'base64').toString())
+      await expect(jsonMessage).toStrictEqual(expectedMessage)
       return uploadConfig.eventData
     }
   })

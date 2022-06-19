@@ -26,6 +26,7 @@ describe(url, () => {
       }
     ]
     const baseConfig = {
+      uploadType: 'geospatial-land-boundary',
       url,
       formName: GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME,
       eventData: mockLandBoundary
