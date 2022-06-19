@@ -24,14 +24,6 @@
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "^0.0.1",
-    "jest": "^27.5.1",
-    "markdownlint-cli": "^0.31.1",
-    "standard": "^16.0.4"
-  },
-  "standard": {
-    "env": [
-      "jest"
-    ]
+    "@defra/bng-azure-storage-test-utils": "^0.0.1"
   }
 }

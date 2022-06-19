@@ -113,3 +113,6 @@ docker/volumes/geoserver
 
 # vscode code-workspace file
 *.code-workspace
+
+# Symbolic links for Babel configuration
+packages/**/babel.config.json

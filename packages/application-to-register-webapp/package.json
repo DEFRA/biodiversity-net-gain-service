@@ -24,7 +24,7 @@
     "@defra/bng-connectors-lib": "^0.0.1",
     "@defra/bng-document-service": "^0.0.1",
     "@defra/bng-errors-lib": "^0.0.1",
-    "@hapi/boom": "9.1.4",
+    "@hapi/boom": "^10.0.0",
     "@hapi/catbox-redis": "^6.0.2",
     "@hapi/hapi": "20.2.1",
     "@hapi/inert": "6.0.5",
@@ -33,30 +33,23 @@
     "axios": "^0.26.1",
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
-    "govuk-frontend": "4.0.1",
+    "govuk-frontend": "4.1.0",
     "hapi-pino": "9.3.0",
     "joi": "^17.6.0",
     "multiparty": "^4.2.3",
     "nunjucks": "3.2.3",
     "ol": "^6.14.1",
     "proj4": "^2.8.0",
-    "sass": "^1.50.1"
+    "sass": "^1.52.3"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "^0.0.1",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
-    "standard": "16.0.4",
     "stream-to-promise": "^3.0.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
-  },
-  "standard": {
-    "env": {
-      "node": true,
-      "jest": true
-    }
   }
 }
