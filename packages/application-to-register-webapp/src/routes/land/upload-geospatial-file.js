@@ -16,6 +16,8 @@ const handlers = {
   }
 }
 
+// TO DO - Refactor to reduce direct coupling to Microsoft Azure.
+// For example, extract Microsoft Azure specfic configuration code to an Azure specific module.
 const buildConfig = sessionId => {
   const config = {}
   buildBlobConfig(sessionId, config)
@@ -51,7 +53,6 @@ const buildFunctionConfig = config => {
   }
 }
 
-// TO DO - Refactor to reduce direct coupling to Microsoft Azure.
 const buildSignalRConfig = (sessionId, config) => {
   config.signalRConfig = {
     eventProcessingFunction: processGeospatialLandBoundaryEvent,
