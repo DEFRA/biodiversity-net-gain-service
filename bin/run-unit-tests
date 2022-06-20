@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # The geoprocessing service delegates to native code that requires this environment variable for Azurite connectivity.
 # Environment variables set through Node.js do not appear to propagate to native code.
 export AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;"

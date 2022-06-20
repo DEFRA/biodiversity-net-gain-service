@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Jest 28 does not look for Babel configuration in directories above Jest configuration files (https://github.com/facebook/jest/issues/12768)
 # Add a symbolic link to the root Babel configuration file in the same directory as the Jest configuration file in each package.
