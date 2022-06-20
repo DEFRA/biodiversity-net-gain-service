@@ -22,7 +22,7 @@ const createServer = async options => {
       cors: true,
       security: true
     },
-    cache: cache
+    cache
   }, options)
 
   return new Hapi.Server(options)
