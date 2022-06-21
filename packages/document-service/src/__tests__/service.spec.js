@@ -2,7 +2,7 @@ import { Readable } from 'stream'
 import { upload } from '../service.js'
 
 describe('The document service', () => {
-  it('should delgate the upload of a document to a cofigured functon', async () => {
+  it('should delegate the upload of a document to a configured function', async () => {
     const logger = {
       log: jest.fn()
     }
