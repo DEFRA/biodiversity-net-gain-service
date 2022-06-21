@@ -1,6 +1,6 @@
 # biodiversity-net-gain-service
 
-### For Natural England
+## For Natural England
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_biodiversity-net-gain-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=DEFRA_biodiversity-net-gain-service)
@@ -10,115 +10,37 @@
 
 [Lerna](https://lerna.js.org/) managed nodejs project for Biodiversity Net Gain service
 
-## Getting started
-
-### Secrets
-
-Before building and running the docker containers the secrets files needed creating in docker/secrets
-The name of the file is the secret name (no extension), the contents are plain text of the value of the secret
-
-
-| App | Secret Name | Notes |
-| ----------- | ----------- | ----------- |
-| pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
-| postgis | POSTGRES_PASSWORD | ----------- |
-| application_to_register_webapp | SESSION_COOKIE_PASSWORD | minimum 32 characters |
-
-See [Github actions workflow document](.github/workflows/build.yaml) for build and CI details
-
-To install and build all packages
-
-`npm i`
-
-To run linting and tests
-
-`npm run test`
-
-## Installation, run options, running
-
-### Swarm mode (rootful docker required)
-
-`optional` First set docker to swarm mode if not already
-
-```
-docker swarm init
-```
-
-Create pgadmin docker volume and give it permissions for pgadmin process to access, see /docker/infrastructure.development.yml for more detail
-
-```
-mkdir docker/volumes/pgadmin
-sudo chown -R 5050:5050 docker/volumes/pgadmin
-```
-
-
-Create postgis volume (container takes care of permissions)
-Postgres does not like any files existing in the data directory when initialising the database and give access to container uid, see /docker/infrastructure.yml for more detail
-
-```
-mkdir docker/volumes/postgis
-sudo chown -R 70:70 docker/volumes/postgis
-```
-
-### Note that for a rootless docker set up the ownership of the postgis and pgadmin volume directories need setting as follows:
-
-Calculate UID And GID for the host user mapped to the postgres and pgadmin container users:
-
-Host UID = (Minimum subuid for rootless docker host user defined in /etc/subuid + container UID) - 1
-
-Host GID = (Minimum subgid for rootless docker host user defined in /etc/subgid + container GID) - 1
-
-```
-sudo chown -R <<postgres Host UID>>:<<postgres Host GID>>  docker/volumes/postgis
-sudo chown -R <<pgadmin Host UID>>:<<pgadmin Host GID>>  docker/volumes/pgadmin
-```
-
-Create geoserver data directory, this will be stored in source control at somepoint to store configuration/layers etc, however TODO is to strip out security risks and inject with build.
-Therefore for the time being the workspace, datastore and layers need creating manually through the geoserver interface at http://localhost:8080/geoserver
-
-```
-mkdir docker/volumes/geoserver
-```
-
-
-Build application images and run containers in swarm mode, `npm run docker:start-dev` includes development tools such as redis commander and pgadmin, switch this out for `npm run docker:start` if those tools are not required, ie when deployed to cloud/production environments
-
-```
-npm run docker:build
-npm run docker:start-dev
-```
-
-
-To stop the swarm and tear down the services
-
-```
-npm run docker:stop
-```
-
-### docker-compose up (not swarm mode) if rootless docker necessary
-
-To build the application images and run the containers without a swarm
-
-```
-npm run docker:build
-npm run docker:start-compose
-```
-
-View the running containers
-
-```
-docker ps
-```
-
-Stop the running containers
-
-```
-npm run docker:stop-compose
-```
-
-
 ## Packages
 
 | Package | Description | Runnable |
 | ----------- | ----------- | ----------- |
-| [application-to-register-webapp](packages/application-to-register-webapp) | Client side web application for registration journey | Y | 
+| [application-to-register-functions](packages/application-to-register-functions) | Microsoft Azure functions for registration journey  | Y |
+| [application-to-register-webapp](packages/application-to-register-webapp) | Client side web application for registration journey | Y |
+| [azurite-bootstrap-service](packages/azurite-bootstrap-service) | A service for creating Biodiversity Net Gain Service Azure storage infrastructure within an [Azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) instance | Y |
+| [azure-storge-test-utils](packages/azure-storge-test-utils) | Azure storage related functions for use during **unit testing** | N |
+| [connectors-lib](packages/connectors-lib) | A library providing connectivity to various dependencies such as cloud resources | N |
+| [document-service](packages/connectors-lib) | A library providing cloud vendor agnostic document related functionality | N |
+| [errors](packages/errors) | Custom errors used by the Biodiversity Net Gain service | N |
+| [geoprocessing-service](packages/geoprocessing-service) | A library providing cloud vendor agnostic geoprocessing functionality | N |
+
+## Getting started
+
+* [Prerequisites](docs/prerequisites.md)
+* [Containerisation](docs/containerisation.md)
+
+Please consult package specific documentation.
+
+## Contributing to this project
+
+If you have an idea you'd like to contribute please log an issue.
+
+All contributions should be submitted via a pull request.
+
+## License
+
+THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
+
+[http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
+
+The following attribution statement MUST be cited in your products and applications when using this information.
+> Contains public sector information licensed under the Open Government license v3

@@ -3,38 +3,45 @@
   "type": "module",
   "private": false,
   "author": "DEFRA",
-  "license": "OGL",
+  "license": "OGL-UK-3.0",
   "scripts": {
-    "postinstall": "npm run lerna:bootstrap",
+    "postinstall": "npm run lerna:bootstrap && ./bin/init-babel-config",
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean",
     "lint": "standard",
-    "unit-test": "jest --runInBand",
+    "unit-test": "./bin/run-unit-tests",
     "test": "npm run lint && npm run unit-test",
-    "docker:build": "docker-compose -f docker/services.build.yml build",
-    "docker:start": "docker stack deploy -c docker/infrastructure.yml -c docker/services.yml bng",
-    "docker:start-dev": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml -c docker/services.yml bng",
-    "docker:start-dev-infrastructure": "docker stack deploy -c docker/infrastructure.yml -c docker/infrastructure.development.yml bng",
-    "docker:stop": "docker stack rm bng",
-    "docker:start-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml up -d",
-    "docker:stop-compose": "docker-compose -f docker/infrastructure.yml -f docker/infrastructure.development.yml -f docker/services.yml down"
+    "bootstrap-azurite": "node ./packages/azurite-bootstrap-service/src/service.js",
+    "docker:build-services": "docker-compose -f docker/services.build.yml build",
+    "docker:build-dev-infrastructure": "docker-compose -f docker/infrastructure.development.build.yml build",
+    "docker:start-infrastructure": "docker-compose -f docker/infrastructure.yml up -d",
+    "docker:start-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml up -d",
+    "docker:start-dev-tools": "docker-compose -f docker/dev-tools.yml up -d",
+    "docker:start-services": "docker-compose -f docker/services.yml up -d",
+    "docker:stop-infrastructure": "docker-compose -f docker/infrastructure.yml down",
+    "docker:stop-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml down",
+    "docker:stop-dev-tools": "docker-compose -f docker/dev-tools.yml down",
+    "docker:stop-services": "docker-compose -f docker/services.yml down",
+    "docker:stop": "docker-compose -f docker/services.yml -f docker/infrastructure.development.yml -f docker/dev-tools.yml -f docker/infrastructure.yml down"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
-    "@babel/preset-env": "^7.16.11",
-    "eslint": "^8.13.0",
-    "eslint-plugin-jest": "^26.1.4",
-    "jest": "^27.5.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
+    "babel-jest": "^28.1.1",
+    "eslint": "^8.17.0",
+    "eslint-plugin-jest": "^26.5.3",
+    "jest": "^28.1.1",
     "lerna": "^4.0.0",
-    "standard": "^16.0.4"
+    "markdownlint-cli": "^0.31.1",
+    "standard": "^17.0.0"
   },
   "standard": {
-    "env": {
-      "node": true,
-      "jest": true
-    },
+    "env": [
+      "node",
+      "jest"
+    ],
     "ignore": [
-      "**/dist/*.js",
+      "**/public/build/js/*.js",
       "packages/api/webpack.config.cjs",
       ".husky"
     ]
@@ -69,7 +76,13 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/**/src/**/*.js"
+      "<rootDir>/**/src/**/*.js",
+      "<rootDir>/**/*.mjs",
+      "<rootDir>/**/ProcessTrustedFile/**/*.js",
+      "<rootDir>/**/ProcessUntrustedFile/**/*.js",
+      "<rootDir>/**/SignalRNegotiate/**/*.js",
+      "!<rootDir>/**/__tests__/**",
+      "!<rootDir>/**/__mocks__/**"
     ],
     "coveragePathIgnorePatterns": [
       ""
@@ -91,9 +104,7 @@
     ],
     "testEnvironment": "node",
     "testRunner": "jest-circus/runner",
+
     "silent": true
-  },
-  "dependencies": {
-    "catbox-memory": "^4.0.1"
   }
 }

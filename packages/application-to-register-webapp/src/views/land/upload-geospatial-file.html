@@ -1,0 +1,33 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload your geospatial data file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          {{ govukFileUpload({
+            id: "geospatialLandBundary",
+            name: "geospatialLandBoundary",
+            hint: {
+              text: "GeoJSON, Geopackage or Shape files - max size 50MB"
+            }
+          }) }}
+  
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

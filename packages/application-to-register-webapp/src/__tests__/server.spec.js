@@ -1,30 +1,21 @@
-import { createServer, init } from '../server.js'
-import serverOptions from '../__mocks__/server-options.js'
+import { getServer } from '../../.jest/setup.js'
 
 describe('The server', () => {
   it('starts', async () => {
-    const server = await createServer(serverOptions)
-    await init(server)
-    expect(server.info.port).toEqual(3000)
-    await server.stop()
+    expect(getServer().info.port).toEqual(3000)
   })
 
   it('handles a request', async () => {
-    const server = await createServer(serverOptions)
-    await init(server)
-    const response = await server.inject({
+    const response = await getServer().inject({
       method: 'GET',
       url: '/session'
     })
     expect(response.statusCode).toEqual(200)
     expect(response.payload).toContain('Hello or World?')
-    await server.stop()
   })
 
   it('handles a request', async () => {
-    const server = await createServer(serverOptions)
-    await init(server)
-    const response = await server.inject({
+    const response = await getServer().inject({
       method: 'POST',
       url: '/session',
       payload: {
@@ -32,6 +23,5 @@ describe('The server', () => {
       }
     })
     expect(response.statusCode).toEqual(302)
-    await server.stop()
   })
 })
