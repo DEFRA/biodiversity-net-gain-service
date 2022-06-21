@@ -1,0 +1,29 @@
+{
+  "name": "application-to-register-functions",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
+  "scripts": {
+    "lint": "standard",
+    "test": "npm run lint",
+    "start": "func start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DEFRA/biodiversity-net-gain-service",
+    "directory": "application-to-register-functions"
+  },
+  "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>.",
+  "license": "OGL-UK-3.0",
+  "dependencies": {
+    "@azure/storage-blob": "^12.9.0",
+    "@defra/bng-connectors-lib": "0.0.1",
+    "@defra/bng-errors-lib": "^0.0.1",
+    "@defra/bng-geoprocessing-service": "0.0.1",
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+  },
+  "devDependencies": {
+    "@defra/bng-azure-storage-test-utils": "^0.0.1"
+  }
+}

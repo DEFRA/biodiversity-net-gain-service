@@ -9,5 +9,5 @@ services:
   application-to-register-webapp:
     image: bng/application-to-register-webapp:${TAG:-latest}
     build:
-      context: ../packages/application-to-register-webapp
-      dockerfile: ${PROJECT_DOCKERFILE:-dockerfile}
+      context: ../
+      dockerfile: packages/application-to-register-webapp/dockerfile

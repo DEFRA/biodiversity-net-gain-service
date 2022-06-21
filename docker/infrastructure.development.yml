@@ -1,38 +1,24 @@
 version: "3.9"
-secrets:
-  PGADMIN_DEFAULT_PASSWORD:
-    file: ./secrets/PGADMIN_DEFAULT_PASSWORD
 services:
   ##############################################################################################################
-  # PGAdmin4 on port 8083
+  # Azure Functions Core Tools on port 8072
+  # Azure SignalR emulator on port 8888
   ##############################################################################################################
-  pgadmin:
-    image: dpage/pgadmin4
-    user: pgadmin
-    secrets:
-      - PGADMIN_DEFAULT_PASSWORD
-    env_file:
-      - ./env/pgadmin.env
-    # The pgadmin4 Docker image does not seem to support use of <<secret name>>_FILE syntax to read a secret from a file.
-    # Read the secret from the file and set the associated environment variable manually.
-    entrypoint: [ '/bin/sh', '-c', 'export PGADMIN_DEFAULT_PASSWORD=$$(cat /run/secrets/PGADMIN_DEFAULT_PASSWORD) && /entrypoint.sh' ]
-    volumes:
-      # to persist pgadmin configuration mkdir ./volumes/pgadmin && sudo chown <<host UID>>:<<host GID>> ./volumes/pgadmin
-      # this pgadmin image doesn't have capacity to accept host uid:gid override
-      - ./volumes/pgadmin:/var/lib/pgadmin
+  azure_services:
+    build:
+      context: ..
+      dockerfile: docker/azure-services/Dockerfile
     ports:
-      - "8083:8083"
-
+      - "8082:7071"
+      - "8888:8888"
   ##############################################################################################################
-  # Redis commander on port 8081
+  # Azurite blob service emulator on port 10000
+  # Azurite queue service emulator on port 10001
   ##############################################################################################################
-  redis_commander:
-    image: rediscommander/redis-commander
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0"
     ports:
-      - "8081:8081"
-    env_file:
-      - ./env/rediscommander.env
-    deploy:
-      restart_policy:
-        condition: on-failure
-      
+      - "10000:10000"
+      - "10001:10001"

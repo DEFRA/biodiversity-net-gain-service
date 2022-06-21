@@ -1,4 +1,7 @@
 describe('server wrapper', () => {
+  beforeAll(async () => {
+    process.env.USE_MOCK_SERVER = 'true'
+  })
   it('runs initialisation', done => {
     jest.isolateModules(() => {
       try {

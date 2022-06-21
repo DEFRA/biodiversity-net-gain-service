@@ -1,8 +1,10 @@
+import constants from '../utils/constants.js'
+
 const about = {
   method: 'GET',
-  path: '/about',
+  path: constants.routes.ABOUT,
   handler: {
-    view: 'about'
+    view: constants.views.ABOUT
   }
 }
 

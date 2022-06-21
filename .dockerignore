@@ -1,0 +1,4 @@
+docker/secrets
+docker/volumes
+**/node_modules
+packages/application-to-register-functions/local.settings.json

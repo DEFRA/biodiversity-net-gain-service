@@ -22,7 +22,7 @@ const createServer = async options => {
       cors: true,
       security: true
     },
-    cache: cache
+    cache
   }, options)
 
   return new Hapi.Server(options)
@@ -32,7 +32,7 @@ const init = async server => {
   // Register the plugins
   await server.register(Inert)
   await server.register(views)
-  await server.register(router)
+  await server.register(await router())
   await server.register(errorPages)
   await server.register(logging)
   await server.register(session)
