@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  ##############################################################################################################
+  # Azure Functions Core Tools on port 8072
+  # Azure SignalR emulator on port 8888
+  ##############################################################################################################
+  azure_services:
+    build:
+      context: ..
+      dockerfile: docker/azure-services/Dockerfile
+    ports:
+      - "8082:7071"
+      - "8888:8888"

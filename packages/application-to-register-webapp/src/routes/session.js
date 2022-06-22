@@ -1,19 +1,20 @@
+import constants from '../utils/constants.js'
 import Joi from 'joi'
 
 const session = [{
   method: 'GET',
-  path: '/session',
+  path: constants.routes.SESSION,
   handler: async (request, h) => {
-    return h.view('session', {
+    return h.view(constants.views.SESSION, {
       helloWorld: request.yar.get('helloWorld') || 'session not set' // show helloWorld from session or not set
     })
   }
 }, {
   method: 'POST',
-  path: '/session',
+  path: constants.routes.SESSION,
   handler: (request, h) => {
     request.yar.set('helloWorld', request.payload.helloWorld)
-    return h.redirect('/session')
+    return h.redirect(constants.routes.SESSION)
   },
   options: {
     validate: {

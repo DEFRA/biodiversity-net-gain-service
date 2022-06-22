@@ -1,6 +1,5 @@
 import plugin from '../error-pages.js'
-import { createServer, init } from '../../server.js'
-import serverOptions from '../../__mocks__/server-options.js'
+import { getServer } from '../../../.jest/setup.js'
 
 describe('error-pages', () => {
   it('is a plugin', () => {
@@ -9,24 +8,18 @@ describe('error-pages', () => {
   })
 
   it('handles 404 for server', async () => {
-    const server = await createServer(serverOptions)
-    await init(server)
-    const response = await server.inject({
+    const response = await getServer().inject({
       method: 'GET',
       url: '/sdgfdfghdfghdf'
     })
     expect(response.statusCode).toEqual(404)
-    await server.stop()
   })
 
   it('it handles internal error', async () => {
-    const server = await createServer(serverOptions)
-    await init(server)
-    const response = await server.inject({
+    const response = await getServer().inject({
       method: 'GET',
       url: '/error'
     })
     expect(response.statusCode).toEqual(500)
-    await server.stop()
   })
 })

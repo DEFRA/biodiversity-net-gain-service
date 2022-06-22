@@ -1,6 +1,8 @@
+import constants from '../utils/constants.js'
+
 const error = {
   method: 'GET',
-  path: '/error',
+  path: constants.routes.ERROR,
   handler: () => {
     throw new Error('test')
   }

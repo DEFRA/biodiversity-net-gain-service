@@ -3,11 +3,25 @@ LABEL       author="DEFRA"
 
 ENV         PORT=3000
 
-WORKDIR     /usr/src/packages/application-to-register-webapp
+WORKDIR     /usr/src
 
+# Copy webapp
+COPY        packages/application-to-register-webapp packages/application-to-register-webapp
+
+# Copy local project dependencies that are not yet on npm
+COPY        packages/azure-storage-test-utils packages/azure-storage-test-utils
+COPY        packages/connectors-lib packages/connectors-lib
+COPY        packages/document-service packages/document-service
+COPY        packages/errors-lib packages/errors-lib
+
+# Copy root config needed for install
+COPY        bin bin
 COPY        package*.json ./
-COPY        . .
+COPY        lerna.json lerna.json
+
 RUN         npm ci
+
+WORKDIR     /usr/src/packages/application-to-register-webapp
 
 EXPOSE      $PORT
 
