@@ -6,7 +6,6 @@
   "description": "Azurite bootstrap service for Biodiversity Net Gain",
   "main": "src/service.js",
   "scripts": {
-    "postinstall": "bin/bootstrap",
     "test": "echo \\\"Error: run tests from root\\\" && exit 1"
   },
   "repository": {
