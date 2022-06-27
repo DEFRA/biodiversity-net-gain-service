@@ -7,7 +7,7 @@ services:
   # Biodiversity net gain service application to register webapp
   ##############################################################################################################
   application-to-register-webapp:
-    image: bngcr.azurecr.io/application-to-register-webapp:latest
+    image: ${CONTAINER_REGISTRY}.azurecr.io/application-to-register-webapp:latest
     build:
-      context: ../packages/application-to-register-webapp
-      dockerfile: dockerfile.azure
+      context: ../
+      dockerfile: packages/application-to-register-webapp/dockerfile

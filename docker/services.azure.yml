@@ -2,64 +2,15 @@
 # This docker file is for deployment to azure infrastructure flavour
 #######
 version: "3.9"
-secrets:
-  SESSION_COOKIE_PASSWORD:
-    file: ./secrets/SESSION_COOKIE_PASSWORD
-  POSTGRES_PASSWORD:
-    file: ./secrets/POSTGRES_PASSWORD
 services:
-    ##############################################################################################################
-  # Redis - on port 6379
-  ##############################################################################################################
-  redis:
-    image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
-    container_name: redis
-    environment:
-      ALLOW_EMPTY_PASSWORD: "yes"
-    ports:
-      - "6379:6379"
-    # volumes:
-    #   - ${WEBAPP_STORAGE_HOME}/volumes/redis:/data
-    deploy:
-      restart_policy:
-        condition: on-failure
-
-  postgres:
-    image: postgis/postgis:13-3.2-alpine
-    container_name: postgis
-    user: "postgres"
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=postgres
-
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   user: pgadmin
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=ubuntu@localhost.localdomain
-  #     - PGADMIN_LISTEN_PORT=8083
-  #     - PGADMIN_DEFAULT_PASSWORD=password
-  #   ports:
-  #     - "8083:8083"
-
   ##############################################################################################################
   # Biodiversity net gain service - Application to register webapp
   ##############################################################################################################
   webapp:
-    image: bngcr.azurecr.io/application-to-register-webapp:latest
+    image: ${CONTAINER_REGISTRY}.azurecr.io/application-to-register-webapp:latest
     container_name: webapp
     ports:
       - "80:80"
-    # environment:
-    #   - SESSION_COOKIE_PASSWORD=/run/secrets/SESSION_COOKIE_PASSWORD
-    # secrets:
-    #   - SESSION_COOKIE_PASSWORD
     env_file:
-      - ./env/webapp.env
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      - ./secrets/WEBAPP_REMOTE
+ 
