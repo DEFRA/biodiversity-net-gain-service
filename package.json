@@ -22,7 +22,8 @@
     "docker:stop-dev-infrastructure": "docker-compose -f docker/infrastructure.development.yml down",
     "docker:stop-dev-tools": "docker-compose -f docker/dev-tools.yml down",
     "docker:stop-services": "docker-compose -f docker/services.yml down",
-    "docker:stop": "docker-compose -f docker/services.yml -f docker/infrastructure.development.yml -f docker/dev-tools.yml -f docker/infrastructure.yml down"
+    "docker:stop": "docker-compose -f docker/services.yml -f docker/infrastructure.development.yml -f docker/dev-tools.yml -f docker/infrastructure.yml down",
+    "docker:azure:build": "docker-compose -f docker/services.build.azure.yml build && docker-compose -f docker/services.build.azure.yml push"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.18.2",

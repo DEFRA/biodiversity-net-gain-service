@@ -16,6 +16,8 @@ const processLandBoundary = async (logger, config) => {
     // This allows the unit test file associated with this file to be the only
     // unit test file that loads the native module linking to GDAL.
     const gdal = (await import('gdal-async')).default
+    gdal.config.set('AZURE_STORAGE_ACCOUNT', process.env.AZURE_STORAGE_ACCOUNT)
+    gdal.config.set('AZURE_STORAGE_ACCESS_KEY', process.env.AZURE_STORAGE_ACCESS_KEY)
     dataset = await gdal.openAsync(config.inputLocation)
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
