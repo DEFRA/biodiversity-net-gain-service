@@ -1,0 +1,39 @@
+# https://github.com/defra/biodiversity-net-gain-service
+# Build steps:
+# Checkout repository
+# Install Nodejs
+# Install dependencies
+# Build test dependencies
+# Start test dependencies
+# run unit tests
+# Build and package function app
+# Build and push webapp container image to container registry
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+  displayName: 'npm install and build'
+
+- script: |
+    npm run docker:build-dev-infrastructure
+    npm run docker:start-dev-infrastructure
+  displayName: 'Build and start unit test doubles'
+
+- script: |
+    npm run test
+  displayName: 'Run unit tests'
+
+- script: |
+    npm run docker:stop-dev-infrastructure
+  displayName: 'Tear down unit test doubles'
