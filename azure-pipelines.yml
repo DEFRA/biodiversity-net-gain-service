@@ -39,7 +39,7 @@ steps:
   displayName: 'Tear down unit test doubles'
 
 - script: |
-    cd $AGENT_BUILDDIRECTORY/packages/application-to-register-functions
+    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions
     rm node_modules/@defra/* -rf && \
     cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-azure-storage-test-utils -r && \
     cp ../connectors-lib/ ./node_modules/@defra/bng-connectors-lib -r && \
