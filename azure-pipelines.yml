@@ -13,6 +13,7 @@ trigger:
 - master
 
 pool:
+  name: ubuntu-pc
   vmImage: ubuntu-latest
 
 steps:
