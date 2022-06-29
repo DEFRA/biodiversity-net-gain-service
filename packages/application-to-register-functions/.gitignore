@@ -1,4 +1,5 @@
-bin
+bin/**
+!bin/init-local-settings.sh
 obj
 csx
 .vs
