@@ -1,13 +1,4 @@
 # https://github.com/defra/biodiversity-net-gain-service
-# Build steps:
-# Checkout repository
-# Install Nodejs
-# Install dependencies
-# Build test dependencies
-# Start test dependencies
-# run unit tests
-# Build and package function app
-# Build and push webapp container image to container registry
 
 trigger:
 - master
@@ -56,3 +47,7 @@ steps:
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func-app-$(Build.BuildId).zip'
     artifactName: 'drop'
+
+- script: |
+    npm run docker:azure:build
+  displayName: 'Build and push webapp image to container registry'
