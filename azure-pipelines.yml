@@ -2,7 +2,7 @@
 
 variables:
   - name: TAG
-    value: $(Build.SourceVersion)-$(Build.BuildId)
+    value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
 
 trigger:
 - master
