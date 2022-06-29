@@ -5,7 +5,8 @@
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
   "scripts": {
-    "postinstall": "npm run lerna:bootstrap && bin/init-babel-config.sh",
+    "postinstall": "npm run lerna:bootstrap",
+    "localinstall": "bin/local-install.sh",
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean",
     "lint": "standard",

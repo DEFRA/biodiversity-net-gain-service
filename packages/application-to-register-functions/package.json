@@ -5,7 +5,7 @@
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
   "scripts": {
-    "postinstall": "bin/init-local-settings.sh",
+    "localinstall": "bin/init-local-settings-if-needed.sh",
     "lint": "standard",
     "test": "npm run lint",
     "start": "func start"

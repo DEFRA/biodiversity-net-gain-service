@@ -8,6 +8,7 @@
   "license": "OGL-UK-3.0",
   "scripts": {
     "postinstall": "npm run build",
+    "localinstall": "bin/init-webapp-env-if-needed.sh",
     "build": "bin/build.sh",
     "build:clean": "bin/build-clean-public.sh",
     "build:copy-static": "bin/build-copy-static.sh",
