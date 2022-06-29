@@ -20,18 +20,19 @@ steps:
     npm ci
   displayName: 'npm install and build'
 
-- script: |
-    npm run docker:build-dev-infrastructure
-    npm run docker:start-dev-infrastructure
-  displayName: 'Build and start unit test doubles'
+# TODO!: taking out unit tests for development of script
+# - script: |
+#     npm run docker:build-dev-infrastructure
+#     npm run docker:start-dev-infrastructure
+#   displayName: 'Build and start unit test doubles'
 
-- script: |
-    npm run test
-  displayName: 'Run unit tests'
+# - script: |
+#     npm run test
+#   displayName: 'Run unit tests'
 
-- script: |
-    npm run docker:stop-dev-infrastructure
-  displayName: 'Tear down unit test doubles'
+# - script: |
+#     npm run docker:stop-dev-infrastructure
+#   displayName: 'Tear down unit test doubles'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
@@ -44,7 +45,7 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
-    zip -rq func-app-$(Build.BuildId).zip .
+    zip -rq func-app-$(TAG).zip .
   displayName: 'Create function artifact'
 
 - task: PublishBuildArtifacts@1
