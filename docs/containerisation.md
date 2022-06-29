@@ -18,9 +18,9 @@ Before building and running the docker containers appropriate secrets files need
 | ----------- | ----------- | ----------- |
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
 | postgis | POSTGRES_PASSWORD | ----------- |
-| application_to_register_webapp | WEBAPP_SECRETS | see WEBAPP_SECRETS template below for contents |
+| application_to_register_webapp | WEBAPP_ENV | see WEBAPP_ENV template below for contents |
 
-### WEBAPP_SECRETS template
+### WEBAPP_ENV template
 
 Note that this secrets template is prepopulated with variables necessary for locally run containers. See the webapp ReadMe for further information on variables.
 
