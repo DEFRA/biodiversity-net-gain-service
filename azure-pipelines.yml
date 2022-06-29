@@ -23,6 +23,7 @@ steps:
 - script: |
     npm run docker:build-dev-infrastructure
     npm run docker:start-dev-infrastructure
+    sleep 30s
   displayName: 'Build and start unit test doubles'
 
 - script: |
