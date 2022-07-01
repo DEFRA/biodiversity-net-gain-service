@@ -27,6 +27,10 @@ steps:
   displayName: 'Build and start unit test doubles'
 
 - script: |
+    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
+  displayName: 'add azure_services to hosts'
+
+- script: |
     npm run test
   displayName: 'Run unit tests'
 
