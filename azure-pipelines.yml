@@ -58,5 +58,6 @@ steps:
     artifactName: 'drop'
 
 - script: |
+    az acr login --name $(CONTAINER_REGISTRY_NAME)
     npm run docker:azure:build
   displayName: 'Build and push webapp image to container registry'
