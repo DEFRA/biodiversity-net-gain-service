@@ -55,16 +55,14 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func-app-$(TAG).zip'
-    artifactName: 'drop'
-
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Visual Studio Premium with MSDN(4d3e372a-f4e3-404e-a067-bc7c1302461e)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az acr login --name $(CONTAINER_REGISTRY_NAME)'
-  displayName: 'Login to azure container registry'
+    artifactName: 'func'
 
 - script: |
-    npm run docker:azure:build
-  displayName: 'Build and push webapp image to container registry'
+    docker-compose -f docker/services.build.azure.yml build
+    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > webapp-${TAG}.tar
+  displayName: 'Build webapp image and output to tar'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp-$(TAG).tar'
+    artifactName: 'webapp'
