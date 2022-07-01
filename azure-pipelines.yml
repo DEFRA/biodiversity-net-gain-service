@@ -54,8 +54,8 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func-app.zip'
-    artifactName: 'func'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func.zip'
+    artifactName: 'apps'
   displayName: 'Publish func app artifact'
 
 - script: |
@@ -65,6 +65,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp.tar'
-    artifactName: 'webapp'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/web.tar'
+    artifactName: 'apps'
   displayName: 'Publish webapp artifact'
