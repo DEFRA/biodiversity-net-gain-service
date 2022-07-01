@@ -49,7 +49,7 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
-    zip -rq func-app.zip .
+    zip -rq func.zip .
   displayName: 'Create function artifact'
 
 - task: PublishBuildArtifacts@1
@@ -60,7 +60,7 @@ steps:
 
 - script: |
     docker-compose -f docker/services.build.azure.yml build
-    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > webapp.tar
+    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
   displayName: 'Build webapp image and output to tar'
 
 - task: PublishBuildArtifacts@1
