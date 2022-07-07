@@ -8,7 +8,7 @@ trigger:
 - master
 
 pool:
-  name: Default
+  name: Azure Pipelines
 
 steps:
 - task: NodeTool@0
@@ -25,6 +25,10 @@ steps:
     npm run docker:start-dev-infrastructure
     sleep 30s
   displayName: 'Build and start unit test doubles'
+
+- script: |
+    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
+  displayName: 'add azure_services to hosts'
 
 - script: |
     npm run test
@@ -45,14 +49,22 @@ steps:
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
-    zip -rq func-app-$(TAG).zip .
+    zip -rq func.zip .
   displayName: 'Create function artifact'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func-app-$(TAG).zip'
-    artifactName: 'drop'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func.zip'
+    artifactName: 'apps'
+  displayName: 'Publish func app artifact'
 
 - script: |
-    npm run docker:azure:build
-  displayName: 'Build and push webapp image to container registry'
+    docker-compose -f docker/services.build.azure.yml build
+    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
+  displayName: 'Build webapp image and output to tar'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/web.tar'
+    artifactName: 'apps'
+  displayName: 'Publish webapp artifact'
