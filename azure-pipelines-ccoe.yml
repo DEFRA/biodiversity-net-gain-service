@@ -51,27 +51,13 @@ steps:
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
     zip -rq func.zip .
     cp func.zip $(Build.ArtifactStagingDirectory)/application-to-register-functions.zip
-    ls $(Build.ArtifactStagingDirectory)
   displayName: 'Create function artifact'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func.zip'
-#     artifactName: 'apps'
-#   displayName: 'Publish func app artifact'
 
 - script: |
     docker-compose -f docker/services.build.azure.yml build
     docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
     cp web.tar $(Build.ArtifactStagingDirectory)/application-to-register-webapp.tar
-    ls $(Build.ArtifactStagingDirectory)
   displayName: 'Build webapp image and output to tar'
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(System.DefaultWorkingDirectory)/web.tar'
-#     artifactName: 'apps'
-#   displayName: 'Publish webapp artifact'
 
 - task: UniversalPackages@0
   inputs:
@@ -81,3 +67,4 @@ steps:
     vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
     vstsFeedPackagePublish: 'biodiversity-get-gain-service'
     versionOption: 'patch'
+    packagePublishDescription: 'BNG application code artifacts'
