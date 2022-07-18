@@ -1,15 +1,15 @@
 #!/bin/sh
 
-webapp_env_docker_secret="docker/secrets/WEBAPP_ENV"
-webapp_env_docker_secret_path="../../${webapp_env_docker_secret}"
-webapp_env_template="local-application-to-register-webapp-env-template"
+WEBAPP_ENV_DOCKER_SECRET="docker/secrets/WEBAPP_ENV"
+WEBAPP_ENV_DOCKER_SECRET_PATH="../../${WEBAPP_ENV_DOCKER_SECRET}"
+WEBAPP_ENV_TEMPLATE="local-application-to-register-webapp-env-template"
 
-if [ ! -f ${webapp_env_docker_secret_path} ] && [ ! -L ${webapp_env_docker_secret_path} ]; then
-  cp ../../docker/azure-services/${webapp_env_template} ${webapp_env_docker_secret_path}
-  echo Created ${webapp_env_docker_secret} file with Azurite connectivity
+if [ ! -f ${WEBAPP_ENV_DOCKER_SECRET_PATH} ] && [ ! -L ${WEBAPP_ENV_DOCKER_SECRET_PATH} ]; then
+  cp ../../docker/azure-services/${WEBAPP_ENV_TEMPLATE} ${WEBAPP_ENV_DOCKER_SECRET_PATH}
+  echo Created ${WEBAPP_ENV_DOCKER_SECRET} file with Azurite connectivity
   echo Please populate mandatory secrets before use 
-elif [ -L ${webapp_env_docker_secret_path} ]; then
-  echo ${webapp_env_docker_secret} symbolic link exists
+elif [ -L ${WEBAPP_ENV_DOCKER_SECRET_PATH} ]; then
+  echo ${WEBAPP_ENV_DOCKER_SECRET} symbolic link exists
 else
-  echo ${webapp_env_docker_secret} file exists
+  echo ${WEBAPP_ENV_DOCKER_SECRET} file exists
 fi
