@@ -38,6 +38,10 @@ const init = async server => {
   await server.register(session)
   await server.register(Blipp)
 
+  // Override the default keep alive timeout if required.
+  // This is important for file uploads in containerised development environments.
+  server.listener.keepAliveTimeout = parseInt(process.env.KEEP_ALIVE_TIMEOUT_MS) || server.listener.keepAliveTimeout
+
   // Start the server
   await server.start()
 }
