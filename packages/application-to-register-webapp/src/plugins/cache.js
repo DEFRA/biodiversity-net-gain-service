@@ -1,5 +1,5 @@
 import CatboxRedis from '@hapi/catbox-redis'
-import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } from '../utils/config.js'
+import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_TLS } from '../utils/config.js'
 
 const cache = [{
   name: 'redis_cache',
@@ -9,9 +9,8 @@ const cache = [{
       partition: 'webapp',
       host: REDIS_HOST,
       port: REDIS_PORT,
-      password: REDIS_PASSWORD
-      // ,
-      // tls: { checkServerIdentity: () => undefined }
+      password: REDIS_PASSWORD,
+      tls: REDIS_TLS ? { checkServerIdentity: () => undefined } : undefined
     }
   }
 }]

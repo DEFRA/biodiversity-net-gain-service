@@ -29,6 +29,7 @@ export SERVER_PORT=3000
 export REDIS_HOST=redis
 export REDIS_PORT=6379
 export REDIS_PASSWORD=
+export REDIS_TLS=false
 export SESSION_COOKIE_PASSWORD=the-password-must-be-at-least-32-characters-long
 export AZURE_STORAGE_ACCOUNT=devstoreaccount1
 export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
