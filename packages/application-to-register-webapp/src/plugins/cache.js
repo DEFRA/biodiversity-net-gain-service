@@ -9,8 +9,9 @@ const cache = [{
       partition: 'webapp',
       host: REDIS_HOST,
       port: REDIS_PORT,
-      password: REDIS_PASSWORD,
-      tls: { checkServerIdentity: () => undefined }
+      password: REDIS_PASSWORD
+      // ,
+      // tls: { checkServerIdentity: () => undefined }
     }
   }
 }]

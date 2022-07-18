@@ -75,7 +75,11 @@ const buildConfig = (uploadPath) => {
 
   return {
     inputLocation: `${fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/${containerName}/${uploadPath}`,
-    outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`
+    outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`,
+    gdalEnvVars: {
+      AZURE_STORAGE_ACCOUNT: 'AZURE_STORAGE_ACCOUNT',
+      AZURE_STORAGE_ACCESS_KEY: 'AZURE_STORAGE_ACCESS_KEY'
+    }
   }
 }
 
