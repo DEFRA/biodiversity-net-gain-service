@@ -16,7 +16,7 @@ const mockDataPath = 'packages/geoprocessing-service/src/__mock-data__/uploads/g
 describe('The geoprocessing service', () => {
   it('should convert a geopackage file containing a single polygon in the WGS84 coordinate reference system to GeoJSON', async () => {
     const filenameRoot = 'geopackage-land-boundary-4326'
-    await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`)
+    await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`, true)
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
   })
   it('should accept a GeoJSON file containing a single polygon in the OSGB36 coordinate reference system', async () => {
@@ -69,23 +69,28 @@ const uploadFileAsStream = async filePath => {
   }
 }
 
-const buildConfig = (uploadPath) => {
+const buildConfig = (uploadPath, gdalConfig) => {
   const fileExtension = path.extname(uploadPath)
   const filename = path.basename(uploadPath, fileExtension)
 
-  return {
+  const config = {
     inputLocation: `${fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/${containerName}/${uploadPath}`,
-    outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`,
-    gdalEnvVars: {
+    outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`
+  }
+
+  if (gdalConfig) {
+    config.gdalEnvVars = {
       AZURE_STORAGE_ACCOUNT: 'AZURE_STORAGE_ACCOUNT',
       AZURE_STORAGE_ACCESS_KEY: 'AZURE_STORAGE_ACCESS_KEY'
     }
   }
+
+  return config
 }
 
-const performLandBoundaryProcessing = async filename => {
+const performLandBoundaryProcessing = async (filename, gdalConfig = false) => {
   const { processLandBoundary } = require('../service.js')
-  const config = buildConfig(`${blobPathRoot}/${filename}`)
+  const config = buildConfig(`${blobPathRoot}/${filename}`, gdalConfig)
   buildConfig(`${blobPathRoot}/${filename}`)
   await uploadFileAsStream(`${mockDataPath}/${filename}`)
   await processLandBoundary(logger, config)
