@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "createEnvFile",
+      "command": "sed 's/^export //' ../../docker/secrets/WEBAPP_ENV >> .env",
+    },
+    {
+      "type": "shell",
+      "label": "deleteEnvFile",
+      "command": "rm .env"
+    }
+  ]
+}
