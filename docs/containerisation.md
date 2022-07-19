@@ -10,15 +10,33 @@ Docker based containerisation is used for the following:
 
 ## Prerequisites
 
+### Hostname Resolution
+
+During local development each Docker container name defined in a docker-compose file **must** be resolvable from the local loopback address of
+the development machine. For example, on a Linux development machine with a local loopback address of 127.0.0.1, /etc/hosts **must** be modified
+to include the following entries:
+
+```sh
+127.0.0.1       azure_services
+127.0.0.1       azurite
+127.0.0.1       geoserver
+127.0.0.1       pgadmin
+127.0.0.1       postgis
+127.0.0.1       redis
+127.0.0.1       redis_commander
+127.0.0.1       signalr
+```
+
 ### Secrets
 
-Before building and running the docker containers appropriate secrets files need creating.
+Before building and running the docker containers, appropriate secrets files need creating in the [**Docker secrets**](../docker/secrets/) directory
 
 | App | Secret Name | Notes |
 | ----------- | ----------- | ----------- |
-| pgadmin | PGADMIN_DEFAULT_PASSWORD | ----------- |
-| postgis | POSTGRES_PASSWORD | ----------- |
-| application_to_register_webapp | WEBAPP_ENV | see WEBAPP_ENV template below for contents |
+| pgadmin | PGADMIN_DEFAULT_PASSWORD | In the Docker secrets directory, create a file called PGADMIN_DEFAULT_PASSWORD containing the password |
+| postgis | POSTGRES_PASSWORD | In the Docker secrets directory, create a file called POSTGRES_PASSWORD containing the password |
+| application_to_register_webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below.
+For local development, this can be achieved by running the command **npm local:install** from the [application-to-register-webapp](../packages/application-to-register-webapp/) directory. |
 
 ### WEBAPP_ENV template
 
@@ -46,41 +64,51 @@ See [Github actions workflow document](../.github/workflows/build.yaml) for buil
 
 ### Development container build process
 
-```bash
-#To build the application images, local dev infrastructure and start containers locally that support development
+```sh
+# To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
 npm run docker:build-dev-infrastructure
 npm run docker:start-dev-infrastructure
 
-#At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
-#To run linting and tests (from repository root)
+# At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
+# To run linting and tests (from repository root)
 
-```bash
+```sh
 npm run test
 ```
 
 Ensure that all the tests pass before continuing the build process.
 
+At this point the containerised substitutes for cloud infrastructure need starting:
+
+```sh
+npm run docker:start-infrastructure
+```
+
+Move to a new terminal
+
 Next we need the serverless function app running
 
 Prerequisites and environment variables can be found here: [function docs](../packages/application-to-register-functions/README.md)
+For local development, environment variables can be configured by running the command **npm local:install** from the
+[application-to-register-functions](../packages/application-to-register-functions/) directory. This is used in the sequence of commands below.
 
-```bash
-#Run the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
+```sh
+#R un the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
 cd packages/application-to-register-functions
+npm run local:install
 npm run start
 ```
 
-Leave the functions running and move to a new terminal or the previous.
+Leave the functions running and move to a new terminal.
 
 At this point if wanting to run the webapp as a local process (for development/debug) then see the [webapp docs](../packages/application-to-register-webapp/README.md)
 
 Otherwise to run the webapp as a container, continue...
 
-Back at the repository root directory
+From the repository root directory
 
-```bash
-npm run docker:start-infrastructure
+```sh
 npm run docker:start-services
 ```
 
@@ -90,7 +118,7 @@ Browse to localhost:3000 where everything should now be running and available
 
 You can view the running containers
 
-```bash
+```sh
 # view running containers
 docker ps
 

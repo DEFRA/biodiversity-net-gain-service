@@ -4,9 +4,9 @@
 
 * Node 16 or above
 * Either of:
-  * Rootful Docker 20.x or above
+  * Rootful Docker 20.x or above and compatible version of Docker Compose
   * Rootless Docker 20.x or above and compatible version of Docker Compose
-* UNIX based operating system with bash and the nc utility installed
+* UNIX based operating system with bash, the nc utility and support for Python3 virtual environments installed
   * If using Microsoft Windows, you may wish to consider using the [Windows Subsystem For Linux](https://docs.microsoft.com/en-us/windows/wsl/about).
 
 ## Runtime Prerequisites
@@ -24,6 +24,10 @@
 * Microsoft Azure SignalR hub
 * **Node.js** Microsoft Azure function app
 * Access to the [Ordnance Survey Maps API](https://osdatahub.os.uk/docs/wmts/overview).
+
+## Firewall Prerequisites
+
+If running with rootful Docker in a firewalled environment, outbound connectivity to the Docker network in use must be allowed.
 
 ## Microsoft Azure Blob Containers
 
