@@ -6,7 +6,8 @@
   "license": "OGL-UK-3.0",
   "scripts": {
     "postinstall": "npm run lerna:bootstrap",
-    "localinstall": "bin/local-install.sh",
+    "local:install": "bin/local-install.sh",
+    "install-detect-secrets": "(cd .devcontainer/scripts && ./install-detect-secrets.sh)",
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean",
     "lint": "standard",
