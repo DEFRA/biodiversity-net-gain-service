@@ -124,9 +124,27 @@ docker ps
 
 # view container logs
 docker container logs {container_id_or_first_few_characters} -f # -f to watch log output
+
+# stop all running containers
+docker stop $(docker ps -aq)
+
+# start all stopped containers
+docker start $(docker ps -aq)
+
+# remove all stopped containers
+docker rm $(docker ps -aq)
+
+# stop one container
+docker stop {container id or container name}
+
+# start one stopped container
+docker stop {container id or container name}
+
+# remove one stopped container
+docker rm {container id or container name}
 ```
 
-See the docker scripts in [package.json](../package.json) for individual stop commands or use `npm run docker:stop` to stop all containers
+Alternaively, see the docker related NPM scripts in [package.json](../package.json) for additional stop commands includng `npm run docker:stop` to stop all containers
 
 ## Cloud Service Containers
 

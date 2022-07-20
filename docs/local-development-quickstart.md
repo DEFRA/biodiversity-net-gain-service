@@ -118,3 +118,28 @@ Pushing to GitHub or backing up regularly is recommended.
 
 * If a development container uses a bind mount and the source of the bind mount is deleted, any local updates made in the development container will be lost.
 * If a repository URL is cloned into a Docker volume and the volume is deleted any local updates made in the development container will be lost.
+
+### Network Connectivity Loss
+
+If network connectivity from Docker containers is lost try restarting the docker daemon (or equivalent) on the machine running the
+Visual Studio Code development container.
+
+For example, in a Linux environment using systemd, issue the following command:
+
+```sh
+sudo systemctl restart docker
+```
+
+### Volume Permissions
+
+If volume permissions of containers in the Visual Studio Code development container change unexpectedly, a potential reason could be
+unorderly container shutdown. Restoration of required volume permissions can be achived using standard operating system commands. For example,
+in a Linux environment, issue the following command (subtituting the required user ID, group ID and volume path):
+
+```sh
+sudo chown -R <user ID>:<group ID> <path/to/volume>
+```
+
+### Orderely Container Management
+
+Please consult the [containerisation](./containerisation.md) documentation.
