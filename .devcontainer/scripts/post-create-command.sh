@@ -12,7 +12,7 @@ rm -rf /home/vscode/biodiversity-net-gain-service-tmp/
 # Install node modules
 npm i
 # Configure for local development
-(cd packages/application-to-register-webapp && npm run local:install)
+npm run local:install
 
 grep -q KEEP_ALIVE_TIMEOUT_MS ${WEBAPP_ENV}
 GREP_RETURN_CODE=$?
