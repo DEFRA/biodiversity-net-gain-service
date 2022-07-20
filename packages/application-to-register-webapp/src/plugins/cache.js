@@ -10,7 +10,7 @@ const cache = [{
       host: REDIS_HOST,
       port: REDIS_PORT,
       password: REDIS_PASSWORD,
-      tls: REDIS_TLS ? { checkServerIdentity: () => undefined } : undefined
+      tls: JSON.parse(REDIS_TLS) ? { checkServerIdentity: () => undefined } : undefined
     }
   }
 }]
