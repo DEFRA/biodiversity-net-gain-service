@@ -16,6 +16,9 @@ const processLandBoundary = async (logger, config) => {
     // This allows the unit test file associated with this file to be the only
     // unit test file that loads the native module linking to GDAL.
     const gdal = (await import('gdal-async')).default
+    if (config.gdalEnvVars) {
+      setGdalConfig(gdal, config.gdalEnvVars)
+    }
     dataset = await gdal.openAsync(config.inputLocation)
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
@@ -88,6 +91,12 @@ const createMapConfig = async (dataset, bufferDistance, gdal) => {
     epsg: layer.srs.getAuthorityCode() === '4326' ? '3857' : layer.srs.getAuthorityCode(),
     extent: [envelope.minX, envelope.minY, envelope.maxX, envelope.maxY]
   }
+}
+
+const setGdalConfig = (gdal, config) => {
+  Object.keys(config).forEach(key => {
+    gdal.config.set(key, config[key])
+  })
 }
 
 export { processLandBoundary }

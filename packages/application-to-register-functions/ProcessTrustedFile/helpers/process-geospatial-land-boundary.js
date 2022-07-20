@@ -9,7 +9,8 @@ export default async function (context, config) {
   const landBoundaryConfig = {
     bufferDistance: process.env.LAND_BOUNDARY_BUFFER_DISTANCE || 500,
     inputLocation: `${config.fileConfig.fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/trusted/${config.fileConfig.fileLocation}`,
-    outputLocation: `/vsiaz/trusted/${processedFileLocation}`
+    outputLocation: `/vsiaz/trusted/${processedFileLocation}`,
+    gdalEnvVars: gdalEnvVars()
   }
 
   const signalRMessage = Object.assign({}, config.signalRMessageConfig)
@@ -32,5 +33,12 @@ export default async function (context, config) {
     }
   } finally {
     context.bindings.signalRMessages = [signalRMessage]
+  }
+}
+
+const gdalEnvVars = () => {
+  return {
+    AZURE_STORAGE_ACCOUNT: process.env.AZURE_STORAGE_ACCOUNT,
+    AZURE_STORAGE_ACCESS_KEY: process.env.AZURE_STORAGE_ACCESS_KEY
   }
 }
