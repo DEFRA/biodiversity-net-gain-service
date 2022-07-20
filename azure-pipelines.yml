@@ -1,0 +1,70 @@
+# https://github.com/defra/biodiversity-net-gain-service
+
+variables:
+  - name: TAG
+    value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
+
+trigger:
+- master
+
+pool:
+  name: Azure Pipelines
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+  displayName: 'npm install and build'
+
+- script: |
+    npm run docker:build-dev-infrastructure
+    npm run docker:start-dev-infrastructure
+    sleep 30s
+  displayName: 'Build and start unit test doubles'
+
+- script: |
+    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
+  displayName: 'add azure_services to hosts'
+
+- script: |
+    npm run test
+  displayName: 'Run unit tests'
+
+- script: |
+    npm run docker:stop-dev-infrastructure
+  displayName: 'Tear down unit test doubles'
+
+- script: |
+    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
+    rm node_modules/@defra/* -rf && \
+    cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-azure-storage-test-utils -r && \
+    cp ../connectors-lib/ ./node_modules/@defra/bng-connectors-lib -r && \
+    cp ../errors-lib/ ./node_modules/@defra/bng-errors-lib -r && \
+    cp ../geoprocessing-service/ ./node_modules/@defra/bng-geoprocessing-service -r
+  displayName: 'Hotfix for function local dependencies'
+
+- script: |
+    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
+    zip -rq func.zip .
+  displayName: 'Create function artifact'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func.zip'
+    artifactName: 'apps'
+  displayName: 'Publish func app artifact'
+
+- script: |
+    docker-compose -f docker/services.build.azure.yml build
+    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
+  displayName: 'Build webapp image and output to tar'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/web.tar'
+    artifactName: 'apps'
+  displayName: 'Publish webapp artifact'
