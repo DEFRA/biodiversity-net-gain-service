@@ -74,9 +74,7 @@ The workspace provides an easy way to open integrated terminals for runnable app
 Development container creation configures as many environment variables as possible including well known secrets in the public domain that enable
 [Azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) connectivity.
 
-**IMPORTANT**
-
-The [application-to-register-webapp](../packages/application-to-register-webapp) requires the user to populate the **ORDNANCE_SURVEY_API_KEY** and
+**IMPORTANT** - The [application-to-register-webapp](../packages/application-to-register-webapp) requires the user to populate the **ORDNANCE_SURVEY_API_KEY** and
 **ORDNANCE_SURVEY_API_SECRET** values in the WEBAPP_ENV file within the contanerised development environment before continuing. Please consult
 [containerisation](./containerisation.md#secrets) for further information.
 
@@ -108,6 +106,7 @@ If you prefer not to use Visual Studio Code integrated terminals, the docker exe
 ```sh
 docker exec -it <<container ID or container name>> bash
 ```
+
 **Using bash as the shell ensures that the Python virtual environment required by the detect secrets git hook is activated automatically**.
 
 ### Increased Latency
