@@ -35,8 +35,7 @@ Before building and running the docker containers, appropriate secrets files nee
 | ----------- | ----------- | ----------- |
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | In the Docker secrets directory, create a file called PGADMIN_DEFAULT_PASSWORD containing the password |
 | postgis | POSTGRES_PASSWORD | In the Docker secrets directory, create a file called POSTGRES_PASSWORD containing the password |
-| application_to_register_webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below.
-For local development, this can be achieved by running the command **npm local:install** from the [application-to-register-webapp](../packages/application-to-register-webapp/) directory. |
+| application_to_register_webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [application-to-register-webapp](../packages/application-to-register-webapp/) directory. |
 
 ### WEBAPP_ENV template
 
@@ -67,8 +66,8 @@ See [Github actions workflow document](../.github/workflows/build.yaml) for buil
 ```sh
 # To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
-npm run docker:build-dev-infrastructure
-npm run docker:start-dev-infrastructure
+npm run docker:build-infrastructure
+docker:start-test-double-infrastructure
 
 # At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
 # To run linting and tests (from repository root)
@@ -138,7 +137,7 @@ docker rm $(docker ps -aq)
 docker stop {container id or container name}
 
 # start one stopped container
-docker stop {container id or container name}
+docker start {container id or container name}
 
 # remove one stopped container
 docker rm {container id or container name}

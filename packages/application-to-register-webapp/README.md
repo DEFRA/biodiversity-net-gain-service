@@ -45,7 +45,7 @@ Install and build the application
 
 Run the application
 
-`npm run start`
+`npm run local:start`
 
 ### to run in a docker container
 
