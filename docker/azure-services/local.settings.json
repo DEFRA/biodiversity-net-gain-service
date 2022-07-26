@@ -11,9 +11,7 @@
     "AZURE_STORAGE_ACCOUNT": "devstoreaccount1",
     "AZURE_STORAGE_ACCESS_KEY": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
     "AzureSignalRConnectionString": "Endpoint=http://azure_services;Port=8888;AccessKey=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGH;Version=1.0;",
-    "WEBSITE_NODE_DEFAULT_VERSION": "~16",
-    "CPL_CURL_VERBOSE": "ON",
-    "GDAL_HTTP_UNSAFESSL": "ON"
+    "WEBSITE_NODE_DEFAULT_VERSION": "~16"
   },
   "ConnectionStrings": {}
 }

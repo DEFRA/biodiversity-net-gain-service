@@ -1,0 +1,68 @@
+{
+	"folders": [
+               {
+			"path": "."
+		},
+    {
+			"path": "./packages/application-to-register-functions"
+		},
+		{
+			"path": "./packages/application-to-register-webapp"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+        "type": "node",
+        "request": "launch",
+        "name": "Jest All",
+        "program": "${workspaceFolder}/node_modules/.bin/jest",
+				"args": ["--runInBand"],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "disableOptimisticBPs": true,
+        "windows": {
+          "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+        },
+				"envFile": "${workspaceFolder}/.jest-with-debug/.env"
+			},
+			{
+        "type": "node",
+        "request": "launch",
+        "name": "Jest Current File",
+        "program": "${workspaceFolder}/node_modules/.bin/jest",
+        "args": [
+					"--runInBand",
+          "--config",
+          "${workspaceFolder}/package.json",
+          "${fileBasenameNoExtension}"
+        ],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "disableOptimisticBPs": true,
+        "windows": {
+          "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+        },
+				"envFile": "${workspaceFolder}/.jest-with-debug/.env"
+		  }
+	  ],
+		"compounds": [
+			{
+					"name": "Attach to Node Functions",
+					"configurations": [
+							"Attach to Node Functions"
+					]
+			},
+			{
+				"name": "Launch Program",
+				"configurations": [
+						"Launch Program"
+				]
+			}
+		]
+	}
+}

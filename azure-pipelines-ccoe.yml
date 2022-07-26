@@ -21,22 +21,12 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
-    npm run docker:build-dev-infrastructure
-    npm run docker:start-dev-infrastructure
-    sleep 30s
-  displayName: 'Build and start unit test doubles'
-
-- script: |
     sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
   displayName: 'add azure_services to hosts'
 
 - script: |
     npm run test
   displayName: 'Run unit tests'
-
-- script: |
-    npm run docker:stop-dev-infrastructure
-  displayName: 'Tear down unit test doubles'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \

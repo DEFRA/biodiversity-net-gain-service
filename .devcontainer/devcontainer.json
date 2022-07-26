@@ -1,0 +1,42 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.241.1/containers/docker-in-docker
+{
+	"name": "Docker in Docker",
+	"dockerFile": "Dockerfile",
+	"runArgs": ["--init", "--privileged", "--add-host", "azure_services:127.0.0.1", "--add-host", "azurite:127.0.0.1", "--add-host", "geoserver:127.0.0.1", "--add-host", "pgadmin:127.0.0.1", "--add-host", "postgis:127.0.0.1",  "--add-host", "redis:127.0.0.1", "--add-host", "redis_commander:127.0.0.1", "--add-host", "signalr:127.0.0.1"],
+	"mounts": ["source=dind-var-lib-docker,target=/var/lib/docker,type=volume"],
+	"overrideCommand": false,
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"ms-azuretools.vscode-azurefunctions",
+				"standard.vscode-standard"
+			]
+		}
+	},
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [3000, 5432, 6379, 8080, 8081, 8082, 8083, 8888, 10000, 10001],
+	"onCreateCommand": "mv -f ${HOME}/biodiversity-net-gain-service-tmp/docker/secrets/* ${containerWorkspaceFolder}/docker/secrets/",
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "${HOME}/biodiversity-net-gain-service-tmp/scripts/post-create-command.sh",
+	//"postCreateCommand": "mv -f ${HOME}/biodiversity-net-gain-service-tmp/docker/secrets/* ${containerWorkspaceFolder}/docker/secrets/ && rm -rf  ${HOME}/biodiversity-net-gain-service-tmp",
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+	"build": {
+		"args": {
+			"PGADMIN_DEFAULT_PASSWORD": "${localEnv:PGADMIN_DEFAULT_PASSWORD}",
+			"POSTGRES_PASSWORD": "${localEnv:POSTGRES_PASSWORD}",
+			"CREATE_POSTGRES_GROUP": "${localEnv:CREATE_POSTGRES_GROUP}",
+			"INSTALL_ZSH": "false",
+			"USE_MOBY": "true"
+		}
+	}
+}

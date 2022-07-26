@@ -26,6 +26,8 @@
 ## Getting started
 
 * [Prerequisites](docs/prerequisites.md)
+* [Local Development Quickstart Using Visual Studio Code Development Containers](docs/local-development-quickstart.md)
+* [Configuring And Running An Uncontainerised Local Development Environment Manually](docs/manual-local-development-environment-configuration.md)
 * [Containerisation](docs/containerisation.md)
 
 Please consult package specific documentation.
