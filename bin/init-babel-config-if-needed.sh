@@ -6,6 +6,8 @@ for package in `ls packages`
 do
   if [ ! -L "packages/${package}/babel.config.json" ]; then
     ln -s ../../babel.config.json  packages/"${package}"/babel.config.json
-    echo "Created packages/"${package}"/babel.config.json symolic link"
+    echo "Created packages/"${package}"/babel.config.json symbolic link"
+  else
+    echo packages/"${package}"/babel.config.json symbolic link exists
   fi
 done

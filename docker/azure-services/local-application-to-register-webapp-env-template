@@ -1,0 +1,15 @@
+# WARNING - All environment variables MUST be enclosed in double quotes to ensure the maximum degree of protection
+# against secrets being committed to version control unintentionally.
+export SERVER_PORT="3000"
+export REDIS_HOST="redis"
+export REDIS_PORT="6379"
+export SESSION_COOKIE_PASSWORD="the-password-must-be-at-least-32-characters-long"
+export AZURE_STORAGE_ACCOUNT="devstoreaccount1"
+export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+export AZURE_BLOB_SERVICE_URL="http://azurite:10000/${AZURE_STORAGE_ACCOUNT}"
+export AZURE_QUEUE_SERVICE_URL="http://azurite:10001/${AZURE_STORAGE_ACCOUNT}"
+export ORDNANCE_SURVEY_API_KEY=""
+export ORDNANCE_SURVEY_API_SECRET=""
+export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB="50"
+# Change to http://azure_services:7071/api if the application to register web application is running in a container.
+export SIGNALR_URL="http://azure_services:8082/api"
