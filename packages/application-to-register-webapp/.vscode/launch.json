@@ -14,7 +14,8 @@
       "preLaunchTask": "createEnvFile",
       "postDebugTask": "deleteEnvFile",
       "envFile": "${workspaceFolder}/.env",
-      "program": "${workspaceFolder}/src/index.js"
+      "program": "${workspaceFolder}/src/index.js",
+      "outputCapture": "std"
     }
   ]
 }
