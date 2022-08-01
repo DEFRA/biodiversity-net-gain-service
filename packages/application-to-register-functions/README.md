@@ -67,18 +67,6 @@ To switch between connection to Microsoft Azure infrstructure and an Azurite con
 | AZURE_QUEUE_SERVICE_URL | URL used to access the Azurite queue service |
 | AZURE_STORAGE_CONNECTION_STRING | Connection string linking GDAL and Azurite |
 
-#### Mandatory app settings for threat screening
-
-| name | description |
-|------|-------------|
-| AV_API_CLIENT_ID | OAuth client ID required for threat screening |
-| AV_API_CLIENT_SECRET | OAuth client secret required for threat screening |
-| AV_API_SCOPE | OAuth client ID required for threat screening |
-| AV_API_OCP_APIM_SUBSCRIPTION_KEY | Subscription key required for threat screening |
-| AV_API_USER_ID | User ID required for threat screening |
-| AV_API_BASE_URL | Base URL required for threat screening |
-| AV_API_TOKEN_URL | The URL used to obtain tokens required for threat screening |
-
 ## Installation
 
 The following activities need to be performed for the functions to run. While the documentation states what activities need to be performed it does not prescribe how the activities should be performed.
