@@ -61,6 +61,7 @@ const uploadFileAsStream = async filePath => {
     blobName: `${blobPathRoot}/${filename}`
   }
   const stream = fs.createReadStream(filePath)
+  fs.readFileSync(filePath)
   await blobStorageConnector.uploadStream(blobConfig, stream)
   const uploadComplete = await isUploadComplete(blobConfig.containerName, blobConfig.blobName, 1000)
   if (!uploadComplete) {
