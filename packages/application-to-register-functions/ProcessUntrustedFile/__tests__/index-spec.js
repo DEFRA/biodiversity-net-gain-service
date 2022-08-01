@@ -1,9 +1,7 @@
 import processUntrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
-import { Readable } from 'stream'
 
 jest.mock('@defra/bng-connectors-lib')
-jest.mock('@defra/bng-document-service')
 
 const uploadType = 'mock-upload-type'
 
@@ -13,21 +11,18 @@ const message = {
 }
 
 describe('Untrusted file processing', () => {
-  it('should initiate threat processing, transfer a clean upload to the appropriate storage location and send a message to initiate further processing. ', done => {
+  it('should transfer trusted uploads to the appropriate storage location and send a message to initiate further processing. ', done => {
     jest.isolateModules(async () => {
       try {
         const { blobStorageConnector } = require('@defra/bng-connectors-lib')
-        const { screenDocumentForThreats } = require('@defra/bng-document-service')
-        const mockData = JSON.stringify({ mock: 'data' })
 
         blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async (context, config) => {
-          const readable = Readable.from(mockData)
+          const { Readable } = require('stream')
+          const readable = Readable.from(JSON.stringify({ mock: 'data' }))
           return {
             readableStreamBody: readable
           }
         })
-
-        screenDocumentForThreats.mockReturnValue(Readable.from(mockData))
 
         await processUntrustedFile(getContext(), message)
 
