@@ -1,4 +1,4 @@
-import { upload } from '@defra/bng-document-service'
+import { uploadDocument } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
 
 const uploadFiles = async (logger, request, config) => {
@@ -44,7 +44,7 @@ const createUploadConfiguration = config => {
 const handlePart = (logger, part, config) => {
   logger.log(`Uploading ${part.filename}`)
   const uploadConfig = createUploadConfiguration(config)
-  upload(logger, uploadConfig, part)
+  uploadDocument(logger, uploadConfig, part)
 }
 
 export { uploadFiles }

@@ -1,4 +1,4 @@
-const upload = async (logger, config, document) => {
+const uploadDocument = async (logger, config, document) => {
   const uploadConfig = createUploadConfiguration(logger, config)
   // Delegate upload processing to the function referenced in the configuration.
   // The configured funcion encapsulates all implementation specific details.
@@ -14,4 +14,4 @@ const createUploadConfiguration = (logger, config) => {
   return uploadConfig
 }
 
-export default upload
+export default uploadDocument

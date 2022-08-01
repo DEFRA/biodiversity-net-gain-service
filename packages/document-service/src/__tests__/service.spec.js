@@ -1,5 +1,5 @@
 import objectToStream from './helpers/object-to-stream.js'
-import { screenDocumentForThreats, upload } from '../service.js'
+import { screenDocumentForThreats, uploadDocument } from '../service.js'
 import axios from 'axios'
 import fs from 'fs'
 import { Readable } from 'stream'
@@ -25,7 +25,7 @@ describe('The document service', () => {
     }
 
     const documentStream = Readable.from('mock document')
-    await upload(logger, config, documentStream)
+    await uploadDocument(logger, config, documentStream)
     // The upload function should have been called after the upload function has been removed from the configuration.
     expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {}, documentStream)
   })

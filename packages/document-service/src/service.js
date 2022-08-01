@@ -1,4 +1,4 @@
-import screenDocumentForThreats from './helpers/screen-document.js'
-import upload from './helpers/upload-document.js'
+import screenDocumentForThreats from './helpers/screen-document-for-threats.js'
+import uploadDocument from './helpers/upload-document.js'
 
-export { screenDocumentForThreats, upload }
+export { screenDocumentForThreats, uploadDocument }
