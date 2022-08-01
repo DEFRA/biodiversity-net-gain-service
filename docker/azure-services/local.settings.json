@@ -10,6 +10,13 @@
     "AZURE_QUEUE_SERVICE_URL":"http://azurite:10001/devstoreaccount1",
     "AZURE_STORAGE_ACCOUNT": "devstoreaccount1",
     "AZURE_STORAGE_ACCESS_KEY": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
+    "AV_API_CLIENT_ID": "",
+    "AV_API_CLIENT_SECRET": "",
+    "AV_API_SCOPE": "",
+    "AV_API_OCP_APIM_SUBSCRIPTION_KEY": "",
+    "AV_API_USER_ID": "",
+    "AV_API_BASE_URL": "",
+    "AV_API_TOKEN_URL": "",
     "AzureSignalRConnectionString": "Endpoint=http://azure_services;Port=8888;AccessKey=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGH;Version=1.0;",
     "WEBSITE_NODE_DEFAULT_VERSION": "~16"
   },
