@@ -2,6 +2,7 @@ const ABOUT = 'about'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement'
 const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/confirm-land-boundary'
 const DOCUMENT_UPLOAD = 'documentUpload'
+const DOWNLOAD_LEGAL_AGREEMENT = 'land/check-legal-agreement/download'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
@@ -51,6 +52,7 @@ const routes = {
   ERROR,
   CHECK_LEGAL_AGREEMENT,
   CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  DOWNLOAD_LEGAL_AGREEMENT,
   GEOSPATIAL_LAND_BOUNDARY,
   LAND_BOUNDARY_UPLOAD_TYPE,
   OS_API_TOKEN,
