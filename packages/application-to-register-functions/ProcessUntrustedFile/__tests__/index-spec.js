@@ -1,15 +1,54 @@
 import processUntrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 import { Readable } from 'stream'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('@defra/bng-document-service')
 
+const filename = 'mock-data.json'
+const mockData = 'mock-data'
+const mockError = new Error(mockData)
+const userId = 'mockSessionId'
 const uploadType = 'mock-upload-type'
 
 const message = {
   uploadType,
-  location: 'mock-data.json'
+  location: `${userId}/${uploadType}/${filename}`
+}
+
+const mockDownloadStreamIfExists = async (context, config) => {
+  const readable = Readable.from(mockData)
+  return {
+    readableStreamBody: readable
+  }
+}
+
+const performUnsuccessfulThreatScreening = async (done, errorToThrow, expectedArguments) => {
+  try {
+    const expectedSignalRMessage = {
+      userId,
+      target: `Processed ${filename}`,
+      arguments: expectedArguments
+    }
+
+    const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+    const { screenDocumentForThreats } = require('@defra/bng-document-service')
+    screenDocumentForThreats.mockRejectedValue(errorToThrow)
+
+    blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+
+    await processUntrustedFile(getContext(), message)
+    setImmediate(async () => {
+      await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+      await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
+      await expect(getContext().bindings.trustedFileQueue).toBeUndefined()
+      expect(getContext().bindings.signalRMessages).toStrictEqual([expectedSignalRMessage])
+      done()
+    })
+  } catch (e) {
+    done(e)
+  }
 }
 
 describe('Untrusted file processing', () => {
@@ -20,12 +59,7 @@ describe('Untrusted file processing', () => {
         const { screenDocumentForThreats } = require('@defra/bng-document-service')
         const mockData = JSON.stringify({ mock: 'data' })
 
-        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async (context, config) => {
-          const readable = Readable.from(mockData)
-          return {
-            readableStreamBody: readable
-          }
-        })
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
 
         screenDocumentForThreats.mockReturnValue(Readable.from(mockData))
 
@@ -52,11 +86,32 @@ describe('Untrusted file processing', () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
           await expect(getContext().bindings.trustedFileQueue).toBeUndefined()
+          await expect(getContext().bindings.signalRMessages).toBeUndefined()
           done()
         })
       } catch (e) {
         done(e)
       }
+    })
+  })
+
+  it('should send a SignalR notification when threat screening fails.', done => {
+    const expectedArguments = [{
+      threatScreeningDetails: mockError
+    }]
+
+    jest.isolateModules(async () => {
+      await performUnsuccessfulThreatScreening(done, new ThreatScreeningError(mockError), expectedArguments)
+    })
+  })
+
+  it('should send a SignalR notification when an unexpected error occurs.', done => {
+    const expectedArguments = [{
+      errorMessage: mockData
+    }]
+
+    jest.isolateModules(async () => {
+      await performUnsuccessfulThreatScreening(done, mockError, expectedArguments)
     })
   })
 })

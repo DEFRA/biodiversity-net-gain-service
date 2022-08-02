@@ -1,6 +1,7 @@
 import axios from 'axios'
 import FormData from 'form-data'
 import path from 'path'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 import { getBearerToken } from '@defra/bng-utils-lib'
 
 const AUTHORIZATION = 'Authorization'
@@ -73,12 +74,12 @@ const waitForFileProcessing = async (logger, fileDetails, options) => {
     try {
       response = await axios.request(options)
     } catch (err) {
-      if (err.response.status === NOT_FOUND && count > 0) {
+      if (err.response && err.response.status === NOT_FOUND && count > 0) {
         // Screening is still in progress so contune polling.
         response = err.response
         continue
       } else {
-        throw err
+        throw new ThreatScreeningError(err)
       }
     }
   } while (response.status !== OK)

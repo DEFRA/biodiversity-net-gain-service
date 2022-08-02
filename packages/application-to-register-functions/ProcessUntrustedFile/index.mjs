@@ -1,5 +1,8 @@
+import buildConfigFromMesage from '../Shared/build-config-from-message.js'
+import buildSignalRMessage from '../Shared/build-signalr-message.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const baseConfig = {
   untrustedBlobStorageConfig: {
@@ -21,14 +24,7 @@ const baseConfig = {
 
 export default async function (context, message) {
   context.log('Processing', JSON.stringify(message))
-  const config = JSON.parse(JSON.stringify(baseConfig))
-  config.untrustedBlobStorageConfig.blobName = message.location
-  config.trustedBlobStorageConfig.blobName = message.location
-
-  config.avConfig.fileConfig = {
-    location: message.location
-  }
-
+  const config = buildConfig(message)
   // Blob based triggering of Azure functions can be delayed due to its polling based implementation and event grid based
   // blob triggering of Azure functions is in preview.
   // Use Azure storage queues combined with blob storage to ensure responsive processing while event grid based blob triggering
@@ -37,31 +33,55 @@ export default async function (context, message) {
   // If threat screening succeeds, copy the untrusted file to the trusted file container manually before using a binding to place the trusted file location on a
   // storage queue. This ensures that the file will be present in the trusted file container BEFORE the queued message is processed.
 
-  let screenedFileAsStream
   const response = await blobStorageConnector.downloadStreamIfExists(context, config.untrustedBlobStorageConfig)
 
   if (response) {
-    context.log('Sending file for security screening')
-    try {
-      // Interaction with the initial streaming based threat processing solution results in a stream being returned
-      // for upload to the trusted file container. At present, a stream is submitted for threat processing and then polling
-      // is used to retrieve the results.
-      //
-      // If asynchronous interaction with the threat processing solution is progressed, it will be benefical if:
-      // - this function submits a stream for threat processing.
-      // - the threat processing solution notifies another function when threat processing is complete
-      //   (either successfully or unsuccessfully).
-      //
-      // Synchronous threat processing is also an option for consideration.
-      screenedFileAsStream = await screenDocumentForThreats(context, config.avConfig, response.readableStreamBody)
-    } catch (err) {
-      context.log.error('Unable to screen file')
-    }
-    if (screenedFileAsStream) {
-      await blobStorageConnector.uploadStream(config.trustedBlobStorageConfig, screenedFileAsStream)
-      context.bindings.trustedFileQueue = message
-    }
+    await screenDocument(context, message, config, response.readableStreamBody)
   } else {
     context.log.error('Unable to retrieve blob')
+  }
+}
+
+const buildConfig = message => {
+  const config = JSON.parse(JSON.stringify(baseConfig))
+  config.untrustedBlobStorageConfig.blobName = message.location
+  config.trustedBlobStorageConfig.blobName = message.location
+
+  config.avConfig.fileConfig = {
+    location: message.location
+  }
+
+  Object.assign(config, buildConfigFromMesage(message))
+  return config
+}
+
+const screenDocument = async (context, message, config, stream) => {
+  let screenedFileAsStream
+  context.log('Sending file for security screening')
+  try {
+    // Interaction with the initial streaming based threat processing solution results in a stream being returned
+    // for upload to the trusted file container. At present, a stream is submitted for threat processing and then polling
+    // is used to retrieve the results.
+    //
+    // If asynchronous interaction with the threat processing solution is progressed, it will be benefical if:
+    // - this function submits a stream for threat processing.
+    // - the threat processing solution notifies another function when threat processing is complete
+    //   (either successfully or unsuccessfully).
+    //
+    // Synchronous threat processing is also an option for consideration.
+    screenedFileAsStream = await screenDocumentForThreats(context, config.avConfig, stream)
+  } catch (err) {
+    let signalRMessageArguments
+    context.log.error('Unable to screen file')
+    if (err instanceof ThreatScreeningError) {
+      signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
+    } else {
+      signalRMessageArguments = [{ errorMessage: err.message }]
+    }
+    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
+  }
+  if (screenedFileAsStream) {
+    await blobStorageConnector.uploadStream(config.trustedBlobStorageConfig, screenedFileAsStream)
+    context.bindings.trustedFileQueue = message
   }
 }
