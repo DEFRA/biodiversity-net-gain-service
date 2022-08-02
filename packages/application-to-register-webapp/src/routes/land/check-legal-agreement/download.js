@@ -11,7 +11,7 @@ const downloadLegalAgreement = async (request, h) => {
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
-  return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName));
+  return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))
 }
 
 export default {
