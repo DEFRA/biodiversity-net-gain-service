@@ -1,5 +1,7 @@
+import path from 'path'
 import { upload } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
+import constants from '../utils/constants.js'
 
 const uploadFiles = async (logger, request, config) => {
   const events = []
@@ -9,7 +11,9 @@ const uploadFiles = async (logger, request, config) => {
     const form = new multiparty.Form()
     form.on('part', function (part) {
       if (!part.filename) {
-        reject(new Error('Non-file received'))
+        reject(new Error(constants.uploadErrors.noFile))
+      } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename))) {
+        reject(new Error(constants.uploadErrors.unsupportedFileExt))
       } else {
         // Send this part of the multipart request for processing
         handlePart(logger, part, config)

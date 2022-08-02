@@ -30,7 +30,10 @@ const downloadToBufferIfExists = async (logger, config) => {
 
 const uploadStream = async (config, stream) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
-  return blockBlobClient.uploadStream(stream)
+  await blockBlobClient.uploadStream(stream)
+  if (config.metadata) {
+    return blockBlobClient.setMetadata(config.metadata)
+  }
 }
 
 const getBlockBlobClient = (containerName, blobName) => {
