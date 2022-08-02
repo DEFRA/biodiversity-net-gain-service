@@ -1,6 +1,6 @@
 import path from 'path'
 
-const buildConfigFromMessage = message => {
+const buildUploadConfigFromMessage = message => {
   const fileLocation = message.location
   const fileExtension = path.extname(fileLocation)
   const fileDirectory = path.dirname(fileLocation)
@@ -20,4 +20,4 @@ const buildConfigFromMessage = message => {
   })
 }
 
-export default buildConfigFromMessage
+export default buildUploadConfigFromMessage

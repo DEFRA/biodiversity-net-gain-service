@@ -1,4 +1,4 @@
-import buildConfigFromMesage from '../Shared/build-config-from-message.js'
+import buildUploadConfigFromMessage from '../Shared/build-upload-config-from-message.js'
 import buildSignalRMessage from '../Shared/build-signalr-message.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
@@ -51,7 +51,7 @@ const buildConfig = message => {
     location: message.location
   }
 
-  Object.assign(config, buildConfigFromMesage(message))
+  Object.assign(config, buildUploadConfigFromMessage(message))
   return config
 }
 
