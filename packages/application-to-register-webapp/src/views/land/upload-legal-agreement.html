@@ -1,0 +1,34 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload the legal agreement" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          {{ govukFileUpload({
+            id: "legalAgreement",
+            name: "legalAgreement",
+            errorMessage: err,
+            hint: {
+              text: "PDF, max size 50MB"
+            }
+          }) }}
+  
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
