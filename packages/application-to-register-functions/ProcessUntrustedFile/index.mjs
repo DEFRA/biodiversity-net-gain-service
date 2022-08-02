@@ -1,4 +1,5 @@
 // TO DO - Add security processing to this function.
+import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 export default async function (context, message) {
@@ -24,7 +25,17 @@ export default async function (context, message) {
       containerName: 'trusted'
     }
     await blobStorageConnector.uploadStream(blobConfig, response.readableStreamBody)
-    context.bindings.trustedFileQueue = message
+    if (response.metadata && response.metadata.noprocess && JSON.parse(response.metadata.noprocess)) {
+      context.bindings.signalRMessages = [{
+        userId: message.location.substring(0, message.location.indexOf('/')),
+        target: `Processed ${path.parse(config.blobName).base}`,
+        arguments: [{
+          location: config.blobName
+        }]
+      }]
+    } else {
+      context.bindings.trustedFileQueue = message
+    }
   } else {
     context.log('Blob does not exist')
   }
