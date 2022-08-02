@@ -15,8 +15,20 @@
           isPageHeading: true
         }
       }) }}
-      <p>Todo (bng-1267 preview legal agreement)</p>
-      <p>Filename: {{filename}}</p>
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "File added",
+              classes: "app-summary-list__key--narrow",
+              classes: "govuk-!-width-one-quarter"
+            },
+            value: {
+              html: "<a download href='./check-legal-agreement/download'>" + filename + "</a>, 1MB"
+            }
+          }
+        ]
+      }) }}
       {{ govukRadios({
         idPrefix: "checkLegalAgreement",
         name: "checkLegalAgreement",
