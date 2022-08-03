@@ -42,7 +42,7 @@ const createUploadConfiguration = config => {
 }
 
 const handlePart = (logger, part, config) => {
-  logger.log(`Uploading ${part.filename}`)
+  logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
   const uploadConfig = createUploadConfiguration(config)
   uploadDocument(logger, uploadConfig, part)
 }
