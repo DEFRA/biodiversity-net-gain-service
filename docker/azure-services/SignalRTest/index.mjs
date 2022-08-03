@@ -21,6 +21,13 @@ export default async function (context, message) {
         errorCode: 'failure'
       }]
       break
+    case 'failure with threat screening details':
+      signalRMessage.arguments = [{
+        threatScreeningDetails: {
+          threatScreeningDetails: 'mock data'
+        }
+      }]
+      break
     case 'failure with error code':
       signalRMessage.arguments = [{ errorCode: 'failure' }]
       break

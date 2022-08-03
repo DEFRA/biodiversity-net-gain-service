@@ -1,5 +1,5 @@
 import processGeospatialLandBoundaryEvent from '../../routes/land/helpers/process-geospatial-land-boundary-event.js'
-import { CoordinateSystemValidationError, UploadTypeValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { handleEvents } from '../azure-signalr.js'
 import { recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import { storageQueueConnector } from '@defra/bng-connectors-lib'
@@ -46,6 +46,11 @@ describe('Azure SignalR integration', () => {
     const expectedError = new UploadTypeValidationError('mockUploadType', 'failure')
     // Connect to the SignalR emulator and wait for an event associated with message processing
     await expect(sendMessage('failure with upload type')).rejects.toEqual(expectedError)
+  })
+  it('should respond to an event indicating failed processing due to a threat screening failure', async () => {
+    const expectedError = new ThreatScreeningError({ threatScreeningDetails: 'mock data' })
+    // Connect to the SignalR emulator and wait for an event associated with message processing
+    await expect(sendMessage('failure with threat screening details')).rejects.toEqual(expectedError)
   })
   it('should respond to an event indicating failed processing due to a general validation error', async () => {
     const expectedError = new ValidationError('failure')

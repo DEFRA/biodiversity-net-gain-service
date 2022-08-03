@@ -58,10 +58,10 @@ describe('Trusted file processing', () => {
         const expectedSignalRMessage = {
           userId,
           target: `Processed ${filename}`,
-          arguments: {
+          arguments: [{
             code: 'UNKNOWN-UPLOAD-TYPE',
             uploadType
-          }
+          }]
         }
         const message = {
           uploadType,
