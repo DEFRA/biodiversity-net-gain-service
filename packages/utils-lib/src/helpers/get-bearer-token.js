@@ -20,7 +20,7 @@ const getBearerToken = async config => {
   }
 
   const response = await axios.request(options)
-  return response.data.access_token
+  return response.data
 }
 
 export default getBearerToken

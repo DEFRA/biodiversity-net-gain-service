@@ -1,26 +1,17 @@
 import constants from '../../utils/constants.js'
-import axios from 'axios'
+import { getBearerToken } from '@defra/bng-utils-lib'
 
 // A route to retrieve an OAuth bearer token for accessing Ordnance Survey APIs.
 // TO DO - Investigate options for securing this route or securing the retrieval of
 // bearer tokens in some other way.
-const params = new URLSearchParams()
-params.append('grant_type', 'client_credentials')
-
-const options = {
-  method: 'POST',
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  auth: {
-    username: process.env.ORDNANCE_SURVEY_API_KEY,
-    password: process.env.ORDNANCE_SURVEY_API_SECRET
-  },
-  data: params.toString(),
-  url: 'https://api.os.uk/oauth2/token/v1'
+const config = {
+  url: 'https://api.os.uk/oauth2/token/v1',
+  clientId: process.env.ORDNANCE_SURVEY_API_KEY,
+  clientSecret: process.env.ORDNANCE_SURVEY_API_SECRET
 }
 
 const getToken = async () => {
-  const response = await axios.request(options)
-  return response.data
+  return (await getBearerToken(config))
 }
 export default {
   method: 'GET',

@@ -57,7 +57,7 @@ const buildFormData = (config, stream, fileDetails) => {
 const buildHeaders = async (config, formData) => {
   const headers = Object.assign(config.headers || {}, formData.getHeaders())
   const bearerToken = await getBearerToken(config.authenticationConfig)
-  headers[AUTHORIZATION] = `Bearer ${bearerToken}`
+  headers[AUTHORIZATION] = `Bearer ${bearerToken.access_token}`
   headers[OCP_APIM_SUBSCRIPTION_KEY] = process.env.AV_API_OCP_APIM_SUBSCRIPTION_KEY
   return headers
 }
