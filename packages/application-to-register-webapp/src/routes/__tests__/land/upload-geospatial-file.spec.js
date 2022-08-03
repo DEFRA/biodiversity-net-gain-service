@@ -21,7 +21,7 @@ describe(url, () => {
   describe('POST', () => {
     const mockLandBoundary = [
       {
-        location: {},
+        location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
       }
     ]
