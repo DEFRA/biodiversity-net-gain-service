@@ -79,6 +79,13 @@ To switch between connection to Microsoft Azure infrstructure and an Azurite con
 | AV_API_BASE_URL | Base URL required for threat screening |
 | AV_API_TOKEN_URL | The URL used to obtain tokens required for threat screening |
 
+### Optional app settings for threat screening
+
+| name | description |
+|------|-------------|
+| AV_API_RESULT_RETRIEVAL_ATTEMPTS | The maximum number of times that threat screening result retrieval should be attempted (defaults to 4) |
+| AV_API_RESULT_RETRIEVAL_INTERVAL_MS | The minimum amount of time between threat screening result retrieval attempts in milliseconds (defaults to 5000) |
+
 ## Installation
 
 The following activities need to be performed for the functions to run. While the documentation states what activities need to be performed it does not prescribe how the activities should be performed.
