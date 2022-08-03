@@ -5,7 +5,7 @@ const createPromiseForEvent = (connection, event, config) => {
   let timeoutId
   const eventPromise = new Promise((resolve, reject) => {
     connection.on(event, async data => {
-      logger.log(`${new Date().toUTCString()} Received SignalR event` )
+      logger.log(`${new Date().toUTCString()} Received SignalR event`)
       try {
         config.eventProcessingFunction(data)
         resolve(data)
