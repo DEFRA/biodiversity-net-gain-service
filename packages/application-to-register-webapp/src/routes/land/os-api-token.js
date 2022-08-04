@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { logger } from 'defra-logging-facade'
 import { getBearerToken } from '@defra/bng-utils-lib'
 
 // A route to retrieve an OAuth bearer token for accessing Ordnance Survey APIs.
@@ -10,8 +11,10 @@ const config = {
   clientSecret: process.env.ORDNANCE_SURVEY_API_SECRET
 }
 
-const getToken = () => {
-  return (async () => await getBearerToken(config))()
+const getToken = async () => {
+  const bearerToken = await getBearerToken(config)
+  logger.log('Got bearer token')
+  return bearerToken
 }
 
 export default {
