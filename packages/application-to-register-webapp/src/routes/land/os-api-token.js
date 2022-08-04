@@ -10,9 +10,10 @@ const config = {
   clientSecret: process.env.ORDNANCE_SURVEY_API_SECRET
 }
 
-const getToken = async () => {
-  return (await getBearerToken(config))
+const getToken = () => {
+  return (async () => await getBearerToken(config))()
 }
+
 export default {
   method: 'GET',
   path: constants.routes.OS_API_TOKEN,
