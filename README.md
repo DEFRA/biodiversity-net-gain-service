@@ -20,7 +20,8 @@
 | [azure-storge-test-utils](packages/azure-storge-test-utils) | Azure storage related functions for use during **unit testing** | N |
 | [connectors-lib](packages/connectors-lib) | A library providing connectivity to various dependencies such as cloud resources | N |
 | [document-service](packages/connectors-lib) | A library providing cloud vendor agnostic document related functionality | N |
-| [errors](packages/errors) | Custom errors used by the Biodiversity Net Gain service | N |
+| [errors](packages/errors-lib) | Custom errors used by the Biodiversity Net Gain service | N |
+| [utils](packages/utils-lib) | Utilities used by the Biodiversity Net Gain service | N |
 | [geoprocessing-service](packages/geoprocessing-service) | A library providing cloud vendor agnostic geoprocessing functionality | N |
 
 ## Getting started

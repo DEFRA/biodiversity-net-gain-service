@@ -46,7 +46,7 @@ Prerequisite dependencies used by multiple packages within this repository are d
 
 ### App settings / environment variables for use with Azurite
 
-When connecting to an [Azurite container](../../docs/containerisation.md/#azure-storage) a [local.settings.json](../../docker/azure-services/local.settings.json) file containing a compatible set of app settings **must** be used. This file:
+When connecting to an [Azurite container](../../docs/containerisation.md/#azure-storage) a [local.settings.json](../../docker/azure-services/local.settings.template.json) template file containing a compatible set of app settings **must** be used as a starting point. This template file:
 
 * excludes all app settings / environment variables providing connecivity to Microsoft Azure services
 * includes app settings / environment variables required to provide connecivity between the Azurite container and:
@@ -56,6 +56,22 @@ When connecting to an [Azurite container](../../docs/containerisation.md/#azure-
   * When connecting from Azure Functions in a non-containerised local environment, the hostname **azurite** must resolve to the local IP address of the host machine.
 * uses the hostname **azure_services** to ensure connectivity to the [custom container](../../docs/containerisation.md) running the Azure SignalR emulator and Azure functions core tools
   * When connecting from Azure Functions in a non-containerised local environment, the hostname **azure_services** must resolve to the local IP address of the host machine.
+* contains placeholders for sensitive values (such as those used to provde connectivity to threat screening services).
+
+Run the following NPM script within the directory containing this file or the root directory of the whole mono repository to copy the template file into the directory containing this file.
+
+```sh
+npm run local:install
+```
+
+The copied file is included in the set of files ignored by git.
+
+To reduce the risk of the template file being edited such that sensitive values are included and pushed to version control accidentally, [detect-secrets](https://github.com/Yelp/detect-secrets)
+**must** be installed. If using a [Visual Studio Code development container](../../docs/local-development-quickstart.md), detect-secrets is installed by defsult. If using a local development
+environment built manually, [detect-secrets must be installed manually](../../docs/manual-local-development-environment-configuration.md).
+
+Once a copy of the template file is in place and placeholders for sensitive values are populated, the Azure functions can be run with connectivity to Azurite. If connectivity to Microsoft
+Azure infrastructure is requird during local development, the copy of local.settings.json in the same directory as this file must be reconfigured accordingly.
 
 To switch between connection to Microsoft Azure infrstructure and an Azurite container, the creation of a symbolic link called **local.settings.json** within the directory containing this file which refererences the required local.settings.json file is recommended.
 
