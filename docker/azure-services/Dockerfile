@@ -27,7 +27,7 @@ COPY ./docker/azure-services/SignalRTest/function.json SignalRTest/function.json
 COPY ./packages/application-to-register-functions/SignalRNegotiate SignalRNegotiate
 COPY ./packages/application-to-register-functions/package.json .
 COPY ./packages/application-to-register-functions/host.json .
-COPY ./docker/azure-services/local.settings.json .
+COPY ./docker/azure-services/local.settings.json.template ./local.settings.json
 # Ensure correct directory and file ownership by the unprivileged user.
 RUN chown -R node:node /home/node
 USER node

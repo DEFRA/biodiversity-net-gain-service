@@ -1,4 +1,4 @@
-import { CoordinateSystemValidationError, UploadTypeValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError } from '@defra/bng-errors-lib'
 
 export default data => {
   if (data.authorityKey) {
@@ -7,6 +7,8 @@ export default data => {
     throw new UploadTypeValidationError(data.uploadType, data.errorCode)
   } else if (data.errorCode) {
     throw new ValidationError(data.errorCode)
+  } else if (data.threatScreeningDetails) {
+    throw new ThreatScreeningError(data.threatScreeningDetails)
   } else if (data.errorMessage) {
     throw new Error(data.errorMessage)
   }

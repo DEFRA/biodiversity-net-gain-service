@@ -1,3 +1,4 @@
+import buildSignalRMessage from '../../Shared/build-signalr-message.js'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
 
@@ -13,26 +14,26 @@ export default async function (context, config) {
     gdalEnvVars: gdalEnvVars()
   }
 
-  const signalRMessage = Object.assign({}, config.signalRMessageConfig)
+  let signalRMessageArguments
   try {
     const mapConfig = await processLandBoundary(context, landBoundaryConfig)
-    signalRMessage.arguments = [{
+    signalRMessageArguments = [{
       location: processedFileLocation,
       mapConfig
     }]
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {
-      signalRMessage.arguments = [{
+      signalRMessageArguments = [{
         authorityKey: err.authorityKey,
         errorCode: err.code
       }]
     } else if (err instanceof ValidationError) {
-      signalRMessage.arguments = [{ errorCode: err.code }]
+      signalRMessageArguments = [{ errorCode: err.code }]
     } else {
-      signalRMessage.arguments = [{ errorMessage: err.message }]
+      signalRMessageArguments = [{ errorMessage: err.message }]
     }
   } finally {
-    context.bindings.signalRMessages = [signalRMessage]
+    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
   }
 }
 
