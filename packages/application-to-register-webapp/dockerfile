@@ -13,6 +13,7 @@ COPY        packages/azure-storage-test-utils packages/azure-storage-test-utils
 COPY        packages/connectors-lib packages/connectors-lib
 COPY        packages/document-service packages/document-service
 COPY        packages/errors-lib packages/errors-lib
+COPY        packages/utils-lib packages/utils-lib
 
 # Copy root config needed for install
 COPY        bin bin

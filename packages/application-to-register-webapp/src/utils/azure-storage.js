@@ -8,7 +8,7 @@ const uploadStreamAndQueueMessage = async (logger, config, stream) => {
   // inputs (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-input)
   //  As such use of Azure storage queues could be replaced with Azure service bus queues.
   await storageQueueConnector.sendMessage(config.queueConfig)
-  logger.log(`${stream.filename} has been uploaded and message has been queued`)
+  logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded and message has been queued`)
 }
 
 const addFileDetailsToConfiguration = (config, filename) => {
