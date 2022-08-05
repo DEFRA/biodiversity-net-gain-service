@@ -56,7 +56,7 @@ When connecting to an [Azurite container](../../docs/containerisation.md/#azure-
   * When connecting from Azure Functions in a non-containerised local environment, the hostname **azurite** must resolve to the local IP address of the host machine.
 * uses the hostname **azure_services** to ensure connectivity to the [custom container](../../docs/containerisation.md) running the Azure SignalR emulator and Azure functions core tools
   * When connecting from Azure Functions in a non-containerised local environment, the hostname **azure_services** must resolve to the local IP address of the host machine.
-* contains placeholders for sensitive values (such as those used to provde connectivity to threat screening services).
+* contains placeholders for sensitive values (such as those used to provide connectivity to threat screening services).
 
 Run the following NPM script within the directory containing this file or the root directory of the whole mono repository to copy the template file into the directory containing this file.
 
