@@ -119,3 +119,4 @@ packages/**/babel.config.json
 
 # Jest debug directory
 .jest-with-debug/
+.idea/
