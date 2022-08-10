@@ -35,7 +35,8 @@ const views = {
     context: {
       serviceName,
       assetPath: '/public',
-      pageTitle: `${serviceName} - GOV.UK`
+      pageTitle: `${serviceName} - GOV.UK`,
+      titleSuffix: ' - GOV.UK'
       // analyticsAccount: analyticsAccount
     }
   }

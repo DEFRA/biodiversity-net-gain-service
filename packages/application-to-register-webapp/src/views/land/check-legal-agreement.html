@@ -24,7 +24,7 @@
               classes: "govuk-!-width-one-quarter"
             },
             value: {
-              html: "<a download href='./check-legal-agreement/download'>" + filename + "</a>, 1MB"
+              html: "<a download id = 'legal-agreement-download' href='./check-legal-agreement/download'>" + filename + "</a>, <span id = 'filesize'>1MB</span>"
             }
           }
         ]
@@ -42,11 +42,13 @@
         items: [
           {
             value: "yes",
-            text: "Yes"
+            text: "Yes",
+            id: "check-legal-agreement-correct-yes"
           },
           {
             value: "no",
-            text: "No, choose a different file"
+            text: "No, choose a different file",
+            id: "id=check-legal-agreement-correct-no"
           }
         ]
       }) }}
