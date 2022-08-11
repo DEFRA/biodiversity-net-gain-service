@@ -8,21 +8,33 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    let legalAgreementData
-    try {
-      legalAgreementData = (await uploadFiles(logger, request, config))[0]
-    } catch (err) {
-      switch (err.message) {
-        case constants.uploadErrors.noFile:
-          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, { err: { text: 'Select a legal agreement' } })
-        case constants.uploadErrors.unsupportedFileExt:
-          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, { err: { text: 'The selected file must be a PDF' } })
-        default:
-          throw err
+
+    return await uploadFiles(logger, request, config).then(
+      function (result) {
+        request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
+        return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
+      },
+      function (err) {
+        switch (err.message) {
+          case constants.uploadErrors.noFile:
+            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+              err: [{
+                text: 'Select a legal agreement',
+                href: '#legalAgreement'
+              }]
+            })
+          case constants.uploadErrors.unsupportedFileExt:
+            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+              err: [{
+                text: 'The selected file must be a DOC, DOCX or PDF',
+                href: '#legalAgreement'
+              }]
+            })
+          default:
+            throw err
+        }
       }
-    }
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, legalAgreementData.location)
-    return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
+    )
   }
 }
 
