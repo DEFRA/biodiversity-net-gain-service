@@ -97,13 +97,20 @@ export default [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false,
       failAction: (request, h, err) => {
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, { err: { text: 'The selected file must be smaller than 50MB' } }).takeover()
+          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            err: [
+              {
+                text: 'The selected file must be smaller than 50MB',
+                href: '#legalAgreement'
+              }
+            ]
+          }).takeover()
         } else {
           throw err
         }
