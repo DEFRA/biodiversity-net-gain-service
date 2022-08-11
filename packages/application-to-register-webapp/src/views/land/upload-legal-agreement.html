@@ -7,6 +7,9 @@
 
 {% block formContent %}
   <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
           {{ govukFieldset({
@@ -19,7 +22,7 @@
           {{ govukFileUpload({
             id: "legalAgreement",
             name: "legalAgreement",
-            errorMessage: err,
+            errorMessage: err[0],
             hint: {
               text: "DOC, DOCX or PDF, max size 50MB"
             },
