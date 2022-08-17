@@ -22,7 +22,11 @@ const handlers = {
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      return h.view(constants.views.CHECK_LEGAL_AGREEMENT, { filename: path.basename(legalAgreementLocation), err: { text: '!TODO: Journey continuation not implemented' } }) // todo add journey continuation
+      return h.view(constants.views.CHECK_LEGAL_AGREEMENT, {
+        filename: path.basename(legalAgreementLocation),
+        fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
+        err: { text: '!TODO: Journey continuation not implemented' }
+      }) // todo add journey continuation
     } else {
       return h.view(constants.views.CHECK_LEGAL_AGREEMENT, { filename: path.basename(legalAgreementLocation), err: { text: 'Select yes if this is the correct file' } })
     }
@@ -31,7 +35,8 @@ const handlers = {
 
 const getContext = async (request) => {
   return {
-    filename: path.parse(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)).base
+    filename: path.parse(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)).base,
+    fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE)
   }
 }
 

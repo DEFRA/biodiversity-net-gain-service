@@ -1,5 +1,7 @@
+import path from 'path'
 import { uploadDocument } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
+import constants from '../utils/constants.js'
 
 const uploadFiles = async (logger, request, config) => {
   const events = []
@@ -7,13 +9,17 @@ const uploadFiles = async (logger, request, config) => {
   // This code is inspired by https://stackoverflow.com/questions/50522383/promisifying-multiparty
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form()
+    const uploadResult = {}
     form.on('part', function (part) {
       if (!part.filename) {
-        reject(new Error('Non-file received'))
+        reject(new Error(constants.uploadErrors.unsupportedFileExt))
+      } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename))) {
+        reject(new Error(constants.uploadErrors.unsupportedFileExt))
       } else {
         // Send this part of the multipart request for processing
         handlePart(logger, part, config)
         events.push(`Processed ${part.filename}`)
+        uploadResult.fileSize = (part.byteCount / 1024 / 1024).toFixed(2)
       }
     })
     form.on('error', function (err) {
@@ -23,7 +29,7 @@ const uploadFiles = async (logger, request, config) => {
       try {
         // Resolve the promise when all parts of the upload have been processed.
         const eventData = await config.functionConfig.handleEventsFunction(config, events)
-        resolve(eventData)
+        resolve(Object.assign(uploadResult, eventData))
       } catch (err) {
         reject(err)
       }

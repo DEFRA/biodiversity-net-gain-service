@@ -8,11 +8,23 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-
     return await uploadFiles(logger, request, config).then(
       function (result) {
-        request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
-        return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
+        if (result[0].errorMessage === undefined) {
+          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
+          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
+          logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_MAP_CONFIG, result.mapConfig)
+
+          return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
+        }
+
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: result[0].errorMessage,
+            href: '#legalAgreement'
+          }]
+        })
       },
       function (err) {
         switch (err.message) {
