@@ -10,7 +10,9 @@ const handlers = {
     const config = buildConfig(request.yar.id)
     return await uploadFiles(logger, request, config).then(
       function (result) {
-        if (result[0].errorMessage === undefined) {
+        if ((parseFloat(result.fileSize) * 100) === 0) {
+          result[0].errorMessage = 'The selected file is empty'
+        } else if (result[0].errorMessage === undefined) {
           request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
           request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
           logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
@@ -43,6 +45,14 @@ const handlers = {
               }]
             })
           default:
+            if (err.message.indexOf('timed out') > 0) {
+              return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+                err: [{
+                  text: 'The selected file could not be uploaded -- try again',
+                  href: '#legalAgreement'
+                }]
+              })
+            }
             throw err
         }
       }

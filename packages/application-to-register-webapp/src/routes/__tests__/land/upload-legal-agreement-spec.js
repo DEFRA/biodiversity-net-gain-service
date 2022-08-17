@@ -69,8 +69,8 @@ describe('Legal agreement upload controller tests', () => {
         })
       })
     })
-    //TODO ensure that empty files test are processed correctly
-    //It is very intermittent at them oment
+    // TODO ensure that empty files test are processed correctly
+    // It is very intermittent at them oment
     // it('should cause an internal server error when non-file data is uploaded', (done) => {
     //   jest.isolateModules(async () => {
     //     const config = Object.assign({}, baseConfig)
@@ -80,6 +80,6 @@ describe('Legal agreement upload controller tests', () => {
     //     })
     //   })
     // })
-    //Add tests to actually test the controller.
+    // Add tests to actually test the controller.
   })
 })
