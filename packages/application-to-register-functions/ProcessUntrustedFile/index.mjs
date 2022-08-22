@@ -1,5 +1,7 @@
 import buildUploadConfigFromMessage from '../Shared/build-upload-config-from-message.js'
 import buildSignalRMessage from '../Shared/build-signalr-message.js'
+// TO DO - Add security processing to this function.
+import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
