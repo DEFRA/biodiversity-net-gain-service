@@ -97,7 +97,7 @@ const buildFunctionConfig = config => {
 const buildSignalRConfig = (sessionId, config) => {
   config.signalRConfig = {
     eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 30000,
+    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
     url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
   }
 }
@@ -121,14 +121,16 @@ export default [{
     payload: {
       maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
       multipart: true,
+      timeout: false,
       output: 'stream',
       parse: false,
+      allow: 'multipart/form-data',
       failAction: (request, h, err) => {
         if (err.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
             err: [
               {
-                text: 'The selected file must be smaller than 50MB',
+                text: 'The selected file must not be larger than 50MB',
                 href: '#legalAgreement'
               }
             ]

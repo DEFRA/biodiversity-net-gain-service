@@ -19,6 +19,8 @@ const screenDocumentForThreats = async (logger, config, stream) => {
 
   const options = {
     headers,
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
     url
   }
 

@@ -2,6 +2,7 @@ import processUntrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 import { Readable } from 'stream'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { screenDocumentForThreats } from '@defra/bng-document-service'
 
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('@defra/bng-document-service')
@@ -130,13 +131,17 @@ describe('Untrusted file processing', () => {
             }
           }
         })
+        screenDocumentForThreats.mockReturnValue(Readable.from(mockData))
 
         await processUntrustedFile(getContext(), message)
 
         setImmediate(async () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toEqual(undefined)
+          expect(getContext().bindings.trustedFileQueue).toEqual({
+            location: 'mockSessionId/mock-upload-type/mock-data.json',
+            uploadType: 'mock-upload-type'
+          })
           const signalRMessages = getContext().bindings.signalRMessages
           expect(signalRMessages[0].target).toEqual('Processed mock-data.json')
           expect(signalRMessages[0].arguments[0].location).toEqual('mock-data.json')

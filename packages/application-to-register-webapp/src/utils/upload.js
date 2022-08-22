@@ -12,7 +12,7 @@ const uploadFiles = async (logger, request, config) => {
     const uploadResult = {}
     form.on('part', function (part) {
       if (!part.filename) {
-        reject(new Error(constants.uploadErrors.unsupportedFileExt))
+        reject(new Error(constants.uploadErrors.noFile))
       } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename))) {
         reject(new Error(constants.uploadErrors.unsupportedFileExt))
       } else {
