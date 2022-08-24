@@ -4,6 +4,7 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
+const LEGAL_AGREEMENT_ID = '#legalAgreement'
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
@@ -29,14 +30,14 @@ const handlers = {
             return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'Select a legal agreement',
-                href: '#legalAgreement'
+                href: LEGAL_AGREEMENT_ID
               }]
             })
           case constants.uploadErrors.unsupportedFileExt:
             return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'The selected file must be a DOC, DOCX or PDF',
-                href: '#legalAgreement'
+                href: LEGAL_AGREEMENT_ID
               }]
             })
           default:
@@ -44,7 +45,7 @@ const handlers = {
               return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
                 err: [{
                   text: 'The selected file could not be uploaded -- try again',
-                  href: '#legalAgreement'
+                  href: LEGAL_AGREEMENT_ID
                 }]
               })
             }
@@ -56,7 +57,7 @@ const handlers = {
       return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
-          href: '#legalAgreement'
+          href: LEGAL_AGREEMENT_ID
         }]
       })
     })
@@ -134,7 +135,7 @@ export default [{
             err: [
               {
                 text: 'The selected file must not be larger than 50MB',
-                href: '#legalAgreement'
+                href: LEGAL_AGREEMENT_ID
               }
             ]
           }).takeover()
