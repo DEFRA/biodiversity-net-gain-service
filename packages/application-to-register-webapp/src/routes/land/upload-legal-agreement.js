@@ -12,7 +12,12 @@ const handlers = {
     return await uploadFiles(logger, request, config).then(
       function (result) {
         if ((parseFloat(result.fileSize) * 100) === 0) {
-          result[0].errorMessage = 'The selected file is empty'
+          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            err: [{
+              text: 'The selected file is empty',
+              href: LEGAL_AGREEMENT_ID
+            }]
+          })
         } else if (result[0].errorMessage === undefined) {
           request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
           request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
