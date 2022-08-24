@@ -77,7 +77,7 @@ const uploadTypes = {
   LEGAL_AGREEMENT_UPLOAD_TYPE
 }
 
-const views = Object.assign({}, routes)
+const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
 
 for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`

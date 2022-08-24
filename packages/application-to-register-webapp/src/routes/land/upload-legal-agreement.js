@@ -21,24 +21,19 @@ const handlers = {
           return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
         }
 
-        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-          err: [{
-            text: result[0].errorMessage,
-            href: '#legalAgreement'
-          }]
-        })
+        return h.view(constants.views.INTERNAL_SERVER_ERROR)
       },
       function (err) {
         switch (err.message) {
           case constants.uploadErrors.noFile:
-            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'Select a legal agreement',
                 href: '#legalAgreement'
               }]
             })
           case constants.uploadErrors.unsupportedFileExt:
-            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'The selected file must be a DOC, DOCX or PDF',
                 href: '#legalAgreement'
@@ -46,7 +41,7 @@ const handlers = {
             })
           default:
             if (err.message.indexOf('timed out') > 0) {
-              return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+              return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
                 err: [{
                   text: 'The selected file could not be uploaded -- try again',
                   href: '#legalAgreement'
@@ -56,7 +51,15 @@ const handlers = {
             throw err
         }
       }
-    )
+    ).catch(err => {
+      console.log(`Problem uploading file ${err}`)
+      return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        err: [{
+          text: 'The selected file could not be uploaded -- try again',
+          href: '#legalAgreement'
+        }]
+      })
+    })
   }
 }
 

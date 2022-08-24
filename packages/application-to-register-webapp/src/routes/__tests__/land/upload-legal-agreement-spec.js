@@ -46,18 +46,6 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error when file upload processing fails', (done) => {
-      jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/legal-agreement.pdf`
-        config.generateFormDataError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-
     it('should cause an internal server error response when upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
@@ -69,17 +57,5 @@ describe('Legal agreement upload controller tests', () => {
         })
       })
     })
-    // TODO ensure that empty files test are processed correctly
-    // It is very intermittent at them oment
-    // it('should cause an internal server error when non-file data is uploaded', (done) => {
-    //   jest.isolateModules(async () => {
-    //     const config = Object.assign({}, baseConfig)
-    //     await uploadFile(config)
-    //     setImmediate(() => {
-    //       done()
-    //     })
-    //   })
-    // })
-    // Add tests to actually test the controller.
   })
 })

@@ -5,10 +5,15 @@ import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-err
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
+const PDF_FILE_EXTENSION = '.pdf'
 
 describe('Trusted file processing', () => {
   it('should process a known upload type in an compressed file. ', done => {
     performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, done)
+  })
+
+  it('should process a pdf upload type in an compressed file. ', done => {
+    performValidLegalDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
   it('should process a known upload type in an uncompressed file. ', done => {
@@ -81,12 +86,12 @@ describe('Trusted file processing', () => {
   })
 })
 
-const buildConfig = fileExtension => {
+const buildConfig = (fileExtension, uploadType) => {
   const userId = 'mock-session-id'
   const filenameRoot = 'mock-data'
   const fileDirectory = `${userId}/mockUploadType`
   const filename = `${filenameRoot}${fileExtension}`
-  const outputFileLocation = `${fileDirectory}/${filenameRoot}.geojson`
+  const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
 
   const mapConfig = {
     centroid: 'mock centroid',
@@ -97,7 +102,7 @@ const buildConfig = fileExtension => {
   return {
     mapConfig,
     message: {
-      uploadType: 'geospatial-land-boundary',
+      uploadType,
       location: `${fileDirectory}/${filename}`
     },
     expectedSignalRMessage: {
@@ -115,7 +120,7 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
   jest.isolateModules(async () => {
     try {
       jest.mock('@defra/bng-geoprocessing-service')
-      const testConfig = buildConfig(fileExtension)
+      const testConfig = buildConfig(fileExtension, 'geospatial-land-boundary')
       const geoprocessingService = await import('@defra/bng-geoprocessing-service')
       geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
         return testConfig.mapConfig
@@ -133,11 +138,33 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
   })
 }
 
+const performValidLegalDocumentProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      // jest.mock('@defra/bng-geoprocessing-service')
+      const testConfig = buildConfig(fileExtension, 'legal-agreement')
+      // const geoprocessingService = await import('@defra/bng-geoprocessing-service')
+      // geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
+      //   return testConfig.mapConfig
+      // })
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
 const performInvalidGeospatialLandBoundaryProcessingTest = (config, done) => {
   jest.isolateModules(async () => {
     try {
       jest.mock('@defra/bng-geoprocessing-service')
-      const testConfig = buildConfig(config.fileExtension)
+      const testConfig = buildConfig(config.fileExtension, 'geospatial-land-boundary')
 
       testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
 
