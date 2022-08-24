@@ -151,7 +151,7 @@ const performValidLegalDocumentProcessingTest = (fileExtension, done) => {
       await processTrustedFile(getContext(), testConfig.message)
 
       setImmediate(async () => {
-        expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
         done()
       })
     } catch (e) {
