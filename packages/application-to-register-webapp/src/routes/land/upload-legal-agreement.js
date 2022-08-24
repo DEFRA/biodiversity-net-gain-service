@@ -22,19 +22,19 @@ const handlers = {
           return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
         }
 
-        return h.view(constants.views.INTERNAL_SERVER_ERROR)
+        return h.redirect(constants.views.INTERNAL_SERVER_ERROR)
       },
       function (err) {
         switch (err.message) {
           case constants.uploadErrors.noFile:
-            return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'Select a legal agreement',
                 href: LEGAL_AGREEMENT_ID
               }]
             })
           case constants.uploadErrors.unsupportedFileExt:
-            return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
               err: [{
                 text: 'The selected file must be a DOC, DOCX or PDF',
                 href: LEGAL_AGREEMENT_ID
@@ -54,7 +54,7 @@ const handlers = {
       }
     ).catch(err => {
       console.log(`Problem uploading file ${err}`)
-      return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+      return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
           href: LEGAL_AGREEMENT_ID
@@ -130,6 +130,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
+        console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
             err: [

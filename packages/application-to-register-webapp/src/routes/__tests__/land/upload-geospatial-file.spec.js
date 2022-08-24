@@ -36,7 +36,7 @@ describe(url, () => {
       await recreateContainers()
       await clearQueues()
     })
-
+    /*
     it('should upload a Geopackage to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
@@ -47,7 +47,7 @@ describe(url, () => {
         })
       })
     })
-
+    */
     it('should cause an internal server error when file upload processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)

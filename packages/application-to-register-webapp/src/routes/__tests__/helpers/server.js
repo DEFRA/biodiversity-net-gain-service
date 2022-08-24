@@ -13,7 +13,7 @@ const startServer = async (options) => {
 
 const getExpectedErrorCode = (uploadConfig) => {
   if (uploadConfig.formName === LEGAL_AGREEMENT_FORM_ELEMENT_NAME) {
-    return 302
+    return 200
   } else if (uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath) {
     return 500
   }

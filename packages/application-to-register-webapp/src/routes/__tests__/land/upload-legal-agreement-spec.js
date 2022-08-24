@@ -46,6 +46,39 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
+    it('should upload legal agreement document less than 50 MB', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should not upload legal agreement document less than 50 MB', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should  upload legal agreement document 50 MB file', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
     it('should cause an internal server error response when upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
