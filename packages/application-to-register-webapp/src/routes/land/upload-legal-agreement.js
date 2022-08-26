@@ -56,6 +56,12 @@ function processErrorUpload (err, h) {
   }
 }
 
+function processReturnValue (details, h) {
+  return details.resultView === constants.routes.CHECK_LEGAL_AGREEMENT
+    ? h.redirect(details.resultView, details.errorMessage)
+    : h.view(details.resultView, details.errorMessage)
+}
+
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
@@ -63,7 +69,7 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSucessfulUpload(result, request)
-        return viewDetails.resultView === constants.routes.CHECK_LEGAL_AGREEMENT ? h.redirect(viewDetails.resultView, viewDetails.errorMessage) : h.view(viewDetails.resultView, viewDetails.errorMessage)
+        return processReturnValue(viewDetails, h)
       },
       function (err) {
         return processErrorUpload(err, h)
