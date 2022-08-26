@@ -33,7 +33,7 @@ const handlers = {
   }
 }
 
-const getContext = async (request) => {
+const getContext = async request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,

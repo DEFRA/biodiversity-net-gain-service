@@ -128,7 +128,7 @@ const buildSignalRConfig = (sessionId, config) => {
   }
 }
 
-const buildFileValidationConfig = (config) => {
+const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: constants.legalAgreementFileExt
   }

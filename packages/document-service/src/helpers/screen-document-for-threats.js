@@ -19,9 +19,9 @@ const screenDocumentForThreats = async (logger, config, stream) => {
 
   const options = {
     headers,
+    url,
     maxContentLength: Infinity,
-    maxBodyLength: Infinity,
-    url
+    maxBodyLength: Infinity
   }
 
   const getOptions = Object.assign({ method: 'GET', responseType: 'stream' }, options)
