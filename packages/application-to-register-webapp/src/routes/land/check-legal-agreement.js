@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import { logger } from 'defra-logging-facade'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,7 +17,7 @@ const handlers = {
         containerName: 'trusted',
         blobName: legalAgreementLocation
       }
-      await blobStorageConnector.deleteBlobIfExists(logger, config)
+      await blobStorageConnector.deleteBlobIfExists(config)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {

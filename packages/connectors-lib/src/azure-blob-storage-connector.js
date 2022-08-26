@@ -2,12 +2,12 @@ import { getBlobServiceClient } from './helpers/azure-storage.js'
 
 const blobServiceClient = getBlobServiceClient()
 
-const deleteBlobIfExists = async (_logger, config) => {
+const deleteBlobIfExists = async config => {
   const options = {
     deleteSnapshots: 'include'
   }
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
-  return await blockBlobClient.deleteIfExists(options)
+  return blockBlobClient.deleteIfExists(options)
 }
 
 const downloadStreamIfExists = async (logger, config) => {
