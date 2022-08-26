@@ -25,7 +25,7 @@ const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const YES = 'yes'
 
-const confirmLandBoundaryOptions = {
+const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
   YES
@@ -84,7 +84,8 @@ for (const [key, value] of Object.entries(routes)) {
 }
 
 export default Object.freeze({
-  confirmLandBoundaryOptions,
+  confirmLandBoundaryOptions: confirmFileUploadOptions,
+  confirmLegalAgreementOptions: confirmFileUploadOptions,
   landBoundaryUploadTypes,
   legalAgreementFileExt,
   redisKeys,

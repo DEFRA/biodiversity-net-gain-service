@@ -72,7 +72,7 @@ const screenDocument = async (context, message, config, stream) => {
     screenedFileAsStream = await screenDocumentForThreats(context, config.avConfig, stream)
   } catch (err) {
     let signalRMessageArguments
-    context.log.error('Unable to screen file')
+    context.log.error(`Unable to screen file ${err}`)
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
     } else {

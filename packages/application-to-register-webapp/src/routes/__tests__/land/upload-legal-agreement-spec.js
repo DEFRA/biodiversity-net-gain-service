@@ -38,6 +38,7 @@ describe('Legal agreement upload controller tests', () => {
     it('should upload legal agreement document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
         await uploadFile(uploadConfig)
         setImmediate(() => {
@@ -60,7 +61,43 @@ describe('Legal agreement upload controller tests', () => {
     it('should not upload legal agreement document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = true
         uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should not upload empty legal agreement', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = true
+        uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should not upload unsupported legal agreement', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = true
+        uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should not upload nofile legal agreement', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = true
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -84,6 +121,7 @@ describe('Legal agreement upload controller tests', () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`
         config.generateHandleEventsError = true
+        config.hasError = true
         await uploadFile(config)
         setImmediate(() => {
           done()

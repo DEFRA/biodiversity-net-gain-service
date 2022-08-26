@@ -4,7 +4,6 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
-const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
 const startServer = async (options) => {
   const server = await createServer(options)
   await init(server)
@@ -12,8 +11,11 @@ const startServer = async (options) => {
 }
 
 const getExpectedErrorCode = (uploadConfig) => {
-  if (uploadConfig.formName === LEGAL_AGREEMENT_FORM_ELEMENT_NAME) {
+  if (uploadConfig.hasError !== undefined && uploadConfig.hasError) {
     return 200
+  }
+  if (uploadConfig.hasError !== undefined && !uploadConfig.hasError) {
+    return 302
   } else if (uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath) {
     return 500
   }

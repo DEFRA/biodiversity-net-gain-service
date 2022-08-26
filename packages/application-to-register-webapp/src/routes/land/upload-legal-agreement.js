@@ -5,57 +5,68 @@ import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
 const LEGAL_AGREEMENT_ID = '#legalAgreement'
+
+function processSucessfulUpload (result, request) {
+  let resultView = constants.views.INTERNAL_SERVER_ERROR
+  let errorMessage = {}
+  if ((parseFloat(result.fileSize) * 100) === 0) {
+    resultView = constants.views.UPLOAD_LEGAL_AGREEMENT
+    errorMessage = {
+      err: [{
+        text: 'The selected file is empty',
+        href: LEGAL_AGREEMENT_ID
+      }]
+    }
+  } else if (result[0].errorMessage === undefined) {
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
+    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_MAP_CONFIG, result.mapConfig)
+    resultView = constants.routes.CHECK_LEGAL_AGREEMENT
+  }
+  return { resultView, errorMessage }
+}
+
+function processErrorUpload (err, h) {
+  switch (err.message) {
+    case constants.uploadErrors.noFile:
+      return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        err: [{
+          text: 'Select a legal agreement',
+          href: LEGAL_AGREEMENT_ID
+        }]
+      })
+    case constants.uploadErrors.unsupportedFileExt:
+      return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        err: [{
+          text: 'The selected file must be a DOC, DOCX or PDF',
+          href: LEGAL_AGREEMENT_ID
+        }]
+      })
+    default:
+      if (err.message.indexOf('timed out') > 0) {
+        return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: 'The selected file could not be uploaded -- try again',
+            href: LEGAL_AGREEMENT_ID
+          }]
+        })
+      }
+      throw err
+  }
+}
+
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    return await uploadFiles(logger, request, config).then(
+    return uploadFiles(logger, request, config).then(
       function (result) {
-        if ((parseFloat(result.fileSize) * 100) === 0) {
-          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-            err: [{
-              text: 'The selected file is empty',
-              href: LEGAL_AGREEMENT_ID
-            }]
-          })
-        } else if (result[0].errorMessage === undefined) {
-          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
-          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
-          logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-          request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_MAP_CONFIG, result.mapConfig)
-
-          return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
-        }
-
-        return h.redirect(constants.views.INTERNAL_SERVER_ERROR)
+        const viewDetails = processSucessfulUpload(result, request)
+        return viewDetails.resultView === constants.routes.CHECK_LEGAL_AGREEMENT ? h.redirect(viewDetails.resultView, viewDetails.errorMessage) : h.view(viewDetails.resultView, viewDetails.errorMessage)
       },
       function (err) {
-        switch (err.message) {
-          case constants.uploadErrors.noFile:
-            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-              err: [{
-                text: 'Select a legal agreement',
-                href: LEGAL_AGREEMENT_ID
-              }]
-            })
-          case constants.uploadErrors.unsupportedFileExt:
-            return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-              err: [{
-                text: 'The selected file must be a DOC, DOCX or PDF',
-                href: LEGAL_AGREEMENT_ID
-              }]
-            })
-          default:
-            if (err.message.indexOf('timed out') > 0) {
-              return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-                err: [{
-                  text: 'The selected file could not be uploaded -- try again',
-                  href: LEGAL_AGREEMENT_ID
-                }]
-              })
-            }
-            throw err
-        }
+        return processErrorUpload(err, h)
       }
     ).catch(err => {
       console.log(`Problem uploading file ${err}`)
