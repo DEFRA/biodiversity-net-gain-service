@@ -120,5 +120,16 @@ describe('The document service', () => {
     // Increase the test timeout to six seconds as each attempted retrieval of
     // screening results is delayed by five seconds by default.
     }, 6000)
+    it('should throw an error when document screening fails 2', async () => {
+      const axios = require('axios')
+      const error = new Error('unit test error')
+      axios.request.mockImplementation(() => {
+        throw error
+      })
+
+      await expect(screenDocumentForThreats(logger, config, stream))
+        .rejects
+        .toEqual(error)
+    })
   })
 })
