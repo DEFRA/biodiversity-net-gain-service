@@ -2,6 +2,14 @@ import { getBlobServiceClient } from './helpers/azure-storage.js'
 
 const blobServiceClient = getBlobServiceClient()
 
+const deleteBlobIfExists = async config => {
+  const options = {
+    deleteSnapshots: 'include'
+  }
+  const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
+  return blockBlobClient.deleteIfExists(options)
+}
+
 const downloadStreamIfExists = async (logger, config) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
   const blobExists = await blockBlobClient.exists()
@@ -30,7 +38,10 @@ const downloadToBufferIfExists = async (logger, config) => {
 
 const uploadStream = async (config, stream) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
-  return blockBlobClient.uploadStream(stream)
+  await blockBlobClient.uploadStream(stream)
+  if (config.metadata) {
+    await blockBlobClient.setMetadata(config.metadata)
+  }
 }
 
 const getBlockBlobClient = (containerName, blobName) => {
@@ -39,6 +50,7 @@ const getBlockBlobClient = (containerName, blobName) => {
 }
 
 export const blobStorageConnector = Object.freeze({
+  deleteBlobIfExists,
   downloadStreamIfExists,
   downloadToBufferIfExists,
   uploadStream

@@ -4,18 +4,26 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
-
 const startServer = async (options) => {
   const server = await createServer(options)
   await init(server)
   return server
 }
 
+const getExpectedErrorCode = (uploadConfig) => {
+  if (uploadConfig.hasError !== undefined && uploadConfig.hasError) {
+    return 200
+  }
+  if (uploadConfig.hasError !== undefined && !uploadConfig.hasError) {
+    return 302
+  } else if (uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath) {
+    return 500
+  }
+  return 302
+}
+
 const uploadFile = async (uploadConfig) => {
-  const expectedResponseCode =
-    uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath
-      ? 500
-      : 302
+  const expectedResponseCode = getExpectedErrorCode(uploadConfig)
 
   const formData = new FormData()
 

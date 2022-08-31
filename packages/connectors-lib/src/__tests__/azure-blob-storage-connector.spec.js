@@ -13,7 +13,7 @@ describe('The Azure blob storage connector', () => {
     await recreateContainers()
   })
 
-  it('should upload a stream to blob storage and allow subsequent download using environment variable configuration', async () => {
+  it('should upload a stream to blob storage and allow subsequent download using environment variable configuration, followed by deletion of blob', async () => {
     const mockData = { mock: 'data' }
     await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
     await expect(blobExists(config.containerName, config.blobName)).resolves.toStrictEqual(true)
@@ -27,6 +27,29 @@ describe('The Azure blob storage connector', () => {
     response.readableStreamBody.on('data', chunk => {
       expect(JSON.parse(chunk.toString())).toStrictEqual(mockData)
     })
+
+    // delete blob and check no longer exists in storage
+    await blobStorageConnector.deleteBlobIfExists(config)
+    const response2 = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+    expect(response2).toBeUndefined()
+  })
+  it('should upload a stream to blob storage and allow subsequent download using environment variable configuration, with file metadata', async () => {
+    const mockData = { mock: 'data' }
+    config.metadata = { foo: 'bar' }
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    await expect(blobExists(config.containerName, config.blobName)).resolves.toStrictEqual(true)
+
+    const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+    expect(buffer).toBeDefined()
+    expect(JSON.parse(buffer.toString())).toStrictEqual(mockData)
+
+    const response = await blobStorageConnector.downloadStreamIfExists(logger, config)
+    expect(response).toBeDefined()
+    response.readableStreamBody.on('data', chunk => {
+      expect(JSON.parse(chunk.toString())).toStrictEqual(mockData)
+    })
+    expect(response.metadata).toBeDefined()
+    expect(response.metadata.foo).toStrictEqual('bar')
   })
   it('should return undefined if an attempt is made to download a non-existent blob to a buffer', async () => {
     const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
