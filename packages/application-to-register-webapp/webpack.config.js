@@ -15,8 +15,8 @@ export default {
     path: path.resolve(__dirname, 'public/build/js'),
     library: '[name]'
   },
-  mode: !inDev ? 'production' : 'development',
-  devtool: !inDev ? false : 'source-map',
+  mode: 'development',
+  devtool: 'source-map',
   module: {
     rules: [
       {

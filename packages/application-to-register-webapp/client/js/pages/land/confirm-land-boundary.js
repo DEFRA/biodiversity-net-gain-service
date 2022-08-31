@@ -174,7 +174,7 @@ const getMap = async config => {
     target: 'map',
     layers: options.layers,
     view: options.view,
-    interactions: options.interactions | []
+    interactions: options.interactions || []
   })
 }
 
