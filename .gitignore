@@ -119,3 +119,5 @@ packages/**/babel.config.json
 
 # Jest debug directory
 .jest-with-debug/
+#intelij management files
+.idea
