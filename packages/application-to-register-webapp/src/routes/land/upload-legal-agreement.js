@@ -6,7 +6,7 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const LEGAL_AGREEMENT_ID = '#legalAgreement'
 
-function processSucessfulUpload (result, request) {
+function processSuccessfulUpload (result, request) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   let errorMessage = {}
   if ((parseFloat(result.fileSize) * 100) === 0) {
@@ -21,7 +21,6 @@ function processSucessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
     logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_MAP_CONFIG, result.mapConfig)
     resultView = constants.routes.CHECK_LEGAL_AGREEMENT
   }
   return { resultView, errorMessage }
@@ -68,7 +67,7 @@ const handlers = {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
       function (result) {
-        const viewDetails = processSucessfulUpload(result, request)
+        const viewDetails = processSuccessfulUpload(result, request)
         return processReturnValue(viewDetails, h)
       },
       function (err) {

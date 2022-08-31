@@ -11,13 +11,12 @@ const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
-const LEGAL_AGREEMENT_MAP_CONFIG = 'legal-agreement-map-config'
-const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
+const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
+const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
-const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const PUBLIC = 'public'
 const SESSION = 'session'
 const START = 'start'
@@ -46,7 +45,6 @@ const redisKeys = {
   LAND_BOUNDARY_MAP_CONFIG,
   LAND_BOUNDARY_UPLOAD_TYPE,
   LEGAL_AGREEMENT_CHECKED,
-  LEGAL_AGREEMENT_MAP_CONFIG,
   LEGAL_AGREEMENT_LOCATION,
   LEGAL_AGREEMENT_FILE_SIZE
 }

@@ -6,8 +6,8 @@ import { logger } from 'defra-logging-facade'
 const downloadLegalAgreement = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
   const config = {
-    containerName: 'trusted',
-    blobName: blobName
+    blobName,
+    containerName: 'trusted'
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)

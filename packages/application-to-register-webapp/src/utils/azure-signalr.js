@@ -39,7 +39,6 @@ const createPromisesForEvents = (connection, events, config) => {
 
 const handleEvents = async (config, events) => {
   let eventData
-  console.log(config.signalRConfig.url)
   const connection = signalRConnector.createConnection(logger, config.signalRConfig.url)
   await connection.start()
   const promises = createPromisesForEvents(connection, events, config.signalRConfig)

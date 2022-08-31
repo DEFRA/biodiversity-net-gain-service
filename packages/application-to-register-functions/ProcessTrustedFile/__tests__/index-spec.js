@@ -141,12 +141,7 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
 const performValidLegalDocumentProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
-      // jest.mock('@defra/bng-geoprocessing-service')
       const testConfig = buildConfig(fileExtension, 'legal-agreement')
-      // const geoprocessingService = await import('@defra/bng-geoprocessing-service')
-      // geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
-      //   return testConfig.mapConfig
-      // })
 
       await processTrustedFile(getContext(), testConfig.message)
 
