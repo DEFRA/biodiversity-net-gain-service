@@ -52,6 +52,9 @@ const performUnsuccessfulThreatScreening = async (done, errorToThrow, expectedAr
 }
 
 describe('Untrusted file processing', () => {
+  beforeEach(() => {
+    process.env.AV_DISABLE = 'false'
+  })
   it('should initiate threat processing, transfer a clean upload to the appropriate storage location and send a message to initiate further processing. ', done => {
     jest.isolateModules(async () => {
       try {
@@ -68,6 +71,7 @@ describe('Untrusted file processing', () => {
         setImmediate(async () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
+          await expect(screenDocumentForThreats).toHaveBeenCalled()
           expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
           done()
         })
@@ -112,6 +116,32 @@ describe('Untrusted file processing', () => {
 
     jest.isolateModules(async () => {
       await performUnsuccessfulThreatScreening(done, mockError, expectedArguments)
+    })
+  })
+  it('should not send file for security screening if AV_DISABLE is false', done => {
+    jest.isolateModules(async () => {
+      try {
+        process.env.AV_DISABLE = 'true'
+        const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+        const { screenDocumentForThreats } = require('@defra/bng-document-service')
+        const mockData = JSON.stringify({ mock: 'data' })
+
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+
+        screenDocumentForThreats.mockReturnValue(Readable.from(mockData))
+
+        await processUntrustedFile(getContext(), message)
+
+        setImmediate(async () => {
+          await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+          await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
+          await expect(screenDocumentForThreats).not.toHaveBeenCalled()
+          expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
+          done()
+        })
+      } catch (e) {
+        done(e)
+      }
     })
   })
 })
