@@ -34,7 +34,8 @@ steps:
     cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-azure-storage-test-utils -r && \
     cp ../connectors-lib/ ./node_modules/@defra/bng-connectors-lib -r && \
     cp ../errors-lib/ ./node_modules/@defra/bng-errors-lib -r && \
-    cp ../geoprocessing-service/ ./node_modules/@defra/bng-geoprocessing-service -r
+    cp ../geoprocessing-service/ ./node_modules/@defra/bng-geoprocessing-service -r && \
+    cp ../document-service/ ./node_modules/@defra/bng-document-service -r
   displayName: 'Hotfix for function local dependencies'
 
 - script: |
