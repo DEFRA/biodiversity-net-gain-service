@@ -33,12 +33,31 @@ export default async function (context, message) {
   // If threat screening succeeds, copy the untrusted file to the trusted file container manually before using a binding to place the trusted file location on a
   // storage queue. This ensures that the file will be present in the trusted file container BEFORE the queued message is processed.
 
-  const response = await blobStorageConnector.downloadStreamIfExists(context, config.untrustedBlobStorageConfig)
+  try {
+    const response = await blobStorageConnector.downloadStreamIfExists(context, config.untrustedBlobStorageConfig)
 
-  if (response) {
-    await screenDocument(context, message, config, response.readableStreamBody)
-  } else {
-    context.log.error('Unable to retrieve blob')
+    if (response) {
+      let documentStream = response.readableStreamBody
+      if (!process.env.AV_DISABLE || !JSON.parse(process.env.AV_DISABLE)) {
+        documentStream = await screenDocument(context, config, documentStream)
+      } else {
+        context.log('File security screening is disabled')
+      }
+
+      await uploadDocument(config, documentStream)
+
+      sendMessage(context, message)
+    } else {
+      context.log.error('Unable to retrieve blob')
+    }
+  } catch (err) {
+    let signalRMessageArguments
+    if (err instanceof ThreatScreeningError) {
+      signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
+    } else {
+      signalRMessageArguments = [{ errorMessage: err.message }]
+    }
+    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
   }
 }
 
@@ -55,33 +74,25 @@ const buildConfig = message => {
   return config
 }
 
-const screenDocument = async (context, message, config, stream) => {
-  let screenedFileAsStream
+const screenDocument = async (context, config, stream) => {
+  // Interaction with the initial streaming based threat processing solution results in a stream being returned
+  // for upload to the trusted file container. At present, a stream is submitted for threat processing and then polling
+  // is used to retrieve the results.
+  //
+  // If asynchronous interaction with the threat processing solution is progressed, it will be benefical if:
+  // - this function submits a stream for threat processing.
+  // - the threat processing solution notifies another function when threat processing is complete
+  //   (either successfully or unsuccessfully).
+  //
+  // Synchronous threat processing is also an option for consideration.
   context.log('Sending file for security screening')
-  try {
-    // Interaction with the initial streaming based threat processing solution results in a stream being returned
-    // for upload to the trusted file container. At present, a stream is submitted for threat processing and then polling
-    // is used to retrieve the results.
-    //
-    // If asynchronous interaction with the threat processing solution is progressed, it will be benefical if:
-    // - this function submits a stream for threat processing.
-    // - the threat processing solution notifies another function when threat processing is complete
-    //   (either successfully or unsuccessfully).
-    //
-    // Synchronous threat processing is also an option for consideration.
-    screenedFileAsStream = await screenDocumentForThreats(context, config.avConfig, stream)
-  } catch (err) {
-    let signalRMessageArguments
-    context.log.error('Unable to screen file')
-    if (err instanceof ThreatScreeningError) {
-      signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
-    } else {
-      signalRMessageArguments = [{ errorMessage: err.message }]
-    }
-    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
-  }
-  if (screenedFileAsStream) {
-    await blobStorageConnector.uploadStream(config.trustedBlobStorageConfig, screenedFileAsStream)
-    context.bindings.trustedFileQueue = message
-  }
+  return screenDocumentForThreats(context, config.avConfig, stream)
+}
+
+const uploadDocument = async (config, fileStream) => {
+  await blobStorageConnector.uploadStream(config.trustedBlobStorageConfig, fileStream)
+}
+
+const sendMessage = (context, message) => {
+  context.bindings.trustedFileQueue = message
 }
