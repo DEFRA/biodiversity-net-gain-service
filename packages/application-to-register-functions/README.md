@@ -87,6 +87,7 @@ To switch between connection to Microsoft Azure infrstructure and an Azurite con
 
 | name | description |
 |------|-------------|
+| AV_DISABLE | "true" or "false" to disable threat screening |
 | AV_API_CLIENT_ID | OAuth client ID required for threat screening |
 | AV_API_CLIENT_SECRET | OAuth client secret required for threat screening |
 | AV_API_SCOPE | OAuth client ID required for threat screening |
