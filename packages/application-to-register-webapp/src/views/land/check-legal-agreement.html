@@ -1,0 +1,61 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the legal agreement file" %}
+
+{% block formContent %}
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukFieldset({
+        legend: {
+          text: pageHeading,
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) }}
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "File added",
+              classes: "app-summary-list__key--narrow",
+              classes: "govuk-!-width-one-quarter"
+            },
+            value: {
+              html: "<a download id = 'legal-agreement-download' href='./check-legal-agreement/download'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
+            }
+          }
+        ]
+      }) }}
+      {{ govukRadios({
+        idPrefix: "checkLegalAgreement",
+        name: "checkLegalAgreement",
+        fieldset: {
+          legend: {
+            text: "Is this the correct file?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        errorMessage: err,
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            id: "check-upload-correct-yes"
+          },
+          {
+            value: "no",
+            text: "No, choose a different file",
+            id: "check-upload-correct-no"
+          }
+        ]
+      }) }}
+      
+      {{ govukButton({ text: 'Continue' }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+

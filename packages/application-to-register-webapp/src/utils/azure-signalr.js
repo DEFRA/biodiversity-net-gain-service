@@ -7,7 +7,9 @@ const createPromiseForEvent = (connection, event, config) => {
     connection.on(event, async data => {
       logger.log(`${new Date().toUTCString()} Received SignalR event`)
       try {
-        config.eventProcessingFunction(data)
+        if (config.eventProcessingFunction) {
+          config.eventProcessingFunction(data)
+        }
         resolve(data)
       } catch (err) {
         reject(err)
