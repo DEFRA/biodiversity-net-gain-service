@@ -3,10 +3,12 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import processPreview from '../../utils/document-converter.js'
 
 const LEGAL_AGREEMENT_ID = '#legalAgreement'
 
-function processSuccessfulUpload (result, request) {
+async function processSuccessfulUpload (result, request) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   let errorMessage = {}
   if ((parseFloat(result.fileSize) * 100) === 0) {
@@ -20,9 +22,20 @@ function processSuccessfulUpload (result, request) {
   } else if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
-    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location}`)
     resultView = constants.routes.CHECK_LEGAL_AGREEMENT
   }
+
+  const blobName = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+  const config = {
+    containerName: 'trusted',
+    blobName
+  }
+
+  const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+  const imageDetails = await processPreview(buffer, blobName)
+  request.yar.set(`PREVIEW_FILE_PATH_${request.yar.id}`, imageDetails.path)
+
   return { resultView, errorMessage }
 }
 
@@ -65,9 +78,9 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        const viewDetails = processSuccessfulUpload(result, request)
+    return await uploadFiles(logger, request, config).then(
+      async function (result) {
+        const viewDetails = await processSuccessfulUpload(result, request)
         return processReturnValue(viewDetails, h)
       },
       function (err) {

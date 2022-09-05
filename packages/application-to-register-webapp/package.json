@@ -52,6 +52,10 @@
     "stream-to-promise": "^3.0.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "pdf-img-convert": "^1.0.6",
+    "docx-pdf": "^0.0.1",
+    "libreoffice-convert": "^1.4.1",
+    "pdf2pic": "^2.1.4"
   }
 }

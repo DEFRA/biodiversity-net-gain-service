@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { logger } from 'defra-logging-facade'
 
 const handlers = {
   get: async (request, h) => {
@@ -17,11 +18,11 @@ const handlers = {
         containerName: 'trusted',
         blobName: legalAgreementLocation
       }
-      await blobStorageConnector.deleteBlobIfExists(config)
+      await blobStorageConnector.deleteBlobIfExists(logger, config)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-      return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      return h.view(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      return h.redirect('/' + constants.views.CHECK_LEGAL_AGREEMENT, {
+      return h.view(constants.views.CHECK_LEGAL_AGREEMENT, {
         filename: legalAgreementLocation === null ? '' : path.basename(legalAgreementLocation),
         fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
         err: { text: '!TODO: Journey continuation not implemented' }

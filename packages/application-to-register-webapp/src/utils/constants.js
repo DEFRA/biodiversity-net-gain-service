@@ -22,6 +22,7 @@ const SESSION = 'session'
 const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
+const DOWNLOAD_FIRST_PAGE_IMAGE = 'land/check-legal-agreement/preview-image'
 const YES = 'yes'
 
 const confirmFileUploadOptions = {
@@ -62,7 +63,8 @@ const routes = {
   SESSION,
   START,
   UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  UPLOAD_LEGAL_AGREEMENT
+  UPLOAD_LEGAL_AGREEMENT,
+  DOWNLOAD_FIRST_PAGE_IMAGE
 }
 
 const uploadErrors = {
