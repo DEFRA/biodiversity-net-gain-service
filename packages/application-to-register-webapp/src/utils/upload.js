@@ -21,6 +21,9 @@ const uploadFiles = async (logger, request, config) => {
         events.push(`Processed ${part.filename}`)
         uploadResult.fileSize = (part.byteCount / 1024 / 1024).toFixed(2)
       }
+      if (part.filename) {
+        uploadResult.filename = part.filename
+      }
     })
     form.on('error', function (err) {
       reject(err)
