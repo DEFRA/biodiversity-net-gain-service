@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/confirm-land-boundary'
+const url = '/land/check-land-boundary-file'
 
 describe(url, () => {
   describe('GET', () => {
@@ -32,7 +32,7 @@ describe(url, () => {
     })
     it('should detect an invalid response ', async () => {
       postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
-      await submitPostRequest(postOptions, 500)
+      await submitPostRequest(postOptions, 200)
     })
   })
 })
