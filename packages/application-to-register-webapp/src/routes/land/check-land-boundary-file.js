@@ -9,14 +9,14 @@ const handlers = {
       filename: request.yar.get(constants.redisKeys.FILE_NAME),
       fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE)
     }
-    return h.view(constants.views.CHECK_LAND_BOUNDARY, mapConfig)
+    return h.view(constants.views.CHECK_LAND_BOUNDARY_FILE, mapConfig)
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
     let route
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
-        route = constants.routes.CHECK_LAND_BOUNDARY
+        route = constants.routes.CHECK_LAND_BOUNDARY_FILE
         break
       case constants.confirmLandBoundaryOptions.NO_AGAIN:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
@@ -25,7 +25,7 @@ const handlers = {
         route = constants.routes.GEOSPATIAL_UPLOAD_TYPE
         break
       default:
-        return h.view(constants.views.CHECK_LAND_BOUNDARY, {
+        return h.view(constants.views.CHECK_LAND_BOUNDARY_FILE, {
           err: [{
             text: 'Select yes if this is the correct file',
             href: 'check-upload-correct'
@@ -40,10 +40,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHECK_LAND_BOUNDARY,
+  path: constants.routes.CHECK_LAND_BOUNDARY_FILE,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CHECK_LAND_BOUNDARY,
+  path: constants.routes.CHECK_LAND_BOUNDARY_FILE,
   handler: handlers.post
 }]
