@@ -18,7 +18,7 @@ const handlers = {
     request.yar.set(constants.redisKeys.FILE_NAME, landBoundaryData.filename)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, landBoundaryData.fileSize)
 
-    return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+    return h.redirect(constants.routes.CHECK_LAND_BOUNDARY_FILE)
   }
 }
 
