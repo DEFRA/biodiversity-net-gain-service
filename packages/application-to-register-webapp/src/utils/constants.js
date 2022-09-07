@@ -1,6 +1,6 @@
 const ABOUT = 'about'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement'
-const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/confirm-land-boundary'
+const CHECK_LAND_BOUNDARY_FILE = 'land/check-land-boundary-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/check-legal-agreement/download'
 const ERROR = 'error'
@@ -12,6 +12,7 @@ const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
+const FILE_NAME = 'fileName'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const NO = 'no'
@@ -46,14 +47,15 @@ const redisKeys = {
   LAND_BOUNDARY_UPLOAD_TYPE,
   LEGAL_AGREEMENT_CHECKED,
   LEGAL_AGREEMENT_LOCATION,
-  LEGAL_AGREEMENT_FILE_SIZE
+  LEGAL_AGREEMENT_FILE_SIZE,
+  FILE_NAME
 }
 
 const routes = {
   ABOUT,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
-  CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  CHECK_LAND_BOUNDARY: CHECK_LAND_BOUNDARY_FILE,
   DOWNLOAD_LEGAL_AGREEMENT,
   GEOSPATIAL_LAND_BOUNDARY,
   LAND_BOUNDARY_UPLOAD_TYPE,

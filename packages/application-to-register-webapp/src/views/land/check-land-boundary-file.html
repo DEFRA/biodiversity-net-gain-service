@@ -1,0 +1,114 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the land boundary file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukFieldset({
+          legend: {
+            text: pageHeading,
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) }}
+        {{ govukSummaryList({
+          rows: [
+            {
+              key: {
+              text: "File added",
+              classes: "app-summary-list__key--narrow",
+              classes: "govuk-!-width-one-quarter"
+            },
+              value: {
+              html: filename + ", <span id = 'filesize'>" + fileSize + " MB</span>"
+            }
+            }
+          ]
+        }) }}
+        {{ govukRadios({
+          idPrefix: "confirmGeospatialLandBoundary",
+          name: "confirmGeospatialLandBoundary",
+          fieldset: {
+            legend: {
+              text: "Is this the correct file?",
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          errorMessage: err,
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              id: "check-upload-correct-yes"
+            },
+            {
+              value: "no",
+              text: "No, choose a different file",
+              id: "check-upload-correct-no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({ text: 'Continue' }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{#{% extends 'form-layout.html' %}#}
+
+{#{% from "govuk/components/radios/macro.njk" import govukRadios %}#}
+
+{#{% set pageHeading = "Confirm the land boundary" %}#}
+
+{#{% block formContent %}#}
+
+{#  <div class="govuk-grid-row">#}
+{#    <div class="govuk-grid-column-full">#}
+{#      <div id="map" class="map" tabindex="0"></div>#}
+{#      <div id="map-coordinates" class="map-coordinates"><strong>Coordinates</strong></div>#}
+{#      {{ govukRadios({#}
+{#        idPrefix: "confirmGeospatialLandBoundary",#}
+{#        name: "confirmGeospatialLandBoundary",#}
+{#        fieldset: {#}
+{#          legend: {#}
+{#            text: "Is the land boundary correct?",#}
+{#            classes: "govuk-fieldset__legend--m"#}
+{#          }#}
+{#        },#}
+{#        items: [#}
+{#          {#}
+{#            value: "yes",#}
+{#            text: "Yes"#}
+{#          },#}
+{#          {#}
+{#            value: "noAgain",#}
+{#            text: "No, upload a different file"#}
+{#          },#}
+{#          {#}
+{#            value: "no",#}
+{#            text: "No, choose a different way to provide the land boundary"#}
+{#          }#}
+{#        ]#}
+{#      }) }}#}
+
+{#      {{ govukButton({ text: 'Continue' }) }}#}
+{#    </div>#}
+{#  </div>#}
+
+{#  <% htmlWebpackPlugin.files.js.forEach(file => { %>#}
+{#    <script src="<%= file.replace('../../js/', '/public/js/') %>"></script>#}
+{#  <% }) %>#}
+{#  <script>#}
+{#    const safeMapConfig = {{ mapConfig | dump | safe }}#}
+{#    confirmLandBoundary.initialiseMap(safeMapConfig)#}
+{#    </script>#}
+{#{% endblock %}#}
+

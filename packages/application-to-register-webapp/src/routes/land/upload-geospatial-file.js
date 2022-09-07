@@ -9,11 +9,16 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    const landBoundaryData = (await uploadFiles(logger, request, config))[0]
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${landBoundaryData.location.substring(landBoundaryData.location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, landBoundaryData.location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, landBoundaryData.mapConfig)
-    return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
+    const landBoundaryData = (await uploadFiles(logger, request, config))
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${landBoundaryData[0].location.substring(landBoundaryData[0].location.lastIndexOf('/') + 1)}`)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, landBoundaryData[0].location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, landBoundaryData[0].mapConfig)
+
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, landBoundaryData[0].location)
+    request.yar.set(constants.redisKeys.FILE_NAME, landBoundaryData.filename)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, landBoundaryData.fileSize)
+
+    return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
   }
 }
 
