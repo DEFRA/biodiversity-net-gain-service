@@ -6,6 +6,9 @@
 
 {% block formContent %}
 <div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukFieldset({
@@ -38,7 +41,7 @@
             classes: "govuk-fieldset__legend--m"
           }
         },
-        errorMessage: err,
+        errorMessage: err[0],
         items: [
           {
             value: "yes",

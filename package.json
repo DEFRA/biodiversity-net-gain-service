@@ -10,6 +10,7 @@
     "install-detect-secrets": "(cd .devcontainer/scripts && ./install-detect-secrets.sh)",
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:clean": "lerna clean",
+    "clean": "npm run lerna:clean && rm -rf node_modules",
     "lint": "standard",
     "unit-test": "bin/run-unit-tests.sh",
     "test": "npm run lint && npm run unit-test",

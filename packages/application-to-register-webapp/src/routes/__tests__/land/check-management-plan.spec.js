@@ -29,8 +29,7 @@ describe(url, () => {
     })
 
     it('should detect an invalid response from user', async () => {
-      postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
-      await submitPostRequest(postOptions, 500)
+      await submitPostRequest(postOptions, 200)
     })
   })
 })
