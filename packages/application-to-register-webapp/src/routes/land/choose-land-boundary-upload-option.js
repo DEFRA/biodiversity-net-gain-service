@@ -3,12 +3,12 @@ import constants from '../../utils/constants.js'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
-    return h.view(constants.views.LAND_BOUNDARY_UPLOAD_TYPE, {
+    return h.view(constants.views.GEOSPATIAL_UPLOAD_TYPE, {
       ...context
     })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
     const route =
       request.payload.landBoundaryUploadType === constants.landBoundaryUploadTypes.GEOSPATIAL_DATA
         ? constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
@@ -25,7 +25,7 @@ const handlers = {
 }
 
 const getContext = async request => {
-  const landBoundaryUploadType = request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE)
+  const landBoundaryUploadType = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE)
   let context
   if (landBoundaryUploadType) {
     context = {
@@ -37,10 +37,10 @@ const getContext = async request => {
 
 export default [{
   method: 'GET',
-  path: constants.routes.LAND_BOUNDARY_UPLOAD_TYPE,
+  path: constants.routes.GEOSPATIAL_UPLOAD_TYPE,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.LAND_BOUNDARY_UPLOAD_TYPE,
+  path: constants.routes.GEOSPATIAL_UPLOAD_TYPE,
   handler: handlers.post
 }]
