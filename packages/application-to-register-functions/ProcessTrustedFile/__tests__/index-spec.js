@@ -12,8 +12,12 @@ describe('Trusted file processing', () => {
     performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, done)
   })
 
-  it('should process a pdf upload type in an compressed file. ', done => {
-    performValidLegalDocumentProcessingTest(PDF_FILE_EXTENSION, done)
+  it('should process a pdf upload for a legal agreement upload type. ', done => {
+    performValidProcessingTest(PDF_FILE_EXTENSION, 'legal-agreement', done)
+  })
+
+  it('should process a pdf upload for a management plan upload type. ', done => {
+    performValidProcessingTest(PDF_FILE_EXTENSION, 'management-plan', done)
   })
 
   it('should process a known upload type in an uncompressed file. ', done => {
@@ -138,10 +142,10 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
   })
 }
 
-const performValidLegalDocumentProcessingTest = (fileExtension, done) => {
+const performValidProcessingTest = (fileExtension, uploadType, done) => {
   jest.isolateModules(async () => {
     try {
-      const testConfig = buildConfig(fileExtension, 'legal-agreement')
+      const testConfig = buildConfig(fileExtension, uploadType)
 
       await processTrustedFile(getContext(), testConfig.message)
 

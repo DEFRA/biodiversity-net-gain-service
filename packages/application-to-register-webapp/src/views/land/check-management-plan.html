@@ -1,0 +1,64 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the habitat management and monitoring plan file" %}
+
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukFieldset({
+        legend: {
+          text: pageHeading,
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) }}
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "File added",
+              classes: "app-summary-list__key--narrow",
+              classes: "govuk-!-width-one-quarter"
+            },
+            value: {
+              html: "<a download id = 'management-plan-download' href='./check-management-plan/download'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
+            }
+          }
+        ]
+      }) }}
+      {{ govukRadios({
+        idPrefix: "checkManagementPlan",
+        name: "checkManagementPlan",
+        fieldset: {
+          legend: {
+            text: "Is this the correct file?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        errorMessage: err[0],
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            id: "check-upload-correct-yes"
+          },
+          {
+            value: "no",
+            text: "No, choose a different file",
+            id: "check-upload-correct-no"
+          }
+        ]
+      }) }}
+      
+      {{ govukButton({ text: 'Continue' }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
