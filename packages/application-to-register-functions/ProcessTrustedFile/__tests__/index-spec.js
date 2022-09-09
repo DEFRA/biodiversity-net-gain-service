@@ -19,7 +19,7 @@ describe('Trusted file processing', () => {
   it('should process a known upload type in an uncompressed file. ', done => {
     performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, done)
   })
-  
+
   it('should process a known land boundary file. ', done => {
     performValidLandBoundaryDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
