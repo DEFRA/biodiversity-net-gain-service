@@ -24,7 +24,7 @@ describe('Land boundary upload controller tests', () => {
       }
     ]
     const baseConfig = {
-      uploadType: 'legal-agreement',
+      uploadType: 'land-boundary',
       url,
       formName: LAND_BOUNDARY_FORM_ELEMENT_NAME,
       eventData: mockLegalAgreement
