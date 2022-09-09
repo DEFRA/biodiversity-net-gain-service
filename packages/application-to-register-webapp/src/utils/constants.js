@@ -102,12 +102,12 @@ for (const [key, value] of Object.entries(routes)) {
 export default Object.freeze({
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
-  landBoundaryUploadTypes,
   legalAgreementFileExt: LEGAL_AGREMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_DOUNDARY_FILE_EXT,
   redisKeys,
   routes,
   views,
   uploadErrors,
-  uploadTypes
+  uploadTypes,
+  landBoundaryUploadTypes
 })
