@@ -37,7 +37,6 @@ const handlers = {
           }
         ]
       })
-      // return h.view(constants.views.CHECK_LAND_BOUNDARY, { filename: path.basename(legalAgreementLocation), err: { text: 'Select yes if this is the correct file' } })
     }
   }
 }
