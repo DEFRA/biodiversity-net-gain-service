@@ -11,7 +11,7 @@ const handlers = {
   post: async (request, h) => {
     const checkLandBoundary = request.payload.checkLandBoundary
     const landBoundaryLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_CHECKED, checkLandBoundary)
+    request.yar.set(constants.redisKeys.LAND_BOUNDAY_CHECKED, checkLandBoundary)
     if (checkLandBoundary === 'no') {
       // delete the file from blob storage
       const config = {
@@ -19,7 +19,7 @@ const handlers = {
         blobName: landBoundaryLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
-      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+      request.yar.clear(constants.redisKeys.LAND_BOUNDARY_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
       return h.redirect('/' + constants.views.CHECK_LAND_BOUNDARY, {
@@ -33,7 +33,7 @@ const handlers = {
         err: [
           {
             text: 'Select yes if this is the correct file',
-            href: href
+            href
           }
         ]
       })
