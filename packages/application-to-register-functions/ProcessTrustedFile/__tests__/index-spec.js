@@ -20,8 +20,12 @@ describe('Trusted file processing', () => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'management-plan', done)
   })
 
+  it('should process a pdf upload type in an compressed file. ', done => {
+    performValidLegalDocumentProcessingTest(PDF_FILE_EXTENSION, done)
+  })
+
   it('should process a known upload type in an uncompressed file. ', done => {
-    performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, done)
+    performValidLandAgreementDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
   it('should respond to a coordinate reference system validation error. ', done => {
@@ -146,6 +150,23 @@ const performValidProcessingTest = (fileExtension, uploadType, done) => {
   jest.isolateModules(async () => {
     try {
       const testConfig = buildConfig(fileExtension, uploadType)
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performValidLandAgreementDocumentProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'land-boundary')
 
       await processTrustedFile(getContext(), testConfig.message)
 
