@@ -1,0 +1,43 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload the habitat management and monitoring plan" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          {{ govukFileUpload({
+            id: "managementPlan",
+            name: "managementPlan",
+            errorMessage: err[0],
+            hint: {
+              html: "<p>The file should be:</p> <ul class='govuk-list govuk-list--bullet'><li>a DOC, DOCX or PDF</li><li>no larger than 50MB</li></ul>"
+            },
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+  
+          <p><a href="#">I do not have the habitat management and monitoring plan</a></p>
+
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
