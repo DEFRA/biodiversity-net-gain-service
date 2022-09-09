@@ -4,7 +4,7 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
-const LAND_BOUNDARY_ID = '#legalAgreement'
+const LAND_BOUNDARY_ID = '#landBoundary'
 
 function processSuccessfulUpload (result, request) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
@@ -18,7 +18,7 @@ function processSuccessfulUpload (result, request) {
       }]
     }
   } else if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_LAND_BOUNDARY
@@ -97,7 +97,7 @@ const buildConfig = sessionId => {
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/legalAgreement/`,
+    blobName: `${sessionId}/landBoundary/`,
     containerName: 'untrusted',
     metadata: {
       noprocess: 'true' // metadata to stop file being sent on for post processing

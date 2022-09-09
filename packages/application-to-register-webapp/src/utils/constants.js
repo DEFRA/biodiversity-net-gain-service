@@ -11,6 +11,7 @@ const GEOSPATIAL_LOCATION = 'geospatial-location'
 const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const GEOSPATIAL_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
+const LAND_BOUNDAY_CHECKED = 'land-boundary-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
@@ -23,8 +24,8 @@ const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
-const LAND_BOUNDARY_FILE_SIZE = 'legal-agreement-file-size'
-const LAND_BOUNDARY_LOCATION = 'legal-agreement-location'
+const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
+const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
 const CHECK_LAND_BOUNDARY = 'land/check-land-boundary'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const YES = 'yes'
@@ -39,13 +40,13 @@ const landBoundaryUploadTypes = {
   DOCUMENT_UPLOAD
 }
 
-const LEGAL_AGREMENT_FILE_EXT = [
+const LEGAL_AGREEMENT_FILE_EXT = [
   '.doc',
   '.docx',
   '.pdf'
 ]
 
-const LEGAL_LAND_DOUNDARY_FILE_EXT = [
+const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.doc',
   '.docx',
   '.jpg',
@@ -61,7 +62,8 @@ const redisKeys = {
   LEGAL_AGREEMENT_LOCATION,
   LEGAL_AGREEMENT_FILE_SIZE,
   LAND_BOUNDARY_LOCATION,
-  LAND_BOUNDARY_FILE_SIZE
+  LAND_BOUNDARY_FILE_SIZE,
+  LAND_BOUNDAY_CHECKED
 }
 
 const routes = {
@@ -102,8 +104,8 @@ for (const [key, value] of Object.entries(routes)) {
 export default Object.freeze({
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
-  legalAgreementFileExt: LEGAL_AGREMENT_FILE_EXT,
-  landBoundaryFileExt: LEGAL_LAND_DOUNDARY_FILE_EXT,
+  legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
+  landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
   redisKeys,
   routes,
   views,
