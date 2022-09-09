@@ -11,8 +11,8 @@ const handlers = {
     const config = buildConfig(request.yar.id)
     const landBoundaryData = (await uploadFiles(logger, request, config))[0]
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${landBoundaryData.location.substring(landBoundaryData.location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, landBoundaryData.location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, landBoundaryData.mapConfig)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, landBoundaryData.location)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_MAP_CONFIG, landBoundaryData.mapConfig)
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
   }
 }
