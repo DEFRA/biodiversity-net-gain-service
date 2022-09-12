@@ -6,7 +6,7 @@ import { logger } from 'defra-logging-facade'
 const downloadLandBoundary = async request => {
   const config = {
     containerName: 'trusted',
-    blobName: request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
+    blobName: request.yar.get(constants.redisKeys.GEOSPATIAL_LOCATION)
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
