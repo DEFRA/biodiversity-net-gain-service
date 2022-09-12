@@ -9,10 +9,14 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
-    const landBoundaryData = (await uploadFiles(logger, request, config))[0]
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${landBoundaryData.location.substring(landBoundaryData.location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, landBoundaryData.location)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_MAP_CONFIG, landBoundaryData.mapConfig)
+    const geospatialData = (await uploadFiles(logger, request, config))
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)}`)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
+
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
+
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
   }
 }
