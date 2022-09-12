@@ -6,7 +6,6 @@
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
   "scripts": {
     "local:install": "bin/init-local-settings-if-needed.sh",
-    "postinstall": "node init-functions.js",
     "lint": "standard",
     "test": "npm run lint",
     "start": "node init-functions.js && func start"
