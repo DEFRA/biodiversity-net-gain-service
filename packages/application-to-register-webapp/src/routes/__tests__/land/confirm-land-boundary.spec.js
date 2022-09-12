@@ -28,7 +28,7 @@ describe(url, () => {
     it('should allow an alternative geospatial or non-geospatial file to be uploaded ', async () => {
       postOptions.payload.confirmGeospatialLandBoundary = constants.confirmLandBoundaryOptions.NO
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.LAND_BOUNDARY_UPLOAD_TYPE)
+      expect(response.headers.location).toBe(constants.routes.GEOSPATIAL_UPLOAD_TYPE)
     })
     it('should detect an invalid response ', async () => {
       postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
