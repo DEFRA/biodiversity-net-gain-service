@@ -42,7 +42,7 @@ const performUnsuccessfulThreatScreening = async (done, errorToThrow, expectedAr
     setImmediate(async () => {
       await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
       await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
-      await expect(getContext().bindings.trustedFileQueue).toBeUndefined()
+      await expect(getContext().bindings.storageTrustedQueue).toBeUndefined()
       expect(getContext().bindings.signalRMessages).toStrictEqual([expectedSignalRMessage])
       done()
     })
@@ -72,7 +72,7 @@ describe('Untrusted file processing', () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
           await expect(screenDocumentForThreats).toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
+          expect(getContext().bindings.storageTrustedQueue).toStrictEqual(message)
           done()
         })
       } catch (e) {
@@ -89,7 +89,7 @@ describe('Untrusted file processing', () => {
         setImmediate(async () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
-          await expect(getContext().bindings.trustedFileQueue).toBeUndefined()
+          await expect(getContext().bindings.storageTrustedQueue).toBeUndefined()
           await expect(getContext().bindings.signalRMessages).toBeUndefined()
           done()
         })
@@ -136,7 +136,7 @@ describe('Untrusted file processing', () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
           await expect(screenDocumentForThreats).not.toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
+          expect(getContext().bindings.storageTrustedQueue).toStrictEqual(message)
           done()
         })
       } catch (e) {
