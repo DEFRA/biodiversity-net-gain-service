@@ -10,7 +10,7 @@ const handlers = {
     return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, mapConfig)
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
     let route
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
@@ -21,7 +21,7 @@ const handlers = {
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         break
       case constants.confirmLandBoundaryOptions.NO:
-        route = constants.routes.LAND_BOUNDARY_UPLOAD_TYPE
+        route = constants.routes.GEOSPATIAL_UPLOAD_TYPE
         break
       default:
         // This should not happen.
