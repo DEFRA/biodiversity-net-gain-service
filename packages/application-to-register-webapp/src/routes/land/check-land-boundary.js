@@ -23,8 +23,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
       return h.redirect('/' + constants.views.CHECK_LAND_BOUNDARY, {
-        filename: landBoundaryLocation === null ? '' : path.basename(landBoundaryLocation),
-        fileSize: request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
+        ...await getContext(request),
         err: { text: '!TODO: Journey continuation not implemented' }
       })
     } else {
