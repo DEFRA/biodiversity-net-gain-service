@@ -1,8 +1,10 @@
 const ABOUT = 'about'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement'
+const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan'
 const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/confirm-land-boundary'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/check-legal-agreement/download'
+const DOWNLOAD_MANAGEMENT_PLAN = 'land/check-management-plan/download'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
@@ -14,6 +16,10 @@ const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
+const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
+const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
+const MANAGEMENT_PLAN_LOCATION = 'management-plan-location'
+const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
@@ -21,6 +27,7 @@ const PUBLIC = 'public'
 const SESSION = 'session'
 const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
+const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const YES = 'yes'
 
@@ -46,15 +53,20 @@ const redisKeys = {
   LAND_BOUNDARY_UPLOAD_TYPE,
   LEGAL_AGREEMENT_CHECKED,
   LEGAL_AGREEMENT_LOCATION,
-  LEGAL_AGREEMENT_FILE_SIZE
+  LEGAL_AGREEMENT_FILE_SIZE,
+  MANAGEMENT_PLAN_CHECKED,
+  MANAGEMENT_PLAN_LOCATION,
+  MANAGEMENT_PLAN_FILE_SIZE
 }
 
 const routes = {
   ABOUT,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
+  CHECK_MANAGEMENT_PLAN,
   CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
   DOWNLOAD_LEGAL_AGREEMENT,
+  DOWNLOAD_MANAGEMENT_PLAN,
   GEOSPATIAL_LAND_BOUNDARY,
   LAND_BOUNDARY_UPLOAD_TYPE,
   OS_API_TOKEN,
@@ -62,6 +74,7 @@ const routes = {
   SESSION,
   START,
   UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+  UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_LEGAL_AGREEMENT
 }
 
@@ -72,7 +85,8 @@ const uploadErrors = {
 
 const uploadTypes = {
   GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE,
-  LEGAL_AGREEMENT_UPLOAD_TYPE
+  LEGAL_AGREEMENT_UPLOAD_TYPE,
+  MANAGEMENT_PLAN_UPLOAD_TYPE
 }
 
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
@@ -84,6 +98,8 @@ for (const [key, value] of Object.entries(routes)) {
 export default Object.freeze({
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
+  confirmManagementPlanOptions: confirmFileUploadOptions,
+  managementPlanFileExt: legalAgreementFileExt,
   landBoundaryUploadTypes,
   legalAgreementFileExt,
   redisKeys,

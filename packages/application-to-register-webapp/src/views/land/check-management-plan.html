@@ -2,7 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Check the legal agreement file" %}
+{% set pageHeading = "Check the habitat management and monitoring plan file" %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -27,14 +27,14 @@
               classes: "govuk-!-width-one-quarter"
             },
             value: {
-              html: "<a download id = 'legal-agreement-download' href='./check-legal-agreement/download'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
+              html: "<a download id = 'management-plan-download' href='./check-management-plan/download'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
             }
           }
         ]
       }) }}
       {{ govukRadios({
-        idPrefix: "checkLegalAgreement",
-        name: "checkLegalAgreement",
+        idPrefix: "checkManagementPlan",
+        name: "checkManagementPlan",
         fieldset: {
           legend: {
             text: "Is this the correct file?",

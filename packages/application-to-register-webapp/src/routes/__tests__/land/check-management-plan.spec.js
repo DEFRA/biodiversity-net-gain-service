@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-legal-agreement'
+const url = '/land/check-management-plan'
 
 describe(url, () => {
   describe('GET', () => {
@@ -17,15 +17,15 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('should allow confirmation that the correct legal agreement file has been uploaded', async () => {
-      postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.YES
+    it('should allow confirmation that the correct management plan file has been uploaded', async () => {
+      postOptions.payload.checkManagementPlan = constants.confirmManagementPlanOptions.YES
       await submitPostRequest(postOptions)
     })
 
-    it('should allow an alternative legal agreement file to be uploaded ', async () => {
-      postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.NO
+    it('should allow an alternative management plan file to be uploaded ', async () => {
+      postOptions.payload.checkManagementPlan = constants.confirmManagementPlanOptions.NO
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      expect(response.headers.location).toBe(constants.routes.UPLOAD_MANAGEMENT_PLAN)
     })
 
     it('should detect an invalid response from user', async () => {
