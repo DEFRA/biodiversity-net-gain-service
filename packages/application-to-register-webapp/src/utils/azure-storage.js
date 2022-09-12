@@ -3,12 +3,13 @@ import { blobStorageConnector, storageQueueConnector, serviceBusConnector } from
 const uploadStreamAndQueueMessage = async (logger, config, stream) => {
   addFileDetailsToConfiguration(config, stream.filename)
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
-  // TO DO - Current Azure functions download blobs from Azure manually as streams rather than
-  // relying on the contents of a storage queue message to enable Azure to provide blobs as function
-  // inputs (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-input)
-  //  As such use of Azure storage queues could be replaced with Azure service bus queues.
-  // await storageQueueConnector.sendMessage(config.queueConfig)
-  await serviceBusConnector.sendMessage(config.queueConfig)
+
+  if (process.env.AZURE_SERVICE_BUS_CONNECTION_STRING) {
+    await serviceBusConnector.sendMessage(config.queueConfig)
+  } else {
+    await storageQueueConnector.sendMessage(config.queueConfig)
+  }
+
   logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded and message has been queued`)
 }
 
@@ -19,8 +20,8 @@ const addFileDetailsToConfiguration = (config, filename) => {
     uploadType: config.queueConfig.uploadType,
     location: config.blobConfig.blobName
   }
-
-  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
+  // Azure storage queues require data in base64 binary for function to process, however service Bus does not...
+  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')  
 }
 
 export { uploadStreamAndQueueMessage }

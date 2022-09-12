@@ -4,8 +4,10 @@ const serviceBusClient = getServiceBusClient()
 
 const sendMessage = async config => {
   const sender = serviceBusClient.createSender(config.queueName)
-  // will fail if batch/array is too large to send, however in practice only expecting one message to be sent.
-  await sender.sendMessages(config.message)
+  
+  let batch = await sender.createMessageBatch()
+  batch.tryAddMessage({ body: config.message })
+  await sender.sendMessages(batch)
   await sender.close()
 }
 

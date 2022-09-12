@@ -1,18 +1,30 @@
 {
   "bindings": [
     {
-      "name": "message",
+      "name": "serviceBusTrigger",
+      "queueName": "untrusted-file-queue",
+      "type": "serviceBusTrigger",
+      "direction": "in"
+    },
+    {
+      "name": "storageQueueTrigger",
       "type": "queueTrigger",
       "direction": "in",
       "queueName": "untrusted-file-queue",
       "connection": "AzureWebJobsStorage"
     },
     {
-      "name": "trustedFileQueue",
+      "name": "storageTrustedQueue",
       "type": "queue",
       "direction": "out",
       "queueName": "trusted-file-queue",
       "connection": "AzureWebJobsStorage"
+    },
+    {
+      "name": "serviceBusTrustedQueue",
+      "type": "serviceBus",
+      "queueName": "trusted-file-queue",
+      "direction": "out"
     },
     {
       "type": "signalR",

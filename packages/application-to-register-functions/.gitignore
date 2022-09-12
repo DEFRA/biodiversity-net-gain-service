@@ -44,3 +44,6 @@ __pycache__/
 *$py.class
 
 deploy.zip
+
+ProcessUntrustedFile/function.json
+ProcessTrustedFile/function.json

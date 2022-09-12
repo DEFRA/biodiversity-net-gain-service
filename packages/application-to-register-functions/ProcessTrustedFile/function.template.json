@@ -1,7 +1,13 @@
 {
   "bindings": [
     {
-      "name": "message",
+      "name": "serviceBusTrigger",
+      "queueName": "trusted-file-queue",
+      "type": "serviceBusTrigger",
+      "direction": "in"
+    },
+    {
+      "name": "storageQueueTrigger",
       "type": "queueTrigger",
       "direction": "in",
       "queueName": "trusted-file-queue",

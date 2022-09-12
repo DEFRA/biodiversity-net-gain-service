@@ -23,6 +23,11 @@ const baseConfig = {
 }
 
 export default async function (context, message) {
+  // If service Bus triggered we must convert base64 binary to utf8
+  const useServiceBus = context.bindings.hasOwnProperty('serviceBusTrigger')
+  if (useServiceBus) {
+    message = JSON.parse(Buffer.from(message, 'base64').toString('utf-8'))
+  }
   context.log('Processing', JSON.stringify(message))
   const config = buildConfig(message)
   // Blob based triggering of Azure functions can be delayed due to its polling based implementation and event grid based
@@ -46,7 +51,7 @@ export default async function (context, message) {
 
       await uploadDocument(config, documentStream)
 
-      sendMessage(context, message)
+      sendMessage(context, message, useServiceBus)
     } else {
       context.log.error('Unable to retrieve blob')
     }
@@ -93,6 +98,6 @@ const uploadDocument = async (config, fileStream) => {
   await blobStorageConnector.uploadStream(config.trustedBlobStorageConfig, fileStream)
 }
 
-const sendMessage = (context, message) => {
-  context.bindings.trustedFileQueue = message
+const sendMessage = (context, message, useServiceBus) => {
+  useServiceBus ? context.bindings.serviceBusTrustedQueue = message : context.bindings.storageTrustedQueue = message
 }
