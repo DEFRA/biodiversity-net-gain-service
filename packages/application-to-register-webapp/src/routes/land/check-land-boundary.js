@@ -11,7 +11,7 @@ const handlers = {
   post: async (request, h) => {
     const checkLandBoundary = request.payload.checkLandBoundary
     const landBoundaryLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
-    request.yar.set(constants.redisKeys.LAND_BOUNDAY_CHECKED, checkLandBoundary)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, checkLandBoundary)
     if (checkLandBoundary === 'no') {
       // delete the file from blob storage
       const config = {
