@@ -11,7 +11,6 @@ if (process.env.AZURE_SERVICE_BUS_CONNECTION_STRING) {
   const serviceBusClient = initialiseServiceBusClient()
 
   getServiceBusClient = () => serviceBusClient
-
 } else {
   getServiceBusClient = () => {}
 }

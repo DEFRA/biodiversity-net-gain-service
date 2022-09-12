@@ -24,7 +24,7 @@ const baseConfig = {
 
 export default async function (context, message) {
   // If service Bus triggered we must convert base64 binary to utf8
-  const useServiceBus = context.bindings.hasOwnProperty('serviceBusTrigger')
+  const useServiceBus = Object.prototype.hasOwnProperty.call(context.bindings, 'serviceBusTrigger')
   if (useServiceBus) {
     message = JSON.parse(Buffer.from(message, 'base64').toString('utf-8'))
   }

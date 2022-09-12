@@ -21,7 +21,7 @@ const addFileDetailsToConfiguration = (config, filename) => {
     location: config.blobConfig.blobName
   }
   // Azure storage queues require data in base64 binary for function to process, however service Bus does not...
-  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')  
+  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
 export { uploadStreamAndQueueMessage }
