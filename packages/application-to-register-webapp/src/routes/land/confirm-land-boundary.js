@@ -18,9 +18,6 @@ const handlers = {
       case constants.confirmLandBoundaryOptions.YES:
         route = constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY
         break
-      case constants.confirmLandBoundaryOptions.NO_AGAIN:
-        route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
-        break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         break
