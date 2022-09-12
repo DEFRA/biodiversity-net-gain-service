@@ -46,7 +46,7 @@ const buildQueueConfig = config => {
   // Queue based triggering is used as blob triggering can experience delays
   // due to its poll based nature.
   config.queueConfig = {
-    uploadType: constants.uploadTypes.GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE,
+    uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
     queueName: 'untrusted-file-queue'
   }
 }
