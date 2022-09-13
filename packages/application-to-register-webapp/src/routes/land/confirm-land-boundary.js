@@ -5,7 +5,9 @@ const handlers = {
     const mapConfig = {
       mapConfig: {
         ...request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
-      }
+      },
+      filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
+      fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
     }
     return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, mapConfig)
   },
@@ -14,18 +16,20 @@ const handlers = {
     let route
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
-        // TO DO - Set the route associated with land boundary confirmation when implemented.
         route = constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY
         break
-      case constants.confirmLandBoundaryOptions.NO_AGAIN:
+      case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         break
-      case constants.confirmLandBoundaryOptions.NO:
-        route = constants.routes.GEOSPATIAL_UPLOAD_TYPE
-        break
       default:
-        // This should not happen.
-        throw new Error(`Unexpected geospatial land boundary confirmation response ${request.payload.confirmGeospatialLandBoundary}`)
+        return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, {
+          err: [{
+            text: 'Select yes if this is the correct file',
+            href: 'check-upload-correct'
+          }],
+          filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
+          fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+        })
     }
     return h.redirect(route)
   }
