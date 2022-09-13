@@ -3,7 +3,7 @@ import constants from '../../utils/constants.js'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
-    return h.view(constants.views.GEOSPATIAL_UPLOAD_TYPE, {
+    return h.view(constants.views.CHOOSE_GEOSPATIAL_UPLOAD, {
       ...context
     })
   },
@@ -37,10 +37,10 @@ const getContext = async request => {
 
 export default [{
   method: 'GET',
-  path: constants.routes.GEOSPATIAL_UPLOAD_TYPE,
+  path: constants.routes.CHOOSE_GEOSPATIAL_UPLOAD,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.GEOSPATIAL_UPLOAD_TYPE,
+  path: constants.routes.CHOOSE_GEOSPATIAL_UPLOAD,
   handler: handlers.post
 }]

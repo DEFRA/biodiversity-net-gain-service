@@ -8,11 +8,13 @@ const DOWNLOAD_MANAGEMENT_PLAN = 'land/check-management-plan/download'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
-const GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE = 'geospatial-land-boundary'
 const GEOSPATIAL_LOCATION = 'geospatial-location'
 const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
-const GEOSPATIAL_UPLOAD_TYPE = 'land/choose-land-boundary-upload-option'
+const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
+const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
+const CHOOSE_GEOSPATIAL_UPLOAD = 'land/choose-land-boundary-upload-option'
+const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
@@ -66,6 +68,8 @@ const redisKeys = {
   GEOSPATIAL_LOCATION,
   GEOSPATIAL_MAP_CONFIG,
   GEOSPATIAL_UPLOAD_TYPE,
+  GEOSPATIAL_FILE_NAME,
+  GEOSPATIAL_FILE_SIZE,
   LAND_BOUNDARY_MAP_CONFIG,
   LAND_BOUNDARY_UPLOAD_TYPE,
   LEGAL_AGREEMENT_CHECKED,
@@ -88,7 +92,7 @@ const routes = {
   DOWNLOAD_LEGAL_AGREEMENT,
   DOWNLOAD_MANAGEMENT_PLAN,
   GEOSPATIAL_LAND_BOUNDARY,
-  GEOSPATIAL_UPLOAD_TYPE,
+  CHOOSE_GEOSPATIAL_UPLOAD,
   OS_API_TOKEN,
   PUBLIC,
   SESSION,
@@ -106,7 +110,7 @@ const uploadErrors = {
 }
 
 const uploadTypes = {
-  GEOSPATIAL_LAND_BOUNDARY_UPLOAD_TYPE,
+  GEOSPATIAL_UPLOAD_TYPE,
   LEGAL_AGREEMENT_UPLOAD_TYPE,
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE
