@@ -13,7 +13,7 @@ const uploadFiles = async (logger, request, config) => {
     form.on('part', function (part) {
       if (!part.filename) {
         reject(new Error(constants.uploadErrors.noFile))
-      } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename))) {
+      } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
         reject(new Error(constants.uploadErrors.unsupportedFileExt))
       } else {
         // Send this part of the multipart request for processing
