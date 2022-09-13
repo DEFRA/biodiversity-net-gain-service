@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
-const href = 'check-upload-correct'
+const href = 'heck-land-boundary-correct'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
