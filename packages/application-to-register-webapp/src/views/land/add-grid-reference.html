@@ -1,0 +1,35 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "How many hectares is the land?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukInput({
+          id: "gridReference",
+          name: "gridReference",
+          errorMessage: err[0],
+          label: {
+            text: pageHeading,
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            html: "<div class='govuk-hint'>This should be the central point of the land.</div><div class='govuk-hint'>For example, SE170441</div>"
+          },
+          classes: "govuk-input--width-10",
+          spellcheck: false,
+          value: gridReference
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
