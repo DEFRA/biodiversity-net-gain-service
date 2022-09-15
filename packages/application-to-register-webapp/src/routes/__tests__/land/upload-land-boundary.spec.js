@@ -58,7 +58,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload land boundary document less than 50 MB', (done) => {
+    it('should not upload land boundary document more than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true

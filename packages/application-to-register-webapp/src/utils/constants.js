@@ -34,10 +34,17 @@ const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
+const METRIC_FILE_CHECKED = 'land-boundary-checked'
 const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
-const CHECK_LAND_BOUNDARY = 'land/check-land-boundary'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
+const CHECK_LAND_BOUNDARY = 'land/check-land-boundary'
+const UPLOAD_METRIC = 'land/upload-metric'
+const CHECK_UPLOAD_METRIC = 'land/check-upload-metric'
+const METRIC_LOCATION = 'metric-file-location'
+const METRIC_FILE_SIZE = 'metric-file-size'
+const METRIC_UPLOAD_TYPE = 'metric-upload'
+
 const YES = 'yes'
 
 const confirmFileUploadOptions = {
@@ -63,6 +70,10 @@ const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.png',
   '.pdf'
 ]
+const METRIC_FILE_EXT = [
+  '.xlsm',
+  '.xlsx'
+]
 
 const redisKeys = {
   GEOSPATIAL_LOCATION,
@@ -80,7 +91,10 @@ const redisKeys = {
   MANAGEMENT_PLAN_FILE_SIZE,
   LAND_BOUNDARY_LOCATION,
   LAND_BOUNDARY_FILE_SIZE,
-  LAND_BOUNDARY_CHECKED
+  LAND_BOUNDARY_CHECKED,
+  METRIC_LOCATION,
+  METRIC_FILE_SIZE,
+  METRIC_FILE_CHECKED
 }
 
 const routes = {
@@ -101,7 +115,9 @@ const routes = {
   UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_LEGAL_AGREEMENT,
   UPLOAD_LAND_BOUNDARY,
-  CHECK_LAND_BOUNDARY
+  CHECK_LAND_BOUNDARY,
+  UPLOAD_METRIC,
+  CHECK_UPLOAD_METRIC
 }
 
 const uploadErrors = {
@@ -113,7 +129,8 @@ const uploadTypes = {
   GEOSPATIAL_UPLOAD_TYPE,
   LEGAL_AGREEMENT_UPLOAD_TYPE,
   MANAGEMENT_PLAN_UPLOAD_TYPE,
-  LAND_BOUNDARY_UPLOAD_TYPE
+  LAND_BOUNDARY_UPLOAD_TYPE,
+  METRIC_UPLOAD_TYPE
 }
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
 
@@ -128,6 +145,7 @@ export default Object.freeze({
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
+  metricFileExt: METRIC_FILE_EXT,
   landBoundaryUploadTypes,
   redisKeys,
   routes,

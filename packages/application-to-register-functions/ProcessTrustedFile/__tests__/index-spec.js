@@ -6,6 +6,7 @@ const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
+const METRIC_FILE_EXTENSION = '.xlsx'
 
 describe('Trusted file processing', () => {
   it('should process a known upload type in an compressed file. ', done => {
@@ -26,6 +27,10 @@ describe('Trusted file processing', () => {
 
   it('should process a known land boundary file. ', done => {
     performValidLandBoundaryDocumentProcessingTest(PDF_FILE_EXTENSION, done)
+  })
+
+  it('should process a known metric file. ', done => {
+    performValidMerticFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
   it('should respond to a coordinate reference system validation error. ', done => {
@@ -193,6 +198,23 @@ const performValidLandBoundaryDocumentProcessingTest = (fileExtension, done) => 
   jest.isolateModules(async () => {
     try {
       const testConfig = buildConfig(fileExtension, 'land-boundary')
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performValidMerticFileProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'metric-upload')
 
       await processTrustedFile(getContext(), testConfig.message)
 
