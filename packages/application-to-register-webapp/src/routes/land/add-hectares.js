@@ -1,9 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.ADD_HECTARES)
-  },
+  get: async (_request, h) => h.view(constants.views.ADD_HECTARES),
   post: async (request, h) => {
     const hectares = request.payload.hectares
     const err = validateHectares(hectares)
@@ -22,7 +20,7 @@ const handlers = {
   }
 }
 
-const validateHectares = (hectares) => {
+const validateHectares = hectares => {
   if (hectares.length === 0) {
     return 'Enter the size of the land in hectares'
   }
@@ -32,6 +30,7 @@ const validateHectares = (hectares) => {
   if (isNaN(hectares)) {
     return 'Size of land must be a number, like 19 or 19.00'
   }
+  return
 }
 
 export default [{

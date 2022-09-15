@@ -1,9 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.ADD_GRID_REFERENCE)
-  },
+  get: async (_request, h) => h.view(constants.views.ADD_GRID_REFERENCE),
   post: async (request, h) => {
     const gridReference = request.payload.gridReference.replace(' ', '')
     const err = validateGridReference(gridReference)
@@ -23,7 +21,7 @@ const handlers = {
   }
 }
 
-const validateGridReference = (gridReference) => {
+const validateGridReference = gridReference => {
   if (gridReference.length === 0) {
     return 'Enter the grid reference'
   }
@@ -33,6 +31,7 @@ const validateGridReference = (gridReference) => {
   if (!constants.gridReferenceRegEx.test(gridReference)) {
     return 'Grid reference must start with two letters, followed by only numbers and spaces, like SE 170441'
   }
+  return
 }
 
 export default [{
