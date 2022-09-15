@@ -7,7 +7,7 @@ const handlers = {
     const err = validateHectares(hectares)
     if (err) {
       return h.view(constants.views.ADD_HECTARES, {
-        hectares: hectares,
+        hectares,
         err: [{
           text: err,
           href: '#hectares'
@@ -30,7 +30,7 @@ const validateHectares = hectares => {
   if (isNaN(hectares)) {
     return 'Size of land must be a number, like 19 or 19.00'
   }
-  return
+  return ''
 }
 
 export default [{

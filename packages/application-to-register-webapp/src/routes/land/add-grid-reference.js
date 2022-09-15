@@ -31,7 +31,7 @@ const validateGridReference = gridReference => {
   if (!constants.gridReferenceRegEx.test(gridReference)) {
     return 'Grid reference must start with two letters, followed by only numbers and spaces, like SE 170441'
   }
-  return
+  return ''
 }
 
 export default [{
