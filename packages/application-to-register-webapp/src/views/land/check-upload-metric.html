@@ -1,0 +1,22 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% set pageHeading = "Check your Biodiversity Metric 3.1 file" %}
+{% block formContent %}
+    <div class="govuk-body">
+
+        {{ govukBackLink({
+            text: "Back",
+            href: "/land/upload-metric"
+        }) }}
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'checkUploadMetric' %}
+        {% set name = 'checkUploadMetric' %}
+        {% set id = 'check-upload-metric-correct' %}
+        {% include "common/fileupload.html" %}
+    </div>
+{% endblock %}

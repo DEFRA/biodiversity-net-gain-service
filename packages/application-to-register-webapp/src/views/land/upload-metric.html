@@ -1,0 +1,45 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload the Biodiversity Metric 3.1 calculation for the biodiversity gain site" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        <div id="location-upload-hint">
+          <p>You only need to include the baseline and proposed habitat data for the biodiversity gain site.</p>
+          <p>The file should be:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>an XLMS or XLSX</li>
+            <li>no larger than 50MB</li>
+          </ul>
+        </div>
+          {{ govukFileUpload({
+            id: "landBoundary",
+            name: "uploadMetric",
+            errorMessage: err[0],
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+          <p class="govuk-!-padding-top-3">
+            <a href="#">I do not have a Biodiversity Metric 3.1. file</a>
+          </p>
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
