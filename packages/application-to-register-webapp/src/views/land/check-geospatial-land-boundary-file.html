@@ -1,0 +1,18 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the land boundary file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'confirmGeospatialLandBoundary' %}
+    {% set name = 'confirmGeospatialLandBoundary' %}
+    {% set id = 'check-upload-correct' %}
+    {% set downloadUrl = 'download-geospatial-land-boundary-file' %}
+    {% include "common/file-upload-check.html" %}
+  </div>
+{% endblock %}
