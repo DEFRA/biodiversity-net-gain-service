@@ -1,8 +1,8 @@
-import { submitGetRequest } from '../../helpers/server.js'
+import { submitGetRequest } from '../helpers/server.js'
 import { promises as fs } from 'fs'
-const url = '/land/check-legal-agreement/download'
+const url = '/land/download-legal-agreement-file'
 const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../../utils/azure-signalr.js')
+jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('path')
 
