@@ -29,6 +29,7 @@ const handlers = {
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
+        ...await getContext(request),
         err: [
           {
             text: 'Select yes if this is the correct file',

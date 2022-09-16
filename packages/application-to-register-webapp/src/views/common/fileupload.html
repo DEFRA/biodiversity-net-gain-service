@@ -15,10 +15,10 @@
                     text: "File added",
                     classes: "app-summary-list__key--narrow",
                     classes: "govuk-!-width-one-quarter"
-                },
+                    },
                     value: {
-                    html: filename + ", <span id = 'filesize'>" + fileSize + " MB</span>"
-                }
+                        html: "<a download id = 'document-download' href='./" + downloadUrl + "'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
+                    }
                 }
             ]
         }) }}
@@ -32,7 +32,7 @@
                     classes: "govuk-fieldset__legend--m"
                 }
             },
-            errorMessage: err,
+            errorMessage: err[0],
             items: [
                 {
                     value: "yes",

@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/confirm-land-boundary'
+const url = '/land/check-geospatial-land-boundary-file'
 
 describe(url, () => {
   describe('GET', () => {

@@ -2,16 +2,18 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Check the land boundary file" %}
+{% set pageHeading = "Check the legal agreement file" %}
 
 {% block formContent %}
+
   <div class="govuk-body">
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
-    {% set idPrefix = 'confirmGeospatialLandBoundary' %}
-    {% set name = 'confirmGeospatialLandBoundary' %}
-    {% set id = 'check-upload-correct' %}
+    {% set idPrefix = 'checkLegalAgreement' %}
+    {% set name = 'checkLegalAgreement' %}
+    {% set id = 'checkLegalAgreement' %}
+    {% set downloadUrl = 'download-legal-agreement-file' %}
     {% include "common/fileupload.html" %}
   </div>
 {% endblock %}

@@ -30,7 +30,7 @@ describe('Trusted file processing', () => {
   })
 
   it('should process a known metric file. ', done => {
-    performValidMerticFileProcessingTest(METRIC_FILE_EXTENSION, done)
+    performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
   it('should respond to a coordinate reference system validation error. ', done => {
@@ -211,7 +211,7 @@ const performValidLandBoundaryDocumentProcessingTest = (fileExtension, done) => 
   })
 }
 
-const performValidMerticFileProcessingTest = (fileExtension, done) => {
+const performValidMetricFileProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
       const testConfig = buildConfig(fileExtension, 'metric-upload')

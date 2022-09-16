@@ -1,10 +1,10 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import constants from '../../../utils/constants.js'
+import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
-const downloadManagementPlan = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
+const downloadLegalAgreementFile = async (request, h) => {
+  const blobName = request.yar.get(constants.redisKeys.GEOSPATIAL_LOCATION)
   const config = {
     blobName,
     containerName: 'trusted'
@@ -16,6 +16,6 @@ const downloadManagementPlan = async (request, h) => {
 
 export default {
   method: 'GET',
-  path: constants.routes.DOWNLOAD_MANAGEMENT_PLAN,
-  handler: downloadManagementPlan
+  path: constants.routes.DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
+  handler: downloadLegalAgreementFile
 }
