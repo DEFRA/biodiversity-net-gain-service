@@ -1,7 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 const MANAGEMENT_PLAN_FORM_ELEMENT_NAME = 'managementPlan'
-const url = '/land/upload-management-plan'
+const url = '/land/upload-management-plan-file'
 
 const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
