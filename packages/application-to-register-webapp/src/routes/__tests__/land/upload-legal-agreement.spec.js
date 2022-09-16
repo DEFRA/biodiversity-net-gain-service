@@ -1,7 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
-const url = '/land/upload-legal-agreement-file'
+const url = '/land/upload-legal-agreement'
 
 const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
