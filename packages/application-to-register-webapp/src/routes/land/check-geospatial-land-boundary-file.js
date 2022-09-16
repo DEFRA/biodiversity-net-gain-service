@@ -25,7 +25,7 @@ const handlers = {
         return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, {
           err: [{
             text: 'Select yes if this is the correct file',
-            href: 'check-upload-correct'
+            href: '#check-upload-correct-yes'
           }],
           filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
           fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
