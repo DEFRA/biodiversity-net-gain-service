@@ -42,7 +42,7 @@ const buildConfig = sessionId => {
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/managementPlan/`,
+    blobName: `${sessionId}/${constants.uploadTypes.MANAGEMENT_PLAN_UPLOAD_TYPE}/`,
     containerName: 'untrusted'
   }
 }

@@ -24,7 +24,7 @@ const screenDocumentForThreats = async (logger, config, stream) => {
     maxBodyLength: Infinity
   }
 
-  const getOptions = Object.assign({ method: 'GET', responseType: 'stream' }, options)
+  // const getOptions = Object.assign({ method: 'GET', responseType: 'stream' }, options)
   const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
   try {
     await axios.request(putOptions)
@@ -32,11 +32,11 @@ const screenDocumentForThreats = async (logger, config, stream) => {
     console.error(`Error connecting to AV service ${err}`)
     throw err
   }
-
+  return null
   // TO DO - Preliminary integration with the asynchronous streaming based anti-virus API
   // endpoints requires polling. If asynchronous integration is used in the long term, it
   // is preferable for notifications to be provided when screening is complete.
-  return waitForFileProcessing(logger, fileDetails, getOptions)
+  // return waitForFileProcessing(logger, fileDetails, getOptions)
 }
 
 const buildFileDetails = config => {

@@ -39,14 +39,13 @@ export default async function (context, message) {
     if (response) {
       let documentStream = response.readableStreamBody
       if (!process.env.AV_DISABLE || !JSON.parse(process.env.AV_DISABLE)) {
-        documentStream = await screenDocument(context, config, documentStream)
+        await screenDocument(context, config, documentStream)
       } else {
+        // If screening is disabled this function must upload document to trusted blob and send message to queue
         context.log('File security screening is disabled')
+        await uploadDocument(config, documentStream)
+        sendMessage(context, message)
       }
-
-      await uploadDocument(config, documentStream)
-
-      sendMessage(context, message)
     } else {
       context.log.error('Unable to retrieve blob')
     }
