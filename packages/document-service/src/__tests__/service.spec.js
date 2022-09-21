@@ -1,4 +1,3 @@
-import objectToStream from './helpers/object-to-stream.js'
 import { screenDocumentForThreats, uploadDocument } from '../service.js'
 import axios from 'axios'
 import fs from 'fs'
@@ -39,7 +38,6 @@ describe('The document service', () => {
 
       axios.request
         .mockRejectedValue(mockError)
-        .mockReturnValueOnce(putMockReturnValue)
 
       await expect(screenDocumentForThreats(logger, config, stream)).rejects.toEqual(mockError)
     }
@@ -78,30 +76,13 @@ describe('The document service', () => {
 
     it('should make REST API calls when performing successful document security screening', done => {
       jest.isolateModules(async () => {
-        const getMockReturnValue = {
-          data: await objectToStream('screened mock data'),
-          status: 200,
-          statusText: 'OK'
-        }
-
         axios.request
           .mockReturnValueOnce(putMockReturnValue)
-          .mockReturnValueOnce(getMockReturnValue)
 
         await screenDocumentForThreats(logger, config, stream)
-        expect(axios.request).toHaveBeenCalledTimes(2)
+        expect(axios.request).toHaveBeenCalledTimes(1)
         await expect(axios.request).toHaveNthReturnedWith(1, putMockReturnValue)
-        await expect(axios.request).toHaveNthReturnedWith(2, getMockReturnValue)
 
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-    it('should throw an error when document screening times out', done => {
-      jest.isolateModules(async () => {
-        await screenDocumentForThreatsWithMockError(logger, config, stream, 404)
-        expect(axios.request).toHaveBeenCalledTimes(5)
         setImmediate(() => {
           done()
         })
@@ -112,13 +93,13 @@ describe('The document service', () => {
       process.env.AV_API_RESULT_RETRIEVAL_ATTEMPTS = 1
       jest.isolateModules(async () => {
         await screenDocumentForThreatsWithMockError(logger, config, stream, 500)
-        expect(axios.request).toHaveBeenCalledTimes(2)
+        expect(axios.request).toHaveBeenCalledTimes(1)
         setImmediate(() => {
           done()
         })
       })
-    // Increase the test timeout to six seconds as each attempted retrieval of
-    // screening results is delayed by five seconds by default.
+      // Increase the test timeout to six seconds as each attempted retrieval of
+      // screening results is delayed by five seconds by default.
     }, 6000)
     it('should throw an error when document screening fails 2', async () => {
       const axios = require('axios')

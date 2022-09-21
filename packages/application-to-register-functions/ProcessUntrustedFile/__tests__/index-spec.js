@@ -55,7 +55,7 @@ describe('Untrusted file processing', () => {
   beforeEach(() => {
     process.env.AV_DISABLE = 'false'
   })
-  it('should initiate threat processing, transfer a clean upload to the appropriate storage location and send a message to initiate further processing. ', done => {
+  it('should initiate threat processing ', done => {
     jest.isolateModules(async () => {
       try {
         const { blobStorageConnector } = require('@defra/bng-connectors-lib')
@@ -70,9 +70,9 @@ describe('Untrusted file processing', () => {
 
         setImmediate(async () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
-          await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
+          await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
           await expect(screenDocumentForThreats).toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
+          expect(getContext().bindings.trustedFileQueue).toStrictEqual(undefined)
           done()
         })
       } catch (e) {

@@ -31,7 +31,7 @@ export default async function (context, message) {
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
     } else {
-      signalRMessageArguments = [{ errorMessage: err.message}]
+      signalRMessageArguments = [{ errorMessage: err.message }]
     }
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
   }
