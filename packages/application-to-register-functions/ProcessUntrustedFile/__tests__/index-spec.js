@@ -72,7 +72,7 @@ describe('Untrusted file processing', () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).not.toHaveBeenCalled()
           await expect(screenDocumentForThreats).toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toStrictEqual(undefined)
+          expect(getContext().bindings.trustedFileQueue).toBeUndefined()
           done()
         })
       } catch (e) {
