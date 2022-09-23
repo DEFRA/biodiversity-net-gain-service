@@ -30,6 +30,9 @@ coverage
 
 # Bower dependency directory (https://bower.io/)
 bower_components
+.scannerwork
+report-task.txt
+
 
 # node-waf configuration
 .lock-wscript
