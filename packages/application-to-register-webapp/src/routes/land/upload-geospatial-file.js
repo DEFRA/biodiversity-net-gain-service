@@ -36,7 +36,7 @@ const buildBlobConfig = (sessionId, config) => {
   // Configuration for storing the upload in an untrusted area
   // of blob storage.
   config.blobConfig = {
-    blobName: `${sessionId}/landBoundary/`,
+    blobName: `${sessionId}/${constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE}/`,
     containerName: 'untrusted'
   }
 }
