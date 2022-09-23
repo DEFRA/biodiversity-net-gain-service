@@ -19,10 +19,10 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/storage-blob": "^12.11.0",
-    "@defra/bng-connectors-lib": "0.0.1",
+    "@defra/bng-connectors-lib": "^0.0.1",
     "@defra/bng-document-service": "^0.0.1",
     "@defra/bng-errors-lib": "^0.0.1",
-    "@defra/bng-geoprocessing-service": "0.0.1",
+    "@defra/bng-geoprocessing-service": "^0.0.1",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "devDependencies": {

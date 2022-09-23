@@ -21,7 +21,6 @@
     "axios": "^0.27.2"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.0.1"
+    "@defra/bng-azure-storage-test-utils": "^0.0.1"
   }
-
 }
