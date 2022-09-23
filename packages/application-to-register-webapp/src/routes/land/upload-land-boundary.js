@@ -97,11 +97,8 @@ const buildConfig = sessionId => {
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/landBoundary/`,
-    containerName: 'untrusted',
-    metadata: {
-      noprocess: 'true' // metadata to stop file being sent on for post processing
-    }
+    blobName: `${sessionId}/${constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE}/`,
+    containerName: 'untrusted'
   }
 }
 

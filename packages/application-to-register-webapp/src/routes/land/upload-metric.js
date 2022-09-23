@@ -97,11 +97,8 @@ const buildConfig = sessionId => {
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/uploadMetric/`,
-    containerName: 'untrusted',
-    metadata: {
-      noprocess: 'true' // metadata to stop file being sent on for post processing
-    }
+    blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
+    containerName: 'untrusted'
   }
 }
 
