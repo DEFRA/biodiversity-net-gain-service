@@ -5,8 +5,7 @@
       "type": "queueTrigger",
       "direction": "in",
       "queueName": "untrusted-file-queue",
-      "connection": "AzureWebJobsStorage",
-      "maxPollingInterval": 100
+      "connection": "AzureWebJobsStorage"
     },
     {
       "name": "trustedFileQueue",
