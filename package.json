@@ -5,10 +5,10 @@
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
   "scripts": {
-    "postinstall": "npm run lerna:bootstrap",
     "local:install": "bin/local-install.sh",
     "install-detect-secrets": "(cd .devcontainer/scripts && ./install-detect-secrets.sh)",
     "lerna:bootstrap": "lerna bootstrap",
+    "lerna:ci": "lerna exec npm ci",
     "lerna:clean": "lerna clean -y && rm -rf ./node_modules",
     "lint": "standard",
     "unit-test": "bin/run-unit-tests.sh",

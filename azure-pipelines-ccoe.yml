@@ -17,7 +17,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm ci
+    npm ci && npm run lerna:bootstrap
   displayName: 'npm install and build'
 
 - script: |
@@ -41,6 +41,10 @@ steps:
 #     cp ../utils-lib/ ./node_modules/@defra/bng-document-service/node_modules/@defra/bng-utils-lib -r && \
 #     cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-document-service/node_modules/@defra/bng-azure-storage-test-utils -r
 #   displayName: 'Hotfix for function local dependencies'
+
+- script: |
+    npm run lerna:ci
+  displayName: 'npm ci in packages'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \

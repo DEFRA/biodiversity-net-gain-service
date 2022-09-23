@@ -14,6 +14,7 @@ COPY        package*.json ./
 COPY        lerna.json lerna.json
 
 RUN         npm ci
+RUN         npm run lerna:ci
 
 WORKDIR     /usr/src/packages/application-to-register-webapp
 
