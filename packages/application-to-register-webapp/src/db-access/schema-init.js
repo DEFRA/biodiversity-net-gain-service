@@ -3,13 +3,13 @@ import { Sequelize } from 'sequelize'
 import * as fs from 'fs'
 import path from 'path'
 
-function createDatabaseConfiguration (host, port, database, userName, password) {
+function createDatabaseConfiguration (dbHost, dbPort, database, dbUserName, dbPassword) {
   return new Promise(function (resolve, reject) {
     const pgClientConfig = {
-      user: userName,
-      password: password,
-      host: host,
-      port: port,
+      user: dbUserName,
+      password: dbPassword,
+      host: dbHost,
+      port: dbPort,
       database: 'template1'
     }
     const pool = new pg.Pool(pgClientConfig)
@@ -17,7 +17,7 @@ function createDatabaseConfiguration (host, port, database, userName, password) 
       if (err === undefined) {
         return client.query('CREATE DATABASE "Biodiversity_MVP"', async (err, res) => {
           if (res !== undefined) {
-            createBiodiversityDb(host, port, database, userName, password)
+            createBiodiversityDb(dbHost, dbPort, database, dbUserName, dbPassword)
             console.log('Database created')
           } else {
             console.log(`${err}`)
@@ -47,7 +47,7 @@ function createBiodiversityDb (host, port, database, userName, password) {
   executedSqlQuery(sequelize, createSchemaQuery, inserteDefaultDataQuery)
 }
 
-function executedSqlQuery(sequelize, createSchemaQuery, inserteDefaultDataQuery) {
+function executedSqlQuery (sequelize, createSchemaQuery, inserteDefaultDataQuery) {
   sequelize.query(createSchemaQuery).then(response => {
     sequelize.query(inserteDefaultDataQuery).then(response => {
       console.log('Inserted default data ' + JSON.stringify(response))
