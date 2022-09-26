@@ -49,7 +49,7 @@ git config --global --add versionsort.suffix -rc.
 echo "Determining versions for release"
 if [ "${BRANCH}" == "master-test" ]; then
     # Creating new release on the master branch, determine latest release version on master branch only
-    PREVIOUS_VERSION=$(git tag --list --merged master-test --sort=version:refname | tail -1)
+    PREVIOUS_VERSION=$(git tag --list --sort=version:refname | tail -1)
     echo "Latest build on the master branch is ${PREVIOUS_VERSION}"
     NEW_VERSION="v$(semver "${PREVIOUS_VERSION}" -i ${RELEASE_TYPE})"
 elif [ "$BRANCH" == "develop" ]; then
