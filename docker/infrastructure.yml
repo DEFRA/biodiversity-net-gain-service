@@ -26,7 +26,7 @@ services:
       - "5432:5432"
     environment:
       - PGDATA=/var/lib/postgresql/data
-      - POSTGRES_USER="${secret.POSTGRES_USER}"
+      - POSTGRES_USER=${secret.POSTGRES_USER}
       - POSTGRES_PASSWORD=${secret.POSTGRES_PASSWORD}
     volumes:
       - ./volumes/postgis:/var/lib/postgresql/data
