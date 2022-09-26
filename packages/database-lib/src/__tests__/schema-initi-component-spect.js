@@ -8,7 +8,7 @@ describe('Must ensure that database exist', () => {
     configuration = {
       user: 'postgres',
       password: 'postgres',
-      host: '217.0.0.1',
+      host: 'localhost',
       port: 5432,
       database: 'Biodiversity_MVP',
       dbCreateFile: path.join(workingDirectory, '/src/dbscripts/bng_MVP_v_0.1_postgres.sql'),

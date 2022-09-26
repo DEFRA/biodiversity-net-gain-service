@@ -42,6 +42,7 @@ async function processDatabaseSetup (err, client, dbConfigurationSettings, resol
       }
     })
   } else {
+    console.log(`${err}`)
     // eslint-disable-next-line prefer-promise-reject-errors
     reject(false)
   }
