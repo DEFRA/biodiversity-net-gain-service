@@ -9,6 +9,7 @@
     "local:install": "bin/local-install.sh",
     "install-detect-secrets": "(cd .devcontainer/scripts && ./install-detect-secrets.sh)",
     "lerna:bootstrap": "lerna bootstrap",
+    "lerna:i": "lerna exec npm i",
     "lerna:clean": "lerna clean -y && rm -rf ./node_modules",
     "lint": "standard",
     "unit-test": "bin/run-unit-tests.sh",
