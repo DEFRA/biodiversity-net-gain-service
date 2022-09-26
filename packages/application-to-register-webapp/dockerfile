@@ -13,8 +13,7 @@ COPY        bin bin
 COPY        package*.json ./
 COPY        lerna.json lerna.json
 
-RUN         npm ci
-RUN         npm run lerna:ci
+RUN         npm ci --ignore-scripts && npm run lerna:i
 
 WORKDIR     /usr/src/packages/application-to-register-webapp
 
