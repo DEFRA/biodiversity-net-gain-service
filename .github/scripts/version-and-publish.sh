@@ -47,7 +47,7 @@ git config --global --add versionsort.suffix -rc.
 
 # Calculate PREVIOUS_VERSION and NEW_VERSION based on the source and target of the merge
 echo "Determining versions for release"
-if [ "${BRANCH}" == "master" ]; then
+if [ "${BRANCH}" == "master-test" ]; then
     # Creating new release on the master branch, determine latest release version on master branch only
     PREVIOUS_VERSION=$(git tag --list --merged master --sort=version:refname | tail -1)
     echo "Latest build on the master branch is ${PREVIOUS_VERSION}"
