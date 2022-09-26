@@ -1,4 +1,4 @@
-SET SCHEMA 'master';
+SET SCHEMA 'public';
 /* SQLINES DEMO *** ema [activity]    Script Date: 09/09/2022 09:13:08 ******/
 CREATE SCHEMA activity;
 /* SQLINES DEMO *** ema [address]    Script Date: 09/09/2022 09:13:08 ******/
