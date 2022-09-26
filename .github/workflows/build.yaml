@@ -15,25 +15,25 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
-      - name: Install NodeJS
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16.x"
-      - name: Install dependencies and local symlink dependencies
-        run: npm ci
-      - name: Run markdown linting check
-        run: |
-          node_modules/.bin/markdownlint $PWD/README.md '$PWD/!(docker)/**/*.md'
-      - name: Add azure_services to hosts
-        run: |
-          sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
-      - name: Run tests
-        run: npm run test
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: Install NodeJS
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: "16.x"
+      # - name: Install dependencies and local symlink dependencies
+      #   run: npm ci
+      # - name: Run markdown linting check
+      #   run: |
+      #     node_modules/.bin/markdownlint $PWD/README.md '$PWD/!(docker)/**/*.md'
+      # - name: Add azure_services to hosts
+      #   run: |
+      #     sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
+      # - name: Run tests
+      #   run: npm run test
+      # - name: SonarCloud Scan
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   new-version:
     name: new-version
     runs-on: ubuntu-latest
