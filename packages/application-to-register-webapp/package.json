@@ -27,6 +27,7 @@
     "@defra/bng-document-service": "^0.0.1",
     "@defra/bng-errors-lib": "^0.0.1",
     "@defra/bng-utils-lib": "^0.0.1",
+    "@defra/bng-database-lib": "^0.0.1",
     "@hapi/boom": "^10.0.0",
     "@hapi/catbox-redis": "^6.0.2",
     "@hapi/hapi": "20.2.2",
@@ -42,10 +43,7 @@
     "nunjucks": "3.2.3",
     "ol": "^7.1.0",
     "proj4": "^2.8.0",
-    "sass": "^1.54.9",
-    "pg": "^8.8.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.23.0"
+    "sass": "^1.54.9"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "^0.0.1",

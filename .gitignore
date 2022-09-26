@@ -126,3 +126,4 @@ packages/**/babel.config.json
 .idea
 
 biodiversity-net-gain-service.code-workspace
+.scannerwork

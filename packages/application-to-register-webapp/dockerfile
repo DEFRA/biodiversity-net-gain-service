@@ -14,6 +14,7 @@ COPY        packages/connectors-lib packages/connectors-lib
 COPY        packages/document-service packages/document-service
 COPY        packages/errors-lib packages/errors-lib
 COPY        packages/utils-lib packages/utils-lib
+COPY        packages/database-lib packages/database-lib
 
 # Copy root config needed for install
 COPY        bin bin
