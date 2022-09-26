@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-utils-lib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "private": false,
   "description": "A library of utilities for the Biodiversity Net Gain Service",
@@ -16,5 +16,6 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "axios": "^0.27.2"
-  }
+  },
+  "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }
