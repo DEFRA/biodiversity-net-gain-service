@@ -70,7 +70,7 @@ const init = async server => {
   }
 }
 
-const startServer = async (server) => {
+const startServer = async server => {
   // Start the server
   await server.start()
 }
