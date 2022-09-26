@@ -5,7 +5,9 @@ variables:
     value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
 
 trigger:
-- master
+  branches:
+    include:
+      - refs/tags/v*
 
 pool:
   name: Azure Pipelines
