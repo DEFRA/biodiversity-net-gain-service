@@ -17,19 +17,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm ci && npm run lerna:bootstrap
-  displayName: 'npm install and build'
-
-- script: |
-    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
-  displayName: 'add azure_services to hosts'
-
-- script: |
-    npm run test
-  displayName: 'Run unit tests'
-
-- script: |
-    npm run lerna:ci
+    npm ci --ignore-scripts && npm run lerna:ci
   displayName: 'npm ci in packages'
 
 - script: |

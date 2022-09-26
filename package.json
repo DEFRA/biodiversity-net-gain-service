@@ -5,6 +5,7 @@
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
   "scripts": {
+    "postinstall": "npm run lerna:bootstrap",
     "local:install": "bin/local-install.sh",
     "install-detect-secrets": "(cd .devcontainer/scripts && ./install-detect-secrets.sh)",
     "lerna:bootstrap": "lerna bootstrap",
