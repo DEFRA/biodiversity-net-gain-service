@@ -16,10 +16,6 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "pg": "^8.8.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.23.0"
-  },
-  "devDependencies": {
-    "testcontainers": "^8.14.0"
+    "pg-hstore": "^2.3.4"
   }
 }
