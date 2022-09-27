@@ -5,7 +5,9 @@ variables:
     value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
 
 trigger:
-- master
+  branches:
+    include:
+      - refs/tags/v*
 
 pool:
   name: Azure Pipelines
@@ -17,30 +19,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm ci
-  displayName: 'npm install and build'
-
-- script: |
-    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
-  displayName: 'add azure_services to hosts'
-
-- script: |
-    npm run test
-  displayName: 'Run unit tests'
-
-- script: |
-    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
-    rm node_modules/@defra/* -rf && \
-    cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-azure-storage-test-utils -r && \
-    cp ../connectors-lib/ ./node_modules/@defra/bng-connectors-lib -r && \
-    cp ../errors-lib/ ./node_modules/@defra/bng-errors-lib -r && \
-    cp ../geoprocessing-service/ ./node_modules/@defra/bng-geoprocessing-service -r && \
-    cp ../document-service/ ./node_modules/@defra/bng-document-service -r && \
-    rm ./node_modules/@defra/bng-document-service/node_modules/@defra/* -rf && \
-    cp ../errors-lib/ ./node_modules/@defra/bng-document-service/node_modules/@defra/bng-errors-lib -r && \
-    cp ../utils-lib/ ./node_modules/@defra/bng-document-service/node_modules/@defra/bng-utils-lib -r && \
-    cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-document-service/node_modules/@defra/bng-azure-storage-test-utils -r
-  displayName: 'Hotfix for function local dependencies'
+    npm ci --ignore-scripts && npm run lerna:i
+# TODO: there is currently a bug with lerna version that means npm packagelock v2 files
+# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
+# files don't match package files correctly.
+  displayName: 'npm install package dependencies'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
