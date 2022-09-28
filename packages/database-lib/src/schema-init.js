@@ -1,50 +1,25 @@
-import pg from 'pg'
 import * as fs from 'fs'
 import path from 'path'
 
-function createDatabaseConfiguration (dbConfigurationSettings) {
-  return new Promise(function (resolve, reject) {
-    const pgClientConfig = {
-      user: dbConfigurationSettings.user,
-      password: dbConfigurationSettings.password,
-      host: 'localhost',
-      port: dbConfigurationSettings.port,
-      database: 'template1'
+function createDatabaseConfiguration (client, configuration) {
+  try {
+    if (configuration.initialise === true) {
+      client.connect()
+      try {
+        client.query(`CREATE DATABASE "${configuration.database}"`)
+        const createSchemaQuery = fs.readFileSync(path.resolve(configuration.dbCreateFile), 'utf8')
+        const inserteDefaultDataQuery = fs.readFileSync(path.resolve(configuration.dbInsertFile), 'utf8')
+        client.query(createSchemaQuery)
+        client.query(inserteDefaultDataQuery)
+      } catch (error) {
+        console.log(`Database ${configuration.dbCreateFile} already exist or issue with query`)
+      }
     }
-    const pool = new pg.Pool(pgClientConfig)
-    try {
-      pool.connect(async function (err, client, done) {
-        return await processDatabaseSetup(err, client, dbConfigurationSettings, resolve, reject)
-      })
-    } catch (e) {
-      console.log(e)
-    }
-  })
+  } catch (error) {
+    console.log('Unable to connect to database')
+    return false
+  }
+  return true
 }
 
-async function processDatabaseSetup (err, client, dbConfigurationSettings, resolve, reject) {
-  if (err === undefined) {
-    return await client.query(`CREATE DATABASE "${dbConfigurationSettings.database}"`, async (dbErr, dbRes) => {
-      if (dbRes !== undefined) {
-        const createSchemaQuery = fs.readFileSync(path.resolve(dbConfigurationSettings.dbCreateFile), 'utf8')
-        const inserteDefaultDataQuery = fs.readFileSync(path.resolve(dbConfigurationSettings.dbInsertFile), 'utf8')
-        return await client.query(createSchemaQuery, async (createErr, createResult) => {
-          return await client.query(inserteDefaultDataQuery, (insertErr, insertResult) => {
-            console.log('Database created')
-            client.end()
-            resolve(true)
-          })
-        })
-      } else {
-        console.log(`${err}`)
-        client.end()
-        resolve(true)
-      }
-    })
-  } else {
-    console.log(`${err}`)
-    // eslint-disable-next-line prefer-promise-reject-errors
-    reject(false)
-  }
-}
 export default createDatabaseConfiguration
