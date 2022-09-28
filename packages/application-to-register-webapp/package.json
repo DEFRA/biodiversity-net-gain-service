@@ -43,7 +43,9 @@
     "nunjucks": "3.2.3",
     "ol": "^7.1.0",
     "proj4": "^2.8.0",
-    "sass": "^1.54.9"
+    "sass": "^1.54.9",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "^0.0.1",
