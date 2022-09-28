@@ -11,3 +11,4 @@ export const DATABASE_NAME = process.env.DATABSE_HOST || 'Biodiversity_MVP'
 export const DATABASE_PORT = process.env.DATABSE_PORT || 5432
 export const DATABASE_USER = process.env.DATABSE_USER || 'postgres'
 export const DATABASE_PASSWORD = process.env.DATABSE_PASSWORD || 'postgres'
+
