@@ -46,8 +46,7 @@
     "proj4": "^2.8.0",
     "sass": "^1.55.0",
     "pg": "^8.8.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.23.0"
+    "pg-hstore": "^2.3.4"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.6.0",
