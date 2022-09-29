@@ -17,7 +17,7 @@ describe('Proof of ownership upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLegalAgreement = [
+    const mockLandOwnership = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
@@ -27,7 +27,7 @@ describe('Proof of ownership upload controller tests', () => {
       uploadType: 'land-ownership',
       url,
       formName: PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME,
-      eventData: mockLegalAgreement
+      eventData: mockLandOwnership
     }
 
     beforeEach(async () => {
