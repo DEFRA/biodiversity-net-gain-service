@@ -10,6 +10,7 @@ const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
+const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
@@ -29,6 +30,11 @@ const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
 const MANAGEMENT_PLAN_LOCATION = 'management-plan-location'
 const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
+const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
+const LAND_OWNERSHIP_FILE_SIZE = 'land-ownership-file-size'
+const LAND_OWNERSHIP_LOCATION = 'land-ownership-location'
+const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
+const LAND_OWNERSHIP_CHECKED = 'land-ownership-checked'
 const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
@@ -39,6 +45,7 @@ const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
+const UPLOAD_LAND_OWNERSHIP = 'land/upload-proof-of-ownership'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
@@ -82,6 +89,11 @@ const METRIC_FILE_EXT = [
   '.xlsm',
   '.xlsx'
 ]
+const LAND_OWNERSHIP_FILE_EXT = [
+  '.doc',
+  '.docx',
+  '.pdf'
+]
 
 const redisKeys = {
   GEOSPATIAL_LOCATION,
@@ -102,6 +114,9 @@ const redisKeys = {
   MANAGEMENT_PLAN_CHECKED,
   MANAGEMENT_PLAN_LOCATION,
   MANAGEMENT_PLAN_FILE_SIZE,
+  LAND_OWNERSHIP_LOCATION,
+  LAND_OWNERSHIP_FILE_SIZE,
+  LAND_OWNERSHIP_CHECKED,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
   METRIC_FILE_CHECKED
@@ -120,6 +135,7 @@ const routes = {
   DOWNLOAD_LAND_BOUNDARY,
   DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
   DOWNLOAD_METRIC_FILE,
+  DOWNLOAD_LAND_OWNERSHIP,
   GEOSPATIAL_LAND_BOUNDARY,
   CHOOSE_GEOSPATIAL_UPLOAD,
   OS_API_TOKEN,
@@ -131,8 +147,10 @@ const routes = {
   UPLOAD_LEGAL_AGREEMENT,
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY,
+  CHECK_LAND_OWNERSHIP: CHECK_PROOF_OF_OWNERSHIP,
   UPLOAD_METRIC,
-  CHECK_UPLOAD_METRIC
+  CHECK_UPLOAD_METRIC,
+  UPLOAD_LAND_OWNERSHIP
 }
 
 const uploadErrors = {
@@ -145,7 +163,8 @@ const uploadTypes = {
   LEGAL_AGREEMENT_UPLOAD_TYPE,
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE,
-  METRIC_UPLOAD_TYPE
+  METRIC_UPLOAD_TYPE,
+  LAND_OWNERSHIP_UPLOAD_TYPE
 }
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
 
@@ -159,6 +178,7 @@ export default Object.freeze({
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
+  lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,

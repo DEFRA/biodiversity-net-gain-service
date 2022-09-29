@@ -1,0 +1,19 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the proof of land ownership file" %}
+
+{% block formContent %}
+
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'checkLandOwnership' %}
+        {% set name = 'checkLandOwnership' %}
+        {% set id = 'check-upload-correct-yes' %}
+        {% set downloadUrl = 'download-land-ownership-file' %}
+        {% include "common/file-upload-check.html" %}
+    </div>
+{% endblock %}
