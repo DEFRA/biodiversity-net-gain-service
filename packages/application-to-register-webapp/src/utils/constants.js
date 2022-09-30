@@ -11,6 +11,7 @@ const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
+const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
 const CONFIRMATION = 'confirmation'
@@ -214,6 +215,7 @@ const routes = {
   ADD_HECTARES,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
+  LEGAL_AGREEMENT_TYPE,
   LEGAL_AGREEMENT_TYPE,
   LEGAL_AGREEMENT_TYPE,
   ADD_LEGAL_AGREEMENT_PARTIES,
