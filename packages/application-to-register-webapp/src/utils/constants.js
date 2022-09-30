@@ -3,6 +3,7 @@ const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const GAIN_SITE_REFERENCE = 'gain-site-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
+const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
 const CONFIRMATION = 'confirmation'
@@ -30,6 +31,7 @@ const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
+const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
@@ -140,6 +142,7 @@ const redisKeys = {
   LAND_BOUNDARY_HECTARES,
   LEGAL_AGREEMENT_CHECKED,
   LEGAL_AGREEMENT_LOCATION,
+  LEGAL_AGREEMENT_DOCUMENT_TYPE,
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
   MANAGEMENT_PLAN_CHECKED,
@@ -169,6 +172,7 @@ const routes = {
   ADD_HECTARES,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
+  LEGAL_AGREEMENT_TYPE,
   CHECK_MANAGEMENT_PLAN,
   CHECK_YOUR_ANSWERS,
   CONFIRMATION,

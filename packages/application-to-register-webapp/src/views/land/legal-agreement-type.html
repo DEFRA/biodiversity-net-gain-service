@@ -1,0 +1,57 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Which legal agreement do you have?" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'checkLegalAgreement' %}
+        {% set name = 'checkLegalAgreement' %}
+        {% set id = 'check-upload-correct-yes' %}
+        {{ govukFieldset({
+            legend: {
+                text: pageHeading,
+                classes: "govuk-fieldset__legend--l",
+                isPageHeading: true
+            }
+        }) }}
+        {{ govukRadios({
+            idPrefix: prefix,
+            name: "legalAgrementType",
+            id: "legalAgrementType",
+            hint: {
+                html: "<div class='govuk-hint'>You need a legal agreement to secure the habitat improvements and <br>management of them for at least 30 years.
+                        </div>"
+            },
+            errorMessage: err[0],
+            items: [
+                {
+                    value: "Conservation covenant",
+                    text: "Conservation covenant",
+                    id: "conversation-covenant",
+                    checked: selectedType.conservationType
+                },
+                {
+                    value: "Planning obligation (section 106 agreement)",
+                    text: "Planning obligation (section 106 agreement)",
+                    id: "planning-obligation",
+                    checked: selectedType.planningObligationType
+                },
+                {
+                    divider: "or"
+                },
+                {
+                    value: "I do not have a legal agreement",
+                    text: "I do not have a legal agreement",
+                    id: "dont-have-lefal-agreement",
+                    checked: selectedType.dontHave
+                }
+            ]
+        }) }}
+        {{ govukButton({ text: 'Continue' }) }}
+    </div>
+{% endblock %}
