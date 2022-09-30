@@ -11,7 +11,7 @@ const handlers = {
       if (legalAgrementType !== 'I do not have a legal agreement') {
         return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
       } else if (legalAgrementType === 'I do not have a legal agreement') {
-        return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {})
+        return h.redirect('/' + constants.views.LEGAL_AGREEMENT_TYPE, {})
       } else {
         return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {
           err: [{
