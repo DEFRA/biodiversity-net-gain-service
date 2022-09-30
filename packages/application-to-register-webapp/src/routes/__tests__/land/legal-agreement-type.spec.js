@@ -1,4 +1,3 @@
-import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 const url = constants.routes.LEGAL_AGREEMENT_TYPE
