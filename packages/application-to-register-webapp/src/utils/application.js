@@ -1,16 +1,16 @@
 import constants from './constants.js'
 import path from 'path'
 
-const application = (session) => {
+const application = session => {
   return {
     userId: session.id,
     landownerGainSiteRegistration: {
       applicant: {
-        firstName: null, // TODO
-        lastName: null, // TODO set this as the fullname for operator to consume as not asking for firstname and surname yet
-        role: null // TODO
+        firstName: null,
+        lastName: null, // set this as the fullname for operator to consume as not asking for firstname and surname yet
+        role: null
       },
-      gainSiteReference: session.get(constants.redisKeys.GAIN_SITE_REFERENCE), // TODO this is using session ID temporarily
+      gainSiteReference: session.get(constants.redisKeys.GAIN_SITE_REFERENCE), // this is using session ID temporarily
       landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
       landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
       submittedOn: new Date().toISOString(),

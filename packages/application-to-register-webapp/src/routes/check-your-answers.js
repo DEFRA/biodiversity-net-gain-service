@@ -14,7 +14,10 @@ const handlers = {
     // suspect issue might be present on other signalr awaits?
     // Need to discuss with Paul W.
     try {
-      const results = await Promise.all([handleEvents(config, [`Processed ${request.yar.id}`]), setTimeout(() => { queueMessage(logger, config) }, 200)])
+      const results = await Promise.all([
+        handleEvents(config, [`Processed ${request.yar.id}`]),
+        setTimeout(() => { queueMessage(logger, config) }, 200)
+      ])
       request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, results[0][0].gainSiteReference)
       return h.redirect(constants.routes.CONFIRMATION)
     } catch (err) {

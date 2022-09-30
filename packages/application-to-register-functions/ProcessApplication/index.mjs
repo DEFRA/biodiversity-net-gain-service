@@ -7,7 +7,7 @@ serviceBusConnector.init(process.env.OPERATOR_SB_CONNECTION_STRING)
     - Forward message to integration service bus queue
     - Return signalR message to front end, or error.
 */
-const buildConfig = (message) => {
+const buildConfig = message => {
   return {
     serviceBusConfig: {
       queueName: 'ne.bng.landowner.inbound',

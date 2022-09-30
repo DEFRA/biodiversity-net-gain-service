@@ -3,7 +3,7 @@ import { getServiceBusClient } from './helpers/azure-service-bus.js'
 let serviceBusClient
 
 // Initialise function to allow for connectionString injection
-const init = (connectionString) => {
+const init = connectionString => {
   serviceBusClient = getServiceBusClient(connectionString)
 }
 

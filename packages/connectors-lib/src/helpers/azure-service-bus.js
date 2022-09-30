@@ -1,10 +1,7 @@
 import { ServiceBusClient } from '@azure/service-bus'
 
-const getServiceBusClient = (connectionString) => {
-  const initialiseServiceBusClient = () => {
-    return new ServiceBusClient(connectionString)
-  }
-
+const getServiceBusClient = connectionString => {
+  const initialiseServiceBusClient = () => new ServiceBusClient(connectionString)
   return initialiseServiceBusClient()
 }
 
