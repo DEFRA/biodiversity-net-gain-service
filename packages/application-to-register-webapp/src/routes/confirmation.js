@@ -1,11 +1,15 @@
 import constants from '../utils/constants.js'
 
-const confirmation = {
-  method: 'GET',
-  path: constants.routes.CONFIRMATION,
-  handler: {
-    view: constants.views.CONFIRMATION
+const handlers = {
+  get: async (request, h) => {
+   return h.view(constants.views.CONFIRMATION, {
+    gainSiteReference: request.yar.get(constants.redisKeys.GAIN_SITE_REFERENCE)
+   })
   }
 }
 
-export default confirmation
+export default [{
+  method: 'GET',
+  path: constants.routes.CONFIRMATION,
+  handler: handlers.get
+}]

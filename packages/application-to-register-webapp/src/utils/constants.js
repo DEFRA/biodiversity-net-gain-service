@@ -1,6 +1,7 @@
 const ABOUT = 'about'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
+const GAIN_SITE_REFERENCE = 'gain-site-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
@@ -91,6 +92,7 @@ const METRIC_FILE_EXT = [
 ]
 
 const redisKeys = {
+  GAIN_SITE_REFERENCE,
   GEOSPATIAL_LOCATION,
   GEOSPATIAL_MAP_CONFIG,
   GEOSPATIAL_UPLOAD_TYPE,

@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "application-queue",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
+      "connectionStringSetting": "AzureSignalRConnectionString",
+      "direction": "out"
+    }
+  ]
+}
