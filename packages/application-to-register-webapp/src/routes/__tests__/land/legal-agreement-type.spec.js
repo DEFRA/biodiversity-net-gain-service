@@ -1,3 +1,4 @@
+import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = '/land/legal-agreement-type'
 

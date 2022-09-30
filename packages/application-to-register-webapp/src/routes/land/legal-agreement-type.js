@@ -3,11 +3,13 @@ import constants from '../../utils/constants.js'
 const handlers = {
   get: async (request, h) => {
     const legalAgrementType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
-    const selectedType = {selectedType: {
-      conservationType: false,
-      planningObligationType: false,
-      dontHave: false
-    }}
+    const selectedType = {
+      selectedType: {
+        conservationType: false,
+        planningObligationType: false,
+        dontHave: false
+      }
+    }
     switch (legalAgrementType) {
       case 'Conservation covenant':
         selectedType.selectedType.conservationType = true
@@ -27,7 +29,7 @@ const handlers = {
       if (legalAgrementType !== 'I do not have a legal agreement') {
         return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
       } else if (legalAgrementType === 'I do not have a legal agreement') {
-        return h.redirect('/' + constants.views.LEGAL_AGREEMENT_TYPE, {})
+        return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {})
       } else {
         return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {
           err: [{
