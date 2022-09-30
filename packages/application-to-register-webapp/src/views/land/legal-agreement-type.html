@@ -33,13 +33,13 @@
                     value: "Conservation covenant",
                     text: "Conservation covenant",
                     id: "conversation-covenant",
-                    checked: conservationType
+                    checked: selectedType.conservationType
                 },
                 {
                     value: "Planning obligation (section 106 agreement)",
                     text: "Planning obligation (section 106 agreement)",
                     id: "planning-obligation",
-                    checked: planningObligationType
+                    checked: selectedType.planningObligationType
                 },
                 {
                     divider: "or"
@@ -48,7 +48,7 @@
                     value: "I do not have a legal agreement",
                     text: "I do not have a legal agreement",
                     id: "dont-have-lefal-agreement",
-                    checked: dontHave
+                    checked: selectedType.dontHave
                 }
             ]
         }) }}
