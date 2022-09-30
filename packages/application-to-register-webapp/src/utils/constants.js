@@ -4,6 +4,7 @@ const ADD_HECTARES = 'land/add-hectares'
 const GAIN_SITE_REFERENCE = 'gain-site-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
+const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
@@ -192,6 +193,7 @@ const routes = {
   ADD_HECTARES,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
+  LEGAL_AGREEMENT_TYPE,
   LEGAL_AGREEMENT_TYPE,
   ADD_LEGAL_AGREEMENT_PARTIES,
   LEGAL_AGREEMENT_START_DATE,
