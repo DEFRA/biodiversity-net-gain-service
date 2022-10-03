@@ -17,7 +17,7 @@ describe('http', () => {
       })
 
       const response = await postJson('/', {})
-      expect(response).toEqual({ foo : 'bar' })
+      expect(response).toEqual({ foo: 'bar' })
     })
   })
   it('postJson should handle a non 200 response code as an error', () => {
