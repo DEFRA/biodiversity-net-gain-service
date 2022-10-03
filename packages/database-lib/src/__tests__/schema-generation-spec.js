@@ -40,31 +40,31 @@ describe('Must ensure that database exist', () => {
     jest.clearAllMocks()
   })
 
-  it('Should create database if it does not exist', () => {
-    const result = createDatabaseConfiguration(client, configuration)
+  it('Should create database if it does not exist', async () => {
+    const result = await createDatabaseConfiguration(client, configuration)
 
     expect(client.connect).toBeCalledTimes(1)
     expect(client.query).toBeCalledWith('CREATE DATABASE "Biodiversity_MVP"')
     expect(result).toBe(true)
   })
 
-  it('Should not create database if it already exist', () => {
+  it('Should not create database if it already exist', async () => {
     client.query = jest.fn().mockImplementation(() => {
       throw new Error()
     })
 
-    const result = createDatabaseConfiguration(client, configuration)
+    const result = await createDatabaseConfiguration(client, configuration)
 
     expect(client.connect).toBeCalledTimes(1)
     expect(result).toBe(true)
   })
 
-  it('Should fail to connect to database', () => {
+  it('Should fail to connect to database', async () => {
     client.connect = jest.fn().mockImplementation(() => {
       throw new Error()
     })
 
-    const result = createDatabaseConfiguration(client, configuration)
+    const result = await createDatabaseConfiguration(client, configuration)
 
     expect(client.connect).toBeCalledTimes(1)
     expect(result).toBe(false)

@@ -49,7 +49,7 @@ const init = async server => {
   // This is important for file uploads in containerised development environments.
   server.listener.keepAliveTimeout = parseInt(KEEP_ALIVE_TIMEOUT_MS) || server.listener.keepAliveTimeout
 
-  const created = createDatabase()
+  const created = await createDatabase()
   if (created) {
     console.info('Database initialisation successful')
   } else {
@@ -59,7 +59,7 @@ const init = async server => {
   await server.start()
 }
 
-const createDatabase = () => {
+const createDatabase = async () => {
   const client = new Client({
     user: DATABASE_USER,
     host: DATABASE_HOST,
@@ -74,7 +74,7 @@ const createDatabase = () => {
     dbInsertFile: path.join(workingDirectory, './src/dbscripts/BNG_MVP_Postgres_Insert_V01.sql'),
     initialise: INITIALISE_DATABASE
   }
-  return createDatabaseConfiguration(client, configuration)
+  return await createDatabaseConfiguration(client, configuration)
 }
 
 const getWorkingDirectory = () => {
