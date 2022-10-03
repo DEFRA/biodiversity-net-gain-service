@@ -14,38 +14,36 @@ const mockSendMessageErr = async (message) => {
 
 const req = {
   body: {
-    userId: '09e857da-e63a-4ef7-adab-e422682b0267',
     landownerGainSiteRegistration: {
       applicant: {
         firstName: null,
         lastName: null,
         role: null
       },
-      gainSiteReference: '09e857da-e63a-4ef7-adab-e422682b0267',
       landBoundaryGridReference: null,
       landBoundaryHectares: null,
       submittedOn: '2022-10-03T09:29:14.909Z',
       files: [{
         contentMediaType: 'application/msword',
-        fileType: '1/legal-agreement',
+        fileType: 'legal-agreement',
         fileSize: '0.01',
         fileLocation: '09e857da-e63a-4ef7-adab-e422682b0267/legal-agreement/legal-agreement.doc',
         fileName: 'legal-agreement.doc'
       }, {
         contentMediaType: null,
-        fileType: '2/land-boundary',
+        fileType: 'land-boundary',
         fileSize: null,
         fileLocation: null,
         fileName: null
       }, {
         contentMediaType: null,
-        fileType: '3/management-plan',
+        fileType: 'management-plan',
         fileSize: null,
         fileLocation: null,
         fileName: null
       }, {
         contentMediaType: null,
-        fileType: '4/metric',
+        fileType: 'metric',
         fileSize: null,
         fileLocation: null,
         fileName: null
@@ -72,7 +70,6 @@ describe('Processing an application', () => {
 
         expect(serviceBusConnector.sendMessage).toHaveBeenCalled()
         const context = getContext()
-        expect(context.res.body).toEqual('{"gainSiteReference":"09e857da-e63a-4ef7-adab-e422682b0267"}')
         expect(context.res.status).toEqual(200)
         done()
       } catch (err) {

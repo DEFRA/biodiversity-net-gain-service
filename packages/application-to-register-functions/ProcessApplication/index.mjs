@@ -1,4 +1,5 @@
 import { serviceBusConnector } from '@defra/bng-connectors-lib'
+import moment from 'moment'
 serviceBusConnector.init(process.env.OPERATOR_SB_CONNECTION_STRING)
 /*
   Steps for processing an application:
@@ -10,10 +11,10 @@ const buildConfig = body => {
   return {
     serviceBusConfig: {
       queueName: 'ne.bng.landowner.inbound',
-      message: body.landownerGainSiteRegistration
+      message: body
     },
     res: {
-      gainSiteReference: body.userId
+      gainSiteReference: body.landownerGainSiteRegistration.gainSiteReference
     }
   }
 }
@@ -21,6 +22,8 @@ const buildConfig = body => {
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   try {
+    // Generate gain site reference
+    req.body.landownerGainSiteRegistration.gainSiteReference = `BNG-${moment().utc().format('YYYYMMDDHHmmss')}`
     const config = buildConfig(req.body)
     await serviceBusConnector.sendMessage(config.serviceBusConfig)
     context.res = {
