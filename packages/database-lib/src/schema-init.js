@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import path from 'path'
 
-async function createDatabaseConfiguration(client, configuration) {
+async function createDatabaseConfiguration (client, configuration) {
   try {
     if (configuration.initialise === true) {
       client.connect()
