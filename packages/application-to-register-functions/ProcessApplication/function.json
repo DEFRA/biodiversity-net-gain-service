@@ -1,18 +1,17 @@
-{
+{ 
   "bindings": [
-    {
-      "name": "message",
-      "type": "queueTrigger",
-      "direction": "in",
-      "queueName": "application-queue",
-      "connection": "AzureWebJobsStorage"
-    },
-    {
-      "type": "signalR",
-      "name": "signalRMessages",
-      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
-      "connectionStringSetting": "AzureSignalRConnectionString",
-      "direction": "out"
-    }
+      {
+          "authLevel": "function",
+          "type": "httpTrigger",
+          "direction": "in",
+          "name": "req",
+          "route": "processapplication",
+          "methods": [ "post" ]
+      },
+      {
+          "type": "http",
+          "direction": "out",
+          "name": "res"
+      }
   ]
 }

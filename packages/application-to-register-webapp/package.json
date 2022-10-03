@@ -33,6 +33,7 @@
     "@hapi/hapi": "20.2.2",
     "@hapi/inert": "7.0.0",
     "@hapi/vision": "7.0.0",
+    "@hapi/wreck": "^18.0.0",
     "@hapi/yar": "^11.0.0",
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
