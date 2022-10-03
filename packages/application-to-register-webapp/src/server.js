@@ -63,7 +63,7 @@ const createDatabase = () => {
   const client = new Client({
     user: DATABASE_USER,
     host: DATABASE_HOST,
-    database: 'template1',
+    database: 'postgres',
     password: DATABASE_PASSWORD,
     port: DATABASE_PORT
   })
@@ -81,6 +81,8 @@ const getWorkingDirectory = () => {
   let workingDirectory = process.cwd()
   if (workingDirectory.endsWith('gain-service')) {
     workingDirectory = path.join(workingDirectory, 'packages/application-to-register-webapp')
+  } else {
+    workingDirectory = path.join(workingDirectory, '/node_modules/@defra/bng-database-lib')
   }
   return workingDirectory
 }

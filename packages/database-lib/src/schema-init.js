@@ -7,12 +7,17 @@ function createDatabaseConfiguration (client, configuration) {
       client.connect()
       try {
         client.query(`CREATE DATABASE "${configuration.database}"`)
+        console.log('1')
         const createSchemaQuery = fs.readFileSync(path.resolve(configuration.dbCreateFile), 'utf8')
-        const inserteDefaultDataQuery = fs.readFileSync(path.resolve(configuration.dbInsertFile), 'utf8')
+        console.log('2')
+        const insertDefaultDataQuery = fs.readFileSync(path.resolve(configuration.dbInsertFile), 'utf8')
+        console.log('3')
         client.query(createSchemaQuery)
-        client.query(inserteDefaultDataQuery)
+        console.log('4')
+        client.query(insertDefaultDataQuery)
+        console.log('5')
       } catch (error) {
-        console.log(`Database ${configuration.dbCreateFile} already exist or issue with query`)
+        console.log(`Database ${configuration.dbCreateFile} already exist or issue with query ${error}`)
       }
     }
   } catch (error) {
