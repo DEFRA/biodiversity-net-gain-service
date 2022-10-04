@@ -5,6 +5,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
+    request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT, context)
   },
   post: async (request, h) => {
@@ -40,9 +41,18 @@ const handlers = {
 
 const getContext = async request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+  const choosenOption = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
+  let yesSelection, noSelection
+  if (choosenOption === 'yes') {
+    yesSelection = true
+  } else if (choosenOption === 'no') {
+    noSelection = true
+  }
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
+    yesSelection: yesSelection,
+    noSelection: noSelection,
     fileLocation
   }
 }
