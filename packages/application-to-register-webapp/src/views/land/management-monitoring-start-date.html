@@ -7,43 +7,7 @@
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        {{ govukDateInput({
-          id: "managementMonitoringStartDate",
-          namePrefix: "managementMonitoringStartDate",
-          errorMessage: err[0],
-          fieldset: {
-            legend: {
-              text: pageHeading,
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          hint: {
-            html: "<p class='govuk-hint'>This is the date when the initial habitat enhancement works have finished.</p><p class='govuk-hint'>For example, 15 3 2022</p>"
-          },
-          items: [
-            {
-              classes: "govuk-input--width-2",
-              name: "day",
-              value: day
-            },
-            {
-              classes: "govuk-input--width-2",
-              name: "month",
-              value: month
-            },
-            {
-              classes: "govuk-input--width-4",
-              name: "year",
-              value: year
-            }
-          ]
-        }) }}
-
-        {{ govukButton({ text: 'Continue' }) }}
-      </div>
-    </div>
+    {% set id = 'managementMonitoringStartDate' %}
+    {% include "common/date-input.html" %}
   </div>
 {% endblock %}

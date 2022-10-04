@@ -1,0 +1,38 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ govukDateInput({
+      id: id,
+      namePrefix: id,
+      errorMessage: err[0],
+      fieldset: {
+        legend: {
+          text: pageHeading,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: {
+        text: "For example, 15 3 2022"
+      },
+      items: [
+        {
+          classes: "govuk-input--width-2",
+          name: "day",
+          value: day
+        },
+        {
+          classes: "govuk-input--width-2",
+          name: "month",
+          value: month
+        },
+        {
+          classes: "govuk-input--width-4",
+          name: "year",
+          value: year
+        }
+      ]
+    }) }}
+
+    {{ govukButton({ text: 'Continue' }) }}
+  </div>
+</div>
