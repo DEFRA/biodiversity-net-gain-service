@@ -1,12 +1,8 @@
-import { serviceBusConnector } from '@defra/bng-connectors-lib'
+// import { serviceBusConnector } from '@defra/bng-connectors-lib'
 import moment from 'moment'
-serviceBusConnector.init(process.env.OPERATOR_SB_CONNECTION_STRING)
-/*
-  Steps for processing an application:
-    - Generate unique site reference (currently using session ID) BNGP-778
-    - Forward message to integration service bus queue
-    - Return response with reference
-*/
+// import { ServiceBusClient } from '@azure/service-bus'
+// serviceBusConnector.init(process.env.OPERATOR_SB_CONNECTION_STRING)
+// console.log(process.env.OPERATOR_SB_CONNECTION_STRING)
 const buildConfig = body => {
   return {
     serviceBusConfig: {
@@ -25,12 +21,13 @@ export default async function (context, req) {
     // Generate gain site reference
     req.body.landownerGainSiteRegistration.gainSiteReference = `BNG-${moment().utc().format('YYYYMMDDHHmmss')}`
     const config = buildConfig(req.body)
-    await serviceBusConnector.sendMessage(config.serviceBusConfig)
+    context.bindings.outputSbQueue = config.serviceBusConfig.message
     context.res = {
       status: 200,
       body: JSON.stringify(config.res)
     }
   } catch (err) {
+    context.log.error(err)
     context.res = {
       status: 400,
       body: JSON.stringify(err)
