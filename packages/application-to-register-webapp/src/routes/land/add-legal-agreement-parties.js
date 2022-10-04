@@ -5,8 +5,20 @@ const handlers = {
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
   },
   post: async (request, h) => {
-    // const legalAgrementType = request.payload.legalAgrementType
-    return h.view(constants.views.LEGAL_AGREEMENT_START_DATE)
+    const organisationName = request.payload.organisationName
+    const role = request.payload.role
+
+    return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
+      err: [{
+        text: 'Enter the name of the legal party ',
+        href: '#organisationName'
+      },
+      {
+        text: 'Enter the name of the legal party ',
+        href: '#role'
+      }]
+    })
+    // return h.view(constants.views.LEGAL_AGREEMENT_START_DATE)
   }
 }
 
