@@ -1,0 +1,45 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload proof of land ownership" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {{ govukFileUpload({
+                    id: "landOwnership",
+                    name: "landOwnership",
+                    errorMessage: err[0],
+                    hint: {
+                        html: "<div class='govuk-hint'>For example, the title register</div>
+                        <div class='govuk-hint'>The file should be:</div><ul class='govuk-list govuk-list--bullet'>
+                            <li>a DOC, DOCX or PDF</li>
+                            <li>no larger than 50MB</li>
+                          </ul>"
+                    },
+                    label: {
+                        text: "Choose file",
+                        classes: "govuk-visually-hidden"
+                    }
+                }) }}
+                <p><a href="#">I do not have proof of land ownership</a></p>
+                {{ govukButton({
+                    text: "Continue"
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

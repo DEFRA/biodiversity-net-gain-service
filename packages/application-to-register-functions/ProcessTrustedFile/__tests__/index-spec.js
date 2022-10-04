@@ -29,6 +29,10 @@ describe('Trusted file processing', () => {
     performValidLandBoundaryDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
+  it('should process a known land ownership file. ', done => {
+    performValidLandOwnershipDocumentProcessingTest(PDF_FILE_EXTENSION, done)
+  })
+
   it('should process a known metric file. ', done => {
     performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
@@ -198,6 +202,23 @@ const performValidLandBoundaryDocumentProcessingTest = (fileExtension, done) => 
   jest.isolateModules(async () => {
     try {
       const testConfig = buildConfig(fileExtension, 'land-boundary')
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performValidLandOwnershipDocumentProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'land-ownership')
 
       await processTrustedFile(getContext(), testConfig.message)
 
