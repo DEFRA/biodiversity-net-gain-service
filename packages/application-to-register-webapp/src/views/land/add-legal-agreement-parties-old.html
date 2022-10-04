@@ -21,7 +21,6 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <div data-module="moj-add-another">
-
                     {{ govukFieldset({
                         legend: {
                             text: pageHeading,
@@ -29,9 +28,6 @@
                             isPageHeading: true
                         }
                     }) }}
-
-                    <form method="post">
-
                         {% call govukFieldset({
                             classes: 'moj-add-another__item',
                             legend: {
@@ -41,31 +37,28 @@
                             }
                         }) %}
                             {{ govukInput({
-                                id: "organosation[0].organisationName",
-                                name: "organosation[0].organisationName",
-                                label: {
-                                    text: 'Full name or organisation'
-                                },
-                                errorMessage: err[0],
-                                attributes: {
-                                    'data-name': 'organosation[%index%][organisationName]',
-                                    'data-id': 'organosation[%index%][organisationName]'
+                                    id: "organosation[0].organisationName",
+                                    name: "organosation[0].organisationName",
+                                    label: {
+                                        text: 'Full name or organisation'
+                                    },
+                                    errorMessage: err[0]
                                 }
-                            })}}
+                            )}}
                             {{ govukRadios(
                                 {
-                                    name: "organosation[0].role",
-                                    id: "organosation[0].role",
-                                    hint: {
-                                        html: "<div class='govuk-hint'>Select one option.</div>"
-                                    },
-                                    fieldset: {
-                                        legend: {
-                                            text: "Role"
-                                        }
-                                    },
-                                    errorMessage: err[1],
-                                    items: [
+                                name: "organosation[0].role",
+                                id: "organosation[0].role",
+                                hint: {
+                                    html: "<div class='govuk-hint'>Select one option.</div>"
+                                },
+                                fieldset: {
+                                    legend: {
+                                        text: "Role"
+                                    }
+                                },
+                                errorMessage: err[1],
+                                items: [
                                     {
                                         value: "County Council",
                                         text: "County Council"
@@ -94,15 +87,15 @@
                                                     <input class="govuk-input govuk-!-width-one-third" id="other-party-text" name="otherPartyName">
                                                 </div>
                                             </div>'
-                                        }
+                                    }
                                     }
                                 ]
-                                }) }}
+                            }) }}
                         {% endcall %}
 
                         <div class="moj-button-action">
                             {{ govukButton({
-                                text: 'Add another',
+                                text: 'Add another person',
                                 classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
                             }) }}
                         </div>
@@ -112,8 +105,6 @@
                                 text: 'Submit'
                             }) }}
                         </div>
-
-                    </form>
 
                 </div>
             </div>
