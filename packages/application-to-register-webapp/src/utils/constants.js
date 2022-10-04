@@ -52,6 +52,10 @@ const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
+const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
+const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
+const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
 
 const YES = 'yes'
 
@@ -104,7 +108,9 @@ const redisKeys = {
   MANAGEMENT_PLAN_FILE_SIZE,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
-  METRIC_FILE_CHECKED
+  METRIC_FILE_CHECKED,
+  HABITAT_WORKS_START_DATE_KEY,
+  MANAGEMENT_MONITORING_START_DATE_KEY
 }
 
 const routes = {
@@ -132,7 +138,9 @@ const routes = {
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY,
   UPLOAD_METRIC,
-  CHECK_UPLOAD_METRIC
+  CHECK_UPLOAD_METRIC,
+  HABITAT_WORKS_START_DATE,
+  MANAGEMENT_MONITORING_START_DATE
 }
 
 const uploadErrors = {

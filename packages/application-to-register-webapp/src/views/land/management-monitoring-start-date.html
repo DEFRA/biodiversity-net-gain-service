@@ -1,0 +1,32 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "When will the 30 year management and monitoring period start?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukDateInput({
+          id: "managementMonitoringStartDate",
+          namePrefix: "managementMonitoringStartDate",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "<p class='govuk-hint'>This is the date when the initial habitat enhancement works have finished.</p><p class='govuk-hint'>For example, 15 3 2024</p>"
+          }
+        }) }}
+
+        {{ govukButton({ text: 'Continue' }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
