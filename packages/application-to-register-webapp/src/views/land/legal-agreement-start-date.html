@@ -1,0 +1,36 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "What is the start date of the legal agreement?" %}
+
+{% block formContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/land/add-legal-agreement-parties"
+    }) }}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {{ govukDateInput({
+                    id: "legalAgreementStartDate",
+                    namePrefix: "legalAgreementStartDate",
+                    hint: {
+                        text: "For example, 27 3 2007"
+                    }
+                }) }}
+                {{ govukButton({ text: 'Continue' }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

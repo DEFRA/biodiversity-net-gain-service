@@ -1,0 +1,123 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Add all parties listed on the legal agreement" %}
+
+{% block formContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/land/check-legal-agreement-file"
+    }) }}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {{ govukFieldset({
+                    legend: {
+                        text: "Legal party",
+                        classes: "govuk-fieldset__legend--m",
+                        isPageHeading: true
+                    }
+                }) }}
+                {{ govukInput({
+                    label: {
+                        text: 'Full name or organisation'
+                    },
+                    id: "organisationName",
+                    name: "organisationName"
+                }) }}
+                {{ govukRadios({
+                    name: "role",
+                    hint: {
+                        html: "<div class='govuk-hint'>Select one option.</div>"
+                    },
+                    fieldset: {
+                        legend: {
+                            text: "Role"
+                        }
+                    },
+                    items: [
+                        {
+                            value: "countryCouncil",
+                            text: "County Council"
+                        },
+                        {
+                            value: "developer",
+                            text: "Developer"
+                        },
+                        {
+                            value: "landowner",
+                            text: "Landowner"
+                        },
+                        {
+                            value: "Responsible body",
+                            text: "Responsible body"
+                        },
+                        {
+                            value: "other",
+                            text: "Other",
+                            id: 'other-party',
+                            conditional: {
+                                html: '<div id="role">
+                                            <div class="govuk-form-group">
+                                              <label class="govuk-label" for="other-party">
+                                                Role
+                                              </label>
+                                              <input class="govuk-input govuk-!-width-one-third" id="other-party-text" name="otherPartyName">
+                                            </div>
+                                       </div>'
+                            }
+                        }
+                    ]
+                }) }}
+                {#        {% set idPrefix = 'checkLegalAgreement' %}#}
+                {#        {% set name = 'checkLegalAgreement' %}#}
+                {#        {% set id = 'check-upload-correct-yes' %}#}
+{#        {{ govukRadios({#}
+{#            idPrefix: prefix,#}
+{#            name: "legalAgrementType",#}
+{#            id: "legalAgrementType",#}
+{#            hint: {#}
+{#                html: "<div class='govuk-hint'>You need a legal agreement to secure the habitat improvements and <br>management of them for at least 30 years.#}
+{#                        </div>"#}
+{#            },#}
+{#            errorMessage: err[0],#}
+{#            items: [#}
+{#                {#}
+{#                    value: "Conservation covenant",#}
+{#                    text: "Conservation covenant",#}
+{#                    id: "conversation-covenant",#}
+{#                    checked: selectedType.conservationType#}
+{#                },#}
+{#                {#}
+{#                    value: "Planning obligation (section 106 agreement)",#}
+{#                    text: "Planning obligation (section 106 agreement)",#}
+{#                    id: "planning-obligation",#}
+{#                    checked: selectedType.planningObligationType#}
+{#                },#}
+{#                {#}
+{#                    divider: "or"#}
+{#                },#}
+{#                {#}
+{#                    value: "I do not have a legal agreement",#}
+{#                    text: "I do not have a legal agreement",#}
+{#                    id: "dont-have-lefal-agreement",#}
+{#                    checked: selectedType.dontHave#}
+{#                }#}
+{#            ]#}
+{#        }) }}#}
+        {{ govukButton({ text: 'Continue' }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
