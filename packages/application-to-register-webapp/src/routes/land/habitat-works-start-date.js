@@ -6,7 +6,7 @@ const handlers = {
     const day = request.payload['habitatWorksStartDate-day']
     const month = request.payload['habitatWorksStartDate-month']
     const year = request.payload['habitatWorksStartDate-year']
-    let context = {}
+    const context = {}
     validateDate(context, day, month, year)
     const date = new Date(`${year}-${month}-${day}`)
     if (context.err) {
@@ -19,7 +19,7 @@ const handlers = {
 }
 
 const validateDate = (context, day, month, year) => {
-  if(!day && !month && !year) {
+  if (!day && !month && !year) {
     context.err = [{
       text: 'Enter the start date of the habitat enhancement works',
       href: '#habitatWorksStartDate-day'
@@ -46,7 +46,6 @@ const validateDate = (context, day, month, year) => {
     }]
   }
 }
-
 
 export default [{
   method: 'GET',

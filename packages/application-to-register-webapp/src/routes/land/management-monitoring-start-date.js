@@ -6,7 +6,7 @@ const handlers = {
     const day = request.payload['managementMonitoringStartDate-day']
     const month = request.payload['managementMonitoringStartDate-month']
     const year = request.payload['managementMonitoringStartDate-year']
-    let context = {}
+    const context = {}
     validateDate(context, day, month, year)
     const date = new Date(`${year}-${month}-${day}`)
     const habitatWorksStartDate = new Date(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))
@@ -26,7 +26,7 @@ const handlers = {
 }
 
 const validateDate = (context, day, month, year) => {
-  if(!day && !month && !year) {
+  if (!day && !month && !year) {
     context.err = [{
       text: 'Enter the date the 30 year management and monitoring period will start',
       href: '#managementMonitoringStartDate-day'
