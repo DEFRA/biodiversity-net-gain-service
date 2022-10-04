@@ -22,7 +22,24 @@
           },
           hint: {
             text: "For example, 15 3 2022"
-          }
+          },
+          items: [
+            {
+              classes: "govuk-input--width-2",
+              name: "day",
+              value: day
+            },
+            {
+              classes: "govuk-input--width-2",
+              name: "month",
+              value: month
+            },
+            {
+              classes: "govuk-input--width-4",
+              name: "year",
+              value: year
+            }
+          ]
         }) }}
 
         {{ govukButton({ text: 'Continue' }) }}

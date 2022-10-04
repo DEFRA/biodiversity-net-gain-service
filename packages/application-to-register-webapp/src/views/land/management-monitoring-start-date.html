@@ -22,7 +22,24 @@
           },
           hint: {
             html: "<p class='govuk-hint'>This is the date when the initial habitat enhancement works have finished.</p><p class='govuk-hint'>For example, 15 3 2022</p>"
-          }
+          },
+          items: [
+            {
+              classes: "govuk-input--width-2",
+              name: "day",
+              value: day
+            },
+            {
+              classes: "govuk-input--width-2",
+              name: "month",
+              value: month
+            },
+            {
+              classes: "govuk-input--width-4",
+              name: "year",
+              value: year
+            }
+          ]
         }) }}
 
         {{ govukButton({ text: 'Continue' }) }}
