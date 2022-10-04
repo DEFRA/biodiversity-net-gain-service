@@ -1,0 +1,77 @@
+{% extends 'form-layout.html' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "What is your role?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {% set otherHtml %}
+        {{ govukInput({
+          id: "role-other",
+          name: "role-other",
+          type: "text",
+          classes: "govuk-!-width-one-third",
+          value: data['role-other'],
+          label: {
+            text: "Role"
+          }
+        }) }}
+        {% endset -%}
+
+        {{ govukRadios({
+          idPrefix: "role",
+          name: "role",
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select one option."
+          },
+          items: [
+            {
+              value: "Ecologist",
+              text: "Ecologist",
+              checked: false
+            },
+            {
+              value: "Land agent",
+              text: "Land agent",
+              checked: false
+            },
+            {
+              value: "Landowner",
+              text: "Landowner",
+              checked: false
+            },
+            {
+              value: "Leaseholder",
+              text: "Leaseholder",
+              checked: false
+            },
+            {
+              value: "Other",
+              text: "Other",
+              checked: false,
+              conditional: {
+                html: otherHtml
+              }
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

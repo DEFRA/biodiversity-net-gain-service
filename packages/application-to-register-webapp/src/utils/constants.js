@@ -59,6 +59,11 @@ const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const HOME = 'home'
+const NAME = 'land/name'
+const FULL_NAME = 'fullname'
+const ROLE = 'land/role'
+const ROLE_KEY = 'role'
 
 const YES = 'yes'
 
@@ -119,7 +124,9 @@ const redisKeys = {
   LAND_OWNERSHIP_CHECKED,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
-  METRIC_FILE_CHECKED
+  METRIC_FILE_CHECKED,
+  FULL_NAME,
+  ROLE_KEY
 }
 
 const routes = {
@@ -150,7 +157,10 @@ const routes = {
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
   UPLOAD_LAND_BOUNDARY,
-  UPLOAD_LAND_OWNERSHIP
+  UPLOAD_LAND_OWNERSHIP,
+  HOME,
+  NAME,
+  ROLE
 }
 
 const uploadErrors = {

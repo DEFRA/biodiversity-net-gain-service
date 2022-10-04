@@ -1,0 +1,30 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "What is your name?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukInput({
+          id: "fullName",
+          name: "fullName",
+          errorMessage: err[0],
+          label: {
+            text: "Full name"
+          },
+          autocomplete: "name",
+          spellcheck: false,
+          value: data['full-name']
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
