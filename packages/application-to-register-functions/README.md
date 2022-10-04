@@ -44,7 +44,6 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | WEBSITE_CONTENTSHARE | The file path to the function app code and configuration in an event-driven scaling plan on Windows | Plan dependent |
 | WEBSITE_NODE_DEFAULT_VERSION | Default version of Node.js (**must be ~16**) |
 | OPERATOR_SB_CONNECTION_STRING | Operator integration tier service bus connection string | Y |
-| AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |
 
 ### App settings / environment variables for use with Azurite
 
