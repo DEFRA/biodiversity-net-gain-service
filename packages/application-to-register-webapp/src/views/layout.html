@@ -65,13 +65,7 @@
     },
     html: 'This is a new service – <a class="govuk-link" href="#">give feedback</a> to help us to improve it.'
   }) }}
-  {% if hideBackLink === true %}
-  {% else %}
-    {{ govukBackLink({
-      text: "Back",
-      href: "javascript: window.history.go(-1)"
-    }) }}
-  {% endif %}
+
 {% endblock %}
 
 {% block content %}
