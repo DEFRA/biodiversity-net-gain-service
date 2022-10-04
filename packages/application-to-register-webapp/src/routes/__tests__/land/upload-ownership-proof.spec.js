@@ -1,7 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
-const url = '/land/upload-proof-of-ownership'
+const url = '/land/upload-ownership-proof'
 
 const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
@@ -98,7 +98,7 @@ describe('Proof of ownership upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
-        await uploadFile(uploadConfig)
+        await uploadFile(uploadConfig, 200)
         setImmediate(() => {
           done()
         })
