@@ -9,6 +9,13 @@ const handlers = {
     let context = {}
     validateDate(context, day, month, year)
     const date = new Date(`${year}-${month}-${day}`)
+    const habitatWorksStartDate = new Date(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))
+    if (date < habitatWorksStartDate) {
+      context.err = [{
+        text: 'Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin',
+        href: '#managementMonitoringStartDate-day'
+      }]
+    }
     if (context.err) {
       return h.view(constants.views.MANAGEMENT_MONITORING_START_DATE, context)
     } else {
