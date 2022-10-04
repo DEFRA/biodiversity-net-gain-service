@@ -21,7 +21,7 @@ function processSuccessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
     logger.log(`${new Date().toUTCString()} Received land ownership data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LAND_OWNERSHIP
+    resultView = constants.routes.CHECK_PROOF_OF_OWNERSHIP
   }
   return { resultView, errorMessage }
 }
@@ -56,7 +56,7 @@ function processErrorUpload (err, h) {
 }
 
 function processReturnValue (details, h) {
-  return details.resultView === constants.routes.CHECK_LAND_OWNERSHIP
+  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP
     ? h.redirect(details.resultView, details.errorMessage)
     : h.view(details.resultView, details.errorMessage)
 }

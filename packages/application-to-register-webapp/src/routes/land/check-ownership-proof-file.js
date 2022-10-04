@@ -5,7 +5,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
-    return h.view(constants.views.CHECK_LAND_OWNERSHIP, context)
+    return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },
   post: async (request, h) => {
     const checkLandOwnership = request.payload.checkLandOwnership
@@ -25,13 +25,13 @@ const handlers = {
         text: '!TODO: Journey continuation not implemented',
         href: '#check-upload-correct-yes'
       }]
-      return h.redirect('/' + constants.views.CHECK_LAND_OWNERSHIP, context)
+      return h.redirect('/' + constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
         href: '#check-upload-correct-yes'
       }]
-      return h.view(constants.views.CHECK_LAND_OWNERSHIP, context)
+      return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
     }
   }
 }
@@ -47,10 +47,10 @@ const getContext = async request => {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHECK_LAND_OWNERSHIP,
+  path: constants.routes.CHECK_PROOF_OF_OWNERSHIP,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CHECK_LAND_OWNERSHIP,
+  path: constants.routes.CHECK_PROOF_OF_OWNERSHIP,
   handler: handlers.post
 }]
