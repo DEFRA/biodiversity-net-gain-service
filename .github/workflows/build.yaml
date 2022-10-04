@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "16.x"
       - name: Install dependencies and local symlink dependencies
-        run: npm ci
+        run: npm i
       - name: Run markdown linting check
         run: |
           node_modules/.bin/markdownlint $PWD/README.md '$PWD/!(docker)/**/*.md'
