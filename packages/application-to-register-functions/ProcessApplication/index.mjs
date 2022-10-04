@@ -1,8 +1,5 @@
-// import { serviceBusConnector } from '@defra/bng-connectors-lib'
 import moment from 'moment'
-// import { ServiceBusClient } from '@azure/service-bus'
-// serviceBusConnector.init(process.env.OPERATOR_SB_CONNECTION_STRING)
-// console.log(process.env.OPERATOR_SB_CONNECTION_STRING)
+
 const buildConfig = body => {
   return {
     serviceBusConfig: {
@@ -26,6 +23,7 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(config.res)
     }
+    context.log(`Processed ${req.body.landownerGainSiteRegistration.gainSiteReference}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
