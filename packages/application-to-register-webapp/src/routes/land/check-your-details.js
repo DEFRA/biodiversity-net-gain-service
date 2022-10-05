@@ -12,9 +12,7 @@ const handlers = {
       roleOther
     })
   },
-  post: async (request, h) => {
-    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
-  }
+  post: async (_request, h) => h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
 }
 
 export default [{

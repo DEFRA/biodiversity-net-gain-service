@@ -18,6 +18,7 @@ const handlers = {
     if (error) {
       return h.view(constants.views.NAME, {
         fullName,
+        checkReferer,
         ...error
       })
     } else {
@@ -27,23 +28,20 @@ const handlers = {
   }
 }
 
-const validateName = (fullName) => {
+const validateName = fullName => {
+  const error = {}
   if (!fullName) {
-    return {
-      err: [{
-        text: 'Enter your full name',
-        href: ID
-      }]
-    }
+    error.err = [{
+      text: 'Enter your full name',
+      href: ID
+    }]
+  } else if (fullName.length < 2) {
+    error.err = [{
+      text: 'Full name must be 2 characters or more',
+      href: ID
+    }]
   }
-  if (fullName.length < 2) {
-    return {
-      err: [{
-        text: 'Full name must be 2 characters or more',
-        href: ID
-      }]
-    }
-  }
+  return error.err ? error : null
 }
 
 export default [{

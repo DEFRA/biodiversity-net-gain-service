@@ -30,21 +30,19 @@ const handlers = {
 }
 
 const validateData = (role, roleOther) => {
+  const error = {}
   if (!role) {
-    return {
-      err: [{
-        text: 'Select the role',
-        href: '#role'
-      }]
-    }
+    error.err = [{
+      text: 'Select the role',
+      href: '#role'
+    }]
   } else if (role === 'Other' && !roleOther) {
-    return {
-      err: [{
-        text: 'Other type of role cannot be left blank',
-        href: '#roleOther'
-      }]
-    }
+    error.err = [{
+      text: 'Other type of role cannot be left blank',
+      href: '#roleOther'
+    }]
   }
+  return error.err ? error : null
 }
 
 // nunjucks template function
