@@ -14,11 +14,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const day = request.payload[`${ID}-day`]
-    const month = request.payload[`${ID}-month`]
-    const year = request.payload[`${ID}-year`]
-    const context = {}
-    validateDate(context, day, month, year, ID, 'start date of the habitat enhancement works')
+    const { day, month, year, context } = validateDate(request.payload, ID, 'start date of the habitat enhancement works')
     const date = new Date(`${year}-${month}-${day}`)
     if (context.err) {
       return h.view(constants.views.HABITAT_WORKS_START_DATE, {

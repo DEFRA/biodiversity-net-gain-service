@@ -1,6 +1,10 @@
 import moment from 'moment'
 
-const validateDate = (context, day, month, year, ID, desc) => {
+const validateDate = (payload, ID, desc) => {
+  const day = payload[`${ID}-day`]
+  const month = payload[`${ID}-month`]
+  const year = payload[`${ID}-year`]
+  const context = {}
   if (!day && !month && !year) {
     context.err = [{
       text: `Enter the ${desc}`,
@@ -31,6 +35,12 @@ const validateDate = (context, day, month, year, ID, desc) => {
       href: `#${ID}-day`,
       dateError: true
     }]
+  }
+  return {
+    day,
+    month,
+    year,
+    context
   }
 }
 

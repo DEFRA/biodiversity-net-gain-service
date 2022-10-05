@@ -14,19 +14,14 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const day = request.payload[`${ID}-day`]
-    const month = request.payload[`${ID}-month`]
-    const year = request.payload[`${ID}-year`]
-    const context = {}
-
-    validateDate(context, day, month, year, ID, 'date the 30 year management and monitoring period will start')
-
+    const { day, month, year, context } = validateDate(request.payload, ID, 'date the 30 year management and monitoring period will start')
     const date = new Date(`${year}-${month}-${day}`)
     const habitatWorksStartDate = new Date(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))
     if (!context.err && date < habitatWorksStartDate) {
       context.err = [{
         text: 'Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin',
-        href: `#${ID}-day`
+        href: `#${ID}-day`,
+        dateError: true
       }]
     }
     if (context.err) {
