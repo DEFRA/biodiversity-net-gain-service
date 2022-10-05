@@ -64,6 +64,9 @@ const NAME = 'land/name'
 const FULL_NAME = 'fullname'
 const ROLE = 'land/role'
 const ROLE_KEY = 'role'
+const ROLE_OTHER = 'role-other'
+const CHECK_YOUR_DETAILS = 'land/check-your-details'
+const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 
 const YES = 'yes'
 
@@ -126,7 +129,8 @@ const redisKeys = {
   METRIC_FILE_SIZE,
   METRIC_FILE_CHECKED,
   FULL_NAME,
-  ROLE_KEY
+  ROLE_KEY,
+  ROLE_OTHER
 }
 
 const routes = {
@@ -160,7 +164,9 @@ const routes = {
   UPLOAD_LAND_OWNERSHIP,
   HOME,
   NAME,
-  ROLE
+  ROLE,
+  CHECK_YOUR_DETAILS,
+  REGISTER_LAND_TASK_LIST
 }
 
 const uploadErrors = {

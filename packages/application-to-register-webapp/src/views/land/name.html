@@ -18,9 +18,11 @@
           },
           autocomplete: "name",
           spellcheck: false,
-          value: data['full-name']
+          value: fullName
         }) }}
 
+        <input type="hidden" id="checkReferer" name="checkReferer" value="{{ checkReferer }}">
+        
         {{ govukButton({
           text: "Continue"
         }) }}

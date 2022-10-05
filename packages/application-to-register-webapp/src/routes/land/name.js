@@ -1,33 +1,47 @@
 import constants from '../../utils/constants.js'
 
+const ID = '#fullName'
+
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.NAME),
+  get: async (request, h) => {
+    const checkReferer = request.raw.req.headers.referer && request.raw.req.headers.referer.indexOf(constants.routes.CHECK_YOUR_DETAILS) > -1
+    const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
+    return h.view(constants.views.NAME, {
+      fullName,
+      checkReferer
+    })
+  },
   post: async (request, h) => {
+    const checkReferer = request.payload.checkReferer && JSON.parse(request.payload.checkReferer)
     const fullName = request.payload.fullName
-    let context = {}
-    if (!fullName) {
-      context = {
-        err: [{
-          text: 'Enter your full name',
-          href: '#fullName'
-        }]
-      }
-    } else if (fullName.length < 2) {
-      context = {
-        err: [{
-          text: 'Full name must be 2 characters or more',
-          href: '#fullName'
-        }]
-      }
-    }
-    if (context.err) {
+    const error = validateName(fullName)
+    if (error) {
       return h.view(constants.views.NAME, {
         fullName,
-        ...context
+        ...error
       })
     } else {
-      request.yar.set(constants.redisKeys.FULL_NAME)
-      return h.redirect(constants.routes.ROLE)
+      request.yar.set(constants.redisKeys.FULL_NAME, fullName)
+      return h.redirect(checkReferer ? constants.routes.CHECK_YOUR_DETAILS : constants.routes.ROLE)
+    }
+  }
+}
+
+const validateName = (fullName) => {
+  if (!fullName) {
+    return {
+      err: [{
+        text: 'Enter your full name',
+        href: ID
+      }]
+    }
+  }
+  if (fullName.length < 2) {
+    return {
+      err: [{
+        text: 'Full name must be 2 characters or more',
+        href: ID
+      }]
     }
   }
 }

@@ -12,11 +12,11 @@
       <div class="govuk-grid-column-two-thirds">
         {% set otherHtml %}
         {{ govukInput({
-          id: "role-other",
-          name: "role-other",
+          id: "roleOther",
+          name: "roleOther",
           type: "text",
           classes: "govuk-!-width-one-third",
-          value: data['role-other'],
+          value: roleOther,
           label: {
             text: "Role"
           }
@@ -26,6 +26,7 @@
         {{ govukRadios({
           idPrefix: "role",
           name: "role",
+          errorMessage: err[0],
           fieldset: {
             legend: {
               text: pageHeading,
@@ -40,27 +41,27 @@
             {
               value: "Ecologist",
               text: "Ecologist",
-              checked: false
+              checked: checked(role, "Ecologist")
             },
             {
               value: "Land agent",
               text: "Land agent",
-              checked: false
+              checked: checked(role, "Land agent")
             },
             {
               value: "Landowner",
               text: "Landowner",
-              checked: false
+              checked: checked(role, "Landowner")
             },
             {
               value: "Leaseholder",
               text: "Leaseholder",
-              checked: false
+              checked: checked(role, "Leaseholder")
             },
             {
               value: "Other",
               text: "Other",
-              checked: false,
+              checked: checked(role, "Other"),
               conditional: {
                 html: otherHtml
               }
