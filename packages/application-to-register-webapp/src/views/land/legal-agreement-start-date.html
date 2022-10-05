@@ -24,10 +24,29 @@
                 }) }}
                 {{ govukDateInput({
                     id: "legalAgreementStartDate",
+                    name: "legalAgreementStartDate",
                     namePrefix: "legalAgreementStartDate",
+                    errorMessage: err[0],
                     hint: {
                         text: "For example, 27 3 2007"
-                    }
+                    },
+                    items: [
+                        {
+                            classes: "govuk-input--width-2",
+                            name: "day",
+                            value: legalAgreementStartDateDay
+                        },
+                        {
+                            classes: "govuk-input--width-2",
+                            name: "month",
+                            value: legalAgreementStartDateMonth
+                        },
+                        {
+                            classes: "govuk-input--width-4",
+                            name: "year",
+                            value: legalAgreementStartDateYear
+                        }
+                    ]
                 }) }}
                 {{ govukButton({ text: 'Continue' }) }}
             </div>
