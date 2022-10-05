@@ -59,6 +59,12 @@ const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
+const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
+const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
+const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
+const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
+const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
+const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
 const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
 const LAND_BOUNDARY_FILE_TYPE = 'land-boundary-file-type'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
@@ -168,6 +174,14 @@ const redisKeys = {
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
   LANDOWNER_CONSENT_KEY
+  MANAGEMENT_MONITORING_START_DATE_KEY
+  METRIC_FILE_CHECKED,
+  LEGAL_AGREEMENT_ORGANISATION_NAMES,
+  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
+  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
+  LEGAL_AGREEMENT_START_DAY,
+  LEGAL_AGREEMENT_START_MONTH,
+  LEGAL_AGREEMENT_START_YEAR
 }
 
 const routes = {
