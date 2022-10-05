@@ -74,5 +74,27 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Start date must be a real date')
     })
+    it('Tests date from session', async () => {
+      jest.isolateModules(async () => {
+        let viewResult, contextResult
+        const habitatWorksStartDate = require('../../land/habitat-works-start-date.js')
+        const request = {
+          yar: {
+            get: () => new Date('2022-11-30').toISOString()
+          }
+        }
+        const h = {
+          view: (view, context) => {
+            viewResult = view
+            contextResult = context
+          }
+        }
+        await habitatWorksStartDate.default[0].handler(request, h)
+        expect(viewResult).toEqual('land/habitat-works-start-date')
+        expect(contextResult.day).toEqual(30)
+        expect(contextResult.month).toEqual(11)
+        expect(contextResult.year).toEqual(2022)
+      })
+    })
   })
 })

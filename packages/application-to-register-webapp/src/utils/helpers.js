@@ -34,9 +34,7 @@ const validateDate = (context, day, month, year, ID, desc) => {
   }
 }
 
-const dateClasses = (localError, dateError, classes) => {
-  return (localError || dateError) ? `${classes} govuk-input--error` : classes
-}
+const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 export {
   validateDate,
