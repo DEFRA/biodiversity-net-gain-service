@@ -41,57 +41,71 @@
                             }
                         }) %}
                             {{ govukInput({
-                                id: "organosation[0].organisationName",
-                                name: "organosation[0].organisationName",
+                                id: "organisation[0].organisationName",
+                                name: "organisation[0].organisationName",
+                                value: name,
                                 label: {
                                     text: 'Full name or organisation'
                                 },
                                 errorMessage: err[0],
                                 attributes: {
-                                    'data-name': 'organosation[%index%][organisationName]',
-                                    'data-id': 'organosation[%index%][organisationName]'
+                                    'data-name': 'organisation[%index%][organisationName]',
+                                    'data-id': 'organisation[%index%][organisationName]'
                                 }
                             })}}
                             {{ govukRadios(
                                 {
-                                    name: "organosation[0].role",
-                                    id: "organosation[0].role",
+                                    id: 'organisation[0].role',
+                                    name: "organisation[0].role",
                                     hint: {
                                         html: "<div class='govuk-hint'>Select one option.</div>"
+                                    },
+                                    label: {
+                                        text: 'Organisation role'
                                     },
                                     fieldset: {
                                         legend: {
                                             text: "Role"
                                         }
                                     },
+                                    attributes:{
+                                        'id': 'organisation[0].role',
+                                        'data-name': 'organisation[%index%][role]',
+                                        'data-id': 'organisation[%index%][role]'
+                                    },
                                     errorMessage: err[1],
                                     items: [
                                     {
                                         value: "County Council",
-                                        text: "County Council"
+                                        text: "County Council",
+                                        checked: organisationChecked.County_Council
                                     },
                                     {
-                                        value: "developer",
-                                        text: "Developer"
+                                        value: "Developer",
+                                        text: "Developer",
+                                        checked: organisationChecked.Developer
                                     },
                                     {
-                                        value: "landowner",
-                                        text: "Landowner"
+                                        value: "Landowner",
+                                        text: "Landowner",
+                                        checked: organisationChecked.Landowner
                                     },
                                     {
                                         value: "Responsible body",
-                                        text: "Responsible body"
+                                        text: "Responsible body",
+                                        checked: organisationChecked.Responsible_body
                                     },
                                     {
-                                        value: "other",
+                                        value: "Other",
                                         text: "Other",
+                                        checked: organisationChecked.Other,
                                         conditional: {
                                         html: '<div id="other-role">
                                                 <div class="govuk-form-group">
                                                     <label class="govuk-label" for="other-party">
                                                         Role
                                                     </label>
-                                                    <input class="govuk-input govuk-!-width-one-third" id="other-party-text" name="otherPartyName">
+                                                    <input class="govuk-input govuk-!-width-one-third" id="other-party-text" value="' + otherPartyName  + '" name="otherPartyName">
                                                 </div>
                                             </div>'
                                         }
@@ -109,7 +123,7 @@
 
                         <div class="moj-button-action">
                             {{ govukButton({
-                                text: 'Submit'
+                                text: 'Contiue'
                             }) }}
                         </div>
 
