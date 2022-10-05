@@ -58,5 +58,21 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Start date must be a real date')
     })
+    it('should stop journey if invalid date', async () => {
+      postOptions.payload['managementMonitoringStartDate-day'] = '31'
+      postOptions.payload['managementMonitoringStartDate-month'] = '11'
+      postOptions.payload['managementMonitoringStartDate-year'] = '2022'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Start date must be a real date')
+    })
+    it('should stop journey if invalid date', async () => {
+      postOptions.payload['managementMonitoringStartDate-day'] = '29'
+      postOptions.payload['managementMonitoringStartDate-month'] = '02'
+      postOptions.payload['managementMonitoringStartDate-year'] = '2022'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Start date must be a real date')
+    })
   })
 })

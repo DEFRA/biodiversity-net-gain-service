@@ -16,17 +16,17 @@
       },
       items: [
         {
-          classes: "govuk-input--width-2",
+          classes: dateClasses(err[0].dayError, err[0].dateError, "govuk-input--width-2"),
           name: "day",
           value: day
         },
         {
-          classes: "govuk-input--width-2",
+          classes: dateClasses(err[0].monthError, err[0].dateError, "govuk-input--width-2"),
           name: "month",
           value: month
         },
         {
-          classes: "govuk-input--width-4",
+          classes: dateClasses(err[0].yearError, err[0].dateError, "govuk-input--width-4"),
           name: "year",
           value: year
         }

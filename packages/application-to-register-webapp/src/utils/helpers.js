@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const validateDate = (context, day, month, year, ID, desc) => {
   if (!day && !month && !year) {
     context.err = [{
@@ -23,7 +25,7 @@ const validateDate = (context, day, month, year, ID, desc) => {
       href: `#${ID}-year`,
       yearError: true
     }]
-  } else if (isNaN(Date.parse(`${year}-${month}-${day}`))) {
+  } else if (!moment(`${year}-${month}-${day}`).isValid()) {
     context.err = [{
       text: 'Start date must be a real date',
       href: `#${ID}-day`,
@@ -32,6 +34,11 @@ const validateDate = (context, day, month, year, ID, desc) => {
   }
 }
 
+const dateClasses = (localError, dateError, classes) => {
+  return (localError || dateError) ? `${classes} govuk-input--error` : classes
+}
+
 export {
-  validateDate
+  validateDate,
+  dateClasses
 }

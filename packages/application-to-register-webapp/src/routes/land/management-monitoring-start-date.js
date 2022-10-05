@@ -1,10 +1,18 @@
 import constants from '../../utils/constants.js'
-import { validateDate } from '../../utils/helpers.js'
+import { validateDate, dateClasses } from '../../utils/helpers.js'
 
 const ID = 'managementMonitoringStartDate'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.MANAGEMENT_MONITORING_START_DATE),
+  get: async (request, h) => {
+    const date = request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY) && new Date(request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY))
+    return h.view(constants.views.MANAGEMENT_MONITORING_START_DATE, {
+      dateClasses,
+      day: date && date.getDate(),
+      month: date && date.getMonth() + 1,
+      year: date && date.getFullYear()
+    })
+  },
   post: async (request, h) => {
     const day = request.payload[`${ID}-day`]
     const month = request.payload[`${ID}-month`]
@@ -26,6 +34,7 @@ const handlers = {
         day,
         month,
         year,
+        dateClasses,
         ...context
       })
     } else {
