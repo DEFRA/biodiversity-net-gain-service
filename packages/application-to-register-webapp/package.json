@@ -1,6 +1,6 @@
 {
   "name": "application-to-register-webapp",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "type": "module",
   "description": "",
@@ -24,10 +24,10 @@
     "docker:stop": "docker kill application-to-register-webapp && docker rm application-to-register-webapp"
   },
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.10.0",
-    "@defra/bng-document-service": "0.10.0",
-    "@defra/bng-errors-lib": "0.10.0",
-    "@defra/bng-utils-lib": "0.10.0",
+    "@defra/bng-connectors-lib": "0.11.0",
+    "@defra/bng-document-service": "0.11.0",
+    "@defra/bng-errors-lib": "0.11.0",
+    "@defra/bng-utils-lib": "0.11.0",
     "@hapi/boom": "^10.0.0",
     "@hapi/catbox-redis": "^6.0.2",
     "@hapi/hapi": "20.2.2",
@@ -47,7 +47,7 @@
     "sass": "^1.55.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.10.0",
+    "@defra/bng-azure-storage-test-utils": "0.11.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
