@@ -16,7 +16,7 @@ export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   try {
     // Generate gain site reference
-    req.body.landownerGainSiteRegistration.gainSiteReference = `BNG-${moment().utc().format('YYYYMMDDHHmmss')}`
+    req.body.landownerGainSiteRegistration.gainSiteReference = `BGS-${moment().utc().format('YYYYMMDDHHmmss')}`
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
     context.res = {

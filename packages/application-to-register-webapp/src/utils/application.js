@@ -6,12 +6,22 @@ const application = session => {
     landownerGainSiteRegistration: {
       applicant: {
         firstName: null,
-        lastName: 'John Smith', // set this as the fullname for operator to consume as not asking for firstname and surname yet
-        role: null
+        lastName: session.get(constants.redisKeys.FULL_NAME),
+        role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY)
       },
-      gainSiteReference: session.get(constants.redisKeys.GAIN_SITE_REFERENCE),
+      gainSiteReference: '',
+      habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
       landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
+      legalAgreementParties: [
+        {
+          name: 'John Smith', // todo set to correct array
+          role: 'role'
+        }
+      ],
+      legalAgreementType: 759150000, // todo set to correct field ID
+      legalAgreementStartDate: new Date().toISOString(), // todo set to correct field
+      managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
       files: [
         {
@@ -38,6 +48,12 @@ const application = session => {
           fileSize: session.get(constants.redisKeys.METRIC_FILE_SIZE),
           fileLocation: session.get(constants.redisKeys.METRIC_LOCATION),
           fileName: session.get(constants.redisKeys.METRIC_LOCATION) && path.basename(session.get(constants.redisKeys.METRIC_LOCATION))
+        }, {
+          contentMediaType: session.get(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE),
+          fileType: 'land-ownership',
+          fileSize: session.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
+          fileLocation: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+          fileName: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
         }
       ]
     }
