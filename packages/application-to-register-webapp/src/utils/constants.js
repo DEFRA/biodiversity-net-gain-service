@@ -59,6 +59,14 @@ const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const HOME = 'home'
+const NAME = 'land/name'
+const FULL_NAME = 'fullname'
+const ROLE = 'land/role'
+const ROLE_KEY = 'role'
+const ROLE_OTHER = 'role-other'
+const CHECK_YOUR_DETAILS = 'land/check-your-details'
+const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
@@ -124,6 +132,9 @@ const redisKeys = {
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
   METRIC_FILE_CHECKED,
+  FULL_NAME,
+  ROLE_KEY,
+  ROLE_OTHER,
   HABITAT_WORKS_START_DATE_KEY,
   MANAGEMENT_MONITORING_START_DATE_KEY
 }
@@ -156,9 +167,14 @@ const routes = {
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
   UPLOAD_LAND_BOUNDARY,
+  UPLOAD_LAND_OWNERSHIP,
+  HOME,
+  NAME,
+  ROLE,
+  CHECK_YOUR_DETAILS,
+  REGISTER_LAND_TASK_LIST,
   HABITAT_WORKS_START_DATE,
-  MANAGEMENT_MONITORING_START_DATE,
-  UPLOAD_LAND_OWNERSHIP
+  MANAGEMENT_MONITORING_START_DATE
 }
 
 const uploadErrors = {

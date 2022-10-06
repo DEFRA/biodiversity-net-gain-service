@@ -3,7 +3,7 @@ import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
 
-const serviceName = 'Register land for off-site biodiversity gain'
+const serviceName = 'Register land as a biodiversity gain site'
 
 const views = {
   plugin: Vision,
