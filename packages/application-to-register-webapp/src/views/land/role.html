@@ -1,0 +1,79 @@
+{% extends 'form-layout.html' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "What is your role?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {% set otherHtml %}
+        {{ govukInput({
+          id: "roleOther",
+          name: "roleOther",
+          type: "text",
+          errorMessage: err[1],
+          classes: "govuk-!-width-one-third",
+          value: roleOther,
+          label: {
+            text: "Role"
+          }
+        }) }}
+        {% endset -%}
+
+        {{ govukRadios({
+          idPrefix: "role",
+          name: "role",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: "Select one option."
+          },
+          items: [
+            {
+              value: "Ecologist",
+              text: "Ecologist",
+              checked: checked(role, "Ecologist")
+            },
+            {
+              value: "Land agent",
+              text: "Land agent",
+              checked: checked(role, "Land agent")
+            },
+            {
+              value: "Landowner",
+              text: "Landowner",
+              checked: checked(role, "Landowner")
+            },
+            {
+              value: "Leaseholder",
+              text: "Leaseholder",
+              checked: checked(role, "Leaseholder")
+            },
+            {
+              value: "Other",
+              text: "Other",
+              checked: checked(role, "Other"),
+              conditional: {
+                html: otherHtml
+              }
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
