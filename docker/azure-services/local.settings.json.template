@@ -21,7 +21,8 @@
     "AV_API_SB_CONNECTION_STRING": "",
     "AzureSignalRConnectionString": "Endpoint=http://azure_services;Port=8888;AccessKey=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGH;Version=1.0;",
     "WEBSITE_NODE_DEFAULT_VERSION": "~16",
-    "OPERATOR_SB_CONNECTION_STRING": ""
+    "OPERATOR_SB_CONNECTION_STRING": "",
+    "AzureWebJobs.ProcessAVMessage.Disabled": true
   },
   "ConnectionStrings": {}
 }

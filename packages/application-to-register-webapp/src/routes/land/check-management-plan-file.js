@@ -21,11 +21,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
       return h.redirect(constants.routes.UPLOAD_MANAGEMENT_PLAN)
     } else if (checkManagementPlan === 'yes') {
-      context.err = [{
-        text: '!TODO: Journey continuation not implemented',
-        href: '#check-upload-correct-yes'
-      }]
-      return h.redirect('/' + constants.views.CHECK_MANAGEMENT_PLAN, context)
+      return h.redirect('/' + constants.views.HABITAT_WORKS_START_DATE)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

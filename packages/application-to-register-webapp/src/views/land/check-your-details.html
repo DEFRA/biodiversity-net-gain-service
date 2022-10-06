@@ -1,0 +1,46 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Check your details" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Full name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ fullName }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/land/name">
+            Change<span class="govuk-visually-hidden"> full name</span>
+          </a>  
+        </dd> 
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Role
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {% if role == 'Other' %}
+            {{ roleOther }}
+          {% else %}
+            {{ role }}
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/land/role">
+            Change<span class="govuk-visually-hidden"> role</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+
+    {{ govukButton({ text: 'Continue' }) }}
+
+  </div>
+{% endblock %}
