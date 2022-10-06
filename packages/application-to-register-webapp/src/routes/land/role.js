@@ -40,6 +40,9 @@ const validateData = (role, roleOther) => {
     error.err = [{
       text: 'Other type of role cannot be left blank',
       href: '#roleOther'
+    }, {
+      text: '',
+      href: ''
     }]
   }
   return error.err ? error : null
