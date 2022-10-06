@@ -4,14 +4,15 @@
 
 {% block formContent %}
   <div class="govuk-body">
-    <h1 class="govuk-heading-l">
-      {{ pageHeading }}
-    </h1>
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
         {{ govukInput({
           id: "fullName",
           name: "fullName",
