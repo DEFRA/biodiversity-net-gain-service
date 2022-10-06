@@ -67,6 +67,10 @@ const ROLE_KEY = 'role'
 const ROLE_OTHER = 'role-other'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
+const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
+const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
+const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
+const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
 
 const YES = 'yes'
 
@@ -131,6 +135,8 @@ const redisKeys = {
   FULL_NAME,
   ROLE_KEY,
   ROLE_OTHER
+  HABITAT_WORKS_START_DATE_KEY,
+  MANAGEMENT_MONITORING_START_DATE_KEY
 }
 
 const routes = {
@@ -167,6 +173,9 @@ const routes = {
   ROLE,
   CHECK_YOUR_DETAILS,
   REGISTER_LAND_TASK_LIST
+  HABITAT_WORKS_START_DATE,
+  MANAGEMENT_MONITORING_START_DATE,
+  UPLOAD_LAND_OWNERSHIP
 }
 
 const uploadErrors = {
