@@ -21,11 +21,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      context.err = [{
-        text: '!TODO: Journey continuation not implemented',
-        href: '#check-upload-correct-yes'
-      }]
-      return h.redirect('/' + constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
+      return request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner' ? h.redirect(constants.routes.REGISTERED_LANDOWNER) : h.redirect(constants.routes.ADD_LANDOWNERS)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

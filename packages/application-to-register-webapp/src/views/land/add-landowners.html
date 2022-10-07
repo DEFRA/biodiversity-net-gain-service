@@ -1,0 +1,68 @@
+{% extends 'form-layout.html' %}
+
+{% if role === "Landowner" %}
+  {% set pageHeading = "Add all the other registered landowners" %}
+{% else %}
+  {% set pageHeading = "Add all the registered landowners" %}
+{% endif %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+          <div data-module="moj-add-another" id="moj-add-another">
+
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+ 
+              {% call govukFieldset({
+                classes: 'moj-add-another__item',
+                legend: {
+                  text: 'Landowner',
+                  classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                  isPageHeading: false
+                }
+              }) %}
+
+              {{ govukInput({
+                id: 'landowners',
+                name: 'landowners',
+                label: {
+                  html: 'Full name'
+                }
+              }) }}
+              
+              {% endcall %} 
+          
+              <div class="moj-button-action">
+                {{ govukButton({
+                  text: 'Add another landowner',
+                  classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
+                }) }}
+              </div>
+          
+              <div class="moj-button-action">
+                {{ govukButton({
+                  text: 'Continue'
+                }) }}
+              </div>
+
+          </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<script>
+  window.bng.landowners = {{ landownersJSON | dump(2) | safe }}
+</script>
+<script src="{{assetPath}}/js/addLandowners.js"></script>
+{% endblock %}
