@@ -2,19 +2,7 @@ import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    const legalAgreementStartDateDay = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DAY)
-    const legalAgreementStartDateMonth = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH)
-    const legalAgreementStartDateYear = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR)
-
-    request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_START_DAY)
-    request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH)
-    request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR)
-
-    return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
-      legalAgreementStartDateDay,
-      legalAgreementStartDateMonth,
-      legalAgreementStartDateYear
-    })
+    return h.view(constants.views.LEGAL_AGREEMENT_START_DATE)
   },
   post: async (request, h) => {
     const legalAgreementStartDateDay = request.payload['legalAgreementStartDate-day']
@@ -29,12 +17,12 @@ const handlers = {
       if (legalAgreementStartDateDay.length === 0 && legalAgreementStartDateMonth.length === 0 && legalAgreementStartDateYear.length === 0) {
         errorMessage = 'Enter the start date of the legal agreement'
       } else {
-        if (legalAgreementStartDateYear.length === 0) {
-          errorMessage = 'Start date must include a year'
+        if (legalAgreementStartDateDay.length === 0) {
+          errorMessage = 'Start date must include a day'
         } else if (legalAgreementStartDateMonth.length === 0) {
           errorMessage = 'Start date must include a month'
-        } else if (legalAgreementStartDateDay.length === 0) {
-          errorMessage = 'Start date must include a day'
+        } else if (legalAgreementStartDateYear.length === 0) {
+          errorMessage = 'Start date must include a year'
         }
       }
       return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
