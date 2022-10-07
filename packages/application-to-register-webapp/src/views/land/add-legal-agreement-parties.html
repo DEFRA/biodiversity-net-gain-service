@@ -1,8 +1,3 @@
-{#{%- from "govuk/components/button/macro.njk" import govukButton -%}#}
-{#{%- from "govuk/components/date-input/macro.njk" import govukDateInput -%}#}
-{#{%- from "govuk/components/fieldset/macro.njk" import govukFieldset -%}#}
-{#{%- from "govuk/components/input/macro.njk" import govukInput -%}#}
-{#{%- from "govuk/components/textarea/macro.njk" import govukTextarea -%}#}
 {% extends 'form-layout.html' %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -29,91 +24,275 @@
                             isPageHeading: true
                         }
                     }) }}
-
                     <form method="post">
-
-                        {% call govukFieldset({
-                            classes: 'moj-add-another__item',
-                            legend: {
-                                text: 'Legal party',
-                                classes: 'moj-add-another__title govuk-fieldset__legend--m',
-                                isPageHeading: false
-                            }
-                        }) %}
-                            {{ govukInput({
-                                id: "organisation[0].organisationName",
-                                name: "organisation[0].organisationName",
-                                value: name,
-                                label: {
-                                    text: 'Full name or organisation'
-                                },
-                                errorMessage: err[0],
-                                attributes: {
-                                    'data-name': 'organisation[%index%][organisationName]',
-                                    'data-id': 'organisation[%index%][organisationName]'
+                        {% if selectionCount == undefined %}
+                            {% call govukFieldset({
+                                classes: 'moj-add-another__item',
+                                legend: {
+                                    text: 'Legal party',
+                                    classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                                    isPageHeading: false
                                 }
-                            })}}
-                            {{ govukRadios(
-                                {
-                                    id: 'organisation[0].role',
-                                    name: "organisation[0].role",
+                            }) %}
+                                {{ govukInput({
+                                    id: "organisation[0][organisationName]",
+                                    name: "organisation[0][organisationName]",
+                                    value: item,
+                                    label: {
+                                        text: 'Full name or organisation'
+                                    },
+                                    errorMessage: err[0],
+                                    attributes: {
+                                        'data-name': 'organisation[%index%][organisationName]',
+                                        'data-id': 'organisation[%index%][organisationName]'
+                                    }
+                                })}}
+                                {{ govukRadios({
+                                    name: "organisation[0][role]",
+                                    id: "organisation[0][role]",
+                                    fieldset: {
+                                        legend: {
+                                            text: "Role",
+                                            isPageHeading: true,
+                                            classes: "govuk-fieldset__legend--l"
+                                        }
+                                    },
                                     hint: {
                                         html: "<div class='govuk-hint'>Select one option.</div>"
                                     },
-                                    label: {
-                                        text: 'Organisation role'
-                                    },
-                                    fieldset: {
-                                        legend: {
-                                            text: "Role"
-                                        }
-                                    },
-                                    attributes:{
-                                        'id': 'organisation[0].role',
-                                        'data-name': 'organisation[%index%][role]',
-                                        'data-id': 'organisation[%index%][role]'
-                                    },
                                     errorMessage: err[1],
                                     items: [
-                                    {
-                                        value: "County Council",
-                                        text: "County Council",
-                                        checked: organisationChecked.County_Council
-                                    },
-                                    {
-                                        value: "Developer",
-                                        text: "Developer",
-                                        checked: organisationChecked.Developer
-                                    },
-                                    {
-                                        value: "Landowner",
-                                        text: "Landowner",
-                                        checked: organisationChecked.Landowner
-                                    },
-                                    {
-                                        value: "Responsible body",
-                                        text: "Responsible body",
-                                        checked: organisationChecked.Responsible_body
-                                    },
-                                    {
-                                        value: "Other",
-                                        text: "Other",
-                                        checked: organisationChecked.Other,
-                                        conditional: {
-                                        html: '<div id="other-role">
-                                                <div class="govuk-form-group">
-                                                    <label class="govuk-label" for="other-party">
-                                                        Role
-                                                    </label>
-                                                    <input class="govuk-input govuk-!-width-one-third" id="other-party-text" value="' + otherPartyName  + '" name="otherPartyName">
-                                                </div>
-                                            </div>'
+                                        {
+                                            id: "organisation[0][role]",
+                                            name: "organisation[0][role]",
+                                            value: "County Council",
+                                            text: "County Council",
+                                            label: "County Council",
+                                            classes: "govuk-input--width-2",
+                                            attributes: {
+                                                'data-name': 'organisation[%index%][role]',
+                                                'data-id': 'organisation[%index%][role]'
+                                            }
+                                        },
+                                        {
+                                            id: "organisation[0][role]",
+                                            name: "organisation[0][role]",
+                                            value: "Developer",
+                                            text: "Developer",
+                                            label: "Developer",
+                                            classes: "govuk-input--width-2",
+                                            attributes: {
+                                                'data-name': 'organisation[%index%][role]',
+                                                'data-id': 'organisation[%index%][role]'
+                                            }
+                                        },
+                                        {
+                                            id: "organisation[0][role]",
+                                            name: "organisation[0][role]",
+                                            value: "Landowner",
+                                            text: "Landowner",
+                                            label: "Landowner",
+                                            classes: "govuk-input--width-2",
+                                            attributes: {
+                                                'data-name': 'organisation[%index%][role]',
+                                                'data-id': 'organisation[%index%][role]'
+                                            }
+                                        },
+                                        {
+                                            id: "organisation[0][role]",
+                                            name: "organisation[0][role]",
+                                            value: "Responsible body",
+                                            text: "Responsible body",
+                                            label: "Responsible body",
+                                            classes: "govuk-input--width-2",
+                                            attributes: {
+                                                'data-name': 'organisation[%index%][role]',
+                                                'data-id': 'organisation[%index%][role]'
+                                            }
+                                        },
+                                        {
+                                            id: "organisation[0][role]",
+                                            name: "organisation[0][role]",
+                                            value: "Other",
+                                            text: "Other",
+                                            label: "Other",
+                                            classes: "govuk-input--width-2",
+                                            conditional: {
+                                                html: '<div id="other-role">
+                                                        <div class="govuk-form-group">
+                                                            <label class="govuk-label" for="other-party">
+                                                                Role
+                                                            </label>
+                                                            <input class="govuk-input govuk-!-width-one-third" value="' + otherPartyName  + '" name="otherPartyName">
+                                                        </div>
+                                                    </div>'
+                                           },
+                                            attributes: {
+                                                'data-name': 'organisation[%index%][role]',
+                                                'data-id': 'organisation[%index%][role]'
+                                            }
                                         }
-                                    }
-                                ]
+                                    ]
                                 }) }}
-                        {% endcall %}
-
+                                {% if selectionCount > 1 %}
+                                    <div class="moj-button-action">
+                                        {{ govukButton({
+                                            text: 'Remove',
+                                            classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button'
+                                        }) }}
+                                    </div>
+                                {% endif %}
+                            {% endcall %}
+                        {% else%}
+                            {% for i in range(0, selectionCount) %}
+                                {% set  organisationValue = ''%}
+                                {% set  organisationIndex = 0%}
+                                {% set  roleRowIndex = 0%}
+                                {% set  orgErrorMessage = ''%}
+                                {% set  roleErrorMessage = ''%}
+                                {% for org in organisations %}
+                                    {% if org.index == i %}
+                                        {% set  organisationValue = org.value%}
+                                    {% endif %}
+                                {% endfor%}
+                                {% for role in roles %}
+                                    {% if role.organisationIndex == i %}
+                                        {% set  roleRowIndex = role%}
+                                    {% endif %}
+                                {% endfor%}
+                                {% for orgError in organisationError %}
+                                    {% if orgError.index == i %}
+                                        {% set  orgErrorMessage = orgError%}
+                                    {% endif %}
+                                {% endfor%}
+                                {% for roleErr in roleError %}
+                                    {% if roleErr.index == i %}
+                                        {% set  roleErrorMessage = roleErr%}
+                                    {% endif %}
+                                {% endfor%}
+                                {% call govukFieldset({
+                                    classes: 'moj-add-another__item',
+                                    legend: {
+                                        text: 'Legal party',
+                                        classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                                        isPageHeading: false
+                                    }
+                                }) %}
+                                    {{ govukInput({
+                                        id: "organisation[" + i + "][organisationName]",
+                                        name: "organisation[" + i + "][organisationName]",
+                                        value: organisationValue,
+                                        label: {
+                                            text: 'Full name or organisation'
+                                        },
+                                        errorMessage: orgErrorMessage,
+                                        attributes: {
+                                            'data-name': 'organisation[%index%][organisationName]',
+                                            'data-id': 'organisation[%index%][organisationName]'
+                                        }
+                                    })}}
+                                    {{ govukRadios({
+                                        name: "organisation[" + i + "][role]",
+                                        fieldset: {
+                                            legend: {
+                                                text: "Role",
+                                                isPageHeading: true,
+                                                classes: "govuk-fieldset__legend--l"
+                                            }
+                                        },
+                                        hint: {
+                                            html: "<div class='govuk-hint'>Select one option.</div>"
+                                        },
+                                        errorMessage: roleErrorMessage,
+                                        items: [
+                                            {
+                                                id: "organisation[" + i + "][role]",
+                                                name: "organisation[" + i + "][role]",
+                                                value: "County Council",
+                                                text: "County Council",
+                                                label: "County Council",
+                                                checked: roleRowIndex.county_council,
+                                                classes: "govuk-input--width-2",
+                                                attributes: {
+                                                    'data-name': 'organisation[%index%][role]',
+                                                    'data-id': 'organisation[%index%][role]'
+                                                }
+                                            },
+                                            {
+                                                id: "organisation[" + i + "][role]",
+                                                name: "organisation[" + i + "][role]",
+                                                value: "Developer",
+                                                text: "Developer",
+                                                label: "Developer",
+                                                checked: roleRowIndex.developer,
+                                                classes: "govuk-input--width-2",
+                                                attributes: {
+                                                    'data-name': 'organisation[%index%][role]',
+                                                    'data-id': 'organisation[%index%][role]'
+                                                }
+                                            },
+                                            {
+                                                id: "organisation[" + i + "][role]",
+                                                name: "organisation[" + i + "][role]",
+                                                value: "Landowner",
+                                                text: "Landowner",
+                                                label: "Landowner",
+                                                checked: roleRowIndex.landowner,
+                                                classes: "govuk-input--width-2",
+                                                attributes: {
+                                                    'data-name': 'organisation[%index%][role]',
+                                                    'data-id': 'organisation[%index%][role]'
+                                                }
+                                            },
+                                            {
+                                                id: "organisation[" + i + "][role]",
+                                                name: "organisation[" + i + "][role]",
+                                                value: "Responsible body",
+                                                text: "Responsible body",
+                                                label: "Responsible body",
+                                                checked: roleRowIndex.responsible_body,
+                                                classes: "govuk-input--width-2",
+                                                attributes: {
+                                                    'data-name': 'organisation[%index%][role]',
+                                                    'data-id': 'organisation[%index%][role]'
+                                                }
+                                            },
+                                            {
+                                                id: "organisation[" + i + "][role]",
+                                                name: "organisation[" + i + "][role]",
+                                                value: "Other",
+                                                text: "Other",
+                                                label: "Other",
+                                                checked: roleRowIndex.other,
+                                                classes: "govuk-input--width-2",
+                                                conditional: {
+                                                html: '<div id="other-role">
+                                                            <div class="govuk-form-group">
+                                                                <label class="govuk-label" for="other-party">
+                                                                    Role
+                                                                </label>
+                                                                <input class="govuk-input govuk-!-width-one-third" value="' + otherPartyName  + '" name="otherPartyName">
+                                                            </div>
+                                                        </div>'
+                                            },
+                                                attributes: {
+                                                    'data-name': 'organisation[%index%][role]',
+                                                    'data-id': 'organisation[%index%][role]'
+                                                }
+                                            }
+                                        ]
+                                    }) }}
+                                    {% if selectionCount > 1 %}
+                                        <div class="moj-button-action">
+                                            {{ govukButton({
+                                                text: 'Remove',
+                                                classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button'
+                                            }) }}
+                                        </div>
+                                    {% endif %}
+                                {% endcall %}
+                            {% endfor %}
+                        {% endif %}
                         <div class="moj-button-action">
                             {{ govukButton({
                                 text: 'Add another',
