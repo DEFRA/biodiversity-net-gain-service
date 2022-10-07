@@ -5,7 +5,9 @@ variables:
     value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
 
 trigger:
-- master
+  branches:
+    include:
+      - refs/tags/v*
 
 pool:
   name: Azure Pipelines
@@ -17,44 +19,30 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm ci
-  displayName: 'npm install and build'
-
-- script: |
-    sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
-  displayName: 'add azure_services to hosts'
-
-- script: |
-    npm run test
-  displayName: 'Run unit tests'
-
-- script: |
-    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
-    rm node_modules/@defra/* -rf && \
-    cp ../azure-storage-test-utils/ ./node_modules/@defra/bng-azure-storage-test-utils -r && \
-    cp ../connectors-lib/ ./node_modules/@defra/bng-connectors-lib -r && \
-    cp ../errors-lib/ ./node_modules/@defra/bng-errors-lib -r && \
-    cp ../geoprocessing-service/ ./node_modules/@defra/bng-geoprocessing-service -r
-  displayName: 'Hotfix for function local dependencies'
+    npm ci --ignore-scripts && npm run lerna:i
+# TODO: there is currently a bug with lerna version that means npm packagelock v2 files
+# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
+# files don't match package files correctly.
+  displayName: 'npm install package dependencies'
 
 - script: |
     cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
     zip -rq func.zip .
+    cp func.zip $(Build.ArtifactStagingDirectory)/application-to-register-functions.zip
   displayName: 'Create function artifact'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/packages/application-to-register-functions/func.zip'
-    artifactName: 'apps'
-  displayName: 'Publish func app artifact'
 
 - script: |
     docker-compose -f docker/services.build.azure.yml build
     docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
+    cp web.tar $(Build.ArtifactStagingDirectory)/application-to-register-webapp.tar
   displayName: 'Build webapp image and output to tar'
 
-- task: PublishBuildArtifacts@1
+- task: UniversalPackages@0
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/web.tar'
-    artifactName: 'apps'
-  displayName: 'Publish webapp artifact'
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
+    vstsFeedPackagePublish: 'DEV-BNG-landowner'
+    versionOption: 'patch'
+    packagePublishDescription: 'BNG application code artifacts'
