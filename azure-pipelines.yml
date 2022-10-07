@@ -43,6 +43,6 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
-    vstsFeedPackagePublish: 'DEV-BNG-landowner'
+    vstsFeedPackagePublish: 'dev-bng-landowner'
     versionOption: 'patch'
     packagePublishDescription: 'BNG application code artifacts'
