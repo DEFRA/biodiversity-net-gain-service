@@ -12,7 +12,7 @@ export default async function (context, message) {
   } catch (err) {
     // If the processing function cannot be loaded message replay should not be attempted.
     context.log.error(`Unable to load processing function for upload type ${JSON.stringify(message)}.uploadType - ${err.message}`)
-
+    context.log.error(err)
     const signalRMessageArguments = [{
       code: 'UNKNOWN-UPLOAD-TYPE',
       uploadType: message.uploadType
