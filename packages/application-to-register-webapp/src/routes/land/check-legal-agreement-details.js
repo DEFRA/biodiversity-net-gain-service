@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import path from 'path'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,7 +19,7 @@ const getContext = async request => {
         text: 'Type of legal agreement '
       },
       value: {
-        text: 'Legal agreement type'
+        text: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
       },
       actions: {
         items: [
@@ -35,7 +36,7 @@ const getContext = async request => {
         text: 'Legal agreement file uploaded'
       },
       value: {
-        text: 'abcagreement.pdf'
+        text: getLegalAgreementFileName(request)
       },
       actions: {
         items: [
@@ -52,7 +53,7 @@ const getContext = async request => {
         text: 'Parties involved'
       },
       value: {
-        text: 'Name (role) '
+        text: getNameAndRoles(request)
       },
       actions: {
         items: [
@@ -69,7 +70,7 @@ const getContext = async request => {
         text: 'Start date'
       },
       value: {
-        text: '15 March 2022'
+        text: getLegalAgreementDate(request)
       },
       actions: {
         items: [
@@ -83,8 +84,37 @@ const getContext = async request => {
     }
   ]
   return {
-    legalAgreementDetails: legalAgreementDetails
+    legalAgreementDetails
   }
+}
+
+function getNameAndRoles (request) {
+  const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+  const partySelectionContent = []
+  partySelectionData.organisations.forEach((organisation, index) => {
+    partySelectionContent.push(organisation.value + '(' + partySelectionData.roles[index].value + ')')
+  })
+  return partySelectionContent.join(' ')
+}
+
+function getLegalAgreementFileName (request) {
+  const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+  return fileLocation === null ? '' : path.parse(fileLocation).base
+}
+
+function getLegalAgreementDate (request) {
+  const day = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DAY)
+  const month = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH)
+  const year = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR)
+
+  const currentDate = new Date()
+  currentDate.setMonth(month - 1)
+  currentDate.setDate(day)
+  currentDate.setFullYear(year)
+
+  return currentDate.toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  })
 }
 
 export default [{
