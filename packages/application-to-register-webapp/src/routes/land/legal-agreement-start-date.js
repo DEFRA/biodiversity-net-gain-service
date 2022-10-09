@@ -38,7 +38,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DAY, legalAgreementStartDateDay)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH, legalAgreementStartDateMonth)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR, legalAgreementStartDateYear)
-      return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
+      return h.redirect(constants.views.LEGAL_AGREEMENT_START_DATE, {
         legalAgreementStartDateDay,
         legalAgreementStartDateMonth,
         legalAgreementStartDateYear

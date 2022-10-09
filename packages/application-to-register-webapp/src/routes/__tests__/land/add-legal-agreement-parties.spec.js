@@ -1,5 +1,4 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../utils/constants'
 
 const url = '/land/add-legal-agreement-parties'
 
@@ -29,44 +28,16 @@ describe(url, () => {
       expect(response.statusCode).toBe(302)
     })
 
-    it('should add single legal party to legal agreement and back to details referrer', async () => {
-      const h = {
-        view: jest.fn()
-      }
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
-      const request = {
-        yar: redisMap,
-        info: {
-          referrer: 'check-legal-agreement-details'
-        }
-      }
-      const legalAgreementParties = require('../../land/add-legal-agreement-parties')
-      await legalAgreementParties.default[0].handler(request, h)
-
-      postOptions.payload = {
-        'organisation[0][organisationName]': 'Bambury',
-        'organisation[0][role]': 'County Council',
-        otherPartyName: ''
-      }
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
-    })
-
     it('should add multiple legal party to legal agreement', async () => {
       postOptions.payload = {
         'organisation[0][organisationName]': 'Sun',
         'organisation[0][role]': 'Developer',
-        'organisation[1][organisationName]': 'Intel',
-        'organisation[1][role]': 'County Council',
-        'organisation[2][organisationName]': 'Intelij',
-        'organisation[2][role]': 'Landowner',
-        'organisation[3][organisationName]': 'Intelijet',
-        'organisation[3][role]': 'Responsible body',
         otherPartyName: [
           '',
           ''
-        ]
+        ],
+        'organisation[1][organisationName]': 'Intel',
+        'organisation[1][role]': 'County Council'
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
