@@ -71,6 +71,7 @@ function getRoleDetails (roleValue, indexValue) {
   switch (roleValue) {
     case 'County Council':
       roleDetails = {
+        value: 'County Council',
         organisationIndex: indexValue,
         rowIndex: 0,
         county_council: true
@@ -78,6 +79,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Developer':
       roleDetails = {
+        value: 'Developer',
         organisationIndex: indexValue,
         rowIndex: 1,
         developer: true
@@ -85,6 +87,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Landowner':
       roleDetails = {
+        value: 'Landowner',
         organisationIndex: indexValue,
         rowIndex: 2,
         landowner: true
@@ -92,6 +95,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Responsible body':
       roleDetails = {
+        value: 'Responsible body',
         organisationIndex: indexValue,
         rowIndex: 3,
         responsible_body: true
