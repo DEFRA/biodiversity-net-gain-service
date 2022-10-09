@@ -1,6 +1,4 @@
 import constants from '../../utils/constants.js'
-import path from 'path'
-import moment from 'moment'
 
 const handlers = {
   get: async (request, h) => {
@@ -9,41 +7,84 @@ const handlers = {
   },
   post: async (request, h) => {
     const context = await getContext(request)
-    return h.redirect(`${constants.views.LEGAL_AGREEMENT_SUMMARY}`, context)
+    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, context)
   }
 }
 
 const getContext = async request => {
+  const legalAgreementDetails = [
+    {
+      key: {
+        text: 'Type of legal agreement '
+      },
+      value: {
+        text: 'Legal agreement type'
+      },
+      actions: {
+        items: [
+          {
+            href: '#',
+            text: 'Change',
+            visuallyHiddenText: 'name'
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: 'Legal agreement file uploaded'
+      },
+      value: {
+        text: 'abcagreement.pdf'
+      },
+      actions: {
+        items: [
+          {
+            href: '#',
+            text: 'Change',
+            visuallyHiddenText: 'name'
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: 'Parties involved'
+      },
+      value: {
+        text: 'Name (role) '
+      },
+      actions: {
+        items: [
+          {
+            href: '#',
+            text: 'Change',
+            visuallyHiddenText: 'name'
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: 'Start date'
+      },
+      value: {
+        text: '15 March 2022'
+      },
+      actions: {
+        items: [
+          {
+            href: '#',
+            text: 'Change',
+            visuallyHiddenText: 'name'
+          }
+        ]
+      }
+    }
+  ]
   return {
-    legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
-    legalAgreementFileName: getLegalAgreementFileName(request),
-    partyNameAndRole: getNameAndRoles(request),
-    legalAgreementStartDate: getLegalAgreementDate(request)
+    legalAgreementDetails: legalAgreementDetails
   }
-}
-
-function getNameAndRoles (request) {
-  const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-  const partySelectionContent = []
-  partySelectionData.organisations.forEach((organisation, index) => {
-    const selectedRole = partySelectionData.roles[index]
-    const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
-    partySelectionContent.push(`${organisation.value}(${roleName})`)
-  })
-  return partySelectionContent
-}
-
-function getLegalAgreementFileName (request) {
-  const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  return path.parse(fileLocation).base
-}
-
-function getLegalAgreementDate (request) {
-  const date = moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
-
-  return date.toDate().toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric'
-  })
 }
 
 export default [{
