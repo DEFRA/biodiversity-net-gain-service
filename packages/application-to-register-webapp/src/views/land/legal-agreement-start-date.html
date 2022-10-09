@@ -5,10 +5,6 @@
 {% set pageHeading = "What is the start date of the legal agreement?" %}
 
 {% block formContent %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "/land/add-legal-agreement-parties"
-    }) }}
     <div class="govuk-body">
         {% if err %}
             {% include "errorbanner.html" %}
