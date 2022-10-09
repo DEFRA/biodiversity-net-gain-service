@@ -1,0 +1,28 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Check the legal agreement details" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukFieldset({
+                legend: {
+                    text: pageHeading,
+                    classes: "govuk-fieldset__legend--l",
+                    isPageHeading: true
+                }
+            }) }}
+            {{ govukSummaryList({
+                rows: legalAgreementDetails
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

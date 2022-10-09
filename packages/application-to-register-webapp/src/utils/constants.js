@@ -63,6 +63,7 @@ const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
+const LEGAL_AGREEMENT_SUMMARY = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
@@ -241,6 +242,7 @@ const routes = {
   UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
+  LEGAL_AGREEMENT_SUMMARY,
   UPLOAD_LAND_BOUNDARY,
   UPLOAD_LAND_OWNERSHIP,
   HOME,
