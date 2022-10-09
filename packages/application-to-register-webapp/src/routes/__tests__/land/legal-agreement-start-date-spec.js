@@ -24,8 +24,8 @@ describe(url, () => {
       postOptions.payload['legalAgreementStartDate-month'] = '01'
       postOptions.payload['legalAgreementStartDate-year'] = '1971'
 
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.statusCode).toBe(200)
     })
 
     it('should fail to add a legal agreement start date with empty dates', async () => {
