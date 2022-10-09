@@ -7,10 +7,6 @@
 
 {% block formContent %}
   <div class="govuk-body">
-    {{ govukBackLink({
-      text: "Back",
-      href: "/land/legal-agreement-type"
-    }) }}
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
