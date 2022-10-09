@@ -36,6 +36,7 @@ const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
+const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
 const MANAGEMENT_PLAN_FILE_TYPE = 'management-plan-file-type'
@@ -155,6 +156,7 @@ const redisKeys = {
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
   LEGAL_AGREEMENT_FILE_OPTION,
+  LEGAL_AGREEMENT_PARTIES,
   MANAGEMENT_PLAN_CHECKED,
   MANAGEMENT_PLAN_LOCATION,
   MANAGEMENT_PLAN_FILE_SIZE,
