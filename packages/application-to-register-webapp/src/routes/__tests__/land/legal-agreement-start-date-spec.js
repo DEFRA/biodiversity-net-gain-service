@@ -24,40 +24,13 @@ describe(url, () => {
       postOptions.payload['legalAgreementStartDate-month'] = '01'
       postOptions.payload['legalAgreementStartDate-year'] = '1971'
 
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
+      const response = await submitPostRequest(postOptions)
+      expect(response.statusCode).toBe(302)
     })
 
     it('should fail to add a legal agreement start date with empty dates', async () => {
       postOptions.payload['legalAgreementStartDate-day'] = ''
       postOptions.payload['legalAgreementStartDate-month'] = ''
-      postOptions.payload['legalAgreementStartDate-year'] = ''
-
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
-    })
-
-    it('should fail to add a legal agreement start date with empty day', async () => {
-      postOptions.payload['legalAgreementStartDate-day'] = ''
-      postOptions.payload['legalAgreementStartDate-month'] = '01'
-      postOptions.payload['legalAgreementStartDate-year'] = '2022'
-
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
-    })
-
-    it('should fail to add a legal agreement start date with empty month', async () => {
-      postOptions.payload['legalAgreementStartDate-day'] = '01'
-      postOptions.payload['legalAgreementStartDate-month'] = ''
-      postOptions.payload['legalAgreementStartDate-year'] = '2022'
-
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
-    })
-
-    it('should fail to add a legal agreement start date with empty year', async () => {
-      postOptions.payload['legalAgreementStartDate-day'] = '01'
-      postOptions.payload['legalAgreementStartDate-month'] = '01'
       postOptions.payload['legalAgreementStartDate-year'] = ''
 
       const response = await submitPostRequest(postOptions, 200)
