@@ -1,9 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => {
-    return h.view(constants.views.LEGAL_AGREEMENT_TYPE)
-  },
+  get: async (_request, h) => h.view(constants.views.LEGAL_AGREEMENT_TYPE),
   post: async (request, h) => {
     const legalAgrementType = request.payload.legalAgrementType
     if (legalAgrementType !== undefined) {
