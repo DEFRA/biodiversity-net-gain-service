@@ -16,12 +16,12 @@ function checkEmptySelection (organisations, request) {
     if (request.payload[organisation] === '') {
       partySelectioData.organisationError.push({
         text: 'Enter the name of the legal party',
-        href: START_ID + '[' + index + '][organisationName]',
+        href: `[${START_ID}[${index}][organisationName]`,
         index
       })
       combinedError.push({
         text: 'Enter the name of the legal party',
-        href: START_ID + '[' + index + '][organisationName]'
+        href: `[${START_ID}[${index}][organisationName]`
       })
       partySelectioData.hasError = true
     } else {
@@ -34,12 +34,12 @@ function checkEmptySelection (organisations, request) {
     if (request.payload[organisationRole] === undefined) {
       partySelectioData.roleError.push({
         text: 'Select the role',
-        href: START_ID + '[' + index + '][role]',
+        href: `[${START_ID}[${index}][role]`,
         index
       })
       combinedError.push({
         text: 'Select the role',
-        href: START_ID + '[' + index + '][role]'
+        href: `[${START_ID}[${index}][role]`
       })
       partySelectioData.hasError = true
     } else {
@@ -50,12 +50,12 @@ function checkEmptySelection (organisations, request) {
           otherParty = ''
           partySelectioData.roleError.push({
             text: 'Other type of role cannot be left blank',
-            href: START_ID + '[' + index + '][role]',
+            href: `[${START_ID}[${index}][role]`,
             index
           })
           combinedError.push({
             text: 'Other type of role cannot be left blank',
-            href: START_ID + '[' + index + '][role]'
+            href: `[${START_ID}[${index}][role]`
           })
         }
         roleDetails.otherPartyName = otherParty
@@ -124,10 +124,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const organisations = Object.keys(request.payload).filter(name => name.includes('organisationName'))
-    const organisationRoles = Object.keys(request.payload).filter(name => name.includes('role'))
     const selectionCount = organisations.length
 
-    const partySelectioData = checkEmptySelection(organisations, request, organisationRoles)
+    const partySelectioData = checkEmptySelection(organisations, request)
 
     partySelectioData.selectionCount = selectionCount
     if (partySelectioData.err !== undefined) {
