@@ -74,51 +74,61 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Start date must be a real date')
     })
-    it('Tests date from session', async () => {
+    it('Tests date from session', done => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
-        const managementMonitoringStartDate = require('../../land/management-monitoring-start-date.js')
-        const request = {
-          yar: {
-            get: () => new Date('2022-11-30').toISOString()
+        try {
+          let viewResult, contextResult
+          const managementMonitoringStartDate = require('../../land/management-monitoring-start-date.js')
+          const request = {
+            yar: {
+              get: () => new Date('2022-11-30').toISOString()
+            }
           }
-        }
-        const h = {
-          view: (view, context) => {
-            viewResult = view
-            contextResult = context
+          const h = {
+            view: (view, context) => {
+              viewResult = view
+              contextResult = context
+            }
           }
+          await managementMonitoringStartDate.default[0].handler(request, h)
+          expect(viewResult).toEqual('land/management-monitoring-start-date')
+          expect(contextResult.day).toEqual('30')
+          expect(contextResult.month).toEqual('11')
+          expect(contextResult.year).toEqual('2022')
+          done()
+        } catch (err) {
+          done(err)
         }
-        await managementMonitoringStartDate.default[0].handler(request, h)
-        expect(viewResult).toEqual('land/management-monitoring-start-date')
-        expect(contextResult.day).toEqual(30)
-        expect(contextResult.month).toEqual(11)
-        expect(contextResult.year).toEqual(2022)
       })
     })
-    it('Date must be equal or later than habitat works start date', async () => {
+    it('Date must be equal or later than habitat works start date', done => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
-        const managementMonitoringStartDate = require('../../land/management-monitoring-start-date')
-        const request = {
-          yar: {
-            get: () => new Date('2022-12-02').toISOString()
-          },
-          payload: {
-            'managementMonitoringStartDate-day': '01',
-            'managementMonitoringStartDate-month': '12',
-            'managementMonitoringStartDate-year': '2022'
+        try {
+          let viewResult, contextResult
+          const managementMonitoringStartDate = require('../../land/management-monitoring-start-date')
+          const request = {
+            yar: {
+              get: () => new Date('2022-12-02').toISOString()
+            },
+            payload: {
+              'managementMonitoringStartDate-day': '01',
+              'managementMonitoringStartDate-month': '12',
+              'managementMonitoringStartDate-year': '2022'
+            }
           }
-        }
-        const h = {
-          view: (view, context) => {
-            viewResult = view
-            contextResult = context
+          const h = {
+            view: (view, context) => {
+              viewResult = view
+              contextResult = context
+            }
           }
+          await managementMonitoringStartDate.default[1].handler(request, h)
+          expect(viewResult).toEqual('land/management-monitoring-start-date')
+          expect(contextResult.err[0].text).toEqual('Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin')
+          done()
+        } catch (err) {
+          done(err)
         }
-        await managementMonitoringStartDate.default[1].handler(request, h)
-        expect(viewResult).toEqual('land/management-monitoring-start-date')
-        expect(contextResult.err[0].text).toEqual('Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin')
       })
     })
   })
