@@ -1,9 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => {
-    return h.view(constants.views.LEGAL_AGREEMENT_START_DATE)
-  },
+  get: async (_request, h) => h.view(constants.views.LEGAL_AGREEMENT_START_DATE),
   post: async (request, h) => {
     const legalAgreementStartDateDay = request.payload['legalAgreementStartDate-day']
     const legalAgreementStartDateMonth = request.payload['legalAgreementStartDate-month']
