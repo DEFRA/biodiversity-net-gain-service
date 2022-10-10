@@ -1,28 +1,106 @@
-{% extends 'multipart-form-layout.html' %}
+{% extends 'form-layout.html' %}
 
-{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
-{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Check the legal agreement details" %}
 
 {% block formContent %}
-<div class="govuk-body">
-    {% if err %}
-        {% include "errorbanner.html" %}
-    {% endif %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            {{ govukFieldset({
-                legend: {
-                    text: pageHeading,
-                    classes: "govuk-fieldset__legend--l",
-                    isPageHeading: true
-                }
-            }) }}
-            {{ govukSummaryList({
-                rows: legalAgreementDetails
-            }) }}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {{ govukFieldset({
+            legend: {
+                text: pageHeading,
+                classes: "govuk-fieldset__legend--l",
+                isPageHeading: true
+            }
+        }) }}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                <form method="post">
+                    {{ govukSummaryList({
+                        rows: [
+                            {
+                                key: {
+                                text: 'Type of legal agreement '
+                            },
+                                value: {
+                                text: legalAgreementType
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '#',
+                                        text: 'Change',
+                                        visuallyHiddenText: 'name'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Legal agreement file uploaded'
+                            },
+                                value: {
+                                text: legalAgreementFileName
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '#',
+                                        text: 'Change',
+                                        visuallyHiddenText: 'name'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Parties involved'
+                            },
+                                value: {
+                                html: partyNameAndRole | join('<br/>')
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '#',
+                                        text: 'Change',
+                                        visuallyHiddenText: 'name'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Start date'
+                            },
+                                value: {
+                                text: legalAgreementStartDate
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '#',
+                                        text: 'Change',
+                                        visuallyHiddenText: 'name'
+                                    }
+                                ]
+                            }
+                            }
+                        ]
+                    }) }}
+                    {{ govukButton({ text: 'Accept and submit' }) }}
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

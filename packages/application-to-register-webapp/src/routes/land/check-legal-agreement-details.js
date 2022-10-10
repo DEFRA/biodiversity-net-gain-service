@@ -8,83 +8,16 @@ const handlers = {
   },
   post: async (request, h) => {
     const context = await getContext(request)
-    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, context)
+    return h.redirect('/' + constants.views.LEGAL_AGREEMENT_SUMMARY, context)
   }
 }
 
 const getContext = async request => {
-  const legalAgreementDetails = [
-    {
-      key: {
-        text: 'Type of legal agreement '
-      },
-      value: {
-        text: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
-      },
-      actions: {
-        items: [
-          {
-            href: '#',
-            text: 'Change',
-            visuallyHiddenText: 'name'
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: 'Legal agreement file uploaded'
-      },
-      value: {
-        text: getLegalAgreementFileName(request)
-      },
-      actions: {
-        items: [
-          {
-            href: '#',
-            text: 'Change',
-            visuallyHiddenText: 'name'
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: 'Parties involved'
-      },
-      value: {
-        text: getNameAndRoles(request)
-      },
-      actions: {
-        items: [
-          {
-            href: '#',
-            text: 'Change',
-            visuallyHiddenText: 'name'
-          }
-        ]
-      }
-    },
-    {
-      key: {
-        text: 'Start date'
-      },
-      value: {
-        text: getLegalAgreementDate(request)
-      },
-      actions: {
-        items: [
-          {
-            href: '#',
-            text: 'Change',
-            visuallyHiddenText: 'name'
-          }
-        ]
-      }
-    }
-  ]
   return {
-    legalAgreementDetails
+    legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+    legalAgreementFileName: getLegalAgreementFileName(request),
+    partyNameAndRole: getNameAndRoles(request),
+    legalAgreementStartDate: getLegalAgreementDate(request)
   }
 }
 
@@ -92,9 +25,10 @@ function getNameAndRoles (request) {
   const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
   const partySelectionContent = []
   partySelectionData.organisations.forEach((organisation, index) => {
-    partySelectionContent.push(organisation.value + '(' + partySelectionData.roles[index].value + ')')
+    const roleName = partySelectionData.roles[index].value !== undefined ? partySelectionData.roles[index].value : partySelectionData.roles[index].otherPartyName
+    partySelectionContent.push(organisation.value + '(' + roleName + ')')
   })
-  return partySelectionContent.join(' ')
+  return partySelectionContent
 }
 
 function getLegalAgreementFileName (request) {
