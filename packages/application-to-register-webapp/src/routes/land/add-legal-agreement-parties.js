@@ -1,7 +1,9 @@
 import constants from '../../utils/constants.js'
 
-function checkEmptySelection (organisations, request, organisationRoles) {
-  const partySelectioError = {
+const START_ID = '#organisation'
+
+function checkEmptySelection (organisations, request) {
+  const partySelectioData = {
     organisationError: [],
     roleError: [],
     organisations: [],
@@ -12,49 +14,66 @@ function checkEmptySelection (organisations, request, organisationRoles) {
   organisations.forEach((organisation, index) => {
     const organisationRole = organisation.replaceAll('organisationName', 'role')
     if (request.payload[organisation] === '') {
-      partySelectioError.organisationError.push({
+      partySelectioData.organisationError.push({
         text: 'Enter the name of the legal party',
-        href: '#organisation[' + index + '][organisationName]',
-        index: index
+        href: START_ID + '[' + index + '][organisationName]',
+        index
       })
       combinedError.push({
         text: 'Enter the name of the legal party',
-        href: '#organisation[' + index + '][organisationName]'
+        href: START_ID + '[' + index + '][organisationName]'
       })
-      partySelectioError.hasError = true
+      partySelectioData.hasError = true
     } else {
       const organisationValue = {
         index,
         value: request.payload[organisation]
       }
-      partySelectioError.organisations.push(organisationValue)
+      partySelectioData.organisations.push(organisationValue)
     }
     if (request.payload[organisationRole] === undefined) {
-      partySelectioError.roleError.push({
+      partySelectioData.roleError.push({
         text: 'Select the role',
-        href: '#organisation[' + index + '][role]',
-        index: index
+        href: START_ID + '[' + index + '][role]',
+        index
       })
       combinedError.push({
         text: 'Select the role',
-        href: '#organisation[' + index + '][role]'
+        href: START_ID + '[' + index + '][role]'
       })
-      partySelectioError.hasError = true
+      partySelectioData.hasError = true
     } else {
       const roleDetails = getRoleDetails(request.payload[organisationRole], index)
-      partySelectioError.roles.push(roleDetails)
+      if (roleDetails.other) {
+        let otherParty = request.payload.otherPartyName[index]
+        if (otherParty === undefined || otherParty === '') {
+          otherParty = ''
+          partySelectioData.roleError.push({
+            text: 'Other type of role cannot be left blank',
+            href: START_ID + '[' + index + '][role]',
+            index
+          })
+          combinedError.push({
+            text: 'Other type of role cannot be left blank',
+            href: START_ID + '[' + index + '][role]'
+          })
+        }
+        roleDetails.otherPartyName = otherParty
+      }
+      partySelectioData.roles.push(roleDetails)
     }
   })
   if (combinedError.length > 0) {
-    partySelectioError.err = combinedError
+    partySelectioData.err = combinedError
   }
-  return partySelectioError
+  return partySelectioData
 }
 function getRoleDetails (roleValue, indexValue) {
   let roleDetails
   switch (roleValue) {
     case 'County Council':
       roleDetails = {
+        value: 'County Council',
         organisationIndex: indexValue,
         rowIndex: 0,
         county_council: true
@@ -62,6 +81,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Developer':
       roleDetails = {
+        value: 'Developer',
         organisationIndex: indexValue,
         rowIndex: 1,
         developer: true
@@ -69,6 +89,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Landowner':
       roleDetails = {
+        value: 'Landowner',
         organisationIndex: indexValue,
         rowIndex: 2,
         landowner: true
@@ -76,6 +97,7 @@ function getRoleDetails (roleValue, indexValue) {
       break
     case 'Responsible body':
       roleDetails = {
+        value: 'Responsible body',
         organisationIndex: indexValue,
         rowIndex: 3,
         responsible_body: true
@@ -88,12 +110,14 @@ function getRoleDetails (roleValue, indexValue) {
         other: true
       }
       break
+    default:
+      roleDetails = undefined
   }
   return roleDetails
 }
 
 const handlers = {
-  get: async (request, h) => {
+  get: async (_request, h) => {
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
       otherPartyName: ''
     })
@@ -103,13 +127,15 @@ const handlers = {
     const organisationRoles = Object.keys(request.payload).filter(name => name.includes('role'))
     const selectionCount = organisations.length
 
-    const partySelectioError = checkEmptySelection(organisations, request, organisationRoles)
+    const partySelectioData = checkEmptySelection(organisations, request, organisationRoles)
 
-    partySelectioError.selectionCount = selectionCount
-    if (partySelectioError.err !== undefined) {
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectioError)
+    partySelectioData.selectionCount = selectionCount
+    if (partySelectioData.err !== undefined) {
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectioData)
+    } else {
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, partySelectioData)
+      return h.redirect('/' + constants.views.LEGAL_AGREEMENT_START_DATE)
     }
-    return h.redirect('/' + constants.views.LEGAL_AGREEMENT_START_DATE)
   }
 }
 export default [{

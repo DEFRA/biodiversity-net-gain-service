@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (request, h) => {
+  get: async (_request, h) => {
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE)
   },
   post: async (request, h) => {
@@ -9,7 +9,7 @@ const handlers = {
     const legalAgreementStartDateMonth = request.payload['legalAgreementStartDate-month']
     const legalAgreementStartDateYear = request.payload['legalAgreementStartDate-year']
 
-    const datePattern = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    const datePattern = /^(0?[1-9]|[12]\d|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\d{4}$/
     const dateValue = [getDateValue(legalAgreementStartDateDay), getDateValue(legalAgreementStartDateMonth), legalAgreementStartDateYear].join('/')
     const validDate = dateValue.match(datePattern)
     if (!validDate) {

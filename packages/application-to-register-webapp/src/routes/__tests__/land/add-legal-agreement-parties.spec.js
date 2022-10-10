@@ -32,12 +32,16 @@ describe(url, () => {
       postOptions.payload = {
         'organisation[0][organisationName]': 'Sun',
         'organisation[0][role]': 'Developer',
+        'organisation[1][organisationName]': 'Intel',
+        'organisation[1][role]': 'County Council',
+        'organisation[2][organisationName]': 'Intelij',
+        'organisation[2][role]': 'Landowner',
+        'organisation[3][organisationName]': 'Intelijet',
+        'organisation[3][role]': 'Responsible body',
         otherPartyName: [
           '',
           ''
-        ],
-        'organisation[1][organisationName]': 'Intel',
-        'organisation[1][role]': 'County Council'
+        ]
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
