@@ -37,13 +37,16 @@ if (landowners) {
     thisItem.find('input').attr('id', `landowners-${i}`)
     thisItem.find('input:text').val(element)
     // add a remove button
-    if (!thisItem.find('.moj-add-another__remove-button').length) {
+    if (!thisItem.find('.moj-add-another__remove-button').length && landowners.length !== 1) {
       thisItem.append(removeButton)
     }
     // add item before last
     $container.find('.moj-add-another__item').last().before(thisItem)
   })
-  $container.find('.moj-add-another__item').last().append(removeButton)
+  // if we have landowners pre set then remove last item that was added to page by default
+  if (landowners.length > 0) {
+    $container.find('.moj-add-another__item').last().remove()
+  }
 }
 
 $container.on('click', '.moj-add-another__add-button', removeNameAndErr)

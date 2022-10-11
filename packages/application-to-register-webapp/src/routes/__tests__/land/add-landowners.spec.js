@@ -22,10 +22,11 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.LANDOWNER_CONSENT)
     })
-    it('Should continue journey if owners names added and last is blank', async () => {
+    it('Should stop journey if owners names added and last is blank', async () => {
       postOptions.payload.landowners = ['John Smith', 'Jane Doe', '']
-      const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.LANDOWNER_CONSENT)
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter the full name of the landowner')
     })
     it('Should stop journey if no owners', async () => {
       postOptions.payload.landowners = undefined
