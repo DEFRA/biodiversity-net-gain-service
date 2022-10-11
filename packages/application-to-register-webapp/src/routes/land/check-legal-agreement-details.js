@@ -34,7 +34,7 @@ function getNameAndRoles (request) {
 
 function getLegalAgreementFileName (request) {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  return fileLocation === path.parse(fileLocation).base
+  return path.parse(fileLocation).base
 }
 
 function getLegalAgreementDate (request) {
