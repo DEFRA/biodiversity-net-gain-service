@@ -5,10 +5,6 @@
 {% set pageHeading = "Add all parties listed on the legal agreement" %}
 
 {% block formContent %}
-    {{ govukBackLink({
-        text: "Back",
-        href: "/land/check-legal-agreement-file"
-    }) }}
     <div class="govuk-body">
         {% if err %}
             {% include "errorbanner.html" %}
