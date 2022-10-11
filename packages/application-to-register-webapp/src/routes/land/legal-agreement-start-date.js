@@ -1,27 +1,43 @@
 import constants from '../../utils/constants.js'
+import moment from 'moment'
+
+function validateRequestedDate (legalAgreementStartDateYear, legalAgreementStartDateMonth, legalAgreementStartDateDay) {
+  const date = `${legalAgreementStartDateYear}-${legalAgreementStartDateMonth}-${legalAgreementStartDateDay}`
+  const dateFormat = 'YYYY-MM-DD'
+  const toDateFormat = moment(date).format(dateFormat)
+  const validDate = date.length > 7
+  if (!validDate || toDateFormat === 'Invalid date') {
+    return false
+  } else {
+    return moment(toDateFormat, dateFormat, true).isValid()
+  }
+}
+
+function provessEnteredInput (legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear) {
+  if (legalAgreementStartDateDay.length === 0) {
+    errorMessage = 'Start date must include a day'
+  } else if (legalAgreementStartDateMonth.length === 0) {
+    errorMessage = 'Start date must include a month'
+  } else if (legalAgreementStartDateYear.length === 0) {
+    errorMessage = 'Start date must include a year'
+  }
+  return errorMessage
+}
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.LEGAL_AGREEMENT_START_DATE),
   post: async (request, h) => {
-    const legalAgreementStartDateDay = request.payload['legalAgreementStartDate-day']
+    const requestedDay = request.payload['legalAgreementStartDate-day']
+    const legalAgreementStartDateDay = requestedDay.length === 1 ? '0' + requestedDay : requestedDay
     const legalAgreementStartDateMonth = request.payload['legalAgreementStartDate-month']
     const legalAgreementStartDateYear = request.payload['legalAgreementStartDate-year']
-
-    const datePattern = /^(0?[1-9]|[12]\d|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\d{4}$/
-    const dateValue = [getDateValue(legalAgreementStartDateDay), getDateValue(legalAgreementStartDateMonth), legalAgreementStartDateYear].join('/')
-    const validDate = dateValue.match(datePattern)
+    const validDate = validateRequestedDate(legalAgreementStartDateYear, legalAgreementStartDateMonth, legalAgreementStartDateDay)
     if (!validDate) {
       let errorMessage = 'Start date must be a real date'
       if (legalAgreementStartDateDay.length === 0 && legalAgreementStartDateMonth.length === 0 && legalAgreementStartDateYear.length === 0) {
         errorMessage = 'Enter the start date of the legal agreement'
       } else {
-        if (legalAgreementStartDateDay.length === 0) {
-          errorMessage = 'Start date must include a day'
-        } else if (legalAgreementStartDateMonth.length === 0) {
-          errorMessage = 'Start date must include a month'
-        } else if (legalAgreementStartDateYear.length === 0) {
-          errorMessage = 'Start date must include a year'
-        }
+        errorMessage = provessEnteredInput(legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear)
       }
       return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
         err: [{
@@ -43,9 +59,6 @@ const handlers = {
       })
     }
   }
-}
-function getDateValue (date) {
-  return date.length < 2 ? '0' + date : date
 }
 export default [{
   method: 'GET',

@@ -2,6 +2,69 @@ import constants from '../../utils/constants.js'
 
 const START_ID = '#organisation'
 
+function processEmptyPartySelection (partySelectioData, index, combinedError) {
+  partySelectioData.organisationError.push({
+    text: 'Enter the name of the legal party',
+    href: `[${START_ID}[${index}][organisationName]`,
+    index
+  })
+  combinedError.push({
+    text: 'Enter the name of the legal party',
+    href: `[${START_ID}[${index}][organisationName]`
+  })
+  partySelectioData.hasError = true
+}
+
+function processSelectedParty (index, request, organisation, partySelectioData) {
+  const organisationValue = {
+    index,
+    value: request.payload[organisation]
+  }
+  partySelectioData.organisations.push(organisationValue)
+}
+
+function processParty (request, organisation, partySelectioData, index, combinedError) {
+  if (request.payload[organisation] === '') {
+    processEmptyPartySelection(partySelectioData, index, combinedError)
+  } else {
+    processSelectedParty(index, request, organisation, partySelectioData)
+  }
+}
+
+function processUndefinedRole (partySelectioData, index, combinedError) {
+  partySelectioData.roleError.push({
+    text: 'Select the role',
+    href: `[${START_ID}[${index}][role]`,
+    index
+  })
+  combinedError.push({
+    text: 'Select the role',
+    href: `[${START_ID}[${index}][role]`
+  })
+  partySelectioData.hasError = true
+}
+
+function processDefinedRole (request, organisationRole, index, partySelectioData, combinedError) {
+  const roleDetails = getRoleDetails(request.payload[organisationRole], index)
+  if (roleDetails.other) {
+    let otherParty = request.payload.otherPartyName.constructor === Array ? request.payload.otherPartyName[index] : request.payload.otherPartyName
+    if (otherParty === undefined || otherParty === '') {
+      otherParty = ''
+      partySelectioData.roleError.push({
+        text: 'Other type of role cannot be left blank',
+        href: `[${START_ID}[${index}][role]`,
+        index
+      })
+      combinedError.push({
+        text: 'Other type of role cannot be left blank',
+        href: `[${START_ID}[${index}][role]`
+      })
+    }
+    roleDetails.otherPartyName = otherParty
+  }
+  partySelectioData.roles.push(roleDetails)
+}
+
 function checkEmptySelection (organisations, request) {
   const partySelectioData = {
     organisationError: [],
@@ -13,54 +76,11 @@ function checkEmptySelection (organisations, request) {
 
   organisations.forEach((organisation, index) => {
     const organisationRole = organisation.replaceAll('organisationName', 'role')
-    if (request.payload[organisation] === '') {
-      partySelectioData.organisationError.push({
-        text: 'Enter the name of the legal party',
-        href: `[${START_ID}[${index}][organisationName]`,
-        index
-      })
-      combinedError.push({
-        text: 'Enter the name of the legal party',
-        href: `[${START_ID}[${index}][organisationName]`
-      })
-      partySelectioData.hasError = true
-    } else {
-      const organisationValue = {
-        index,
-        value: request.payload[organisation]
-      }
-      partySelectioData.organisations.push(organisationValue)
-    }
+    processParty(request, organisation, partySelectioData, index, combinedError)
     if (request.payload[organisationRole] === undefined) {
-      partySelectioData.roleError.push({
-        text: 'Select the role',
-        href: `[${START_ID}[${index}][role]`,
-        index
-      })
-      combinedError.push({
-        text: 'Select the role',
-        href: `[${START_ID}[${index}][role]`
-      })
-      partySelectioData.hasError = true
+      processUndefinedRole(partySelectioData, index, combinedError)
     } else {
-      const roleDetails = getRoleDetails(request.payload[organisationRole], index)
-      if (roleDetails.other) {
-        let otherParty = request.payload.otherPartyName[index]
-        if (otherParty === undefined || otherParty === '') {
-          otherParty = ''
-          partySelectioData.roleError.push({
-            text: 'Other type of role cannot be left blank',
-            href: `[${START_ID}[${index}][role]`,
-            index
-          })
-          combinedError.push({
-            text: 'Other type of role cannot be left blank',
-            href: `[${START_ID}[${index}][role]`
-          })
-        }
-        roleDetails.otherPartyName = otherParty
-      }
-      partySelectioData.roles.push(roleDetails)
+      processDefinedRole(request, organisationRole, index, partySelectioData, combinedError)
     }
   })
   if (combinedError.length > 0) {
@@ -68,6 +88,7 @@ function checkEmptySelection (organisations, request) {
   }
   return partySelectioData
 }
+
 function getRoleDetails (roleValue, indexValue) {
   let roleDetails
   switch (roleValue) {
