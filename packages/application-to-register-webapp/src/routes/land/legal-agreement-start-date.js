@@ -13,7 +13,7 @@ function validateRequestedDate (legalAgreementStartDateYear, legalAgreementStart
   }
 }
 
-function provessEnteredInput (legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear) {
+function processEnteredInput (legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear) {
   if (legalAgreementStartDateDay.length === 0) {
     errorMessage = 'Start date must include a day'
   } else if (legalAgreementStartDateMonth.length === 0) {
@@ -37,7 +37,7 @@ const handlers = {
       if (legalAgreementStartDateDay.length === 0 && legalAgreementStartDateMonth.length === 0 && legalAgreementStartDateYear.length === 0) {
         errorMessage = 'Enter the start date of the legal agreement'
       } else {
-        errorMessage = provessEnteredInput(legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear)
+        errorMessage = processEnteredInput(legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear)
       }
       return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
         err: [{
