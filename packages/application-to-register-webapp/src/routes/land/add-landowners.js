@@ -11,12 +11,13 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const landowners = request.payload.landowners || []
-    // if last name is blank then delete
+    let landowners = request.payload.landowners || []
+    landowners = Array.isArray(landowners) ? landowners : [ landowners ]
+    // if only one name convert to array
     if (landowners.length > 0 && landowners[landowners.length - 1] === '') {
       landowners.pop()
     }
-
+    // if last name is blank then delete
     if (landowners.length === 0 || landowners.filter(item => item.length === 0).length > 0) {
       const err = [{
         text: 'Enter the full name of the landowner',

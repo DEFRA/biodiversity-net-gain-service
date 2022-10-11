@@ -24,26 +24,25 @@ const removeNameAndErr = (e) => {
 }
 
 // On entry to the page if we have landowners we need to re-apply the repeating text boxes with values and errors
-landowners.forEach((element, i) => {
-  // If less than 2 characters it is in error
-  const thisItem = element.length < 2 ? $errItem.clone() : $item.clone()
+if (landowners) {
+  landowners.forEach((element, i) => {
+    // If less than 2 characters it is in error
+    const thisItem = element.length < 2 ? $errItem.clone() : $item.clone()
 
-  // if first error then update the error message href
-  if (!errDone && element.length < 2) {
-    $('.govuk-error-summary__list').find('a').attr('href', `#landowners-${i}`)
-    errDone = true
-  }
-  thisItem.find('input').attr('id', `landowners-${i}`)
-  thisItem.find('input:text').val(element)
-  // add a remove button
-  if (!thisItem.find('.moj-add-another__remove-button').length) {
-    thisItem.append(removeButton)
-  }
-  // add item before last
-  $container.find('.moj-add-another__item').last().before(thisItem)
-})
-
-if (landowners.length > 0) {
+    // if first error then update the error message href
+    if (!errDone && element.length < 2) {
+      $('.govuk-error-summary__list').find('a').attr('href', `#landowners-${i}`)
+      errDone = true
+    }
+    thisItem.find('input').attr('id', `landowners-${i}`)
+    thisItem.find('input:text').val(element)
+    // add a remove button
+    if (!thisItem.find('.moj-add-another__remove-button').length) {
+      thisItem.append(removeButton)
+    }
+    // add item before last
+    $container.find('.moj-add-another__item').last().before(thisItem)
+  })
   $container.find('.moj-add-another__item').last().append(removeButton)
 }
 
