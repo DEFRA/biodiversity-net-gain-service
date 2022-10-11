@@ -12,7 +12,7 @@ const handlers = {
   },
   post: async (request, h) => {
     let landowners = request.payload.landowners || []
-    landowners = Array.isArray(landowners) ? landowners : [ landowners ]
+    landowners = Array.isArray(landowners) ? landowners : [landowners]
     // if only one name convert to array
     if (landowners.length > 0 && landowners[landowners.length - 1] === '') {
       landowners.pop()
