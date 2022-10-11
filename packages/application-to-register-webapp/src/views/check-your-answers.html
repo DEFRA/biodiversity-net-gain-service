@@ -1,0 +1,21 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Check your answers before submitting your information" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>  
+          {{ govukButton({
+            text: "Confirm and submit"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

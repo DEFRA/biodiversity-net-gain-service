@@ -91,7 +91,7 @@
       "!<rootDir>/**/__mocks__/**"
     ],
     "coveragePathIgnorePatterns": [
-      ""
+      "<rootDir>/packages/connectors-lib/src/azure-service-bus-connector.js"
     ],
     "coverageReporters": [
       "lcov",

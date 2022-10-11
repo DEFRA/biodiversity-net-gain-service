@@ -13,3 +13,5 @@ services:
     secrets:
       - WEBAPP_ENV
     entrypoint: [ '/bin/sh', '-c', "source /run/secrets/WEBAPP_ENV && npm run start" ]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

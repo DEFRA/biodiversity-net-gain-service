@@ -24,6 +24,9 @@ const uploadFiles = async (logger, request, config) => {
       if (part.filename) {
         uploadResult.filename = part.filename
       }
+      if (part.headers['content-type']) {
+        uploadResult.fileType = part.headers['content-type']
+      }
     })
     form.on('error', function (err) {
       reject(err)

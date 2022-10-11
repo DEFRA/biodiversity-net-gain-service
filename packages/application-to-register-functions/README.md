@@ -43,6 +43,7 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | WEBSITE_CONTENTAZUREFILECONNECTIONSTRING | Connection string for storage account where the function app code and configuration are stored in event-driven scaling plans running on Windows | Plan dependent |
 | WEBSITE_CONTENTSHARE | The file path to the function app code and configuration in an event-driven scaling plan on Windows | Plan dependent |
 | WEBSITE_NODE_DEFAULT_VERSION | Default version of Node.js (**must be ~16**) |
+| OPERATOR_SB_CONNECTION_STRING | Operator integration tier service bus connection string | Y |
 
 ### App settings / environment variables for use with Azurite
 

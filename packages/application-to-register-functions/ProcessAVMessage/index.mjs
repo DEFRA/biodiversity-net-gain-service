@@ -27,6 +27,7 @@ export default async function (context, message) {
     }
   } catch (err) {
     // send signalr failed scan
+    context.log.error(err)
     let signalRMessageArguments
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]

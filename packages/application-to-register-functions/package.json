@@ -23,7 +23,8 @@
     "@defra/bng-document-service": "0.13.0",
     "@defra/bng-errors-lib": "0.13.0",
     "@defra/bng-geoprocessing-service": "0.13.0",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.13.0"

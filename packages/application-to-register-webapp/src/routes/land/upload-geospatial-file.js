@@ -16,6 +16,7 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
 
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
   }
