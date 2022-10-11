@@ -67,5 +67,37 @@ describe(url, () => {
         expect(contextResult.legalAgreementStartDate).toEqual('1 Feb 2022')
       })
     })
+    it('should continue with the flow with other party role', async () => {
+      jest.isolateModules(async () => {
+        let viewResult, contextResult
+        const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
+        rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
+          organisations: [{
+            index: 1,
+            value: 'Test'
+          }],
+          roles: [{
+            otherPartyName: 'County Council',
+            organisationIndex: 1,
+            rowIndex: 0,
+            county_council: true
+          }]
+        })
+        const request = {
+          yar: rdisMap
+        }
+        const h = {
+          redirect: (view, context) => {
+            viewResult = view
+            contextResult = context
+          }
+        }
+        await legalAgreementDetails.default[1].handler(request, h)
+        expect(viewResult).toEqual('/land/check-legal-agreement-details')
+        expect(contextResult.legalAgreementType).toEqual('Test type')
+        expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
+        expect(contextResult.legalAgreementStartDate).toEqual('1 Feb 2022')
+      })
+    })
   })
 })
