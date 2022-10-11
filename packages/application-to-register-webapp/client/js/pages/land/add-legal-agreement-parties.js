@@ -1,4 +1,3 @@
-/* eslint-env jquery */
 $(document).ready(function () {
   if (window.location.pathname === '/land/add-legal-agreement-parties') {
     $('.govuk-body').bind('DOMSubtreeModified', function () {
