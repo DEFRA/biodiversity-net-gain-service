@@ -45,7 +45,7 @@ function checkEmptySelection (organisations, request) {
     } else {
       const roleDetails = getRoleDetails(request.payload[organisationRole], index)
       if (roleDetails.other) {
-        let otherParty = request.payload.otherPartyName[index]
+        let otherParty = request.payload.otherPartyName.constructor === Array ? request.payload.otherPartyName[index] : request.payload.otherPartyName
         if (otherParty === undefined || otherParty === '') {
           otherParty = ''
           partySelectioData.roleError.push({

@@ -51,8 +51,8 @@ const getContext = async request => {
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
-    yesSelection: yesSelection,
-    noSelection: noSelection,
+    yesSelection,
+    noSelection,
     fileLocation
   }
 }
