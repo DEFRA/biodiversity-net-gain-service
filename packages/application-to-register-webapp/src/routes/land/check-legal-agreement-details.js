@@ -25,8 +25,9 @@ function getNameAndRoles (request) {
   const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
   const partySelectionContent = []
   partySelectionData.organisations.forEach((organisation, index) => {
-    const roleName = partySelectionData.roles[index].value !== undefined ? partySelectionData.roles[index].value : partySelectionData.roles[index].otherPartyName
-    partySelectionContent.push(organisation.value + '(' + roleName + ')')
+    const selectedRole = partySelectionData.roles[index]
+    const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
+    partySelectionContent.push(`${organisation.value}(${roleName})`)
   })
   return partySelectionContent
 }
