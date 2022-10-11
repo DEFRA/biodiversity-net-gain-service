@@ -1,15 +1,21 @@
 import constants from '../../utils/constants.js'
-
+import moment from 'moment'
 const handlers = {
   get: async (_request, h) => h.view(constants.views.LEGAL_AGREEMENT_START_DATE),
   post: async (request, h) => {
-    const legalAgreementStartDateDay = request.payload['legalAgreementStartDate-day']
+    const legalAgreementStartDateDay = request.payload['legalAgreementStartDate-day'].length === 1 ? '0' + request.payload['legalAgreementStartDate-day'] : request.payload['legalAgreementStartDate-day']
     const legalAgreementStartDateMonth = request.payload['legalAgreementStartDate-month']
     const legalAgreementStartDateYear = request.payload['legalAgreementStartDate-year']
 
-    const datePattern = /^(0?[1-9]|[12]\d|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\d{4}$/
-    const dateValue = [getDateValue(legalAgreementStartDateDay), getDateValue(legalAgreementStartDateMonth), legalAgreementStartDateYear].join('/')
-    const validDate = dateValue.match(datePattern)
+    const date = `${legalAgreementStartDateYear}-${legalAgreementStartDateMonth}-${legalAgreementStartDateDay}`
+    const dateFormat = 'YYYY-MM-DD'
+    const toDateFormat = moment(date).format(dateFormat)
+    let validDate = date.length > 7
+    if (!validDate || toDateFormat === 'Invalid date') {
+      validDate = false
+    } else {
+      validDate = moment(toDateFormat, dateFormat, true).isValid()
+    }
     if (!validDate) {
       let errorMessage = 'Start date must be a real date'
       if (legalAgreementStartDateDay.length === 0 && legalAgreementStartDateMonth.length === 0 && legalAgreementStartDateYear.length === 0) {
@@ -43,9 +49,6 @@ const handlers = {
       })
     }
   }
-}
-function getDateValue (date) {
-  return date.length < 2 ? '0' + date : date
 }
 export default [{
   method: 'GET',

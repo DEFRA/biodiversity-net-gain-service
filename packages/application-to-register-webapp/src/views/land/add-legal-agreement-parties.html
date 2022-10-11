@@ -37,6 +37,12 @@
                                         {% set  roleRowIndex = role%}
                                     {% endif %}
                                 {% endfor%}
+                                {% if roleRowIndex.otherPartyName == undefined %}
+                                    {% set  otherPartyName = ''%}
+                                {% else%}
+                                    {% set  otherPartyName = roleRowIndex.otherPartyName%}
+                                {% endif %}
+
                                 {% for orgError in organisationError %}
                                     {% if orgError.index == i %}
                                         {% set  orgErrorMessage = orgError%}
