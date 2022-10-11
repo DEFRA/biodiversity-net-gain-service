@@ -11,6 +11,13 @@ const uploadStreamAndQueueMessage = async (logger, config, stream) => {
   logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded and message has been queued`)
 }
 
+const queueMessage = async (logger, config) => {
+  const userId = config.queueConfig.message.userId
+  config.queueConfig.message = Buffer.from(JSON.stringify(config.queueConfig.message)).toString('base64')
+  await storageQueueConnector.sendMessage(config.queueConfig)
+  logger.log(`${new Date().toUTCString()} Application ${userId} queue for completion`)
+}
+
 const addFileDetailsToConfiguration = (config, filename) => {
   config.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
 
@@ -22,4 +29,4 @@ const addFileDetailsToConfiguration = (config, filename) => {
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
-export { uploadStreamAndQueueMessage }
+export { uploadStreamAndQueueMessage, queueMessage }

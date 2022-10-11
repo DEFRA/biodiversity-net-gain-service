@@ -22,6 +22,7 @@ warning: other service dependencies will be missing, install and run from root o
 | SIGNALR_URL | Microsoft Azure SignalR connection URL (see the note below) | Y |  
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
+| AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |
 
 #### Setting the SIGNALR_URL environment variable
 

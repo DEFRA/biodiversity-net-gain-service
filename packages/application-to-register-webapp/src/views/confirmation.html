@@ -1,0 +1,30 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Registation submitted" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
+        {{ pageHeading }}
+      </h1>
+      
+      <div class="govuk-panel__body govuk-!-font-size-27">
+        Biodiversity gain site reference<br> <strong>{{ gainSiteReference }}</strong>
+      </div>
+      
+    </div>
+
+    <p>We have sent you a confirmation email, including a payment receipt.</p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p>We will review the details you have submitted.</p>
+    <p>We will contact you either to confirm your registration, or to ask for more information.</p>
+    <p>You can share your reference number to allocate the biodiversity gain site.</p>
+
+  </div>
+</div>
+{% endblock %}

@@ -50,6 +50,7 @@ export default async function (context, message) {
       context.log.error('Unable to retrieve blob')
     }
   } catch (err) {
+    context.log.error(err)
     let signalRMessageArguments
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]

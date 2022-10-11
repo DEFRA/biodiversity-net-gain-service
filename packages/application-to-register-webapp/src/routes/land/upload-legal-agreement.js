@@ -20,6 +20,7 @@ function processSuccessfulUpload (result, request) {
   } else if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_LEGAL_AGREEMENT
   }
