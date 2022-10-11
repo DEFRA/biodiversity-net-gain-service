@@ -4,13 +4,7 @@ import moment from 'moment'
 function validateRequestedDate (legalAgreementStartDateYear, legalAgreementStartDateMonth, legalAgreementStartDateDay) {
   const date = `${legalAgreementStartDateYear}-${legalAgreementStartDateMonth}-${legalAgreementStartDateDay}`
   const dateFormat = 'YYYY-MM-DD'
-  const toDateFormat = moment(date).format(dateFormat)
-  const validDate = date.length > 7
-  if (!validDate || toDateFormat === 'Invalid date') {
-    return false
-  } else {
-    return moment(toDateFormat, dateFormat, true).isValid()
-  }
+  return moment(date, dateFormat, true).isValid()
 }
 
 function processEnteredInput (legalAgreementStartDateDay, errorMessage, legalAgreementStartDateMonth, legalAgreementStartDateYear) {
