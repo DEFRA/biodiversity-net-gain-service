@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
+import moment from 'moment'
 
 const handlers = {
   get: async (request, h) => {
@@ -8,7 +9,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const context = await getContext(request)
-    return h.redirect('/' + constants.views.LEGAL_AGREEMENT_SUMMARY, context)
+    return h.redirect(`${constants.views.LEGAL_AGREEMENT_SUMMARY}`, context)
   }
 }
 
@@ -38,16 +39,9 @@ function getLegalAgreementFileName (request) {
 }
 
 function getLegalAgreementDate (request) {
-  const day = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DAY)
-  const month = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH)
-  const year = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR)
+  const date = moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
 
-  const currentDate = new Date()
-  currentDate.setMonth(month - 1)
-  currentDate.setDate(day)
-  currentDate.setFullYear(year)
-
-  return currentDate.toLocaleDateString('en-GB', {
+  return date.toDate().toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric'
   })
 }
