@@ -8,9 +8,7 @@ describe(url, () => {
   beforeEach(() => {
     rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'Test type')
     rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
-    rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DAY, '01')
-    rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_MONTH, '02')
-    rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_YEAR, '2022')
+    rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
       organisations: [{
         index: 1,
@@ -42,7 +40,7 @@ describe(url, () => {
         expect(viewResult).toEqual('land/check-legal-agreement-details')
         expect(contextResult.legalAgreementType).toEqual('Test type')
         expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('1 Feb 2022')
+        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
   })

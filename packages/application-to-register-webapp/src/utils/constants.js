@@ -70,6 +70,7 @@ const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
+const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
 const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
 const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
@@ -182,6 +183,7 @@ const redisKeys = {
   LEGAL_AGREEMENT_ORGANISATION_NAMES,
   LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
   LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
+  LEGAL_AGREEMENT_START_DATE_KEY,
   LEGAL_AGREEMENT_START_DAY,
   LEGAL_AGREEMENT_START_MONTH,
   LEGAL_AGREEMENT_START_YEAR

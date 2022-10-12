@@ -1,7 +1,5 @@
 {% extends 'form-layout.html' %}
 
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
 {% set pageHeading = "What is the start date of the legal agreement?" %}
 
 {% block formContent %}
@@ -9,43 +7,7 @@
         {% if err %}
             {% include "errorbanner.html" %}
         {% endif %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
-                    }
-                }) }}
-                {{ govukDateInput({
-                    id: "legalAgreementStartDate",
-                    name: "legalAgreementStartDate",
-                    namePrefix: "legalAgreementStartDate",
-                    errorMessage: err[0],
-                    hint: {
-                        text: "For example, 27 3 2007"
-                    },
-                    items: [
-                        {
-                            classes: "govuk-input--width-2",
-                            name: "day",
-                            value: legalAgreementStartDateDay
-                        },
-                        {
-                            classes: "govuk-input--width-2",
-                            name: "month",
-                            value: legalAgreementStartDateMonth
-                        },
-                        {
-                            classes: "govuk-input--width-4",
-                            name: "year",
-                            value: legalAgreementStartDateYear
-                        }
-                    ]
-                }) }}
-                {{ govukButton({ text: 'Continue' }) }}
-            </div>
-        </div>
+        {% set id = 'legalAgreementStartDate' %}
+        {% include "common/date-input.html" %}
     </div>
 {% endblock %}

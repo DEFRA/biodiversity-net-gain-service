@@ -1,7 +1,26 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.LEGAL_AGREEMENT_TYPE),
+  get: async (request, h) => {
+    const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
+    const documentType = {
+      conservationType: false,
+      planningObligationType: false,
+      dontHave: false
+    }
+    switch (legalAgreementDocumentType) {
+      case 'Conservation covenant':
+        documentType.conservationType = true
+        break
+      case 'Planning obligation (section 106 agreement)':
+        documentType.planningObligationType = true
+        break
+      case 'I do not have a legal agreement':
+        documentType.dontHave = true
+        break
+    }
+    return h.view(constants.views.LEGAL_AGREEMENT_TYPE, documentType)
+  },
   post: async (request, h) => {
     const legalAgrementType = request.payload.legalAgrementType
     if (legalAgrementType !== undefined) {
