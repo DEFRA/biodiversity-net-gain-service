@@ -9,9 +9,9 @@ const handlers = {
     const date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
-      day: date && date.format('DD'),
-      month: date && date.format('MM'),
-      year: date && date.format('YYYY')
+      day: date?.format('DD'),
+      month: date?.format('MM'),
+      year: date?.format('YYYY')
     })
   },
   post: async (request, h) => {
