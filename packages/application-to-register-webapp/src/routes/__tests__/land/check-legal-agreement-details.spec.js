@@ -123,10 +123,10 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[1].handler(request, h)
-        expect(viewResult).toEqual('/land/check-legal-agreement-details')
+        expect(viewResult).toEqual('land/check-legal-agreement-details')
         expect(contextResult.legalAgreementType).toEqual('Test type')
         expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('1 Feb 2022')
+        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
   })
