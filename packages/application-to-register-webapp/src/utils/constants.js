@@ -8,8 +8,8 @@ const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
-const CHECK_YOUR_ANSWERS = 'check-your-answers'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
+const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/check-geospatial-land-boundary-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
@@ -104,15 +104,12 @@ const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
-const REFERRAL_PAGE_LIST = [
-  `/${LEGAL_AGREEMENT_SUMMARY}`
-]
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
 const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
-
+const REFERER = 'referer'
 const YES = 'yes'
 
 const confirmFileUploadOptions = {
@@ -198,7 +195,8 @@ const redisKeys = {
   LEGAL_AGREEMENT_START_DAY,
   LEGAL_AGREEMENT_START_MONTH,
   LEGAL_AGREEMENT_START_YEAR,
-  REGISTRATION_TASK_DETAILS
+  REGISTRATION_TASK_DETAILS,
+  REFERER
 }
 
 const routes = {
@@ -211,8 +209,8 @@ const routes = {
   LEGAL_AGREEMENT_START_DATE,
   LEGAL_AGREEMENT_TYPE,
   CHECK_MANAGEMENT_PLAN,
-  CHECK_YOUR_ANSWERS,
   REGISTRATION_SUBMITTED,
+  CHECK_AND_SUBMIT,
   CHECK_LAND_BOUNDARY,
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
@@ -267,6 +265,16 @@ const uploadTypes = {
   METRIC_UPLOAD_TYPE,
   LAND_OWNERSHIP_UPLOAD_TYPE
 }
+
+// checkRoutes contain routes that can be set as a referer for a user
+// to return to from a "check your answers" page
+const checkRoutes = [
+  CHECK_AND_SUBMIT,
+  CHECK_YOUR_DETAILS,
+  CHECK_OWNERSHIP_DETAILS,
+  LEGAL_AGREEMENT_SUMMARY
+]
+
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
 
 for (const [key, value] of Object.entries(routes)) {
@@ -289,7 +297,7 @@ export default Object.freeze({
   views,
   uploadErrors,
   uploadTypes,
-  REFERRAL_PAGE_LIST,
   DEFAULT_REGISTRATION_TASK_STATUS,
-  COMPLETE_REGISTRATION_TASK_STATUS
+  COMPLETE_REGISTRATION_TASK_STATUS,
+  checkRoutes
 })

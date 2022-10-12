@@ -4,26 +4,22 @@ const ID = '#fullName'
 
 const handlers = {
   get: async (request, h) => {
-    const checkReferer = request.raw.req.headers.referer && request.raw.req.headers.referer.indexOf(constants.routes.CHECK_YOUR_DETAILS) > -1
     const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
     return h.view(constants.views.NAME, {
-      fullName,
-      checkReferer
+      fullName
     })
   },
   post: async (request, h) => {
-    const checkReferer = request.payload.checkReferer && JSON.parse(request.payload.checkReferer)
     const fullName = request.payload.fullName
     const error = validateName(fullName)
     if (error) {
       return h.view(constants.views.NAME, {
         fullName,
-        checkReferer,
         ...error
       })
     } else {
       request.yar.set(constants.redisKeys.FULL_NAME, fullName)
-      return h.redirect(checkReferer ? constants.routes.CHECK_YOUR_DETAILS : constants.routes.ROLE)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ROLE)
     }
   }
 }

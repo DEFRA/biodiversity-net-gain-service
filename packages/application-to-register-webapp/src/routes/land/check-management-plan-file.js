@@ -21,7 +21,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
       return h.redirect(constants.routes.UPLOAD_MANAGEMENT_PLAN)
     } else if (checkManagementPlan === 'yes') {
-      return h.redirect('/' + constants.views.HABITAT_WORKS_START_DATE)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_WORKS_START_DATE)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

@@ -1,5 +1,6 @@
 import constants from './constants.js'
 import path from 'path'
+import { getNameAndRoles } from './helpers.js'
 
 const application = session => {
   return {
@@ -13,16 +14,13 @@ const application = session => {
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
       landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
-      legalAgreementParties: [
-        {
-          name: 'John Smith', // todo set to correct array
-          role: 'role'
-        }
-      ],
-      legalAgreementType: 759150000, // todo set to correct field ID
-      legalAgreementStartDate: new Date().toISOString(), // todo set to correct field
+      legalAgreementParties: getNameAndRoles(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
+      legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+      legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
+      landownerNames: getAllLandowners(session),
+      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY),
       files: [
         {
           contentMediaType: session.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE),
@@ -58,6 +56,14 @@ const application = session => {
       ]
     }
   }
+}
+
+const getAllLandowners = session => {
+  const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS)))
+  if (session.get(constants.redisKeys.ROLE_KEY) === 'Landowner') {
+    landowners.unshift(session.get(constants.redisKeys.FULL_NAME))
+  }
+  return landowners
 }
 
 export default application

@@ -1,0 +1,347 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Check your answers before submitting your information" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+          {{ pageHeading }}
+        </h1>
+        <!-- Your details -->
+        <h2 class="govuk-heading-l">Your details</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Full name"
+              },
+              value: {
+                text: application.applicant.lastName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.NAME,
+                    text: "Change",
+                    visuallyHiddenText: " full name"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Role"
+              },
+              value: {
+                text: application.applicant.role
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.ROLE,
+                    text: "Change",
+                    visuallyHiddenText: " role"
+                  }
+                ]
+              }
+            }
+            ]
+          }) }}
+        
+        <!--Land boundary-->
+        <h2 class="govuk-heading-l">Land boundary</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Land boundary file uploaded"
+              },
+              value: {
+                text: application.files[1].fileName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_LAND_BOUNDARY,
+                    text: "Change",
+                    visuallyHiddenText: " land boundary file"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Grid reference"
+              },
+              value: {
+                text: application.landBoundaryGridReference
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.ADD_GRID_REFERENCE,
+                    text: "Change",
+                    visuallyHiddenText: " grid reference"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Area in hectares"
+              },
+              value: {
+                text: application.landBoundaryHectares + " ha"
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.ADD_HECTARES,
+                    text: "Change",
+                    visuallyHiddenText: " area in hectares"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!--Land ownership-->
+        <h2 class="govuk-heading-l">Land ownership</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Proof of land ownership file uploaded"
+              },
+              value: {
+                text: application.files[4].fileName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_PROOF_OF_OWNERSHIP,
+                    text: "Change",
+                    visuallyHiddenText: " land boundary file"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Landowner name"
+              },
+              value: {
+                html: listArray(application.landownerNames)
+              },
+              actions: {
+                items: [
+                  {
+                    href: changeLandownersHref,
+                    text: "Change",
+                    visuallyHiddenText: " landowner name"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Landowner consent"
+              },
+              classes: hideClass(hideConsent),
+              value: {
+                text: boolToYesNo(application.landownerConsent)
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.LANDOWNER_CONSENT,
+                    text: "Change",
+                    visuallyHiddenText: " landowner consent"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!--Biodiversity Metric-->
+        <h2 class="govuk-heading-l">Biodiversity Metric</h2>
+
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Biodiversity Metric file uploaded"
+              },
+              value: {
+                text: application.files[3].fileName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_UPLOAD_METRIC,
+                    text: "Change",
+                    visuallyHiddenText: " Biodiversity Metric file"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!--Habitat management and monitoring plan-->
+        <h2 class="govuk-heading-l">Habitat management and monitoring</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Habitat management and monitoring plan uploaded"
+              },
+              value: {
+                text: application.files[2].fileName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_MANAGEMENT_PLAN,
+                    text: "Change",
+                    visuallyHiddenText: " habitat management and monitoring plan"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Start date of habitat enhancement works"
+              },
+              value: {
+                text: dateToString(application.habitatWorkStartDate)
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.HABITAT_WORKS_START_DATE,
+                    text: "Change",
+                    visuallyHiddenText: " commencement date of habitat works"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Start date of the 30 year management and monitoring period"
+              },
+              value: {
+                text: dateToString(application.managementMonitoringStartDate)
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.MANAGEMENT_MONITORING_START_DATE,
+                    text: "Change",
+                    visuallyHiddenText: " start date of the 30 year management and monitoring period"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!-- Legal agreement -->
+        <h2 class="govuk-heading-l">Legal agreement</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Type of legal agreement"
+              },
+              value: {
+                text: application.legalAgreementType
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/land/legal-agreement-type",
+                    text: "Change",
+                    visuallyHiddenText: " type of legal agreement"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Legal agreement file uploaded"
+              },
+              value: {
+                text: application.files[0].fileName
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_LEGAL_AGREEMENT,
+                    text: "Change",
+                    visuallyHiddenText: " legal agreement file"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Parties involved"
+              },
+              value: {
+                html: listArray(application.legalAgreementParties)
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/land/add-legal-agreement-parties",
+                    text: "Change",
+                    visuallyHiddenText: " parties involved"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Start date"
+              },
+              value: {
+                text: dateToString(application.legalAgreementStartDate)
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/land/legal-agreement-start-date",
+                    text: "Change",
+                    visuallyHiddenText: " start date"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
+
+        <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
+        
+        {{ govukButton({
+          text: "Confirm and submit"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

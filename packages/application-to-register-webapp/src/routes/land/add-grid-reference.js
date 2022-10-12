@@ -1,7 +1,12 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.ADD_GRID_REFERENCE),
+  get: async (request, h) => {
+    const gridReference = request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
+    return h.view(constants.views.ADD_GRID_REFERENCE, {
+      gridReference
+    })
+  },
   post: async (request, h) => {
     const gridReference = request.payload.gridReference.replace(' ', '')
     const err = validateGridReference(gridReference)
@@ -16,7 +21,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, gridReference)
-      return h.redirect(constants.routes.ADD_HECTARES)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_HECTARES)
     }
   }
 }
