@@ -1,5 +1,6 @@
 import { submitGetRequest } from './helpers/server.js'
-const url = '/confirmation'
+import constants from '../../utils/constants.js'
+const url = constants.routes.REGISTRATION_SUBMITTED
 
 describe(url, () => {
   describe('GET', () => {
