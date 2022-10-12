@@ -15,7 +15,7 @@ const handlers = {
       case 'Planning obligation (section 106 agreement)':
         documentType.planningObligationType = true
         break
-      case 'I do not have a legal agreement':
+      default :
         documentType.dontHave = true
         break
     }
