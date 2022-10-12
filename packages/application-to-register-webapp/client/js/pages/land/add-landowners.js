@@ -10,7 +10,6 @@ const $errItem = $item.clone()
 $errItem.find('.govuk-form-group').addClass('govuk-form-group--error')
 $errItem.find('label').after('<p id="landowners-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> Enter the full name of the landowner</p>')
 $errItem.find('input').addClass('govuk-input--error')
-let errDone = false
 
 const removeNameAndErr = (e) => {
   const $item = $container.find('.moj-add-another__item').last()
@@ -28,12 +27,6 @@ if (landowners) {
   landowners.forEach((element, i) => {
     // If less than 2 characters it is in error
     const thisItem = element.length < 2 ? $errItem.clone() : $item.clone()
-
-    // if first error then update the error message href
-    if (!errDone && element.length < 2) {
-      $('.govuk-error-summary__list').find('a').attr('href', `#landowners-${i}`)
-      errDone = true
-    }
     thisItem.find('input').attr('id', `landowners-${i}`)
     thisItem.find('input:text').val(element)
     // add a remove button
