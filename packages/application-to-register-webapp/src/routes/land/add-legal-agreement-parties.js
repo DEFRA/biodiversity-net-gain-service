@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const START_ID = '#organisation'
-
+let referredFrom
 function processEmptyPartySelection (partySelectionData, index, combinedError) {
   partySelectionData.organisationError.push({
     text: 'Enter the name of the legal party',
@@ -139,6 +139,7 @@ function getRoleDetails (roleValue, indexValue) {
 
 const handlers = {
   get: async (request, h) => {
+    referredFrom = request.info.referrer
     const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
     if (partySelectionData !== undefined) {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
@@ -158,6 +159,9 @@ const handlers = {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, partySelectionData)
+      if (referredFrom) {
+        return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
+      }
       return h.redirect('/' + constants.views.LEGAL_AGREEMENT_START_DATE)
     }
   }

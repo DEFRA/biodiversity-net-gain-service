@@ -1,7 +1,9 @@
 import constants from '../../utils/constants.js'
-
+let referredFrom
 const handlers = {
+
   get: async (request, h) => {
+    referredFrom = request.info.referrer
     const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
     const documentType = {
       conservationType: false,
@@ -23,9 +25,13 @@ const handlers = {
   },
   post: async (request, h) => {
     const legalAgrementType = request.payload.legalAgrementType
+
     if (legalAgrementType !== undefined) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgrementType)
       if (legalAgrementType !== 'I do not have a legal agreement') {
+        if (referredFrom) {
+          return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
+        }
         return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
       } else {
         return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {})

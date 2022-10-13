@@ -5,7 +5,7 @@ import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
 const LEGAL_AGREEMENT_ID = '#legalAgreement'
-
+let referredFrom
 function processSuccessfulUpload (result, request) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   let errorMessage = {}
@@ -63,12 +63,19 @@ function processReturnValue (details, h) {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
+  get: async (request, h) => {
+    referredFrom = request.info.referrer
+    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT)
+  },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
+
     return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
+        if (referredFrom) {
+          return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
+        }
         return processReturnValue(viewDetails, h)
       },
       function (err) {
