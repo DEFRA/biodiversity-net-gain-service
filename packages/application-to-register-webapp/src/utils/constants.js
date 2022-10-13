@@ -79,6 +79,13 @@ const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
+const REGISTERED_LANDOWNER = 'land/registered-landowner'
+const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
+const ADD_LANDOWNERS = 'land/add-landowners'
+const LANDOWNERS = 'landowners'
+const LANDOWNER_CONSENT = 'land/landowner-consent'
+const LANDOWNER_CONSENT_KEY = 'landowner-consent'
+const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 
 const YES = 'yes'
 
@@ -150,7 +157,10 @@ const redisKeys = {
   ROLE_KEY,
   ROLE_OTHER,
   HABITAT_WORKS_START_DATE_KEY,
-  MANAGEMENT_MONITORING_START_DATE_KEY
+  MANAGEMENT_MONITORING_START_DATE_KEY,
+  REGISTERED_LANDOWNER_ONLY,
+  LANDOWNERS,
+  LANDOWNER_CONSENT_KEY
 }
 
 const routes = {
@@ -190,7 +200,11 @@ const routes = {
   CHECK_YOUR_DETAILS,
   REGISTER_LAND_TASK_LIST,
   HABITAT_WORKS_START_DATE,
-  MANAGEMENT_MONITORING_START_DATE
+  MANAGEMENT_MONITORING_START_DATE,
+  REGISTERED_LANDOWNER,
+  ADD_LANDOWNERS,
+  LANDOWNER_CONSENT,
+  CHECK_OWNERSHIP_DETAILS
 }
 
 const uploadErrors = {
