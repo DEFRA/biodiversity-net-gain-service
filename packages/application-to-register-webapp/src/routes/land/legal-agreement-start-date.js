@@ -29,7 +29,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, date.toISOString())
-      if (referredFrom) {
+      if (referredFrom.endsWith('check-legal-agreement-details')) {
         return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
       }
       return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)

@@ -159,7 +159,7 @@ const handlers = {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, partySelectionData)
-      if (referredFrom) {
+      if (referredFrom.endsWith('check-legal-agreement-details')) {
         return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
       }
       return h.redirect('/' + constants.views.LEGAL_AGREEMENT_START_DATE)

@@ -122,7 +122,7 @@ describe('Legal agreement upload controller tests', () => {
       }
       const request = {
         info: {
-          referrer: 'agreement-details'
+          referrer: 'check-legal-agreement-details'
         }
       }
       const legalAgreementDetails = require('../../land/upload-legal-agreement')

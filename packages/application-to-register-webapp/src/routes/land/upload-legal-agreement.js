@@ -73,7 +73,7 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
-        if (referredFrom) {
+        if (referredFrom.endsWith('check-legal-agreement-details')) {
           return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
         }
         return processReturnValue(viewDetails, h)
