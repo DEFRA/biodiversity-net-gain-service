@@ -40,7 +40,7 @@
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "govuk-frontend": "4.3.1",
     "hapi-pino": "11.0.0",
-    "joi": "^17.6.2",
+    "joi": "^17.6.3",
     "jquery": "^3.6.1",
     "moment": "^2.29.4",
     "multiparty": "^4.2.3",
