@@ -62,7 +62,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         info: {
-          referrer: 'agreement-details'
+          referrer: 'check-legal-agreement-details'
         }
       }
       const legalAgreementParties = require('../../land/legal-agreement-start-date')
