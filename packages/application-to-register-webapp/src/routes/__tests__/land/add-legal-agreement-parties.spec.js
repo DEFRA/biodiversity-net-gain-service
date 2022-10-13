@@ -55,6 +55,30 @@ describe(url, () => {
       expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
     })
 
+    it('should add single legal party to legal agreement and back to details referrer', async () => {
+      const h = {
+        view: jest.fn()
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
+      const request = {
+        yar: redisMap,
+        info: {
+          referrer: 'agreement-details'
+        }
+      }
+      const legalAgreementParties = require('../../land/add-legal-agreement-parties')
+      await legalAgreementParties.default[0].handler(request, h)
+
+      postOptions.payload = {
+        'organisation[0][organisationName]': 'Bambury',
+        'organisation[0][role]': 'County Council',
+        otherPartyName: ''
+      }
+      const response = await submitPostRequest(postOptions)
+      expect(response.statusCode).toBe(302)
+    })
+
     it('should add multiple legal party to legal agreement', async () => {
       postOptions.payload = {
         'organisation[0][organisationName]': 'Sun',
