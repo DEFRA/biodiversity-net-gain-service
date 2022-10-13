@@ -27,7 +27,7 @@ const handlers = {
   }
 }
 
-const validateLandowners = (landowners) => {
+const validateLandowners = landowners => {
   const err = []
   landowners.forEach((item, i) => {
     if (item.length < 2) {
