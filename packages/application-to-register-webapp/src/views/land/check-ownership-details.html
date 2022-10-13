@@ -1,0 +1,14 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Check the land ownership details" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+
+    {{ govukButton({ text: 'Continue' }) }}
+
+  </div>
+{% endblock %}

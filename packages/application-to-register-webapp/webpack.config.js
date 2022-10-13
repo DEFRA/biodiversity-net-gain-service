@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'url'
 import path from 'path'
-import HtmlPlugin from 'html-webpack-plugin'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -9,7 +8,9 @@ const inDev = env === 'dev' || env === 'development'
 
 export default {
   entry: {
-    confirmLandBoundary: './client/js/pages/land/confirm-land-boundary.js'
+    // confirmLandBoundary: './client/js/pages/land/confirm-land-boundary.js',
+    core: './client/js/core.js',
+    addLandowners: './client/js/pages/land/add-landowners.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
@@ -30,13 +31,5 @@ export default {
         }
       }
     ]
-  },
-  plugins: [
-    new HtmlPlugin({
-      inject: false,
-      filename: '../views/land/confirm-land-boundary.html',
-      template: 'src/views/webpack/land/confirm-land-boundary.html',
-      chunks: ['confirmLandBoundary']
-    })
-  ]
+  }
 }

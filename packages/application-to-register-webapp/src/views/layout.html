@@ -80,6 +80,10 @@
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
-  <script src="{{ assetPath }}/all.js"></script>
-  <script>window.GOVUKFrontend.initAll()</script>
+    <script src="{{ assetPath }}/jquery.js"></script>
+    <script src="{{ assetPath }}/all.js"></script>
+    <script src="{{ assetPath }}/moj/all.js"></script>
+    <script>window.GOVUKFrontend.initAll()</script>
+    <script>window.MOJFrontend.initAll()</script>
+    <script src="{{ assetPath }}/js/core.js"></script>
 {% endblock %}
