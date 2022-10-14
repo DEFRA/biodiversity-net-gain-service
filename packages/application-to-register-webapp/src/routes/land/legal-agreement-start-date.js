@@ -3,9 +3,10 @@ import moment from 'moment'
 import { dateClasses, validateDate } from '../../utils/helpers.js'
 
 const ID = 'legalAgreementStartDate'
-
+let referredFrom
 const handlers = {
   get: async (request, h) => {
+    referredFrom = request.info.referrer
     const date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
@@ -28,6 +29,9 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, date.toISOString())
+      if (referredFrom.endsWith('check-legal-agreement-details')) {
+        return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
+      }
       return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
     }
   }

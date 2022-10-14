@@ -4,18 +4,6 @@ const ADD_HECTARES = 'land/add-hectares'
 const GAIN_SITE_REFERENCE = 'gain-site-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
-const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
-const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
-const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
-const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
-const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
-const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
-const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
-const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
-const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
@@ -73,25 +61,6 @@ const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
-const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
@@ -188,11 +157,6 @@ const redisKeys = {
   LEGAL_AGREEMENT_DOCUMENT_TYPE,
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
-  LEGAL_AGREEMENT_FILE_OPTION,
-  LEGAL_AGREEMENT_PARTIES,
-  LEGAL_AGREEMENT_FILE_OPTION,
-  LEGAL_AGREEMENT_PARTIES,
-  LEGAL_AGREEMENT_FILE_OPTION,
   LEGAL_AGREEMENT_PARTIES,
   LEGAL_AGREEMENT_FILE_OPTION,
   MANAGEMENT_PLAN_CHECKED,
@@ -205,14 +169,6 @@ const redisKeys = {
   LAND_OWNERSHIP_CHECKED,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
-  METRIC_FILE_CHECKED,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
-  LEGAL_AGREEMENT_START_DAY,
-  LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
-  LEGAL_AGREEMENT_START_DATE_KEY,
   FULL_NAME,
   ROLE_KEY,
   ROLE_OTHER,
@@ -220,23 +176,6 @@ const redisKeys = {
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
   LANDOWNER_CONSENT_KEY,
-  METRIC_FILE_CHECKED,
-  MANAGEMENT_MONITORING_START_DATE_KEY,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
-  LEGAL_AGREEMENT_START_DAY,
-  LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
-  MANAGEMENT_MONITORING_START_DATE_KEY
-  METRIC_FILE_CHECKED,
-  MANAGEMENT_MONITORING_START_DATE_KEY,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
-  LEGAL_AGREEMENT_START_DAY,
-  LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
   METRIC_FILE_CHECKED,
   MANAGEMENT_MONITORING_START_DATE_KEY,
   LEGAL_AGREEMENT_ORGANISATION_NAMES,
@@ -254,15 +193,6 @@ const routes = {
   ADD_HECTARES,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
-  LEGAL_AGREEMENT_TYPE,
-  ADD_LEGAL_AGREEMENT_PARTIES,
-  LEGAL_AGREEMENT_START_DATE,
-  LEGAL_AGREEMENT_TYPE,
-  LEGAL_AGREEMENT_TYPE,
-  ADD_LEGAL_AGREEMENT_PARTIES,
-  LEGAL_AGREEMENT_START_DATE,
-  ADD_LEGAL_AGREEMENT_PARTIES,
-  LEGAL_AGREEMENT_START_DATE,
   ADD_LEGAL_AGREEMENT_PARTIES,
   LEGAL_AGREEMENT_START_DATE,
   LEGAL_AGREEMENT_TYPE,

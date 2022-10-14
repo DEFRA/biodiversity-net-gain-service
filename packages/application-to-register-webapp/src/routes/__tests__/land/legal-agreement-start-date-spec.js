@@ -1,4 +1,5 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants'
 
 const url = '/land/legal-agreement-start-date'
 
@@ -20,6 +21,28 @@ describe(url, () => {
     })
 
     it('should add a legal agreement start date', async () => {
+      postOptions.payload['legalAgreementStartDate-day'] = '01'
+      postOptions.payload['legalAgreementStartDate-month'] = '01'
+      postOptions.payload['legalAgreementStartDate-year'] = '1971'
+
+      const response = await submitPostRequest(postOptions)
+      expect(response.statusCode).toBe(302)
+    })
+
+    it('should add a legal agreement start date and back to referrer', async () => {
+      const h = {
+        view: jest.fn()
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, '22-10-2022')
+      const request = {
+        yar: redisMap,
+        info: {
+          referrer: 'check-legal-agreement-details'
+        }
+      }
+      const legalAgreementParties = require('../../land/legal-agreement-start-date')
+      await legalAgreementParties.default[0].handler(request, h)
       postOptions.payload['legalAgreementStartDate-day'] = '01'
       postOptions.payload['legalAgreementStartDate-month'] = '01'
       postOptions.payload['legalAgreementStartDate-year'] = '1971'

@@ -17,7 +17,10 @@ describe(url, () => {
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap
+          yar: redisMap,
+          info: {
+            referrer: 'check-legal-agreement-details'
+          }
         }
         const h = {
           view: (view, context) => {
@@ -37,7 +40,10 @@ describe(url, () => {
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap
+          yar: redisMap,
+          info: {
+            referrer: 'agreement-details'
+          }
         }
         const h = {
           view: (view, context) => {
@@ -57,7 +63,10 @@ describe(url, () => {
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap
+          yar: redisMap,
+          info: {
+            referrer: 'check-legal-agreement-details'
+          }
         }
         const h = {
           view: (view, context) => {
@@ -74,7 +83,7 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
-    beforeEach(() => {
+    beforeEach(async () => {
       postOptions = {
         url,
         payload: {}
@@ -87,6 +96,24 @@ describe(url, () => {
     })
 
     it('should allow the choice of Planning obligation (section 106 agreement) legal agreement', async () => {
+      postOptions.payload.legalAgrementType = 'Planning obligation (section 106 agreement)'
+      const response = await submitPostRequest(postOptions)
+      expect(response.statusCode).toBe(302)
+    })
+
+    it('should go back to detail if referred', async () => {
+      const h = {
+        view: jest.fn()
+      }
+      const request = {
+        yar: redisMap,
+        info: {
+          referrer: 'agreement-details'
+        }
+      }
+      const legalAgreementDetails = require('../../land/legal-agreement-type')
+      await legalAgreementDetails.default[0].handler(request, h)
+
       postOptions.payload.legalAgrementType = 'Planning obligation (section 106 agreement)'
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
