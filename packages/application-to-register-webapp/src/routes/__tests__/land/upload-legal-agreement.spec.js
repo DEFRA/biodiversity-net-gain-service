@@ -116,27 +116,6 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should  upload legal agreement document 50 MB file and back to referrer', async (done) => {
-      const h = {
-        view: jest.fn()
-      }
-      const request = {
-        info: {
-          referrer: 'check-legal-agreement-details'
-        }
-      }
-      const legalAgreementDetails = require('../../land/upload-legal-agreement')
-      await legalAgreementDetails.default[0].handler(request, h)
-      jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-
     it('should cause an internal server error response when notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
