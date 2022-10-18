@@ -20,9 +20,15 @@
                         {{ taskItem.title }}
                       </a>
                   </span>
-                  <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="your-details-status">
-                    {{ taskItem.status }}
-                  </strong>
+                   {% if taskItem.status !== 'COMPLETED'%}
+                      <strong class="govuk-tag govuk-tag--grey app-task-list__tag">
+                        {{ taskItem.status }}
+                      </strong>
+                   {% else %}
+                        <strong class="govuk-tag app-task-list__tag">
+                            {{ taskItem.status }}
+                        </strong>
+                   {% endif %}
                 </li>
               {% endfor %}
             </ul>
@@ -33,7 +39,7 @@
           <ul class="app-task-list__items">
             <li class="app-task-list__item">
                 <span class="app-task-list__task-name">Check your answers and submit information</span>
-                <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="submit-application-status">Cannot start yet</strong>
+                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Cannot start yet</strong>
             </li>
           </ul>
         </li>
