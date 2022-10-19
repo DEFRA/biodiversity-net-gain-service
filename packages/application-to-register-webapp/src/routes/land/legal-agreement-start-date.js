@@ -1,13 +1,15 @@
 import constants from '../../utils/constants.js'
 import moment from 'moment'
-import { dateClasses, validateDate } from '../../utils/helpers.js'
+import { dateClasses, getReferrer, setReferrer, validateDate } from '../../utils/helpers.js'
 
-const ID = 'legalAgreementStartDate'
-let referredFrom
 const handlers = {
   get: async (request, h) => {
-    referredFrom = request.info.referrer
-    const date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
+    setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
+    const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, false)
+    let date
+    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+      date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
+    }
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
       day: date?.format('DD'),
@@ -16,6 +18,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    const ID = 'legalAgreementStartDate'
     const { day, month, year, context } = validateDate(request.payload, ID, 'start date of the legal agreement')
     const date = moment(`${year}-${month}-${day}`)
 
@@ -29,7 +32,8 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, date.toISOString())
-      if (referredFrom.endsWith('check-legal-agreement-details')) {
+      const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
+      if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
         return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
       }
       return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)

@@ -37,6 +37,7 @@ const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
+const LEGAL_AGREEMENT_PARTIES_KEY = "legal_agreement_parties_key"
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
 const MANAGEMENT_PLAN_FILE_TYPE = 'management-plan-file-type'
@@ -100,7 +101,9 @@ const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
-
+const REFERRAL_PAGE_LIST = [
+  `/${LEGAL_AGREEMENT_SUMMARY}`
+]
 const YES = 'yes'
 
 const confirmFileUploadOptions = {
@@ -158,6 +161,7 @@ const redisKeys = {
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
   LEGAL_AGREEMENT_PARTIES,
+  LEGAL_AGREEMENT_PARTIES_KEY,
   LEGAL_AGREEMENT_FILE_OPTION,
   MANAGEMENT_PLAN_CHECKED,
   MANAGEMENT_PLAN_LOCATION,
@@ -269,5 +273,6 @@ export default Object.freeze({
   routes,
   views,
   uploadErrors,
-  uploadTypes
+  uploadTypes,
+  REFERRAL_PAGE_LIST
 })

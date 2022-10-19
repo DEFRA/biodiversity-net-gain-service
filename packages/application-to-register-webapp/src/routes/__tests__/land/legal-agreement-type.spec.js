@@ -19,7 +19,7 @@ describe(url, () => {
         const request = {
           yar: redisMap,
           info: {
-            referrer: 'check-legal-agreement-details'
+            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -42,7 +42,7 @@ describe(url, () => {
         const request = {
           yar: redisMap,
           info: {
-            referrer: 'agreement-details'
+            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -65,7 +65,7 @@ describe(url, () => {
         const request = {
           yar: redisMap,
           info: {
-            referrer: 'check-legal-agreement-details'
+            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -90,15 +90,17 @@ describe(url, () => {
       }
     })
     it('should allow the choice of conservation covenant legal agreement', async () => {
-      postOptions.payload.legalAgrementType = 'Conservation covenant'
+      postOptions.payload.legalAgreementType = 'Conservation covenant'
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
     })
 
     it('should allow the choice of Planning obligation (section 106 agreement) legal agreement', async () => {
-      postOptions.payload.legalAgrementType = 'Planning obligation (section 106 agreement)'
+      postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
     })
 
     it('should go back to detail if referred', async () => {
@@ -108,19 +110,20 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         info: {
-          referrer: 'agreement-details'
+          referrer: 'http://localhost:3000/land/agreement-details'
         }
       }
       const legalAgreementDetails = require('../../land/legal-agreement-type')
       await legalAgreementDetails.default[0].handler(request, h)
 
-      postOptions.payload.legalAgrementType = 'Planning obligation (section 106 agreement)'
+      postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
     })
 
     it('should allow the choice of I do not have a legal agreement legal agreement', async () => {
-      postOptions.payload.legalAgrementType = 'I do not have a legal agreement'
+      postOptions.payload.legalAgreementType = 'I do not have a legal agreement'
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
     })

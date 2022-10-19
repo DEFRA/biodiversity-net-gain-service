@@ -38,7 +38,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         info: {
-          referrer: 'check-legal-agreement-details'
+          referrer: 'http://localhost:3000/land/check-legal-agreement-details'
         }
       }
       const legalAgreementParties = require('../../land/add-legal-agreement-parties')
@@ -95,16 +95,9 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
-    })
-
-    it('should fail to add single legal party to legal agreement without organisation name', async () => {
-      postOptions.payload = {
-        'organisation[0][organisationName]': '',
-        'organisation[0][role]': 'Developer',
-        otherPartyName: ''
-      }
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
+      expect(response.request.payload).toEqual(postOptions.payload)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
+      expect(response.result.indexOf('Enter the name of the legal party')).toBeGreaterThan(1)
     })
 
     it('should fail to add single legal party to legal agreement without organisation name nor role', async () => {
@@ -114,6 +107,9 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.request.payload).toEqual(postOptions.payload)
+      expect(response.result.indexOf('Select the role')).toBeGreaterThan(1)
+      expect(response.result.indexOf('Enter the name of the legal party')).toBeGreaterThan(1)
     })
 
     it('should fail to add single legal party to legal agreement without other organisation name', async () => {

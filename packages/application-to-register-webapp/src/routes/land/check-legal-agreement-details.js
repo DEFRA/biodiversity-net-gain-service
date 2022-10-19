@@ -28,7 +28,7 @@ function getNameAndRoles (request) {
   partySelectionData.organisations.forEach((organisation, index) => {
     const selectedRole = partySelectionData.roles[index]
     const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
-    partySelectionContent.push(`${organisation.value}(${roleName})`)
+    partySelectionContent.push(`${organisation.value} (${roleName})`)
   })
   return partySelectionContent
 }

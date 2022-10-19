@@ -1,33 +1,39 @@
 import constants from '../../utils/constants.js'
-let referredFrom
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
+
 const handlers = {
   get: async (request, h) => {
-    referredFrom = request.info.referrer
-    const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
     const documentType = {
       conservationType: false,
       planningObligationType: false,
       dontHave: false
     }
-    switch (legalAgreementDocumentType) {
-      case 'Conservation covenant':
-        documentType.conservationType = true
-        break
-      case 'Planning obligation (section 106 agreement)':
-        documentType.planningObligationType = true
-        break
-      default :
-        documentType.dontHave = true
-        break
+
+    setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
+    const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, false)
+    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+      const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
+      switch (legalAgreementDocumentType) {
+        case 'Conservation covenant':
+          documentType.conservationType = true
+          break
+        case 'Planning obligation (section 106 agreement)':
+          documentType.planningObligationType = true
+          break
+        case 'I do not have a legal agreement' :
+          documentType.dontHave = true
+          break
+      }
     }
     return h.view(constants.views.LEGAL_AGREEMENT_TYPE, documentType)
   },
   post: async (request, h) => {
-    const legalAgrementType = request.payload.legalAgrementType
-    if (legalAgrementType !== undefined) {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgrementType)
-      if (legalAgrementType !== 'I do not have a legal agreement') {
-        if (referredFrom) {
+    const legalAgreementType = request.payload.legalAgreementType
+    if (legalAgreementType !== undefined) {
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
+      if (legalAgreementType !== 'I do not have a legal agreement') {
+        const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, true)
+        if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
           return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
         }
         return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
@@ -38,7 +44,7 @@ const handlers = {
       return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {
         err: [{
           text: 'Select which type of legal agreement you have',
-          href: '#legalAgrementType'
+          href: '#legalAgreementType'
         }]
       })
     }
