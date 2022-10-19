@@ -27,6 +27,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe('/land/check-legal-agreement-details')
     })
 
     it('should add a legal agreement start date and back to referrer', async () => {
@@ -49,6 +50,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe('/land/check-legal-agreement-details')
     })
 
     it('should fail to add a legal agreement start date with empty dates', async () => {
@@ -58,6 +60,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with empty day', async () => {
@@ -67,6 +70,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with empty month', async () => {
@@ -76,6 +80,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with empty year', async () => {
@@ -85,6 +90,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with invalid dates', async () => {
@@ -94,6 +100,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with wrong day', async () => {
@@ -103,6 +110,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with wrong month', async () => {
@@ -112,6 +120,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
     it('should fail to add a legal agreement start date with wrong year', async () => {
@@ -121,6 +130,7 @@ describe(url, () => {
 
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
   })
 })

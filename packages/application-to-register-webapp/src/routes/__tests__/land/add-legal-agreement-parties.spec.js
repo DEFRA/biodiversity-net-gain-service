@@ -27,6 +27,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe('/land/legal-agreement-start-date')
     })
 
     it('should add single legal party to legal agreement and back to details referrer', async () => {
@@ -51,6 +52,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
     })
 
     it('should add multiple legal party to legal agreement', async () => {
@@ -70,6 +72,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
     })
 
     it('should add multiple legal organisation with other party choice to legal agreement', async () => {
@@ -85,6 +88,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
     })
 
     it('should fail to add single legal party to legal agreement without organisation name', async () => {
@@ -125,6 +129,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('Other type of role cannot be left blank')).toBeGreaterThan(1)
     })
   })
 })
