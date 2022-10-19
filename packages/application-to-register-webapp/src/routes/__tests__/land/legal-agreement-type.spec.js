@@ -151,7 +151,6 @@ describe(url, () => {
       postOptions.payload.legalAgreementType = 'I do not have a legal agreement'
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
-      expect(response.url).toEqual('/land/legal-agreement-type')
     })
 
     it('should detect an invalid response from user', async () => {
