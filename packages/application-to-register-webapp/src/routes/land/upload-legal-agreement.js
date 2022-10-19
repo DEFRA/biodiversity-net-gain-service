@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import {getReferrer, setReferrer} from '../../utils/helpers.js'
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 function processSuccessfulUpload (result, request, legaAgreementId) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
