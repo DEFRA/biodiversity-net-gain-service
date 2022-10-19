@@ -161,11 +161,10 @@ const handlers = {
       if (partySelectionData !== undefined) {
         return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
       }
-    } else {
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-        otherPartyName: ''
-      })
     }
+    return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
+      otherPartyName: ''
+    })
   },
   post: async (request, h) => {
     const startId = '#organisation'

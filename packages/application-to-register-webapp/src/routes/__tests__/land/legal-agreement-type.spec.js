@@ -79,6 +79,31 @@ describe(url, () => {
         expect(contextResult.dontHave).toEqual(true)
       })
     })
+
+    it(`should render the ${url.substring(1)} view with nothing selected`, async () => {
+      jest.isolateModules(async () => {
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '')
+        let viewResult, contextResult
+        const legalAgreementDetails = require('../../land/legal-agreement-type')
+        const request = {
+          yar: redisMap,
+          info: {
+            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          }
+        }
+        const h = {
+          view: (view, context) => {
+            viewResult = view
+            contextResult = context
+          }
+        }
+        await legalAgreementDetails.default[0].handler(request, h)
+        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(contextResult.dontHave).toEqual(false)
+        expect(contextResult.planningObligationType).toEqual(false)
+        expect(contextResult.conservationType).toEqual(false)
+      })
+    })
   })
 
   describe('POST', () => {

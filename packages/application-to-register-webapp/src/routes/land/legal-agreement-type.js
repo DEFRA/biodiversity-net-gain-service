@@ -23,6 +23,8 @@ const handlers = {
         case 'I do not have a legal agreement' :
           documentType.dontHave = true
           break
+        default:
+          break
       }
     }
     return h.view(constants.views.LEGAL_AGREEMENT_TYPE, documentType)
