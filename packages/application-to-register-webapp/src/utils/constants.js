@@ -86,6 +86,8 @@ const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
+const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
+const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 
 const YES = 'yes'
 
@@ -204,7 +206,9 @@ const routes = {
   REGISTERED_LANDOWNER,
   ADD_LANDOWNERS,
   LANDOWNER_CONSENT,
-  CHECK_OWNERSHIP_DETAILS
+  CHECK_OWNERSHIP_DETAILS,
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_CHECK_UPLOAD_METRIC
 }
 
 const uploadErrors = {
