@@ -117,6 +117,9 @@ const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
+const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
+const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
+
 const YES = 'yes'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
@@ -297,7 +300,9 @@ const routes = {
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
   EMAIL,
-  CORRECT_EMAIL
+  CORRECT_EMAIL,
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_CHECK_UPLOAD_METRIC
 }
 
 const uploadErrors = {
