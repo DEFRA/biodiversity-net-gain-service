@@ -4,24 +4,24 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
-const UPLOAD_METRIC_ID = '#uploadMetric'
+const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
 
-function processSuccessfulUpload (result, request) {
+function processSuccessfulUpload (res, req) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   let errorMessage = {}
-  if ((parseFloat(result.fileSize) * 100) === 0) {
+  if ((parseFloat(res.fileSize) * 100) === 0) {
     resultView = constants.views.DEVELOPER_UPLOAD_METRIC
     errorMessage = {
       err: [{
         text: 'The selected file is empty',
-        href: UPLOAD_METRIC_ID
+        href: DEVELOPER_UPLOAD_METRIC_ID
       }]
     }
-  } else if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+  } else if (res[0].errorMessage === undefined) {
+    req.yar.set(constants.redisKeys.METRIC_LOCATION, res[0].location)
+    req.yar.set(constants.redisKeys.METRIC_FILE_SIZE, res.fileSize)
+    req.yar.set(constants.redisKeys.METRIC_FILE_TYPE, res.fileType)
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${res[0].location.substring(res[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC
   }
   return { resultView, errorMessage }
@@ -33,14 +33,14 @@ function processErrorUpload (err, h) {
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'Select a Biodiversity Metric',
-          href: UPLOAD_METRIC_ID
+          href: DEVELOPER_UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
-          href: UPLOAD_METRIC_ID
+          href: DEVELOPER_UPLOAD_METRIC_ID
         }]
       })
     default:
@@ -48,7 +48,7 @@ function processErrorUpload (err, h) {
         return h.redirect(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
-            href: UPLOAD_METRIC_ID
+            href: DEVELOPER_UPLOAD_METRIC_ID
           }]
         })
       }
@@ -79,7 +79,7 @@ const handlers = {
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
-          href: UPLOAD_METRIC_ID
+          href: DEVELOPER_UPLOAD_METRIC_ID
         }]
       })
     })
@@ -148,19 +148,19 @@ export default [{
       parse: false,
       multipart: true,
       allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
-        if (err.output.statusCode === 413) { // Request entity too large
+      failAction: (req, h, error) => {
+        console.log('Uploaded file is too large', req.path)
+        if (error.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
             err: [
               {
                 text: 'The selected file must not be larger than 50MB',
-                href: UPLOAD_METRIC_ID
+                href: DEVELOPER_UPLOAD_METRIC_ID
               }
             ]
           }).takeover()
         } else {
-          throw err
+          throw error
         }
       }
     }
