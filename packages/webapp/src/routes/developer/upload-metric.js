@@ -65,8 +65,8 @@ function processReturnValue (details, h) {
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
   post: async (request, h) => {
-    const configuration = developerBuildConfig(request.yar.id)
-    return uploadFiles(logger, request, configuration).then(
+    const config = developerBuildConfig(request.yar.id)
+    return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
         return processReturnValue(viewDetails, h)
@@ -87,46 +87,46 @@ const handlers = {
 }
 
 const developerBuildConfig = sessionId => {
-  const configuration = {}
-  developerBuildBlobConfig(sessionId, configuration)
-  developerBuildQueueConfig(configuration)
-  developerBuildFunctionConfig(configuration)
-  developerBuildSignalRConfig(sessionId, configuration)
-  developerBuildFileValidationConfig(configuration)
-  return configuration
+  const config = {}
+  developerBuildBlobConfig(sessionId, config)
+  developerBuildQueueConfig(config)
+  developerBuildFunctionConfig(config)
+  developerBuildSignalRConfig(sessionId, config)
+  developerBuildFileValidationConfig(config)
+  return config
 }
 
-const developerBuildBlobConfig = (sessionId, configuration) => {
-  configuration.blobConfig = {
+const developerBuildBlobConfig = (sessionId, config) => {
+  config.blobConfig = {
     blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
     containerName: 'untrusted'
   }
 }
 
-const developerBuildQueueConfig = configuration => {
-  configuration.queueConfig = {
+const developerBuildQueueConfig = config => {
+  config.queueConfig = {
     uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
     queueName: 'untrusted-file-queue'
   }
 }
 
-const developerBuildFunctionConfig = configuration => {
-  configuration.functionConfig = {
+const developerBuildFunctionConfig = config => {
+  config.functionConfig = {
     uploadFunction: uploadStreamAndQueueMessage,
     handleEventsFunction: handleEvents
   }
 }
 
-const developerBuildSignalRConfig = (sessionId, configuration) => {
-  configuration.signalRConfig = {
+const developerBuildSignalRConfig = (sessionId, config) => {
+  config.signalRConfig = {
     eventProcessingFunction: null,
     timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
     url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
   }
 }
 
-const developerBuildFileValidationConfig = configuration => {
-  configuration.fileValidationConfig = {
+const developerBuildFileValidationConfig = config => {
+  config.fileValidationConfig = {
     fileExt: constants.metricFileExt
   }
 }
@@ -139,7 +139,7 @@ export default [{
 {
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_METRIC,
-  configuration: {
+  config: {
     handler: handlers.post,
     payload: {
       maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
