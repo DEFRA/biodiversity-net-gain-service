@@ -25,8 +25,7 @@ describe(url, () => {
     it('should allow an alternative metric file to be uploaded ', async () => {
       postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.NO
       const response = await submitPostRequest(postOptions)
-
-      expect(response.headers.location).toBe(constants.routes.UPLOAD_METRIC)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
     })
 
     it('should detect an invalid response from user', async () => {
