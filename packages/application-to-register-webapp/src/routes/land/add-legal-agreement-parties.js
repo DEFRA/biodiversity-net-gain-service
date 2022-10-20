@@ -163,7 +163,10 @@ const handlers = {
       }
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-      otherPartyName: ''
+      roles: [{
+        organisationIndex: 0,
+        otherPartyName: ''
+      }]
     })
   },
   post: async (request, h) => {
