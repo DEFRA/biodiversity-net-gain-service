@@ -1,28 +1,33 @@
 /* global $ */
-$(document).ready(function () {
+$(document).ready(function (event) {
+  function prepareOtherText(event, newItemContainer){
+    if ($(event.target.parentNode).next('div').hasClass('govuk-radios__conditional--hidden')) {
+      $(event.target.parentNode).next('div').removeClass('govuk-radios__conditional--hidden')
+      newItemContainer.find('.govuk-form-group').find('.govuk-radios__conditional').show()
+      $(event.target.parentNode).next('div').find('input').val('')
+    } else {
+      $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').addClass('govuk-radios__conditional--hidden')
+      $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').removeAttr('style')
+    }
+  }
   if (window.location.pathname === '/land/add-legal-agreement-parties') {
-    $('.govuk-body').bind('DOMSubtreeModified', function () {
+    $('.govuk-body').bind('DOMSubtreeModified', function (event) {
       const count = $('.govuk-grid-row').find('.moj-add-another__item').length
-      const errorContainer = $('.govuk-grid-row').find('.moj-add-another__item')[count - 1]
+      const newItemContainer = $('.govuk-grid-row').find('.moj-add-another__item')[count - 1]
       if (count > 1) {
-        if ($(errorContainer).find('div').hasClass('govuk-form-group--error')) {
-          $(errorContainer).find('div').removeClass('govuk-form-group--error')
-          $(errorContainer).find('div').find('p').removeClass('govuk-error-message')
-          $(errorContainer).find('div').find('input').removeClass('govuk-input--error')
+        if ($(newItemContainer).find('div').hasClass('govuk-form-group--error') && $(event.target).attr('id') === 'moj-add-another-component') {
+          $(newItemContainer).find('div').removeClass('govuk-form-group--error')
+          $(newItemContainer).find('div').find('p').removeClass('govuk-error-message')
+          $(newItemContainer).find('div').find('input').removeClass('govuk-input--error')
         }
         $('.govuk-grid-row').find('.moj-add-another__item').last().find('.govuk-form-group').find('p').addClass('govuk-visually-hidden')
-        $(errorContainer).find('.govuk-radios__conditional').find('input').val('test')
-        $(errorContainer).find('.govuk-radios__item').last().removeClass('govuk-radios__conditional--hidden')
+        $(newItemContainer).find('.govuk-radios__conditional').find('input').val('')
+        $(newItemContainer).find('.govuk-radios__item').last().removeClass('govuk-radios__conditional--hidden')
         $('.govuk-grid-row').find('.moj-add-another__item').find('.govuk-radios__conditional').last().addClass('govuk-radios__conditional--hidden')
       }
-
+      
       $('.govuk-radios__item').click((event) => {
-        if ($(event.target.parentNode).next('div').hasClass('govuk-radios__conditional--hidden')) {
-          $(event.target.parentNode).next('div').removeClass('govuk-radios__conditional--hidden')
-          $(event.target.parentNode).next('div').find('input').val('')
-        } else {
-          $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').addClass('govuk-radios__conditional--hidden')
-        }
+        prepareOtherText(event, $(newItemContainer))
       })
     })
   }
