@@ -43,10 +43,25 @@ const validateDate = (payload, ID, desc) => {
     context
   }
 }
+const setReferrer = (request, referrerId) => {
+  if (request.info.referrer !== '') {
+    const referrerUrl = new URL(request.info.referrer).pathname
+    request.yar.set(referrerId, referrerUrl)
+  }
+}
+const getReferrer = (request, referrerId, unsetFlag) => {
+  const currentReferrer = request.yar.get(referrerId)
+  if (currentReferrer !== undefined && currentReferrer !== null && unsetFlag) {
+    request.yar.clear(referrerId)
+  }
+  return currentReferrer
+}
 
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 export {
   validateDate,
-  dateClasses
+  dateClasses,
+  setReferrer,
+  getReferrer
 }
