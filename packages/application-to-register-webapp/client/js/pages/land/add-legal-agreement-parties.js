@@ -1,6 +1,6 @@
 /* global $ */
 $(document).ready(function (event) {
-  function prepareOtherText(event, newItemContainer){
+  function prepareOtherText (event, newItemContainer) {
     if ($(event.target.parentNode).next('div').hasClass('govuk-radios__conditional--hidden')) {
       $(event.target.parentNode).next('div').removeClass('govuk-radios__conditional--hidden')
       newItemContainer.find('.govuk-form-group').find('.govuk-radios__conditional').show()
@@ -25,7 +25,7 @@ $(document).ready(function (event) {
         $(newItemContainer).find('.govuk-radios__item').last().removeClass('govuk-radios__conditional--hidden')
         $('.govuk-grid-row').find('.moj-add-another__item').find('.govuk-radios__conditional').last().addClass('govuk-radios__conditional--hidden')
       }
-      
+
       $('.govuk-radios__item').click((event) => {
         prepareOtherText(event, $(newItemContainer))
       })
