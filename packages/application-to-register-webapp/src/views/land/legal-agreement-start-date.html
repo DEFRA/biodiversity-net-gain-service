@@ -1,0 +1,13 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "What is the start date of the legal agreement?" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set id = 'legalAgreementStartDate' %}
+        {% include "common/date-input.html" %}
+    </div>
+{% endblock %}

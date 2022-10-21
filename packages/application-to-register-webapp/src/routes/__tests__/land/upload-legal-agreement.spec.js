@@ -116,7 +116,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when upload notification processing fails', (done) => {
+    it('should cause an internal server error response when notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`

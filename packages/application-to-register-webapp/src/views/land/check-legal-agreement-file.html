@@ -5,7 +5,10 @@
 {% set pageHeading = "Check the legal agreement file" %}
 
 {% block formContent %}
-
+  {{ govukBackLink({
+    text: "Back",
+    href: "/land/upload-legal-agreement"
+  }) }}
   <div class="govuk-body">
     {% if err %}
       {% include "errorbanner.html" %}

@@ -10,7 +10,9 @@ export default {
   entry: {
     // confirmLandBoundary: './client/js/pages/land/confirm-land-boundary.js',
     core: './client/js/core.js',
-    addLandowners: './client/js/pages/land/add-landowners.js'
+    addLandowners: './client/js/pages/land/add-landowners.js',
+    addLegalAgreementParties: './client/js/pages/land/add-legal-agreement-parties.js',
+    confirmLandBoundary: './client/js/pages/land/add-legal-agreement-parties.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
