@@ -2,7 +2,7 @@ import constants from '../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.CONFIRMATION, {
+    return h.view(constants.views.REGISTRATION_SUBMITTED, {
       gainSiteReference: request.yar.get(constants.redisKeys.GAIN_SITE_REFERENCE)
     })
   }
@@ -10,6 +10,6 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CONFIRMATION,
+  path: constants.routes.REGISTRATION_SUBMITTED,
   handler: handlers.get
 }]
