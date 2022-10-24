@@ -8,7 +8,8 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add your details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: '#',
+          startTaskUrl: '#'
         }
       ]
     },
@@ -18,12 +19,14 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add land boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: '#',
+          startTaskUrl: '#'
         },
         {
           title: 'Add land ownership details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: '#',
+          startTaskUrl: '#'
         }
       ]
     },
@@ -33,12 +36,14 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Upload Biodiversity Metric 3.1',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: '#',
+          startTaskUrl: '#'
         },
         {
           title: 'Add habitat management and monitoring details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: '#',
+          startTaskUrl: '#'
         }
       ]
     },
@@ -48,7 +53,8 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add legal agreement details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
+          completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+          startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
         }
       ]
     }

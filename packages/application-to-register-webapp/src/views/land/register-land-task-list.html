@@ -16,9 +16,15 @@
                             {% for taskItem in task.tasks %}
                                 <li class="app-task-list__item">
                                   <span class="app-task-list__task-name">
-                                      <a href="{{ taskItem.taskUrl }}" aria-describedby="your-details-status">
-                                        {{ taskItem.title }}
-                                      </a>
+                                      {% if taskItem.status == 'COMPLETED' %}
+                                          <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                            {{ taskItem.title }}
+                                          </a>
+                                      {% else %}
+                                          <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
+                                            {{ taskItem.title }}
+                                          </a>
+                                      {% endif %}
                                   </span>
                                     {% if taskItem.status !== 'COMPLETED' %}
                                         <strong class="govuk-tag govuk-tag--grey app-task-list__tag">

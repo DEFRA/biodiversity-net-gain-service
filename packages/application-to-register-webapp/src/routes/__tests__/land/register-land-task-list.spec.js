@@ -12,6 +12,83 @@ describe(url, () => {
         url
       }
     })
+    it('should render view with no copleted task', async () => {
+      let viewResult, contextResult
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          contextResult = context
+        }
+      }
+      const redisMap = new Map()
+      const request = {
+        yar: redisMap
+      }
+
+      const registerTaskList = require('../../../routes/land/register-land-task-list')
+      await registerTaskList.default[0].handler(request, h)
+
+      const response = await submitGetRequest(getOptions)
+      expect(response.statusCode).toBe(200)
+      expect(viewResult).toEqual('land/register-land-task-list')
+      expect(contextResult.taskList.length).toEqual(4)
+      expect(contextResult.taskList[0]).toEqual({
+        taskTitle: 'Your details',
+        tasks: [
+          {
+            title: 'Add your details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
+          }
+        ]
+      })
+      expect(contextResult.taskList[1]).toEqual({
+        taskTitle: 'Land information',
+        tasks: [
+          {
+            title: 'Add land boundary details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
+          },
+          {
+            title: 'Add land ownership details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
+          }
+        ]
+      })
+      expect(contextResult.taskList[2]).toEqual({
+        taskTitle: 'Habitat information',
+        tasks: [
+          {
+            title: 'Upload Biodiversity Metric 3.1',
+            status: 'NOT STARTED',
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
+          },
+          {
+            title: 'Add habitat management and monitoring details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
+          }
+        ]
+      })
+      expect(contextResult.taskList[3]).toEqual({
+        taskTitle: 'Legal information',
+        tasks: [
+          {
+            title: 'Add legal agreement details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '/land/check-legal-agreement-details',
+            startTaskUrl: '/land/legal-agreement-type'
+          }
+        ]
+      })
+    })
 
     it('should render view with legal agreement completed task', async () => {
       let viewResult, contextResult
@@ -45,7 +122,8 @@ describe(url, () => {
           {
             title: 'Add your details',
             status: 'NOT STARTED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
           }
         ]
       })
@@ -55,12 +133,14 @@ describe(url, () => {
           {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
           }
         ]
       })
@@ -70,12 +150,14 @@ describe(url, () => {
           {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: '#',
+            startTaskUrl: '#'
           }
         ]
       })
@@ -85,7 +167,8 @@ describe(url, () => {
           {
             title: 'Add legal agreement details',
             status: 'COMPLETED',
-            taskUrl: '/land/check-legal-agreement-details'
+            completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+            startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
           }
         ]
       })
