@@ -59,7 +59,7 @@ const getReferrer = (request, referrerId, unsetFlag) => {
   return currentReferrer
 }
 
-const getRegistrationTasks = (request) => {
+const getRegistrationTasks = request => {
   const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
   if (registrationTasks === undefined || registrationTasks === null) {
     return Object.assign({}, REGISTER_TASK_LIST)

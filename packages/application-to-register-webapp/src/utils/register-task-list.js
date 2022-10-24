@@ -1,3 +1,5 @@
+import constants from './constants.js'
+
 const REGISTER_TASK_LIST = {
   taskList: [
     {
@@ -5,8 +7,8 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Add your details',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         }
       ]
     },
@@ -15,13 +17,13 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Add land boundary details',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         },
         {
           title: 'Add land ownership details',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         }
       ]
     },
@@ -30,13 +32,13 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Upload Biodiversity Metric 3.1',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         },
         {
           title: 'Add habitat management and monitoring details',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         }
       ]
     },
@@ -45,8 +47,8 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Add legal agreement details',
-          status: 'NOT STARTED',
-          taskUrl: '/land/check-legal-agreement-details'
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          taskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY
         }
       ]
     }

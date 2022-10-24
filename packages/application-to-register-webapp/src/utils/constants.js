@@ -102,6 +102,7 @@ const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
+const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const REFERRAL_PAGE_LIST = [
   `/${LEGAL_AGREEMENT_SUMMARY}`,
   REGISTRATION_TASK_DETAILS
@@ -288,5 +289,6 @@ export default Object.freeze({
   views,
   uploadErrors,
   uploadTypes,
-  REFERRAL_PAGE_LIST
+  REFERRAL_PAGE_LIST,
+  DEFAULT_REGISTRATION_TASK_STATUS
 })
