@@ -14,8 +14,8 @@
 
 | Package | Description | Runnable |
 | ----------- | ----------- | ----------- |
-| [azure-functions](packages/azure-functions) | Microsoft Azure functions for registration journey  | Y |
-| [webapp](packages/webapp) | Client side web application for registration journey | Y |
+| [azure-functions](packages/azure-functions) | Microsoft Azure functions for the Biodiversity Net Gain service | Y |
+| [webapp](packages/webapp) | Client side web application for the Biodiversity Net Gain service | Y |
 | [azurite-bootstrap-service](packages/azurite-bootstrap-service) | A service for creating Biodiversity Net Gain Service Azure storage infrastructure within an [Azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) instance | Y |
 | [azure-storge-test-utils](packages/azure-storge-test-utils) | Azure storage related functions for use during **unit testing** | N |
 | [connectors-lib](packages/connectors-lib) | A library providing connectivity to various dependencies such as cloud resources | N |
