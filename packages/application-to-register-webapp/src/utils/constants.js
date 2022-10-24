@@ -104,6 +104,12 @@ const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const REFERRAL_PAGE_LIST = [
   `/${LEGAL_AGREEMENT_SUMMARY}`
 ]
+const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
+const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
+const NEED_METRIC = 'land/need-metric'
+const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
+const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
+
 const YES = 'yes'
 
 const confirmFileUploadOptions = {
@@ -236,7 +242,12 @@ const routes = {
   REGISTERED_LANDOWNER,
   ADD_LANDOWNERS,
   LANDOWNER_CONSENT,
-  CHECK_OWNERSHIP_DETAILS
+  CHECK_OWNERSHIP_DETAILS,
+  NEED_BOUNDARY_FILE,
+  NEED_OWNERSHIP_PROOF,
+  NEED_METRIC,
+  NEED_MANAGEMENT_PLAN,
+  NEED_LEGAL_AGREEMENT
 }
 
 const uploadErrors = {
