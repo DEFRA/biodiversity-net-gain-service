@@ -7,7 +7,6 @@ const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
@@ -35,6 +34,7 @@ const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
+const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_PARTIES_KEY = 'legal_agreement_parties_key'
@@ -62,19 +62,7 @@ const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
@@ -113,8 +101,10 @@ const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
+const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERRAL_PAGE_LIST = [
-  `/${LEGAL_AGREEMENT_SUMMARY}`
+  `/${LEGAL_AGREEMENT_SUMMARY}`,
+  REGISTRATION_TASK_DETAILS
 ]
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -178,7 +168,6 @@ const redisKeys = {
   LEGAL_AGREEMENT_DOCUMENT_TYPE,
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
-  LEGAL_AGREEMENT_PARTIES,
   LEGAL_AGREEMENT_PARTIES_KEY,
   LEGAL_AGREEMENT_FILE_OPTION,
   LEGAL_AGREEMENT_PARTIES,
@@ -199,16 +188,7 @@ const redisKeys = {
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
   LANDOWNER_CONSENT_KEY,
-  METRIC_FILE_CHECKED,
-  MANAGEMENT_MONITORING_START_DATE_KEY,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
   LEGAL_AGREEMENT_START_DATE_KEY,
-  LEGAL_AGREEMENT_START_DAY,
-  LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
-  MANAGEMENT_MONITORING_START_DATE_KEY
   METRIC_FILE_CHECKED,
   MANAGEMENT_MONITORING_START_DATE_KEY,
   LEGAL_AGREEMENT_ORGANISATION_NAMES,
@@ -216,15 +196,8 @@ const redisKeys = {
   LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
   LEGAL_AGREEMENT_START_DAY,
   LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
-  METRIC_FILE_CHECKED,
-  MANAGEMENT_MONITORING_START_DATE_KEY,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES,
-  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
-  LEGAL_AGREEMENT_START_DAY,
-  LEGAL_AGREEMENT_START_MONTH,
-  LEGAL_AGREEMENT_START_YEAR
+  LEGAL_AGREEMENT_START_YEAR,
+  REGISTRATION_TASK_DETAILS
 }
 
 const routes = {

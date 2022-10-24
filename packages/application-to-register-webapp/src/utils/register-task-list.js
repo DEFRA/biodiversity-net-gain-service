@@ -6,7 +6,7 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add your details',
           status: 'NOT STARTED',
-          taskUrl: '/land/legal-agreement-type'
+          taskUrl: '/land/check-legal-agreement-details'
         }
       ]
     },
@@ -15,11 +15,13 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Add land boundary details',
-          status: 'NOT STARTED'
+          status: 'NOT STARTED',
+          taskUrl: '/land/check-legal-agreement-details'
         },
         {
           title: 'Add land ownership details',
-          status: 'NOT STARTED'
+          status: 'NOT STARTED',
+          taskUrl: '/land/check-legal-agreement-details'
         }
       ]
     },
@@ -28,11 +30,13 @@ const REGISTER_TASK_LIST = {
       tasks: [
         {
           title: 'Upload Biodiversity Metric 3.1',
-          status: 'NOT STARTED'
+          status: 'NOT STARTED',
+          taskUrl: '/land/check-legal-agreement-details'
         },
         {
           title: 'Add habitat management and monitoring details',
-          status: 'NOT STARTED'
+          status: 'NOT STARTED',
+          taskUrl: '/land/check-legal-agreement-details'
         }
       ]
     },
@@ -42,7 +46,7 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add legal agreement details',
           status: 'NOT STARTED',
-          taskUrl: '/land/legal-agreement-type'
+          taskUrl: '/land/check-legal-agreement-details'
         }
       ]
     }

@@ -101,7 +101,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
-        rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
           organisations: [{
             index: 1,
             value: 'Test'
@@ -114,7 +114,7 @@ describe(url, () => {
           }]
         })
         const request = {
-          yar: rdisMap
+          yar: redisMap
         }
         const h = {
           redirect: (view, context) => {
@@ -133,7 +133,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
-        rdisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
           organisations: [{
             index: 1,
             value: 'Test'
@@ -146,7 +146,7 @@ describe(url, () => {
           }]
         })
         const request = {
-          yar: rdisMap
+          yar: redisMap
         }
         const h = {
           redirect: (view, context) => {
