@@ -8,8 +8,8 @@ const REGISTER_TASK_LIST = {
         {
           title: 'Add your details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: '#',
-          startTaskUrl: '#'
+          completedTaskUrl: constants.routes.CHECK_YOUR_DETAILS,
+          startTaskUrl: constants.routes.NAME
         }
       ]
     },
@@ -20,13 +20,13 @@ const REGISTER_TASK_LIST = {
           title: 'Add land boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: '#',
-          startTaskUrl: '#'
+          startTaskUrl: constants.routes.CHOOSE_GEOSPATIAL_UPLOAD
         },
         {
           title: 'Add land ownership details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: '#',
-          startTaskUrl: '#'
+          startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
         }
       ]
     },
@@ -37,13 +37,13 @@ const REGISTER_TASK_LIST = {
           title: 'Upload Biodiversity Metric 3.1',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: '#',
-          startTaskUrl: '#'
+          startTaskUrl: constants.routes.UPLOAD_METRIC
         },
         {
           title: 'Add habitat management and monitoring details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: '#',
-          startTaskUrl: '#'
+          startTaskUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN
         }
       ]
     },

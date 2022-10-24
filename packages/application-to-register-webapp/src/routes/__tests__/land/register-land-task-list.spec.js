@@ -38,8 +38,8 @@ describe(url, () => {
           {
             title: 'Add your details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
-            startTaskUrl: '#'
+            completedTaskUrl: '/land/check-your-details',
+            startTaskUrl: '/land/name'
           }
         ]
       })
@@ -50,13 +50,13 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/choose-land-boundary-upload-option'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-ownership-proof'
           }
         ]
       })
@@ -67,13 +67,13 @@ describe(url, () => {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-metric'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-management-plan'
           }
         ]
       })
@@ -122,8 +122,8 @@ describe(url, () => {
           {
             title: 'Add your details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
-            startTaskUrl: '#'
+            completedTaskUrl: '/land/check-your-details',
+            startTaskUrl: '/land/name'
           }
         ]
       })
@@ -134,13 +134,13 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/choose-land-boundary-upload-option'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-ownership-proof'
           }
         ]
       })
@@ -151,13 +151,13 @@ describe(url, () => {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-metric'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
             completedTaskUrl: '#',
-            startTaskUrl: '#'
+            startTaskUrl: '/land/upload-management-plan'
           }
         ]
       })
