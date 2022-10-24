@@ -2,7 +2,7 @@
 
 WEBAPP_ENV_DOCKER_SECRET="docker/secrets/WEBAPP_ENV"
 WEBAPP_ENV_DOCKER_SECRET_PATH="../../${WEBAPP_ENV_DOCKER_SECRET}"
-WEBAPP_ENV_TEMPLATE="local-application-to-register-webapp-env-template"
+WEBAPP_ENV_TEMPLATE="local-webapp-env-template"
 
 if [ ! -f ${WEBAPP_ENV_DOCKER_SECRET_PATH} ] && [ ! -L ${WEBAPP_ENV_DOCKER_SECRET_PATH} ]; then
   cp ../../docker/azure-services/${WEBAPP_ENV_TEMPLATE} ${WEBAPP_ENV_DOCKER_SECRET_PATH}

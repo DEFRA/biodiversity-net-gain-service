@@ -1,12 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
-const url = '/land/upload-land-boundary'
+const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
+const url = '/land/upload-legal-agreement'
 
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
-describe('Land boundary upload controller tests', () => {
+describe('Legal agreement upload controller tests', () => {
   beforeAll(async () => {
     await recreateQueues()
   })
@@ -24,9 +24,9 @@ describe('Land boundary upload controller tests', () => {
       }
     ]
     const baseConfig = {
-      uploadType: 'land-boundary',
+      uploadType: 'legal-agreement',
       url,
-      formName: LAND_BOUNDARY_FORM_ELEMENT_NAME,
+      formName: LEGAL_AGREEMENT_FORM_ELEMENT_NAME,
       eventData: mockLegalAgreement
     }
 
@@ -35,7 +35,7 @@ describe('Land boundary upload controller tests', () => {
       await clearQueues()
     })
 
-    it('should upload land boundary document to cloud storage', (done) => {
+    it('should upload legal agreement document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
@@ -47,7 +47,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should upload land boundary document less than 50 MB', (done) => {
+    it('should upload legal agreement document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
@@ -58,7 +58,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload land boundary document more than 50 MB', (done) => {
+    it('should not upload legal agreement document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -70,7 +70,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload empty land boundary', (done) => {
+    it('should not upload empty legal agreement', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -82,7 +82,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload unsupported land boundary', (done) => {
+    it('should not upload unsupported legal agreement', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -94,7 +94,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile land boundary', (done) => {
+    it('should not upload nofile legal agreement', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -105,7 +105,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should  upload land boundary document 50 MB file', (done) => {
+    it('should  upload legal agreement document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
@@ -116,7 +116,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when upload processing fails', (done) => {
+    it('should cause an internal server error response when notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`

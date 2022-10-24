@@ -1,12 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
-const url = '/land/upload-ownership-proof'
+const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
+const url = '/land/upload-land-boundary'
 
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
-describe('Proof of ownership upload controller tests', () => {
+describe('Land boundary upload controller tests', () => {
   beforeAll(async () => {
     await recreateQueues()
   })
@@ -17,17 +17,17 @@ describe('Proof of ownership upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLandOwnership = [
+    const mockLegalAgreement = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
       }
     ]
     const baseConfig = {
-      uploadType: 'land-ownership',
+      uploadType: 'land-boundary',
       url,
-      formName: PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME,
-      eventData: mockLandOwnership
+      formName: LAND_BOUNDARY_FORM_ELEMENT_NAME,
+      eventData: mockLegalAgreement
     }
 
     beforeEach(async () => {
@@ -35,7 +35,7 @@ describe('Proof of ownership upload controller tests', () => {
       await clearQueues()
     })
 
-    it('should upload land ownership document to cloud storage', (done) => {
+    it('should upload land boundary document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
@@ -47,7 +47,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should upload land ownership document less than 50 MB', (done) => {
+    it('should upload land boundary document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
@@ -58,7 +58,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload land ownership document less than 50 MB', (done) => {
+    it('should not upload land boundary document more than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -70,7 +70,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload empty land ownership', (done) => {
+    it('should not upload empty land boundary', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -82,7 +82,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload unsupported land ownership document', (done) => {
+    it('should not upload unsupported land boundary', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -94,18 +94,18 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile land ownership file', (done) => {
+    it('should not upload nofile land boundary', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
-        await uploadFile(uploadConfig, 200)
+        await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
         })
       })
     })
 
-    it('should  upload land ownership document 50 MB file', (done) => {
+    it('should  upload land boundary document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
@@ -116,7 +116,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when land ownership upload notification processing fails', (done) => {
+    it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`

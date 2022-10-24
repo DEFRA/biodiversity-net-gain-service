@@ -1,7 +1,7 @@
 import path from 'path'
 import { uploadDocument } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
-import constants from '../utils/constants.js'
+import constants from './constants.js'
 
 const uploadFiles = async (logger, request, config) => {
   const events = []

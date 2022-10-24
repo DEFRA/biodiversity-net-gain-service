@@ -26,15 +26,15 @@ steps:
   displayName: 'npm install package dependencies'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/packages/application-to-register-functions && \
+    cd $(System.DefaultWorkingDirectory)/packages/azure-functions && \
     zip -rq func.zip .
-    cp func.zip $(Build.ArtifactStagingDirectory)/application-to-register-functions.zip
+    cp func.zip $(Build.ArtifactStagingDirectory)/azure-functions.zip
   displayName: 'Create function artifact'
 
 - script: |
     docker-compose -f docker/services.build.azure.yml build
-    docker save ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG} > web.tar
-    cp web.tar $(Build.ArtifactStagingDirectory)/application-to-register-webapp.tar
+    docker save ${CONTAINER_REGISTRY}/webapp:${TAG} > web.tar
+    cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
   displayName: 'Build webapp image and output to tar'
 
 - task: UniversalPackages@0

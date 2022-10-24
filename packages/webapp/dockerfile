@@ -6,7 +6,7 @@ ENV         PORT=3000
 WORKDIR     /usr/src
 
 # Copy webapp
-COPY        packages/application-to-register-webapp packages/application-to-register-webapp
+COPY        packages/webapp packages/webapp
 
 # Copy root config needed for install
 COPY        bin bin
@@ -15,7 +15,7 @@ COPY        lerna.json lerna.json
 
 RUN         npm ci --ignore-scripts && npm run lerna:i
 
-WORKDIR     /usr/src/packages/application-to-register-webapp
+WORKDIR     /usr/src/packages/webapp
 
 EXPOSE      $PORT
 

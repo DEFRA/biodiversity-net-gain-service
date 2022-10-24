@@ -14,7 +14,7 @@
     "lint": "standard",
     "unit-test": "bin/run-unit-tests.sh",
     "test": "npm run lint && npm run unit-test",
-    "test-single": "jest --testRegex='packages/application-to-register-webapp/src/routes/__tests__/land[/\\\\].*\\.js$'",
+    "test-single": "jest --testRegex='packages/webapp/src/routes/__tests__/land[/\\\\].*\\.js$'",
     "bootstrap-azurite": "(cd packages/azurite-bootstrap-service && bin/bootstrap)",
     "docker:build-infrastructure": "export DOCKER_BUILDKIT=1 && docker-compose -f docker/infrastructure.yml build",
     "docker:build-services": "docker-compose -f docker/services.build.yml build",

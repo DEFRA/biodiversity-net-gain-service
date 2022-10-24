@@ -6,7 +6,7 @@ Docker based containerisation is used for the following:
 
 * Substitution of cloud services during local development and unit tests where alternatives to mocking are required.
 * Packaging and running of:
-  * [application-to-register-webapp](../packages/application-to-register-webapp)
+  * [webapp](../packages/webapp)
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ Before building and running the docker containers, appropriate secrets files nee
 | ----------- | ----------- | ----------- |
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | In the Docker secrets directory, create a file called PGADMIN_DEFAULT_PASSWORD containing the password |
 | postgis | POSTGRES_PASSWORD | In the Docker secrets directory, create a file called POSTGRES_PASSWORD containing the password |
-| application_to_register_webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [application-to-register-webapp](../packages/application-to-register-webapp/) directory. |
+| webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [webapp](../packages/webapp/) directory. |
 
 ### WEBAPP_ENV template
 
@@ -88,20 +88,20 @@ Move to a new terminal
 
 Next we need the serverless function app running
 
-Prerequisites and environment variables can be found here: [function docs](../packages/application-to-register-functions/README.md)
+Prerequisites and environment variables can be found here: [function docs](../packages/azure-functions/README.md)
 For local development, environment variables can be configured by running the command **npm local:install** from the
-[application-to-register-functions](../packages/application-to-register-functions/) directory. This is used in the sequence of commands below.
+[azure-functions](../packages/azure-functions/) directory. This is used in the sequence of commands below.
 
 ```sh
 #R un the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
-cd packages/application-to-register-functions
+cd packages/azure-functions
 npm run local:install
 npm run start
 ```
 
 Leave the functions running and move to a new terminal.
 
-At this point if wanting to run the webapp as a local process (for development/debug) then see the [webapp docs](../packages/application-to-register-webapp/README.md)
+At this point if wanting to run the webapp as a local process (for development/debug) then see the [webapp docs](../packages/webapp/README.md)
 
 Otherwise to run the webapp as a container, continue...
 
