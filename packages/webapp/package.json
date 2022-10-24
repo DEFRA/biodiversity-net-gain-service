@@ -1,5 +1,5 @@
 {
-  "name": "application-to-register-webapp",
+  "name": "webapp",
   "version": "0.20.0",
   "private": true,
   "type": "module",
@@ -19,9 +19,9 @@
     "start": "node ./src/index.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "lint": "standard",
-    "docker:build": "docker build . -t application-to-register-webapp",
-    "docker:start": "docker run --name application-to-register-webapp -p 3000:3000 -d application-to-register-webapp",
-    "docker:stop": "docker kill application-to-register-webapp && docker rm application-to-register-webapp"
+    "docker:build": "docker build . -t webapp",
+    "docker:start": "docker run --name webapp -p 3000:3000 -d webapp",
+    "docker:stop": "docker kill webapp && docker rm webapp"
   },
   "dependencies": {
     "@defra/bng-connectors-lib": "0.20.0",

@@ -4,10 +4,10 @@
 			"path": "."
 		},
     {
-			"path": "./packages/application-to-register-functions"
+			"path": "./packages/azure-functions"
 		},
 		{
-			"path": "./packages/application-to-register-webapp"
+			"path": "./packages/webapp"
 		}
 	],
 	"settings": {

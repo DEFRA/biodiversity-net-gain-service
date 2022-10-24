@@ -2,7 +2,7 @@ import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 
 const GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME = 'geospatialLandBoundary'
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
 const url = '/land/upload-geospatial-file'
 
 jest.mock('../../../utils/azure-signalr.js')

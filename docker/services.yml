@@ -7,7 +7,7 @@ services:
   # Biodiversity net gain service - Application to register webapp - web app found on localhost:3000
   ##############################################################################################################
   webapp:
-    image: bng/application-to-register-webapp:${TAG:-latest}
+    image: bng/webapp:${TAG:-latest}
     ports:
       - "3000:3000"
     secrets:

@@ -1,12 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
-const url = '/land/upload-legal-agreement'
+const MANAGEMENT_PLAN_FORM_ELEMENT_NAME = 'managementPlan'
+const url = '/land/upload-management-plan'
 
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
-describe('Legal agreement upload controller tests', () => {
+describe('Management plan upload controller tests', () => {
   beforeAll(async () => {
     await recreateQueues()
   })
@@ -17,17 +17,17 @@ describe('Legal agreement upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLegalAgreement = [
+    const mockManagementPlan = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
       }
     ]
     const baseConfig = {
-      uploadType: 'legal-agreement',
+      uploadType: 'management-plan',
       url,
-      formName: LEGAL_AGREEMENT_FORM_ELEMENT_NAME,
-      eventData: mockLegalAgreement
+      formName: MANAGEMENT_PLAN_FORM_ELEMENT_NAME,
+      eventData: mockManagementPlan
     }
 
     beforeEach(async () => {
@@ -35,7 +35,7 @@ describe('Legal agreement upload controller tests', () => {
       await clearQueues()
     })
 
-    it('should upload legal agreement document to cloud storage', (done) => {
+    it('should upload management plan document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
@@ -47,7 +47,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should upload legal agreement document less than 50 MB', (done) => {
+    it('should upload management plan document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
@@ -58,7 +58,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should not upload legal agreement document less than 50 MB', (done) => {
+    it('should not upload management plan document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -70,7 +70,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should not upload empty legal agreement', (done) => {
+    it('should not upload empty management plan', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -82,7 +82,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should not upload unsupported legal agreement', (done) => {
+    it('should not upload unsupported management plan', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -94,7 +94,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile legal agreement', (done) => {
+    it('should not upload nofile management plan', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -105,7 +105,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should  upload legal agreement document 50 MB file', (done) => {
+    it('should  upload management plan document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
@@ -116,7 +116,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when notification processing fails', (done) => {
+    it('should cause an internal server error response when upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`

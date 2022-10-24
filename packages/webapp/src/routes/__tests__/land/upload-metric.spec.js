@@ -1,12 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-const MANAGEMENT_PLAN_FORM_ELEMENT_NAME = 'managementPlan'
-const url = '/land/upload-management-plan'
+const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
+const url = '/land/upload-metric'
 
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 jest.mock('../../../utils/azure-signalr.js')
 
-describe('Management plan upload controller tests', () => {
+describe('Metric file upload controller tests', () => {
   beforeAll(async () => {
     await recreateQueues()
   })
@@ -17,17 +17,17 @@ describe('Management plan upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockManagementPlan = [
+    const mockLegalAgreement = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
       }
     ]
     const baseConfig = {
-      uploadType: 'management-plan',
+      uploadType: 'metric-upload',
       url,
-      formName: MANAGEMENT_PLAN_FORM_ELEMENT_NAME,
-      eventData: mockManagementPlan
+      formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
+      eventData: mockLegalAgreement
     }
 
     beforeEach(async () => {
@@ -35,11 +35,11 @@ describe('Management plan upload controller tests', () => {
       await clearQueues()
     })
 
-    it('should upload management plan document to cloud storage', (done) => {
+    it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+        uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -47,10 +47,10 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should upload management plan document less than 50 MB', (done) => {
+    it('should upload metric document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+        uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -58,31 +58,7 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should not upload management plan document less than 50 MB', (done) => {
-      jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-
-    it('should not upload empty management plan', (done) => {
-      jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-
-    it('should not upload unsupported management plan', (done) => {
+    it('should not upload unsupported metric file', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -94,7 +70,7 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile management plan', (done) => {
+    it('should not upload no selected file metric', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
@@ -105,10 +81,11 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should  upload management plan document 50 MB file', (done) => {
+    it('should not upload empty metric file', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        uploadConfig.hasError = true
+        uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -116,10 +93,22 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when upload notification processing fails', (done) => {
+    it('should not upload metric file more than 50 MB', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = true
+        uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/legal-agreement.pdf`
+        config.filePath = `${mockDataPath}/metric-file.xlsx`
         config.generateHandleEventsError = true
         config.hasError = true
         await uploadFile(config)
