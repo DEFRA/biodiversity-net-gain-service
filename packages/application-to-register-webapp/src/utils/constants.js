@@ -9,7 +9,7 @@ const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
-const CONFIRMATION = 'confirmation'
+const REGISTRATION_SUBMITTED = 'registration-submitted'
 const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/check-geospatial-land-boundary-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
@@ -202,7 +202,7 @@ const routes = {
   LEGAL_AGREEMENT_TYPE,
   CHECK_MANAGEMENT_PLAN,
   CHECK_YOUR_ANSWERS,
-  CONFIRMATION,
+  REGISTRATION_SUBMITTED,
   CHECK_LAND_BOUNDARY,
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
