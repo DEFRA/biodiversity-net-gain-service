@@ -5,7 +5,7 @@ const handlers = {
   get: async (request, h) => {
     let completedTasks = 0
     let dataContent = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-    if (dataContent === null || dataContent === undefined) {
+    if (!dataContent) {
       dataContent = REGISTER_TASK_LIST
     } else {
       dataContent.taskList.forEach(task => {

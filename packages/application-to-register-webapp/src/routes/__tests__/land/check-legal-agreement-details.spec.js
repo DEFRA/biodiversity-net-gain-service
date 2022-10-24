@@ -47,7 +47,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should continue with the flow', async () => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
+        let viewResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
         const request = {
           yar: redisMap
@@ -55,19 +55,15 @@ describe(url, () => {
         const h = {
           redirect: (view, context) => {
             viewResult = view
-            contextResult = context
           }
         }
         await legalAgreementDetails.default[1].handler(request, h)
         expect(viewResult).toEqual('/land/register-land-task-list')
-        expect(contextResult.legalAgreementType).toEqual('Test type')
-        expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
     it('should continue with the flow with other party role', async () => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
+        let viewResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
           organisations: [{
@@ -87,19 +83,15 @@ describe(url, () => {
         const h = {
           redirect: (view, context) => {
             viewResult = view
-            contextResult = context
           }
         }
         await legalAgreementDetails.default[1].handler(request, h)
         expect(viewResult).toEqual('/land/register-land-task-list')
-        expect(contextResult.legalAgreementType).toEqual('Test type')
-        expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
     it('should continue with the flow with other party role', async () => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
+        let viewResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
           organisations: [{
@@ -119,19 +111,15 @@ describe(url, () => {
         const h = {
           redirect: (view, context) => {
             viewResult = view
-            contextResult = context
           }
         }
         await legalAgreementDetails.default[1].handler(request, h)
         expect(viewResult).toEqual('/land/register-land-task-list')
-        expect(contextResult.legalAgreementType).toEqual('Test type')
-        expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
     it('should continue with the flow with other party role name', async () => {
       jest.isolateModules(async () => {
-        let viewResult, contextResult
+        let viewResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
           organisations: [{
@@ -149,16 +137,12 @@ describe(url, () => {
           yar: redisMap
         }
         const h = {
-          redirect: (view, context) => {
+          redirect: (view) => {
             viewResult = view
-            contextResult = context
           }
         }
         await legalAgreementDetails.default[1].handler(request, h)
         expect(viewResult).toEqual('/land/register-land-task-list')
-        expect(contextResult.legalAgreementType).toEqual('Test type')
-        expect(contextResult.legalAgreementFileName).toEqual('legal-agreements')
-        expect(contextResult.legalAgreementStartDate).toEqual('11 Mar 2020')
       })
     })
   })

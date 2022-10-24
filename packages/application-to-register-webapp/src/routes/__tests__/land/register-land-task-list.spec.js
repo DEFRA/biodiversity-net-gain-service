@@ -12,7 +12,7 @@ describe(url, () => {
         url
       }
     })
-    it('should render view with no copleted task', async () => {
+    it('should render view with no completed task', async () => {
       let viewResult, contextResult
       const h = {
         view: (view, context) => {
