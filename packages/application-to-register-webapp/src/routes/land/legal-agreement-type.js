@@ -40,7 +40,7 @@ const handlers = {
         }
         return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
       } else {
-        return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {})
+        return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
       }
     } else {
       return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {

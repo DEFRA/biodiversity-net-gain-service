@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-const url = '/land/legal-agreement-type'
+const url = constants.routes.LEGAL_AGREEMENT_TYPE
 
 describe(url, () => {
   const redisMap = new Map()
@@ -29,7 +29,7 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
         expect(contextResult.conservationType).toEqual(true)
       })
     })
@@ -52,7 +52,7 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
         expect(contextResult.planningObligationType).toEqual(true)
       })
     })
@@ -75,7 +75,7 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
         expect(contextResult.dontHave).toEqual(true)
       })
     })
@@ -116,16 +116,14 @@ describe(url, () => {
     })
     it('should allow the choice of conservation covenant legal agreement', async () => {
       postOptions.payload.legalAgreementType = 'Conservation covenant'
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
-      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
     it('should allow the choice of Planning obligation (section 106 agreement) legal agreement', async () => {
       postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
-      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
     it('should go back to detail if referred', async () => {
@@ -142,15 +140,14 @@ describe(url, () => {
       await legalAgreementDetails.default[0].handler(request, h)
 
       postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
-      expect(response.request.response.headers.location).toBe('/land/upload-legal-agreement')
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
     it('should allow the choice of I do not have a legal agreement', async () => {
       postOptions.payload.legalAgreementType = 'I do not have a legal agreement'
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.headers.location).toEqual(constants.routes.NEED_LEGAL_AGREEMENT)
     })
 
     it('should detect an invalid response from user', async () => {
