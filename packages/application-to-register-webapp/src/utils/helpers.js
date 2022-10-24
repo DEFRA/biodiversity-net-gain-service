@@ -67,6 +67,12 @@ const getRegistrationTasks = request => {
   return registrationTasks
 }
 
+const processCompletedRegistrationTask = (request, taskTitle) => {
+  const registrationTasks = getRegistrationTasks(request)
+  registrationTasks.taskList.find(task => task.taskTitle === taskTitle).tasks[0].status = constants.COMPLETE_REGISTRATION_TASK_STATUS
+  request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+}
+
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 export {
@@ -74,5 +80,6 @@ export {
   dateClasses,
   getReferrer,
   setReferrer,
-  getRegistrationTasks
+  getRegistrationTasks,
+  processCompletedRegistrationTask
 }

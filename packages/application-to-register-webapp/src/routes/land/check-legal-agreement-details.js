@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import moment from 'moment'
-import { getRegistrationTasks } from '../../utils/helpers.js'
+import { processCompletedRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -9,11 +9,8 @@ const handlers = {
     return h.view(constants.views.LEGAL_AGREEMENT_SUMMARY, context)
   },
   post: async (request, h) => {
-    const registrationTasks = getRegistrationTasks(request)
-    registrationTasks.taskList.find(task => task.taskTitle === 'Legal information').tasks[0].status = 'COMPLETED'
-    request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-    const context = await getContext(request)
-    return h.redirect(`/${constants.views.REGISTER_LAND_TASK_LIST}`, context)
+    processCompletedRegistrationTask(request, 'Legal information')
+    return h.redirect(`/${constants.views.REGISTER_LAND_TASK_LIST}`)
   }
 }
 

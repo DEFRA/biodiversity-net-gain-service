@@ -7,9 +7,9 @@
         <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Registration in progress</h2>
-            <p class="govuk-body govuk-!-margin-bottom-4">You have completed 0 of 7 sections.</p>
+            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ registrationCompletedTasks}} of 7 sections.</p>
             <ol class="app-task-list govuk-!-padding-top-3">
-                {% for task in taskList %}
+                {% for task in registrationTasks.taskList %}
                     <li>
                         <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
                         <ul class="app-task-list__items">
