@@ -1,6 +1,6 @@
 import moment from 'moment'
 import constants from './constants.js'
-import REGISTER_TASK_LIST from './register-task-list.js'
+import RegisterTaskList from './register-task-list.js'
 
 const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
@@ -62,7 +62,7 @@ const getReferrer = (request, referrerId, unsetFlag) => {
 const getRegistrationTasks = request => {
   const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
   if (!registrationTasks) {
-    return Object.assign({}, REGISTER_TASK_LIST)
+    return Object.assign({}, RegisterTaskList)
   }
   return registrationTasks
 }

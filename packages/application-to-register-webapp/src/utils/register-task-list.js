@@ -1,6 +1,6 @@
 import constants from './constants.js'
 
-const REGISTER_TASK_LIST = {
+const RegisterTaskList = {
   taskList: [
     {
       taskTitle: 'Your details',
@@ -60,4 +60,4 @@ const REGISTER_TASK_LIST = {
     }
   ]
 }
-export default REGISTER_TASK_LIST
+export default RegisterTaskList
