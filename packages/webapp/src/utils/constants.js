@@ -52,6 +52,7 @@ const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
 const PUBLIC = 'public'
+const PUBLIC_ROUTES = `${PUBLIC}-routes`
 const SESSION = 'session'
 const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
@@ -224,7 +225,7 @@ const routes = {
   GEOSPATIAL_LAND_BOUNDARY,
   CHOOSE_GEOSPATIAL_UPLOAD,
   OS_API_TOKEN,
-  PUBLIC,
+  PUBLIC_ROUTES,
   SESSION,
   START,
   UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
