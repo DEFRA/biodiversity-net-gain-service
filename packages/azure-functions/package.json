@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/DEFRA/biodiversity-net-gain-service",
-    "directory": "azure-functions"
+    "directory": "packages/azure-functions"
   },
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>.",
   "license": "OGL-UK-3.0",
