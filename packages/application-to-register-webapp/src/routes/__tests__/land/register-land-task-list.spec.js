@@ -90,7 +90,7 @@ describe(url, () => {
       })
     })
 
-    it('should render view with legal agreement completed task', async () => {
+    it('should render view with legal completed task', async () => {
       let viewResult, contextResult
       const h = {
         view: (view, context) => {
@@ -105,6 +105,9 @@ describe(url, () => {
       const registrationTasks = getRegistrationTasks(request)
       registrationTasks.taskList.forEach(task => {
         if (task.taskTitle === 'Legal information') {
+          task.tasks[0].status = 'COMPLETED'
+        }
+        if (task.taskTitle === 'Land information') {
           task.tasks[0].status = 'COMPLETED'
         }
       })
@@ -132,7 +135,7 @@ describe(url, () => {
         tasks: [
           {
             title: 'Add land boundary details',
-            status: 'NOT STARTED',
+            status: 'COMPLETED',
             completedTaskUrl: '#',
             startTaskUrl: '/land/upload-geospatial-file'
           },
