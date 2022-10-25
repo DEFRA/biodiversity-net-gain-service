@@ -22,10 +22,6 @@ const handlers = {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      context.err = [{
-        text: '!TODO: Journey continuation not implemented',
-        href: '#check-upload-correct-yes'
-      }]
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'yes')
       return h.redirect('/' + constants.views.ADD_LEGAL_AGREEMENT_PARTIES, context)
     } else {

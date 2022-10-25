@@ -1,7 +1,31 @@
 import constants from '../../utils/constants.js'
+import registerTaskList from '../../utils/register-task-list.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.REGISTER_LAND_TASK_LIST)
+  get: async (request, h) => {
+    let completedTasks = 0
+    let dataContent = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    if (!dataContent) {
+      dataContent = registerTaskList
+    } else {
+      dataContent.taskList.forEach(task => {
+        if (task.tasks.length === 1 && task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+          completedTasks += 1
+        } else {
+          task.tasks.forEach(currentTask => {
+            if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+              completedTasks += 1
+            }
+          })
+        }
+      })
+      dataContent.completedTasks = completedTasks.length
+    }
+    return h.view(constants.views.REGISTER_LAND_TASK_LIST, {
+      registrationTasks: dataContent,
+      registrationCompletedTasks: completedTasks
+    })
+  }
 }
 
 export default [{

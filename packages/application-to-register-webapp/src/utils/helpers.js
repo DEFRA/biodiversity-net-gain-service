@@ -1,4 +1,6 @@
 import moment from 'moment'
+import constants from './constants.js'
+import registerTaskList from './register-task-list.js'
 
 const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
@@ -57,11 +59,27 @@ const getReferrer = (request, referrerId, unsetFlag) => {
   return currentReferrer
 }
 
+const getRegistrationTasks = request => {
+  const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+  if (!registrationTasks) {
+    return Object.assign({}, registerTaskList)
+  }
+  return registrationTasks
+}
+
+const processCompletedRegistrationTask = (request, taskTitle) => {
+  const registrationTasks = getRegistrationTasks(request)
+  registrationTasks.taskList.find(task => task.taskTitle === taskTitle).tasks[0].status = constants.COMPLETE_REGISTRATION_TASK_STATUS
+  request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+}
+
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 export {
   validateDate,
   dateClasses,
+  getReferrer,
   setReferrer,
-  getReferrer
+  getRegistrationTasks,
+  processCompletedRegistrationTask
 }

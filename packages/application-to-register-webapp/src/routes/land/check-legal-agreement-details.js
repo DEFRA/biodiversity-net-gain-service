@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import moment from 'moment'
+import { processCompletedRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -8,8 +9,8 @@ const handlers = {
     return h.view(constants.views.LEGAL_AGREEMENT_SUMMARY, context)
   },
   post: async (request, h) => {
-    const context = await getContext(request)
-    return h.redirect(`${constants.views.LEGAL_AGREEMENT_SUMMARY}`, context)
+    processCompletedRegistrationTask(request, 'Legal information')
+    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
 
