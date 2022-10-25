@@ -23,6 +23,11 @@
     "docker:start": "docker run --name webapp -p 3000:3000 -d webapp",
     "docker:stop": "docker kill webapp && docker rm webapp"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DEFRA/biodiversity-net-gain-service",
+    "directory": "packages/webapp"
+  },
   "dependencies": {
     "@defra/bng-connectors-lib": "0.19.0",
     "@defra/bng-document-service": "0.19.0",
