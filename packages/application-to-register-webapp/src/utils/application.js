@@ -59,9 +59,13 @@ const application = session => {
 }
 
 const getAllLandowners = session => {
-  const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS)))
+  const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS))) || []
   if (session.get(constants.redisKeys.ROLE_KEY) === 'Landowner') {
-    landowners.unshift(session.get(constants.redisKeys.FULL_NAME))
+    if (landowners.length === 0) {
+      landowners.push(session.get(constants.redisKeys.FULL_NAME))
+    } else {
+      landowners.unshift(session.get(constants.redisKeys.FULL_NAME))
+    }
   }
   return landowners
 }

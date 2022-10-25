@@ -20,7 +20,7 @@ const registerTaskList = {
           title: 'Add land boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: '#',
-          startTaskUrl: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
+          startTaskUrl: constants.routes.UPLOAD_LAND_BOUNDARY
         },
         {
           title: 'Add land ownership details',
