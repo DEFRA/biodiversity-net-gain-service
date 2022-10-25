@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { processCompletedRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -12,7 +13,10 @@ const handlers = {
       roleOther
     })
   },
-  post: async (_request, h) => h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+  post: async (request, h) => {
+    processCompletedRegistrationTask(request, 'Your details')
+    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+  }
 }
 
 export default [{
