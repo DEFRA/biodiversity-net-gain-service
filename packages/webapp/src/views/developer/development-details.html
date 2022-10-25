@@ -1,88 +1,87 @@
-{% extends 'form-layout.html' %}
+{% extends 'multipart-form-layout.html' %}
 
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Confirm your development details" %}
-{% block formContent %}
-    <div class="govuk-body">
-        {% if err %}
-            {% include "errorbanner.html" %}
-        {% endif %}
-        {% set idPrefix = 'confirmDevDetails' %}
-        {% set name = 'confirmDevDetails' %}
-        {% set id = 'dev-details-checked-yes' %}
-    </div>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-          {{ govukFieldset({
-              legend: {
-                  text: pageHeading,
-                  classes: "govuk-fieldset__legend--l govuk-heading-l",
-                  isPageHeading: true
-              }
-          }) }}
-          {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: {
-                  text: "Project name"
-                },
-                value: {
-                  text: startPage['Project name']
-                }
-              },
-              {
-                key: {
-                  text: "Local Authority"
-                },
-                value: {
-                  text: startPage['Planning authority']
-                }
-              },
-              {
-                key: {
-                  text: "Planning reference"
-                },
-                value: {
-                  text: startPage['Planning application reference']
-                }
-              }
-            ]
-          }) 
-      }}
-          {{ govukRadios({
-              idPrefix: prefix,
-              name: name,
-              id: id,
-              classes: "govuk-radios--inline",
-              fieldset: {
-                  legend: {
-                      text: "Is this correct?",
-                      classes: "govuk-fieldset__legend--m"
-                  }
-              },
-              errorMessage: err[0],
-              items: [
-                  {
-                      value: "yes",
-                      text: "Yes",
-                      id: "dev-details-checked-yes"
-                  },
-                  {
-                      value: "no",
-                      text: "No",
-                      id: "dev-details-checked-no"
-                  }
-              ]
-          }) }}
-  
-          {{ govukButton({ text: 'Continue' }) }}
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+        
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l govuk-heading-l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+                {{ govukSummaryList({
+                  rows: [
+                    {
+                      key: {
+                        text: "Project name"
+                      },
+                      value: {
+                        text: "Emmer Green Golf Course"
+                      }
+                    },
+                    {
+                      key: {
+                        text: "Local Authority"
+                      },
+                      value: {
+                        text: "Reading Borough Council  "
+                      }
+                    },
+                    {
+                      key: {
+                        text: "Planning reference"
+                      },
+                      value: {
+                        text: "22/01976/RJL"
+                      }
+                    }
+                  ]
+                }) 
+            }}
+                {{ govukRadios({
+                    idPrefix: prefix,
+                    name: name,
+                    id: id,
+                    classes: "govuk-radios--inline",
+                    fieldset: {
+                        legend: {
+                            text: "Is this correct?",
+                            classes: "govuk-fieldset__legend--m"
+                        }
+                    },
+                    errorMessage: err[0],
+                    items: [
+                        {
+                            value: "yes",
+                            text: "Yes",
+                            id: "check-upload-correct-yes"
+                        },
+                        {
+                            value: "no",
+                            text: "No",
+                            id: "check-upload-correct-no"
+                        }
+                    ]
+                }) }}
+        
+                {{ govukButton({ text: 'Continue' }) }}
+            </div>
+        </div>
+        
       </div>
+    </div>
   </div>
-  
-</div>
-</div>
-</div>
 {% endblock %}
