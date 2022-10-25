@@ -10,7 +10,7 @@ const handlers = {
   },
   post: async (request, h) => {
     processCompletedRegistrationTask(request, 'Legal information')
-    return h.redirect(`/${constants.views.REGISTER_LAND_TASK_LIST}`)
+    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
 

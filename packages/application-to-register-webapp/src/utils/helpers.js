@@ -61,7 +61,7 @@ const getReferrer = (request, referrerId, unsetFlag) => {
 
 const getRegistrationTasks = request => {
   const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-  if (registrationTasks === undefined || registrationTasks === null) {
+  if (!registrationTasks) {
     return Object.assign({}, REGISTER_TASK_LIST)
   }
   return registrationTasks
