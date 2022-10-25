@@ -9,9 +9,12 @@ const onPostHandler = {
         // Route then decides whether to redirect to referer or not
         if (request.method === 'get' && request.response.variety === 'view') {
           if (request.headers.referer) {
-            const checkReferer = constants.checkRoutes.find(item => request.headers.referer.indexOf(item) > -1)
-            if (checkReferer) {
-              request.yar.set(constants.redisKeys.REFERER, `/${checkReferer}`)
+            const setReferer = constants.setReferer.find(item => request.headers.referer.indexOf(item) > -1)
+            const clearReferer = constants.clearReferer.find(item => request.headers.referer.indexOf(item) > -1)
+            if (setReferer) {
+              request.yar.set(constants.redisKeys.REFERER, `/${setReferer}`)
+            } else if (clearReferer) {
+              request.yar.clear(constants.redisKeys.REFERER)
             }
           } else {
             // If no referer then clear referer key because user has broken the journey

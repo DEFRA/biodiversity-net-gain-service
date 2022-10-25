@@ -266,13 +266,18 @@ const uploadTypes = {
   LAND_OWNERSHIP_UPLOAD_TYPE
 }
 
-// checkRoutes contain routes that can be set as a referer for a user
+// setReferer contain routes that can be set as a referer for a user
 // to return to from a "check your answers" page
-const checkRoutes = [
+const setReferer = [
   CHECK_AND_SUBMIT,
   CHECK_YOUR_DETAILS,
   CHECK_OWNERSHIP_DETAILS,
   LEGAL_AGREEMENT_SUMMARY
+]
+
+// Add a route to clearReferer to break the above setReferer chain
+const clearReferer = [
+  REGISTER_LAND_TASK_LIST
 ]
 
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
@@ -299,5 +304,6 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
-  checkRoutes
+  setReferer,
+  clearReferer
 })
