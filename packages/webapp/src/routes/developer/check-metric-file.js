@@ -22,7 +22,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
-      return h.redirect('/' + constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
+      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
         ...await getContext(request),
         err: { text: '!TODO: Journey continuation not implemented' }
       })
