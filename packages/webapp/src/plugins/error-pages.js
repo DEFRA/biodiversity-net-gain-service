@@ -1,4 +1,4 @@
-const plugin = {
+const errorPages = {
   name: 'error-pages',
   register: server => {
     server.ext('onPreResponse', (request, h) => {
@@ -30,4 +30,4 @@ const plugin = {
   }
 }
 
-export default plugin
+export default errorPages
