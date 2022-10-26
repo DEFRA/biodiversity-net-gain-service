@@ -35,7 +35,7 @@ const handlers = {
   }
 }
 
-const getContext = (request) => {
+const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
