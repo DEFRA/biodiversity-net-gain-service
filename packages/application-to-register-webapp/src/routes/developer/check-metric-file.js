@@ -4,10 +4,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
-  get: async (request, h) => {
-    const context = await getContext(request)
-    return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, context)
-  },
+  get: async (request, h) => h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, getContext(request)),
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
@@ -22,10 +19,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
-      return h.redirect('/' + constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
-        ...await getContext(request),
-        err: { text: '!TODO: Journey continuation not implemented' }
-      })
+      return h.redirect(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
     } else {
       return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
@@ -41,7 +35,7 @@ const handlers = {
   }
 }
 
-const getContext = async request => {
+const getContext = (request) => {
   const fileLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
