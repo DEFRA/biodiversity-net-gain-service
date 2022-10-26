@@ -121,5 +121,6 @@ packages/**/babel.config.json
 .jest-with-debug/
 #intelij management files
 .idea
+.scannerwork
 
 biodiversity-net-gain-service.code-workspace

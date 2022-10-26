@@ -3,9 +3,13 @@ const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const GAIN_SITE_REFERENCE = 'gain-site-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
+const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
+const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
+const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
+const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_YOUR_ANSWERS = 'check-your-answers'
-const CONFIRMATION = 'confirmation'
+const REGISTRATION_SUBMITTED = 'registration-submitted'
 const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/check-geospatial-land-boundary-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
@@ -30,7 +34,10 @@ const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
+const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
+const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
+const LEGAL_AGREEMENT_PARTIES_KEY = 'legal_agreement_parties_key'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
 const MANAGEMENT_PLAN_FILE_TYPE = 'management-plan-file-type'
@@ -50,10 +57,18 @@ const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
+const LEGAL_AGREEMENT_SUMMARY = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
+const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
+const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
+const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
+const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
+const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
+const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
+const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
 const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
 const LAND_BOUNDARY_FILE_TYPE = 'land-boundary-file-type'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
@@ -89,6 +104,17 @@ const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
+const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
+const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
+const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const REFERRAL_PAGE_LIST = [
+  `/${LEGAL_AGREEMENT_SUMMARY}`
+]
+const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
+const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
+const NEED_METRIC = 'land/need-metric'
+const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
+const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 
 const YES = 'yes'
 
@@ -143,8 +169,12 @@ const redisKeys = {
   LAND_BOUNDARY_HECTARES,
   LEGAL_AGREEMENT_CHECKED,
   LEGAL_AGREEMENT_LOCATION,
+  LEGAL_AGREEMENT_DOCUMENT_TYPE,
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
+  LEGAL_AGREEMENT_PARTIES_KEY,
+  LEGAL_AGREEMENT_FILE_OPTION,
+  LEGAL_AGREEMENT_PARTIES,
   MANAGEMENT_PLAN_CHECKED,
   MANAGEMENT_PLAN_LOCATION,
   MANAGEMENT_PLAN_FILE_SIZE,
@@ -155,15 +185,23 @@ const redisKeys = {
   LAND_OWNERSHIP_CHECKED,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
-  METRIC_FILE_CHECKED,
   FULL_NAME,
   ROLE_KEY,
   ROLE_OTHER,
   HABITAT_WORKS_START_DATE_KEY,
-  MANAGEMENT_MONITORING_START_DATE_KEY,
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
-  LANDOWNER_CONSENT_KEY
+  LANDOWNER_CONSENT_KEY,
+  LEGAL_AGREEMENT_START_DATE_KEY,
+  METRIC_FILE_CHECKED,
+  MANAGEMENT_MONITORING_START_DATE_KEY,
+  LEGAL_AGREEMENT_ORGANISATION_NAMES,
+  LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
+  LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
+  LEGAL_AGREEMENT_START_DAY,
+  LEGAL_AGREEMENT_START_MONTH,
+  LEGAL_AGREEMENT_START_YEAR,
+  REGISTRATION_TASK_DETAILS
 }
 
 const routes = {
@@ -172,9 +210,12 @@ const routes = {
   ADD_HECTARES,
   ERROR,
   CHECK_LEGAL_AGREEMENT,
+  ADD_LEGAL_AGREEMENT_PARTIES,
+  LEGAL_AGREEMENT_START_DATE,
+  LEGAL_AGREEMENT_TYPE,
   CHECK_MANAGEMENT_PLAN,
   CHECK_YOUR_ANSWERS,
-  CONFIRMATION,
+  REGISTRATION_SUBMITTED,
   CHECK_LAND_BOUNDARY,
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
@@ -195,6 +236,7 @@ const routes = {
   UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
+  LEGAL_AGREEMENT_SUMMARY,
   UPLOAD_LAND_BOUNDARY,
   UPLOAD_LAND_OWNERSHIP,
   HOME,
@@ -210,7 +252,12 @@ const routes = {
   CHECK_OWNERSHIP_DETAILS,
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_CHECK_UPLOAD_METRIC,
-  DEVELOPER_DOWNLOAD_METRIC_FILE
+  DEVELOPER_DOWNLOAD_METRIC_FILE,
+  NEED_BOUNDARY_FILE,
+  NEED_OWNERSHIP_PROOF,
+  NEED_METRIC,
+  NEED_MANAGEMENT_PLAN,
+  NEED_LEGAL_AGREEMENT
 }
 
 const uploadErrors = {
@@ -247,5 +294,8 @@ export default Object.freeze({
   routes,
   views,
   uploadErrors,
-  uploadTypes
+  uploadTypes,
+  REFERRAL_PAGE_LIST,
+  DEFAULT_REGISTRATION_TASK_STATUS,
+  COMPLETE_REGISTRATION_TASK_STATUS
 })

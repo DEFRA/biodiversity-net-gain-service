@@ -19,13 +19,11 @@ const handlers = {
       }
       await blobStorageConnector.deleteBlobIfExists(config)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      context.err = [{
-        text: '!TODO: Journey continuation not implemented',
-        href: '#check-upload-correct-yes'
-      }]
-      return h.redirect('/' + constants.views.CHECK_LEGAL_AGREEMENT, context)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'yes')
+      return h.redirect('/' + constants.views.ADD_LEGAL_AGREEMENT_PARTIES, context)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
@@ -41,6 +39,7 @@ const getContext = async request => {
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
+    selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
     fileLocation
   }
 }

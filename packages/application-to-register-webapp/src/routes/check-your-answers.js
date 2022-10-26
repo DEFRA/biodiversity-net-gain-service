@@ -11,7 +11,7 @@ const handlers = {
     try {
       const result = await postJson(`${functionAppUrl}/processapplication`, data)
       request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, result.gainSiteReference)
-      return h.redirect(constants.routes.CONFIRMATION)
+      return h.redirect(constants.routes.REGISTRATION_SUBMITTED)
     } catch (err) {
       return h.view(constants.views.CHECK_YOUR_ANSWERS, {
         err: [{

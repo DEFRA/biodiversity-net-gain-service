@@ -1,0 +1,24 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "You need a legal agreement" %}
+
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    <p>You need to upload a legal agreement that:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>secures the habitat enhancements on the land</li>
+      <li>is a conservation covenant or a planning obligation (section 106 agreement)</li>
+      <li>is for at least 30 years</li>
+    </ul>
+
+    <p>Your file can be a Word document or PDF. It must not be larger than 50MB.</p>
+        
+    {% include "common/get-help.html" %}
+
+  </div>
+</div>
+{% endblock %}

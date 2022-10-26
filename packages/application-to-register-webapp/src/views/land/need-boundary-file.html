@@ -1,0 +1,19 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "You need a file showing the boundary of the land" %}
+
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    <p>You need to upload a file showing the boundary of the land that you want to register as a biodiversity gain site.</p>
+
+    <p>Your file can be a Word document, PDF or image. It must not be larger than 50MB.</p>
+        
+    {% include "common/get-help.html" %}
+
+  </div>
+</div>
+{% endblock %}

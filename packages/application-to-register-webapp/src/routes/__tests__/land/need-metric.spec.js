@@ -1,5 +1,6 @@
-import { submitGetRequest } from './helpers/server.js'
-const url = '/confirmation'
+import { submitGetRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants.js'
+const url = constants.routes.NEED_METRIC
 
 describe(url, () => {
   describe('GET', () => {

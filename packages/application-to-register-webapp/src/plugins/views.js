@@ -28,7 +28,8 @@ const views = {
     path: [
       Path.join(dirname, 'public', 'build', 'views'),
       Path.join(dirname, 'src', 'views'),
-      Path.join(dirname, 'node_modules', 'govuk-frontend')
+      Path.join(dirname, 'node_modules', 'govuk-frontend'),
+      Path.join(dirname, 'node_modules', '@ministryofjustice')
     ],
     relativeTo: dirname,
     isCached: process.env.NODE_ENV !== 'development',
