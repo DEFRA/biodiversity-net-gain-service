@@ -101,6 +101,9 @@ const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
+const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
+const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
+const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
@@ -247,6 +250,9 @@ const routes = {
   ADD_LANDOWNERS,
   LANDOWNER_CONSENT,
   CHECK_OWNERSHIP_DETAILS,
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_CHECK_UPLOAD_METRIC,
+  DEVELOPER_DOWNLOAD_METRIC_FILE,
   NEED_BOUNDARY_FILE,
   NEED_OWNERSHIP_PROOF,
   NEED_METRIC,
