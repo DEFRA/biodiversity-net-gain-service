@@ -82,6 +82,9 @@ describe(url, () => {
           const request = {
             yar: {
               get: () => new Date('2022-11-30').toISOString()
+            },
+            info: {
+              referrer: ''
             }
           }
           const h = {
