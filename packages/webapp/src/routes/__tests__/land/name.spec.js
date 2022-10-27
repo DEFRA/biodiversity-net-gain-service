@@ -1,4 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants'
+const url = '/land/name'
 import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
 import name from '../../../routes/land/name.js'
@@ -39,31 +41,28 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Full name must be 2 characters or more')
     })
-    it('Should return to check your answer page if referrer is set', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = name[1].handler
-          const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_YOUR_DETAILS)
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
 
-          await postHandler({ yar: session, payload: { fullName: 'John Smith' } }, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CHECK_YOUR_DETAILS])
-          done()
-        } catch (err) {
-          done(err)
+    it('Should return to check your answer page if checkReferer is set', async () => {
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
         }
-      })
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.NAME_KEY, '/land/check-your-details')
+      const request = {
+        yar: redisMap,
+        payload: {
+          fullName: 'Test name'
+        },
+        info: {
+          referrer: 'http://localhost:3000/land/check-your-details'
+        }
+      }
+      const legalAgreementDetails = require('../../land/name')
+      await legalAgreementDetails.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.CHECK_YOUR_DETAILS)
     })
   })
 })

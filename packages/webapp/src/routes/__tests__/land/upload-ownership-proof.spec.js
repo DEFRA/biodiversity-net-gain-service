@@ -1,5 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import constants from '../../../utils/constants'
+import legalAgreementDetails from '../../land/legal-agreement-type'
 const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
 const url = '/land/upload-ownership-proof'
 
@@ -109,6 +111,35 @@ describe('Proof of ownership upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should  upload land ownership document 50 MB file with referrer', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        /****/
+        let viewResult
+        const redisMap = new Map()
+        const proofOfOwnership = require('../../land/upload-ownership-proof')
+        const request = {
+          yar: redisMap,
+          info: {
+            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          }
+        }
+        const h = {
+          view: (view, context) => {
+            viewResult = view
+          }
+        }
+        await proofOfOwnership.default[0].handler(request, h)
+
+        /****/
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()

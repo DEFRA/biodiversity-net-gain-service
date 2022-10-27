@@ -11,7 +11,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    processCompletedRegistrationTask(request, 'Legal information')
+    processCompletedRegistrationTask(request, { taskTitle: 'Legal information', title: 'Add legal agreement details' })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

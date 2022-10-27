@@ -25,5 +25,10 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
     })
+    it('should result in reselection error ', async () => {
+      postOptions.payload.confirmGeospatialLandBoundary = undefined
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
+    })
   })
 })

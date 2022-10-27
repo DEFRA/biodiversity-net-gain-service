@@ -4,7 +4,10 @@ import { dateClasses, validateDate } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    const date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
+    let date
+    if (request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY)) {
+      date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
+    }
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
       day: date?.format('DD'),
@@ -27,7 +30,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, date.toISOString())
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      return h.redirect(constants.route.LEGAL_AGREEMENT_SUMMARY)
     }
   }
 }

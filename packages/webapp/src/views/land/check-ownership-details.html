@@ -4,11 +4,74 @@
 
 {% block formContent %}
   <div class="govuk-body">
-    <h1 class="govuk-heading-l">
-      {{ pageHeading }}
-    </h1>
-
-    {{ govukButton({ text: 'Continue' }) }}
-
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukFieldset({
+          legend: {
+            text: pageHeading,
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) }}
+        <form method="post">
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                text: 'Proof of land ownership file uploaded'
+              },
+                value: {
+                text: fileName
+              },
+                actions: {
+                items: [
+                  {
+                    href: '/land/upload-ownership-proof',
+                    text: 'Change'
+                  }
+                ]
+              }
+              },
+              {
+                key: {
+                text: 'Landowner name'
+              },
+                value: {
+                text: name
+              },
+                actions: {
+                items: [
+                  {
+                    href: '/land/name',
+                    text: 'Change'
+                  }
+                ]
+              }
+              },
+              {
+                key: {
+                text: 'Landowner consent'
+              },
+                value: {
+                html: consent
+              },
+                actions: {
+                items: [
+                  {
+                    href: '/land/landowner-consent',
+                    text: 'Change'
+                  }
+                ]
+              }
+              }
+            ]
+          }) }}
+          {{ govukButton({ text: 'Continue' }) }}
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

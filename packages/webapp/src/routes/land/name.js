@@ -1,9 +1,11 @@
 import constants from '../../utils/constants.js'
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 const ID = '#fullName'
 
 const handlers = {
   get: async (request, h) => {
+    setReferrer(request, constants.redisKeys.NAME_KEY)
     const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
     return h.view(constants.views.NAME, {
       fullName
@@ -19,7 +21,11 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.FULL_NAME, fullName)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ROLE)
+      const referredFrom = getReferrer(request, constants.redisKeys.NAME_KEY, true)
+      if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+        return h.redirect(referredFrom)
+      }
+      return h.redirect(constants.routes.ROLE)
     }
   }
 }

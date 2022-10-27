@@ -1,7 +1,9 @@
 import constants from '../../utils/constants.js'
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    setReferrer(request, constants.redisKeys.LAND_OWNERSHIP_KEY)
     const landowners = request.yar.get(constants.redisKeys.LANDOWNERS)
     const role = request.yar.get(constants.redisKeys.ROLE_KEY)
     return h.view(constants.views.ADD_LANDOWNERS, {
@@ -22,7 +24,11 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LANDOWNERS, landowners)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LANDOWNER_CONSENT)
+      const referredFrom = getReferrer(request, constants.redisKeys.LAND_OWNERSHIP_KEY, true)
+      if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+        return h.redirect(constants.routes.CHECK_OWNERSHIP_DETAILS)
+      }
+      return h.redirect(constants.routes.LANDOWNER_CONSENT)
     }
   }
 }

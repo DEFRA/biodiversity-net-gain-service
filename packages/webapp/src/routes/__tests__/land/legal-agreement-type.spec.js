@@ -14,7 +14,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with conservation selected`, async () => {
       jest.isolateModules(async () => {
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'Conservation covenant')
-        let viewResult, contextResult
+        let viewResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
@@ -25,12 +25,10 @@ describe(url, () => {
         const h = {
           view: (view, context) => {
             viewResult = view
-            contextResult = context
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
-        expect(contextResult.conservationType).toEqual(true)
       })
     })
 

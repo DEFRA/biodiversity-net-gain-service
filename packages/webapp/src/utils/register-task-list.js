@@ -19,13 +19,13 @@ const registerTaskList = {
         {
           title: 'Add land boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: '#',
-          startTaskUrl: constants.routes.UPLOAD_LAND_BOUNDARY
+          completedTaskUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
+          startTaskUrl: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         },
         {
           title: 'Add land ownership details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: '#',
+          completedTaskUrl: constants.routes.CHECK_OWNERSHIP_DETAILS,
           startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
         }
       ]
@@ -36,13 +36,13 @@ const registerTaskList = {
         {
           title: 'Upload Biodiversity Metric 3.1',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: '#',
+          completedTaskUrl: constants.routes.CHECK_UPLOAD_METRIC,
           startTaskUrl: constants.routes.UPLOAD_METRIC
         },
         {
           title: 'Add habitat management and monitoring details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: '#',
+          completedTaskUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY,
           startTaskUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN
         }
       ]
@@ -55,6 +55,17 @@ const registerTaskList = {
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
           startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
+        }
+      ]
+    },
+    {
+      taskTitle: 'Submit your biodiversity gain site information',
+      tasks: [
+        {
+          title: 'Check your answers and submit information',
+          status: 'CANNOT START YET',
+          completedTaskUrl: constants.routes.CHECK_YOUR_ANSWERS,
+          startTaskUrl: constants.routes.CHECK_YOUR_ANSWERS
         }
       ]
     }

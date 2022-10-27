@@ -3,6 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
@@ -21,7 +22,12 @@ function processSuccessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
     logger.log(`${new Date().toUTCString()} Received land ownership data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_PROOF_OF_OWNERSHIP
+    const referredFrom = getReferrer(request, constants.redisKeys.LAND_OWNERSHIP_KEY, true)
+    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+      resultView = constants.routes.CHECK_OWNERSHIP_DETAILS
+    } else {
+      resultView = constants.routes.CHECK_PROOF_OF_OWNERSHIP
+    }
   }
   return { resultView, errorMessage }
 }
@@ -56,13 +62,16 @@ function processErrorUpload (err, h) {
 }
 
 function processReturnValue (details, h) {
-  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP
+  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP || details.resultView === constants.routes.CHECK_OWNERSHIP_DETAILS
     ? h.redirect(details.resultView, details.errorMessage)
     : h.view(details.resultView, details.errorMessage)
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_LAND_OWNERSHIP),
+  get: async (request, h) => {
+    setReferrer(request, constants.redisKeys.LAND_OWNERSHIP_KEY)
+    return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
+  },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(

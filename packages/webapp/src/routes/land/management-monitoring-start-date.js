@@ -1,11 +1,12 @@
 import constants from '../../utils/constants.js'
-import { validateDate, dateClasses } from '../../utils/helpers.js'
+import { validateDate, dateClasses, getReferrer, setReferrer } from '../../utils/helpers.js'
 import moment from 'moment'
 
 const ID = 'managementMonitoringStartDate'
 
 const handlers = {
   get: async (request, h) => {
+    setReferrer(request, constants.redisKeys.MANAGEMENT_PLAN_KEY)
     const date = request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY))
     return h.view(constants.views.MANAGEMENT_MONITORING_START_DATE, {
       dateClasses,
@@ -35,7 +36,11 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, date.toISOString())
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.MANAGEMENT_MONITORING_START_DATE)
+      const referredFrom = getReferrer(request, constants.redisKeys.MANAGEMENT_PLAN_KEY, true)
+      if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+        return h.redirect(constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
+      }
+      return h.redirect(constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
     }
   }
 }

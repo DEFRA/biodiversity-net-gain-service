@@ -17,6 +17,7 @@ const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
+const METRIC_UPLOAD_KEY = 'metric-upload-key'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
@@ -37,7 +38,8 @@ const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
-const LEGAL_AGREEMENT_PARTIES_KEY = 'legal_agreement_parties_key'
+const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
+const MANAGEMENT_PLAN_KEY = 'management-plan-key'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
 const MANAGEMENT_PLAN_FILE_TYPE = 'management-plan-file-type'
@@ -78,12 +80,14 @@ const LAND_BOUNDARY_HECTARES = 'land-boundary-hectares'
 const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
+const METRIC_UPLOADED_ANSWER = 'check-uploaded-metric'
 const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const HOME = 'home'
 const NAME = 'land/name'
+const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
 const ROLE = 'land/role'
 const ROLE_KEY = 'role'
@@ -94,6 +98,7 @@ const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
+const CHECK_MANAGEMENT_MONITORING_SUMMARY = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const ADD_LANDOWNERS = 'land/add-landowners'
@@ -101,9 +106,18 @@ const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
+const LAND_OWNERSHIP_KEY = 'land-ownership-key'
+const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const REFERRAL_PAGE_LIST = [
+  `/${LEGAL_AGREEMENT_SUMMARY}`,
+  `/${CHECK_MANAGEMENT_MONITORING_SUMMARY}`,
+  `/${CHECK_YOUR_DETAILS}`,
+  `/${CHECK_OWNERSHIP_DETAILS}`,
+  `/${ROLE}`
+]
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
 const NEED_METRIC = 'land/need-metric'
@@ -167,6 +181,7 @@ const redisKeys = {
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
   LEGAL_AGREEMENT_PARTIES_KEY,
+  MANAGEMENT_PLAN_KEY,
   LEGAL_AGREEMENT_FILE_OPTION,
   LEGAL_AGREEMENT_PARTIES,
   MANAGEMENT_PLAN_CHECKED,
@@ -174,6 +189,7 @@ const redisKeys = {
   MANAGEMENT_PLAN_FILE_SIZE,
   MANAGEMENT_PLAN_FILE_TYPE,
   METRIC_FILE_TYPE,
+  METRIC_UPLOAD_KEY,
   LAND_OWNERSHIP_LOCATION,
   LAND_OWNERSHIP_FILE_SIZE,
   LAND_OWNERSHIP_CHECKED,
@@ -181,6 +197,7 @@ const redisKeys = {
   METRIC_FILE_SIZE,
   FULL_NAME,
   ROLE_KEY,
+  NAME_KEY,
   ROLE_OTHER,
   HABITAT_WORKS_START_DATE_KEY,
   REGISTERED_LANDOWNER_ONLY,
@@ -196,6 +213,8 @@ const redisKeys = {
   LEGAL_AGREEMENT_START_MONTH,
   LEGAL_AGREEMENT_START_YEAR,
   REGISTRATION_TASK_DETAILS,
+  LAND_OWNERSHIP_KEY,
+  METRIC_UPLOADED_ANSWER,
   REFERER
 }
 
@@ -233,6 +252,7 @@ const routes = {
   UPLOAD_LEGAL_AGREEMENT,
   LEGAL_AGREEMENT_SUMMARY,
   UPLOAD_LAND_BOUNDARY,
+  CHECK_LAND_BOUNDARY_DETAILS,
   UPLOAD_LAND_OWNERSHIP,
   HOME,
   NAME,
@@ -241,6 +261,7 @@ const routes = {
   REGISTER_LAND_TASK_LIST,
   HABITAT_WORKS_START_DATE,
   MANAGEMENT_MONITORING_START_DATE,
+  CHECK_MANAGEMENT_MONITORING_SUMMARY,
   REGISTERED_LANDOWNER,
   ADD_LANDOWNERS,
   LANDOWNER_CONSENT,

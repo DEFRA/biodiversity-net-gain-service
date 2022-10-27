@@ -1,0 +1,79 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the habitat management and monitoring details" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                <form method="post">
+                    {{ govukSummaryList({
+                        rows: [
+                            {
+                                key: {
+                                text: 'Habitat management and monitoring plan uploaded '
+                            },
+                                value: {
+                                text: managementFileName
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/upload-management-plan',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Start date of habitat enhancement works'
+                            },
+                                value: {
+                                text: habitatWorkStartDate
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/habitat-works-start-date',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Start date of the 30 year management and monitoring period'
+                            },
+                                value: {
+                                html: managementMonitoringStartDate
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/management-monitoring-start-date',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            }
+                        ]
+                    }) }}
+                    {{ govukButton({ text: 'Continue' }) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
