@@ -118,35 +118,6 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should  upload land ownership document 50 MB file with referrer', (done) => {
-      jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        /****/
-        let viewResult
-        const redisMap = new Map()
-        const proofOfOwnership = require('../../land/upload-ownership-proof')
-        const request = {
-          yar: redisMap,
-          info: {
-            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
-          }
-        }
-        const h = {
-          view: (view, context) => {
-            viewResult = view
-          }
-        }
-        await proofOfOwnership.default[0].handler(request, h)
-
-        /****/
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
-      })
-    })
-
     it('should cause an internal server error response when land ownership upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
