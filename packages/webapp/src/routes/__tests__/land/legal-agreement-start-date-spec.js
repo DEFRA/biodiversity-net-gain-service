@@ -1,4 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants'
+import legalAgreementDetails from '../../land/legal-agreement-type'
 
 const url = '/land/legal-agreement-start-date'
 
@@ -7,6 +9,29 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       const response = await submitGetRequest({ url })
       expect(response.statusCode).toBe(200)
+    })
+
+    it(`should render the ${url.substring(1)} view date selected`, async () => {
+      const redisMap = new Map()
+      jest.isolateModules(async () => {
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
+        let viewResult, contextResult
+        const legalAgreementDetails = require('../../land/legal-agreement-start-date')
+        const request = {
+          yar: redisMap
+        }
+        const h = {
+          view: (view, context) => {
+            viewResult = view
+            contextResult = context
+          }
+        }
+        await legalAgreementDetails.default[0].handler(request, h)
+        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_START_DATE)
+        expect(contextResult.day).toEqual('11')
+        expect(contextResult.month).toEqual('03')
+        expect(contextResult.year).toEqual('2020')
+      })
     })
   })
 
