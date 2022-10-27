@@ -1,6 +1,5 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-import legalAgreementDetails from '../../land/legal-agreement-type'
 
 const url = '/land/legal-agreement-start-date'
 
