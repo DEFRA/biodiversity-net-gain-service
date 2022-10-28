@@ -46,5 +46,27 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Enter the full name of the landowner')
     })
+    it('should add landowner and redirect to referrer ', async () => {
+      jest.isolateModules(async () => {
+        let viewResult
+        const legalAgreementParties = require('../../land/add-landowners.js')
+        const redisMap = new Map()
+        redisMap.set(constants.redisKeys.LAND_OWNERSHIP_KEY, constants.routes.CHECK_OWNERSHIP_DETAILS)
+
+        const request = {
+          yar: redisMap,
+          payload: {
+            landowners: ['John Smith', 'Jane Doe']
+          }
+        }
+        const h = {
+          redirect: (view, context) => {
+            viewResult = view
+          }
+        }
+        await legalAgreementParties.default[1].handler(request, h)
+        expect(viewResult).toEqual(constants.routes.CHECK_OWNERSHIP_DETAILS)
+      })
+    })
   })
 })

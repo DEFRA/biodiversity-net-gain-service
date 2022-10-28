@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 function processEmptyPartySelection (partySelectionData, index, combinedError, startId) {
   const errorConstruct = {
@@ -153,9 +154,13 @@ function getRoleDetails (roleValue, indexValue) {
 
 const handlers = {
   get: async (request, h) => {
-    const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-    if (partySelectionData) {
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
+    setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
+    const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
+    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+      const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+      if (partySelectionData !== undefined) {
+        return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
+      }
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
       roles: [{
@@ -176,7 +181,11 @@ const handlers = {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, partySelectionData)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_AGREEMENT_START_DATE)
+      const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, true)
+      if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+        return h.redirect(referredFrom)
+      }
+      return h.redirect('/' + constants.views.LEGAL_AGREEMENT_START_DATE)
     }
   }
 }

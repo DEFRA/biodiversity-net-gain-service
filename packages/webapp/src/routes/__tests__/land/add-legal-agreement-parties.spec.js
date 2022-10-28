@@ -155,5 +155,34 @@ describe(url, () => {
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('Other type of role cannot be left blank')).toBeGreaterThan(1)
     })
+    it('should add multiple legal organisation with other party choice to legal agreement from referrer', async () => {
+      jest.isolateModules(async () => {
+        let viewResult
+        const legalAgreementParties = require('../../land/add-legal-agreement-parties.js')
+        const redisMap = new Map()
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, constants.routes.LEGAL_AGREEMENT_SUMMARY)
+
+        const request = {
+          yar: redisMap,
+          payload: {
+            'organisation[0][organisationName]': 'Test',
+            'organisation[0][role]': 'Other',
+            otherPartyName: [
+              'party One',
+              'Party two'
+            ],
+            'organisation[1][organisationName]': 'Test Two',
+            'organisation[1][role]': 'Other'
+          }
+        }
+        const h = {
+          redirect: (view, context) => {
+            viewResult = view
+          }
+        }
+        await legalAgreementParties.default[1].handler(request, h)
+        expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      })
+    })
   })
 })

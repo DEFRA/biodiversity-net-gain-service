@@ -1,10 +1,10 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-const url = constants.routes.LEGAL_AGREEMENT_TYPE
+
+const url = '/land/legal-agreement-type'
 
 describe(url, () => {
   const redisMap = new Map()
-
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view without any selection`, async () => {
       const response = await submitGetRequest({ url })
@@ -125,21 +125,28 @@ describe(url, () => {
     })
 
     it('should go back to detail if referred', async () => {
+      let viewResult
       const h = {
-        view: jest.fn()
+        redirect: (view, context) => {
+          viewResult = view
+        }
       }
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, constants.routes.LEGAL_AGREEMENT_SUMMARY)
       const request = {
         yar: redisMap,
         info: {
           referrer: 'http://localhost:3000/land/agreement-details'
+        },
+        payload: {
+          legalAgreementType: 'Any document'
         }
       }
       const legalAgreementDetails = require('../../land/legal-agreement-type')
-      await legalAgreementDetails.default[0].handler(request, h)
+      await legalAgreementDetails.default[1].handler(request, h)
 
       postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
-      const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      await submitPostRequest(postOptions, 302)
+      expect(viewResult).toBe(constants.routes.LEGAL_AGREEMENT_SUMMARY)
     })
 
     it('should allow the choice of I do not have a legal agreement', async () => {
