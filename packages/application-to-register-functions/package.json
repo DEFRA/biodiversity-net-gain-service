@@ -1,6 +1,6 @@
 {
   "name": "application-to-register-functions",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "private": true,
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
@@ -19,14 +19,14 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/storage-blob": "^12.11.0",
-    "@defra/bng-connectors-lib": "0.19.0",
-    "@defra/bng-document-service": "0.19.0",
-    "@defra/bng-errors-lib": "0.19.0",
-    "@defra/bng-geoprocessing-service": "0.19.0",
+    "@defra/bng-connectors-lib": "0.20.0",
+    "@defra/bng-document-service": "0.20.0",
+    "@defra/bng-errors-lib": "0.20.0",
+    "@defra/bng-geoprocessing-service": "0.20.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "moment": "^2.29.4"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.19.0"
+    "@defra/bng-azure-storage-test-utils": "0.20.0"
   }
 }
