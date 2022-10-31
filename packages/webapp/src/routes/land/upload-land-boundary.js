@@ -3,6 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { getReferrer } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -69,6 +70,10 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
+        const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, true)
+        if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
+          return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
+        }
         return processReturnValue(viewDetails, h)
       },
       function (err) {

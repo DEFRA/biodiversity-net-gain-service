@@ -110,6 +110,7 @@ describe('Land boundary upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        uploadConfig.referer = 'http://localhost:30000/land/check-land-boundary-details'
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -123,7 +124,7 @@ describe('Land boundary upload controller tests', () => {
         config.filePath = `${mockDataPath}/legal-agreement.pdf`
         config.generateHandleEventsError = true
         config.hasError = true
-        await uploadFile(config)
+        await uploadFile(config, 302)
         setImmediate(() => {
           done()
         })
