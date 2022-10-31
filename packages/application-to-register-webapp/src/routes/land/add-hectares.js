@@ -1,7 +1,12 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.ADD_HECTARES),
+  get: async (request, h) => {
+    const hectares = request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+    return h.view(constants.views.ADD_HECTARES, {
+      hectares
+    })
+  },
   post: async (request, h) => {
     const hectares = request.payload.hectares
     const err = validateHectares(hectares)
@@ -15,7 +20,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
-      return h.redirect(constants.routes.ADD_HECTARES)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_HECTARES)
     }
   }
 }

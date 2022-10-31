@@ -31,7 +31,7 @@ const validateDate = (payload, ID, desc) => {
       href: `#${ID}-year`,
       yearError: true
     }]
-  } else if (!moment(`${year}-${month}-${day}`).isValid()) {
+  } else if (!moment.utc(`${year}-${month}-${day}`).isValid()) {
     context.err = [{
       text: 'Start date must be a real date',
       href: `#${ID}-day`,
@@ -45,18 +45,21 @@ const validateDate = (payload, ID, desc) => {
     context
   }
 }
-const setReferrer = (request, referrerId) => {
-  if (request.info.referrer !== '') {
-    const referrerUrl = new URL(request.info.referrer).pathname
-    request.yar.set(referrerId, referrerUrl)
+
+const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
+
+const listArray = array => {
+  let html = ''
+  if (array && array.length > 0) {
+    array.forEach(item => {
+      if (html.length > 0) {
+        html += `<br> ${item} `
+      } else {
+        html += ` ${item} `
+      }
+    })
   }
-}
-const getReferrer = (request, referrerId, unsetFlag) => {
-  const currentReferrer = request.yar.get(referrerId)
-  if (currentReferrer !== undefined && currentReferrer !== null && unsetFlag) {
-    request.yar.clear(referrerId)
-  }
-  return currentReferrer
+  return html
 }
 
 const getRegistrationTasks = request => {
@@ -73,13 +76,30 @@ const processCompletedRegistrationTask = (request, taskTitle) => {
   request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
 }
 
-const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
+const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
+
+const dateToString = (date, format = 'DD MMMM YYYY') => moment.utc(date).format(format)
+
+const hideClass = hidden => hidden ? 'hidden' : ''
+
+const getNameAndRoles = legalAgreementParties => {
+  const partySelectionContent = []
+  legalAgreementParties && legalAgreementParties.organisations.forEach((organisation, index) => {
+    const selectedRole = legalAgreementParties.roles[index]
+    const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
+    partySelectionContent.push(`${organisation.value} (${roleName})`)
+  })
+  return partySelectionContent
+}
 
 export {
   validateDate,
   dateClasses,
-  getReferrer,
-  setReferrer,
   getRegistrationTasks,
-  processCompletedRegistrationTask
+  processCompletedRegistrationTask,
+  listArray,
+  boolToYesNo,
+  dateToString,
+  hideClass,
+  getNameAndRoles
 }
