@@ -1,7 +1,14 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.REGISTERED_LANDOWNER),
+  get: async (request, h) => {
+    const yesChecked = request.yar.get(constants.redisKeys.REGISTERED_LANDOWNER_ONLY) === 'true'
+    const noChecked = request.yar.get(constants.redisKeys.REGISTERED_LANDOWNER_ONLY) === 'false'
+    return h.view(constants.views.REGISTERED_LANDOWNER, {
+      yesChecked,
+      noChecked
+    })
+  },
   post: async (request, h) => {
     const selection = request.payload.landownerOnly
     if (!selection) {

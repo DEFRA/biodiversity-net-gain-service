@@ -41,16 +41,19 @@
                                     <li>
                                         <ul class="app-task-list__items">
                                             <li class="app-task-list__item">
-                                                <span class="app-task-list__task-name">
-                                                    {% if registrationCompletedTasks == 6 %}
-                                                        <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
-                                                            {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
-                                                        </a>
-                                                    {% else %}
-                                                        {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
-                                                    {% endif %}
-                                                </span>
-                                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{ taskItem.status }}</strong>
+                                                {% if registrationCompletedTasks == 6 %}
+                                                    <span class="app-task-list__task-name">
+                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                                                {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
+                                                            </a>
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Not started yet</strong>
+                                                {% else %}
+                                                    <span>
+                                                          {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{ taskItem.status }}</strong>
+                                                {% endif %}
                                             </li>
                                         </ul>
                                     </li>

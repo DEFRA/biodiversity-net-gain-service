@@ -3,75 +3,79 @@
 {% set pageHeading = "Check the land ownership details" %}
 
 {% block formContent %}
-  <div class="govuk-body">
-    {% if err %}
-      {% include "errorbanner.html" %}
-    {% endif %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        {{ govukFieldset({
-          legend: {
-            text: pageHeading,
-            classes: "govuk-fieldset__legend--l",
-            isPageHeading: true
-          }
-        }) }}
-        <form method="post">
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: {
-                text: 'Proof of land ownership file uploaded'
-              },
-                value: {
-                text: fileName
-              },
-                actions: {
-                items: [
-                  {
-                    href: '/land/upload-ownership-proof',
-                    text: 'Change'
-                  }
-                ]
-              }
-              },
-              {
-                key: {
-                text: 'Landowner name'
-              },
-                value: {
-                text: name
-              },
-                actions: {
-                items: [
-                  {
-                    href: '/land/name',
-                    text: 'Change'
-                  }
-                ]
-              }
-              },
-              {
-                key: {
-                text: 'Landowner consent'
-              },
-                value: {
-                html: consent
-              },
-                actions: {
-                items: [
-                  {
-                    href: '/land/landowner-consent',
-                    text: 'Change'
-                  }
-                ]
-              }
-              }
-            ]
-          }) }}
-          {{ govukButton({ text: 'Continue' }) }}
-        </form>
-      </div>
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {% if consent != 'Yes' %}
+                    {% set consentVisible = 'govuk-visually-hidden' %}
+                {% endif %}
+                <form method="post">
+                    {{ govukSummaryList({
+                        rows: [
+                            {
+                                key: {
+                                text: 'Proof of land ownership file uploaded'
+                            },
+                                value: {
+                                text: fileName
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/upload-ownership-proof',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Landowner name'
+                            },
+                                value: {
+                                text: name
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/name',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                classes: consentVisible,
+                                key: {
+                                    text: 'Landowner consent'
+                                },
+                                value: {
+                                    html: consent
+                                },
+                                actions: {
+                                    items: [
+                                        {
+                                            href: '/land/registered-landowner',
+                                            text: 'Change'
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }) }}
+                    {{ govukButton({ text: 'Continue' }) }}
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 {% endblock %}
