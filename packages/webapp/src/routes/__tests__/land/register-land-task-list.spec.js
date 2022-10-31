@@ -50,7 +50,7 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-geospatial-file'
+            startTaskUrl: '/land/upload-land-boundary'
           },
           {
             title: 'Add land ownership details',
@@ -137,7 +137,7 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'COMPLETED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-geospatial-file'
+            startTaskUrl: '/land/upload-land-boundary'
           },
           {
             title: 'Add land ownership details',
