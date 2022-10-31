@@ -3,9 +3,8 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
-function processSuccessfulUpload (result, request, legaAgreementId) {
+function processSuccessfulUpload (result, request, legalAgreementId) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   let errorMessage = {}
   if ((parseFloat(result.fileSize) * 100) === 0) {
@@ -13,7 +12,7 @@ function processSuccessfulUpload (result, request, legaAgreementId) {
     errorMessage = {
       err: [{
         text: 'The selected file is empty',
-        href: legaAgreementId
+        href: legalAgreementId
       }]
     }
   } else if (result[0].errorMessage === undefined) {
@@ -26,20 +25,20 @@ function processSuccessfulUpload (result, request, legaAgreementId) {
   return { resultView, errorMessage }
 }
 
-function processErrorUpload (err, h, legaAgreementId) {
+function processErrorUpload (err, h, legalAgreementId) {
   switch (err.message) {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         err: [{
           text: 'Select a legal agreement',
-          href: legaAgreementId
+          href: legalAgreementId
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
-          href: legaAgreementId
+          href: legalAgreementId
         }]
       })
     default:
@@ -47,7 +46,7 @@ function processErrorUpload (err, h, legaAgreementId) {
         return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
-            href: legaAgreementId
+            href: legalAgreementId
           }]
         })
       }
@@ -57,37 +56,30 @@ function processErrorUpload (err, h, legaAgreementId) {
 
 function processReturnValue (details, h) {
   return details.resultView === constants.routes.CHECK_LEGAL_AGREEMENT
-    ? h.redirect(details.resultView, details.errorMessage)
+    ? h.redirect(details.resultView)
     : h.view(details.resultView, details.errorMessage)
 }
 
 const handlers = {
-  get: async (request, h) => {
-    setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
-    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT)
-  },
+  get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
   post: async (request, h) => {
-    const legaAgreementId = '#legalAgreement'
+    const legalAgreementId = '#legalAgreement'
     const config = buildConfig(request.yar.id)
 
     return uploadFiles(logger, request, config).then(
       function (result) {
-        const viewDetails = processSuccessfulUpload(result, request, legaAgreementId)
-        const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, true)
-        if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
-          return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
-        }
+        const viewDetails = processSuccessfulUpload(result, request, legalAgreementId)
         return processReturnValue(viewDetails, h)
       },
       function (err) {
-        return processErrorUpload(err, h, legaAgreementId)
+        return processErrorUpload(err, h, legalAgreementId)
       }
     ).catch(err => {
       console.log(`Problem uploading file ${err}`)
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
-          href: legaAgreementId
+          href: legalAgreementId
         }]
       })
     })

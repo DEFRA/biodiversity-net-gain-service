@@ -47,7 +47,7 @@
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/upload-legal-agreement',
+                                        href: '/land/check-legal-agreement-file',
                                         text: 'Change'
                                     }
                                 ]
@@ -58,7 +58,7 @@
                                 text: 'Parties involved'
                             },
                                 value: {
-                                html: partyNameAndRole | join('<br/>')
+                                html: listArray(partyNameAndRole)
                             },
                                 actions: {
                                 items: [
@@ -74,7 +74,7 @@
                                 text: 'Start date'
                             },
                                 value: {
-                                text: legalAgreementStartDate
+                                text: dateToString(legalAgreementStartDate)
                             },
                                 actions: {
                                 items: [

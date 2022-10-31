@@ -22,7 +22,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LANDOWNERS, landowners)
-      return h.redirect(constants.routes.LANDOWNER_CONSENT)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LANDOWNER_CONSENT)
     }
   }
 }

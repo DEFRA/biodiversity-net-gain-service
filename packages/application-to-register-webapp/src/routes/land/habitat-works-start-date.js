@@ -16,7 +16,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const { day, month, year, context } = validateDate(request.payload, ID, 'start date of the habitat enhancement works')
-    const date = moment(`${year}-${month}-${day}`)
+    const date = moment.utc(`${year}-${month}-${day}`)
     if (context.err) {
       return h.view(constants.views.HABITAT_WORKS_START_DATE, {
         day,
@@ -27,7 +27,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, date.toISOString())
-      return h.redirect(`/${constants.views.MANAGEMENT_MONITORING_START_DATE}`)
+      return h.redirect(constants.routes.MANAGEMENT_MONITORING_START_DATE)
     }
   }
 }
