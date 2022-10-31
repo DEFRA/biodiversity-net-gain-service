@@ -40,6 +40,7 @@ describe('Metric file upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+        uploadConfig.referer = 'http://localhost:30000/land/register-land-task-list'
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()

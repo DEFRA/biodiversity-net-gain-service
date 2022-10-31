@@ -40,6 +40,21 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+        baseConfig.referer = `'http://localhost:30000${url}`
+        await uploadFile(uploadConfig)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should upload legal agreement document to cloud storage with referrer', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.hasError = false
+        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
+        baseConfig.referer = `'http://localhost:30000${url}`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -51,6 +66,8 @@ describe('Legal agreement upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+        baseConfig.referer = `'http://localhost:30000${url}`
+        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -63,6 +80,7 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
         uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+        baseConfig.referer = `'http://localhost:30000${url}`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -75,6 +93,7 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
         uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+        baseConfig.referer = `'http://localhost:30000${url}`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -87,6 +106,7 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = true
         uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+        baseConfig.referer = `'http://localhost:30000${url}`
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -97,6 +117,7 @@ describe('Legal agreement upload controller tests', () => {
     it('should not upload nofile legal agreement', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
+        baseConfig.referer = `'http://localhost:30000${url}`
         uploadConfig.hasError = true
         await uploadFile(uploadConfig)
         setImmediate(() => {
@@ -109,6 +130,7 @@ describe('Legal agreement upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -120,9 +142,22 @@ describe('Legal agreement upload controller tests', () => {
       jest.isolateModules(async () => {
         const config = Object.assign({}, baseConfig)
         config.filePath = `${mockDataPath}/legal-agreement.pdf`
+        baseConfig.referer = `'http://localhost:30000${url}`
         config.generateHandleEventsError = true
         config.hasError = true
         await uploadFile(config)
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+
+    it('should  upload legal agreement document 49 MB file when coming from a referer', (done) => {
+      jest.isolateModules(async () => {
+        const uploadConfig = Object.assign({}, baseConfig)
+        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
+        await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
         })

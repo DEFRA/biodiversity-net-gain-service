@@ -45,21 +45,23 @@ const validateDate = (payload, ID, desc) => {
     context
   }
 }
-
-const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
-
-const listArray = array => {
-  let html = ''
-  if (array && array.length > 0) {
-    array.forEach(item => {
-      if (html.length > 0) {
-        html += `<br> ${item} `
-      } else {
-        html += ` ${item} `
-      }
-    })
+const setReferrer = (request, referrerId) => {
+  if (request.headers.referer !== '') {
+    request.yar.set(referrerId, request.headers.referer)
   }
-  return html
+}
+const getReferrer = (request, referrerId) => {
+  let currentReferrer = request.yar.get(referrerId)
+  if (currentReferrer) {
+    request.yar.clear(referrerId)
+  } else {
+    currentReferrer = request.headers.referer
+  }
+  try {
+    return new URL(currentReferrer).pathname
+  } catch {
+    return request.path
+  }
 }
 
 const getRegistrationTasks = request => {

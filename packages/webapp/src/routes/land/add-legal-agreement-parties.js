@@ -139,15 +139,12 @@ function getRoleDetails (roleValue, indexValue) {
         responsible_body: true
       }
       break
-    case 'Other':
+    default :
       roleDetails = {
         organisationIndex: indexValue,
         rowIndex: 4,
         other: true
       }
-      break
-    default:
-      roleDetails = undefined
   }
   return roleDetails
 }
@@ -155,12 +152,9 @@ function getRoleDetails (roleValue, indexValue) {
 const handlers = {
   get: async (request, h) => {
     setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
-    const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
-    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
-      const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-      if (partySelectionData !== undefined) {
-        return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
-      }
+    const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    if (partySelectionData) {
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
       roles: [{

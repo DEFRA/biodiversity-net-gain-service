@@ -38,8 +38,8 @@ describe(url, () => {
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
       const request = {
         yar: redisMap,
-        info: {
-          referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+        headers: {
+          referer: 'http://localhost:3000/land/check-legal-agreement-details'
         }
       }
       const legalAgreementParties = require('../../land/add-legal-agreement-parties')
@@ -63,7 +63,7 @@ describe(url, () => {
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
       const request = {
         yar: redisMap,
-        info: {
+        headers: {
           referrer: 'http://localhost:3000/land/check-legal-agreement-details'
         }
       }
@@ -160,8 +160,7 @@ describe(url, () => {
         let viewResult
         const legalAgreementParties = require('../../land/add-legal-agreement-parties.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, constants.routes.LEGAL_AGREEMENT_SUMMARY)
-
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, 'http://localhost:3000/land/check-legal-agreement-details')
         const request = {
           yar: redisMap,
           payload: {

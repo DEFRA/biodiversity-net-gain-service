@@ -4,6 +4,7 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
+
 const startServer = async (options) => {
   const server = await createServer(options)
   await init(server)
@@ -34,11 +35,14 @@ const uploadFile = async (uploadConfig) => {
   } else {
     formData.append(uploadConfig.formName, 'non-form data')
   }
+  const requestHeaders = formData.getHeaders()
+  requestHeaders.referer = uploadConfig.referer
+
   const payload = await streamToPromise(formData)
   const options = {
     url: uploadConfig.url,
     method: 'POST',
-    headers: formData.getHeaders(),
+    headers: requestHeaders,
     payload
   }
 
@@ -71,7 +75,6 @@ const uploadFile = async (uploadConfig) => {
       return uploadConfig.eventData
     }
   })
-
   const response = await submitRequest(options, expectedResponseCode)
   return response
 }

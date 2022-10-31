@@ -18,8 +18,8 @@ describe(url, () => {
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
-          info: {
-            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          headers: {
+            referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -39,8 +39,8 @@ describe(url, () => {
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
-          info: {
-            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          headers: {
+            referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -62,8 +62,8 @@ describe(url, () => {
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
-          info: {
-            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          headers: {
+            referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -85,8 +85,8 @@ describe(url, () => {
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
-          info: {
-            referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          headers: {
+            referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
         }
         const h = {
@@ -131,11 +131,11 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, 'http://localhost:3000/land/check-legal-agreement-details')
       const request = {
         yar: redisMap,
         info: {
-          referrer: 'http://localhost:3000/land/agreement-details'
+          referrer: 'http://localhost:3000/land/check-legal-agreement-details'
         },
         payload: {
           legalAgreementType: 'Any document'

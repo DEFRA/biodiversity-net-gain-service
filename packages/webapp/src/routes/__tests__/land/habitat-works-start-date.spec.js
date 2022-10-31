@@ -82,9 +82,10 @@ describe(url, () => {
           const habitatWorksStartDate = require('../../land/habitat-works-start-date.js')
           const request = {
             yar: {
-              get: () => new Date('2022-11-30').toISOString()
+              get: () => new Date('2022-11-30').toISOString(),
+              set: jest.fn()
             },
-            info: {
+            headers: {
               referrer: ''
             }
           }
@@ -113,7 +114,7 @@ describe(url, () => {
         }
       }
       const redisMap = new Map()
-      redisMap.set(constants.redisKeys.MANAGEMENT_PLAN_KEY, constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
+      redisMap.set(constants.redisKeys.MANAGEMENT_PLAN_KEY, 'http://localhost:3000/land/check-management-monitoring-details')
       const request = {
         yar: redisMap,
         payload: {

@@ -9,22 +9,19 @@ const handlers = {
       dontHave: false
     }
     setReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY)
-    const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, false)
-    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
-      const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
-      switch (legalAgreementDocumentType) {
-        case 'Conservation covenant':
-          documentType.conservationType = true
-          break
-        case 'Planning obligation (section 106 agreement)':
-          documentType.planningObligationType = true
-          break
-        case 'I do not have a legal agreement' :
-          documentType.dontHave = true
-          break
-        default:
-          break
-      }
+    const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
+    switch (legalAgreementDocumentType) {
+      case 'Conservation covenant':
+        documentType.conservationType = true
+        break
+      case 'Planning obligation (section 106 agreement)':
+        documentType.planningObligationType = true
+        break
+      case 'I do not have a legal agreement' :
+        documentType.dontHave = true
+        break
+      default:
+        break
     }
     return h.view(constants.views.LEGAL_AGREEMENT_TYPE, documentType)
   },

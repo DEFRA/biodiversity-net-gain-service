@@ -40,6 +40,7 @@ describe('Management plan upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+        uploadConfig.referer = 'http://localhost:30000/land/check-management-monitoring-details'
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
