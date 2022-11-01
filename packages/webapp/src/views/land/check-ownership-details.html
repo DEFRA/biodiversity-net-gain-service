@@ -16,7 +16,7 @@
                         isPageHeading: true
                     }
                 }) }}
-                {% if consent != 'Yes' %}
+                {% if hideConsent == true %}
                     {% set consentVisible = 'govuk-visually-hidden' %}
                 {% endif %}
                 <form method="post">
@@ -48,7 +48,7 @@
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/name',
+                                        href: '/land/registered-landowner',
                                         text: 'Change'
                                     }
                                 ]
@@ -60,7 +60,7 @@
                                     text: 'Landowner consent'
                                 },
                                 value: {
-                                    html: consent
+                                    html: boolToYesNo(consent)
                                 },
                                 actions: {
                                     items: [

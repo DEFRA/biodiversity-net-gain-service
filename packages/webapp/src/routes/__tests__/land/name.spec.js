@@ -1,10 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../utils/constants'
-const url = '/land/name'
-import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
-import name from '../../../routes/land/name.js'
-const url = constants.routes.NAME
+const url = '/land/name'
 
 describe(url, () => {
   describe('GET', () => {

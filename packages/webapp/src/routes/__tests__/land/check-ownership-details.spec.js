@@ -25,7 +25,7 @@ describe(url, () => {
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.CHECK_OWNERSHIP_DETAILS)
         expect(contextResult.name).toBe('Satoshi')
-        expect(contextResult.consent).toBe('Yes')
+        expect(contextResult.consent).toBe(false)
         expect(contextResult.fileName).toBe('legal-agreements')
       })
     })

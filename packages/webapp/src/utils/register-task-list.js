@@ -64,8 +64,8 @@ const registerTaskList = {
         {
           title: 'Check your answers and submit information',
           status: 'CANNOT START YET',
-          completedTaskUrl: constants.routes.CHECK_YOUR_ANSWERS,
-          startTaskUrl: constants.routes.CHECK_YOUR_ANSWERS
+          completedTaskUrl: constants.routes.CHECK_AND_SUBMIT,
+          startTaskUrl: constants.routes.CHECK_AND_SUBMIT
         }
       ]
     }
