@@ -114,7 +114,7 @@ describe(url, () => {
         }
       }
       const redisMap = new Map()
-      redisMap.set(constants.redisKeys.MANAGEMENT_PLAN_KEY, 'http://localhost:3000/land/check-management-monitoring-details')
+      redisMap.set(constants.redisKeys.REFERER, '/land/check-management-monitoring-details')
       const request = {
         yar: redisMap,
         payload: {

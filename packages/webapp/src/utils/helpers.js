@@ -62,25 +62,6 @@ const listArray = array => {
   return html
 }
 
-const setReferrer = (request, referrerId) => {
-  if (request.headers.referer !== '') {
-    request.yar.set(referrerId, request.headers.referer)
-  }
-}
-const getReferrer = (request, referrerId) => {
-  let currentReferrer = request.yar.get(referrerId)
-  if (currentReferrer) {
-    request.yar.clear(referrerId)
-  } else {
-    currentReferrer = request.headers.referer
-  }
-  try {
-    return new URL(currentReferrer).pathname
-  } catch {
-    return request.path
-  }
-}
-
 const getRegistrationTasks = request => {
   const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
   if (!registrationTasks) {
@@ -125,7 +106,5 @@ export {
   boolToYesNo,
   dateToString,
   hideClass,
-  getNameAndRoles,
-  setReferrer,
-  getReferrer
+  getNameAndRoles
 }

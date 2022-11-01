@@ -131,7 +131,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, 'http://localhost:3000/land/check-legal-agreement-details')
+      redisMap.set(constants.redisKeys.REFERER, '/land/check-legal-agreement-details')
       const request = {
         yar: redisMap,
         info: {

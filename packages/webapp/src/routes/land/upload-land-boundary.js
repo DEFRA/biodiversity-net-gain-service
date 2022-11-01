@@ -3,7 +3,6 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { getReferrer } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -23,7 +22,7 @@ function processSuccessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LAND_BOUNDARY
+    resultView = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY
   }
   return { resultView, errorMessage }
 }
@@ -70,10 +69,6 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
-        const referredFrom = getReferrer(request, constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, true)
-        if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
-          return h.redirect(`/${constants.views.LEGAL_AGREEMENT_SUMMARY}`)
-        }
         return processReturnValue(viewDetails, h)
       },
       function (err) {

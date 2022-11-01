@@ -3,13 +3,11 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { getReferrer, setReferrer } from '../../utils/helpers.js'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
 const handlers = {
   get: async (request, h) => {
-    setReferrer(request, constants.redisKeys.MANAGEMENT_PLAN_KEY)
     return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN)
   },
   post: async (request, h) => {
@@ -95,12 +93,7 @@ function processSuccessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received management plan data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    const referredFrom = getReferrer(request, constants.redisKeys.MANAGEMENT_PLAN_KEY, true)
-    if (constants.REFERRAL_PAGE_LIST.includes(referredFrom)) {
-      resultView = constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY
-    } else {
-      resultView = constants.routes.CHECK_MANAGEMENT_PLAN
-    }
+    resultView = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_MANAGEMENT_PLAN
   }
   return { resultView, errorMessage }
 }

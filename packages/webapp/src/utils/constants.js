@@ -112,13 +112,6 @@ const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
-const REFERRAL_PAGE_LIST = [
-  `/${LEGAL_AGREEMENT_SUMMARY}`,
-  `/${CHECK_MANAGEMENT_MONITORING_SUMMARY}`,
-  `/${CHECK_YOUR_DETAILS}`,
-  `/${CHECK_OWNERSHIP_DETAILS}`,
-  `/${ROLE}`
-]
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
 const NEED_METRIC = 'land/need-metric'
@@ -295,7 +288,10 @@ const setReferer = [
   CHECK_AND_SUBMIT,
   CHECK_YOUR_DETAILS,
   CHECK_OWNERSHIP_DETAILS,
-  LEGAL_AGREEMENT_SUMMARY
+  LEGAL_AGREEMENT_SUMMARY,
+  LEGAL_AGREEMENT_SUMMARY,
+  CHECK_MANAGEMENT_MONITORING_SUMMARY,
+  ROLE
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
@@ -327,7 +323,6 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
-  REFERRAL_PAGE_LIST,
   setReferer,
   clearReferer
 })

@@ -46,14 +46,11 @@ describe(url, () => {
         }
       }
       const redisMap = new Map()
-      redisMap.set(constants.redisKeys.NAME_KEY, 'http://localhost:3000/land/check-your-details')
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_YOUR_DETAILS)
       const request = {
         yar: redisMap,
         payload: {
           fullName: 'Test name'
-        },
-        headers: {
-          referer: 'http://localhost:3000/land/check-your-details'
         }
       }
       const legalAgreementDetails = require('../../land/name')

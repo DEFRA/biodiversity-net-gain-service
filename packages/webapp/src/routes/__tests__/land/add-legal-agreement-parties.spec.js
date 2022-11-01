@@ -56,19 +56,23 @@ describe(url, () => {
     })
 
     it('should add single legal party to legal agreement and back to details referrer', async () => {
-      const h = {
-        view: jest.fn()
-      }
+      // const h = {
+      //   view: jest.fn()
+      // }
       const redisMap = new Map()
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
-      const request = {
-        yar: redisMap,
-        headers: {
-          referrer: 'http://localhost:3000/land/check-legal-agreement-details'
-        }
+      // const request = {
+      //   yar: redisMap,
+      //   headers: {
+      //     referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+      //   }
+      // }
+      // postOptions.yar = redisMap
+      postOptions.headers = {
+        referrer: 'http://localhost:3000/land/check-legal-agreement-details'
       }
-      const legalAgreementParties = require('../../land/add-legal-agreement-parties')
-      await legalAgreementParties.default[0].handler(request, h)
+      // const legalAgreementParties = require('../../land/add-legal-agreement-parties')
+      // await legalAgreementParties.default[0].handler(request, h)
 
       postOptions.payload = {
         'organisation[0][organisationName]': 'Bambury',
@@ -155,12 +159,13 @@ describe(url, () => {
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('Other type of role cannot be left blank')).toBeGreaterThan(1)
     })
+
     it('should add multiple legal organisation with other party choice to legal agreement from referrer', async () => {
       jest.isolateModules(async () => {
         let viewResult
         const legalAgreementParties = require('../../land/add-legal-agreement-parties.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES_KEY, 'http://localhost:3000/land/check-legal-agreement-details')
+        redisMap.set(constants.redisKeys.REFERER, '/land/check-legal-agreement-details')
         const request = {
           yar: redisMap,
           payload: {
