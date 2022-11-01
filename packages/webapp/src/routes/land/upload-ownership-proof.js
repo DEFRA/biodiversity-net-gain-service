@@ -62,9 +62,7 @@ function processReturnValue (details, h) {
 }
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
-  },
+  get: async (_request, h) => h.view(constants.views.UPLOAD_LAND_OWNERSHIP),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(

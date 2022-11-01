@@ -7,9 +7,7 @@ import { uploadFiles } from '../../utils/upload.js'
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN)
-  },
+  get: async (_request, h) => h.view(constants.views.UPLOAD_MANAGEMENT_PLAN),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
