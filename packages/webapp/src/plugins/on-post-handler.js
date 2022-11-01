@@ -20,9 +20,10 @@ const onPostHandler = {
             // If no referer then clear referer key because user has broken the journey
             request.yar.clear(constants.redisKeys.REFERER)
           }
-        } else if (request.response.variety !== 'view') {
-          //request.yar.clear(constants.redisKeys.REFERER)
         }
+        // else if (request.response.variety !== 'view') {
+        //   //request.yar.clear(constants.redisKeys.REFERER)
+        // }
         return h.continue
       })
     }
