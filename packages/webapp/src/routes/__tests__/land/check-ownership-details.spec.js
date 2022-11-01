@@ -13,6 +13,8 @@ describe(url, () => {
         redisMap.set(constants.redisKeys.FULL_NAME, 'Satoshi')
         redisMap.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, 'Yes')
         redisMap.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, mockDataPath)
+        redisMap.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+        redisMap.set(constants.redisKeys.LANDOWNERS, '')
         const request = {
           yar: redisMap
         }
