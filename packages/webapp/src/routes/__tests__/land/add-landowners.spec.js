@@ -51,7 +51,7 @@ describe(url, () => {
         let viewResult
         const legalAgreementParties = require('../../land/add-landowners.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.LAND_OWNERSHIP_KEY, 'http://localhost:3000/land/check-ownership-details')
+        redisMap.set(constants.redisKeys.REFERER, '/land/check-ownership-details')
 
         const request = {
           yar: redisMap,
