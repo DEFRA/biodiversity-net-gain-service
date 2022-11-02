@@ -2,7 +2,7 @@
 
 Node.js Microsoft Azure functions associated with procesing an application to the BNG public register.
 Microsoft Azure SignalR is used to provide asynchronous notifications associated with function processing to the
-[application to register web application](../webapp/).
+[web application](../webapp/).
 
 [Extension bundles](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-register) are used to ensure the function app
 uses a compatible set of binding extensions.
