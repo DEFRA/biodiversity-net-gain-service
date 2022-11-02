@@ -57,8 +57,8 @@ Open the Visual Studio Code workspace file (bng.code-workspace) in the root of t
 The workspace provides an easy way to open integrated terminals for runnable applications within the mono repository. Additionally, debug onfigurations are provided for:
 
 * Runnable applications within the mono repository
-  * [application-to-register-functions](../packages/application-to-register-webapp)
-  * [application-to-register-webapp](../packages/application-to-register-webapp)
+  * [azure-functions](../packages/webapp)
+  * [webapp](../packages/webapp)
 * Running all Jest unit tests.
 * Running  a single Jest unit test file.
 
@@ -74,7 +74,7 @@ The workspace provides an easy way to open integrated terminals for runnable app
 Development container creation configures as many environment variables as possible including well known secrets in the public domain that enable
 [Azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) connectivity.
 
-**IMPORTANT** - The [application-to-register-webapp](../packages/application-to-register-webapp) requires the user to populate the **ORDNANCE_SURVEY_API_KEY** and
+**IMPORTANT** - The [webapp](../packages/webapp) requires the user to populate the **ORDNANCE_SURVEY_API_KEY** and
 **ORDNANCE_SURVEY_API_SECRET** values in the WEBAPP_ENV file within the contanerised development environment before continuing. Please consult
 [containerisation](./containerisation.md#secrets) for further information.
 
@@ -88,13 +88,13 @@ depending on internet connection speed.
 ### Application To Register Web App
 
 * Open an Integrated Terminal (**File -> New Terminal** menu options) in the development container.
-* Select **application-to-register-web-app** from the list of available terminal options.
+* Select **webapp** from the list of available terminal options.
 * Issue the command **npm run local:start** from the terminal.
 
 ### Application To Register Functions
 
 * Open an Integrated Terminal (**File -> New Terminal** menu options) in the development container.
-* Select **application-to-register-functions** from the list of available terminal options.
+* Select **azure-functions** from the list of available terminal options.
 * Issue the command **npm run start** from the terminal.
 
 ## Development Container Considerations
@@ -112,13 +112,13 @@ docker exec -it <<container ID or container name>> bash
 ### Increased Latency
 
 Use of Docker in Docker increases network latency. The increased network latency causes problems when performing file uploads from a client browser through to the development container and the
-containers within it. To compensate for this increased latency, [application-to-register-webapp](../packages/application-to-register-webapp) uses an additional environment variable called **KEEP_ALIVE_TIMEOUT_MS** to tune the default HTTP keep alive timeout. Development containers use a HTTP keep alive timeout of 10000ms by default. This environment variable is added to the WEBAPP_ENV
+containers within it. To compensate for this increased latency, [webapp](../packages/webapp) uses an additional environment variable called **KEEP_ALIVE_TIMEOUT_MS** to tune the default HTTP keep alive timeout. Development containers use a HTTP keep alive timeout of 10000ms by default. This environment variable is added to the WEBAPP_ENV
 file located in the [docker secrets](../docker/secrets/) directory. within the development container.
 
 At the moment, the introduction of a configurable keep alive timeout for use in development containers does not seem to be enough to allow the debugging of file uploads in a development container.
 Debugging a file upload to an Azurite container running in the development container appears to hang. There are two recommended workarounds until this issue is resolved:
 
-* Run [application-to-register-webapp](../packages/application-to-register-webapp) within a development container with sufficient logging.
+* Run [webapp](../packages/webapp) within a development container with sufficient logging.
 * Debug file uploads using an uncontainerised local development environment.
 
 ### Ongoing Maintenance

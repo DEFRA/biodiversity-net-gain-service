@@ -30,15 +30,25 @@ pre-commit init-templatedir ~/.git-template
 
 Please consult [pre-commit](https://pre-commit.com/) documentation for further information.
 
-For the git pre-commit hook to function the Python virtual environment **must** be activated. This can be achieved by issuing the following command in the shell
-where git push commands are issued:
+For the git pre-commit hook to function the Python virtual environment **must** be activated. This can be achieved by issuing a command of the following form in the shell
+where git push commands are issued (the path in angled brackets **MUST** be changed to reflect your local environent):
 
 ```sh
-source ${HOME}/Software/python/virtual-envs/bng/bin/activate
+source <</path/to/bng/virtual environment>>/bin/activate
 ```
 
 For convenience this command can be placed in a shell initialisation file such as .bashrc. Visual Studio Code development container configuration within this repository
 uses this approach.
+
+## Initialise And Configure The Mono-Repository
+
+Issue the following command from the root directory of your local repository:
+
+```sh
+npm i
+```
+
+This will perform initialisation and configuration activities associated with the top level of the mono-repository and each Lerna package within it.
 
 ## Configuration
 

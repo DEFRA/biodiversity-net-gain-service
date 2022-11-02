@@ -10,8 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DEFRA/biodiversity-net-gain-service/document-service",
-    "directory": "document-service"
+    "url": "https://github.com/DEFRA/biodiversity-net-gain-service",
+    "directory": "packages/document-service"
   },
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
