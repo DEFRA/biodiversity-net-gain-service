@@ -83,7 +83,6 @@
                                     name: "organisation[" + i + "][role]",
                                     value: "County Council",
                                     text: "County Council",
-                                    label: "County Council",
                                     checked: roleRowIndex.county_council,
                                     classes: "govuk-input--width-2",
                                     attributes: {
@@ -96,7 +95,6 @@
                                     name: "organisation[" + i + "][role]",
                                     value: "Developer",
                                     text: "Developer",
-                                    label: "Developer",
                                     checked: roleRowIndex.developer,
                                     classes: "govuk-input--width-2",
                                     attributes: {
@@ -109,7 +107,6 @@
                                     name: "organisation[" + i + "][role]",
                                     value: "Landowner",
                                     text: "Landowner",
-                                    label: "Landowner",
                                     checked: roleRowIndex.landowner,
                                     classes: "govuk-input--width-2",
                                     attributes: {
@@ -122,7 +119,6 @@
                                     name: "organisation[" + i + "][role]",
                                     value: "Responsible body",
                                     text: "Responsible body",
-                                    label: "Responsible body",
                                     checked: roleRowIndex.responsible_body,
                                     classes: "govuk-input--width-2",
                                     attributes: {
@@ -135,15 +131,11 @@
                                     name: "organisation[" + i + "][role]",
                                     value: "Other",
                                     text: "Other",
-                                    label: "Other",
                                     checked: roleRowIndex.other,
                                     classes: "govuk-input--width-2",
                                     conditional: {
                                     html: '<div id="other-role">
                                                             <div class="govuk-form-group">
-                                                                <label class="govuk-label" for="other-party">
-                                                                    Role
-                                                                </label>
                                                                 <input class="govuk-input govuk-!-width-one-third" value="' + roleRowIndex.otherPartyName  + '" name="otherPartyName">
                                                             </div>
                                                         </div>'
