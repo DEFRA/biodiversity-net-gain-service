@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 
 const url = constants.views.LEGAL_AGREEMENT_SUMMARY
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe(url, () => {
   const redisMap = new Map()

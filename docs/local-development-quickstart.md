@@ -88,7 +88,7 @@ depending on internet connection speed.
 ### Application To Register Web App
 
 * Open an Integrated Terminal (**File -> New Terminal** menu options) in the development container.
-* Select **application-to-register-web-app** from the list of available terminal options.
+* Select **webapp** from the list of available terminal options.
 * Issue the command **npm run local:start** from the terminal.
 
 ### Application To Register Functions
