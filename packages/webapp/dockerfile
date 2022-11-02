@@ -1,0 +1,22 @@
+FROM        node:16.13.2-alpine
+LABEL       author="DEFRA"
+
+ENV         PORT=3000
+
+WORKDIR     /usr/src
+
+# Copy webapp
+COPY        packages/webapp packages/webapp
+
+# Copy root config needed for install
+COPY        bin bin
+COPY        package*.json ./
+COPY        lerna.json lerna.json
+
+RUN         npm ci --ignore-scripts && npm run lerna:i
+
+WORKDIR     /usr/src/packages/webapp
+
+EXPOSE      $PORT
+
+CMD         [ "npm", "start" ]

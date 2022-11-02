@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/DEFRA/biodiversity-net-gain-service/azure-storage-test-utils",
-    "directory": "azure-storage-test-utils"
+    "directory": "packages/azure-storage-test-utils"
   },
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",

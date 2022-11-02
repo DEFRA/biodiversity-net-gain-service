@@ -111,8 +111,8 @@ docker/volumes/geoserver
 # vscode debug file
 .vscode/**
 # Do not ignore vscode debug files required to debug within a dev container.
-!packages/application-to-register-functions/vscode/*.json
-!packages/application-to-register-webapp/vscode/*.json
+!packages/azure-functions/vscode/*.json
+!packages/webapp/vscode/*.json
 
 # Symbolic links for Babel configuration
 packages/**/babel.config.json

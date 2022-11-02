@@ -6,8 +6,8 @@ services:
   ##############################################################################################################
   # Biodiversity net gain service application to register webapp
   ##############################################################################################################
-  application-to-register-webapp:
-    image: ${CONTAINER_REGISTRY}/application-to-register-webapp:${TAG:-latest}
+  webapp:
+    image: ${CONTAINER_REGISTRY}/webapp:${TAG:-latest}
     build:
       context: ../
-      dockerfile: packages/application-to-register-webapp/dockerfile
+      dockerfile: packages/webapp/dockerfile
