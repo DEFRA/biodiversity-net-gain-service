@@ -55,7 +55,7 @@ class Main {
     console.log(`Checking file...`);
     const arg = process.argv[2];
     // if (!this.checkFileExists(filepath) || arg == "-f") {
-      console.info("Downloading file...");
+      console.info(' Downloading file...', filepath);
       await this.downloadBlobToFile(filepath);
     // }
 
