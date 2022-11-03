@@ -1,33 +1,12 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (request, h) => {
-    const documentType = {
-      conservationType: false,
-      planningObligationType: false,
-      dontHave: false
-    }
-    const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
-    switch (legalAgreementDocumentType) {
-      case 'Conservation covenant':
-        documentType.conservationType = true
-        break
-      case 'Planning obligation (section 106 agreement)':
-        documentType.planningObligationType = true
-        break
-      case 'I do not have a legal agreement' :
-        documentType.dontHave = true
-        break
-      default:
-        break
-    }
-    return h.view(constants.views.LEGAL_AGREEMENT_TYPE, documentType)
-  },
+  get: async (request, h) => h.view(constants.views.LEGAL_AGREEMENT_TYPE, getContext(request)),
   post: async (request, h) => {
     const legalAgreementType = request.payload.legalAgreementType
     if (legalAgreementType) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
-      if (legalAgreementType !== 'I do not have a legal agreement') {
+      if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_LEGAL_AGREEMENT)
       } else {
         return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
@@ -37,9 +16,17 @@ const handlers = {
         err: [{
           text: 'Select which type of legal agreement you have',
           href: '#legalAgreementType'
-        }]
+        }],
+        ...getContext(request)
       })
     }
+  }
+}
+
+const getContext = request => {
+  return {
+    documentType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+    types: constants.LEGAL_AGREEMENT_DOCUMENTS
   }
 }
 

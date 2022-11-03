@@ -29,27 +29,27 @@
             },
             errorMessage: err[0],
             items: [
-                {
-                    value: "Conservation covenant",
-                    text: "Conservation covenant",
-                    id: "conservation-covenant",
-                    checked: conservationType
-                },
-                {
-                    value: "Planning obligation (section 106 agreement)",
-                    text: "Planning obligation (section 106 agreement)",
-                    id: "planning-obligation",
-                    checked: planningObligationType
-                },
-                {
-                    divider: "or"
-                },
-                {
-                    value: "I do not have a legal agreement",
-                    text: "I do not have a legal agreement",
-                    id: "dont-have-document",
-                    checked: dontHave
-                }
+              {
+                value: types[1].id,
+                text: types[1].text,
+                id: types[1].htmlId,
+                checked: (documentType === types[1].id)
+              },
+              {
+                value: types[0].id,
+                text: types[0].text,
+                id: types[0].htmlId,
+                checked: (documentType === types[0].id)
+              },
+              {
+                divider: "or"
+              },
+              {
+                value: types[3].id,
+                text: types[3].text,
+                id: types[3].htmlId,
+                checked: (documentType === types[3].id)
+              }
             ]
         }) }}
         {{ govukButton({

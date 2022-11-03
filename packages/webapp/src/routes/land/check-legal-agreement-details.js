@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processCompletedRegistrationTask, getNameAndRoles, dateToString, listArray } from '../../utils/helpers.js'
+import { processCompletedRegistrationTask, getNameAndRoles, dateToString, listArray, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,17 +18,14 @@ const handlers = {
 
 const getContext = request => {
   return {
-    legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
-    legalAgreementFileName: getLegalAgreementFileName(request),
+    legalAgreementType: getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
+    legalAgreementFileName: getLegalAgreementFileName(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)),
     partyNameAndRole: getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
     legalAgreementStartDate: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY)
   }
 }
 
-const getLegalAgreementFileName = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  return fileLocation ? path.parse(fileLocation).base : ''
-}
+const getLegalAgreementFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 
 export default [{
   method: 'GET',

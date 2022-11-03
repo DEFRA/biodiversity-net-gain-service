@@ -152,6 +152,32 @@ const LAND_OWNERSHIP_FILE_EXT = [
   '.pdf'
 ]
 
+const LEGAL_AGREEMENT_DOCUMENTS = [
+  {
+    id: '759150000',
+    type: 'planningObligation',
+    text: 'Planning obligation (section 106 agreement)',
+    htmlId: 'planning-obligation'
+  },
+  {
+    id: '759150001',
+    type: 'conservationCovenant',
+    text: 'Conservation covenant',
+    htmlId: 'conservation-covenant'
+  },
+  {
+    id: '759150002',
+    type: 'other',
+    text: 'Other'
+  },
+  {
+    id: '-1',
+    type: 'noDocument',
+    text: 'I do not have a legal agreement',
+    htmlId: 'dont-have-document'
+  }
+]
+
 const redisKeys = {
   GAIN_SITE_REFERENCE,
   GEOSPATIAL_LOCATION,
@@ -322,5 +348,6 @@ export default Object.freeze({
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
-  clearReferer
+  clearReferer,
+  LEGAL_AGREEMENT_DOCUMENTS
 })

@@ -1,6 +1,8 @@
 import constants from './constants.js'
 import path from 'path'
-import { getNameAndRoles } from './helpers.js'
+import { getLegalAgreementParties } from './helpers.js'
+
+// Application object schema must match the expected payload format for the Operator application
 
 const application = session => {
   return {
@@ -14,12 +16,12 @@ const application = session => {
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
       landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
-      legalAgreementParties: getNameAndRoles(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
+      legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
-      landownerNames: getAllLandowners(session),
+      otherLandowners: session.get(constants.redisKeys.LANDOWNERS) && session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } }),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY),
       files: [
         {
@@ -56,18 +58,6 @@ const application = session => {
       ]
     }
   }
-}
-
-const getAllLandowners = session => {
-  const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS))) || []
-  if (session.get(constants.redisKeys.ROLE_KEY) === 'Landowner') {
-    if (landowners.length === 0) {
-      landowners.push(session.get(constants.redisKeys.FULL_NAME))
-    } else {
-      landowners.unshift(session.get(constants.redisKeys.FULL_NAME))
-    }
-  }
-  return landowners
 }
 
 export default application

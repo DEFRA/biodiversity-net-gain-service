@@ -1,4 +1,6 @@
-import { listArray, boolToYesNo, dateToString, hideClass } from '../helpers.js'
+import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners } from '../helpers.js'
+import Session from '../../routes/__tests__/helpers/session.js'
+import constants from '../../utils/constants.js'
 
 describe('helpers file', () => {
   describe('boolToYesNo', () => {
@@ -43,6 +45,40 @@ describe('helpers file', () => {
     })
     it('Should return empty string if false passed in', () => {
       expect(hideClass(false)).toEqual('')
+    })
+  })
+  describe('getAllLandowners', () => {
+    it('should just return list of landowners if applicant is not a landowner', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.LANDOWNERS, ['Jane Smith'])
+      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
+      session.set(constants.redisKeys.ROLE_KEY, 'Other')
+      const list = getAllLandowners(session)
+      expect(list).toEqual(['Jane Smith'])
+    })
+    it('should return a list of landowners with applicant at start if is a landowner', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.LANDOWNERS, ['Jane Smith'])
+      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
+      session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+      const list = getAllLandowners(session)
+      expect(list).toEqual(['John Smith', 'Jane Smith'])
+    })
+    it('should return an array of just the applicant if landowner and no others', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.LANDOWNERS, [])
+      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
+      session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+      const list = getAllLandowners(session)
+      expect(list).toEqual(['John Smith'])
+    })
+    it('should return an empty array if not landowner and no others', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.LANDOWNERS, [])
+      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
+      session.set(constants.redisKeys.ROLE_KEY, 'Other')
+      const list = getAllLandowners(session)
+      expect(list).toEqual([])
     })
   })
 })
