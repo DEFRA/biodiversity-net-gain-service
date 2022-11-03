@@ -57,12 +57,12 @@
                             name: "organisation[" + i + "][organisationName]",
                             value: organisationValue,
                             label: {
-                                text: 'Full name or organisation'
+                                text: "Full name or organisation"
                             },
                             errorMessage: orgErrorMessage,
                             attributes: {
-                                'data-name': 'organisation[%index%][organisationName]',
-                                'data-id': 'organisation[%index%][organisationName]',
+                                "data-name": "organisation[" + i + "][organisationName]",
+                                "data-id": "organisation[" + i + "][organisationName]",
                                 "aria-describedby": "organisation[" + i + "][organisationName]"
                             }
                         }) }}
@@ -156,8 +156,8 @@
                         {% if selectionCount > 1 %}
                             <div class="moj-button-action">
                                 {{ govukButton({
-                                    text: 'Remove',
-                                    classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button'
+                                    text: "Remove",
+                                    classes: "govuk-button govuk-button--secondary moj-add-another__remove-button"
                                 }) }}
                             </div>
                         {% endif %}
