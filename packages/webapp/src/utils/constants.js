@@ -120,6 +120,8 @@ const REFERER = 'referer'
 const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/development-details'
+const DEVELOPER_METRIC_DATA = 'developer-metric-data'
+const DEV_DETAILS_CHECKED = 'dev-details-checked'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -244,7 +246,9 @@ const redisKeys = {
   METRIC_UPLOADED_ANSWER,
   REFERER,
   EMAIL_VALUE,
-  CONFIRM_EMAIL
+  CONFIRM_EMAIL,
+  DEVELOPER_METRIC_DATA,
+  DEV_DETAILS_CHECKED
 }
 
 const routes = {
