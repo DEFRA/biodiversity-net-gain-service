@@ -2,36 +2,31 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
-const href = '#check-upload-correct-yes'
+const href = '#dev-details-checked-yes'
 const handlers = {
   get: async (request, h) => {
     const context = await getContext(request)
     return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, context)
   },
   post: async (request, h) => {
-    const checkUploadMetric = request.payload.checkUploadMetric
+    const confirmDevDetails = request.payload.confirmDevDetails
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
-    console.log('outside', checkUploadMetric)
-    if (checkUploadMetric === 'no') {
-      console.log('No', checkUploadMetric)
+    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
+    if (confirmDevDetails === 'no') {
       // delete the file from blob storage
       const config = {
-        containerName: 'trusted',
+        containerName: 'untrusted',
         blobName: metricUploadLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
       request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
-    } else if (checkUploadMetric === 'yes') {
-      console.log('yes', checkUploadMetric)
+    } else if (confirmDevDetails === 'yes') {
       return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
-        ...await getContext(request),
         err: { text: '!TODO: Journey continuation not implemented' }
       })
     } else {
-      console.log('Else', checkUploadMetric)
-      return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
+      return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
         ...await getContext(request),
         err: [
@@ -46,10 +41,8 @@ const handlers = {
 }
 
 const getContext = async request => {
-  const fileLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   return {
-    filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: request.yar.get(constants.redisKeys.METRIC_FILE_SIZE)
+    startPage: request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage
   }
 }
 
