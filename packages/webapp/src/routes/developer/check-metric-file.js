@@ -15,7 +15,7 @@ const handlers = {
     if (checkUploadMetric === 'no') {
       // delete the file from blob storage
       const config = {
-        containerName: 'trusted',
+        containerName: 'untrusted',
         blobName: metricUploadLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
@@ -23,7 +23,6 @@ const handlers = {
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
-        ...await getContext(request),
         err: { text: '!TODO: Journey continuation not implemented' }
       })
     } else {
