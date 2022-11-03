@@ -124,6 +124,8 @@ const REFERER = 'referer'
 const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/development-details'
+const DEVELOPER_METRIC_DATA = 'developer-metric-data'
+const DEV_DETAILS_CHECKED = 'dev-details-checked'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -281,7 +283,9 @@ const redisKeys = {
   ELIGIBILITY_OWNERSHIP_PROOF,
   ELIGIBILITY_BOUNDARY,
   ELIGIBILITY_BIODIVERSITY_METRIC,
-  ELIGIBILITY_HMMP
+  ELIGIBILITY_HMMP,
+  DEVELOPER_METRIC_DATA,
+  DEV_DETAILS_CHECKED
 }
 
 const routes = {
