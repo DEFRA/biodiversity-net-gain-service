@@ -73,13 +73,11 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       async function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
-        console.log('location', result['0'].location)
         const envVars = EnvVars()
         const extractData = new Main(result['0'].location, envVars.AZURE_STORAGE_CONNECTION_STRING, envVars.AZURE_CONTAINER_NAME)
         try {
           const metricData = await extractData.getBlobData()
           console.info('Extracted metric data')
-          console.log('-----------------------')
           console.log(metricData.startPage)
           request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
         } catch (err) {
