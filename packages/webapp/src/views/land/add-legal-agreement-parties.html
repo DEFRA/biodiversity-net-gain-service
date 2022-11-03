@@ -62,7 +62,8 @@
                             errorMessage: orgErrorMessage,
                             attributes: {
                                 'data-name': 'organisation[%index%][organisationName]',
-                                'data-id': 'organisation[%index%][organisationName]'
+                                'data-id': 'organisation[%index%][organisationName]',
+                                "aria-describedby": "organisation[" + i + "][organisationName]"
                             }
                         }) }}
                         {{ govukRadios({
@@ -86,9 +87,10 @@
                                     checked: roleRowIndex.county_council,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                    "data-name": "countyCouncil[" + i + "][role]",
-                                    "data-id": "countyCouncil[" + i + "][role]"
-                                }
+                                        "data-name": "countyCouncil[" + i + "][role]",
+                                        "data-id": "countyCouncil[" + i + "][role]",
+                                        "aria-describedby": "countyCouncil[" + i + "][role]"
+                                    }
                                 },
                                 {
                                     id: "developer[" + i + "][role]",
@@ -98,9 +100,10 @@
                                     checked: roleRowIndex.developer,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                    "data-name": "developer[" + i + "][role]",
-                                    "data-id": "developer[" + i + "][role]"
-                                }
+                                        "data-name": "developer[" + i + "][role]",
+                                        "data-id": "developer[" + i + "][role]",
+                                        "aria-describedby": "developer[" + i + "][role]"
+                                    }
                                 },
                                 {
                                     id: "landowner[" + i + "][role]",
@@ -110,9 +113,10 @@
                                     checked: roleRowIndex.landowner,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                    "data-name": "landowner[" + i + "][role]",
-                                    "data-id": "landowner[" + i + "][role]"
-                                }
+                                        "data-name": "landowner[" + i + "][role]",
+                                        "data-id": "landowner[" + i + "][role]",
+                                        "aria-describedby": "landowner[" + i + "][role]"
+                                    }
                                 },
                                 {
                                     id: "responsible[" + i + "][role]",
@@ -122,9 +126,10 @@
                                     checked: roleRowIndex.responsible_body,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                    "data-name": "responsible[" + i + "][role]",
-                                    "data-id": "responsible[" + i + "][role]"
-                                }
+                                        "data-name": "responsible[" + i + "][role]",
+                                        "data-id": "responsible[" + i + "][role]",
+                                        "aria-describedby": "responsible[" + i + "][role]"
+                                    }
                                 },
                                 {
                                     id: "otherOrganisation[" + i + "][role]",
@@ -141,9 +146,10 @@
                                                         </div>'
                                 },
                                     attributes: {
-                                    "data-name": "otherOrganisation[" + i + "][role]",
-                                    "data-id": "otherOrganisation[" + i + "][role]"
-                                }
+                                        "data-name": "otherOrganisation[" + i + "][role]",
+                                        "data-id": "otherOrganisation[" + i + "][role]",
+                                        "aria-describedby": "otherOrganisation[" + i + "][role]"
+                                    }
                                 }
                             ]
                         }) }}
