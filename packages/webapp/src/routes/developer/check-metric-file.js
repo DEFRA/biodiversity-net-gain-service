@@ -15,7 +15,7 @@ const handlers = {
     if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
       // delete the file from blob storage
       const config = {
-        containerName: 'trusted',
+        containerName: 'untrusted',
         blobName: metricUploadLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
