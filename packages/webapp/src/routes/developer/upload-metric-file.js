@@ -4,6 +4,10 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import dotenv from 'dotenv'
+import Main from '../../../../bngdataextractor/src/main.js'
+
+dotenv.config()
 
 const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
 const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
@@ -96,6 +100,18 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       async function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
+        console.log('location', result['0'].location)
+        const envVars = EnvVars()
+        const extractData = new Main(result['0'].location, envVars.AZURE_STORAGE_CONNECTION_STRING, envVars.AZURE_CONTAINER_NAME)
+        try {
+          const metricData = await extractData.getBlobData()
+          console.info('Extracted metric data')
+          console.log('-----------------------')
+          console.log(metricData.startPage)
+          request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
+        } catch (err) {
+          console.error('Err: ', err)
+        }
         return processReturnValue(viewDetails, h)
       },
       function (err) {
@@ -207,6 +223,13 @@ const buildSignalRConfig = (sessionId, config) => {
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: constants.metricFileExt
+  }
+}
+
+const EnvVars = () => {
+  return {
+    AZURE_STORAGE_CONNECTION_STRING: process.env.AZURE_STORAGE_CONNECTION_STRING,
+    AZURE_CONTAINER_NAME: process.env.AZURE_CONTAINER_NAME
   }
 }
 
