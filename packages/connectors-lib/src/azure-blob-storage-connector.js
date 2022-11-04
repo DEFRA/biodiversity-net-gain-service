@@ -49,9 +49,22 @@ const getBlockBlobClient = (containerName, blobName) => {
   return containerClient.getBlockBlobClient(blobName)
 }
 
+const downloadBlobToFileIfExists = async (logger, config) => {
+  const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
+  const blobExists = await blockBlobClient.exists()
+  let returnValue;
+  if(blobExists){
+    returnValue = await blockBlobClient.downloadToFile(config.fileNameWithPath);
+  } else {
+    logger.log('Blob does not exist');
+  }
+  return returnValue;
+}
+
 export const blobStorageConnector = Object.freeze({
   deleteBlobIfExists,
   downloadStreamIfExists,
   downloadToBufferIfExists,
-  uploadStream
+  uploadStream,
+  downloadBlobToFileIfExists
 })
