@@ -160,7 +160,10 @@
                             <div class="moj-button-action">
                                 {{ govukButton({
                                     text: "Remove",
-                                    classes: "govuk-button govuk-button--secondary moj-add-another__remove-button"
+                                    classes: "govuk-button govuk-button--secondary moj-add-another__remove-button",
+                                    attributes: {
+                                        id: "otherOrganisation[" + i + "]"
+                                    }
                                 }) }}
                             </div>
                         {% endif %}
