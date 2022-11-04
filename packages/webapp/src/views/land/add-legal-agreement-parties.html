@@ -44,10 +44,10 @@
                         {% endif %}
                     {% endfor %}
                     {% call govukFieldset({
-                        classes: 'moj-add-another__item',
+                        classes: "moj-add-another__item",
                         legend: {
-                            text: 'Legal party',
-                            classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                            text: "Legal party",
+                            classes: "moj-add-another__title govuk-fieldset__legend--m",
                             isPageHeading: false
                         }
                     }) %}
@@ -61,8 +61,8 @@
                             },
                             errorMessage: orgErrorMessage,
                             attributes: {
-                                "data-name": "organisation[" + i + "][organisationName]",
-                                "data-id": "organisation[" + i + "][organisationName]",
+                                "data-name": "organisation[%index%][organisationName]",
+                                "data-id": "organisation[%index%][organisationName]",
                                 "aria-describedby": "organisation[" + i + "][organisationName]"
                             }
                         }) }}
@@ -87,10 +87,10 @@
                                     checked: roleRowIndex.county_council,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                        "data-name": "countyCouncil[" + i + "][role]",
-                                        "data-id": "countyCouncil[" + i + "][role]",
-                                        "aria-describedby": "countyCouncil[" + i + "][role]"
-                                    }
+                                    "data-name": "countyCouncil[%index%][role]",
+                                    "data-id": "countyCouncil[%index%][role]",
+                                    "aria-describedby": "countyCouncil[" + i + "][role]"
+                                }
                                 },
                                 {
                                     id: "developer[" + i + "][role]",
@@ -100,10 +100,10 @@
                                     checked: roleRowIndex.developer,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                        "data-name": "developer[" + i + "][role]",
-                                        "data-id": "developer[" + i + "][role]",
-                                        "aria-describedby": "developer[" + i + "][role]"
-                                    }
+                                    "data-name": "developer[%index%][role]",
+                                    "data-id": "developer[%index%][role]",
+                                    "aria-describedby": "developer[" + i + "][role]"
+                                }
                                 },
                                 {
                                     id: "landowner[" + i + "][role]",
@@ -113,10 +113,10 @@
                                     checked: roleRowIndex.landowner,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                        "data-name": "landowner[" + i + "][role]",
-                                        "data-id": "landowner[" + i + "][role]",
-                                        "aria-describedby": "landowner[" + i + "][role]"
-                                    }
+                                    "data-name": "landowner[%index%][role]",
+                                    "data-id": "landowner[%index%][role]",
+                                    "aria-describedby": "landowner[" + i + "][role]"
+                                }
                                 },
                                 {
                                     id: "responsible[" + i + "][role]",
@@ -126,10 +126,10 @@
                                     checked: roleRowIndex.responsible_body,
                                     classes: "govuk-input--width-2",
                                     attributes: {
-                                        "data-name": "responsible[" + i + "][role]",
-                                        "data-id": "responsible[" + i + "][role]",
-                                        "aria-describedby": "responsible[" + i + "][role]"
-                                    }
+                                    "data-name": "responsible[%index%][role]",
+                                    "data-id": "responsible[%index%][role]",
+                                    "aria-describedby": "responsible[" + i + "][role]"
+                                }
                                 },
                                 {
                                     id: "otherOrganisation[" + i + "][role]",
@@ -141,15 +141,18 @@
                                     conditional: {
                                     html: '<div id="other-role">
                                                             <div class="govuk-form-group">
+                                                                <label class="govuk-label" for="other-party">
+                                                                    Role
+                                                                </label>
                                                                 <input class="govuk-input govuk-!-width-one-third" value="' + roleRowIndex.otherPartyName  + '" name="otherPartyName">
                                                             </div>
                                                         </div>'
                                 },
                                     attributes: {
-                                        "data-name": "otherOrganisation[" + i + "][role]",
-                                        "data-id": "otherOrganisation[" + i + "][role]",
-                                        "aria-describedby": "otherOrganisation[" + i + "][role]"
-                                    }
+                                    "data-name": "otherOrganisation[%index%][role]",
+                                    "data-id": "otherOrganisation[%index%][role]",
+                                    "aria-describedby": "otherOrganisation[" + i + "][role]"
+                                }
                                 }
                             ]
                         }) }}
@@ -163,18 +166,17 @@
                         {% endif %}
                         {% endcall %}
                         {% endfor %}
-                        {# {% endif %} #}
                         <div class="moj-button-action">
                             {{ govukButton({
-                                text: 'Add another',
-                                classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
+                                text: "Add another",
+                                classes: "govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4"
                             }) }}
                         </div>
 
                         <div class="moj-button-action">
                             {{ govukButton({
-                                text: 'Continue',
-                                id: 'continue'
+                                text: "Continue",
+                                id: "continue"
                             }) }}
                         </div>
 
