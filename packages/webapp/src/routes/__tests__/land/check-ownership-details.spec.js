@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 const url = '/land/check-ownership-details'
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe(url, () => {
   describe('GET', () => {

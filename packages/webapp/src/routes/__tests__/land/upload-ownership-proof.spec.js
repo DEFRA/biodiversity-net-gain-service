@@ -3,7 +3,7 @@ import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azur
 const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
 const url = '/land/upload-ownership-proof'
 
-const mockDataPath = 'packages/application-to-register-webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
 describe('Proof of ownership upload controller tests', () => {
