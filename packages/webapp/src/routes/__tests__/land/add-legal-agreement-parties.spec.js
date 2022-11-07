@@ -9,6 +9,32 @@ describe(url, () => {
       const response = await submitGetRequest({ url })
       expect(response.statusCode).toBe(200)
     })
+    it(`should render the ${url.substring(1)} view with undefined other party`, async () => {
+      jest.isolateModules(async () => {
+        let viewResult, contextResult
+        const redisMap = new Map()
+        const legalAgreementDetails = require('../../land/add-legal-agreement-parties')
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
+          roles: [
+            {
+              otherPartyName: undefined
+            }
+          ]
+        })
+        const request = {
+          yar: redisMap
+        }
+        const h = {
+          view: (view, context) => {
+            viewResult = view
+            contextResult = context
+          }
+        }
+        await legalAgreementDetails.default[0].handler(request, h)
+        expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
+        expect(contextResult.roles[0].otherPartyName).toEqual('')
+      })
+    })
   })
   describe('POST', () => {
     let postOptions
