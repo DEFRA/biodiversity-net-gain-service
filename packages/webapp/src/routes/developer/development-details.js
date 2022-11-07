@@ -2,8 +2,8 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
-import BngExtractionService from "./bng-metric-extraction-service.js";
-import fs from "fs";
+import BngExtractionService from '../../../../bngdataextractor/src/bng-metric-extraction-service.js'
+import fs from 'fs'
 
 const href = '#dev-details-checked-yes'
 const handlers = {
@@ -44,52 +44,52 @@ const handlers = {
 }
 
 const getContext = async request => {
-  const metricData = await getMetricFileDataAsObject();
+  const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+  const metricData = await getMetricFileDataAsObject(blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
   return {
     startPage: metricData.startPage
   }
 }
 
-const getMetricFileDataAsObject = async () => {
-  const path = process.cwd();
-  const filepath = path + "/tmp/metric.xls";
-  const tmpDir = path + "/tmp";
-  if (!fs.existsSync(tmpDir)){
-    fs.mkdirSync(tmpDir);
+const getMetricFileDataAsObject = async (blobName) => {
+  const path = process.cwd()
+  const filepath = path + '/tmp/metric.xls'
+  const tmpDir = path + '/tmp'
+  if (!fs.existsSync(tmpDir)) {
+    fs.mkdirSync(tmpDir)
   }
-  console.log(`Checking file...`);
-  const arg = process.argv[2];
+  console.log('Checking file...')
+  // const arg = process.argv[2]
   // if (!checkFileExists(filepath) || arg == "-f") {
-    console.info(' Downloading file...', filepath);
-    const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-    const config = {
-      blobName,
-      containerName: 'untrusted',
-      fileNameWithPath: filepath
-    }
-    await blobStorageConnector.downloadBlobToFileIfExists(logger, config)
+  console.info(' Downloading file...', filepath)
+  const config = {
+    blobName,
+    containerName: 'untrusted',
+    fileNameWithPath: filepath
+  }
+  await blobStorageConnector.downloadBlobToFileIfExists(logger, config)
   // }
 
-  if (checkFileExists(filepath)){
-    console.log('Extracting file info...');
-    const extractService = new BngExtractionService();
-    return await extractService.extractMetricContent(filepath);
+  if (checkFileExists(filepath)) {
+    console.log('Extracting file info...')
+    const extractService = new BngExtractionService()
+    return await extractService.extractMetricContent(filepath)
   }
-  return null;
+  return null
 }
 
-const checkFileExists = (filepath) =>{
+const checkFileExists = (filepath) => {
   try {
     if (!fs.existsSync(filepath)) {
-      fs.writeFileSync(filepath, "");
+      fs.writeFileSync(filepath, '')
     }
-    const stats = fs.statSync(filepath);
-    const fileSize = stats.size;
-    console.info("Size:", fileSize);
-    return fileSize > 0;
+    const stats = fs.statSync(filepath)
+    const fileSize = stats.size
+    console.info('Size:', fileSize)
+    return fileSize > 0
   } catch (error) {
-    console.error("Err:", error);
+    console.error('Err:', error)
   }
 }
 
