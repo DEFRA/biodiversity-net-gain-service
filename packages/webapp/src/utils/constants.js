@@ -289,7 +289,8 @@ const setReferer = [
   LEGAL_AGREEMENT_SUMMARY,
   LEGAL_AGREEMENT_SUMMARY,
   CHECK_MANAGEMENT_MONITORING_SUMMARY,
-  ROLE
+  ROLE,
+  CHECK_LAND_BOUNDARY_DETAILS
 ]
 
 // Add a route to clearReferer to break the above setReferer chain

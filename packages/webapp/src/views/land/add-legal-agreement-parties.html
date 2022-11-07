@@ -162,7 +162,7 @@
                                     text: "Remove",
                                     classes: "govuk-button govuk-button--secondary moj-add-another__remove-button",
                                     attributes: {
-                                        id: "otherOrganisation[" + i + "]"
+                                        id: "remove" + i + "]"
                                     }
                                 }) }}
                             </div>
@@ -172,7 +172,10 @@
                         <div class="moj-button-action">
                             {{ govukButton({
                                 text: "Add another",
-                                classes: "govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4"
+                                classes: "govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4",
+                                attributes: {
+                                    id: "addOtherOrganisation"
+                                }
                             }) }}
                         </div>
 

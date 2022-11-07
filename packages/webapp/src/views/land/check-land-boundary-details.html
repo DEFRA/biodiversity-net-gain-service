@@ -19,6 +19,59 @@
                     }
                 }) }}
                 <form method="post">
+                    {{ govukSummaryList({
+                        rows: [
+                            {
+                                key: {
+                                text: 'Land boundary file uploaded'
+                            },
+                                value: {
+                                text: landBoundaryFileName
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/check-land-boundary-file',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Grid reference'
+                            },
+                                value: {
+                                text: gridReference
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/add-grid-reference',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            },
+                            {
+                                key: {
+                                text: 'Area in hectares'
+                            },
+                                value: {
+                                text: areaInHectare
+                            },
+                                actions: {
+                                items: [
+                                    {
+                                        href: '/land/add-hectares',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
+                            }
+                        ]
+                    }) }}
+                <form method="post">
                     {{ govukButton({
                         text: "Continue",
                         attributes: {

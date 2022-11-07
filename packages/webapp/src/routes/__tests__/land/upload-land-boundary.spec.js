@@ -3,7 +3,7 @@ import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azur
 const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
 const url = '/land/upload-land-boundary'
 
-const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = '/Users/rene/Documents/work/defra/biodiversitynetgain/working/biodiversity-service/packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
 describe('Land boundary upload controller tests', () => {
@@ -41,7 +41,7 @@ describe('Land boundary upload controller tests', () => {
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
         uploadConfig.referer = 'http://localhost:30000/land/check-ownership-details'
-        await uploadFile(uploadConfig)
+        await uploadFile(uploadConfig, 302)
         setImmediate(() => {
           done()
         })
@@ -52,7 +52,7 @@ describe('Land boundary upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        await uploadFile(uploadConfig)
+        await uploadFile(uploadConfig, 302)
         setImmediate(() => {
           done()
         })
