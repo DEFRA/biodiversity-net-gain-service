@@ -3,9 +3,7 @@ import { processCompletedRegistrationTask } from '../../utils/helpers.js'
 import path from 'path'
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, getContext(request))
-  },
+  get: async (request, h) => h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, getContext(request)),
   post: async (request, h) => {
     processCompletedRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land boundary details' })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)

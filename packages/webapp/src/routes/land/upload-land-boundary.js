@@ -17,14 +17,15 @@ function processSuccessfulUpload (result, request, h) {
         href: LAND_BOUNDARY_ID
       }]
     }
-    return h.view(resultView, errorMessage)
+    resultView = h.view(resultView, errorMessage)
   } else if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY)
+    resultView = h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY)
   }
+  return resultView
 }
 
 function processErrorUpload (err, h) {

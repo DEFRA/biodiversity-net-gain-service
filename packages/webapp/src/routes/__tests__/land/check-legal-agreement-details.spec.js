@@ -158,6 +158,7 @@ describe(url, () => {
               county_council: true
             }]
           })
+          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, `${mockDataPath}/legal-agreement.pdf`)
           const request = {
             yar: redisMap
           }
