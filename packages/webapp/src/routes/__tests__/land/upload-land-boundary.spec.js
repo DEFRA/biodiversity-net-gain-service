@@ -3,7 +3,7 @@ import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azur
 const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
 const url = '/land/upload-land-boundary'
 
-const mockDataPath = '/Users/rene/Documents/work/defra/biodiversitynetgain/working/biodiversity-service/packages/webapp/src/__mock-data__/uploads/legal-agreements'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 
 describe('Land boundary upload controller tests', () => {
