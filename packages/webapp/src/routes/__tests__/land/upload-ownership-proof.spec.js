@@ -38,7 +38,9 @@ describe('Proof of ownership upload controller tests', () => {
     it('should upload land ownership document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.referer = 'http://localhost:30000/land/check-ownership-details'
+        uploadConfig.headers = {
+          referer: 'http://localhost:30000/land/check-ownership-details'
+        }
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
         await uploadFile(uploadConfig)

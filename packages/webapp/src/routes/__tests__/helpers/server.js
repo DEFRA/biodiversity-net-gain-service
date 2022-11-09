@@ -36,8 +36,11 @@ const uploadFile = async (uploadConfig) => {
     formData.append(uploadConfig.formName, 'non-form data')
   }
   const requestHeaders = formData.getHeaders()
-  requestHeaders.referer = uploadConfig.referer
-
+  if (uploadConfig.headers !== undefined) {
+    Object.keys(uploadConfig.headers).forEach(header => {
+      requestHeaders[header] = uploadConfig.headers[header]
+    })
+  }
   const payload = await streamToPromise(formData)
   const options = {
     url: uploadConfig.url,

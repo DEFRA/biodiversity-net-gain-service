@@ -41,7 +41,9 @@ describe(url, () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-        uploadConfig.referer = 'http://localhost:30000/land/check-land-boundary-details'
+        uploadConfig.headers = {
+          referer: 'http://localhost:30000/land/check-land-boundary-details'
+        }
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()

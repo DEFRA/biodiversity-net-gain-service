@@ -53,8 +53,9 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
         uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
-        baseConfig.referer = `'http://localhost:30000${url}`
+        baseConfig.headers = {
+          referer: `'http://localhost:30000${url}`
+        }
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -67,7 +68,9 @@ describe('Legal agreement upload controller tests', () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
         baseConfig.referer = `'http://localhost:30000${url}`
-        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
+        uploadConfig.headers = {
+          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        }
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -130,7 +133,9 @@ describe('Legal agreement upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
+        uploadConfig.headers = {
+          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        }
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
@@ -156,7 +161,9 @@ describe('Legal agreement upload controller tests', () => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        uploadConfig.referer = 'http://localhost:30000/land/check-legal-agreement-details'
+        uploadConfig.headers = {
+          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        }
         await uploadFile(uploadConfig)
         setImmediate(() => {
           done()
