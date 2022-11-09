@@ -7,7 +7,7 @@ const handlers = {
     const name = request.yar.get(constants.redisKeys.FULL_NAME)
     const consent = request.yar.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) === 'true'
     const hideConsent = (request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner' && request.yar.get(constants.redisKeys.LANDOWNERS)?.length === 0)
-    const fileName = getOwneershipFileName(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
+    const fileName = getOwnershipFileName(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
     return h.view(constants.views.CHECK_OWNERSHIP_DETAILS, { name, consent, fileName, boolToYesNo, hideConsent })
   },
   post: async (request, h) => {
@@ -16,7 +16,7 @@ const handlers = {
   }
 }
 
-function getOwneershipFileName (fileLocation) {
+function getOwnershipFileName (fileLocation) {
   return path.parse(fileLocation).base
 }
 

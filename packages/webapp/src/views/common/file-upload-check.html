@@ -8,6 +8,9 @@
                 isPageHeading: true
             }
         }) }}
+        {% if fileSize !== null%}
+            {% set fileName = "<a download id = 'document-download' href='./" + downloadUrl + "'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>" %}
+        {% endif %}
         {{ govukSummaryList({
             rows: [
                 {
@@ -17,7 +20,7 @@
                     classes: "govuk-!-width-one-quarter"
                     },
                     value: {
-                        html: "<a download id = 'document-download' href='./" + downloadUrl + "'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>"
+                        html: fileName
                     }
                 }
             ]

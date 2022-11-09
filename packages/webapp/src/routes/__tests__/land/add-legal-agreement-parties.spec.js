@@ -187,7 +187,7 @@ describe(url, () => {
             'organisation[0][role]': 'Other',
             otherPartyName: [
               'party One',
-              'Party two'
+              'Other role'
             ],
             'organisation[1][organisationName]': 'Test Two',
             'organisation[1][role]': 'Other'
@@ -200,6 +200,13 @@ describe(url, () => {
         }
         await legalAgreementParties.default[1].handler(request, h)
         expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_SUMMARY)
+        expect(request.yar.get(constants.redisKeys.REFERER)).toBe('/land/check-legal-agreement-details')
+        expect(request.yar.get('legal-agreement-parties').organisations.length).toBe(2)
+        expect(request.yar.get('legal-agreement-parties').roles.length).toBe(2)
+        expect(request.yar.get('legal-agreement-parties').roles[0].otherPartyName).toBe('party One')
+        expect(request.yar.get('legal-agreement-parties').roles[1].otherPartyName).toBe('Other role')
+        expect(request.yar.get('legal-agreement-parties').organisationError.length).toBe(0)
+        expect(request.yar.get('legal-agreement-parties').roleError.length).toBe(0)
       })
     })
   })

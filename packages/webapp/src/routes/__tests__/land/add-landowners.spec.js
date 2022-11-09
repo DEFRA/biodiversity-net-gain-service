@@ -49,7 +49,7 @@ describe(url, () => {
     it('should add landowner and redirect to referrer ', async () => {
       jest.isolateModules(async () => {
         let viewResult
-        const legalAgreementParties = require('../../land/add-landowners.js')
+        const landowner = require('../../land/add-landowners.js')
         const redisMap = new Map()
         redisMap.set(constants.redisKeys.REFERER, '/land/check-ownership-details')
 
@@ -64,7 +64,7 @@ describe(url, () => {
             viewResult = view
           }
         }
-        await legalAgreementParties.default[1].handler(request, h)
+        await landowner.default[1].handler(request, h)
         expect(viewResult).toEqual(constants.routes.CHECK_OWNERSHIP_DETAILS)
       })
     })

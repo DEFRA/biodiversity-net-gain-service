@@ -21,9 +21,6 @@ const onPostHandler = {
             request.yar.clear(constants.redisKeys.REFERER)
           }
         }
-        // else if (request.response.variety !== 'view') {
-        //   //request.yar.clear(constants.redisKeys.REFERER)
-        // }
         return h.continue
       })
     }

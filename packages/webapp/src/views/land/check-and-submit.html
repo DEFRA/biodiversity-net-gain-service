@@ -56,6 +56,9 @@
 
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
+        {% if application.landBoundaryHectares !== null%}
+          {% set areaInHectares =  application.landBoundaryHectares + " ha"%}
+        {% endif %}
         {{ govukSummaryList({
           classes: 'govuk-!-margin-bottom-7',
           rows: [
@@ -98,7 +101,7 @@
                 text: "Area in hectares"
               },
               value: {
-                text: application.landBoundaryHectares + " ha"
+                text: areaInHectares
               },
               actions: {
                 items: [
