@@ -35,7 +35,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, date.toISOString())
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.MANAGEMENT_MONITORING_START_DATE)
+      return h.redirect(constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
     }
   }
 }

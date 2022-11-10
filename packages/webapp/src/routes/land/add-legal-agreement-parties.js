@@ -138,15 +138,12 @@ function getRoleDetails (roleValue, indexValue) {
         responsible_body: true
       }
       break
-    case 'Other':
+    default :
       roleDetails = {
         organisationIndex: indexValue,
         rowIndex: 4,
         other: true
       }
-      break
-    default:
-      roleDetails = undefined
   }
   return roleDetails
 }
@@ -155,6 +152,11 @@ const handlers = {
   get: async (request, h) => {
     const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
     if (partySelectionData) {
+      partySelectionData.roles?.forEach(role => {
+        if (role.otherPartyName === undefined) {
+          role.otherPartyName = ''
+        }
+      })
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {

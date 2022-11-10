@@ -21,7 +21,6 @@ const onPostHandler = {
             request.yar.clear(constants.redisKeys.REFERER)
           }
         }
-
         return h.continue
       })
     }

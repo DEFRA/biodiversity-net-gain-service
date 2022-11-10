@@ -1,6 +1,8 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Check the land ownership details" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the habitat management and monitoring details" %}
 
 {% block formContent %}
     <div class="govuk-body">
@@ -16,23 +18,20 @@
                         isPageHeading: true
                     }
                 }) }}
-                {% if hideConsent == true %}
-                    {% set consentVisible = 'govuk-visually-hidden' %}
-                {% endif %}
                 <form method="post">
                     {{ govukSummaryList({
                         rows: [
                             {
                                 key: {
-                                text: 'Proof of land ownership file uploaded'
+                                text: 'Habitat management and monitoring plan uploaded '
                             },
                                 value: {
-                                text: fileName
+                                text: managementFileName
                             },
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/check-ownership-proof-file',
+                                        href: '/land/upload-management-plan',
                                         text: 'Change'
                                     }
                                 ]
@@ -40,36 +39,35 @@
                             },
                             {
                                 key: {
-                                text: 'Landowner name'
+                                text: 'Start date of habitat enhancement works'
                             },
                                 value: {
-                                text: name
+                                text: habitatWorkStartDate
                             },
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/registered-landowner',
+                                        href: '/land/habitat-works-start-date',
                                         text: 'Change'
                                     }
                                 ]
                             }
                             },
                             {
-                                classes: consentVisible,
                                 key: {
-                                    text: 'Landowner consent'
-                                },
+                                text: 'Start date of the 30 year management and monitoring period'
+                            },
                                 value: {
-                                    html: boolToYesNo(consent)
-                                },
+                                html: managementMonitoringStartDate
+                            },
                                 actions: {
-                                    items: [
-                                        {
-                                            href: '/land/landowner-consent',
-                                            text: 'Change'
-                                        }
-                                    ]
-                                }
+                                items: [
+                                    {
+                                        href: '/land/management-monitoring-start-date',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
                             }
                         ]
                     }) }}

@@ -2,7 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 import { getRegistrationTasks } from '../../../utils/helpers'
 
-const url = '/land/register-land-task-list'
+const url = constants.routes.REGISTER_LAND_TASK_LIST
 
 describe(url, () => {
   describe('GET', () => {
@@ -31,7 +31,7 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
-      expect(contextResult.registrationTasks.taskList.length).toEqual(4)
+      expect(contextResult.registrationTasks.taskList.length).toEqual(5)
       expect(contextResult.registrationTasks.taskList[0]).toEqual({
         taskTitle: 'Your details',
         tasks: [
@@ -49,13 +49,13 @@ describe(url, () => {
           {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-land-boundary-details',
             startTaskUrl: '/land/upload-land-boundary'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-ownership-details',
             startTaskUrl: '/land/upload-ownership-proof'
           }
         ]
@@ -66,13 +66,13 @@ describe(url, () => {
           {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-metric-file',
             startTaskUrl: '/land/upload-metric'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-management-monitoring-details',
             startTaskUrl: '/land/upload-management-plan'
           }
         ]
@@ -118,7 +118,7 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
-      expect(contextResult.registrationTasks.taskList.length).toEqual(4)
+      expect(contextResult.registrationTasks.taskList.length).toEqual(5)
       expect(contextResult.registrationTasks.taskList[0]).toEqual({
         taskTitle: 'Your details',
         tasks: [
@@ -136,13 +136,13 @@ describe(url, () => {
           {
             title: 'Add land boundary details',
             status: 'COMPLETED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-land-boundary-details',
             startTaskUrl: '/land/upload-land-boundary'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-ownership-details',
             startTaskUrl: '/land/upload-ownership-proof'
           }
         ]
@@ -153,13 +153,13 @@ describe(url, () => {
           {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-metric-file',
             startTaskUrl: '/land/upload-metric'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
-            completedTaskUrl: '#',
+            completedTaskUrl: '/land/check-management-monitoring-details',
             startTaskUrl: '/land/upload-management-plan'
           }
         ]

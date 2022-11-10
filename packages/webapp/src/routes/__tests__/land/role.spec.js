@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/role'
+import constants from '../../../utils/constants'
+const url = constants.routes.ROLE
 
 describe(url, () => {
   describe('GET', () => {

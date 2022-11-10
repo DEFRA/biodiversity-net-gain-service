@@ -1,6 +1,8 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Check the land ownership details" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check the land boundary details" %}
 
 {% block formContent %}
     <div class="govuk-body">
@@ -16,23 +18,20 @@
                         isPageHeading: true
                     }
                 }) }}
-                {% if hideConsent == true %}
-                    {% set consentVisible = 'govuk-visually-hidden' %}
-                {% endif %}
                 <form method="post">
                     {{ govukSummaryList({
                         rows: [
                             {
                                 key: {
-                                text: 'Proof of land ownership file uploaded'
+                                text: 'Land boundary file uploaded'
                             },
                                 value: {
-                                text: fileName
+                                text: landBoundaryFileName
                             },
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/check-ownership-proof-file',
+                                        href: '/land/check-land-boundary-file',
                                         text: 'Change'
                                     }
                                 ]
@@ -40,41 +39,41 @@
                             },
                             {
                                 key: {
-                                text: 'Landowner name'
+                                text: 'Grid reference'
                             },
                                 value: {
-                                text: name
+                                text: gridReference
                             },
                                 actions: {
                                 items: [
                                     {
-                                        href: '/land/registered-landowner',
+                                        href: '/land/add-grid-reference',
                                         text: 'Change'
                                     }
                                 ]
                             }
                             },
                             {
-                                classes: consentVisible,
                                 key: {
-                                    text: 'Landowner consent'
-                                },
+                                text: 'Area in hectares'
+                            },
                                 value: {
-                                    html: boolToYesNo(consent)
-                                },
+                                text: areaInHectare
+                            },
                                 actions: {
-                                    items: [
-                                        {
-                                            href: '/land/landowner-consent',
-                                            text: 'Change'
-                                        }
-                                    ]
-                                }
+                                items: [
+                                    {
+                                        href: '/land/add-hectares',
+                                        text: 'Change'
+                                    }
+                                ]
+                            }
                             }
                         ]
                     }) }}
+                <form method="post">
                     {{ govukButton({
-                        text: 'Continue',
+                        text: "Continue",
                         attributes: {
                             id: "continue"
                         }

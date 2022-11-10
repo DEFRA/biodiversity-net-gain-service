@@ -70,9 +70,14 @@ const getRegistrationTasks = request => {
   return registrationTasks
 }
 
-const processCompletedRegistrationTask = (request, taskTitle) => {
+const processCompletedRegistrationTask = (request, taskDetails) => {
   const registrationTasks = getRegistrationTasks(request)
-  registrationTasks.taskList.find(task => task.taskTitle === taskTitle).tasks[0].status = constants.COMPLETE_REGISTRATION_TASK_STATUS
+  const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
+  affectedTask.tasks.forEach(task => {
+    if (task.title === taskDetails.title) {
+      task.status = constants.COMPLETE_REGISTRATION_TASK_STATUS
+    }
+  })
   request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
 }
 

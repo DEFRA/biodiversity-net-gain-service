@@ -16,7 +16,7 @@ const handlers = {
     let route
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
-        route = constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY
+        route = constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY

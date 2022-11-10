@@ -56,7 +56,7 @@ function processErrorUpload (err, h) {
 }
 
 function processReturnValue (details, h) {
-  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP
+  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP || details.resultView === constants.routes.CHECK_OWNERSHIP_DETAILS
     ? h.redirect(details.resultView, details.errorMessage)
     : h.view(details.resultView, details.errorMessage)
 }

@@ -11,7 +11,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    processCompletedRegistrationTask(request, 'Legal information')
+    processCompletedRegistrationTask(request, { taskTitle: 'Legal information', title: 'Add legal agreement details' })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
@@ -27,7 +27,7 @@ const getContext = request => {
 
 const getLegalAgreementFileName = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  return path.parse(fileLocation).base
+  return fileLocation ? path.parse(fileLocation).base : ''
 }
 
 export default [{

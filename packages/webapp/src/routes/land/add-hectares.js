@@ -20,7 +20,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_HECTARES)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
     }
   }
 }

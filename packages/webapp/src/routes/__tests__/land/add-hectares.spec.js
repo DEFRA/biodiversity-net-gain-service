@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/add-hectares'
+import constants from '../../../utils/constants'
+const url = constants.routes.ADD_HECTARES
 
 describe(url, () => {
   describe('GET', () => {

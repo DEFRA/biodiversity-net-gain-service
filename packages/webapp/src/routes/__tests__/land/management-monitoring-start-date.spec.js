@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/management-monitoring-start-date'
+import constants from '../../../utils/constants'
+const url = constants.routes.MANAGEMENT_MONITORING_START_DATE
 
 describe(url, () => {
   describe('GET', () => {
@@ -82,6 +83,9 @@ describe(url, () => {
           const request = {
             yar: {
               get: () => new Date('2022-11-30').toISOString()
+            },
+            info: {
+              referer: ''
             }
           }
           const h = {

@@ -24,9 +24,12 @@
           spellcheck: false,
           value: fullName
         }) }}
-        
+
         {{ govukButton({
-          text: "Continue"
+          text: "Continue",
+          attributes: {
+            id: "continue"
+          }
         }) }}
       </div>
     </div>
