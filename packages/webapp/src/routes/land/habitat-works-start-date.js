@@ -27,7 +27,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, date.toISOString())
-      return h.redirect(constants.routes.MANAGEMENT_MONITORING_START_DATE)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.MANAGEMENT_MONITORING_START_DATE)
     }
   }
 }

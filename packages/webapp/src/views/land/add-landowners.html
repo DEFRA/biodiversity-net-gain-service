@@ -19,7 +19,7 @@
             <h1 class="govuk-heading-l" tabindex="-1">
               {{ pageHeading }}
             </h1>
- 
+
               {% call govukFieldset({
                 classes: 'moj-add-another__item',
                 legend: {
@@ -36,19 +36,22 @@
                   html: 'Full name'
                 }
               }) }}
-              
-              {% endcall %} 
-          
+
+              {% endcall %}
+
               <div class="moj-button-action">
                 {{ govukButton({
                   text: 'Add another landowner',
                   classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
                 }) }}
               </div>
-          
+
               <div class="moj-button-action">
                 {{ govukButton({
                   text: 'Continue',
+                  attributes: {
+                    id: "continue"
+                  },
                   classes: 'govuk-button govuk-button--continue'
                 }) }}
               </div>

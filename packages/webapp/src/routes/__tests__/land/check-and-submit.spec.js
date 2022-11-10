@@ -3,17 +3,6 @@ import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
-// /*
-// Tests
-//   happy
-//     GET
-//     POST
-//       Valid application is sent to backend
-//   sad
-//     POST
-//       invalid application is sent to backend
-//       Backend returns error response
-// */
 
 describe(url, () => {
   describe('GET', () => {

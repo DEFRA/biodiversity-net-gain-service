@@ -1,7 +1,8 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import constants from '../../../utils/constants'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
-const url = '/land/upload-metric'
+const url = constants.routes.UPLOAD_METRIC
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 jest.mock('../../../utils/azure-signalr.js')
@@ -37,84 +38,115 @@ describe('Metric file upload controller tests', () => {
 
     it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/register-land-task-list'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should upload metric document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload unsupported metric file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload no selected file metric', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload empty metric file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload metric file more than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/metric-file.xlsx`
-        config.generateHandleEventsError = true
-        config.hasError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
   })

@@ -1,7 +1,8 @@
 import { getBearerToken } from '@defra/bng-utils-lib'
 import { submitGetRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants'
 
-const url = '/land/os-api-token'
+const url = constants.routes.OS_API_TOKEN
 
 jest.mock('@defra/bng-utils-lib')
 

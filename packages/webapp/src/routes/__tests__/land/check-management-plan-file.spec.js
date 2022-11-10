@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-management-plan-file'
+const url = constants.routes.CHECK_MANAGEMENT_PLAN
 
 describe(url, () => {
   describe('GET', () => {

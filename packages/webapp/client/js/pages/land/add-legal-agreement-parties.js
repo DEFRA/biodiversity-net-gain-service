@@ -10,6 +10,7 @@ $(document).ready(function (event) {
       $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').removeAttr('style')
     }
   }
+
   if (window.location.pathname === '/land/add-legal-agreement-parties') {
     $('.govuk-body').bind('DOMSubtreeModified', function (event) {
       const count = $('.govuk-grid-row').find('.moj-add-another__item').length
@@ -24,6 +25,9 @@ $(document).ready(function (event) {
         $(newItemContainer).find('.govuk-radios__conditional').find('input').val('')
         $(newItemContainer).find('.govuk-radios__item').last().removeClass('govuk-radios__conditional--hidden')
         $('.govuk-grid-row').find('.moj-add-another__item').find('.govuk-radios__conditional').last().addClass('govuk-radios__conditional--hidden')
+        $('.moj-add-another__remove-button').each(function (index, element) {
+          $(element).attr('id', 'remove' + index)
+        })
       }
 
       $('.govuk-radios__item').click((event) => {

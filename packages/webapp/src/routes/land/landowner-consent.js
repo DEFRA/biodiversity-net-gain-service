@@ -8,7 +8,7 @@ const handlers = {
   post: async (request, h) => {
     const consent = request.payload.landownerConsent
     const name = request.yar.get(constants.redisKeys.FULL_NAME)
-    if (!consent || !JSON.parse(consent)) {
+    if (!consent) {
       return h.view(constants.views.LANDOWNER_CONSENT, {
         name,
         err: [{

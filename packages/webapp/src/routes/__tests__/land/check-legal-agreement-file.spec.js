@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-legal-agreement-file'
+const url = constants.routes.CHECK_LEGAL_AGREEMENT
 
 describe(url, () => {
   describe('GET', () => {

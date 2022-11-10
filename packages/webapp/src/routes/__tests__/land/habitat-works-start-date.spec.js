@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/habitat-works-start-date'
+import constants from '../../../utils/constants'
+const url = constants.routes.HABITAT_WORKS_START_DATE
 
 describe(url, () => {
   describe('GET', () => {
@@ -81,7 +82,11 @@ describe(url, () => {
           const habitatWorksStartDate = require('../../land/habitat-works-start-date.js')
           const request = {
             yar: {
-              get: () => new Date('2022-11-30').toISOString()
+              get: () => new Date('2022-11-30').toISOString(),
+              set: jest.fn()
+            },
+            headers: {
+              referer: ''
             }
           }
           const h = {
@@ -100,6 +105,30 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+    it('Should return to management monitoring summary if checkReferer is set', async () => {
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.REFERER, '/land/check-management-monitoring-details')
+      const request = {
+        yar: redisMap,
+        payload: {
+          'habitatWorksStartDate-day': '11',
+          'habitatWorksStartDate-month': '11',
+          'habitatWorksStartDate-year': '2022'
+        },
+        info: {
+          referer: 'http://localhost:3000/land/check-management-monitoring-details'
+        }
+      }
+      const legalAgreementDetails = require('../../land/habitat-works-start-date')
+      await legalAgreementDetails.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
     })
   })
 })

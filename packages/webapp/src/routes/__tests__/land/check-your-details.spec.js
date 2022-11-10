@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-your-details'
+import constants from '../../../utils/constants'
+const url = constants.routes.CHECK_YOUR_DETAILS
 
 describe(url, () => {
   describe('GET', () => {

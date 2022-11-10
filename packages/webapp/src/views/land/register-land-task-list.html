@@ -14,41 +14,54 @@
                         <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
                         <ul class="app-task-list__items">
                             {% for taskItem in task.tasks %}
-                                <li class="app-task-list__item">
-                                  <span class="app-task-list__task-name">
-                                      {% if taskItem.status == 'COMPLETED' %}
-                                          <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
-                                            {{ taskItem.title }}
-                                          </a>
-                                      {% else %}
-                                          <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
-                                            {{ taskItem.title }}
-                                          </a>
-                                      {% endif %}
-                                  </span>
-                                    {% if taskItem.status !== 'COMPLETED' %}
-                                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">
-                                            {{ taskItem.status }}
-                                        </strong>
-                                    {% else %}
-                                        <strong class="govuk-tag app-task-list__tag">
-                                            {{ taskItem.status }}
-                                        </strong>
-                                    {% endif %}
-                                </li>
+                                {% if task.taskTitle !== 'Submit your biodiversity gain site information' %}
+                                    <li class="app-task-list__item">
+                                      <span class="app-task-list__task-name">
+                                          {% if taskItem.status == 'COMPLETED' %}
+                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                                {{ taskItem.title }}
+                                              </a>
+                                          {% else %}
+                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
+                                                {{ taskItem.title }}
+                                              </a>
+                                          {% endif %}
+                                      </span>
+                                        {% if taskItem.status !== 'COMPLETED' %}
+                                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag">
+                                                {{ taskItem.status }}
+                                            </strong>
+                                        {% else %}
+                                            <strong class="govuk-tag app-task-list__tag">
+                                                {{ taskItem.status }}
+                                            </strong>
+                                        {% endif %}
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <ul class="app-task-list__items">
+                                            <li class="app-task-list__item">
+                                                {% if registrationCompletedTasks == 6 %}
+                                                    <span class="app-task-list__task-name">
+                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                                                {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
+                                                            </a>
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Not started yet</strong>
+                                                {% else %}
+                                                    <span>
+                                                          {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{ taskItem.status }}</strong>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </li>
                 {% endfor %}
-                <li>
-                    <h2 class="app-task-list__section">Submit your biodiversity gain site information</h2>
-                    <ul class="app-task-list__items">
-                        <li class="app-task-list__item">
-                            <span class="app-task-list__task-name">Check your answers and submit information</span>
-                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Cannot start yet</strong>
-                        </li>
-                    </ul>
-                </li>
             </ol>
         </div>
     </div>

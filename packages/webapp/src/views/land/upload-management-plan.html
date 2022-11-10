@@ -31,11 +31,14 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-  
+
           <p><a href="/land/need-management-plan ">I do not have the habitat management and monitoring plan</a></p>
 
           {{ govukButton({
-            text: "Continue"
+            text: "Continue",
+            attributes: {
+              id: "continue"
+            }
           }) }}
       </div>
     </div>

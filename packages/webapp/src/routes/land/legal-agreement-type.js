@@ -7,7 +7,6 @@ const handlers = {
       planningObligationType: false,
       dontHave: false
     }
-
     const legalAgreementDocumentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
     switch (legalAgreementDocumentType) {
       case 'Conservation covenant':

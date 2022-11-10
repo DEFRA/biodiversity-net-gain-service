@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/add-grid-reference'
+import constants from '../../../utils/constants'
+const url = constants.routes.ADD_GRID_REFERENCE
 
 describe(url, () => {
   describe('GET', () => {

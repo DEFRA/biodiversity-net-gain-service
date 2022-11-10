@@ -1,7 +1,8 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import constants from '../../../utils/constants'
 const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
-const url = '/land/upload-land-boundary'
+const url = constants.routes.UPLOAD_LAND_BOUNDARY
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
@@ -37,95 +38,133 @@ describe('Land boundary upload controller tests', () => {
 
     it('should upload land boundary document to cloud storage', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-ownership-details'
+          }
+          await uploadFile(uploadConfig, 302)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should upload land boundary document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          await uploadFile(uploadConfig, 302)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload land boundary document more than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload empty land boundary', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload unsupported land boundary', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload nofile land boundary', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should  upload land boundary document 50 MB file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-land-boundary-details'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/legal-agreement.pdf`
-        config.generateHandleEventsError = true
-        config.hasError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/legal-agreement.pdf`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          await uploadFile(config, 302)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
   })
