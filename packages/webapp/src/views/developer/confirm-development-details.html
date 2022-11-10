@@ -2,7 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Confirm your development details" %}
+{% set pageHeading = "Confirm development details" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -35,7 +35,7 @@
               },
               {
                 key: {
-                  text: "Local Authority"
+                  text: "Local authority"
                 },
                 value: {
                   text: startPage['Planning authority']
@@ -59,7 +59,7 @@
               classes: "govuk-radios--inline",
               fieldset: {
                   legend: {
-                      text: "Is this correct?",
+                      text: "Are these details correct?",
                       classes: "govuk-fieldset__legend--m"
                   }
               },
