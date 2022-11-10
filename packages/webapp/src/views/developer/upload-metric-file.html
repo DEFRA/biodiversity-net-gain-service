@@ -3,7 +3,7 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
-{% set pageHeading = "Upload the Biodiversity Metric 3.1 calculations" %}
+{% set pageHeading = "Upload the Biodiversity Metric 4.0 file" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -17,11 +17,11 @@
         </h1>
 
         <div id="location-upload-hint">
-          <p>This is the Metric file that your Local Planning Authority has approved.</p>
+          <p>This is the Metric file that your local planning authority has approved.</p>
           <p>The file should be:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>an XLSM or XLSX</li>
-            <li>no larger than 50MB</li>
+            <li>XLSM or XLSX</li>
+            <li>No larger than 50MB</li>
           </ul>
         </div>
           {{ govukFileUpload({
@@ -34,7 +34,7 @@
             }
           }) }}
           <p class="govuk-!-padding-top-3">
-            <a href="#">I do not have a Biodiversity Metric 3.1. file</a>
+            <a href="#">I do not have a Biodiversity Metric 4.0 file</a>
           </p>
           {{ govukButton({
             text: "Continue"
