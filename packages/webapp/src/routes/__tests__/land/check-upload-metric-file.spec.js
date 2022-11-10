@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-metric-file'
+const url = constants.routes.CHECK_UPLOAD_METRIC
 
 describe(url, () => {
   describe('GET', () => {

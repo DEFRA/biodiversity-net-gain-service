@@ -1,7 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
-const url = '/land/legal-agreement-start-date'
+const url = constants.routes.LEGAL_AGREEMENT_START_DATE
 
 describe(url, () => {
   describe('GET', () => {

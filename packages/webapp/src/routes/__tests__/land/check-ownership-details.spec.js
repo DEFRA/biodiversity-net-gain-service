@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
-const url = '/land/check-ownership-details'
+const url = constants.routes.CHECK_OWNERSHIP_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe(url, () => {
@@ -11,7 +11,6 @@ describe(url, () => {
         const legalAgreementDetails = require('../../land/check-ownership-details.js')
         const redisMap = new Map()
         redisMap.set(constants.redisKeys.FULL_NAME, 'Satoshi')
-        redisMap.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, 'Yes')
         redisMap.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, mockDataPath)
         redisMap.set(constants.redisKeys.ROLE_KEY, 'Landowner')
         redisMap.set(constants.redisKeys.LANDOWNERS, '')

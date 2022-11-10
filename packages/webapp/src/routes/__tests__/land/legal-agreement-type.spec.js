@@ -1,7 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
-const url = '/land/legal-agreement-type'
+const url = constants.routes.LEGAL_AGREEMENT_TYPE
 
 describe(url, () => {
   const redisMap = new Map()
@@ -14,7 +14,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with conservation selected`, async () => {
       jest.isolateModules(async () => {
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'Conservation covenant')
-        let viewResult
+        let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
           yar: redisMap,
@@ -25,10 +25,12 @@ describe(url, () => {
         const h = {
           view: (view, context) => {
             viewResult = view
+            contextResult = context
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
+        expect(contextResult.conservationType).toEqual(true)
       })
     })
 
@@ -96,7 +98,7 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
         expect(contextResult.dontHave).toEqual(false)
         expect(contextResult.planningObligationType).toEqual(false)
         expect(contextResult.conservationType).toEqual(false)
@@ -131,11 +133,11 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.REFERER, '/land/check-legal-agreement-details')
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.LEGAL_AGREEMENT_SUMMARY)
       const request = {
         yar: redisMap,
         info: {
-          referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+          referer: 'http://localhost:3000/land/check-legal-agreement-details'
         },
         payload: {
           legalAgreementType: 'Any document'

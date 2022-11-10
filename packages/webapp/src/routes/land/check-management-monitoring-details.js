@@ -31,7 +31,7 @@ function getFormattedDate (dateString) {
   const date = moment(dateString)
 
   return date.toDate().toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric'
+    day: 'numeric', month: 'long', year: 'numeric'
   })
 }
 

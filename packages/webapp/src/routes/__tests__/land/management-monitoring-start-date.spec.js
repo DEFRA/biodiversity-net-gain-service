@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-const url = '/land/management-monitoring-start-date'
+const url = constants.routes.MANAGEMENT_MONITORING_START_DATE
 
 describe(url, () => {
   describe('GET', () => {
@@ -85,7 +85,7 @@ describe(url, () => {
               get: () => new Date('2022-11-30').toISOString()
             },
             info: {
-              referrer: ''
+              referer: ''
             }
           }
           const h = {
@@ -110,8 +110,6 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const managementMonitoringStartDate = require('../../land/management-monitoring-start-date')
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.MANAGEMENT_PLAN_KEY, constants.routes.LEGAL_AGREEMENT_SUMMARY)
           const request = {
             yar: {
               get: () => new Date('2022-12-02').toISOString()

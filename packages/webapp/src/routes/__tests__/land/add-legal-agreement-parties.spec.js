@@ -1,7 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
-const url = '/land/add-legal-agreement-parties'
+const url = constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
 
 describe(url, () => {
   describe('GET', () => {
@@ -53,10 +53,10 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toBe('/land/legal-agreement-start-date')
+      expect(response.headers.location).toBe(constants.routes.LEGAL_AGREEMENT_START_DATE)
     })
 
-    it('should add single legal party to legal agreement and back to details referrer', async () => {
+    it('should add single legal party to legal agreement and back to details referer', async () => {
       const h = {
         view: jest.fn()
       }
@@ -78,14 +78,14 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
+      expect(response.headers.location).toEqual(constants.routes.LEGAL_AGREEMENT_START_DATE)
     })
 
-    it('should add single legal party to legal agreement and back to details referrer', async () => {
+    it('should add single legal party to legal agreement and back to details referer', async () => {
       const redisMap = new Map()
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {})
       postOptions.headers = {
-        referrer: 'http://localhost:3000/land/check-legal-agreement-details'
+        referer: 'http://localhost:3000/land/check-legal-agreement-details'
       }
 
       postOptions.payload = {
@@ -114,7 +114,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
+      expect(response.headers.location).toEqual(constants.routes.LEGAL_AGREEMENT_START_DATE)
     })
 
     it('should add multiple legal organisation with other party choice to legal agreement', async () => {
@@ -130,7 +130,7 @@ describe(url, () => {
       }
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toEqual('/land/legal-agreement-start-date')
+      expect(response.headers.location).toEqual(constants.routes.LEGAL_AGREEMENT_START_DATE)
     })
 
     it('should fail to add single legal party to legal agreement without organisation name', async () => {
@@ -174,12 +174,12 @@ describe(url, () => {
       expect(response.result.indexOf('Other type of role cannot be left blank')).toBeGreaterThan(1)
     })
 
-    it('should add multiple legal organisation with other party choice to legal agreement from referrer', async () => {
+    it('should add multiple legal organisation with other party choice to legal agreement from referer', async () => {
       jest.isolateModules(async () => {
         let viewResult
         const legalAgreementParties = require('../../land/add-legal-agreement-parties.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.REFERER, '/land/check-legal-agreement-details')
+        redisMap.set(constants.redisKeys.REFERER, constants.routes.LEGAL_AGREEMENT_SUMMARY)
         const request = {
           yar: redisMap,
           payload: {
@@ -200,7 +200,7 @@ describe(url, () => {
         }
         await legalAgreementParties.default[1].handler(request, h)
         expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_SUMMARY)
-        expect(request.yar.get(constants.redisKeys.REFERER)).toBe('/land/check-legal-agreement-details')
+        expect(request.yar.get(constants.redisKeys.REFERER)).toBe(constants.routes.LEGAL_AGREEMENT_SUMMARY)
         expect(request.yar.get('legal-agreement-parties').organisations.length).toBe(2)
         expect(request.yar.get('legal-agreement-parties').roles.length).toBe(2)
         expect(request.yar.get('legal-agreement-parties').roles[0].otherPartyName).toBe('party One')

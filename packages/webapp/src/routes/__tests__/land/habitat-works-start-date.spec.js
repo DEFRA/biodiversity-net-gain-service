@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-const url = '/land/habitat-works-start-date'
+const url = constants.routes.HABITAT_WORKS_START_DATE
 
 describe(url, () => {
   describe('GET', () => {
@@ -86,7 +86,7 @@ describe(url, () => {
               set: jest.fn()
             },
             headers: {
-              referrer: ''
+              referer: ''
             }
           }
           const h = {
@@ -123,7 +123,7 @@ describe(url, () => {
           'habitatWorksStartDate-year': '2022'
         },
         info: {
-          referrer: 'http://localhost:3000/land/check-management-monitoring-details'
+          referer: 'http://localhost:3000/land/check-management-monitoring-details'
         }
       }
       const legalAgreementDetails = require('../../land/habitat-works-start-date')

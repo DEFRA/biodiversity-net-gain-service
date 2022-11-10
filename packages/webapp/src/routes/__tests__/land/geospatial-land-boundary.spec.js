@@ -1,7 +1,8 @@
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { submitGetRequest } from '../helpers/server.js'
+import constants from '../../../utils/constants'
 
-const url = '/land/geospatial-land-boundary'
+const url = constants.routes.GEOSPATIAL_LAND_BOUNDARY
 
 jest.mock('@defra/bng-connectors-lib')
 

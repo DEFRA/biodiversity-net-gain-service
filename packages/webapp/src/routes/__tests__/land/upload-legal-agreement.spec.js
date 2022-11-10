@@ -1,7 +1,8 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import constants from '../../../utils/constants'
 const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
-const url = '/land/upload-legal-agreement'
+const url = constants.routes.UPLOAD_LEGAL_AGREEMENT
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
@@ -48,7 +49,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should upload legal agreement document to cloud storage with referrer', (done) => {
+    it('should upload legal agreement document to cloud storage with referer', (done) => {
       jest.isolateModules(async () => {
         const uploadConfig = Object.assign({}, baseConfig)
         uploadConfig.hasError = false
