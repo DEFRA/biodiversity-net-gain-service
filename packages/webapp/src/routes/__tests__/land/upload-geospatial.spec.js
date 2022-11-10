@@ -40,49 +40,65 @@ describe(url, () => {
 
     it('should upload a Geopackage to cloud storage', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-        uploadConfig.headers = {
-          referer: 'http://localhost:30000/land/check-land-boundary-details'
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-land-boundary-details'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
 
     it('should cause an internal server error when file upload processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-        config.generateFormDataError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          config.generateFormDataError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should cause an internal server error response when upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-        config.generateHandleEventsError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          config.generateHandleEventsError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should cause an internal server error when non-file data is uploaded', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
   })

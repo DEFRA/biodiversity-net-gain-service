@@ -38,137 +38,177 @@ describe('Legal agreement upload controller tests', () => {
 
     it('should upload legal agreement document to cloud storage', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should upload legal agreement document to cloud storage with referer', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-        baseConfig.headers = {
-          referer: `'http://localhost:30000${url}`
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          baseConfig.headers = {
+            referer: `'http://localhost:30000${url}`
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
 
     it('should upload legal agreement document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        uploadConfig.headers = {
-          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-legal-agreement-details'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
 
     it('should not upload legal agreement document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload empty legal agreement', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload unsupported legal agreement', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload nofile legal agreement', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        baseConfig.referer = `'http://localhost:30000${url}`
-        uploadConfig.hasError = true
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.hasError = true
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should  upload legal agreement document 50 MB file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        uploadConfig.headers = {
-          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-legal-agreement-details'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
 
     it('should cause an internal server error response when notification processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/legal-agreement.pdf`
-        baseConfig.referer = `'http://localhost:30000${url}`
-        config.generateHandleEventsError = true
-        config.hasError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/legal-agreement.pdf`
+          baseConfig.referer = `'http://localhost:30000${url}`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should  upload legal agreement document 49 MB file when coming from a referer', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        uploadConfig.headers = {
-          referer: 'http://localhost:30000/land/check-legal-agreement-details'
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-legal-agreement-details'
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
   })

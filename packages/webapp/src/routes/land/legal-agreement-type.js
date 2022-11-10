@@ -25,7 +25,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const legalAgreementType = request.payload.legalAgreementType
-    if (legalAgreementType !== undefined) {
+    if (legalAgreementType) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
       if (legalAgreementType !== 'I do not have a legal agreement') {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_LEGAL_AGREEMENT)

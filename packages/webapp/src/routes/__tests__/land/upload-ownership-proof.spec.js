@@ -38,98 +38,130 @@ describe('Proof of ownership upload controller tests', () => {
 
     it('should upload land ownership document to cloud storage', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.headers = {
-          referer: 'http://localhost:30000/land/check-ownership-details'
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/check-ownership-details'
+          }
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
         }
-        uploadConfig.hasError = false
-        uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
       })
     })
 
     it('should upload land ownership document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload land ownership document less than 50 MB', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload empty land ownership', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload unsupported land ownership document', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should not upload nofile land ownership file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.hasError = true
-        await uploadFile(uploadConfig, 200)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          await uploadFile(uploadConfig, 200)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should  upload land ownership document 50 MB file', (done) => {
       jest.isolateModules(async () => {
-        const uploadConfig = Object.assign({}, baseConfig)
-        uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-        await uploadFile(uploadConfig)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
 
     it('should cause an internal server error response when land ownership upload notification processing fails', (done) => {
       jest.isolateModules(async () => {
-        const config = Object.assign({}, baseConfig)
-        config.filePath = `${mockDataPath}/legal-agreement.pdf`
-        config.generateHandleEventsError = true
-        config.hasError = true
-        await uploadFile(config)
-        setImmediate(() => {
-          done()
-        })
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/legal-agreement.pdf`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
       })
     })
   })
