@@ -1,5 +1,7 @@
+import Session from '../helpers/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
+import managementMonitoringStartDate from '../../land/management-monitoring-start-date.js'
 const url = constants.routes.MANAGEMENT_MONITORING_START_DATE
 
 describe(url, () => {
@@ -129,6 +131,37 @@ describe(url, () => {
           await managementMonitoringStartDate.default[1].handler(request, h)
           expect(viewResult).toEqual('land/management-monitoring-start-date')
           expect(contextResult.err[0].text).toEqual('Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('Ensure page uses referrer if is set on post', done => {
+      jest.isolateModules(async () => {
+        try {
+          const postHandler = managementMonitoringStartDate[1].handler
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          const payload = {
+            'managementMonitoringStartDate-day': '01',
+            'managementMonitoringStartDate-month': '12',
+            'managementMonitoringStartDate-year': '2022'
+          }
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          await postHandler({ payload, yar: session }, h)
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
           done()
         } catch (err) {
           done(err)

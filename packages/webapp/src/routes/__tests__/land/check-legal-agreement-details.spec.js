@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 
-const url = constants.views.LEGAL_AGREEMENT_SUMMARY
+const url = constants.views.CHECK_LEGAL_AGREEMENT_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe('Land boundary upload controller tests', () => {
@@ -40,7 +40,7 @@ describe('Land boundary upload controller tests', () => {
             }
           }
           await legalAgreementDetails.default[0].handler(request, h)
-          expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_SUMMARY)
+          expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
           expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
           expect(contextResult.legalAgreementFileName).toEqual('legal-agreement.pdf')
           expect(contextResult.legalAgreementStartDate).toEqual('2020-03-11T00:00:00.000Z')
@@ -78,7 +78,7 @@ describe('Land boundary upload controller tests', () => {
             }
           }
           await legalAgreementDetails.default[0].handler(request, h)
-          expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_SUMMARY)
+          expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
           expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
           expect(contextResult.legalAgreementFileName).toEqual('')
           expect(contextResult.legalAgreementStartDate).toEqual('2020-03-11T00:00:00.000Z')

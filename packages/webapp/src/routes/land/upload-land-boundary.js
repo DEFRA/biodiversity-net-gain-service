@@ -23,7 +23,7 @@ function processSuccessfulUpload (result, request, h) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY)
+    resultView = h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
   }
   return resultView
 }

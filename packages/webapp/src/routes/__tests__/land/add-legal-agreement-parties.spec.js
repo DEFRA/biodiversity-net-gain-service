@@ -180,7 +180,7 @@ describe(url, () => {
         let viewResult
         const legalAgreementParties = require('../../land/add-legal-agreement-parties.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.REFERER, constants.routes.LEGAL_AGREEMENT_SUMMARY)
+        redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
         const request = {
           yar: redisMap,
           payload: {
@@ -200,8 +200,8 @@ describe(url, () => {
           }
         }
         await legalAgreementParties.default[1].handler(request, h)
-        expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_SUMMARY)
-        expect(request.yar.get(constants.redisKeys.REFERER)).toBe(constants.routes.LEGAL_AGREEMENT_SUMMARY)
+        expect(viewResult).toEqual(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+        expect(request.yar.get(constants.redisKeys.REFERER)).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
         expect(request.yar.get('legal-agreement-parties').organisations.length).toBe(2)
         expect(request.yar.get('legal-agreement-parties').roles.length).toBe(2)
         expect(request.yar.get('legal-agreement-parties').roles[0].otherPartyName).toBe('party One')

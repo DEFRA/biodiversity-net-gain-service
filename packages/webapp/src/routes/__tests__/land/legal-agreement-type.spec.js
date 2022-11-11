@@ -131,7 +131,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.REFERER, constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
       const request = {
         yar: redisMap,
         info: {
@@ -146,7 +146,7 @@ describe(url, () => {
 
       postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
       await submitPostRequest(postOptions, 302)
-      expect(viewResult).toBe(constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      expect(viewResult).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
     it('should allow the choice of I do not have a legal agreement', async () => {

@@ -4,7 +4,7 @@ import { processCompletedRegistrationTask, getNameAndRoles, dateToString, listAr
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.LEGAL_AGREEMENT_SUMMARY, {
+    return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
       dateToString,
       listArray,
       ...getContext(request)
@@ -29,10 +29,10 @@ const getLegalAgreementFileName = fileLocation => fileLocation ? path.parse(file
 
 export default [{
   method: 'GET',
-  path: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+  path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+  path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
   handler: handlers.post
 }]
