@@ -23,51 +23,60 @@
                         rows: [
                             {
                                 key: {
-                                text: 'Habitat management and monitoring plan uploaded '
-                            },
+                                    text: 'Habitat management and monitoring plan uploaded '
+                                },
                                 value: {
-                                text: managementFileName
-                            },
+                                    text: managementFileName
+                                },
                                 actions: {
-                                items: [
-                                    {
-                                        href: '/land/check-management-plan-file',
-                                        text: 'Change'
-                                    }
-                                ]
-                            }
+                                    items: [
+                                        {
+                                            href: '/land/upload-management-plan',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "upload-management-plan"
+                                            }
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 key: {
-                                text: 'Start date of habitat enhancement works'
-                            },
+                                    text: 'Start date of habitat enhancement works'
+                                },
                                 value: {
-                                text: habitatWorkStartDate
-                            },
+                                    text: habitatWorkStartDate
+                                },
                                 actions: {
-                                items: [
-                                    {
-                                        href: '/land/habitat-works-start-date',
-                                        text: 'Change'
-                                    }
-                                ]
-                            }
+                                    items: [
+                                        {
+                                            href: '/land/habitat-works-start-date',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "habitat-works-start-date"
+                                            }
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 key: {
-                                text: 'Start date of the 30 year management and monitoring period'
-                            },
+                                    text: 'Start date of the 30 year management and monitoring period'
+                                },
                                 value: {
-                                html: managementMonitoringStartDate
-                            },
+                                    html: managementMonitoringStartDate
+                                },
                                 actions: {
                                 items: [
-                                    {
-                                        href: '/land/management-monitoring-start-date',
-                                        text: 'Change'
-                                    }
-                                ]
-                            }
+                                        {
+                                            href: '/land/management-monitoring-start-date',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "management-monitoring-start-date"
+                                            }
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }) }}

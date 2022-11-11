@@ -118,6 +118,8 @@ const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
 const YES = 'yes'
+const LAND_OWNER_EMAIL = 'land/email'
+const CORRECT_OWNER_EMAIL = 'land/correct-email'
 
 const confirmFileUploadOptions = {
   NO,
@@ -234,7 +236,8 @@ const redisKeys = {
   REGISTRATION_TASK_DETAILS,
   LAND_OWNERSHIP_KEY,
   METRIC_UPLOADED_ANSWER,
-  REFERER
+  REFERER,
+  LAND_OWNER_EMAIL
 }
 
 const routes = {
@@ -289,7 +292,9 @@ const routes = {
   NEED_OWNERSHIP_PROOF,
   NEED_METRIC,
   NEED_MANAGEMENT_PLAN,
-  NEED_LEGAL_AGREEMENT
+  NEED_LEGAL_AGREEMENT,
+  LAND_OWNER_EMAIL,
+  CORRECT_OWNER_EMAIL
 }
 
 const uploadErrors = {

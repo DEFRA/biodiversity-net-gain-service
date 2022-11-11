@@ -16,7 +16,7 @@
           {{ fullName }}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/land/name">
+          <a class="govuk-link" href="/land/name" id = "fullname">
             Change<span class="govuk-visually-hidden"> full name</span>
           </a>
         </dd>
@@ -33,8 +33,21 @@
           {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/land/role">
+          <a class="govuk-link" href="/land/role" id = "role">
             Change<span class="govuk-visually-hidden"> role</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Email address
+        </dt>
+        <dd class="govuk-summary-list__value">
+            {{ emailAddress }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/land/email" id = "email">
+            Change<span class="govuk-visually-hidden"> email</span>
           </a>
         </dd>
       </div>

@@ -10,7 +10,8 @@ const application = session => {
       applicant: {
         firstName: null,
         lastName: session.get(constants.redisKeys.FULL_NAME),
-        role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY)
+        role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
+        email: session.get(constants.redisKeys.LAND_OWNER_EMAIL)
       },
       files: [
         {

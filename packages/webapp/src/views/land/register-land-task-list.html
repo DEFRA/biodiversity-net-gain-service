@@ -18,11 +18,11 @@
                                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
                                           {% if taskItem.status == 'COMPLETED' %}
-                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
                                                 {{ taskItem.title }}
                                               </a>
                                           {% else %}
-                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
+                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
                                                 {{ taskItem.title }}
                                               </a>
                                           {% endif %}
@@ -43,7 +43,7 @@
                                             <li class="app-task-list__item">
                                                 {% if registrationCompletedTasks == 6 %}
                                                     <span class="app-task-list__task-name">
-                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="{{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].id }}">
                                                                 {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
                                                             </a>
                                                     </span>

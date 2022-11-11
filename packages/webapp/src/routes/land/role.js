@@ -24,7 +24,8 @@ const handlers = {
     } else {
       request.yar.set(constants.redisKeys.ROLE_KEY, role)
       request.yar.set(constants.redisKeys.ROLE_OTHER, roleOther)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_YOUR_DETAILS)
+      // return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_YOUR_DETAILS)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNER_EMAIL)
     }
   }
 }

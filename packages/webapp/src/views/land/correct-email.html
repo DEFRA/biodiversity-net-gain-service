@@ -1,0 +1,52 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Is this email address correct?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "correctEmail",
+                name: "correctEmail",
+                id: id,
+                fieldset: {
+                    legend: {
+                        text: pageHeading,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: "jo.smith@gmail.com",
+                    classes: "govuk-hint govuk-!-font-size-27 app-text-colour"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "email-correct-yes",
+                        checked: yesSelection
+                    },
+                    {
+                        value: "no",
+                        text: "No, choose a different file",
+                        id: "email-correct-no",
+                        checked: noSelection
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Continue",
+                attributes: {
+                    id: "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
