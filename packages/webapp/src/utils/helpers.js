@@ -150,8 +150,7 @@ export {
   boolToYesNo,
   dateToString,
   hideClass,
-  getNameAndRoles,
-  validateEmail
+  validateEmail,
   getNameAndRoles,
   getAllLandowners,
   getLegalAgreementDocumentType,

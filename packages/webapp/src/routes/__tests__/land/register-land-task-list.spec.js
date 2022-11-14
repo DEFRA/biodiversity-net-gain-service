@@ -2,7 +2,8 @@ import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 import { getRegistrationTasks } from '../../../utils/helpers'
 
-const url = constants.routes.REGISTER_LAND_TASK_LIST
+// const url = constants.routes.REGISTER_LAND_TASK_LIST
+const url = '/land/register-land-task-list'
 
 describe(url, () => {
   describe('GET', () => {
@@ -181,7 +182,7 @@ describe(url, () => {
           {
             title: 'Add legal agreement details',
             status: 'COMPLETED',
-            completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+            completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
             startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
             id: 'add-legal-boundary'
           }
