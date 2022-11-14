@@ -12,17 +12,6 @@ const application = session => {
         lastName: session.get(constants.redisKeys.FULL_NAME),
         role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY)
       },
-      gainSiteReference: '',
-      habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
-      landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
-      landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
-      legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
-      legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
-      legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
-      managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
-      submittedOn: new Date().toISOString(),
-      otherLandowners: session.get(constants.redisKeys.LANDOWNERS) && session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } }),
-      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY),
       files: [
         {
           contentMediaType: session.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE),
@@ -55,7 +44,18 @@ const application = session => {
           fileLocation: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
           fileName: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
         }
-      ]
+      ],
+      gainSiteReference: '',
+      habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
+      landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
+      landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
+      legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
+      legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+      legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
+      otherLandowners: session.get(constants.redisKeys.LANDOWNERS) && session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } }),
+      managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
+      submittedOn: new Date().toISOString(),
+      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY)
     }
   }
 }
