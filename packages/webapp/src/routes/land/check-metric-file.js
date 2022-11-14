@@ -5,10 +5,7 @@ import { processCompletedRegistrationTask } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
-  get: async (request, h) => {
-    const context = await getContext(request)
-    return h.view(constants.views.CHECK_UPLOAD_METRIC, context)
-  },
+  get: async (request, h) => h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request)),
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
@@ -25,11 +22,11 @@ const handlers = {
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
       processCompletedRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' })
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTER_LAND_TASK_LIST)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
-        ...await getContext(request),
+        ...getContext(request),
         err: [
           {
             text: 'Select yes if this is the correct file',
@@ -41,7 +38,7 @@ const handlers = {
   }
 }
 
-const getContext = async request => {
+const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,

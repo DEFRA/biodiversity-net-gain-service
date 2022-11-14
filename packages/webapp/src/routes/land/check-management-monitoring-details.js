@@ -4,17 +4,14 @@ import path from 'path'
 import moment from 'moment'
 
 const handlers = {
-  get: async (request, h) => {
-    const context = await getContext(request)
-    return h.view(constants.views.CHECK_MANAGEMENT_MONITORING_SUMMARY, context)
-  },
+  get: async (request, h) => h.view(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS, getContext(request)),
   post: async (request, h) => {
     processCompletedRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat management and monitoring details' })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
 
-const getContext = async request => {
+const getContext = request => {
   return {
     managementFileName: getManagementFileName(request),
     habitatWorkStartDate: getFormattedDate(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY)),
@@ -37,10 +34,10 @@ function getFormattedDate (dateString) {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY,
+  path: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY,
+  path: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,
   handler: handlers.post
 }]

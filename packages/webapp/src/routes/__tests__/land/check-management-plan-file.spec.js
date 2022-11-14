@@ -1,5 +1,7 @@
+import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import checkManagementPlanFile from '../../land/check-management-plan-file.js'
 const url = constants.routes.CHECK_MANAGEMENT_PLAN
 
 describe(url, () => {
@@ -30,6 +32,35 @@ describe(url, () => {
 
     it('should detect an invalid response from user', async () => {
       await submitPostRequest(postOptions, 200)
+    })
+    it('Ensure page uses referrer if is set on post', done => {
+      jest.isolateModules(async () => {
+        try {
+          const postHandler = checkManagementPlanFile[1].handler
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          const payload = {
+            checkManagementPlan: 'yes'
+          }
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          await postHandler({ payload, yar: session }, h)
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })

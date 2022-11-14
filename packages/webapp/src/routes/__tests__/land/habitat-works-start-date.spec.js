@@ -106,7 +106,7 @@ describe(url, () => {
         }
       })
     })
-    it('Should return to management monitoring summary if checkReferer is set', async () => {
+    it('Should ignore referer if set as user must check management monitoring start date after update', async () => {
       let viewResult
       const h = {
         redirect: (view, context) => {
@@ -114,21 +114,18 @@ describe(url, () => {
         }
       }
       const redisMap = new Map()
-      redisMap.set(constants.redisKeys.REFERER, '/land/check-management-monitoring-details')
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS)
       const request = {
         yar: redisMap,
         payload: {
           'habitatWorksStartDate-day': '11',
           'habitatWorksStartDate-month': '11',
           'habitatWorksStartDate-year': '2022'
-        },
-        info: {
-          referer: 'http://localhost:3000/land/check-management-monitoring-details'
         }
       }
       const legalAgreementDetails = require('../../land/habitat-works-start-date')
       await legalAgreementDetails.default[1].handler(request, h)
-      expect(viewResult).toBe(constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
+      expect(viewResult).toBe(constants.routes.MANAGEMENT_MONITORING_START_DATE)
     })
   })
 })

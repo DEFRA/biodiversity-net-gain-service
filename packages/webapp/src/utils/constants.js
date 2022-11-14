@@ -59,7 +59,7 @@ const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
-const LEGAL_AGREEMENT_SUMMARY = 'land/check-legal-agreement-details'
+const CHECK_LEGAL_AGREEMENT_DETAILS = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
 const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
@@ -98,7 +98,7 @@ const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
-const CHECK_MANAGEMENT_MONITORING_SUMMARY = 'land/check-management-monitoring-details'
+const CHECK_MANAGEMENT_MONITORING_DETAILS = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const ADD_LANDOWNERS = 'land/add-landowners'
@@ -150,6 +150,32 @@ const LAND_OWNERSHIP_FILE_EXT = [
   '.doc',
   '.docx',
   '.pdf'
+]
+
+const LEGAL_AGREEMENT_DOCUMENTS = [
+  {
+    id: '759150000',
+    type: 'planningObligation',
+    text: 'Planning obligation (section 106 agreement)',
+    htmlId: 'planning-obligation'
+  },
+  {
+    id: '759150001',
+    type: 'conservationCovenant',
+    text: 'Conservation covenant',
+    htmlId: 'conservation-covenant'
+  },
+  {
+    id: '759150002',
+    type: 'other',
+    text: 'Other'
+  },
+  {
+    id: '-1',
+    type: 'noDocument',
+    text: 'I do not have a legal agreement',
+    htmlId: 'dont-have-document'
+  }
 ]
 
 const redisKeys = {
@@ -243,7 +269,7 @@ const routes = {
   UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
-  LEGAL_AGREEMENT_SUMMARY,
+  CHECK_LEGAL_AGREEMENT_DETAILS,
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY_DETAILS,
   UPLOAD_LAND_OWNERSHIP,
@@ -254,7 +280,7 @@ const routes = {
   REGISTER_LAND_TASK_LIST,
   HABITAT_WORKS_START_DATE,
   MANAGEMENT_MONITORING_START_DATE,
-  CHECK_MANAGEMENT_MONITORING_SUMMARY,
+  CHECK_MANAGEMENT_MONITORING_DETAILS,
   REGISTERED_LANDOWNER,
   ADD_LANDOWNERS,
   LANDOWNER_CONSENT,
@@ -286,9 +312,8 @@ const setReferer = [
   CHECK_AND_SUBMIT,
   CHECK_YOUR_DETAILS,
   CHECK_OWNERSHIP_DETAILS,
-  LEGAL_AGREEMENT_SUMMARY,
-  CHECK_MANAGEMENT_MONITORING_SUMMARY,
-  ROLE,
+  CHECK_LEGAL_AGREEMENT_DETAILS,
+  CHECK_MANAGEMENT_MONITORING_DETAILS,
   CHECK_LAND_BOUNDARY_DETAILS
 ]
 
@@ -322,5 +347,6 @@ export default Object.freeze({
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
-  clearReferer
+  clearReferer,
+  LEGAL_AGREEMENT_DOCUMENTS
 })

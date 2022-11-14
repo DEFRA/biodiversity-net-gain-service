@@ -170,7 +170,7 @@ describe(url, () => {
           {
             title: 'Add legal agreement details',
             status: 'COMPLETED',
-            completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+            completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
             startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
           }
         ]

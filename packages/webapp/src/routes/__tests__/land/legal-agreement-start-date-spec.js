@@ -1,5 +1,7 @@
+import Session from '../helpers/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
+import legalAgreementStartDate from '../../land/legal-agreement-start-date'
 
 const url = constants.routes.LEGAL_AGREEMENT_START_DATE
 
@@ -212,6 +214,37 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
+    })
+    it('Ensure page uses referrer if is set on post', done => {
+      jest.isolateModules(async () => {
+        try {
+          const postHandler = legalAgreementStartDate[1].handler
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          const payload = {
+            'legalAgreementStartDate-day': '01',
+            'legalAgreementStartDate-month': '12',
+            'legalAgreementStartDate-year': '2022'
+          }
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          await postHandler({ payload, yar: session }, h)
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })

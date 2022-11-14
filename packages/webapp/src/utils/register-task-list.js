@@ -42,7 +42,7 @@ const registerTaskList = {
         {
           title: 'Add habitat management and monitoring details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY,
+          completedTaskUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,
           startTaskUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN
         }
       ]
@@ -53,7 +53,7 @@ const registerTaskList = {
         {
           title: 'Add legal agreement details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+          completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
           startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
         }
       ]

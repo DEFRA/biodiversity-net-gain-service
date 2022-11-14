@@ -1,10 +1,10 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processCompletedRegistrationTask, getNameAndRoles, dateToString, listArray } from '../../utils/helpers.js'
+import { processCompletedRegistrationTask, getNameAndRoles, dateToString, listArray, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.LEGAL_AGREEMENT_SUMMARY, {
+    return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
       dateToString,
       listArray,
       ...getContext(request)
@@ -18,24 +18,21 @@ const handlers = {
 
 const getContext = request => {
   return {
-    legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
-    legalAgreementFileName: getLegalAgreementFileName(request),
+    legalAgreementType: getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
+    legalAgreementFileName: getLegalAgreementFileName(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)),
     partyNameAndRole: getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
     legalAgreementStartDate: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY)
   }
 }
 
-const getLegalAgreementFileName = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  return fileLocation ? path.parse(fileLocation).base : ''
-}
+const getLegalAgreementFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 
 export default [{
   method: 'GET',
-  path: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+  path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.LEGAL_AGREEMENT_SUMMARY,
+  path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
   handler: handlers.post
 }]
