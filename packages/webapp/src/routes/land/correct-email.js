@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { validateEmail } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -8,14 +9,33 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    let vewPage
     if (request.payload.correctEmail === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER) || constants.routes.CHECK_YOUR_DETAILS)
+      // request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, request.payload.correctEmail)
+      // request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
+      setEmailSetails(request)
+      vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
     } else {
-      return h.redirect(constants.routes.LAND_OWNER_EMAIL)
+      const emailStatus = validateEmail(request.payload.emailAddress)
+      if (!emailStatus) {
+        // request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, 'no')
+        // request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
+        setEmailSetails(request)
+        vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
+      } else {
+        vewPage = h.view(constants.views.CORRECT_OWNER_EMAIL, { errorMessage: emailStatus.err[0].text, selected: true })
+      }
     }
+    return vewPage
   }
 }
 
+const setEmailSetails = (request) => {
+  request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, request.payload.correctEmail)
+  if (request.payload.correctEmail === 'no') {
+    request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
+  }
+}
 export default [{
   method: 'GET',
   path: constants.routes.CORRECT_OWNER_EMAIL,

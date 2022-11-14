@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { validateEmail } from '../../utils/helpers.js'
 
 const ID = '#emailAddress'
 
@@ -11,9 +12,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const emailAddress = request.payload.emailAddress
-    const error = validateEmail(emailAddress)
+    const error = validateEmail(emailAddress, ID)
     if (error) {
-      return h.view(constants.views.NAME, {
+      return h.view(constants.views.LAND_OWNER_EMAIL, {
         emailAddress,
         ...error
       })
@@ -22,27 +23,6 @@ const handlers = {
       return h.redirect(constants.routes.CORRECT_OWNER_EMAIL)
     }
   }
-}
-
-const validateEmail = emailAddress => {
-  const error = {}
-  if (!emailAddress) {
-    error.err = [{
-      text: 'Enter your email address',
-      href: ID
-    }]
-  } else if (emailAddress.length < 2) { // TODO format validation
-    error.err = [{
-      text: 'Enter an email address in the correct format, like name@example.com',
-      href: ID
-    }]
-  } else if (emailAddress.length > 254) {
-    error.err = [{
-      text: 'Email address must be 254 characters or less',
-      href: ID
-    }]
-  }
-  return error.err ? error : null
 }
 
 export default [{

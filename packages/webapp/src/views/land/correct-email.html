@@ -9,6 +9,36 @@
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            {% set emailHtml %}
+                {% if errorMessage %}
+                    {{ govukInput({
+                        id: "emailAddress",
+                        name: "emailAddress",
+                        type: "email",
+                        autocomplete: "email",
+                        spellcheck: false,
+                        classes: "govuk-!-width-one-half",
+                        label: {
+                            text: "Email address"
+                        },
+                        errorMessage: {
+                            text: errorMessage
+                        }
+                    }) }}
+                {% else %}
+                {{ govukInput({
+                    id: "emailAddress",
+                    name: "emailAddress",
+                    type: "email",
+                    autocomplete: "email",
+                    spellcheck: false,
+                    classes: "govuk-!-width-one-half",
+                    label: {
+                        text: "Email address"
+                    }
+                }) }}
+                {% endif %}
+            {% endset -%}
             {{ govukRadios({
                 idPrefix: "correctEmail",
                 name: "correctEmail",
@@ -21,7 +51,7 @@
                     }
                 },
                 hint: {
-                    text: "jo.smith@gmail.com",
+                    text: emailAddress,
                     classes: "govuk-hint govuk-!-font-size-27 app-text-colour"
                 },
                 errorMessage: err[0],
@@ -36,7 +66,10 @@
                         value: "no",
                         text: "No, choose a different file",
                         id: "email-correct-no",
-                        checked: noSelection
+                        checked: selected,
+                        conditional: {
+                            html: emailHtml
+                        }
                     }
                 ]
             }) }}

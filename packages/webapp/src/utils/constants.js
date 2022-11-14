@@ -120,6 +120,7 @@ const REFERER = 'referer'
 const YES = 'yes'
 const LAND_OWNER_EMAIL = 'land/email'
 const CORRECT_OWNER_EMAIL = 'land/correct-email'
+const CONFIRM_OWNER_EMAIL = YES
 
 const confirmFileUploadOptions = {
   NO,
@@ -237,7 +238,8 @@ const redisKeys = {
   LAND_OWNERSHIP_KEY,
   METRIC_UPLOADED_ANSWER,
   REFERER,
-  LAND_OWNER_EMAIL
+  LAND_OWNER_EMAIL,
+  CONFIRM_OWNER_EMAIL
 }
 
 const routes = {

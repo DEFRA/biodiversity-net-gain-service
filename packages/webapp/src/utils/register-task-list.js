@@ -41,14 +41,14 @@ const registerTaskList = {
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_UPLOAD_METRIC,
           startTaskUrl: constants.routes.UPLOAD_METRIC,
-          id: 'habitat-information'
+          id: 'add-habitat-information'
         },
         {
           title: 'Add habitat management and monitoring details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY,
           startTaskUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN,
-          id: 'habitat-management'
+          id: 'add-habitat-management'
         }
       ]
     },

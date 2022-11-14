@@ -9,10 +9,10 @@
     </h1>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" id = "fullname-label">
           Full name
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" id = "fullname-value">
           {{ fullName }}
         </dd>
         <dd class="govuk-summary-list__actions">
@@ -22,10 +22,10 @@
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" id = "role-label">
           Role
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" id = "role-value">
           {% if role == 'Other' %}
             {{ roleOther }}
           {% else %}
@@ -39,10 +39,10 @@
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" id = "email-label">
           Email address
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" id = "email-value">
             {{ emailAddress }}
         </dd>
         <dd class="govuk-summary-list__actions">
