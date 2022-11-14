@@ -2,8 +2,8 @@ import constants from '../../utils/constants.js'
 import { validateEmail } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (request, h) => {
-    const emailAddress = request.yar.get(constants.redisKeys.LAND_OWNER_EMAIL)
+  get: async (_request, h) => {
+    const emailAddress = _request.yar.get(constants.redisKeys.LAND_OWNER_EMAIL)
     return h.view(constants.views.CORRECT_OWNER_EMAIL, {
       emailAddress
     })

@@ -9,7 +9,7 @@ describe(url, () => {
       const response = await submitGetRequest({ url })
       expect(response.statusCode).toBe(200)
     })
-    it('Should email page with a session email set', async () => {
+    it('Should show email page with a session email set', async () => {
       let viewResult, resultContext
       const h = {
         view: (view, context) => {
