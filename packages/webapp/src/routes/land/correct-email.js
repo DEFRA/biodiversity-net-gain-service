@@ -11,15 +11,11 @@ const handlers = {
   post: async (request, h) => {
     let vewPage
     if (request.payload.correctEmail === 'yes') {
-      // request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, request.payload.correctEmail)
-      // request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
       setEmailSetails(request)
       vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
     } else {
       const emailStatus = validateEmail(request.payload.emailAddress)
       if (!emailStatus) {
-        // request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, 'no')
-        // request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
         setEmailSetails(request)
         vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
       } else {

@@ -1,8 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
-// const url = constants.routes.CORRECT_OWNER_EMAIL
-const url = '/land/correct-email'
+const url = constants.routes.CORRECT_OWNER_EMAIL
 
 describe(url, () => {
   describe('GET', () => {
