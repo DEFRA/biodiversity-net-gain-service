@@ -26,7 +26,7 @@ const handlers = {
   }
 }
 
-const setEmailSetails = (request) => {
+const setEmailSetails = request => {
   request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, request.payload.correctEmail)
   if (request.payload.correctEmail === 'no') {
     request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
