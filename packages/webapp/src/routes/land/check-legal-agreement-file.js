@@ -3,13 +3,10 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 const handlers = {
-  get: async (request, h) => {
-    const context = await getContext(request)
-    return h.view(constants.views.CHECK_LEGAL_AGREEMENT, context)
-  },
+  get: async (request, h) => h.view(constants.views.CHECK_LEGAL_AGREEMENT, getContext(request)),
   post: async (request, h) => {
     const checkLegalAgreement = request.payload.checkLegalAgreement
-    const context = await getContext(request)
+    const context = getContext(request)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_CHECKED, checkLegalAgreement)
     if (checkLegalAgreement === 'no') {
       // delete the file from blob storage
@@ -34,7 +31,7 @@ const handlers = {
   }
 }
 
-const getContext = async request => {
+const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,

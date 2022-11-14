@@ -91,7 +91,7 @@ function processSuccessfulUpload (result, request) {
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received management plan data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_MANAGEMENT_PLAN
+    resultView = constants.routes.CHECK_MANAGEMENT_PLAN
   }
   return { resultView, errorMessage }
 }
@@ -126,7 +126,7 @@ function processErrorUpload (err, h) {
 }
 
 function processReturnValue (details, h) {
-  return (details.resultView === constants.routes.CHECK_MANAGEMENT_PLAN || details.resultView === constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY)
+  return (details.resultView === constants.routes.CHECK_MANAGEMENT_PLAN || details.resultView === constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS)
     ? h.redirect(details.resultView, details.errorMessage)
     : h.view(details.resultView, details.errorMessage)
 }

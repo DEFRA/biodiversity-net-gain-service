@@ -4,10 +4,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
-  get: async (request, h) => {
-    const context = await getContext(request)
-    return h.view(constants.views.CHECK_LAND_BOUNDARY, context)
-  },
+  get: async (request, h) => h.view(constants.views.CHECK_LAND_BOUNDARY, getContext(request)),
   post: async (request, h) => {
     const checkLandBoundary = request.payload.checkLandBoundary
     const landBoundaryLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
@@ -37,7 +34,7 @@ const handlers = {
   }
 }
 
-const getContext = async request => {
+const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
   const location = fileLocation === null ? '' : path.parse(fileLocation).base
   const size = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)

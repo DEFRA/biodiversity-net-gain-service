@@ -13,7 +13,7 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with conservation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'Conservation covenant')
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
@@ -30,13 +30,13 @@ describe(url, () => {
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
-        expect(contextResult.conservationType).toEqual(true)
+        expect(contextResult.documentType).toEqual('759150001')
       })
     })
 
     it(`should render the ${url.substring(1)} view with planning selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'Planning obligation (section 106 agreement)')
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
@@ -53,13 +53,13 @@ describe(url, () => {
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
-        expect(contextResult.planningObligationType).toEqual(true)
+        expect(contextResult.documentType).toEqual('759150000')
       })
     })
 
     it(`should render the ${url.substring(1)} view with dont have selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, 'I do not have a legal agreement')
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '-1')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
@@ -76,7 +76,7 @@ describe(url, () => {
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
-        expect(contextResult.dontHave).toEqual(true)
+        expect(contextResult.documentType).toEqual('-1')
       })
     })
 
@@ -98,10 +98,8 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_TYPE)
-        expect(contextResult.dontHave).toEqual(false)
-        expect(contextResult.planningObligationType).toEqual(false)
-        expect(contextResult.conservationType).toEqual(false)
+        expect(viewResult).toEqual('land/legal-agreement-type')
+        expect(contextResult.documentType).toEqual('')
       })
     })
   })
@@ -115,13 +113,13 @@ describe(url, () => {
       }
     })
     it('should allow the choice of conservation covenant legal agreement', async () => {
-      postOptions.payload.legalAgreementType = 'Conservation covenant'
+      postOptions.payload.legalAgreementType = '759150001'
       const response = await submitPostRequest(postOptions, 302)
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
     it('should allow the choice of Planning obligation (section 106 agreement) legal agreement', async () => {
-      postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
+      postOptions.payload.legalAgreementType = '759150000'
       const response = await submitPostRequest(postOptions, 302)
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
@@ -133,7 +131,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.REFERER, constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
       const request = {
         yar: redisMap,
         info: {
@@ -148,11 +146,11 @@ describe(url, () => {
 
       postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
       await submitPostRequest(postOptions, 302)
-      expect(viewResult).toBe(constants.routes.LEGAL_AGREEMENT_SUMMARY)
+      expect(viewResult).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
     it('should allow the choice of I do not have a legal agreement', async () => {
-      postOptions.payload.legalAgreementType = 'I do not have a legal agreement'
+      postOptions.payload.legalAgreementType = '-1'
       const response = await submitPostRequest(postOptions, 302)
       expect(response.headers.location).toEqual(constants.routes.NEED_LEGAL_AGREEMENT)
     })

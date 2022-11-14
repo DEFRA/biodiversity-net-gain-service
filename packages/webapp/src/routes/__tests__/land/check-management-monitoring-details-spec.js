@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server'
 
-const url = constants.routes.CHECK_MANAGEMENT_MONITORING_SUMMARY
+const url = constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe(url, () => {
@@ -26,7 +26,7 @@ describe(url, () => {
           }
         }
         await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual(constants.views.CHECK_MANAGEMENT_MONITORING_SUMMARY)
+        expect(viewResult).toEqual(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS)
         expect(contextResult.habitatWorkStartDate).toBe('11 March 2022')
         expect(contextResult.managementMonitoringStartDate).toBe('11 March 2023')
         expect(contextResult.managementFileName).toBe('legal-agreements')
