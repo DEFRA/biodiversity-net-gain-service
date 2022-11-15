@@ -90,7 +90,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-legal-agreement-details',
             startTaskUrl: '/land/legal-agreement-type',
-            id: 'add-legal-boundary'
+            id: 'add-legal-agreement'
           }
         ]
       })
@@ -183,7 +183,7 @@ describe(url, () => {
             status: 'COMPLETED',
             completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
             startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
-            id: 'add-legal-boundary'
+            id: 'add-legal-agreement'
           }
         ]
       })
