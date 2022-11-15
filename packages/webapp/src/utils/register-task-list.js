@@ -60,7 +60,7 @@ const registerTaskList = {
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
           startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
-          id: 'add-legal-boundary'
+          id: 'add-legal-agreement'
         }
       ]
     },
