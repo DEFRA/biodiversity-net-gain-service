@@ -140,6 +140,8 @@ const getLegalAgreementParties = legalAgreementParties => {
     }
   })
 }
+// Nunjucks template function
+const checked = (selectedVal, val) => selectedVal === val
 
 export {
   validateDate,
@@ -154,5 +156,6 @@ export {
   getNameAndRoles,
   getAllLandowners,
   getLegalAgreementDocumentType,
-  getLegalAgreementParties
+  getLegalAgreementParties,
+  checked
 }

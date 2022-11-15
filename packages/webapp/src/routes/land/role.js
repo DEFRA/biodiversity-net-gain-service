@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { checked } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -47,9 +48,6 @@ const validateData = (role, roleOther) => {
   }
   return error.err ? error : null
 }
-
-// nunjucks template function
-const checked = (role, val) => role === val
 
 export default [{
   method: 'GET',
