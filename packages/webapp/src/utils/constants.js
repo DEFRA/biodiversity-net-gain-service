@@ -118,9 +118,10 @@ const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
 const YES = 'yes'
-const LAND_OWNER_EMAIL = 'land/email'
-const CORRECT_OWNER_EMAIL = 'land/correct-email'
-const CONFIRM_OWNER_EMAIL = YES
+const EMAIL = 'land/email'
+const CORRECT_EMAIL = 'land/correct-email'
+const CONFIRM_EMAIL = YES
+const EMAIL_VALUE = 'email-value'
 
 const confirmFileUploadOptions = {
   NO,
@@ -238,8 +239,8 @@ const redisKeys = {
   LAND_OWNERSHIP_KEY,
   METRIC_UPLOADED_ANSWER,
   REFERER,
-  LAND_OWNER_EMAIL,
-  CONFIRM_OWNER_EMAIL
+  EMAIL_VALUE,
+  CONFIRM_EMAIL
 }
 
 const routes = {
@@ -295,8 +296,8 @@ const routes = {
   NEED_METRIC,
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
-  LAND_OWNER_EMAIL,
-  CORRECT_OWNER_EMAIL
+  EMAIL,
+  CORRECT_EMAIL
 }
 
 const uploadErrors = {
@@ -321,7 +322,8 @@ const setReferer = [
   CHECK_OWNERSHIP_DETAILS,
   CHECK_LEGAL_AGREEMENT_DETAILS,
   CHECK_MANAGEMENT_MONITORING_DETAILS,
-  CHECK_LAND_BOUNDARY_DETAILS
+  CHECK_LAND_BOUNDARY_DETAILS,
+  CORRECT_EMAIL
 ]
 
 // Add a route to clearReferer to break the above setReferer chain

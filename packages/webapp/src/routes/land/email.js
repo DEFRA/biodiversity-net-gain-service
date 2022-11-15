@@ -5,8 +5,8 @@ const ID = '#emailAddress'
 
 const handlers = {
   get: async (request, h) => {
-    const emailAddress = request.yar.get(constants.redisKeys.LAND_OWNER_EMAIL)
-    return h.view(constants.views.LAND_OWNER_EMAIL, {
+    const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE)
+    return h.view(constants.views.EMAIL, {
       emailAddress
     })
   },
@@ -14,23 +14,23 @@ const handlers = {
     const emailAddress = request.payload.emailAddress
     const error = validateEmail(emailAddress, ID)
     if (error) {
-      return h.view(constants.views.LAND_OWNER_EMAIL, {
+      return h.view(constants.views.EMAIL, {
         emailAddress,
         ...error
       })
     } else {
-      request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, emailAddress)
-      return h.redirect(constants.routes.CORRECT_OWNER_EMAIL)
+      request.yar.set(constants.redisKeys.EMAIL_VALUE, emailAddress)
+      return h.redirect(constants.routes.CORRECT_EMAIL)
     }
   }
 }
 
 export default [{
   method: 'GET',
-  path: constants.routes.LAND_OWNER_EMAIL,
+  path: constants.routes.EMAIL,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.LAND_OWNER_EMAIL,
+  path: constants.routes.EMAIL,
   handler: handlers.post
 }]

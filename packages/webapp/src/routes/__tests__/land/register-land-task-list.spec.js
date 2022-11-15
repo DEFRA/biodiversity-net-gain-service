@@ -2,8 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 import { getRegistrationTasks } from '../../../utils/helpers'
 
-// const url = constants.routes.REGISTER_LAND_TASK_LIST
-const url = '/land/register-land-task-list'
+const url = constants.routes.REGISTER_LAND_TASK_LIST
 
 describe(url, () => {
   describe('GET', () => {

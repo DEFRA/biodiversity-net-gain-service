@@ -2,42 +2,40 @@ import constants from '../../utils/constants.js'
 import { validateEmail } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (_request, h) => {
-    const emailAddress = _request.yar.get(constants.redisKeys.LAND_OWNER_EMAIL)
-    return h.view(constants.views.CORRECT_OWNER_EMAIL, {
+  get: async (request, h) => {
+    const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE)
+    return h.view(constants.views.CORRECT_EMAIL, {
       emailAddress
     })
   },
   post: async (request, h) => {
-    let vewPage
+    let vewPage = h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_YOUR_DETAILS)
     if (request.payload.correctEmail === 'yes') {
-      setEmailSetails(request)
-      vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
+      setEmailDetails(request)
     } else {
-      const emailStatus = validateEmail(request.payload.emailAddress)
-      if (!emailStatus) {
-        setEmailSetails(request)
-        vewPage = h.redirect(constants.routes.CHECK_YOUR_DETAILS)
+      const emailValidationError = validateEmail(request.payload.emailAddress)
+      if (!emailValidationError) {
+        setEmailDetails(request)
       } else {
-        vewPage = h.view(constants.views.CORRECT_OWNER_EMAIL, { errorMessage: emailStatus.err[0].text, selected: true })
+        vewPage = h.view(constants.views.CORRECT_EMAIL, { errorMessage: emailValidationError.err[0].text, selected: true })
       }
     }
     return vewPage
   }
 }
 
-const setEmailSetails = request => {
-  request.yar.set(constants.redisKeys.CONFIRM_OWNER_EMAIL, request.payload.correctEmail)
+const setEmailDetails = request => {
+  request.yar.set(constants.redisKeys.CONFIRM_EMAIL, request.payload.correctEmail)
   if (request.payload.correctEmail === 'no') {
-    request.yar.set(constants.redisKeys.LAND_OWNER_EMAIL, request.payload.emailAddress)
+    request.yar.set(constants.redisKeys.EMAIL_VALUE, request.payload.emailAddress)
   }
 }
 export default [{
   method: 'GET',
-  path: constants.routes.CORRECT_OWNER_EMAIL,
+  path: constants.routes.CORRECT_EMAIL,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CORRECT_OWNER_EMAIL,
+  path: constants.routes.CORRECT_EMAIL,
   handler: handlers.post
 }]

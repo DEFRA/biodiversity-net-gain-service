@@ -1,6 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-const url = constants.routes.ROLE
+// const url = constants.routes.ROLE
+const url = '/land/role'
 
 describe(url, () => {
   describe('GET', () => {
@@ -19,7 +20,7 @@ describe(url, () => {
     it('Should continue journey if role selected', async () => {
       postOptions.payload.role = 'Ecologist'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('/land/email')
+      expect(res.headers.location).toEqual(constants.routes.EMAIL)
     })
     it('Should fail journey if no role selected', async () => {
       const res = await submitPostRequest(postOptions, 200)

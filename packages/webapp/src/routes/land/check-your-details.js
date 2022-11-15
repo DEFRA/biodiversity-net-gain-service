@@ -6,7 +6,7 @@ const handlers = {
     const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
     const role = request.yar.get(constants.redisKeys.ROLE_KEY)
     const roleOther = request.yar.get(constants.redisKeys.ROLE_OTHER)
-    const emailAddress = request.yar.get(constants.redisKeys.LAND_OWNER_EMAIL)
+    const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE)
     return h.view(constants.views.CHECK_YOUR_DETAILS, {
       fullName,
       role,
