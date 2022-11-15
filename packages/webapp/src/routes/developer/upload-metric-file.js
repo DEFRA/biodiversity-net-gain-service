@@ -47,7 +47,7 @@ function processErrorUpload (err, h) {
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: 'The selected file could not be uploaded – try again',
             href: DEVELOPER_UPLOAD_METRIC_ID
           }]
         })
@@ -78,7 +78,7 @@ const handlers = {
       console.log(`Problem uploading file ${err}`)
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
-          text: 'The selected file could not be uploaded -- try again',
+          text: 'The selected file could not be uploaded – try again',
           href: DEVELOPER_UPLOAD_METRIC_ID
         }]
       })
