@@ -8,6 +8,7 @@ import { uploadFiles } from '../../utils/upload.js'
 const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
 const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
 
+<<<<<<< HEAD
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
   post: async (request, h) => performUpload(request, h)
@@ -31,6 +32,85 @@ const performUpload = async (request, h) => {
   } catch (err) {
     const errorContext = getErrorContext(err)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, errorContext)
+=======
+function processSuccessfulUpload (res, req) {
+  let resultView = constants.views.INTERNAL_SERVER_ERROR
+  let errorMessage = {}
+  if ((parseFloat(res.fileSize) * 100) === 0) {
+    resultView = constants.views.DEVELOPER_UPLOAD_METRIC
+    errorMessage = {
+      err: [{
+        text: 'The selected file is empty',
+        href: DEVELOPER_UPLOAD_METRIC_ID
+      }]
+    }
+  } else if (res[0].errorMessage === undefined) {
+    req.yar.set(constants.redisKeys.METRIC_LOCATION, res[0].location)
+    req.yar.set(constants.redisKeys.METRIC_FILE_SIZE, res.fileSize)
+    req.yar.set(constants.redisKeys.METRIC_FILE_TYPE, res.fileType)
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${res[0].location.substring(res[0].location.lastIndexOf('/') + 1)}`)
+    resultView = constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC
+  }
+  return { resultView, errorMessage }
+}
+
+function processErrorUpload (err, h) {
+  switch (err.message) {
+    case constants.uploadErrors.noFile:
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'Select a Biodiversity Metric',
+          href: DEVELOPER_UPLOAD_METRIC_ID
+        }]
+      })
+    case constants.uploadErrors.unsupportedFileExt:
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file must be an XLSM or XLSX',
+          href: DEVELOPER_UPLOAD_METRIC_ID
+        }]
+      })
+    default:
+      if (err.message.indexOf('timed out') > 0) {
+        return h.redirect(constants.views.DEVELOPER_UPLOAD_METRIC, {
+          err: [{
+            text: 'The selected file could not be uploaded – try again',
+            href: DEVELOPER_UPLOAD_METRIC_ID
+          }]
+        })
+      }
+      throw err
+  }
+}
+
+function processReturnValue (details, h) {
+  return details.resultView === constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC
+    ? h.redirect(details.resultView, details.errorMessage)
+    : h.view(details.resultView, details.errorMessage)
+}
+
+const handlers = {
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
+  post: async (request, h) => {
+    const config = developerBuildConfig(request.yar.id)
+    return uploadFiles(logger, request, config).then(
+      async function (result) {
+        const viewDetails = processSuccessfulUpload(result, request)
+        return processReturnValue(viewDetails, h)
+      },
+      function (err) {
+        return processErrorUpload(err, h)
+      }
+    ).catch(err => {
+      console.log(`Problem uploading file ${err}`)
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file could not be uploaded – try again',
+          href: DEVELOPER_UPLOAD_METRIC_ID
+        }]
+      })
+    })
+>>>>>>> 7f740a4 (updated error message as per copy deck content)
   }
 }
 
