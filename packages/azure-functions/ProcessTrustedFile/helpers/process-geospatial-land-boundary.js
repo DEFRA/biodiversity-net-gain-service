@@ -39,7 +39,7 @@ export default async function (context, config) {
 
 const gdalEnvVars = () => {
   return {
-    AZURE_STORAGE_ACCOUNT: process.env.AZURE_STORAGE_ACCOUNT,
-    
+    AZURE_STORAGE_ACCOUNT: process.env.AZURE_STORAGE_ACCOUNT
+
   }
 }

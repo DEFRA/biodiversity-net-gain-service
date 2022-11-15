@@ -1,14 +1,14 @@
-import Main from "./src/main.js";
-import dotenv from "dotenv";
+import Main from './src/main.js'
+import dotenv from 'dotenv'
 dotenv.config()
-const blobName = process.env.AZURE_BLOB_NAME;
-const extractData = new Main(blobName);
+const blobName = process.env.AZURE_BLOB_NAME
+const extractData = new Main(blobName)
 
 try {
-    const metricData = await extractData.getBlobData();
-    console.info("Extracted metric data")
-    console.log("-----------------------")
-    console.log(metricData.startPage);
+  const metricData = await extractData.getBlobData()
+  console.info('Extracted metric data')
+  console.log('-----------------------')
+  console.log(metricData.startPage)
 } catch (err) {
-  console.error("Err: ", err);
+  console.error('Err: ', err)
 }
