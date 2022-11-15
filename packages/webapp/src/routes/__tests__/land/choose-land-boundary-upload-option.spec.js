@@ -26,11 +26,12 @@ describe(url, () => {
         url,
         headers: { cookie }
       })
+      expect(response.headers.location).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
     })
-    // TO DO - Refactor this test when non-geospatial land boundary uploads are supported.
-    it('should return a 404 response code when a selection to upload a land boundary using a non-geospatial file is made', async () => {
+    it('should allow a selection to upload a land boundary using a non-geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.DOCUMENT_UPLOAD
-      await submitPostRequest(postOptions, 404)
+      const response = await submitPostRequest(postOptions)
+      expect(response.headers.location).toEqual(constants.routes.UPLOAD_LAND_BOUNDARY)
     })
   })
 })
