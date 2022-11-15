@@ -17,6 +17,9 @@ const handlers = {
       if (!emailValidationError) {
         setEmailDetails(request)
       } else {
+        if (emailValidationError.err[0].text === 'Enter your email address') {
+          emailValidationError.err[0].text = 'Email address cannot be left blank'
+        }
         vewPage = h.view(constants.views.CORRECT_EMAIL, { errorMessage: emailValidationError.err[0].text, selected: true })
       }
     }

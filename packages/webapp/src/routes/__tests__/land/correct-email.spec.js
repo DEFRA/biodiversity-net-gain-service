@@ -94,7 +94,7 @@ describe(url, () => {
       await correctEmail.default[1].handler(request, h)
       expect(viewResult).toBe(constants.views.CORRECT_EMAIL)
       expect(resultContext).toEqual({
-        errorMessage: 'Enter your email address',
+        errorMessage: 'Email address cannot be left blank',
         selected: true
       })
     })
