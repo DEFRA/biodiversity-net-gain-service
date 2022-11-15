@@ -4,11 +4,15 @@
 
 {% block formContent %}
   <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         {{ govukRadios({
           idPrefix: "landBoundaryUploadType",
           name: "landBoundaryUploadType",
+          errorMessage: err[0],
           fieldset: {
             legend: {
               text: pageHeading,
@@ -29,13 +33,13 @@
               value: "documentOrImage",
               text: "Upload document or image",
               hint: {
-                text: "PDF, jpg or PNG files"
+                text: "DOC, DOCX, JPG, PNG or PDF"
               },
               checked: false
             }
           ]
         }) }}
-
+        <p><a href="/land/need-boundary-file">I do not have a file showing the boundary of the land</a></p>
         {{ govukButton({
           text: "Continue",
           attributes: {
