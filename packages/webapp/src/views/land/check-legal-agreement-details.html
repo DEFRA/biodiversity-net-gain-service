@@ -32,7 +32,10 @@
                                 items: [
                                     {
                                         href: '/land/legal-agreement-type',
-                                        text: 'Change'
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "legal-agreement-type"
+                                        }
                                     }
                                 ]
                             }
@@ -48,7 +51,10 @@
                                 items: [
                                     {
                                         href: '/land/check-legal-agreement-file',
-                                        text: 'Change'
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "check-legal-agreement-file"
+                                        }
                                     }
                                 ]
                             }
@@ -64,7 +70,10 @@
                                 items: [
                                     {
                                         href: '/land/add-legal-agreement-parties',
-                                        text: 'Change'
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "add-legal-agreement-parties"
+                                        }
                                     }
                                 ]
                             }
@@ -81,14 +90,22 @@
                                     {
                                         href: '/land/legal-agreement-start-date',
                                         text: 'Change',
-                                        visuallyHiddenText: 'name'
+                                        visuallyHiddenText: 'name',
+                                        attributes: {
+                                            id: "legal-agreement-start-date"
+                                        }
                                     }
                                 ]
                             }
                             }
                         ]
                     }) }}
-                    {{ govukButton({ text: 'Accept and submit' }) }}
+                    {{ govukButton({
+                        text: 'Accept and submit',
+                        attributes: {
+                            id: "accept"
+                        }
+                    }) }}
                 </form>
             </div>
         </div>

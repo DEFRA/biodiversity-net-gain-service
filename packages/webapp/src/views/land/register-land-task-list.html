@@ -18,21 +18,21 @@
                                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
                                           {% if taskItem.status == 'COMPLETED' %}
-                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
                                                 {{ taskItem.title }}
                                               </a>
                                           {% else %}
-                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
+                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
                                                 {{ taskItem.title }}
                                               </a>
                                           {% endif %}
                                       </span>
                                         {% if taskItem.status !== 'COMPLETED' %}
-                                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag">
+                                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id = "{{ taskItem.id }}-status">
                                                 {{ taskItem.status }}
                                             </strong>
                                         {% else %}
-                                            <strong class="govuk-tag app-task-list__tag">
+                                            <strong class="govuk-tag app-task-list__tag" id = "{{ taskItem.id }}-status">
                                                 {{ taskItem.status }}
                                             </strong>
                                         {% endif %}
@@ -42,17 +42,17 @@
                                         <ul class="app-task-list__items">
                                             <li class="app-task-list__item">
                                                 {% if registrationCompletedTasks == 6 %}
-                                                    <span class="app-task-list__task-name">
-                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                                    <span class="app-task-list__task-name" id="check-your-answers">
+                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="{{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].id }}">
                                                                 {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
                                                             </a>
                                                     </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">Not started yet</strong>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">Not started yet</strong>
                                                 {% else %}
-                                                    <span>
+                                                    <span id="check-your-answers">
                                                           {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
                                                     </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag">{{ taskItem.status }}</strong>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">{{ taskItem.status }}</strong>
                                                 {% endif %}
                                             </li>
                                         </ul>

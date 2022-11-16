@@ -9,23 +9,23 @@
     </h1>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" id = "fullname-label">
           Full name
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" id = "fullname-value">
           {{ fullName }}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/land/name">
+          <a class="govuk-link" href="/land/name" id = "fullname">
             Change<span class="govuk-visually-hidden"> full name</span>
           </a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
+        <dt class="govuk-summary-list__key" id = "role-label">
           Role
         </dt>
-        <dd class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value" id = "role-value">
           {% if role == 'Other' %}
             {{ roleOther }}
           {% else %}
@@ -33,8 +33,21 @@
           {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/land/role">
+          <a class="govuk-link" href="/land/role" id = "role">
             Change<span class="govuk-visually-hidden"> role</span>
+          </a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" id = "email-label">
+          Email address
+        </dt>
+        <dd class="govuk-summary-list__value" id = "email-value">
+            {{ emailAddress }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/land/email" id = "email">
+            Change<span class="govuk-visually-hidden"> email</span>
           </a>
         </dd>
       </div>
