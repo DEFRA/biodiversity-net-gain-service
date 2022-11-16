@@ -9,7 +9,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    let vewPage = h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_YOUR_DETAILS)
+    let viewPage = h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_YOUR_DETAILS)
     if (request.payload.correctEmail === 'yes') {
       setEmailDetails(request)
     } else {
@@ -20,10 +20,10 @@ const handlers = {
         if (emailValidationError.err[0].text === 'Enter your email address') {
           emailValidationError.err[0].text = 'Email address cannot be left blank'
         }
-        vewPage = h.view(constants.views.CORRECT_EMAIL, { errorMessage: emailValidationError.err[0].text, selected: true })
+        viewPage = h.view(constants.views.CORRECT_EMAIL, { errorMessage: emailValidationError.err[0].text, selected: true })
       }
     }
-    return vewPage
+    return viewPage
   }
 }
 
