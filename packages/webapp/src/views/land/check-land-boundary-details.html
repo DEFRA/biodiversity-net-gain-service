@@ -23,48 +23,63 @@
                         rows: [
                             {
                                 key: {
-                                text: 'Land boundary file uploaded'
-                            },
+                                    text: 'Land boundary file uploaded'
+                                },
                                 value: {
-                                text: landBoundaryFileName
-                            },
+                                    text: landBoundaryFileName
+                                },
                                 actions: {
                                 items: [
                                     {
                                         href: '/land/check-land-boundary-file',
-                                        text: 'Change'
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "check-land-boundary-file"
+                                        }
                                     }
                                 ]
                             }
                             },
                             {
                                 key: {
-                                text: 'Grid reference'
-                            },
+                                    text: 'Grid reference'
+                                },
                                 value: {
-                                text: gridReference
-                            },
+                                    text: gridReference
+                                },
                                 actions: {
-                                items: [
-                                    {
-                                        href: '/land/add-grid-reference',
-                                        text: 'Change'
-                                    }
-                                ]
-                            }
+                                    items: [
+                                        {
+                                            href: '/land/add-grid-reference',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "add-grid-reference"
+                                            }
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 key: {
-                                text: 'Area in hectares'
-                            },
+                                    text: 'Area in hectares',
+                                    attributes: {
+                                        id: "add-hectares-label"
+                                    }
+                                },
                                 value: {
-                                text: areaInHectare
+                                text: areaInHectare,
+                                attributes: {
+                                    id: "add-hectares-value"
+                                }
                             },
                                 actions: {
                                 items: [
                                     {
                                         href: '/land/add-hectares',
-                                        text: 'Change'
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "add-hectares"
+                                        }
                                     }
                                 ]
                             }

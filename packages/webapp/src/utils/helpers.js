@@ -1,6 +1,7 @@
 import moment from 'moment'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
+import validator from 'email-validator'
 
 const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
@@ -96,6 +97,26 @@ const getNameAndRoles = legalAgreementParties => {
   })
   return partySelectionContent
 }
+const validateEmail = (emailAddress, ID) => {
+  const error = {}
+  if (!emailAddress) {
+    error.err = [{
+      text: 'Enter your email address',
+      href: ID
+    }]
+  } else if (emailAddress.length > 254) {
+    error.err = [{
+      text: 'Email address must be 254 characters or less',
+      href: ID
+    }]
+  } else if (!validator.validate(emailAddress)) {
+    error.err = [{
+      text: 'Enter an email address in the correct format, like name@example.com',
+      href: ID
+    }]
+  }
+  return error.err ? error : null
+}
 
 const getAllLandowners = session => {
   const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS))) || []
@@ -129,6 +150,7 @@ export {
   boolToYesNo,
   dateToString,
   hideClass,
+  validateEmail,
   getNameAndRoles,
   getAllLandowners,
   getLegalAgreementDocumentType,

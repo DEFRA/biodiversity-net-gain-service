@@ -39,7 +39,8 @@ describe(url, () => {
             title: 'Add your details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-your-details',
-            startTaskUrl: '/land/name'
+            startTaskUrl: '/land/name',
+            id: 'add-your-details'
           }
         ]
       })
@@ -50,13 +51,15 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-land-boundary'
+            startTaskUrl: '/land/upload-land-boundary',
+            id: 'add-land-boundary'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-ownership-details',
-            startTaskUrl: '/land/upload-ownership-proof'
+            startTaskUrl: '/land/upload-ownership-proof',
+            id: 'add-land-ownership'
           }
         ]
       })
@@ -67,13 +70,15 @@ describe(url, () => {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-file',
-            startTaskUrl: '/land/upload-metric'
+            startTaskUrl: '/land/upload-metric',
+            id: 'add-habitat-information'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-management-monitoring-details',
-            startTaskUrl: '/land/upload-management-plan'
+            startTaskUrl: '/land/upload-management-plan',
+            id: 'add-habitat-management'
           }
         ]
       })
@@ -84,7 +89,8 @@ describe(url, () => {
             title: 'Add legal agreement details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-legal-agreement-details',
-            startTaskUrl: '/land/legal-agreement-type'
+            startTaskUrl: '/land/legal-agreement-type',
+            id: 'add-legal-agreement'
           }
         ]
       })
@@ -126,7 +132,8 @@ describe(url, () => {
             title: 'Add your details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-your-details',
-            startTaskUrl: '/land/name'
+            startTaskUrl: '/land/name',
+            id: 'add-your-details'
           }
         ]
       })
@@ -137,13 +144,15 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'COMPLETED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-land-boundary'
+            startTaskUrl: '/land/upload-land-boundary',
+            id: 'add-land-boundary'
           },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-ownership-details',
-            startTaskUrl: '/land/upload-ownership-proof'
+            startTaskUrl: '/land/upload-ownership-proof',
+            id: 'add-land-ownership'
           }
         ]
       })
@@ -154,13 +163,15 @@ describe(url, () => {
             title: 'Upload Biodiversity Metric 3.1',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-file',
-            startTaskUrl: '/land/upload-metric'
+            startTaskUrl: '/land/upload-metric',
+            id: 'add-habitat-information'
           },
           {
             title: 'Add habitat management and monitoring details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-management-monitoring-details',
-            startTaskUrl: '/land/upload-management-plan'
+            startTaskUrl: '/land/upload-management-plan',
+            id: 'add-habitat-management'
           }
         ]
       })
@@ -171,7 +182,8 @@ describe(url, () => {
             title: 'Add legal agreement details',
             status: 'COMPLETED',
             completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-            startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE
+            startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
+            id: 'add-legal-agreement'
           }
         ]
       })
