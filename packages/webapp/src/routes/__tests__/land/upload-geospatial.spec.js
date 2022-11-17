@@ -92,7 +92,10 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
-          await uploadFile(config)
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('Select a file showing the land boundary')
           setImmediate(() => {
             done()
           })
