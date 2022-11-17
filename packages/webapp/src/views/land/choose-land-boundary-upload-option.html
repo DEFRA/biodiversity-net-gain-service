@@ -27,7 +27,7 @@
               hint: {
                 text: "GeoJSON, Geopackage or Shape files"
               },
-              checked: false
+              checked: checked(landBoundaryUploadType, "geospatialData")
             },
             {
               value: "documentOrImage",
@@ -35,7 +35,7 @@
               hint: {
                 text: "DOC, DOCX, JPG, PNG or PDF"
               },
-              checked: false
+              checked: checked(landBoundaryUploadType, "documentOrImage")
             }
           ]
         }) }}
