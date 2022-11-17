@@ -10,9 +10,10 @@ import {
 describe('BNG data extractor test', () => {
   let readableStream
   let bNGMetrixDataExtracrtor
+  const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(), '__tests__/metricfiles/biodiversity30.xlsm'))
+    readableStream = fs.createReadStream(path.resolve(currentPath, '__tests__/metricfiles/biodiversity30.xlsm'))
     bNGMetrixDataExtracrtor = new BNGMetrixSingleTableExtracrtor()
   })
 
