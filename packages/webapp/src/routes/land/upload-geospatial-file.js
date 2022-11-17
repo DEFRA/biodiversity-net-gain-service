@@ -1,4 +1,5 @@
 import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
+import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import { logger } from 'defra-logging-facade'
 import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
@@ -7,19 +8,7 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
-  post: async (request, h) => {
-    const config = buildConfig(request.yar.id)
-    const geospatialData = (await uploadFiles(logger, request, config))
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
-
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
-
-    return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
-  }
+  post: async (request, h) => await performUpload(request, h)
 }
 
 // TO DO - Refactor to reduce direct coupling to Microsoft Azure.
@@ -30,7 +19,14 @@ const buildConfig = sessionId => {
   buildQueueConfig(config)
   buildFunctionConfig(config)
   buildSignalRConfig(sessionId, config)
+  buildFileValidationConfig(config)
   return config
+}
+
+const buildFileValidationConfig = config => {
+  config.fileValidationConfig = {
+    fileExt: constants.geospatialLandBoundaryFileExt
+  }
 }
 
 const buildBlobConfig = (sessionId, config) => {
@@ -67,6 +63,97 @@ const buildSignalRConfig = (sessionId, config) => {
     // This ensures that notification of the processed upload is only sent to
     // the SignalR client connection associated with this session.
     url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
+  }
+}
+
+const performUpload = async (request, h) => {
+  const config = buildConfig(request.yar.id)
+
+  try {
+    const geospatialData = (await uploadFiles(logger, request, config))
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)}`)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
+
+    return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
+  } catch (err) {
+    const errorContext = getErrorContext(err)
+    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, errorContext)
+  }
+}
+
+const getErrorContext = err => {
+  const uploadGeospatialFileId = '#geospatialLandBoundary'
+  const error = {}
+  if (err instanceof CoordinateSystemValidationError) {
+    error.err = [{
+      text: 'The selected file must use either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system',
+      href: uploadGeospatialFileId
+    }]
+  } else if (err instanceof ThreatScreeningError) {
+    // TO DO - Distinguish between threat screening error due to scanning failures and reported threats.
+    error.err = [{
+      text: 'The selected file contains a virus',
+      href: uploadGeospatialFileId
+    }]
+  } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
+    error.err = [{
+      text: 'The selected file must be a GeoJSON, Geopackage or Shapefile',
+      href: uploadGeospatialFileId
+    }]
+  } else if (err instanceof ValidationError) {
+    let errorText
+
+    switch (err.code) {
+      case uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT:
+        errorText = 'The selected file must only contain one polygon'
+        break
+      case uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT:
+        errorText = 'The selected file must only contain one layer'
+        break
+      case uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM:
+        errorText = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
+        break
+    }
+
+    error.err = [{
+      text: errorText,
+      href: uploadGeospatialFileId
+    }]
+  } else {
+    switch (err.message) {
+      case constants.uploadErrors.noFile:
+        error.err = [{
+          text: 'Select a file showing the land boundary',
+          href: uploadGeospatialFileId
+        }]
+        break
+      case constants.uploadErrors.emptyFile:
+        error.err = [{
+          text: 'The selected file is empty',
+          href: uploadGeospatialFileId
+        }]
+        break
+      default:
+        if (err.message.indexOf('timed out') > 0) {
+          error.err = [{
+            text: 'The selected file could not be uploaded -- try again',
+            href: uploadGeospatialFileId
+          }]
+        }
+        break
+    }
+  }
+
+  if (error.err) {
+    // Prepare to redisplay the upload geospatial land boundary view with the configured error.
+    return error
+  } else {
+    // An unexpected error has occurred. Rethrow it so that the default error page is returned.
+    throw err
   }
 }
 
