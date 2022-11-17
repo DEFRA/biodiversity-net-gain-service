@@ -6,29 +6,27 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
-function processSuccessfulUpload (result, request) {
+function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-  let errorMessage = {}
-  if ((parseFloat(result.fileSize) * 100) === 0) {
-    resultView = constants.views.UPLOAD_METRIC
-    errorMessage = {
-      err: [{
-        text: 'The selected file is empty',
-        href: UPLOAD_METRIC_ID
-      }]
-    }
-  } else if (result[0].errorMessage === undefined) {
+  if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_UPLOAD_METRIC
   }
-  return { resultView, errorMessage }
+  return h.redirect(resultView)
 }
 
 function processErrorUpload (err, h) {
   switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return h.view(constants.views.UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file is empty',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
@@ -56,20 +54,13 @@ function processErrorUpload (err, h) {
   }
 }
 
-function processReturnValue (details, h) {
-  return details.resultView === constants.routes.CHECK_UPLOAD_METRIC
-    ? h.redirect(details.resultView, details.errorMessage)
-    : h.view(details.resultView, details.errorMessage)
-}
-
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_METRIC),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
       function (result) {
-        const viewDetails = processSuccessfulUpload(result, request)
-        return processReturnValue(viewDetails, h)
+        return processSuccessfulUpload(result, request, h)
       },
       function (err) {
         return processErrorUpload(err, h)
@@ -154,7 +145,7 @@ export default [{
           return h.view(constants.views.UPLOAD_METRIC, {
             err: [
               {
-                text: 'The selected file must not be larger than 50MB',
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
                 href: UPLOAD_METRIC_ID
               }
             ]

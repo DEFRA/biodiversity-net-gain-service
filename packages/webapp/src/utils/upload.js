@@ -11,21 +11,12 @@ const uploadFiles = async (logger, request, config) => {
     const form = new multiparty.Form()
     const uploadResult = {}
     form.on('part', function (part) {
-      if (!part.filename) {
-        reject(new Error(constants.uploadErrors.noFile))
-      } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
-        reject(new Error(constants.uploadErrors.unsupportedFileExt))
-      } else {
+      try {
         // Send this part of the multipart request for processing
-        handlePart(logger, part, config)
+        handlePart(logger, part, config, uploadResult)
         events.push(`Processed ${part.filename}`)
-        uploadResult.fileSize = (part.byteCount / 1024 / 1024).toFixed(2)
-      }
-      if (part.filename) {
-        uploadResult.filename = part.filename
-      }
-      if (part.headers['content-type']) {
-        uploadResult.fileType = part.headers['content-type']
+      } catch (err) {
+        reject(err)
       }
     })
     form.on('error', function (err) {
@@ -53,10 +44,26 @@ const createUploadConfiguration = config => {
   return uploadConfig
 }
 
-const handlePart = (logger, part, config) => {
-  logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
-  const uploadConfig = createUploadConfiguration(config)
-  uploadDocument(logger, uploadConfig, part)
+const handlePart = (logger, part, config, uploadResult) => {
+  const fileSize = (parseFloat(part.byteCount / 1024 / 1024).toFixed(2)) * 100
+  if (!part.filename) {
+    throw new Error(constants.uploadErrors.noFile)
+  } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
+    throw new Error(constants.uploadErrors.unsupportedFileExt)
+  } else if (fileSize === 0) {
+    throw new Error(constants.uploadErrors.emptyFile)
+  } else {
+    logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
+    uploadResult.fileSize = fileSize
+    if (part.filename) {
+      uploadResult.filename = part.filename
+    }
+    if (part.headers['content-type']) {
+      uploadResult.fileType = part.headers['content-type']
+    }
+    const uploadConfig = createUploadConfiguration(config)
+    uploadDocument(logger, uploadConfig, part)
+  }
 }
 
 export { uploadFiles }
