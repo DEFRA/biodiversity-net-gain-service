@@ -5,9 +5,10 @@ import BngExtractionService from '../src/bng-metric-extraction-service'
 describe('BNG data extrator service test', () => {
   let readableStream
   let bNGMetricDataExtractorService
+  const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(), '__tests__/metricfiles/biodiversity30.xlsm'))
+    readableStream = fs.createReadStream(path.resolve(currentPath, '__tests__/metricfiles/biodiversity30.xlsm'))
     bNGMetricDataExtractorService = new BngExtractionService()
   })
 
