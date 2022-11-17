@@ -1,8 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
-// const url = constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
-const url = '/land/add-legal-agreement-parties'
+const url = constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
 
 describe(url, () => {
   describe('GET', () => {
