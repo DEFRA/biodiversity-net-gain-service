@@ -6,7 +6,7 @@ const handlers = {
     let completedTasks = 0
     let dataContent = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
     if (!dataContent) {
-      dataContent = registerTaskList
+      dataContent = JSON.parse(JSON.stringify(registerTaskList))
     } else {
       dataContent.taskList.forEach(task => {
         if (task.tasks.length === 1 && task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
