@@ -66,7 +66,7 @@ const listArray = array => {
 const getRegistrationTasks = request => {
   const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
   if (!registrationTasks) {
-    return Object.assign({}, registerTaskList)
+    return JSON.parse(JSON.stringify(registerTaskList))
   }
   return registrationTasks
 }
