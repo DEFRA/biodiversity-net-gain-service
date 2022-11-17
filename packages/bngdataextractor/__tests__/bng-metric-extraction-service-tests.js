@@ -8,7 +8,7 @@ describe('BNG data extrator service test', () => {
   const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.resolve(currentPath, '__tests__/metricfiles/biodiversity30.xlsm'))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/biodiversity30.xlsm')))
     bNGMetricDataExtractorService = new BngExtractionService()
   })
 

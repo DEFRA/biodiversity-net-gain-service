@@ -13,7 +13,7 @@ describe('BNG data extractor test', () => {
   const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.resolve(currentPath, '__tests__/metricfiles/biodiversity30.xlsm'))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/biodiversity30.xlsm')))
     bNGMetrixDataExtracrtor = new BNGMetrixSingleTableExtracrtor()
   })
 
@@ -34,7 +34,7 @@ describe('BNG data extractor test', () => {
     expect(response.start['Metric version']).toBe(3)
     expect(response.start['Assessment date']).toBe(44491)
     expect(response.start['Planning authority reviewer']).toBe('Nick allen')
-    expect(response.start['Planning authority']).toBe('Ajinkya Jawalkar')
+    expect(response.start['Planning authority']).toBe('Bromley')
   })
 
   it('should transform excel stream to json for A-1 Site Habitat Baseline', async () => {
