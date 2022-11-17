@@ -53,9 +53,9 @@ const getContext = async request => {
 }
 
 const getMetricFileDataAsObject = async (blobName) => {
-  const path = process.cwd()
-  const filepath = path + '/tmp/metric.xls'
-  const tmpDir = path + '/tmp'
+  const currentPath = process.cwd()
+  const filepath = currentPath + '/tmp/metric.xls'
+  const tmpDir = currentPath + '/tmp'
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir)
   }
@@ -74,7 +74,8 @@ const getMetricFileDataAsObject = async (blobName) => {
   if (checkFileExists(filepath)) {
     console.log('Extracting file info...')
     const extractService = new BngExtractionService()
-    return await extractService.extractMetricContent(filepath)
+    const readableStream = fs.createReadStream(path.resolve(currentPath, filepath))
+    return await extractService.extractMetricContent(readableStream)
   }
   return null
 }

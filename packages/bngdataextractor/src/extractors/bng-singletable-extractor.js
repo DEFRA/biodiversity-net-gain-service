@@ -7,28 +7,29 @@ class BNGMetrixSingleDataExtracrtor {
     this.#habitatGroupExtractor = new BNGMatricHabitatGroupExtractor()
   }
 
-  extractContent = async (filepath, extractionConfiguration) => {
+  extractContent = async (contentInputStream, extractionConfiguration) => {
     return new Promise((resolve, reject) => {
-      try {
-        const workBook = xslx.readFile(filepath)
+      const data = []
+      contentInputStream.on('data', (chunk) => {
+        data.push(chunk)
+      })
+
+      contentInputStream.on('end', () => {
+        const workBook = xslx.read(Buffer.concat(data), { type: 'buffer' })
         const response = {}
-        Object.keys(extractionConfiguration).forEach((key) => {
+        Object.keys(extractionConfiguration).forEach(key => {
           if (key !== 'habitatGroup') {
-            response[key] = this.#extractData(
-              workBook,
-              extractionConfiguration[key]
-            )
+            response[key] = this.#extractData(workBook, extractionConfiguration[key])
           } else {
-            response[key] = this.#habitatGroupExtractor.extractHabitatGroup(
-              workBook,
-              extractionConfiguration[key]
-            )
+            response[key] = this.#habitatGroupExtractor.extractHabitatGroup(workBook, extractionConfiguration[key])
           }
         })
         resolve(response)
-      } catch (error) {
-        reject(error)
-      }
+      })
+
+      contentInputStream.on('error', (err) => {
+        reject(err)
+      })
     })
   }
 
