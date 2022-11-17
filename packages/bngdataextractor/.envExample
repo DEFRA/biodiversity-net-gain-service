@@ -1,4 +1,0 @@
-AZURE_STORAGE_CONNECTION_STRING = "<connection string>"
-AZURE_CONTAINER_NAME = "<container name>"
-AZURE_BLOB_NAME = "<blob name>"
-AZURE_STORAGE_ACCOUNT_NAME = "<account name>"
