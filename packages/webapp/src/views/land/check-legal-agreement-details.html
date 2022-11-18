@@ -23,18 +23,18 @@
                         rows: [
                             {
                                 key: {
-                                text: 'Type of legal agreement '
-                            },
+                                    text: 'Type of legal agreement'
+                                },
                                 value: {
-                                text: legalAgreementType
-                            },
+                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value'>" + legalAgreementType + "</dd>"
+                                },
                                 actions: {
                                 items: [
                                     {
                                         href: '/land/legal-agreement-type',
                                         text: 'Change',
                                         attributes: {
-                                            id: "legal-agreement-type"
+                                            id: "add-legal-agreement-type"
                                         }
                                     }
                                 ]
@@ -45,7 +45,7 @@
                                 text: 'Legal agreement file uploaded'
                             },
                                 value: {
-                                text: legalAgreementFileName
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-file-value'>" + legalAgreementFileName + "</dd>"
                             },
                                 actions: {
                                 items: [
@@ -53,7 +53,7 @@
                                         href: '/land/check-legal-agreement-file',
                                         text: 'Change',
                                         attributes: {
-                                            id: "check-legal-agreement-file"
+                                            id: "add-legal-agreement-file"
                                         }
                                     }
                                 ]
@@ -64,7 +64,7 @@
                                 text: 'Parties involved'
                             },
                                 value: {
-                                html: listArray(partyNameAndRole)
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-parties-value'>" + listArray(partyNameAndRole) + "</dd>"
                             },
                                 actions: {
                                 items: [
@@ -83,8 +83,8 @@
                                 text: 'Start date'
                             },
                                 value: {
-                                text: dateToString(legalAgreementStartDate)
-                            },
+                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-start-date-value'>" +  dateToString(legalAgreementStartDate) + "</dd>"
+                                },
                                 actions: {
                                 items: [
                                     {
@@ -92,7 +92,7 @@
                                         text: 'Change',
                                         visuallyHiddenText: 'name',
                                         attributes: {
-                                            id: "legal-agreement-start-date"
+                                            id: "add-legal-agreement-start-date"
                                         }
                                     }
                                 ]
