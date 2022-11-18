@@ -8,7 +8,7 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
-  post: async (request, h) => await performUpload(request, h)
+  post: async (request, h) => performUpload(request, h)
 }
 
 // TO DO - Refactor to reduce direct coupling to Microsoft Azure.
@@ -85,6 +85,27 @@ const performUpload = async (request, h) => {
   }
 }
 
+const getValidationErrorText = err => {
+  let errorText
+
+  switch (err.code) {
+    case uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT:
+      errorText = 'The selected file must only contain one polygon'
+      break
+    case uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT:
+      errorText = 'The selected file must only contain one layer'
+      break
+    case uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM:
+      errorText = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
+      break
+    default:
+      // An unexpected error code has been received so rethrow the error.
+      throw err
+  }
+
+  return errorText
+}
+
 const getErrorContext = err => {
   const uploadGeospatialFileId = '#geospatialLandBoundary'
   const error = {}
@@ -105,22 +126,8 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ValidationError) {
-    let errorText
-
-    switch (err.code) {
-      case uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT:
-        errorText = 'The selected file must only contain one polygon'
-        break
-      case uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT:
-        errorText = 'The selected file must only contain one layer'
-        break
-      case uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM:
-        errorText = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
-        break
-    }
-
     error.err = [{
-      text: errorText,
+      text: getValidationErrorText(error),
       href: uploadGeospatialFileId
     }]
   } else {

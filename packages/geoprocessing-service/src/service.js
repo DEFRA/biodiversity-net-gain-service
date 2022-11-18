@@ -52,11 +52,12 @@ const validateDataset = async dataset => {
 }
 
 const validateLayer = async layer => {
+  const errorMessage = 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system'
   if (layer.srs) {
     validateSpatialReferenceSystem(layer.srs)
     await validateFeatures(layer.features)
   } else {
-    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system')
+    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
   }
 }
 
