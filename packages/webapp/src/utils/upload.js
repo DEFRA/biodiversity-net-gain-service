@@ -45,7 +45,7 @@ const createUploadConfiguration = config => {
 }
 
 const handlePart = (logger, part, config, uploadResult) => {
-  const fileSize = (parseFloat(part.byteCount / 1024 / 1024).toFixed(2)) * 100
+  const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(2)) * 100
   if (!part.filename) {
     throw new Error(constants.uploadErrors.noFile)
   } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
