@@ -1,5 +1,12 @@
 // start configuration
 const startHeaders = ['Project details']
+const broadHabitat = 'Broad Habitat'
+const proposedHabitat = 'Proposed habitat'
+const areaHectares = 'Area (hectares)'
+const habitatUnitsDelivered = 'Habitat units delivered'
+const strategicSignificance = 'Strategic significance'
+const strategicPosMultiplier = 'Strategic position multiplier'
+
 export const startExtractionConfig = {
   sheetName: 'Start',
   titleCellAddress: 'D9',
@@ -7,15 +14,15 @@ export const startExtractionConfig = {
   cellHeaders: startHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // Habitat baseline configuration
-const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', 'Area (hectares)', 'Distinctiveness',
-  'Score', 'Condition ', 'Score', 'Condition', 'Score_1', 'Strategic significance',
+const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 'Distinctiveness',
+  'Score', 'Condition ', 'Score', 'Condition', 'Score_1', strategicSignificance,
   'Strategic significance_1', 'Strategic Significance multiplier', 'Total habitat units',
   'Baseline units retained', 'Baseline units enhanced', 'Area lost', 'Units lost']
 export const habitatBaselineExtractionConfig = {
@@ -25,15 +32,15 @@ export const habitatBaselineExtractionConfig = {
   cellHeaders: habitatBaselineHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // Habitat creation configuration
-const habitatCreationHeaders = ['Broad Habitat', 'Proposed habitat', 'Area (hectares)', 'Distinctiveness', 'Score', 'Condition',
-  'Strategic significance', 'Strategic position multiplier', 'Standard time to target condition/years',
+const habitatCreationHeaders = [broadHabitat, proposedHabitat, areaHectares, 'Distinctiveness', 'Score', 'Condition',
+  strategicSignificance, strategicPosMultiplier, 'Standard time to target condition/years',
   'Standard or adjusted time to target condition', 'Final time to target condition/years', 'Final time to target multiplier',
   'Standard difficulty of creation ', 'Applied difficulty multiplier', 'Final difficulty of creation ',
   'Difficulty multiplier applied']
@@ -44,16 +51,16 @@ export const habitatCreationExtractionConfig = {
   cellHeaders: habitatCreationHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // Off site habitat configuration
-const offSiteHabitatBaselineHeaders = ['Broad habitat', 'Habitat type', 'Area (hectares)', 'Distinctiveness', 'Score', 'Condition', 'Strategic significance',
-  'Strategic position multiplier', 'Total habitat units', 'Baseline units retained', 'Baseline units enhanced', 'Area lost',
-  'Units lost', 'Broad Habitat']
+const offSiteHabitatBaselineHeaders = ['Broad habitat', 'Habitat type', areaHectares, 'Distinctiveness', 'Score', 'Condition', strategicSignificance,
+  strategicPosMultiplier, 'Total habitat units', 'Baseline units retained', 'Baseline units enhanced', 'Area lost',
+  'Units lost', broadHabitat]
 export const offSiteHabitatBaselineExtractionConfig = {
   sheetName: 'D-1 Off Site Habitat Baseline',
   titleCellAddress: 'D3',
@@ -61,15 +68,15 @@ export const offSiteHabitatBaselineExtractionConfig = {
   cellHeaders: offSiteHabitatBaselineHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // D-2 Off Site Habitat Creation configuration
 // TODO not all headers are coming through
-const offSiteHabitatCreationHeaders = ['Broad Habitat', 'Proposed habitat', 'Area (hectares)']
+const offSiteHabitatCreationHeaders = [broadHabitat, proposedHabitat, areaHectares]
 export const offSiteHabitatCreationExtractionConfig = {
   sheetName: 'D-2 Off Site Habitat Creation',
   titleCellAddress: 'D3',
@@ -77,10 +84,10 @@ export const offSiteHabitatCreationExtractionConfig = {
   cellHeaders: offSiteHabitatCreationHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // G-5 Enhancement Temporal configuration
@@ -94,10 +101,10 @@ export const enhancementTemporalExtractionConfig = {
   cellHeaders: enhancementTemporalHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
-    __EMPTY_1: 'Proposed habitat',
-    __EMPTY_3: 'Area (hectares)',
-    __EMPTY_4: 'Habitat units delivered'
+    __EMPTY: broadHabitat,
+    __EMPTY_1: proposedHabitat,
+    __EMPTY_3: areaHectares,
+    __EMPTY_4: habitatUnitsDelivered
   }
 }
 // Habitat groups configuration
@@ -122,22 +129,22 @@ export const habitatGroupExtractionConfig = {
   },
   substitutions: {
     A1: {
-      __EMPTY: 'Broad Habitat',
-      __EMPTY_1: 'Proposed habitat',
-      __EMPTY_3: 'Area (hectares)',
-      __EMPTY_4: 'Habitat units delivered'
+      __EMPTY: broadHabitat,
+      __EMPTY_1: proposedHabitat,
+      __EMPTY_3: areaHectares,
+      __EMPTY_4: habitatUnitsDelivered
     },
     AJ1: {
-      __EMPTY: 'Broad Habitat',
-      __EMPTY_1: 'Proposed habitat',
-      __EMPTY_3: 'Area (hectares)',
-      __EMPTY_4: 'Habitat units delivered'
+      __EMPTY: broadHabitat,
+      __EMPTY_1: proposedHabitat,
+      __EMPTY_3: areaHectares,
+      __EMPTY_4: habitatUnitsDelivered
     },
     AU1: {
-      __EMPTY: 'Broad Habitat',
-      __EMPTY_1: 'Proposed habitat',
-      __EMPTY_3: 'Area (hectares)',
-      __EMPTY_4: 'Habitat units delivered'
+      __EMPTY: broadHabitat,
+      __EMPTY_1: proposedHabitat,
+      __EMPTY_3: areaHectares,
+      __EMPTY_4: habitatUnitsDelivered
     }
   }
 }
@@ -148,17 +155,17 @@ export const offSiteHabitatEnhancementExtractionConfig = {
     'Baseline condition category', 'Baseline condition score', 'Baseline strategic significance category',
     'Baseline strategic significance score', 'Baseline habitat units', 'Suggested action to address habitat losses',
     'Conditional Data Validation', 'Proposed Broad Habitat', 'Proposed Habitat', 'Proposed habitat    (Pre-Populated but can be overridden)',
-    ' Distinctiveness change', 'Condition change', 'Strategic significance', 'Strategic significance_1', 'Strategic position multiplier',
+    ' Distinctiveness change', 'Condition change', strategicSignificance, 'Strategic significance_1', strategicPosMultiplier,
     'Standard time to target condition/years', 'Standard or adjusted time to target condition', 'Final time to target condition/years',
     'Final time to target multiplier', 'Difficulty of enhancement category', 'Applied difficullty multiplier', 'Difficulty',
-    'Difficulty multiplier applied', 'Spatial risk category', 'Spatial risk multiplier', 'Proposed habitat', 'Area (hectares)',
-    'Habitat units delivered', 'Distinctiveness', 'Score', 'Condition', 'Score_1'],
+    'Difficulty multiplier applied', 'Spatial risk category', 'Spatial risk multiplier', proposedHabitat, areaHectares,
+    habitatUnitsDelivered, 'Distinctiveness', 'Score', 'Condition', 'Score_1'],
   sheetName: 'D-3 Off Site Habitat Enhancment',
   titleCellAddress: 'E3',
   startCell: 'E11',
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
+    __EMPTY: broadHabitat,
     __EMPTY_1: 'Distinctiveness',
     __EMPTY_2: 'Score',
     __EMPTY_3: 'Condition',
