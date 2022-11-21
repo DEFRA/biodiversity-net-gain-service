@@ -109,17 +109,7 @@ describe(url, () => {
           })
           session.id = 'test'
 
-          let viewArgs = ''; let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-
-          await expect(postHandler({ yar: session }, h)).rejects.toThrow('test error')
+          await expect(postHandler({ yar: session })).rejects.toThrow('test error')
           done()
         } catch (err) {
           done(err)
