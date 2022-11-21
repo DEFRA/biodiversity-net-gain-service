@@ -31,7 +31,7 @@ const downloadToBufferIfExists = async (logger, config) => {
   if (blobExists) {
     returnValue = blockBlobClient.downloadToBuffer(0)
   } else {
-    logger.log('Blob does not exist')
+    logger.log('Blob does not exist for buffering')
   }
   return returnValue
 }

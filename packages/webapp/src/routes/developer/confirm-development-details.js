@@ -59,17 +59,13 @@ const getMetricFileDataAsObject = async (blobName) => {
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir)
   }
-  console.log('Checking file...')
-  // const arg = process.argv[2]
-  // if (!checkFileExists(filepath) || arg == "-f") {
-  console.info(' Downloading file...', filepath)
+
   const config = {
     blobName,
     containerName: 'untrusted',
     fileNameWithPath: filepath
   }
   await blobStorageConnector.downloadBlobToFileIfExists(logger, config)
-  // }
 
   if (checkFileExists(filepath)) {
     console.log('Extracting file info...')
@@ -92,6 +88,7 @@ const checkFileExists = (filepath) => {
   } catch (error) {
     console.error('Err:', error)
   }
+  return false
 }
 
 export default [{

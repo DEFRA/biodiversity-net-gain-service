@@ -61,53 +61,64 @@ class BNGMatricHabitatGroupExtractor {
   }
 
   #getAllHabitatsData = (data, multiTableSheet, extractionPage, extractionConfiguration) => {
+    const riversStreamsTitle = 'Rivers and Streams'
     if (extractionPage === 'A1') {
       multiTableSheet.allHabitatData.title = 'All Habitats'
-      multiTableSheet.allHabitatData.data = data.slice(0, data.findIndex(object => object['1'] === 'Hedgerows and lines of trees'))
-      multiTableSheet.allHabitatData.data = this.#performSubstitution([].concat.apply([], multiTableSheet.allHabitatData.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.allHabitatData.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.allHabitatData.data), extractionConfiguration, extractionPage)
+      let allHabitatData = data.slice(0, data.findIndex(object => object['1'] === 'Hedgerows and lines of trees'))
+      allHabitatData = this.#performSubstitution([].concat.apply([], allHabitatData), extractionConfiguration.substitutions[extractionPage])
+      allHabitatData = this.#removeUnwantedColumns([].concat.apply([], allHabitatData), extractionConfiguration, extractionPage)
+      multiTableSheet.allHabitatData.data = allHabitatData
 
       multiTableSheet.hedgeGrowAndTrees.title = 'Hedgerows and lines of trees'
-      multiTableSheet.hedgeGrowAndTrees.data = data.slice(multiTableSheet.allHabitatData.data.length + 1, data.findIndex(object => object['1'] === 'Rivers and Streams'))
-      multiTableSheet.hedgeGrowAndTrees.data = this.#performSubstitution([].concat.apply([], multiTableSheet.hedgeGrowAndTrees.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.hedgeGrowAndTrees.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.hedgeGrowAndTrees.data), extractionConfiguration, extractionPage)
+      let hedgeGrowAndTrees = data.slice(multiTableSheet.allHabitatData.data.length + 1, data.findIndex(object => object['1'] === riversStreamsTitle))
+      hedgeGrowAndTrees = this.#performSubstitution([].concat.apply([], hedgeGrowAndTrees), extractionConfiguration.substitutions[extractionPage])
+      hedgeGrowAndTrees = this.#removeUnwantedColumns([].concat.apply([], hedgeGrowAndTrees), extractionConfiguration, extractionPage)
+      multiTableSheet.hedgeGrowAndTrees.data = hedgeGrowAndTrees
 
-      multiTableSheet.riversAndStreams.data.title = 'Rivers and Streams'
-      multiTableSheet.riversAndStreams.data = data.slice(data.findIndex(object => object['1'] === 'Rivers and Streams') + 1, data.length)
-      multiTableSheet.riversAndStreams.data = this.#performSubstitution([].concat.apply([], multiTableSheet.riversAndStreams.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.riversAndStreams.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.riversAndStreams.data), extractionConfiguration, extractionPage)
+      multiTableSheet.riversAndStreams.title = riversStreamsTitle
+      let riversAndStreams = data.slice(data.findIndex(object => object['1'] === multiTableSheet.riversAndStreams.title) + 1, data.length)
+      riversAndStreams = this.#performSubstitution([].concat.apply([], riversAndStreams), extractionConfiguration.substitutions[extractionPage])
+      riversAndStreams = this.#removeUnwantedColumns([].concat.apply([], riversAndStreams), extractionConfiguration, extractionPage)
+      multiTableSheet.riversAndStreams.data = riversAndStreams
     }
     if (extractionPage === 'AJ1') {
       multiTableSheet.groupSubTotals.title = 'Group Sub-totals'
-      multiTableSheet.groupSubTotals.data = data
-      multiTableSheet.groupSubTotals.data = this.#performSubstitution([].concat.apply([], multiTableSheet.groupSubTotals.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.groupSubTotals.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.groupSubTotals.data), extractionConfiguration, extractionPage)
+      let groupSubTotals = data
+      groupSubTotals = this.#performSubstitution([].concat.apply([], groupSubTotals), extractionConfiguration.substitutions[extractionPage])
+      groupSubTotals = this.#removeUnwantedColumns([].concat.apply([], groupSubTotals), extractionConfiguration, extractionPage)
+      multiTableSheet.groupSubTotals.data = groupSubTotals
     }
     if (extractionPage === 'AU1') {
+      const habitatGrp = 'Habitat Group'
       multiTableSheet.distinctiveBandVeryHigh.title = 'Very High'
-      multiTableSheet.distinctiveBandVeryHigh.data = data.slice(0, data.findIndex(object => object['Habitat Group'] === 'High'))
-      multiTableSheet.distinctiveBandVeryHigh.data = this.#performSubstitution([].concat.apply([], multiTableSheet.distinctiveBandVeryHigh.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.distinctiveBandVeryHigh.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.distinctiveBandVeryHigh.data), extractionConfiguration, extractionPage)
+      let distinctiveBandVeryHigh = data.slice(0, data.findIndex(object => object[habitatGrp] === 'High'))
+      distinctiveBandVeryHigh = this.#performSubstitution([].concat.apply([], distinctiveBandVeryHigh), extractionConfiguration.substitutions[extractionPage])
+      distinctiveBandVeryHigh = this.#removeUnwantedColumns([].concat.apply([], distinctiveBandVeryHigh), extractionConfiguration, extractionPage)
+      multiTableSheet.distinctiveBandVeryHigh.data = distinctiveBandVeryHigh
 
       multiTableSheet.distinctiveBandHigh.title = 'High'
-      multiTableSheet.distinctiveBandHigh.data = data.slice(data.findIndex(object => object['Habitat Group'] === 'High') + 1, data.findIndex(object => object['Habitat Group'] === 'Medium'))
-      multiTableSheet.distinctiveBandHigh.data = this.#performSubstitution([].concat.apply([], multiTableSheet.distinctiveBandHigh.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.distinctiveBandHigh.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.distinctiveBandHigh.data), extractionConfiguration, extractionPage)
+      let distinctiveBandHigh = data.slice(data.findIndex(object => object[habitatGrp] === 'High') + 1, data.findIndex(object => object[habitatGrp] === 'Medium'))
+      distinctiveBandHigh = this.#performSubstitution([].concat.apply([], distinctiveBandHigh), extractionConfiguration.substitutions[extractionPage])
+      distinctiveBandHigh = this.#removeUnwantedColumns([].concat.apply([], distinctiveBandHigh), extractionConfiguration, extractionPage)
+      multiTableSheet.distinctiveBandHigh.data = distinctiveBandHigh
 
       multiTableSheet.distinctiveBandMedium.title = 'Medium'
-      multiTableSheet.distinctiveBandMedium.data = data.slice(data.findIndex(object => object['Habitat Group'] === 'Medium') + 1, data.findIndex(object => object['Habitat Group'] === 'Low'))
-      multiTableSheet.distinctiveBandMedium.data = this.#performSubstitution([].concat.apply([], multiTableSheet.distinctiveBandMedium.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.distinctiveBandMedium.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.distinctiveBandMedium.data), extractionConfiguration, extractionPage)
+      let distinctiveBandMedium = data.slice(data.findIndex(object => object[habitatGrp] === 'Medium') + 1, data.findIndex(object => object[habitatGrp] === 'Low'))
+      distinctiveBandMedium = this.#performSubstitution([].concat.apply([], distinctiveBandMedium), extractionConfiguration.substitutions[extractionPage])
+      distinctiveBandMedium = this.#removeUnwantedColumns([].concat.apply([], distinctiveBandMedium), extractionConfiguration, extractionPage)
+      multiTableSheet.distinctiveBandMedium.data = distinctiveBandMedium
 
       multiTableSheet.distinctiveBandLow.title = 'Low'
-      multiTableSheet.distinctiveBandLow.data = data.slice(data.findIndex(object => object['Habitat Group'] === 'Low') + 1, data.findIndex(object => object['Habitat Group'] === 'Very Low'))
-      multiTableSheet.distinctiveBandLow.data = this.#performSubstitution([].concat.apply([], multiTableSheet.distinctiveBandLow.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.distinctiveBandLow.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.distinctiveBandLow.data), extractionConfiguration, extractionPage)
+      let distinctiveBandLow = data.slice(data.findIndex(object => object[habitatGrp] === 'Low') + 1, data.findIndex(object => object[habitatGrp] === 'Very Low'))
+      distinctiveBandLow = this.#performSubstitution([].concat.apply([], distinctiveBandLow), extractionConfiguration.substitutions[extractionPage])
+      distinctiveBandLow = this.#removeUnwantedColumns([].concat.apply([], distinctiveBandLow), extractionConfiguration, extractionPage)
+      multiTableSheet.distinctiveBandLow.data = distinctiveBandLow
 
       multiTableSheet.distinctiveBandVeryLow.title = 'Very Low'
-      multiTableSheet.distinctiveBandVeryLow.data = data.slice(data.findIndex(object => object['Habitat Group'] === 'Very Low') + 1, data.length)
-      multiTableSheet.distinctiveBandVeryLow.data = this.#performSubstitution([].concat.apply([], multiTableSheet.distinctiveBandVeryLow.data), extractionConfiguration.substitutions[extractionPage])
-      multiTableSheet.distinctiveBandVeryLow.data = this.#removeUnwantedColumns([].concat.apply([], multiTableSheet.distinctiveBandVeryLow.data), extractionConfiguration, extractionPage)
+      let distinctiveBandVeryLow = data.slice(data.findIndex(object => object[habitatGrp] === 'Very Low') + 1, data.length)
+      distinctiveBandVeryLow = this.#performSubstitution([].concat.apply([], distinctiveBandVeryLow), extractionConfiguration.substitutions[extractionPage])
+      distinctiveBandVeryLow = this.#removeUnwantedColumns([].concat.apply([], distinctiveBandVeryLow), extractionConfiguration, extractionPage)
+      multiTableSheet.distinctiveBandVeryLow.data = distinctiveBandVeryLow
     }
     return multiTableSheet
   }
