@@ -7,9 +7,10 @@ import xslx from 'xlsx'
 describe('BNG data extractor test', () => {
   let readableStream
   let bNGMatricDataExtractor
+  const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(), '__tests__/metricfiles/biodiversity30.xlsm'))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/biodiversity30.xlsm')))
     bNGMatricDataExtractor = new BNGMatricHabitatGroupExtracrtor()
   })
 

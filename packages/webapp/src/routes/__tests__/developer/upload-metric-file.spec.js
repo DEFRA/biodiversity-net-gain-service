@@ -1,7 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
-const url = '/developer/upload-metric'
+const url = '/developer/upload-metric-file'
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 jest.mock('../../../utils/azure-signalr.js')
