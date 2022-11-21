@@ -119,10 +119,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ yar: session }, h)
-          expect(viewArgs[0]).toEqual(constants.views.CHECK_AND_SUBMIT)
-          expect(viewArgs[1].err[0].text).toEqual('There is a problem')
-          expect(redirectArgs).toEqual('')
+          await expect(postHandler({ yar: session }, h)).rejects.toThrow('test error')
           done()
         } catch (err) {
           done(err)

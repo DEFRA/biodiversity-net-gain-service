@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import application from '../../utils/application.js'
+import applicationValidation from '../../utils/application-validation.js'
 import { postJson } from '../../utils/http.js'
 import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
 
@@ -13,21 +14,11 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const data = application(request.yar)
-    try {
-      const result = await postJson(`${functionAppUrl}/processapplication`, data)
-      request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, result.gainSiteReference)
-      return h.redirect(constants.routes.REGISTRATION_SUBMITTED)
-    } catch (err) {
-      return h.view(constants.views.CHECK_AND_SUBMIT, {
-        err: [{
-          text: 'There is a problem',
-          href: null
-        }],
-        application: data.landownerGainSiteRegistration,
-        ...getContext(request)
-      })
-    }
+    const { value, error } = applicationValidation.validate(application(request.yar))
+    if (error) throw new Error(error)
+    const result = await postJson(`${functionAppUrl}/processapplication`, value)
+    request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, result.gainSiteReference)
+    return h.redirect(constants.routes.REGISTRATION_SUBMITTED)
   }
 }
 
