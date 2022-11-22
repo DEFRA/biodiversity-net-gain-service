@@ -126,6 +126,7 @@ const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
+const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -360,7 +361,8 @@ const routes = {
   ELIGIBILITY_RESULTS,
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_CHECK_UPLOAD_METRIC,
-  DEVELOPER_CONFIRM_DEV_DETAILS
+  DEVELOPER_CONFIRM_DEV_DETAILS,
+  DEVELOPER_DOWNLOAD_METRIC_FILE
 }
 
 const uploadErrors = {
