@@ -5,9 +5,7 @@ $(document).ready(function (event) {
       $(event.target.parentNode).next('div').removeClass('govuk-radios__conditional--hidden')
       newItemContainer.find('.govuk-form-group').find('.govuk-radios__conditional').show()
       $(event.target.parentNode).next('div').find('input').val('')
-      console.log('******* clicked now ******** 0')
     } else {
-      console.log('******* clicked now ******** 1')
       $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').addClass('govuk-radios__conditional--hidden')
       $(event.target.parentNode).parent().show().find('.govuk-radios__conditional').removeAttr('style')
     }
@@ -18,7 +16,6 @@ $(document).ready(function (event) {
       const count = $('.govuk-grid-row').find('.moj-add-another__item').length
       const newItemContainer = $('.govuk-grid-row').find('.moj-add-another__item')[count - 1]
       if ($(event.target).attr('id') !== undefined) {
-        console.log($(event.target).attr('id'))
         if (count > 1) {
           if ($(newItemContainer).find('div').hasClass('govuk-form-group--error') && $(event.target).attr('id') === 'moj-add-another-component') {
             $(newItemContainer).find('div').removeClass('govuk-form-group--error')
@@ -39,6 +36,5 @@ $(document).ready(function (event) {
       })
     })
   }
-  console.log('******* triggering modified *******')
-  // $('.govuk-body').trigger('DOMSubtreeModified')
+  $('.govuk-body').trigger('DOMSubtreeModified')
 })
