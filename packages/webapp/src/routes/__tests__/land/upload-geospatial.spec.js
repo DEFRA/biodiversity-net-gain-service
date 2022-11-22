@@ -277,7 +277,7 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error when non-file data is uploaded', (done) => {
+    it('should display expected error details when non-file data is uploaded', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
