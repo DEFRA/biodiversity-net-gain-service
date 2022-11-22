@@ -187,7 +187,7 @@ export default [{
       failAction: (request, h, err) => {
         logger.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [
               {
                 text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
