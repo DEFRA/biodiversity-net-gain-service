@@ -11,6 +11,13 @@ describe('application-validation', () => {
       expect(error).toBeUndefined()
       expect(value).not.toBeUndefined()
     })
+    it('Should fail validation if a .required() field is missing', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.FULL_NAME, undefined)
+      const { value, error } = applicationValidation.validate(application(session))
+      expect(error.message).toEqual('"landownerGainSiteRegistration.applicant.lastName" is required')
+      expect(value).not.toBeUndefined()
+    })
     it('Should fail validation if not a landowner and otherLandowners is empty', () => {
       const session = applicationSession()
       session.set(constants.redisKeys.LANDOWNERS, [])

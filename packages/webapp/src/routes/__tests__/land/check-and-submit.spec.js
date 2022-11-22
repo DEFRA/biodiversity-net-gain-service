@@ -100,5 +100,40 @@ describe(url, () => {
         }
       })
     })
+    it('Should throw an error page if validation fails for application', done => {
+      jest.isolateModules(async () => {
+        try {
+          const session = applicationSession()
+          const postHandler = checkAndSubmit[1].handler
+
+          const http = require('../../../utils/http.js')
+          http.postJson = jest.fn().mockImplementation(() => {
+            return {
+              gainSiteReference: 'test-reference'
+            }
+          })
+
+          session.set(constants.redisKeys.FULL_NAME, undefined)
+
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          await expect(postHandler({ yar: session }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.lastName" is required')
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs).toEqual('')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 })
