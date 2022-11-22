@@ -109,6 +109,31 @@ const getValidationErrorText = err => {
   return errorText
 }
 
+const processErrorMessagge = (errorMessage, error) => {
+  switch (errorMessage) {
+    case constants.uploadErrors.noFile:
+      error.err = [{
+        text: 'Select a file showing the land boundary',
+        href: uploadGeospatialFileId
+      }]
+      break
+    case constants.uploadErrors.emptyFile:
+      error.err = [{
+        text: 'The selected file is empty',
+        href: uploadGeospatialFileId
+      }]
+      break
+    default:
+      if (errorMessage.indexOf('timed out') > 0) {
+        error.err = [{
+          text: constants.uploadErrors.uploadFailure,
+          href: uploadGeospatialFileId
+        }]
+      }
+      break
+  }
+}
+
 const getErrorContext = err => {
   const error = {}
   if (err instanceof CoordinateSystemValidationError) {
@@ -133,28 +158,7 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else {
-    switch (err.message) {
-      case constants.uploadErrors.noFile:
-        error.err = [{
-          text: 'Select a file showing the land boundary',
-          href: uploadGeospatialFileId
-        }]
-        break
-      case constants.uploadErrors.emptyFile:
-        error.err = [{
-          text: 'The selected file is empty',
-          href: uploadGeospatialFileId
-        }]
-        break
-      default:
-        if (err.message.indexOf('timed out') > 0) {
-          error.err = [{
-            text: constants.uploadErrors.uploadFailure,
-            href: uploadGeospatialFileId
-          }]
-        }
-        break
-    }
+    processErrorMessagge(err.message, error)
   }
 
   if (error.err) {
