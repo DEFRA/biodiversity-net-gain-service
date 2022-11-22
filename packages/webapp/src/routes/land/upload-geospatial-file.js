@@ -78,7 +78,7 @@ const performUpload = async (request, h) => {
     request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, parseFloat(geospatialData.fileSize).toFixed(4))
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
 
     return h.redirect(constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)

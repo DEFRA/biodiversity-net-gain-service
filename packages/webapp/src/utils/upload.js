@@ -45,12 +45,12 @@ const createUploadConfiguration = config => {
 }
 
 const handlePart = (logger, part, config, uploadResult) => {
-  const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2)) * 100
+  const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   if (!part.filename) {
     throw new Error(constants.uploadErrors.noFile)
   } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
     throw new Error(constants.uploadErrors.unsupportedFileExt)
-  } else if (fileSize === 0) {
+  } else if (fileSize * 100 === 0) {
     throw new Error(constants.uploadErrors.emptyFile)
   } else {
     logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
