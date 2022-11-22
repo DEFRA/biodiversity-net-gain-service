@@ -122,6 +122,11 @@ const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
 const CONFIRM_EMAIL = YES
 const EMAIL_VALUE = 'email-value'
+const AWAITING_PROCESSING = 'AwaitingProcessing'
+const SUCCESS = 'Success'
+const FILE_INACCESSIBLE = 'FileInaccessible'
+const QUARANTINED = 'Quarantined'
+const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 
 const confirmFileUploadOptions = {
   NO,
@@ -308,9 +313,19 @@ const routes = {
 }
 
 const uploadErrors = {
+  uploadFailure: 'The selected file could not be uploaded -- try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
+  threatDetected: 'The selected file contains a virus',
   unsupportedFileExt: 'Unsupported file extension'
+}
+
+const threatScreeningStatusValues = {
+  AWAITING_PROCESSING,
+  SUCCESS,
+  FILE_INACCESSIBLE,
+  QUARANTINED,
+  FAILED_TO_VIRUS_SCAN
 }
 
 const uploadTypes = {
@@ -361,6 +376,7 @@ export default Object.freeze({
   routes,
   views,
   uploadErrors,
+  threatScreeningStatusValues,
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
