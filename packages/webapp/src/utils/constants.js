@@ -214,6 +214,11 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   }
 ]
 
+const CONFIRM_DEVELOPMENT_DETAILS = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   GAIN_SITE_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
@@ -438,5 +443,6 @@ export default Object.freeze({
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
-  eligibilityHTML
+  eligibilityHTML,
+  CONFIRM_DEVELOPMENT_DETAILS
 })
