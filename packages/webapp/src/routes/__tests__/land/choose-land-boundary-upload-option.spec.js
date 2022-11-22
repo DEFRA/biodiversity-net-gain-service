@@ -16,6 +16,22 @@ describe(url, () => {
         payload: {}
       }
     })
+
+    it('should display expected error details when no option is selected', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const response = await submitPostRequest(postOptions, 200)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('Select how you want to add the land boundary details for the biodiversity gain site')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should allow a selection to upload a land boundary using a geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.GEOSPATIAL_DATA
       const response = await submitPostRequest(postOptions)
