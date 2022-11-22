@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% set pageHeading = "Register biodiversity gain for developments" %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">
+                <span class="govuk-caption-xl">Planning reference: {{ startPage['Planning application reference'] }}</span>
+                {{ pageHeading }}</h1>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
+            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ metricCompletedTasks }} of {{ metricTasks.taskList.length }} sections.</p>
+            <ol class="app-task-list govuk-!-padding-top-3">
+                {% for task in metricTasks.taskList %}
+                    {% if task.isDisplay == true %}
+                    <li>
+                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
+                        <ul class="app-task-list__items">
+                            {% for taskItem in task.tasks %}
+                                <li class="app-task-list__item">
+                                  <span class="app-task-list__task-name">
+                                      {% if taskItem.status == 'COMPLETED' %}
+                                          <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status">
+                                            {{ taskItem.title }}
+                                          </a>
+                                      {% else %}
+                                          <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status">
+                                            {{ taskItem.title }}
+                                          </a>
+                                      {% endif %}
+                                  </span>
+                                    {% if taskItem.status !== 'COMPLETED' %}
+                                        <strong class="govuk-tag govuk-tag--grey app-task-list__tag">
+                                            {{ taskItem.status }}
+                                        </strong>
+                                    {% else %}
+                                        <strong class="govuk-tag app-task-list__tag">
+                                            {{ taskItem.status }}
+                                        </strong>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+{% endblock %}

@@ -25,7 +25,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === 'yes') {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILSx)
+      return h.redirect(constants.routes.DEVELOPER_METRIC_TASK_LIST)
     } else {
       return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),

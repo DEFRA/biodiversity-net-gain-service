@@ -122,7 +122,10 @@ const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
-const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
+const DEVELOPER_METRIC_TASK_LIST = 'developer/metric-task-list'
+const METRIC_TASK_DETAILS = 'metricTaskDetails'
+const DEFAULT_METRIC_TASK_STATUS = 'NOT STARTED'
+const COMPLETE_METRIC_TASK_STATUS = 'COMPLETED'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -254,7 +257,8 @@ const redisKeys = {
   EMAIL_VALUE,
   CONFIRM_EMAIL,
   DEVELOPER_METRIC_DATA,
-  DEV_DETAILS_CHECKED
+  DEV_DETAILS_CHECKED,
+  METRIC_TASK_DETAILS
 }
 
 const routes = {
@@ -315,7 +319,7 @@ const routes = {
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_CHECK_UPLOAD_METRIC,
   DEVELOPER_CONFIRM_DEV_DETAILS,
-  DEVELOPER_DOWNLOAD_METRIC_FILE
+  DEVELOPER_METRIC_TASK_LIST
 }
 
 const uploadErrors = {
@@ -346,7 +350,8 @@ const setReferer = [
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  REGISTER_LAND_TASK_LIST
+  REGISTER_LAND_TASK_LIST,
+  DEVELOPER_METRIC_TASK_LIST
 ]
 
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
@@ -376,5 +381,7 @@ export default Object.freeze({
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
-  CONFIRM_DEVELOPMENT_DETAILS
+  CONFIRM_DEVELOPMENT_DETAILS,
+  DEFAULT_METRIC_TASK_STATUS,
+  COMPLETE_METRIC_TASK_STATUS
 })

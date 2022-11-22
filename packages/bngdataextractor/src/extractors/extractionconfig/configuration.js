@@ -20,6 +20,20 @@ export const startExtractionConfig = {
     __EMPTY_4: habitatUnitsDelivered
   }
 }
+
+// Headline result configuration
+export const headlineResultExtractionConfig = {
+	sheetName: 'Headline Results',
+	titleCellAddress: 'B3',
+	startCell: 'B7',
+	cellHeaders: [],
+	columnsToBeRemoved: ['__EMPTY'],
+	substitutions: {
+		'__EMPTY': 'task',
+		'__EMPTY_4': 'unit',
+		'__EMPTY_6': 'value',
+	}
+};
 // Habitat baseline configuration
 const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 'Distinctiveness',
   'Score', 'Condition ', 'Score', 'Condition', 'Score_1', strategicSignificance,

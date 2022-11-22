@@ -59,6 +59,8 @@ class BNGMetrixSingleDataExtracrtor {
         return item
       })
       data = resultData
+    } else if(sheetTitle == 'Headline Results') {
+      data = this.#getHeadlineResultData(data, extractionConfiguration);
     } else {
       data = this.#performSubstitution(data, extractionConfiguration)
       data = this.#removeUnwantedColumns(data, extractionConfiguration)
@@ -117,6 +119,45 @@ class BNGMetrixSingleDataExtracrtor {
     // .filter(row => Object.keys(row).length == extractionConfiguration.cellHeaders.length);
 
     return data
+  }
+
+  #getHeadlineResultData = (data, extractionConfiguration) => {
+    let tmpObj = {},
+        finalData = [],
+        chunkedArray = []
+    const chunkSize = 3
+    for (let i = 0; i < data.length; i += chunkSize) {
+      chunkedArray.push(data.slice(i, i + chunkSize));
+    }
+
+    chunkedArray.map((items, i) => {
+      const obj = {}
+      items.map(item => {
+        Object.keys(extractionConfiguration.substitutions).forEach(
+          (substitutionKey) => {
+            const substituteValue = item[substitutionKey];
+            if (substituteValue !== undefined) {
+              Object.defineProperty(
+                item,
+                extractionConfiguration.substitutions[substitutionKey],
+                Object.getOwnPropertyDescriptor(item, substitutionKey)
+              );
+              delete item[substitutionKey];
+            }
+          }
+        );
+
+
+        if(Object.hasOwnProperty.call(item, 'task')){
+          obj['task'] = item.task.split('\r\n')[0]
+          obj['subtask'] = item.task.split('\r\n')[1] || ""
+        }
+        obj[item.unit] = item.value;
+        tmpObj = Object.assign({}, obj)
+      })
+      finalData.push(tmpObj)
+    })
+    return finalData;
   }
 }
 
