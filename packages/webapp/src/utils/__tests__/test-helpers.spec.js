@@ -1,5 +1,5 @@
 import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners } from '../helpers.js'
-import Session from '../../routes/__tests__/helpers/session.js'
+import Session from '../../__mocks__/session.js'
 import constants from '../../utils/constants.js'
 
 describe('helpers file', () => {

@@ -6,7 +6,7 @@ Conditionals to test:
 */
 import applicationValidation from '../application-validation.js'
 import application from '../application.js'
-import Session from '../../routes/__tests__/helpers/session.js'
+import Session from '../../__mocks__/session.js'
 
 describe('application-validation', () => {
   describe('validate', () => {

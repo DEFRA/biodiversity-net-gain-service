@@ -1,4 +1,4 @@
-import Session from '../helpers/session.js'
+import Session from '../../../__mocks__/session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.CHECK_AND_SUBMIT
