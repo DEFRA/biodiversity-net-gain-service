@@ -15,7 +15,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const { value, error } = applicationValidation.validate(application(request.yar))
-    if (error) throw new Error(error)
+    if (error) {
+      throw new Error(error)
+    }
     const result = await postJson(`${functionAppUrl}/processapplication`, value)
     request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.REGISTRATION_SUBMITTED)

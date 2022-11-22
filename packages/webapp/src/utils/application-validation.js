@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import constants from './constants.js'
 
-const schema = Joi.object({
+const applicationValidation = Joi.object({
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
       firstName: Joi.string().allow('', null),
@@ -28,7 +28,7 @@ const schema = Joi.object({
         role: Joi.string()
       })
     ),
-    legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => { return item.id })),
+    legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)),
     legalAgreementStartDate: Joi.date(),
     otherLandowners: Joi.array().items(
       Joi.object({
@@ -58,4 +58,4 @@ const schema = Joi.object({
   })
 })
 
-export default schema
+export default applicationValidation

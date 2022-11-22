@@ -6,7 +6,7 @@ const applicationSession = () => {
   Object.keys(applicationMock).forEach((item) => {
     session.set(item, applicationMock[item])
   })
-  return session  
+  return session
 }
 
 export default applicationSession
