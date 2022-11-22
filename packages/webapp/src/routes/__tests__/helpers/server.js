@@ -4,6 +4,8 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
+import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
+import constants from '../../../utils/constants.js'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -17,7 +19,7 @@ const getExpectedErrorCode = (uploadConfig) => {
   }
   if (uploadConfig.hasError !== undefined && !uploadConfig.hasError) {
     return 302
-  } else if (uploadConfig.generateHandleEventsError || uploadConfig.generateFormDataError || !uploadConfig.filePath) {
+  } else if (uploadConfig.generateHandleEventsError || uploadConfig.generateUnexpectedValidationError || uploadConfig.generateFormDataError || !uploadConfig.filePath) {
     return 500
   }
   return 302
@@ -57,9 +59,37 @@ const uploadFile = async (uploadConfig) => {
 
   handleEvents.mockImplementation(async (config, events) => {
     const blobName = `${config.blobConfig.blobName}${events[0].split(' ')[1]}`
-    const uploadComplete = await isUploadComplete('untrusted', blobName, 1000)
+    let uploadComplete = await isUploadComplete('untrusted', blobName, 1000)
 
-    if (uploadConfig.generateHandleEventsError || !uploadComplete) {
+    if (uploadConfig.generateUploadTimeoutError) {
+      uploadComplete = false
+    }
+
+    if (uploadConfig.generateInvalidCoordinateReferenceSystemError) {
+      const errorMessage = 'The selected file must use either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
+      throw new CoordinateSystemValidationError(
+        'mockAuthorityCode', uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, errorMessage)
+    } else if (uploadConfig.generateMissingCoordinateReferenceSystemError) {
+      const errorMessage = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
+    } else if (uploadConfig.generateInvalidLayerCountError) {
+      const errorMessage = 'The selected file must only contain one layer'
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT, errorMessage)
+    } else if (uploadConfig.generateInvalidFeatureCountError) {
+      const errorMessage = 'The selected file must only contain one polygon'
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, errorMessage)
+    } else if (uploadConfig.generateUnexpectedValidationError) {
+      const errorMessage = 'Unexpected valdation error'
+      throw new ValidationError('UNEXPECTED-ERROR-CODE', errorMessage)
+    } else if (uploadConfig.generateThreatDetectedError) {
+      throw new ThreatScreeningError({
+        Status: constants.threatScreeningStatusValues.QUARANTINED
+      })
+    } else if (uploadConfig.generateThreatScreeningFailure) {
+      throw new ThreatScreeningError({
+        Status: constants.threatScreeningStatusValues.FAILED_TO_VIRUS_SCAN
+      })
+    } else if (uploadConfig.generateHandleEventsError || !uploadComplete) {
       throw new Error(`Upload of ${config.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
     } else {
       // Check that a message corresponding to the uploaded blob has been queued.
