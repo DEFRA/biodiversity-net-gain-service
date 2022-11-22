@@ -202,7 +202,7 @@ describe(url, () => {
       })
     })
 
-    it('should display an expected error details when upload screening detects a threat', (done) => {
+    it('should display expected error details when upload screening detects a threat', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
@@ -221,7 +221,7 @@ describe(url, () => {
       })
     })
 
-    it('should display an expected error details when upload screening fails', (done) => {
+    it('should display expected error details when upload screening fails', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
@@ -240,7 +240,7 @@ describe(url, () => {
       })
     })
 
-    it('should display an expected error details when an upload fails due to a timeout', (done) => {
+    it('should display expected error details when an upload fails due to a timeout', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
