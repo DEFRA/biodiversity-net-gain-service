@@ -25,9 +25,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === 'yes') {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
-        err: { text: '!TODO: Journey continuation not implemented' }
-      })
+      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILSx)
     } else {
       return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
@@ -52,7 +50,7 @@ const getContext = async request => {
   }
 }
 
-const getMetricFileDataAsObject = async (blobName) => {
+export const getMetricFileDataAsObject = async (blobName) => {
   const currentPath = process.cwd()
   const filepath = currentPath + '/tmp/metric.xls'
   const tmpDir = currentPath + '/tmp'
