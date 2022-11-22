@@ -6,6 +6,8 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
+const uploadGeospatialFileId = '#geospatialLandBoundary'
+
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
   post: async (request, h) => performUpload(request, h)
@@ -25,7 +27,8 @@ const buildConfig = sessionId => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.geospatialLandBoundaryFileExt
+    fileExt: constants.geospatialLandBoundaryFileExt,
+    maximumDecimalPlaces: 4
   }
 }
 
@@ -107,7 +110,6 @@ const getValidationErrorText = err => {
 }
 
 const getErrorContext = err => {
-  const uploadGeospatialFileId = '#geospatialLandBoundary'
   const error = {}
   if (err instanceof CoordinateSystemValidationError) {
     error.err = [{
@@ -115,9 +117,9 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ThreatScreeningError) {
-    // TO DO - Distinguish between threat screening error due to scanning failures and reported threats.
+    const status = err.threatScreeningDetails.Status
     error.err = [{
-      text: 'The selected file contains a virus',
+      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
@@ -127,7 +129,7 @@ const getErrorContext = err => {
     }]
   } else if (err instanceof ValidationError) {
     error.err = [{
-      text: getValidationErrorText(error),
+      text: getValidationErrorText(err),
       href: uploadGeospatialFileId
     }]
   } else {
@@ -147,7 +149,7 @@ const getErrorContext = err => {
       default:
         if (err.message.indexOf('timed out') > 0) {
           error.err = [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.uploadFailure,
             href: uploadGeospatialFileId
           }]
         }
@@ -177,7 +179,22 @@ export default [{
       maxBytes: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024,
       multipart: true,
       output: 'stream',
-      parse: false
+      parse: false,
+      failAction: (request, h, err) => {
+        logger.log('File upload too large', request.path)
+        if (err.output.statusCode === 413) { // Request entity too large
+          return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+            err: [
+              {
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+                href: uploadGeospatialFileId
+              }
+            ]
+          }).takeover()
+        } else {
+          throw err
+        }
+      }
     }
   }
 }]
