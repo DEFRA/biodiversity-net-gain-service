@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = constants.routes.CHOOSE_GEOSPATIAL_UPLOAD
+const url = constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD_OPTION
 
 describe(url, () => {
   describe('GET', () => {

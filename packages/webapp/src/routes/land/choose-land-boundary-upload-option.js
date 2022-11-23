@@ -4,7 +4,7 @@ import { checked } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
-    return h.view(constants.views.CHOOSE_GEOSPATIAL_UPLOAD, {
+    return h.view(constants.views.CHOOSE_LAND_BOUNDARY_UPLOAD_OPTION, {
       ...context
     })
   },
@@ -26,7 +26,7 @@ const handlers = {
         }]
       }
 
-      return h.view(constants.views.CHOOSE_GEOSPATIAL_UPLOAD, {
+      return h.view(constants.views.CHOOSE_LAND_BOUNDARY_UPLOAD_OPTION, {
         ...context,
         ...error
       })
@@ -45,10 +45,10 @@ const getContext = request => {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHOOSE_GEOSPATIAL_UPLOAD,
+  path: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD_OPTION,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CHOOSE_GEOSPATIAL_UPLOAD,
+  path: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD_OPTION,
   handler: handlers.post
 }]
