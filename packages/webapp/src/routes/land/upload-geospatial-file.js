@@ -73,7 +73,7 @@ const performUpload = async (request, h) => {
   const config = buildConfig(request.yar.id)
 
   try {
-    const geospatialData = (await uploadFiles(logger, request, config))
+    const geospatialData = await uploadFiles(logger, request, config)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)}`)
     request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
