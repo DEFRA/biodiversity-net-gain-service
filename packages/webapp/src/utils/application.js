@@ -61,6 +61,7 @@ const application = session => {
   }
 }
 
-const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) && session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
+const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
+  session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
 
 export default application
