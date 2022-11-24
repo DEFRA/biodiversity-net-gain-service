@@ -6,7 +6,7 @@ const session = {
   options: {
     cookieOptions: {
       password: SESSION_COOKIE_PASSWORD,
-      isSecure: true
+      isSecure: process.env.COOKIE_IS_SECURE ? JSON.parse(process.env.COOKIE_IS_SECURE) : false
     },
     maxCookieSize: 0,
     cache: {
