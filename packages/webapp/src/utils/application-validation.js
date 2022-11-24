@@ -42,7 +42,7 @@ const applicationValidation = Joi.object({
           name: Joi.string()
         })
       ).min(1)
-    }),
+    }).default([]),
     managementMonitoringStartDate: Joi.date().when('habitatWorkStartDate', {
       // managementMonitoringStartDate must be greater or equal to habitatWorkStartDate
       is: Joi.date().required(),
@@ -54,7 +54,7 @@ const applicationValidation = Joi.object({
       is: Joi.array().min(1),
       then: Joi.valid('true'),
       otherwise: Joi.valid('true', 'false')
-    }).required()
+    }).default('false')
   })
 })
 
