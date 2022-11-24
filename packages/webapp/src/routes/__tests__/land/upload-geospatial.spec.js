@@ -56,6 +56,21 @@ describe(url, () => {
       })
     })
 
+    it('should upload a 50MB GeoJSON file to cloud storage', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should cause an internal server error when file upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {

@@ -180,7 +180,7 @@ export default [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false,
