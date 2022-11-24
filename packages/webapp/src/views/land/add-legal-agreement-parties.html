@@ -74,13 +74,16 @@
                                             classes: "govuk-fieldset__legend"
                                         }
                                     },
+                                    attributes: {
+                                        id: "organisation[" + i + "][role]"
+                                    },
                                     hint: {
                                         html: "<div class='govuk-hint'>Select one option.</div>"
                                     },
                                     errorMessage: roleErrorMessage,
                                     items: [
                                         {
-                                            id: "organisation[" + i + "][role]",
+                                            id: "countryCouncil[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "County Council",
                                             text: "County Council",
@@ -93,7 +96,7 @@
                                             }
                                         },
                                         {
-                                            id: "organisation[" + i + "][role]",
+                                            id: "developer[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Developer",
                                             text: "Developer",
@@ -106,7 +109,7 @@
                                             }
                                         },
                                         {
-                                            id: "organisation[" + i + "][role]",
+                                            id: "landOwner[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Landowner",
                                             text: "Landowner",
@@ -119,7 +122,7 @@
                                             }
                                         },
                                         {
-                                            id: "organisation[" + i + "][role]",
+                                            id: "responsibleBody[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Responsible body",
                                             text: "Responsible body",
@@ -132,7 +135,7 @@
                                             }
                                         },
                                         {
-                                            id: "organisation[" + i + "][role]",
+                                            id: "other[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Other",
                                             text: "Other",
@@ -149,10 +152,10 @@
                                                     </div>'
                                             },
                                             attributes: {
-                                            "data-name": "organisation[%index%][role]",
-                                            "data-id": "organisation[%index%][role]",
-                                            "aria-describedby": "otherOrganisation[" + i + "][role]"
-                                        }
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "other[%index%][role]",
+                                                "aria-describedby": "organisation[" + i + "][role]"
+                                            }
                                         }
                                     ]
                                 }) }}
