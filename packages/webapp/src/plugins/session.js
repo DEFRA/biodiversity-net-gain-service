@@ -6,7 +6,7 @@ const session = {
   options: {
     cookieOptions: {
       password: SESSION_COOKIE_PASSWORD,
-      isSecure: true
+      isSecure: true // This field value should be false while running locally
     },
     maxCookieSize: 0,
     cache: {

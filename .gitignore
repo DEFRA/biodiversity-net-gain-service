@@ -124,3 +124,6 @@ packages/**/babel.config.json
 .scannerwork
 
 biodiversity-net-gain-service.code-workspace
+tmp/metric.xls
+packages/webapp/tmp/metric.xls
+packages/webapp/tmp/metric.xls
