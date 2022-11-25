@@ -27,6 +27,28 @@ const startPageData = {
   }
 }
 
+jest.mock('@defra/bng-connectors-lib')
+
+const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
+const startPageData = {
+  startPage: {
+    'Planning authority': 'Your District Council ',
+    'Project name': 'A Major Development',
+    Applicant: 'A Developer',
+    'Application type': 'Outline Planning',
+    'Planning application reference': 'A111111',
+    Assessor: 'A.Junior',
+    Reviewer: 'A.Senior',
+    'Metric version': 'v1.1',
+    'Assessment date': 44441,
+    'Planning authority reviewer': 'A.N.Officer',
+    'Cell style conventions': undefined,
+    'Enter data': undefined,
+    'Automatic lookup': undefined,
+    Result: undefined
+  }
+}
 describe(url, () => {
   describe('GET', () => {
     it('It should download the mocked landownership document from blobStorageConnector', async () => {
