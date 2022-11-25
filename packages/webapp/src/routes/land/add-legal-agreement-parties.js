@@ -89,7 +89,7 @@ function checkEmptySelection (organisations, request, startId) {
   const combinedError = []
 
   organisations.forEach((organisation, index) => {
-    const organisationRole = organisation.replaceAll('organisationName', 'role')
+    const organisationRole = Object.keys(request.payload).filter(key => key.indexOf(`${index}`) > 0 && key.indexOf('role') > 0)[0]
     processParty(request, organisation, partySelectionData, index, combinedError, startId)
     if (request.payload[organisationRole] === undefined) {
       processUndefinedRole(partySelectionData, index, combinedError, startId)
