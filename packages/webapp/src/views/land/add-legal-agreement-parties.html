@@ -74,21 +74,24 @@
                                             classes: "govuk-fieldset__legend"
                                         }
                                     },
+                                    attributes: {
+                                        id: "organisation[" + i + "][role]"
+                                    },
                                     hint: {
                                         html: "<div class='govuk-hint'>Select one option.</div>"
                                     },
                                     errorMessage: roleErrorMessage,
                                     items: [
                                         {
-                                            id: "countyCouncil[" + i + "][role]",
+                                            id: "countryCouncil[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "County Council",
                                             text: "County Council",
                                             checked: roleRowIndex.county_council,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "countyCouncil[%index%][role]",
-                                                "data-id": "countyCouncil[%index%][role]",
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "organisation[%index%][role]",
                                                 "aria-describedby": "countyCouncil[" + i + "][role]"
                                             }
                                         },
@@ -100,39 +103,39 @@
                                             checked: roleRowIndex.developer,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "developer[%index%][role]",
-                                                "data-id": "developer[%index%][role]",
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "organisation[%index%][role]",
                                                 "aria-describedby": "developer[" + i + "][role]"
                                             }
                                         },
                                         {
-                                            id: "landowner[" + i + "][role]",
+                                            id: "landOwner[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Landowner",
                                             text: "Landowner",
                                             checked: roleRowIndex.landowner,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "landowner[%index%][role]",
-                                                "data-id": "landowner[%index%][role]",
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "organisation[%index%][role]",
                                                 "aria-describedby": "landowner[" + i + "][role]"
                                             }
                                         },
                                         {
-                                            id: "responsible[" + i + "][role]",
+                                            id: "responsibleBody[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Responsible body",
                                             text: "Responsible body",
                                             checked: roleRowIndex.responsible_body,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "responsible[%index%][role]",
-                                                "data-id": "responsible[%index%][role]",
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "organisation[%index%][role]",
                                                 "aria-describedby": "responsible[" + i + "][role]"
                                             }
                                         },
                                         {
-                                            id: "otherOrganisation[" + i + "][role]",
+                                            id: "other[" + i + "][role]",
                                             name: "organisation[" + i + "][role]",
                                             value: "Other",
                                             text: "Other",
@@ -149,10 +152,10 @@
                                                     </div>'
                                             },
                                             attributes: {
-                                            "data-name": "otherOrganisation[%index%][role]",
-                                            "data-id": "otherOrganisation[%index%][role]",
-                                            "aria-describedby": "otherOrganisation[" + i + "][role]"
-                                        }
+                                                "data-name": "organisation[%index%][role]",
+                                                "data-id": "other[%index%][role]",
+                                                "aria-describedby": "organisation[" + i + "][role]"
+                                            }
                                         }
                                     ]
                                 }) }}
@@ -162,7 +165,7 @@
                                             text: "Remove",
                                             classes: "govuk-button govuk-button--secondary moj-add-another__remove-button",
                                             attributes: {
-                                                id: "remove" + i + "]"
+                                                id: "remove" + i
                                             }
                                         }) }}
                                     </div>
