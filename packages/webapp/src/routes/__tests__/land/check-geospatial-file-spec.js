@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY
+const url = constants.routes.CHECK_GEOSPATIAL_FILE
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -29,7 +29,7 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const redisMap = new Map()
-          const checkLandBoundary = require('../../land/check-geospatial-land-boundary-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {
@@ -43,7 +43,7 @@ describe(url, () => {
             }
           }
           await checkLandBoundary.default[1].handler(request, h)
-          expect(viewResult).toBe(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY)
+          expect(viewResult).toBe(constants.views.CHECK_GEOSPATIAL_FILE)
           expect(contextResult.err[0]).toStrictEqual({
             text: 'Select yes if this is the correct file',
             href: '#check-upload-correct-yes'

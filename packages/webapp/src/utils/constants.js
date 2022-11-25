@@ -10,7 +10,7 @@ const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
-const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/check-geospatial-land-boundary-file'
+const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
@@ -270,7 +270,7 @@ const routes = {
   CHECK_LAND_BOUNDARY,
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
-  CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  CHECK_GEOSPATIAL_FILE,
   DOWNLOAD_LEGAL_AGREEMENT,
   DOWNLOAD_MANAGEMENT_PLAN,
   DOWNLOAD_LAND_BOUNDARY,

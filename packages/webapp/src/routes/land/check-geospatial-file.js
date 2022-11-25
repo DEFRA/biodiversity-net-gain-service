@@ -9,7 +9,7 @@ const handlers = {
       filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
       fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
     }
-    return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, mapConfig)
+    return h.view(constants.views.CHECK_GEOSPATIAL_FILE, mapConfig)
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
@@ -22,7 +22,7 @@ const handlers = {
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         break
       default:
-        return h.view(constants.views.CONFIRM_GEOSPATIAL_LAND_BOUNDARY, {
+        return h.view(constants.views.CHECK_GEOSPATIAL_FILE, {
           err: [{
             text: 'Select yes if this is the correct file',
             href: '#check-upload-correct-yes'
@@ -37,10 +37,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  path: constants.routes.CHECK_GEOSPATIAL_FILE,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  path: constants.routes.CHECK_GEOSPATIAL_FILE,
   handler: handlers.post
 }]
