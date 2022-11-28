@@ -1,7 +1,8 @@
 import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../developer/confirm-development-details.js'
+import { promises as fs } from 'fs'
 
 jest.mock('@defra/bng-connectors-lib')
 
@@ -25,32 +26,20 @@ const startPageData = {
     Result: undefined
   }
 }
+
 describe(url, () => {
   describe('GET', () => {
-    // it(`should render the ${url.substring(1)} view`, async () => {
-    //   await submitGetRequest({ url })
-    // })
-
-    it.skip(`should render the ${url.substring(1)} view`, async () => {
-      jest.isolateModules(async () => {
-        let viewResult, contextResult
-        const confirmDevelopmentDetails = require('../../developer/confirm-development-details.js')
-        const redisMap = new Map()
-        redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockDataPath)
-        const request = {
-          yar: redisMap
-        }
-        const h = {
-          view: (view, context) => {
-            viewResult = view
-            contextResult = context
-          }
-        }
-        await confirmDevelopmentDetails.default[0].handler(request, h)
-        await confirmDevelopmentDetails.getMetricFileDataAsObject(mockDataPath)
-        expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
-        expect(contextResult.startPage).toEqual(startPageData.startPage)
+    it('It should download the mocked landownership document from blobStorageConnector', async () => {
+      const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+      // Mock the downloadToBufferIfExists function with file buffer
+      blobStorageConnector.downloadToBufferIfExists.mockImplementation(async () => {
+        const file = await fs.readFile(`${mockDataPath}/metric-file.xlsx`)
+        return new Promise((resolve) => {
+          resolve(file)
+        })
       })
+
+      await submitGetRequest({ url })
     })
   })
 
