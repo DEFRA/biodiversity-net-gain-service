@@ -100,10 +100,8 @@ class BNGMetrixSingleDataExtracrtor {
       })
 
       Object.keys(row).forEach((key) => {
-        if (!extractionConfiguration.cellHeaders.includes(key)) {
-          if (row[key] !== undefined) {
-            delete row[key]
-          }
+        if (!extractionConfiguration.cellHeaders.includes(key) && row[key] !== undefined) {
+          delete row[key]
         }
       })
     })
