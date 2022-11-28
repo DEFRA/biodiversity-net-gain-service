@@ -23,6 +23,7 @@ warning: other service dependencies will be missing, install and run from root o
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
 | AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |
+| COOKIE_IS_SECURE | Sets isSecure flag for session cookie, set to true if site is SSL or false if not | N |
 
 #### Setting the SIGNALR_URL environment variable
 

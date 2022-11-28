@@ -6,12 +6,13 @@ const session = {
   options: {
     cookieOptions: {
       password: SESSION_COOKIE_PASSWORD,
-      isSecure: true // This field value should be false while running locally
+      isSecure: process.env.COOKIE_IS_SECURE ? JSON.parse(process.env.COOKIE_IS_SECURE) : false
     },
     maxCookieSize: 0,
     cache: {
       cache: 'redis_cache',
-      expiresIn: 24 * 60 * 60 * 1000
+      expiresIn: 24 * 60 * 60 * 1000,
+      segment: 'session'
     }
   }
 }

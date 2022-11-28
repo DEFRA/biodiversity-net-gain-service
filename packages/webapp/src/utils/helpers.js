@@ -130,7 +130,7 @@ const getAllLandowners = session => {
   return landowners
 }
 
-const getLegalAgreementDocumentType = documentType => constants.LEGAL_AGREEMENT_DOCUMENTS.find(item => item.id === documentType).text
+const getLegalAgreementDocumentType = documentType => constants.LEGAL_AGREEMENT_DOCUMENTS.find(item => item.id === documentType)?.text
 
 const getLegalAgreementParties = legalAgreementParties => {
   return legalAgreementParties && legalAgreementParties.organisations.map((item, i) => {
