@@ -3,7 +3,7 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
 import BngExtractionService from '../../../../bngdataextractor/src/bng-metric-extraction-service.js'
-import fs from 'fs'
+import { Readable } from 'stream'
 
 const href = '#dev-details-checked-yes'
 const handlers = {
@@ -43,50 +43,18 @@ const handlers = {
 
 const getContext = async request => {
   const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-  const metricData = await getMetricFileDataAsObject(blobName)
+  const config = {
+    blobName,
+    containerName: 'untrusted'
+  }
+  const extractService = new BngExtractionService()
+  const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+  const readableStream = Readable.from(buffer)
+  const metricData = await extractService.extractMetricContent(readableStream)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
   return {
     startPage: metricData.startPage
   }
-}
-
-export const getMetricFileDataAsObject = async (blobName) => {
-  const currentPath = process.cwd()
-  const filepath = currentPath + '/tmp/metric.xls'
-  const tmpDir = currentPath + '/tmp'
-  if (!fs.existsSync(tmpDir)) {
-    fs.mkdirSync(tmpDir)
-  }
-
-  const config = {
-    blobName,
-    containerName: 'untrusted',
-    fileNameWithPath: filepath
-  }
-  await blobStorageConnector.downloadBlobToFileIfExists(logger, config)
-
-  if (checkFileExists(filepath)) {
-    console.log('Extracting file info...')
-    const extractService = new BngExtractionService()
-    const readableStream = fs.createReadStream(path.resolve(currentPath, filepath))
-    return await extractService.extractMetricContent(readableStream)
-  }
-  return null
-}
-
-const checkFileExists = (filepath) => {
-  try {
-    if (!fs.existsSync(filepath)) {
-      fs.writeFileSync(filepath, '')
-    }
-    const stats = fs.statSync(filepath)
-    const fileSize = stats.size
-    console.info('Size:', fileSize)
-    return fileSize > 0
-  } catch (error) {
-    console.error('Err:', error)
-  }
-  return false
 }
 
 export default [{
