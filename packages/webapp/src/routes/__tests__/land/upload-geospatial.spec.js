@@ -38,15 +38,15 @@ describe(url, () => {
       await clearQueues()
     })
 
-    it('should upload a Geopackage to cloud storage', (done) => {
+    it('should upload a valid Geopackage to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-          uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-land-boundary-details'
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          config.headers = {
+            referer: 'http://localhost:3000/land/check-land-boundary-details'
           }
-          await uploadFile(uploadConfig)
+          await uploadFile(config)
           setImmediate(() => {
             done()
           })
@@ -184,11 +184,10 @@ describe(url, () => {
         try {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/unsupported-file-format.json`
-          config.generateInvalidFeatureCountError = true
           config.hasError = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('The selected file must be a GeoJSON, Geopackage or Shapefile')
+          expect(response.payload).toContain('The selected file must be a GeoJSON, Geopackage or Shape file')
           setImmediate(() => {
             done()
           })
@@ -316,6 +315,25 @@ describe(url, () => {
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.generateUnexpectedValidationError = true
           await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload an invalid GeoJSON file to cloud storage', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/invalid-file-content.geojson`
+          config.generateInvalidUploadError = true
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('The selected file must be a GeoJSON, Geopackage or Shape file')
           setImmediate(() => {
             done()
           })

@@ -32,7 +32,6 @@ const uploadFile = async (uploadConfig) => {
 
   if (uploadConfig.filePath) {
     const stream = fs.createReadStream(uploadConfig.filePath)
-    fs.readFileSync(uploadConfig.filePath)
     formData.append(uploadConfig.formName, stream, uploadConfig.filePath)
   } else {
     formData.append(uploadConfig.formName, 'non-form data')
@@ -78,6 +77,9 @@ const uploadFile = async (uploadConfig) => {
     } else if (uploadConfig.generateInvalidFeatureCountError) {
       const errorMessage = 'The selected file must only contain one polygon'
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, errorMessage)
+    } else if (uploadConfig.generateInvalidUploadError) {
+      const errorMessage = 'The selected file must be a GeoJSON, Geopackage or Shape file'
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, errorMessage)
     } else if (uploadConfig.generateUnexpectedValidationError) {
       const errorMessage = 'Unexpected valdation error'
       throw new ValidationError('UNEXPECTED-ERROR-CODE', errorMessage)

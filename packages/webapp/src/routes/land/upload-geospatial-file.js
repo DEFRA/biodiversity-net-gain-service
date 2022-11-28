@@ -6,6 +6,7 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
+const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
 const uploadGeospatialFileId = '#geospatialLandBoundary'
 
 const handlers = {
@@ -74,8 +75,16 @@ const performUpload = async (request, h) => {
 
   try {
     const geospatialData = await uploadFiles(logger, request, config)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)}`)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_LOCATION, geospatialData[0].location)
+    const uploadedFileLocation = `${geospatialData[0].location.substring(0, geospatialData[0].location.lastIndexOf('/'))}/${geospatialData.filename}`
+    const geoJsonFilename = geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
+
+    if (geospatialData[0].location !== uploadedFileLocation) {
+      // A GeoJSON file was not uploaded.
+      // Store the location of the uploaded file so it and the transformed GeoJSON file can be removed if needed.
+      request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
+    }
+    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, parseFloat(geospatialData.fileSize).toFixed(4))
@@ -98,6 +107,9 @@ const getValidationErrorText = err => {
     case uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT:
       errorText = 'The selected file must only contain one layer'
       break
+    case uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD:
+      errorText = invalidUploadErrorText
+      break
     case uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM:
       errorText = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
       break
@@ -109,7 +121,7 @@ const getValidationErrorText = err => {
   return errorText
 }
 
-const processErrorMessagge = (errorMessage, error) => {
+const processErrorMessage = (errorMessage, error) => {
   switch (errorMessage) {
     case constants.uploadErrors.noFile:
       error.err = [{
@@ -149,7 +161,7 @@ const getErrorContext = err => {
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
     error.err = [{
-      text: 'The selected file must be a GeoJSON, Geopackage or Shapefile',
+      text: invalidUploadErrorText,
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ValidationError) {
@@ -158,7 +170,7 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else {
-    processErrorMessagge(err.message, error)
+    processErrorMessage(err.message, error)
   }
 
   if (error.err) {

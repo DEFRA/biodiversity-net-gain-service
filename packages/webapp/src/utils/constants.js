@@ -22,7 +22,8 @@ const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
-const GEOSPATIAL_LOCATION = 'geospatial-location'
+const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
+const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
 const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
@@ -196,7 +197,8 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
 
 const redisKeys = {
   GAIN_SITE_REFERENCE,
-  GEOSPATIAL_LOCATION,
+  ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
+  GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_MAP_CONFIG,
   GEOSPATIAL_UPLOAD_TYPE,
   GEOSPATIAL_FILE_NAME,

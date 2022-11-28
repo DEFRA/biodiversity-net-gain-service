@@ -19,7 +19,11 @@ const processLandBoundary = async (logger, config) => {
     if (config.gdalEnvVars) {
       setGdalConfig(gdal, config.gdalEnvVars)
     }
-    dataset = await gdal.openAsync(config.inputLocation)
+    try {
+      dataset = await gdal.openAsync(config.inputLocation)
+    } catch (err) {
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
+    }
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
     geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
