@@ -2,13 +2,10 @@
   "name": "bngdataextractor",
   "version": "1.0.0",
   "description": "bio diversity data extractor",
-  "main": "index.js",
   "type": "module",
   "module": "commonjs",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --verbose --testTimeout=30000",
-    "start": "node index.js",
-    "start:reset": "node index.js -f",
     "lint": "eslint"
   },
   "author": "",
