@@ -148,10 +148,8 @@ class BNGMatricHabitatGroupExtractor {
       })
 
       Object.keys(row).forEach(key => {
-        if (!extractionConfiguration.cellHeaders[extractionPage].includes(key)) {
-          if (row[key] !== undefined) {
-            delete row[key]
-          }
+        if (!extractionConfiguration.cellHeaders[extractionPage].includes(key) && row[key] !== undefined) {
+          delete row[key]
         }
       })
     })
