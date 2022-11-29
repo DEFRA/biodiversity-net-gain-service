@@ -75,7 +75,7 @@ export const offSiteHabitatBaselineExtractionConfig = {
   }
 }
 // D-2 Off Site Habitat Creation configuration
-// TODO not all headers are coming through
+// TO-DO not all headers are coming through
 const offSiteHabitatCreationHeaders = [broadHabitat, proposedHabitat, areaHectares]
 export const offSiteHabitatCreationExtractionConfig = {
   sheetName: 'D-2 Off Site Habitat Creation',
@@ -149,7 +149,7 @@ export const habitatGroupExtractionConfig = {
   }
 }
 // off site habitat configuration
-// TODO Area has not pulled correctly -- may need to test with different files
+// TO-DO Area has not pulled correctly -- may need to test with different files
 export const offSiteHabitatEnhancementExtractionConfig = {
   cellHeaders: ['Baseline habitat', 'Total habitat area', 'Baseline distinctiveness band', 'Baseline distinctiveness score',
     'Baseline condition category', 'Baseline condition score', 'Baseline strategic significance category',

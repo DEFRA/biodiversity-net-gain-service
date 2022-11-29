@@ -4,16 +4,16 @@ import {
   enhancementTemporalExtractionConfig, habitatGroupExtractionConfig, startExtractionConfig,
   offSiteHabitatEnhancementExtractionConfig
 } from './extractors/extractionconfig/configuration.js'
-import BNGMetrixSingleDataExtracrtor from './extractors/bng-singletable-extractor.js'
+import BNGMetrixSingleDataExtracrtor from './extractors/BNGMetrixSingleDataExtracrtor.js'
 
-class BngExtractionService {
+class BngMetricExtractionService {
   #bngSingleExtractor = undefined
 
   constructor () {
     this.#bngSingleExtractor = new BNGMetrixSingleDataExtracrtor()
   }
 
-  extractMetricContent = async (contentInputStream) => {
+  extractMetricContent = async contentInputStream => {
     const extractionConfiguration = {
       startPage: startExtractionConfig,
       siteHabitatBaseline: habitatBaselineExtractionConfig,
@@ -25,8 +25,8 @@ class BngExtractionService {
       offSiteHabitatEnhancement: offSiteHabitatEnhancementExtractionConfig
     }
 
-    return await this.#bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
+    return this.#bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
   }
 }
 
-export default BngExtractionService
+export default BngMetricExtractionService
