@@ -1,12 +1,6 @@
 import xslx from 'xlsx'
-import BNGMatricHabitatGroupExtractor from './BNGMatricHabitatGroupExtractor.js'
 
 class BNGMetrixSingleDataExtracrtor {
-  #habitatGroupExtractor = undefined
-  constructor () {
-    this.#habitatGroupExtractor = new BNGMatricHabitatGroupExtractor()
-  }
-
   extractContent = async (contentInputStream, extractionConfiguration) => {
     return new Promise((resolve, reject) => {
       const data = []
@@ -18,11 +12,7 @@ class BNGMetrixSingleDataExtracrtor {
         const workBook = xslx.read(Buffer.concat(data), { type: 'buffer' })
         const response = {}
         Object.keys(extractionConfiguration).forEach(key => {
-          if (key !== 'habitatGroup') {
-            response[key] = this.#extractData(workBook, extractionConfiguration[key])
-          } else {
-            response[key] = this.#habitatGroupExtractor.extractHabitatGroup(workBook, extractionConfiguration[key])
-          }
+          response[key] = this.#extractData(workBook, extractionConfiguration[key])
         })
         resolve(response)
       })
