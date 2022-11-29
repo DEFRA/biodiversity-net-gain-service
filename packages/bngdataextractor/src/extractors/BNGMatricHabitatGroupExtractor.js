@@ -1,9 +1,7 @@
 import xslx from 'xlsx'
 
 class BNGMatricHabitatGroupExtractor {
-  extractHabitatGroup = (workBook, extractionConfiguration) => {
-    return this.#extractData(workBook, extractionConfiguration)
-  }
+  extractHabitatGroup = (workBook, extractionConfiguration) => this.#extractData(workBook, extractionConfiguration)
 
   #extractData = (workbook, extractionConfiguration) => {
     const worksheet = workbook.Sheets[extractionConfiguration.sheetName]
@@ -50,7 +48,7 @@ class BNGMatricHabitatGroupExtractor {
       if (extractionConfiguration.endCells !== undefined) {
         worksheet['!ref'] = extractionConfiguration.startCells[index] + ':AG141'
       } else {
-        worksheet['!ref'] = extractionConfiguration.startCells[index] + ':' + worksheet['!ref'].split(':')[1]
+        worksheet['!ref'] = `${extractionConfiguration.startCells[index]}':'${worksheet['!ref'].split(':')[1]}`
       }
       const data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
       multiTableSheet = this.#getAllHabitatsData(data, multiTableSheet, title, extractionConfiguration)

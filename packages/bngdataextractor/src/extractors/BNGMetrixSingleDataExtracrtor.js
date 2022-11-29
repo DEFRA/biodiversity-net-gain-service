@@ -1,5 +1,5 @@
 import xslx from 'xlsx'
-import BNGMatricHabitatGroupExtractor from './bng-habitatgroup-extractor.js'
+import BNGMatricHabitatGroupExtractor from './BNGMatricHabitatGroupExtractor.js'
 
 class BNGMetrixSingleDataExtracrtor {
   #habitatGroupExtractor = undefined
@@ -10,7 +10,7 @@ class BNGMetrixSingleDataExtracrtor {
   extractContent = async (contentInputStream, extractionConfiguration) => {
     return new Promise((resolve, reject) => {
       const data = []
-      contentInputStream.on('data', (chunk) => {
+      contentInputStream.on('data', chunk => {
         data.push(chunk)
       })
 
@@ -27,7 +27,7 @@ class BNGMetrixSingleDataExtracrtor {
         resolve(response)
       })
 
-      contentInputStream.on('error', (err) => {
+      contentInputStream.on('error', err => {
         reject(err)
       })
     })
@@ -40,20 +40,14 @@ class BNGMetrixSingleDataExtracrtor {
         ? extractionConfiguration.sheetName
         : worksheet[extractionConfiguration.titleCellAddress].v
     if (extractionConfiguration.endCell !== undefined) {
-      worksheet['!ref'] =
-        extractionConfiguration.startCell +
-        ':' +
-        extractionConfiguration.endCell // Update sheet range
+      worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
     } else {
-      worksheet['!ref'] =
-        extractionConfiguration.startCell +
-        ':' +
-        worksheet['!ref'].split(':')[1]
+      worksheet['!ref'] = `${extractionConfiguration.startCell}:${worksheet['!ref'].split(':')[1]}`
     }
     let data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
     if (sheetTitle === 'Project details') {
       const resultData = {}
-      data.map((item) => {
+      data.map(item => {
         resultData[item[Object.keys(item)[0]].replace(':', '')] =
           item[Object.keys(item)[1]]
         return item
@@ -69,9 +63,9 @@ class BNGMetrixSingleDataExtracrtor {
 
   #performSubstitution = (data, extractionConfiguration) => {
     if (extractionConfiguration.substitutions !== undefined) {
-      data = data.map((content) => {
+      data = data.map(content => {
         Object.keys(extractionConfiguration.substitutions).forEach(
-          (substitutionKey) => {
+          substitutionKey => {
             const substituteValue = content[substitutionKey]
             if (substituteValue !== undefined) {
               Object.defineProperty(
@@ -92,14 +86,14 @@ class BNGMetrixSingleDataExtracrtor {
   }
 
   #removeUnwantedColumns = (data, extractionConfiguration) => {
-    data.forEach((row) => {
-      extractionConfiguration.columnsToBeRemoved.forEach((column) => {
+    data.forEach(row => {
+      extractionConfiguration.columnsToBeRemoved.forEach(column => {
         if (row[column] !== undefined) {
           delete row[column]
         }
       })
 
-      Object.keys(row).forEach((key) => {
+      Object.keys(row).forEach(key => {
         if (!extractionConfiguration.cellHeaders.includes(key) && row[key] !== undefined) {
           delete row[key]
         }
@@ -107,12 +101,12 @@ class BNGMetrixSingleDataExtracrtor {
     })
 
     data = data
-      .map((content) => {
+      .map(content => {
         delete content.Ref
         return content
       })
-      .filter((content) =>
-        Object.values(content).some((value) => value !== null && value !== '')
+      .filter(content =>
+        Object.values(content).some(value => value !== null && value !== '')
       )
     // .filter(row => Object.keys(row).length == extractionConfiguration.cellHeaders.length);
 
