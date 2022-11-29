@@ -13,7 +13,7 @@ class BngExtractionService {
     this.#bngSingleExtractor = new BNGMetrixSingleDataExtracrtor()
   }
 
-  extractMetricContent = async (contentInputStream, extractByKeys=[]) => {
+  extractMetricContent = async (contentInputStream, extractByKeys = []) => {
     const extractionConfiguration = {
       startPage: startExtractionConfig,
       headlineResult: headlineResultExtractionConfig,
@@ -27,13 +27,13 @@ class BngExtractionService {
     }
 
     // This will help us to find only the required sheet object
-		if(extractByKeys.length > 0){
-			for (const key in extractionConfiguration) {
-				if(!extractByKeys.includes(key)){
-					delete extractionConfiguration[key]
-				}
-			}
-		}
+    if (extractByKeys.length > 0) {
+      for (const key in extractionConfiguration) {
+        if (!extractByKeys.includes(key)) {
+          delete extractionConfiguration[key]
+        }
+      }
+    }
 
     return await this.#bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
   }

@@ -1,6 +1,8 @@
 import { submitGetRequest } from '../helpers/server.js'
 import { promises as fs } from 'fs'
-const url = '/developer/download-metric-file'
+import constants from '../../../utils/constants.js'
+
+const url = constants.routes.DEVELOPER_DOWNLOAD_METRIC_FILE
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')

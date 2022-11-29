@@ -19,6 +19,6 @@ describe('BNG data extrator service test', () => {
 
   it('must extract all the excel sheets in a biodiversity metric file', async () => {
     const response = await bNGMetricDataExtractorService.extractMetricContent(readableStream)
-    expect(Object.keys(response).length).toBe(8)
+    expect(Object.keys(response).length).toBe(9)
   })
 })
