@@ -8,17 +8,7 @@ const LAND_BOUNDARY_ID = '#landBoundary'
 
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-  let errorMessage = {}
-  if ((parseFloat(result.fileSize) * 100) === 0) {
-    resultView = constants.views.UPLOAD_LAND_BOUNDARY
-    errorMessage = {
-      err: [{
-        text: 'The selected file is empty',
-        href: LAND_BOUNDARY_ID
-      }]
-    }
-    resultView = h.view(resultView, errorMessage)
-  } else if (result[0].errorMessage === undefined) {
+  if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
@@ -30,6 +20,13 @@ function processSuccessfulUpload (result, request, h) {
 
 function processErrorUpload (err, h) {
   switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+        err: [{
+          text: 'The selected file is empty',
+          href: LAND_BOUNDARY_ID
+        }]
+      })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
         err: [{
@@ -148,7 +145,7 @@ export default [{
           return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
             err: [
               {
-                text: 'The selected file must not be larger than 50MB',
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
                 href: LAND_BOUNDARY_ID
               }
             ]

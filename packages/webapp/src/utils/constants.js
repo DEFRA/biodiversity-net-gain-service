@@ -10,7 +10,7 @@ const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
-const CONFIRM_GEOSPATIAL_LAND_BOUNDARY = 'land/check-geospatial-land-boundary-file'
+const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
@@ -22,13 +22,14 @@ const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const ERROR = 'error'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
-const GEOSPATIAL_LOCATION = 'geospatial-location'
+const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
+const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
 const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'getspatial-file-type'
-const CHOOSE_GEOSPATIAL_UPLOAD = 'land/choose-land-boundary-upload-option'
+const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
@@ -122,6 +123,11 @@ const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
 const CONFIRM_EMAIL = YES
 const EMAIL_VALUE = 'email-value'
+const AWAITING_PROCESSING = 'AwaitingProcessing'
+const SUCCESS = 'Success'
+const FILE_INACCESSIBLE = 'FileInaccessible'
+const QUARANTINED = 'Quarantined'
+const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 
 const confirmFileUploadOptions = {
   NO,
@@ -146,6 +152,13 @@ const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.png',
   '.pdf'
 ]
+
+const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = [
+  '.geojson',
+  '.gpkg',
+  '.zip'
+]
+
 const METRIC_FILE_EXT = [
   '.xlsm',
   '.xlsx'
@@ -184,7 +197,8 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
 
 const redisKeys = {
   GAIN_SITE_REFERENCE,
-  GEOSPATIAL_LOCATION,
+  ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
+  GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_MAP_CONFIG,
   GEOSPATIAL_UPLOAD_TYPE,
   GEOSPATIAL_FILE_NAME,
@@ -258,7 +272,7 @@ const routes = {
   CHECK_LAND_BOUNDARY,
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
-  CONFIRM_GEOSPATIAL_LAND_BOUNDARY,
+  CHECK_GEOSPATIAL_FILE,
   DOWNLOAD_LEGAL_AGREEMENT,
   DOWNLOAD_MANAGEMENT_PLAN,
   DOWNLOAD_LAND_BOUNDARY,
@@ -266,7 +280,7 @@ const routes = {
   DOWNLOAD_METRIC_FILE,
   DOWNLOAD_LAND_OWNERSHIP,
   GEOSPATIAL_LAND_BOUNDARY,
-  CHOOSE_GEOSPATIAL_UPLOAD,
+  CHOOSE_LAND_BOUNDARY_UPLOAD,
   OS_API_TOKEN,
   PUBLIC_ROUTES,
   SESSION,
@@ -301,8 +315,19 @@ const routes = {
 }
 
 const uploadErrors = {
+  uploadFailure: 'The selected file could not be uploaded -- try again',
   noFile: 'Non-file received',
+  emptyFile: 'Empty file',
+  threatDetected: 'The selected file contains a virus',
   unsupportedFileExt: 'Unsupported file extension'
+}
+
+const threatScreeningStatusValues = {
+  AWAITING_PROCESSING,
+  SUCCESS,
+  FILE_INACCESSIBLE,
+  QUARANTINED,
+  FAILED_TO_VIRUS_SCAN
 }
 
 const uploadTypes = {
@@ -343,6 +368,7 @@ export default Object.freeze({
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
+  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
@@ -352,6 +378,7 @@ export default Object.freeze({
   routes,
   views,
   uploadErrors,
+  threatScreeningStatusValues,
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,

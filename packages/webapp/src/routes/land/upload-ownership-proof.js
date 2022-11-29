@@ -6,28 +6,26 @@ import { uploadFiles } from '../../utils/upload.js'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
-function processSuccessfulUpload (result, request) {
+function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-  let errorMessage = {}
-  if ((parseFloat(result.fileSize) * 100) === 0) {
-    resultView = constants.views.UPLOAD_LAND_OWNERSHIP
-    errorMessage = {
-      err: [{
-        text: 'The selected file is empty',
-        href: LAND_OWNERSHIP_ID
-      }]
-    }
-  } else if (result[0].errorMessage === undefined) {
+  if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
     logger.log(`${new Date().toUTCString()} Received land ownership data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_PROOF_OF_OWNERSHIP
   }
-  return { resultView, errorMessage }
+  return h.redirect(resultView)
 }
 
 function processErrorUpload (err, h) {
   switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
+        err: [{
+          text: 'The selected file is empty',
+          href: LAND_OWNERSHIP_ID
+        }]
+      })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
         err: [{
@@ -55,20 +53,13 @@ function processErrorUpload (err, h) {
   }
 }
 
-function processReturnValue (details, h) {
-  return details.resultView === constants.routes.CHECK_PROOF_OF_OWNERSHIP || details.resultView === constants.routes.CHECK_OWNERSHIP_DETAILS
-    ? h.redirect(details.resultView, details.errorMessage)
-    : h.view(details.resultView, details.errorMessage)
-}
-
 const handlers = {
   get: async (_request, h) => h.view(constants.views.UPLOAD_LAND_OWNERSHIP),
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
       function (result) {
-        const viewDetails = processSuccessfulUpload(result, request)
-        return processReturnValue(viewDetails, h)
+        return processSuccessfulUpload(result, request, h)
       },
       function (err) {
         return processErrorUpload(err, h)
@@ -153,7 +144,7 @@ export default [{
           return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
             err: [
               {
-                text: 'The selected file must not be larger than 50MB',
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
                 href: LAND_OWNERSHIP_ID
               }
             ]

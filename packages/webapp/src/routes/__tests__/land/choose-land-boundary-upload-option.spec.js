@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = constants.routes.CHOOSE_GEOSPATIAL_UPLOAD
+const url = constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD
 
 describe(url, () => {
   describe('GET', () => {
@@ -16,6 +16,22 @@ describe(url, () => {
         payload: {}
       }
     })
+
+    it('should display expected error details when no option is selected', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const response = await submitPostRequest(postOptions, 200)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('Select how you want to add the land boundary details for the biodiversity gain site')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should allow a selection to upload a land boundary using a geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.GEOSPATIAL_DATA
       const response = await submitPostRequest(postOptions)
@@ -26,11 +42,12 @@ describe(url, () => {
         url,
         headers: { cookie }
       })
+      expect(response.headers.location).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
     })
-    // TO DO - Refactor this test when non-geospatial land boundary uploads are supported.
-    it('should return a 404 response code when a selection to upload a land boundary using a non-geospatial file is made', async () => {
+    it('should allow a selection to upload a land boundary using a non-geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.DOCUMENT_UPLOAD
-      await submitPostRequest(postOptions, 404)
+      const response = await submitPostRequest(postOptions)
+      expect(response.headers.location).toEqual(constants.routes.UPLOAD_LAND_BOUNDARY)
     })
   })
 })

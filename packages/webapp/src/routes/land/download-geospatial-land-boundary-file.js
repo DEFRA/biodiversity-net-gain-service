@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
 const downloadLegalAgreementFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.GEOSPATIAL_LOCATION)
+  const blobName = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
   const config = {
     blobName,
     containerName: 'trusted'

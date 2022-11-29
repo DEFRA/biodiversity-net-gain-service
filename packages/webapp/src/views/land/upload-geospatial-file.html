@@ -3,10 +3,13 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
-{% set pageHeading = "Upload your geospatial data file" %}
+{% set pageHeading = "Upload a geospatial file showing the land boundary" %}
 
 {% block formContent %}
   <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
           {{ govukFieldset({
@@ -16,12 +19,23 @@
               isPageHeading: true
             }
           }) }}
+
+          <div id="location-import-hint">
+            <p>The file should:</p> 
+            <ul class="govuk-list govuk-list--bullet">
+              <li>be a GeoJSON, GeoPackage or shapefile</li>
+              <li>be no larger than 50MB</li>
+              <li>only contain one layer</li>
+              <li>only contain one polygon</li>
+            </ul>
+            <p>You should use either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference systems when mapping the land boundary.</p>
+          </div>
+
           {{ govukFileUpload({
             id: "geospatialLandBundary",
+            errorMessage: err[0],
             name: "geospatialLandBoundary",
-            hint: {
-              text: "GeoJSON, Geopackage or Shape files - max size 50MB"
-            }
+            describedBy: "location-import-hint"
           }) }}
 
           {{ govukButton({
