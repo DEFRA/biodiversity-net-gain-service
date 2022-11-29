@@ -3,7 +3,7 @@ import {
 } from './extractors/extractionconfig/configuration.js'
 import BNGMetrixSingleDataExtracrtor from './extractors/BNGMetrixSingleDataExtracrtor.js'
 
-class BngMetricExtractionService {
+class BNGMetricExtractionService {
   #bngSingleExtractor = undefined
 
   constructor () {
@@ -20,4 +20,4 @@ class BngMetricExtractionService {
   }
 }
 
-export default BngMetricExtractionService
+export default BNGMetricExtractionService

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import BngExtractionService from '../src/BngMetricExtractionService.js'
+import BngExtractionService from '../src/BNGMetricExtractionService.js'
 
 describe('BNG data extrator service test', () => {
   let readableStream
