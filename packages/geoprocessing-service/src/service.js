@@ -1,4 +1,4 @@
-import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 
 const processLandBoundary = async (logger, config) => {
   let dataset
@@ -19,7 +19,11 @@ const processLandBoundary = async (logger, config) => {
     if (config.gdalEnvVars) {
       setGdalConfig(gdal, config.gdalEnvVars)
     }
-    dataset = await gdal.openAsync(config.inputLocation)
+    try {
+      dataset = await gdal.openAsync(config.inputLocation)
+    } catch (err) {
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
+    }
     await validateDataset(dataset)
     // The land boundary is valid so convert it to GeoJSON.
     geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
@@ -47,16 +51,17 @@ const validateDataset = async dataset => {
   if (await dataset.layers.countAsync() === 1) {
     await validateLayer(await dataset.layers.getAsync(0))
   } else {
-    throw new ValidationError('INVALID-LAYER-COUNT', 'Land boundaries must contain a single layer')
+    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT, 'Land boundaries must contain a single layer')
   }
 }
 
 const validateLayer = async layer => {
+  const errorMessage = 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system'
   if (layer.srs) {
     validateSpatialReferenceSystem(layer.srs)
     await validateFeatures(layer.features)
   } else {
-    throw new ValidationError('MISSING-COORDINATE-SYSTEM', 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system')
+    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
   }
 }
 
@@ -64,13 +69,13 @@ const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
   if (authorityCode !== '27700' && authorityCode !== '4326') {
     throw new CoordinateSystemValidationError(
-      authorityCode, 'INVALID-COORDINATE-SYSTEM', 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
+      authorityCode, uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
   }
 }
 
 const validateFeatures = async features => {
   if (await features.countAsync() !== 1) {
-    throw new ValidationError('INVALID-FEATURE-COUNT', 'Land boundaries must contain a single feature')
+    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, 'Land boundaries must contain a single feature')
   }
 }
 

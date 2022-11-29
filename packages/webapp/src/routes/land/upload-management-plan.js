@@ -12,8 +12,7 @@ const handlers = {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
       function (result) {
-        const viewDetails = processSuccessfulUpload(result, request)
-        return processReturnValue(viewDetails, h)
+        return processSuccessfulUpload(result, request, h)
       },
       function (err) {
         return processErrorUpload(err, h)
@@ -75,29 +74,27 @@ const buildFileValidationConfig = config => {
   }
 }
 
-function processSuccessfulUpload (result, request) {
+function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-  let errorMessage = {}
-  if ((parseFloat(result.fileSize) * 100) === 0) {
-    resultView = constants.views.UPLOAD_MANAGEMENT_PLAN
-    errorMessage = {
-      err: [{
-        text: 'The selected file is empty',
-        href: MANAGEMENT_PLAN_ID
-      }]
-    }
-  } else if (result[0].errorMessage === undefined) {
+  if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received management plan data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_MANAGEMENT_PLAN
   }
-  return { resultView, errorMessage }
+  return h.redirect(resultView)
 }
 
 function processErrorUpload (err, h) {
   switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
+        err: [{
+          text: 'The selected file is empty',
+          href: MANAGEMENT_PLAN_ID
+        }]
+      })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
         err: [{
@@ -125,12 +122,6 @@ function processErrorUpload (err, h) {
   }
 }
 
-function processReturnValue (details, h) {
-  return (details.resultView === constants.routes.CHECK_MANAGEMENT_PLAN || details.resultView === constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS)
-    ? h.redirect(details.resultView, details.errorMessage)
-    : h.view(details.resultView, details.errorMessage)
-}
-
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_MANAGEMENT_PLAN,
@@ -154,7 +145,7 @@ export default [{
           return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
             err: [
               {
-                text: 'The selected file must not be larger than 50MB',
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
                 href: MANAGEMENT_PLAN_ID
               }
             ]

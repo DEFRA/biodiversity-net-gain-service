@@ -12,6 +12,7 @@ const ZIP_FILE_EXTENSION = '.zip'
 const blobPathRoot = 'mock-session-id/landBoundary'
 const containerName = 'trusted'
 const mockDataPath = 'packages/geoprocessing-service/src/__mock-data__/uploads/geospatial-land-boundaries'
+const invalidFileUploadErrorMessage = 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file'
 
 describe('The geoprocessing service', () => {
   it('should convert a geopackage file containing a single polygon in the WGS84 coordinate reference system to GeoJSON', async () => {
@@ -39,6 +40,11 @@ describe('The geoprocessing service', () => {
     const expectedError = new CoordinateSystemValidationError('4258', 'INVALID-COORDINATE-SYSTEM', 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
     await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
   })
+  it('should reject an invalid GeoJSON file', async () => {
+    const filenameRoot = 'invalid-file-content'
+    const expectedError = new ValidationError('INVALID-FILE-UPLOAD', invalidFileUploadErrorMessage)
+    await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
+  })
   it('should reject an ESRI shapefile without a projection', async () => {
     const filenameRoot = 'shapefile-land-boundary-without-projection'
     const expectedError = new ValidationError('MISSING-COORDINATE-SYSTEM', 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system')
@@ -49,7 +55,7 @@ describe('The geoprocessing service', () => {
     try {
       await performLandBoundaryProcessing(`${filenameRoot}${JSON_FILE_EXTENSION}`)
     } catch (err) {
-      expect(err.message).toBe("`/vsiaz_streaming/trusted/mock-session-id/landBoundary/unsupported-file-format.json' not recognized as a supported file format.")
+      expect(err.message).toBe('The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
     }
   })
 })

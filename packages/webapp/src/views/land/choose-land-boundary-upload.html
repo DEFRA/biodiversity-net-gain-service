@@ -1,0 +1,52 @@
+u{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Choose how to add the land boundary details for the biodiversity gain site" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "landBoundaryUploadType",
+          name: "landBoundaryUploadType",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "geospatialData",
+              text: "Upload geospatial data file",
+              hint: {
+                text: "GeoJSON, Geopackage or Shape files"
+              },
+              checked: checked(landBoundaryUploadType, "geospatialData")
+            },
+            {
+              value: "documentOrImage",
+              text: "Upload document or image",
+              hint: {
+                text: "DOC, DOCX, JPG, PNG or PDF"
+              },
+              checked: checked(landBoundaryUploadType, "documentOrImage")
+            }
+          ]
+        }) }}
+        <p><a href="/land/need-boundary-file">I do not have a file showing the boundary of the land</a></p>
+        {{ govukButton({
+          text: "Continue",
+          attributes: {
+            id: "continue"
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
