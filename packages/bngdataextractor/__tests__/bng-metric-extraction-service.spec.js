@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import BngExtractionService from '../src/bng-metric-extraction-service'
+import BngExtractionService from '../src/BNGMetricExtractionService.js'
 
 describe('BNG data extrator service test', () => {
   let readableStream
@@ -8,7 +8,7 @@ describe('BNG data extrator service test', () => {
   const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/biodiversity30.xlsm')))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/metric-file.xlsm')))
     bNGMetricDataExtractorService = new BngExtractionService()
   })
 
@@ -19,6 +19,6 @@ describe('BNG data extrator service test', () => {
 
   it('must extract all the excel sheets in a biodiversity metric file', async () => {
     const response = await bNGMetricDataExtractorService.extractMetricContent(readableStream)
-    expect(Object.keys(response).length).toBe(9)
+    expect(Object.keys(response).length).toBe(2)
   })
 })
