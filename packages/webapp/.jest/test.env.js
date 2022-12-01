@@ -5,3 +5,4 @@ process.env.AZURE_STORAGE_ACCESS_KEY='Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSR
 process.env.AZURE_BLOB_SERVICE_URL='http://127.0.0.1:10000/devstoreaccount1'
 process.env.AZURE_QUEUE_SERVICE_URL='http://127.0.0.1:10001/devstoreaccount1'
 process.env.SIGNALR_URL='http://localhost:8082/api'
+process.env.MAX_METRIC_UPLOAD_MB=50

@@ -65,7 +65,7 @@ function processReturnValue (details, h) {
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
   post: async (request, h) => {
-    const config = developerBuildConfig(request.yar.id)
+    const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
       async function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
@@ -76,7 +76,7 @@ const handlers = {
         return processErrorUpload(err, h)
       }
     ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file could not be uploaded – try again',
@@ -87,38 +87,38 @@ const handlers = {
   }
 }
 
-const developerBuildConfig = sessionId => {
+const buildConfig = sessionId => {
   const config = {}
-  developerBuildBlobConfig(sessionId, config)
-  developerBuildQueueConfig(config)
-  developerBuildFunctionConfig(config)
-  developerBuildSignalRConfig(sessionId, config)
-  developerBuildFileValidationConfig(config)
+  buildBlobConfig(sessionId, config)
+  buildQueueConfig(config)
+  buildFunctionConfig(config)
+  buildSignalRConfig(sessionId, config)
+  buildFileValidationConfig(config)
   return config
 }
 
-const developerBuildBlobConfig = (sessionId, config) => {
+const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
     blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
     containerName: 'untrusted'
   }
 }
 
-const developerBuildQueueConfig = config => {
+const buildQueueConfig = config => {
   config.queueConfig = {
     uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
     queueName: 'untrusted-file-queue'
   }
 }
 
-const developerBuildFunctionConfig = config => {
+const buildFunctionConfig = config => {
   config.functionConfig = {
     uploadFunction: uploadStreamAndQueueMessage,
     handleEventsFunction: handleEvents
   }
 }
 
-const developerBuildSignalRConfig = (sessionId, config) => {
+const buildSignalRConfig = (sessionId, config) => {
   config.signalRConfig = {
     eventProcessingFunction: null,
     timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
@@ -126,7 +126,7 @@ const developerBuildSignalRConfig = (sessionId, config) => {
   }
 }
 
-const developerBuildFileValidationConfig = config => {
+const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: constants.metricFileExt
   }
@@ -143,19 +143,19 @@ export default [{
   config: {
     handler: handlers.post,
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       output: 'stream',
       timeout: false,
       parse: false,
       multipart: true,
       allow: 'multipart/form-data',
       failAction: (req, h, error) => {
-        console.log('Uploaded file is too large', req.path)
+        logger.log(`${new Date().toUTCString()} Uploaded file is too large ${req.path}`)
         if (error.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
             err: [
               {
-                text: 'The selected file must not be larger than 50MB',
+                text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
                 href: DEVELOPER_UPLOAD_METRIC_ID
               }
             ]

@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
-import BngExtractionService from '../../../../bngdataextractor/src/BngMetricExtractionService.js'
+import BngExtractionService from '../../../../bng-metric-service/src/BngMetricExtractionService.js'
 import { Readable } from 'stream'
 
 const href = '#dev-details-checked-yes'
