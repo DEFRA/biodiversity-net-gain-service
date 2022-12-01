@@ -89,7 +89,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/' + undefined)
+          expect(redirectArgs[0]).toEqual(url)
           done()
         } catch (err) {
           done(err)

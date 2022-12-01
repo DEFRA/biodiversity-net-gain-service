@@ -32,7 +32,7 @@ describe('BNG data extractor test', () => {
   it('should transform excel stream to json for A-1 Site Habitat Baseline', async () => {
     const response = await bngMetricDataExtractor.extractContent(readableStream, { habitatBaseline: habitatBaselineExtractionConfig })
     expect(response).not.toBeFalsy()
-    expect(response.habitatBaseline.length).toBe(9)
+    expect(response.habitatBaseline.length).toBe(249)
     expect(response.habitatBaseline[0]['Broad habitat']).toBe('Grassland')
     expect(response.habitatBaseline[1]['Broad habitat']).toBe('Grassland')
     expect(response.habitatBaseline[2]['Broad habitat']).toBe('Grassland')
