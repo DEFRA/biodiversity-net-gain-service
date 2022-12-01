@@ -29,7 +29,7 @@ class BngMetricSingleDataExtractor {
       extractionConfiguration.titleCellAddress === undefined
         ? extractionConfiguration.sheetName
         : worksheet[extractionConfiguration.titleCellAddress].v
-    if (extractionConfiguration.endCell !== undefined) {
+    if (extractionConfiguration.endCell) {
       worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
     } else {
       worksheet['!ref'] = `${extractionConfiguration.startCell}:${worksheet['!ref'].split(':')[1]}`
@@ -52,12 +52,12 @@ class BngMetricSingleDataExtractor {
   }
 
   #performSubstitution = (data, extractionConfiguration) => {
-    if (extractionConfiguration.substitutions !== undefined) {
+    if (extractionConfiguration.substitutions) {
       data = data.map(content => {
         Object.keys(extractionConfiguration.substitutions).forEach(
           substitutionKey => {
             const substituteValue = content[substitutionKey]
-            if (substituteValue !== undefined) {
+            if (substituteValue) {
               Object.defineProperty(
                 content,
                 extractionConfiguration.substitutions[substitutionKey],
@@ -78,13 +78,13 @@ class BngMetricSingleDataExtractor {
   #removeUnwantedColumns = (data, extractionConfiguration) => {
     data.forEach(row => {
       extractionConfiguration.columnsToBeRemoved.forEach(column => {
-        if (row[column] !== undefined) {
+        if (row[column]) {
           delete row[column]
         }
       })
 
       Object.keys(row).forEach(key => {
-        if (!extractionConfiguration.cellHeaders.includes(key) && row[key] !== undefined) {
+        if (!extractionConfiguration.cellHeaders.includes(key) && row[key]) {
           delete row[key]
         }
       })

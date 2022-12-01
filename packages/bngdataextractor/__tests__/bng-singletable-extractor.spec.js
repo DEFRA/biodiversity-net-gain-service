@@ -10,11 +10,11 @@ describe('BNG data extractor test', () => {
   const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/metric-file.xlsm')))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bng-metric-service', '__tests__/metricfiles/metric-file.xlsm')))
     bngMetricDataExtractor = new BngMetricSingleDataExtractor()
   })
 
-  it('should transfor excel stream to json for start', async () => {
+  it('should be transfer excel stream to json for start', async () => {
     const response = await bngMetricDataExtractor.extractContent(readableStream, { start: startExtractionConfig })
     expect(response).not.toBeFalsy()
     expect(response.start.projectName).toBe('Metric extraction Project')
