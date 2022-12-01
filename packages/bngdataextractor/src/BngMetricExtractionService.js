@@ -2,7 +2,7 @@ import {
   habitatBaselineExtractionConfig, startExtractionConfig
 } from './extractors/extractionconfig/configuration.js'
 import BngMetricSingleDataExtractor from './extractors/BngMetricSingleDataExtractor.js'
-import { mapKeys, camelCase } from 'lodash'
+import _ from 'lodash'
 
 class BngMetricExtractionService {
   #bngSingleExtractor = undefined
@@ -17,9 +17,17 @@ class BngMetricExtractionService {
       siteHabitatBaseline: habitatBaselineExtractionConfig
     }
 
-    const extractedData = this.#bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
-    mapKeys(extractedData, (v, k) => camelCase(k))
-    return extractedData
+    const extractedData = await this.#bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
+    const newExtractedData = {}
+    for (const key in extractedData) {
+      if (Object.hasOwnProperty.call(extractedData, key)) {
+        newExtractedData[key] = Object.keys(extractedData[key]).reduce((r, k) => {
+          r[_.camelCase(k)] = extractedData[key][k]
+          return r
+        }, {})
+      }
+    }
+    return newExtractedData
   }
 }
 

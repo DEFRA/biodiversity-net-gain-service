@@ -7,11 +7,11 @@ describe('BNG data extrator service test', () => {
   const currentPath = process.cwd()
 
   beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/metric-file.xlsm')))
+    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bng-metric-service', '__tests__/metricfiles/metric-file.xlsm')))
     bngMetricDataExtractionService = new BngExtractionService()
   })
 
-  it('must extract all the excel sheets in a biodiversity metric file', async () => {
+  it('must extract all the configured excel sheets in a biodiversity metric file', async () => {
     const response = await bngMetricDataExtractionService.extractMetricContent(readableStream)
     expect(Object.keys(response).length).toBe(2)
   })
