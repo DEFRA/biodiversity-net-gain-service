@@ -45,7 +45,7 @@ function processSuccessfulUpload (res, req) {
       }]
     }
   } else if (res[0].errorMessage === undefined) {
-    req.yar.set(constants.redisKeys.METRIC_LOCATION, res[0].location)
+    req.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, res[0].location)
     req.yar.set(constants.redisKeys.METRIC_FILE_SIZE, res.fileSize)
     req.yar.set(constants.redisKeys.METRIC_FILE_TYPE, res.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${res[0].location.substring(res[0].location.lastIndexOf('/') + 1)}`)
@@ -96,7 +96,7 @@ const handlers = {
     return uploadFiles(logger, request, config).then(
       async function (result) {
         const viewDetails = processSuccessfulUpload(result, request)
-        request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
+        request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
         return processReturnValue(viewDetails, h)
       },
       function (err) {

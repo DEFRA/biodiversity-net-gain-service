@@ -1,36 +1,21 @@
 {
   "name": "bngdataextractor",
   "version": "1.0.0",
-  "description": "bio diversity data extractor",
+  "private": true,
+  "description": "Bio diversity data extractor",
   "type": "module",
   "module": "commonjs",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --verbose --testTimeout=30000",
-    "lint": "eslint"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "lint": "standard"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Department for Environment, Food and Rural Affairs https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs.",
+  "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^3.0.0",
-    "@azure/storage-blob": "^12.12.0",
-    "csv-parser": "^3.0.0",
-    "dotenv": "^16.0.3",
     "lodash": "^4.17.21",
-    "pg": "^8.7.3",
-    "sequelize": "^6.19.2",
-    "stream": "^0.0.2",
-    "uuid": "^9.0.0",
     "xlsx": "^0.17.2"
   },
-  "devDependencies": {
-    "eslint": "^8.26.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "jest": "^26.1.0",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
-    "jest-environment-node": "^26.1.0"
-  },
   "engines": {
-    "node": ">14"
+    "node": ">16"
   }
 }
