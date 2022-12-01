@@ -1,42 +1,36 @@
 import fs from 'fs'
 import path from 'path'
-import BNGMetrixSingleTableExtracrtor from '../src/extractors/BNGMetrixSingleDataExtracrtor'
+import BngMetricSingleDataExtractor from '../src/extractors/BngMetricSingleDataExtractor'
 import {
   habitatBaselineExtractionConfig, startExtractionConfig
 } from '../src/extractors/extractionconfig/configuration.js'
 
 describe('BNG data extractor test', () => {
-  let readableStream
-  let bNGMetrixDataExtracrtor
+  let readableStream, bngMetricDataExtractor
   const currentPath = process.cwd()
 
   beforeEach(() => {
     readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages', 'bngdataextractor', '__tests__/metricfiles/metric-file.xlsm')))
-    bNGMetrixDataExtracrtor = new BNGMetrixSingleTableExtracrtor()
-  })
-
-  afterEach(() => {
-    readableStream = undefined
-    bNGMetrixDataExtracrtor = undefined
+    bngMetricDataExtractor = new BngMetricSingleDataExtractor()
   })
 
   it('should transfor excel stream to json for start', async () => {
-    const response = await bNGMetrixDataExtracrtor.extractContent(readableStream, { start: startExtractionConfig })
+    const response = await bngMetricDataExtractor.extractContent(readableStream, { start: startExtractionConfig })
     expect(response).not.toBeFalsy()
-    expect(response.start['Project name']).toBe('Metric extraction Project')
-    expect(response.start.Applicant).toBe('A Developer')
-    expect(response.start['Application type']).toBe('Outline Planning')
-    expect(response.start['Planning application reference']).toBe(123456789)
-    expect(response.start.Assessor).toBe('Paul Mcomick')
-    expect(response.start.Reviewer).toBe('Mark keeling')
-    expect(response.start['Metric version']).toBe(3)
-    expect(response.start['Assessment date']).toBe(44441)
-    expect(response.start['Planning authority reviewer']).toBe('Nick allen')
-    expect(response.start['Planning authority']).toBe('Bromley')
+    expect(response.start.projectName).toBe('Metric extraction Project')
+    expect(response.start.applicant).toBe('A Developer')
+    expect(response.start.applicationType).toBe('Outline Planning')
+    expect(response.start.planningApplicationReference).toBe(123456789)
+    expect(response.start.assessor).toBe('Paul Mcomick')
+    expect(response.start.reviewer).toBe('Mark keeling')
+    expect(response.start.metricVersion).toBe(3)
+    expect(response.start.assessmentDate).toBe(44441)
+    expect(response.start.planningAuthorityReviewer).toBe('Nick allen')
+    expect(response.start.planningAuthority).toBe('Bromley')
   })
 
   it('should transform excel stream to json for A-1 Site Habitat Baseline', async () => {
-    const response = await bNGMetrixDataExtracrtor.extractContent(readableStream, { habitatBaseline: habitatBaselineExtractionConfig })
+    const response = await bngMetricDataExtractor.extractContent(readableStream, { habitatBaseline: habitatBaselineExtractionConfig })
     expect(response).not.toBeFalsy()
     expect(response.habitatBaseline.length).toBe(9)
     expect(response.habitatBaseline[0]['Broad habitat']).toBe('Grassland')

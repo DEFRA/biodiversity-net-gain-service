@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 
 const downloadUploadedFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+  const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   const config = {
     blobName,
     containerName: 'untrusted'

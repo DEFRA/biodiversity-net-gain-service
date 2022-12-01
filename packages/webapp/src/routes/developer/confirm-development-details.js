@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
-import BngExtractionService from '../../../../bngdataextractor/src/BNGMetricExtractionService.js'
+import BngExtractionService from '../../../../bngdataextractor/src/BngMetricExtractionService.js'
 import { Readable } from 'stream'
 
 const href = '#dev-details-checked-yes'
@@ -13,19 +13,19 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmDevDetails = request.payload.confirmDevDetails
-    const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
-    if (confirmDevDetails === 'no') {
+    if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.NO) {
       // delete the file from blob storage
       const config = {
         containerName: 'untrusted',
         blobName: metricUploadLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
-      request.yar.clear(constants.redisKeys.METRIC_LOCATION)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
-    } else if (confirmDevDetails === 'yes') {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILSx)
+    } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
+      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
     } else {
       return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
@@ -42,7 +42,7 @@ const handlers = {
 }
 
 const getContext = async request => {
-  const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+  const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   const config = {
     blobName,
     containerName: 'untrusted'

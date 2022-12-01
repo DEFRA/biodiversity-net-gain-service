@@ -10,20 +10,20 @@ const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const startPageData = {
   startPage: {
-    'Planning authority': 'Your District Council ',
-    'Project name': 'A Major Development',
-    Applicant: 'A Developer',
-    'Application type': 'Outline Planning',
-    'Planning application reference': 'A111111',
-    Assessor: 'A.Junior',
-    Reviewer: 'A.Senior',
-    'Metric version': 'v1.1',
-    'Assessment date': 44441,
-    'Planning authority reviewer': 'A.N.Officer',
-    'Cell style conventions': undefined,
-    'Enter data': undefined,
-    'Automatic lookup': undefined,
-    Result: undefined
+    planningAuthority: 'Your District Council ',
+    projectName: 'A Major Development',
+    applicant: 'A Developer',
+    applicationType: 'Outline Planning',
+    planningApplicationReference: 'A111111',
+    assessor: 'A.Junior',
+    reviewer: 'A.Senior',
+    metricVersion: 'v1.1',
+    assessmentDate: 44441,
+    planningAuthorityReviewer: 'A.N.Officer',
+    cellStyleConventions: undefined,
+    enterData: undefined,
+    automaticLookup: undefined,
+    result: undefined
   }
 }
 
@@ -51,8 +51,8 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('should allow confirmation that the correct metric filehas been uploaded', async () => {
-      postOptions.payload.confirmDevDetails = constants.confirmLandBoundaryOptions.YES
+    it('should allow confirmation that the correct metric file has been uploaded', async () => {
+      postOptions.payload.confirmDevDetails = constants.CONFIRM_DEVELOPMENT_DETAILS.YES
       await submitPostRequest(postOptions)
     })
 

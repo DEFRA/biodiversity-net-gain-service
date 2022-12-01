@@ -127,6 +127,7 @@ const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
+const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -220,6 +221,11 @@ const CONFIRM_DEVELOPMENT_DETAILS = {
   YES
 }
 
+const CHECK_UPLOAD_METRIC_OPTIONS = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   GAIN_SITE_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
@@ -291,7 +297,8 @@ const redisKeys = {
   ELIGIBILITY_BIODIVERSITY_METRIC,
   ELIGIBILITY_HMMP,
   DEVELOPER_METRIC_DATA,
-  DEV_DETAILS_CHECKED
+  DEV_DETAILS_CHECKED,
+  DEVELOPER_METRIC_LOCATION
 }
 
 const routes = {
@@ -446,5 +453,6 @@ export default Object.freeze({
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
   eligibilityHTML,
-  CONFIRM_DEVELOPMENT_DETAILS
+  CONFIRM_DEVELOPMENT_DETAILS,
+  CHECK_UPLOAD_METRIC_OPTIONS
 })

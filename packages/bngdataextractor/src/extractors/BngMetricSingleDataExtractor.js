@@ -1,6 +1,6 @@
 import xslx from 'xlsx'
 
-class BNGMetrixSingleDataExtracrtor {
+class BngMetricSingleDataExtractor {
   extractContent = async (contentInputStream, extractionConfiguration) => {
     return new Promise((resolve, reject) => {
       const data = []
@@ -98,10 +98,9 @@ class BNGMetrixSingleDataExtracrtor {
       .filter(content =>
         Object.values(content).some(value => value !== null && value !== '')
       )
-    // .filter(row => Object.keys(row).length == extractionConfiguration.cellHeaders.length);
 
     return data
   }
 }
 
-export default BNGMetrixSingleDataExtracrtor
+export default BngMetricSingleDataExtractor

@@ -44,7 +44,6 @@
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "email-validator": "^2.0.4",
-    "dotenv": "^16.0.3",
     "govuk-frontend": "4.3.1",
     "hapi-pino": "11.0.1",
     "joi": "^17.6.2",

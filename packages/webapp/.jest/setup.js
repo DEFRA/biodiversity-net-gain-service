@@ -22,13 +22,8 @@ afterEach(async () => {
   }
 })
 
-const getServer = () => {
-  return server
-}
-const getContext = () => {
+const getServer = () => server
 
-  return context
-
-}
+const getContext = () => context
 
 export { getServer, getContext}

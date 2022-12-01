@@ -114,5 +114,8 @@
     "transformIgnorePatterns": [
       "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)"
     ]
+  },
+  "dependencies": {
+    "detect-secrets": "^1.0.6"
   }
 }
