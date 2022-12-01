@@ -24,6 +24,7 @@ warning: other service dependencies will be missing, install and run from root o
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
 | AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |
 | COOKIE_IS_SECURE | Sets isSecure flag for session cookie, set to true if site is SSL or false if not | N |
+| MAX_METRIC_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) 
 
 #### Setting the SIGNALR_URL environment variable
 

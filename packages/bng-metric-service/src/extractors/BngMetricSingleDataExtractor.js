@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import xslx from 'xlsx'
 
 class BngMetricSingleDataExtractor {
@@ -38,7 +39,7 @@ class BngMetricSingleDataExtractor {
     if (sheetTitle === 'Project details') {
       const resultData = {}
       data.map(item => {
-        resultData[item[Object.keys(item)[0]].replace(':', '')] =
+        resultData[_.camelCase(item[Object.keys(item)[0]].replace(':', ''))] =
           item[Object.keys(item)[1]]
         return item
       })
