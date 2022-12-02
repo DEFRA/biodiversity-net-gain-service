@@ -22,12 +22,17 @@ const processLandBoundary = async (logger, config) => {
     try {
       dataset = await gdal.openAsync(config.inputLocation)
     } catch (err) {
+      logger.log.err(err)
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
     }
     await validateDataset(dataset)
-    // The land boundary is valid so convert it to GeoJSON.
-    geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
-    logger.log('Land boundary has been converted to GeoJSON')
+
+    if (config.fileConfig.fileExtension !== '.geojson') {
+      // A valid non-GeoJSON land boundary has been uploaded so convert it to GeoJSON.
+      geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
+      logger.log('Land boundary has been converted to GeoJSON')
+    }
+
     // Return the configuration used to display the boundary on a map.
     return await createMapConfig(dataset, bufferDistance, gdal)
   } finally {
