@@ -3,10 +3,11 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
-function processSuccessfulUpload (result, request, h) {
+async function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
@@ -14,6 +15,24 @@ function processSuccessfulUpload (result, request, h) {
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+
+    // Clear out any geospatial data and files
+    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_NAME)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
+    await blobStorageConnector.deleteBlobIfExists({
+      containerName: 'trusted',
+      blobName: request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
+    })
+    await blobStorageConnector.deleteBlobIfExists({
+      containerName: 'trusted',
+      blobName: request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+    })
+    request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
+    request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
   }
   return resultView
 }

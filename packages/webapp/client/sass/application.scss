@@ -7,12 +7,41 @@ $govuk-global-styles: true;
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
 
-#map {
-  margin: 0;
-  height: 50vh;
+//OL Mapping
+.map {
+  border: 1px solid #b1b4b6;
+  height: 468px;
+  margin-bottom: 20px;
+  position: relative;
   width: 100%;
-  font-family: sans-serif;
-  background-color: #fafafa;
+
+  &:focus {
+    outline: 0 !important;
+  }
+
+  .ol-viewport {
+    height: 400px !important;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    height: 678px;
+
+    .ol-viewport {
+      height: 600px !important;
+    }
+  }
+}
+
+.ol-control button {
+  color: #626a6e !important;
+  background-color: white !important;
+  font-size: 1.5em !important;
+}
+
+.ol-control {
+  background-color: rgba(98, 106, 110, 0.5) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
 
 .map-coordinates{
@@ -20,19 +49,35 @@ $govuk-global-styles: true;
   @include govuk-text-colour;
   background-color: rgba(255, 255, 255, 0.7) !important;
   border: 1px solid rgba(98, 106, 110, 0.5);
+  bottom: 4em;
   padding: 10px;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  position: relative;
-  width: 15em;
+  position: absolute;
+  left: .5em;
+  width: 130px;
   z-index: 999;
 
   @include govuk-media-query($until: desktop) {
     display: none;
   }
 }
-//gov uk Task list pattern
 
+.ol-zoom .ol-zoom-in {
+  border-radius: 2px 2px 0 0;
+}
+
+.ol-full-screen {
+  display: none;
+}
+
+.map--location {
+  height: auto;
+
+  .ol-viewport {
+    height: 300px !important;
+  }
+}
+
+//gov uk Task list pattern
 .app-task-list {
   list-style-type: none;
   padding-left: 0;
@@ -108,4 +153,9 @@ $govuk-global-styles: true;
 
 .hidden{
   display: none !important;
+}
+
+.govuk-summary-list__key,
+.govuk-summary-list__actions {
+  vertical-align: top;
 }

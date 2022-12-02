@@ -19,7 +19,9 @@ const handlers = {
       request.yar.clear(constants.redisKeys.LAND_BOUNDARY_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_GRID_REFERENCE)
+      // to use referer we must have a LAND_BOUNDARY_GRID_REFERENCE set
+      return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && request.yar.get(constants.redisKeys.REFERER, true)) ||
+        constants.routes.ADD_GRID_REFERENCE)
     } else {
       return h.view(constants.views.CHECK_LAND_BOUNDARY, {
         filename: path.basename(landBoundaryLocation),

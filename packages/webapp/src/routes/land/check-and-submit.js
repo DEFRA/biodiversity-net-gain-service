@@ -3,6 +3,7 @@ import application from '../../utils/application.js'
 import applicationValidation from '../../utils/application-validation.js'
 import { postJson } from '../../utils/http.js'
 import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
+import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
@@ -36,7 +37,8 @@ const getContext = request => {
     landownerNames: getAllLandowners(request.yar),
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
       getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
-    legalAgreementParties: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES))
+    legalAgreementParties: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
+    ...geospatialOrLandBoundaryContext(request)
   }
 }
 

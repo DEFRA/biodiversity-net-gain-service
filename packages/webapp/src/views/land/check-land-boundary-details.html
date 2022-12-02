@@ -21,26 +21,56 @@
                 <form method="post">
                     {{ govukSummaryList({
                         rows: [
+                          {
+                            key: {
+                                text: 'Land boundary file type'
+                            },
+                            value: {
+                                text: landBoundaryUploadType
+                            },
+                            actions: {
+                              items: [
+                                  {
+                                      href: '/land/choose-land-boundary-upload',
+                                      text: 'Change',
+                                      visuallyHiddenText: ' land boundary file',
+                                      attributes: {
+                                          id: "check-land-boundary-file-type"
+                                      }
+                                  }
+                              ]
+                            }
+                          },
                             {
-                                key: {
-                                    text: 'Land boundary file uploaded'
-                                },
-                                value: {
-                                    text: landBoundaryFileName
-                                },
-                                actions: {
+                              key: {
+                                  text: 'Land boundary file uploaded'
+                              },
+                              value: {
+                                  text: landBoundaryFileName
+                              },
+                              actions: {
                                 items: [
                                     {
-                                        href: '/land/check-land-boundary-file',
+                                        href: checkLandBoundaryLink,
                                         text: 'Change',
+                                        visuallyHiddenText: ' land boundary file',
                                         attributes: {
                                             id: "check-land-boundary-file"
                                         }
                                     }
                                 ]
-                            }
+                              }
                             },
                             {
+                              key: {
+                                text: "Land boundary on a map"
+                              },
+                              classes: hideClass(documentOrImage),
+                              value: {
+                                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\"></div>"
+                              }
+                            },
+                              {
                                 key: {
                                     text: 'Grid reference'
                                 },
@@ -52,38 +82,42 @@
                                         {
                                             href: '/land/add-grid-reference',
                                             text: 'Change',
+                                            visuallyHiddenText: ' grid reference',
+                                            classes: hideClass(geospatial),
                                             attributes: {
                                                 id: "add-grid-reference"
                                             }
                                         }
                                     ]
                                 }
-                            },
+                              },
                             {
-                                key: {
-                                    text: 'Area in hectares',
-                                    attributes: {
-                                        id: "add-hectares-label"
-                                    }
-                                },
-                                value: {
-                                text: areaInHectare,
-                                attributes: {
-                                    id: "add-hectares-value"
-                                }
+                              key: {
+                                  text: 'Area in hectares',
+                                  attributes: {
+                                      id: "add-hectares-label"
+                                  }
+                              },
+                              value: {
+                              text: areaInHectare,
+                              attributes: {
+                                  id: "add-hectares-value"
+                              }
                             },
-                                actions: {
-                                items: [
-                                    {
-                                        href: '/land/add-hectares',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "add-hectares"
-                                        }
-                                    }
-                                ]
+                              actions: {
+                              items: [
+                                  {
+                                      href: '/land/add-hectares',
+                                      text: 'Change',
+                                      visuallyHiddenText: ' area in hectares',
+                                      classes: hideClass(geospatial),
+                                      attributes: {
+                                          id: "add-hectares"
+                                      }
+                                  }
+                              ]
                             }
-                            }
+                          }
                         ]
                     }) }}
                 <form method="post">
@@ -97,4 +131,14 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block bodyEnd %}
+    {{ super() }}
+    {% if geospatial %}
+    <script src="{{ assetPath }}/js/checkLandBoundaryDetails.js"></script>
+    <script>
+      const safeMapConfig = {{ mapConfig | dump | safe }}
+      checkLandBoundaryDetails.initialiseMap(safeMapConfig)
+    </script>
+    {% endif %}
 {% endblock %}

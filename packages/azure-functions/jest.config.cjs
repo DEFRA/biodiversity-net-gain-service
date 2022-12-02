@@ -16,5 +16,8 @@ module.exports = {
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
     '^.+\\.mjs$': 'babel-jest'
-  }
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(geodesy)/)'
+  ]
 }

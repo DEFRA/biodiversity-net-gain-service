@@ -1,4 +1,5 @@
 import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
+import OsGridRef, { LatLon } from 'geodesy/osgridref.js'
 
 const processLandBoundary = async (logger, config) => {
   let dataset
@@ -83,22 +84,44 @@ const validateFeatures = async features => {
   }
 }
 
+const getGridRef = (centroid, projection) => {
+  if (projection === '27700') {
+    const osGridRef = new OsGridRef(centroid.x, centroid.y)
+    return osGridRef.toString()
+  } else {
+    const latLon = new LatLon(centroid.y, centroid.x)
+    const coordinates = latLon.toOsGrid()
+    return coordinates.toString()
+  }
+}
+
 const createMapConfig = async (dataset, bufferDistance, gdal) => {
   const layer = await dataset.layers.getAsync(0)
+  const authorityCode = layer.srs.getAuthorityCode()
   const feature = await layer.features.firstAsync()
   const featureGeometry = feature.getGeometry().clone()
+  const featureCentroid = feature.getGeometry().centroid().clone()
 
-  if (layer.srs.getAuthorityCode() === '4326') {
+  if (authorityCode === '4326') {
     // Reproject the geometry for display on a map.
     await featureGeometry.transformToAsync(gdal.SpatialReference.fromEPSGA(3857))
   }
 
   const bufferedGeometry = await featureGeometry.bufferAsync(bufferDistance)
   const envelope = await bufferedGeometry.getEnvelopeAsync()
+  const area = await featureGeometry.getArea()
+  const { units: areaUnits } = await featureGeometry.srs.getLinearUnits()
+  const centroid = JSON.parse(featureGeometry.centroid().toJSON()).coordinates
+  const gridRef = getGridRef(featureCentroid, authorityCode)
+
   return {
-    centroid: JSON.parse(featureGeometry.centroid().toJSON()).coordinates,
-    epsg: layer.srs.getAuthorityCode() === '4326' ? '3857' : layer.srs.getAuthorityCode(),
-    extent: [envelope.minX, envelope.minY, envelope.maxX, envelope.maxY]
+    epsg: authorityCode === '4326' ? '3857' : authorityCode,
+    extent: [envelope.minX, envelope.minY, envelope.maxX, envelope.maxY],
+    hectares: areaUnits === 'metre' ? area / 10000 : undefined,
+    centroid,
+    area,
+    areaUnits,
+    gridRef
   }
 }
 

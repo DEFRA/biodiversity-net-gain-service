@@ -10,9 +10,7 @@ import { Fill, Stroke, Style } from 'ol/style'
 import { Map as OpenLayersMap, View } from 'ol'
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
-import MousePosition from 'ol/control/MousePosition'
-import { ScaleLine, defaults as defaultControls } from 'ol/control'
-import { createStringXY } from 'ol/coordinate'
+import { defaults as defaultControls } from 'ol/control'
 import 'ol/ol.css'
 
 let token
@@ -111,10 +109,10 @@ const getLandBoundarySource = config => {
 const getLandBoundaryStyle = () => {
   return new Style({
     fill: new Fill({
-      color: 'rgba(178, 17, 34, 0.1)'
+      color: 'rgba(255, 255, 255, 0.5)'
     }),
     stroke: new Stroke({
-      color: '#b21122',
+      color: '#B10E1E',
       width: 3
     })
   })
@@ -137,24 +135,6 @@ const getView = config => {
   })
 }
 
-const getScaleBarControl = () => {
-  return new ScaleLine({
-    bar: true,
-    steps: 4,
-    text: true,
-    minWidth: 140
-  })
-}
-
-const getMousePositionControl = config => {
-  return new MousePosition({
-    coordinateFormat: createStringXY(4),
-    projection: `EPSG:${config.epsg}`,
-    className: '.map-coordinates',
-    target: document.getElementById('map-coordinates')
-  })
-}
-
 const getMapOptions = async config => {
   const capabilityOptions = await getOptionsFromCapabilities(config)
   const ordnanceSurveyLayer = getOrdnanceSurveyLayer(capabilityOptions)
@@ -167,14 +147,11 @@ const getMapOptions = async config => {
 
 const getMap = async config => {
   const options = await getMapOptions(config)
-  const scaleBarControl = getScaleBarControl()
-  const mousePositionControl = getMousePositionControl(config)
   return new OpenLayersMap({
-    controls: defaultControls().extend([scaleBarControl, mousePositionControl]),
+    controls: defaultControls(),
     target: 'map',
     layers: options.layers,
-    view: options.view,
-    interactions: options.interactions || []
+    view: options.view
   })
 }
 

@@ -8,11 +8,11 @@ const inDev = env === 'dev' || env === 'development'
 
 export default {
   entry: {
-    // confirmLandBoundary: './client/js/pages/land/confirm-land-boundary.js',
     core: './client/js/core.js',
     addLandowners: './client/js/pages/land/add-landowners.js',
     addLegalAgreementParties: './client/js/pages/land/add-legal-agreement-parties.js',
-    confirmLandBoundary: './client/js/pages/land/add-legal-agreement-parties.js'
+    checkAndSubmit: './client/js/pages/land/check-and-submit.js',
+    checkLandBoundaryDetails: './client/js/pages/land/check-land-boundary-details.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
