@@ -143,6 +143,7 @@ describe(url, () => {
           const postHandler = managementMonitoringStartDate[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, '2022-11-01T00:00:00:000Z')
           const payload = {
             'managementMonitoringStartDate-day': '01',
             'managementMonitoringStartDate-month': '12',
