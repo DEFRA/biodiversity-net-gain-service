@@ -128,6 +128,11 @@ const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
+const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
+const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
+const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -298,7 +303,11 @@ const redisKeys = {
   ELIGIBILITY_HMMP,
   DEVELOPER_METRIC_DATA,
   DEV_DETAILS_CHECKED,
-  DEVELOPER_METRIC_LOCATION
+  DEVELOPER_METRIC_LOCATION,
+  DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
+  DEVELOPER_METRIC_FILE_NAME,
+  DEVELOPER_METRIC_FILE_SIZE,
+  DEVELOPER_METRIC_FILE_TYPE
 }
 
 const routes = {
@@ -394,7 +403,8 @@ const uploadTypes = {
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
-  LAND_OWNERSHIP_UPLOAD_TYPE
+  LAND_OWNERSHIP_UPLOAD_TYPE,
+  DEVELOPER_METRIC_UPLOAD_TYPE
 }
 
 const eligibilityHTML = {

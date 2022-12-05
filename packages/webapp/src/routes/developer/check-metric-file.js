@@ -44,7 +44,7 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: request.yar.get(constants.redisKeys.METRIC_FILE_SIZE)
+    fileSize: request.yar.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE)
   }
 }
 
