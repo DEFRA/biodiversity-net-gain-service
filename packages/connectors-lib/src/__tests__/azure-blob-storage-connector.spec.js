@@ -73,4 +73,53 @@ describe('The Azure blob storage connector', () => {
       }
     })
   })
+  it('should allow a blob to be copied', async () => {
+    const copyConfig = {
+      source: {
+        containerName: config.containerName,
+        blobName: config.blobName
+      },
+      target: {
+        containerName: 'trusted',
+        blobName: config.blobName
+      }
+    }
+
+    const mockData = { mock: 'data' }
+
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    await blobStorageConnector.copyBlob(copyConfig)
+    await expect(blobExists(copyConfig.source.containerName, copyConfig.source.blobName)).resolves.toStrictEqual(true)
+    await expect(blobExists(copyConfig.target.containerName, copyConfig.target.blobName)).resolves.toStrictEqual(true)
+    const sourceBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.source)
+    const targetBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.target)
+    expect(sourceBuffer).toBeDefined()
+    expect(targetBuffer).toBeDefined()
+    expect(JSON.parse(sourceBuffer.toString())).toStrictEqual(mockData)
+    expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
+  })
+  it('should allow a blob to be moved', async () => {
+    const copyConfig = {
+      source: {
+        containerName: config.containerName,
+        blobName: config.blobName
+      },
+      target: {
+        containerName: 'trusted',
+        blobName: config.blobName
+      }
+    }
+
+    const mockData = { mock: 'data' }
+
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    await blobStorageConnector.moveBlob(copyConfig)
+    await expect(blobExists(copyConfig.source.containerName, copyConfig.source.blobName)).resolves.toStrictEqual(false)
+    await expect(blobExists(copyConfig.target.containerName, copyConfig.target.blobName)).resolves.toStrictEqual(true)
+    const sourceBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.source)
+    const targetBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.target)
+    expect(sourceBuffer).toBeUndefined()
+    expect(targetBuffer).toBeDefined()
+    expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
+  })
 })
