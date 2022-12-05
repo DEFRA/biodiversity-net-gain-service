@@ -20,17 +20,17 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    const mockLegalAgreement = [
+    const mockDevMetricData = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
       }
     ]
     const baseConfig = {
-      uploadType: 'metric-upload',
+      uploadType: 'developer-upload-metric',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockLegalAgreement
+      eventData: mockDevMetricData
     }
 
     beforeEach(async () => {
@@ -38,7 +38,7 @@ describe(url, () => {
       await clearQueues()
     })
 
-    it('should upload a valid Geopackage to cloud storage', (done) => {
+    it('should upload a valid Metric File to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
@@ -46,7 +46,8 @@ describe(url, () => {
           config.headers = {
             referer: 'http://localhost:3000/developer/check-metric-file'
           }
-          await uploadFile(config)
+          const response = await uploadFile(config)
+          expect(response.payload).toBe('')
           setImmediate(() => {
             done()
           })
@@ -56,11 +57,11 @@ describe(url, () => {
       })
     })
 
-    it('should upload a 50MB GeoJSON file to cloud storage', (done) => {
+    it('should upload a 50MB Metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -71,13 +72,15 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error when file upload processing fails', (done) => {
+    it('should not upload a developer metric file more than 50 MB', (done) => {
       jest.isolateModules(async () => {
         try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.generateFormDataError = true
-          await uploadFile(config)
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/55MB.xlsx`
+          const response = await uploadFile(uploadConfig)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -203,6 +206,23 @@ describe(url, () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateUnexpectedValidationError = true
           await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should display expected error details when non-file data is uploaded', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('Select a Biodiversity Metric')
           setImmediate(() => {
             done()
           })
