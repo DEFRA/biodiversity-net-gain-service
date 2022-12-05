@@ -1,4 +1,4 @@
-import Session from '../helpers/session.js'
+import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import checkOwnershipProofFile from '../../../routes/land/check-ownership-proof-file'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
