@@ -1,4 +1,4 @@
-import Session from '../helpers/session.js'
+import Session from '../../../__mocks__/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 import legalAgreementStartDate from '../../land/legal-agreement-start-date'

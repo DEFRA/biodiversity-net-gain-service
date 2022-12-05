@@ -51,6 +51,7 @@ const LAND_OWNERSHIP_FILE_SIZE = 'land-ownership-file-size'
 const LAND_OWNERSHIP_LOCATION = 'land-ownership-location'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_OWNERSHIP_CHECKED = 'land-ownership-checked'
+const LAND_OWNERSHIP_FILE_TYPE = 'land-ownership-file-type'
 const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
@@ -230,6 +231,7 @@ const redisKeys = {
   LAND_OWNERSHIP_LOCATION,
   LAND_OWNERSHIP_FILE_SIZE,
   LAND_OWNERSHIP_CHECKED,
+  LAND_OWNERSHIP_FILE_TYPE,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
   FULL_NAME,
