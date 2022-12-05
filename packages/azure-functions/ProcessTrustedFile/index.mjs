@@ -1,9 +1,10 @@
 import buildUploadConfigFromMessage from '../Shared/build-upload-config-from-message.js'
+import buildMetricConfigFromMessage from '../Shared/build-metric-config-from-message.js'
 import buildSignalRMessage from '../Shared/build-signalr-message.js'
 
 export default async function (context, message) {
   context.log('Processing', JSON.stringify(message))
-  const config = buildUploadConfigFromMessage(message)
+  const config = message.metricData ? buildMetricConfigFromMessage(message) : buildUploadConfigFromMessage(message)
   let processingFunction
   try {
     // Load the processing function for the upload type.

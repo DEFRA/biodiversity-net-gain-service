@@ -2,8 +2,9 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
-import BngExtractionService from '../../../../bng-metric-service/src/BngMetricExtractionService.js'
-import { Readable } from 'stream'
+import { downloadStreamAndQueueMessage } from '../../utils/azure-storage.js'
+import { handleEvents } from '../../utils/azure-signalr.js'
+import { extractMetricData } from '../../utils/extract-developer-metric.js'
 
 const href = '#dev-details-checked-yes'
 const handlers = {
@@ -18,7 +19,7 @@ const handlers = {
     if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.NO) {
       // delete the file from blob storage
       const config = {
-        containerName: 'untrusted',
+        containerName: 'trusted',
         blobName: metricUploadLocation
       }
       await blobStorageConnector.deleteBlobIfExists(config)
@@ -27,7 +28,7 @@ const handlers = {
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
       return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
     } else {
-      return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
+      return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
         filename: path.basename(metricUploadLocation),
         ...await getContext(request),
         err: [
@@ -42,18 +43,72 @@ const handlers = {
 }
 
 const getContext = async request => {
-  const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-  const config = {
-    blobName,
-    containerName: 'untrusted'
+  // const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  // const config = {
+  //   blobName,
+  //   containerName: 'trusted'
+  // }
+  const metricFileName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  const config = buildConfig(request.yar.id, path.basename(metricFileName))
+  try {
+    const metricFileData = await extractMetricData(logger, request, config)
+    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData)
+    return {
+      startPage: metricFileData.startPage
+    }
+  } catch (error) {
+    logger.error(error)
   }
-  const extractService = new BngExtractionService()
-  const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
-  const readableStream = Readable.from(buffer)
-  const metricData = await extractService.extractMetricContent(readableStream)
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
-  return {
-    startPage: metricData.startPage
+  // const extractService = new BngExtractionService()
+  // const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+  // const readableStream = Readable.from(buffer)
+  // const metricData = await extractService.extractMetricContent(readableStream)
+  // request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
+}
+
+const buildConfig = (sessionId, fileName) => {
+  const config = {}
+  buildBlobConfig(sessionId, config, fileName)
+  buildQueueConfig(config)
+  buildFunctionConfig(config)
+  buildSignalRConfig(sessionId, config)
+  buildFileValidationConfig(config)
+  return config
+}
+
+const buildBlobConfig = (sessionId, config, fileName) => {
+  config.blobConfig = {
+    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/`,
+    containerName: 'untrusted',
+    fileName
+  }
+}
+
+const buildQueueConfig = config => {
+  config.queueConfig = {
+    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+    queueName: 'untrusted-file-queue'
+  }
+}
+
+const buildFunctionConfig = config => {
+  config.functionConfig = {
+    extractMetricFunction: downloadStreamAndQueueMessage,
+    handleEventsFunction: handleEvents
+  }
+}
+
+const buildSignalRConfig = (sessionId, config) => {
+  config.signalRConfig = {
+    eventProcessingFunction: null,
+    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
+    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
+  }
+}
+
+const buildFileValidationConfig = config => {
+  config.fileValidationConfig = {
+    fileExt: constants.metricFileExt
   }
 }
 

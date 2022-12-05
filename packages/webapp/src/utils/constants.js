@@ -133,6 +133,7 @@ const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
 const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -404,7 +405,8 @@ const uploadTypes = {
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
   LAND_OWNERSHIP_UPLOAD_TYPE,
-  DEVELOPER_METRIC_UPLOAD_TYPE
+  DEVELOPER_METRIC_UPLOAD_TYPE,
+  DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
 }
 
 const eligibilityHTML = {
