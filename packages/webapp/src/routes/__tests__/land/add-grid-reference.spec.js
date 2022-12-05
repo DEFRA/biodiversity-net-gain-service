@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import addGridReference from '../../land/add-grid-reference.js'
-import Session from '../helpers/session.js'
+import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants'
 const url = constants.routes.ADD_GRID_REFERENCE
 
