@@ -83,6 +83,10 @@ const buildConfig = (uploadPath, gdalConfig) => {
     outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`
   }
 
+  if (fileExtension === '.geojson') {
+    delete config.outputLocation
+  }
+
   if (gdalConfig) {
     config.gdalEnvVars = {
       AZURE_STORAGE_ACCOUNT: 'AZURE_STORAGE_ACCOUNT',

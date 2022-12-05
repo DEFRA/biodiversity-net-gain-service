@@ -2,7 +2,7 @@ import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandB
 
 const processLandBoundary = async (logger, config) => {
   let dataset
-  let geoJsonDataset
+  let outputDataset
   const bufferDistance = config.bufferDistance || 500
   try {
     // Workaround for https://github.com/naturalatlas/node-gdal/issues/207.
@@ -22,17 +22,21 @@ const processLandBoundary = async (logger, config) => {
     try {
       dataset = await gdal.openAsync(config.inputLocation)
     } catch (err) {
+      logger.error(err)
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
     }
     await validateDataset(dataset)
-    // The land boundary is valid so convert it to GeoJSON.
-    geoJsonDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
-    logger.log('Land boundary has been converted to GeoJSON')
+
+    if (config.outputLocation) {
+      outputDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
+      logger.info(`Land boundary has been converted and written to ${config.outputLocation} `)
+    }
+
     // Return the configuration used to display the boundary on a map.
     return await createMapConfig(dataset, bufferDistance, gdal)
   } finally {
     closeDatasetIfNeeded(dataset)
-    closeDatasetIfNeeded(geoJsonDataset)
+    closeDatasetIfNeeded(outputDataset)
   }
 }
 

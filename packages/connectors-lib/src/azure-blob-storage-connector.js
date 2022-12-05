@@ -2,6 +2,13 @@ import { getBlobServiceClient } from './helpers/azure-storage.js'
 
 const blobServiceClient = getBlobServiceClient()
 
+const copyBlob = async config => {
+  const sourceBlockBlobClient = getBlockBlobClient(config.source.containerName, config.source.blobName)
+  const targetBlockBlobClient = getBlockBlobClient(config.target.containerName, config.target.blobName)
+  const poller = await targetBlockBlobClient.beginCopyFromURL(sourceBlockBlobClient.url)
+  return poller.pollUntilDone()
+}
+
 const deleteBlobIfExists = async config => {
   const options = {
     deleteSnapshots: 'include'
@@ -36,6 +43,11 @@ const downloadToBufferIfExists = async (logger, config) => {
   return returnValue
 }
 
+const moveBlob = async config => {
+  await copyBlob(config)
+  return deleteBlobIfExists(config.source)
+}
+
 const uploadStream = async (config, stream) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
   await blockBlobClient.uploadStream(stream)
@@ -50,8 +62,10 @@ const getBlockBlobClient = (containerName, blobName) => {
 }
 
 export const blobStorageConnector = Object.freeze({
+  copyBlob,
   deleteBlobIfExists,
   downloadStreamIfExists,
   downloadToBufferIfExists,
+  moveBlob,
   uploadStream
 })

@@ -79,7 +79,7 @@ const performUpload = async (request, h) => {
     const geoJsonFilename = geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
 
-    if (geospatialData[0].location !== uploadedFileLocation) {
+    if (!geospatialData.filename.endsWith('.geojson')) {
       // A GeoJSON file was not uploaded.
       // Store the location of the uploaded file so it and the transformed GeoJSON file can be removed if needed.
       request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
