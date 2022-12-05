@@ -41,6 +41,10 @@ describe('Trusted file processing', () => {
     performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
+  it('should process a known developert metric file. ', done => {
+    performDeveloperValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
+  })
+
   it('should respond to a coordinate reference system validation error. ', done => {
     const config = {
       expectedSignalRMessageArguments: [{
@@ -274,4 +278,21 @@ const throwValidationError = testConfig => {
 const throwError = testConfig => {
   const errorMessage = testConfig.expectedSignalRMessage.arguments[0].errorMessage
   throw new Error(errorMessage)
+}
+
+const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'developer-upload-metric')
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
 }

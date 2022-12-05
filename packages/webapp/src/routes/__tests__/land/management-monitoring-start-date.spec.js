@@ -162,7 +162,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('land/management-monitoring-start-date')
+          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
           done()
         } catch (err) {
           done(err)
