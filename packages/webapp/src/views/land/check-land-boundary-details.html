@@ -26,7 +26,7 @@
                                 text: 'Land boundary file type'
                             },
                             value: {
-                                text: landBoundaryUploadType
+                                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
                             },
                             actions: {
                               items: [
@@ -46,7 +46,7 @@
                                   text: 'Land boundary file uploaded'
                               },
                               value: {
-                                  text: landBoundaryFileName
+                                  html: "<span data-testid=\"land-boundary-file-value\">" + landBoundaryFileName + "</span>"
                               },
                               actions: {
                                 items: [
@@ -67,7 +67,7 @@
                               },
                               classes: hideClass(documentOrImage),
                               value: {
-                                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\"></div>"
+                                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
                               }
                             },
                               {
@@ -75,7 +75,7 @@
                                     text: 'Grid reference'
                                 },
                                 value: {
-                                    text: gridReference
+                                    html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
                                 },
                                 actions: {
                                     items: [
@@ -93,17 +93,11 @@
                               },
                             {
                               key: {
-                                  text: 'Area in hectares',
-                                  attributes: {
-                                      id: "add-hectares-label"
-                                  }
+                                  text: 'Area in hectares'
                               },
                               value: {
-                              text: areaInHectare,
-                              attributes: {
-                                  id: "add-hectares-value"
-                              }
-                            },
+                                  html: "<span data-testid=\"hectares-value\">" + areaInHectare + "</span>"
+                              },
                               actions: {
                               items: [
                                   {

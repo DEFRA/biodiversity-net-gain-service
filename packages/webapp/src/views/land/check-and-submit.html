@@ -74,21 +74,21 @@
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
         {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
+          classes: "govuk-!-margin-bottom-7",
           rows: [
             {
               key: {
-                  text: 'Land boundary file type'
+                  text: "Land boundary file type"
               },
               value: {
-                  text: landBoundaryUploadType
+                  html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
               },
               actions: {
                 items: [
                     {
                         href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-                        text: 'Change',
-                        visuallyHiddenText: ' land boundary file',
+                        text: "Change",
+                        visuallyHiddenText: " land boundary file",
                         attributes: {
                             id: "check-land-boundary-file-type"
                         }
@@ -101,7 +101,7 @@
                 text: "Land boundary file uploaded"
               },
               value: {
-                text: landBoundaryFileName
+                html: "<span data-testid=\"land-boundary-file-value\">" + landBoundaryFileName + "</span>"
               },
               actions: {
                 items: [
@@ -119,7 +119,7 @@
               },
               classes: hideClass(documentOrImage),
               value: {
-                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\"></div>"
+                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
               }
             },
             {
@@ -127,7 +127,7 @@
                 text: "Grid reference"
               },
               value: {
-                text: gridReference
+                html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
               },
               actions: {
                 items: [
@@ -145,7 +145,7 @@
                 text: "Area in hectares"
               },
               value: {
-                text: areaInHectare
+                html: "<span data-testid=\"hectares-value\">" + areaInHectare + "</span>"
               },              
               actions: {
                 items: [
