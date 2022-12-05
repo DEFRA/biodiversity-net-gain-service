@@ -9,7 +9,7 @@ const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
 
 describe('Trusted file processing', () => {
-  it('should process a known upload type in an compressed file. ', done => {
+  it('should process a known geospatial upload type in a compressed file.', done => {
     performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, done)
   })
 
@@ -21,19 +21,23 @@ describe('Trusted file processing', () => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'management-plan', done)
   })
 
-  it('should process a known upload type in an uncompressed file. ', done => {
+  it('should process a GeoJSON file.', done => {
     performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, done)
   })
 
-  it('should process a known land boundary file. ', done => {
+  it('should process a Geopackage file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(GEOPACKAGE_FILE_EXTENSION, done)
+  })
+
+  it('should process a known land boundary file.', done => {
     performValidLandBoundaryDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
-  it('should process a known land ownership file. ', done => {
+  it('should process a known land ownership file.', done => {
     performValidLandOwnershipDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
-  it('should process a known metric file. ', done => {
+  it('should process a known metric file.', done => {
     performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
@@ -136,17 +140,24 @@ const buildConfig = (fileExtension, uploadType) => {
 const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
+      const context = getContext()
       jest.mock('@defra/bng-geoprocessing-service')
+      jest.mock('@defra/bng-connectors-lib')
       const testConfig = buildConfig(fileExtension, 'geospatial-land-boundary')
       const geoprocessingService = await import('@defra/bng-geoprocessing-service')
+      const { blobStorageConnector } = await import('@defra/bng-connectors-lib')
       geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
         return testConfig.mapConfig
       })
 
-      await processTrustedFile(getContext(), testConfig.message)
+      const spy = jest.spyOn(blobStorageConnector, 'moveBlob')
+
+      await processTrustedFile(context, testConfig.message)
 
       setImmediate(async () => {
-        expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+        expect(context.bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+        // GeoJSON uploads do not require converting to GeoJSON format. As such moveBlob should not be called in this scenario.
+        expect(spy).toHaveBeenCalledTimes(fileExtension === GEOJSON_FILE_EXTENSION ? 0 : 1)
         done()
       })
     } catch (e) {
