@@ -12,7 +12,7 @@ export default async function (context, config) {
   // an error occurs until the function app is restarted.
   const isGeoJsonFile = config.fileConfig.fileExtension === GEOJSON_FILE_EXTENSION
   const tmpGeoJsonBlobName =
-   `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}${new Date().toISOString()}}${GEOJSON_FILE_EXTENSION}`
+   `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}${new Date().toISOString()}${GEOJSON_FILE_EXTENSION}`
   const geoJsonBlobName = `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}${GEOJSON_FILE_EXTENSION}`
 
   const landBoundaryConfig = {
