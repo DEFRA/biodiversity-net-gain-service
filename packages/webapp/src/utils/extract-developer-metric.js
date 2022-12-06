@@ -1,17 +1,18 @@
 import { extractMetric } from '@defra/bng-document-service'
 
-const extractMetricData = async (logger, request, config) => {
+const extractMetricData = async (logger, config) => {
   return new Promise((resolve, reject) => {
-    try {
-      const extractionResult = {}
-      const events = [`Processed ${config.blobConfig.blobName}`]
-      createExtractionConfiguration(config)
-      extractMetric(logger, config)
-      const eventData = config.functionConfig.handleEventsFunction(config, events)
-      resolve(Object.assign(extractionResult, eventData))
-    } catch (err) {
-      reject(err)
-    }
+    (async () => {
+      try {
+        const events = [`Processed ${config.blobConfig.fileName}`]
+        createExtractionConfiguration(config)
+        extractMetric(logger, config)
+        const eventData = await config.functionConfig.handleEventsFunction(config, events)
+        resolve(eventData)
+      } catch (err) {
+        reject(err)
+      }
+    })()
   })
 }
 

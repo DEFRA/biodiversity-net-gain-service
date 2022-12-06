@@ -43,27 +43,17 @@ const handlers = {
 }
 
 const getContext = async request => {
-  // const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-  // const config = {
-  //   blobName,
-  //   containerName: 'trusted'
-  // }
   const metricFileName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   const config = buildConfig(request.yar.id, path.basename(metricFileName))
   try {
-    const metricFileData = await extractMetricData(logger, request, config)
-    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData)
+    const metricFileData = await extractMetricData(logger, config)
+    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
     return {
-      startPage: metricFileData.startPage
+      startPage: metricFileData[0].metricData.startPage
     }
   } catch (error) {
     logger.error(error)
   }
-  // const extractService = new BngExtractionService()
-  // const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
-  // const readableStream = Readable.from(buffer)
-  // const metricData = await extractService.extractMetricContent(readableStream)
-  // request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricData)
 }
 
 const buildConfig = (sessionId, fileName) => {
@@ -78,16 +68,16 @@ const buildConfig = (sessionId, fileName) => {
 
 const buildBlobConfig = (sessionId, config, fileName) => {
   config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/`,
-    containerName: 'untrusted',
+    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/${fileName}`,
+    containerName: 'trusted',
     fileName
   }
 }
 
 const buildQueueConfig = config => {
   config.queueConfig = {
-    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
+    uploadType: constants.uploadTypes.DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+    queueName: 'trusted-file-queue'
   }
 }
 

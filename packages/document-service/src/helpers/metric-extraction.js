@@ -1,7 +1,5 @@
 const extractMetric = async (logger, config) => {
-  console.log('before extractionConfig #############ß')
   const extractionConfig = createExtractionConfiguration(logger, config)
-  console.log('extractionConfig', extractionConfig)
   // Delegate upload processing to the function referenced in the configuration.
   // The configured funcion encapsulates all implementation specific details.
   return config.functionConfig.extractMetricFunction(logger, extractionConfig)

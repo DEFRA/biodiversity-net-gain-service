@@ -47,7 +47,7 @@ const downloadToBufferIfExists = async (logger, config) => {
   const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
   const blobExists = await blockBlobClient.exists()
   let returnValue
-  // console.log('AJ 1', blockBlobClient, blobExists)
+
   if (blobExists) {
     returnValue = blockBlobClient.downloadToBuffer(0)
   } else {
