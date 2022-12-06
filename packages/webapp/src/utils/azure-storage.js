@@ -32,8 +32,7 @@ const addMetricDetailsToConfiguration = async (config, logger) => {
   const message = {
     uploadType: config.queueConfig.uploadType,
     containerName: config.blobConfig.containerName,
-    location: config.blobConfig.blobName,
-    isMetricDataExtraction: true
+    location: config.blobConfig.blobName
   }
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
