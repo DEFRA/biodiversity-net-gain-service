@@ -1,12 +1,14 @@
 import processTrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
-import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { BlobBufferError, CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
+jest.mock('@defra/bng-connectors-lib')
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
+const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 
 describe('Trusted file processing', () => {
   it('should process a known geospatial upload type in a compressed file.', done => {
@@ -109,6 +111,30 @@ describe('Trusted file processing', () => {
       }
     })
   })
+
+  it.skip('should extract developer metric data. ', done => {
+    const config = {
+      expectedSignalRMessageArguments: [{
+        uploadType: 'developer-metric-extraction',
+        location: '3f71693c-3b1b-448c-827c-0ee181d49929/metric-upload/metric-file.xlsx',
+        containerName: 'trusted'
+      }],
+      fileExtension: METRIC_FILE_EXTENSION,
+      processDeveloperMetricExtractionFunction: throwCoordinateSystemValidationError
+    }
+    performDeveloperMetricExtractionTest(config, done)
+  })
+
+  it('should respond while extacting metric data if blob not exists. ', done => {
+    const config = {
+      expectedSignalRMessageArguments: [{
+        errorCode: 'BUFFER-NOT-EXISTS'
+      }],
+      fileExtension: METRIC_FILE_EXTENSION,
+      processDeveloperMetricExtractionFunction: throwBlobNotExistsError
+    }
+    performDeveloperMetricExtractionFailedTest(config, done)
+  })
 })
 
 const buildConfig = (fileExtension, uploadType) => {
@@ -124,21 +150,54 @@ const buildConfig = (fileExtension, uploadType) => {
     extent: ['mock extent']
   }
 
-  return {
-    mapConfig,
-    message: {
-      uploadType,
-      location: `${fileDirectory}/${filename}`
-    },
-    expectedSignalRMessage: {
-      userId,
-      target: `Processed ${filename}`,
-      arguments: [{
-        location: outputFileLocation,
-        mapConfig
-      }]
+  const metricData = {
+    startPage: {
+      projectName: 'mock project',
+      projectAuthority: 'mock authority'
     }
   }
+
+  let _config
+  switch (uploadType) {
+    case DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE:
+      _config = {
+        metricData,
+        message: {
+          uploadType,
+          location: `${fileDirectory}/${filename}`,
+          containerName: 'trusted'
+        },
+        expectedSignalRMessage: {
+          userId,
+          target: `Processed ${filename}`,
+          arguments: [{
+            location: outputFileLocation,
+            metricData
+          }]
+        }
+      }
+      break
+
+    default:
+      _config = {
+        mapConfig,
+        message: {
+          uploadType,
+          location: `${fileDirectory}/${filename}`
+        },
+        expectedSignalRMessage: {
+          userId,
+          target: `Processed ${filename}`,
+          arguments: [{
+            location: outputFileLocation,
+            mapConfig
+          }]
+        }
+      }
+      break
+  }
+
+  return _config
 }
 
 const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) => {
@@ -275,6 +334,11 @@ const throwValidationError = testConfig => {
   throw new ValidationError(errorCode)
 }
 
+const throwBlobNotExistsError = testConfig => {
+  const errorCode = testConfig.expectedSignalRMessage.arguments[0].errorCode
+  throw new BlobBufferError(errorCode)
+}
+
 const throwError = testConfig => {
   const errorMessage = testConfig.expectedSignalRMessage.arguments[0].errorMessage
   throw new Error(errorMessage)
@@ -291,6 +355,43 @@ const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
         expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
         done()
       })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performDeveloperMetricExtractionTest = (config, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(config.fileExtension, DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE)
+      testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
+
+      await processTrustedFile(getContext(), testConfig.message)
+      expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+      done()
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+const performDeveloperMetricExtractionFailedTest = (config, done) => {
+  jest.isolateModules(async () => {
+    try {
+      jest.mock('@defra/bng-metric-service')
+      const testConfig = buildConfig(config.fileExtension, DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE)
+      testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
+      testConfig.message.containerName = 'unknown'
+
+      const BngExtractionService = await import('@defra/bng-metric-service')
+      BngExtractionService.extractMetricContent = jest.fn().mockImplementation(async (logger, config) => {
+        config.processDeveloperMetricExtractionFunction(testConfig)
+      })
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      expect(getContext().bindings.signalRMessages[0].arguments).toStrictEqual(testConfig.expectedSignalRMessage.arguments)
+      done()
     } catch (e) {
       done(e)
     }

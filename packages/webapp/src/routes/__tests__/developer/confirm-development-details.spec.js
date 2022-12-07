@@ -1,14 +1,13 @@
 import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../developer/confirm-development-details.js'
-import { promises as fs } from 'fs'
 
 jest.mock('@defra/bng-connectors-lib')
 
 const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
-const startPageData = {
+const mockMetricData = {
   startPage: {
     planningAuthority: 'Your District Council ',
     projectName: 'A Major Development',
@@ -29,17 +28,34 @@ const startPageData = {
 
 describe(url, () => {
   describe('GET', () => {
-    it('It should download the mocked landownership document from blobStorageConnector', async () => {
-      const { blobStorageConnector } = require('@defra/bng-connectors-lib')
-      // Mock the downloadToBufferIfExists function with file buffer
-      blobStorageConnector.downloadToBufferIfExists.mockImplementation(async () => {
-        const file = await fs.readFile(`${mockDataPath}/metric-file.xlsx`)
-        return new Promise((resolve) => {
-          resolve(file)
-        })
-      })
+    let redisMap
+    const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
+    beforeEach(() => {
+      redisMap = new Map()
+    })
 
-      await submitGetRequest({ url })
+    it('It should download the mocked metric file data from blobStorageConnector', done => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const confirmDevelopmentDetails = require('../../developer/confirm-development-details.js')
+          redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
+          // redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
+          const request = {
+            yar: redisMap
+          }
+          const h = {
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          await confirmDevelopmentDetails.default[0].handler(request, h)
+          expect(viewResult).toEqual(url.substring(url.indexOf('/') + 1))
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 
@@ -71,7 +87,7 @@ describe(url, () => {
         try {
           const postHandler = confirmDevDetails[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.DEVELOPER_METRIC_DATA, startPageData.startPage)
+          session.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData.startPage)
           session.set('filename', constants.redisKeys.METRIC_LOCATION)
           const payload = {
             confirmDevDetails: 'yes'

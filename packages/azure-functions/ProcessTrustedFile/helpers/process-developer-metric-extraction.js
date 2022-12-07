@@ -1,8 +1,8 @@
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { Readable } from 'stream'
 import buildSignalRMessage from '../../Shared/build-signalr-message.js'
-import BngExtractionService from '../../../bng-metric-service/src/BngMetricExtractionService.js'
-import { BlobBufferError } from '@defra/bng-errors-lib'
+import BngExtractionService from '@defra/bng-metric-service/src/BngMetricExtractionService.js'
+import { BlobBufferError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 
 export default async function (context, config) {
   let signalRMessageArguments
@@ -22,6 +22,7 @@ export default async function (context, config) {
       }]
     } else {
       context.log(`${new Date().toUTCString()} Blob not exists  ${config.blobName}`)
+      throw new BlobBufferError(uploadGeospatialLandBoundaryErrorCodes.BUFFER_NOT_EXISTS, 'Blob not exists')
     }
   } catch (err) {
     if (err instanceof BlobBufferError) {
