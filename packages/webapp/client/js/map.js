@@ -13,7 +13,7 @@ import WMTSCapabilities from 'ol/format/WMTSCapabilities'
 import { defaults as defaultControls } from 'ol/control'
 import 'ol/ol.css'
 
-let token
+let token, landBoundarySource
 
 const initialise27700Projection = () => {
   proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 ' +
@@ -119,8 +119,9 @@ const getLandBoundaryStyle = () => {
 }
 
 const getLandBoundaryLayer = config => {
+  landBoundarySource = getLandBoundarySource(config)
   return new VectorLayer({
-    source: getLandBoundarySource(config),
+    source: landBoundarySource,
     style: getLandBoundaryStyle()
   })
 }
@@ -162,7 +163,12 @@ const initialiseMap = config => {
       if (config.epsg === '27700') {
         initialise27700Projection()
       }
-      await getMap(config)
+      const map = await getMap(config)
+
+      // Set view to the extent of the feature loaded
+      map.once('loadend', () => {
+        map.getView().fit(landBoundarySource.getExtent(), { padding: [10, 10, 10, 10] })
+      })
     }
   )()
 }

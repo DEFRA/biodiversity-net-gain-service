@@ -100,17 +100,19 @@ const createMapConfig = async (dataset, bufferDistance, gdal) => {
   const authorityCode = layer.srs.getAuthorityCode()
   const feature = await layer.features.firstAsync()
   const featureGeometry = feature.getGeometry().clone()
+  const featureGeometryForArea = feature.getGeometry().clone()
   const featureCentroid = feature.getGeometry().centroid().clone()
 
   if (authorityCode === '4326') {
     // Reproject the geometry for display on a map.
     await featureGeometry.transformToAsync(gdal.SpatialReference.fromEPSGA(3857))
+    await featureGeometryForArea.transformToAsync(gdal.SpatialReference.fromEPSGA(27700))
   }
 
   const bufferedGeometry = await featureGeometry.bufferAsync(bufferDistance)
   const envelope = await bufferedGeometry.getEnvelopeAsync()
-  const area = await featureGeometry.getArea()
-  const { units: areaUnits } = await featureGeometry.srs.getLinearUnits()
+  const area = await featureGeometryForArea.getArea()
+  const { units: areaUnits } = await featureGeometryForArea.srs.getLinearUnits()
   const centroid = JSON.parse(featureGeometry.centroid().toJSON()).coordinates
   const gridRef = getGridRef(featureCentroid, authorityCode)
 
