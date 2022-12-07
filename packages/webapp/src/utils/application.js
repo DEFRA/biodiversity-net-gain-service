@@ -78,12 +78,12 @@ const getLandBoundaryFile = session => {
   }
 }
 
-const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData' ?
-  session.get(constants.redisKeys.GEOSPATIAL_HECTARES) :
-  session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.redisKeys.GEOSPATIAL_HECTARES)
+  : session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
 
-const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData' ?
-  session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE) :
-  session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
+const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
+  : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
 export default application
