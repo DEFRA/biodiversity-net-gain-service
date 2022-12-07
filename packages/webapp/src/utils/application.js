@@ -20,13 +20,7 @@ const application = session => {
           fileSize: session.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
           fileLocation: session.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
           fileName: session.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION) && path.basename(session.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION))
-        }, {
-          contentMediaType: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE),
-          fileType: 'land-boundary',
-          fileSize: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
-          fileLocation: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION),
-          fileName: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION))
-        }, {
+        }, getLandBoundaryFile(session), {
           contentMediaType: session.get(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE),
           fileType: 'management-plan',
           fileSize: session.get(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE),
@@ -48,8 +42,8 @@ const application = session => {
       ],
       gainSiteReference: '',
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
-      landBoundaryGridReference: session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
-      landBoundaryHectares: session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES),
+      landBoundaryGridReference: getGridReference(session),
+      landBoundaryHectares: getHectares(session),
       legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
@@ -63,5 +57,33 @@ const application = session => {
 
 const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
   session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
+
+const getLandBoundaryFile = session => {
+  if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
+    return {
+      contentMediaType: 'application/geo+json',
+      fileType: 'geojson',
+      fileSize: session.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
+    }
+  } else {
+    return {
+      contentMediaType: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE),
+      fileType: 'land-boundary',
+      fileSize: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION),
+      fileName: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION))
+    }
+  }
+}
+
+const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData' ?
+  session.get(constants.redisKeys.GEOSPATIAL_HECTARES) :
+  session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+
+const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData' ?
+  session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE) :
+  session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
 export default application
