@@ -51,7 +51,7 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-land-boundary',
+            startTaskUrl: '/land/choose-land-boundary-upload',
             id: 'add-land-boundary'
           },
           {
@@ -144,7 +144,7 @@ describe(url, () => {
             title: 'Add land boundary details',
             status: 'COMPLETED',
             completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/upload-land-boundary',
+            startTaskUrl: '/land/choose-land-boundary-upload',
             id: 'add-land-boundary'
           },
           {

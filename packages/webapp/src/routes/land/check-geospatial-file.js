@@ -23,7 +23,7 @@ const handlers = {
     }
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
-        route = constants.routes.CHECK_LAND_BOUNDARY_DETAILS
+        route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY

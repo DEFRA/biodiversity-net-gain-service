@@ -34,12 +34,13 @@ describe(url, () => {
       postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
       await submitPostRequest(postOptions, 500)
     })
-    it('Ensure page uses referrer if is set on post', done => {
+    it('Ensure page uses referer if is set on post and grid reference is present', done => {
       jest.isolateModules(async () => {
         try {
           const postHandler = checkLandBoundaryFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, 'ST123456')
           const payload = {
             checkLandBoundary: 'yes'
           }
@@ -56,7 +57,36 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
+          expect(redirectArgs[0]).toEqual(constants.routes.CHECK_AND_SUBMIT)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('Ensure page doesn\'t use referer if grid reference is missing', done => {
+      jest.isolateModules(async () => {
+        try {
+          const postHandler = checkLandBoundaryFile[1].handler
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          const payload = {
+            checkLandBoundary: 'yes'
+          }
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          await postHandler({ payload, yar: session }, h)
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs[0]).toEqual(constants.routes.ADD_GRID_REFERENCE)
           done()
         } catch (err) {
           done(err)

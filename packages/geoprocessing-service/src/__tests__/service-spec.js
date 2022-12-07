@@ -17,12 +17,34 @@ const invalidFileUploadErrorMessage = 'The uploaded land boundary must use a val
 describe('The geoprocessing service', () => {
   it('should convert a geopackage file containing a single polygon in the WGS84 coordinate reference system to GeoJSON', async () => {
     const filenameRoot = 'geopackage-land-boundary-4326'
-    await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`, true)
+    const config = await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`, true)
+    expect(Math.floor(config.area)).toEqual(2323)
+    expect(config.gridRef).toEqual('ST 60629 75931')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
   })
   it('should accept a GeoJSON file containing a single polygon in the OSGB36 coordinate reference system', async () => {
     const filenameRoot = 'geojson-land-boundary-27700'
     await performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)
+    expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+  })
+  it('should accept a geopackage file containing a single polygon in the OSGB36 coordinate reference system', async () => {
+    const filenameRoot = 'hectares_OSGB36_test'
+    const config = await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`)
+    expect(config.epsg).toEqual('27700')
+    expect(Math.floor(config.area)).toEqual(50394)
+    expect(config.areaUnits).toEqual('metre')
+    expect(config.hectares.toFixed(2)).toEqual('5.04')
+    expect(config.gridRef).toEqual('ST 63632 74724')
+    expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+  })
+  it('should accept a gpkg file containing a single polygon in the WGS84 coordinate reference system', async () => {
+    const filenameRoot = 'hectares_WGS84_test'
+    const config = await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`)
+    expect(config.epsg).toEqual('3857')
+    expect(Math.floor(config.area)).toEqual(50394)
+    expect(config.areaUnits).toEqual('metre')
+    expect(config.hectares.toFixed(2)).toEqual('5.04')
+    expect(config.gridRef).toEqual('ST 63632 74724')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
   })
   it('should reject a geopackage file containing multiple layers', async () => {
@@ -102,5 +124,5 @@ const performLandBoundaryProcessing = async (filename, gdalConfig = false) => {
   const config = buildConfig(`${blobPathRoot}/${filename}`, gdalConfig)
   buildConfig(`${blobPathRoot}/${filename}`)
   await uploadFileAsStream(`${mockDataPath}/${filename}`)
-  await processLandBoundary(logger, config)
+  return await processLandBoundary(logger, config)
 }

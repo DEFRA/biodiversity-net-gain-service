@@ -28,7 +28,9 @@ const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
-const GEOSPATIAL_FILE_TYPE = 'getspatial-file-type'
+const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
+const GEOSPATIAL_HECTARES = 'geospatial-hectares'
+const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
 const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
@@ -205,6 +207,8 @@ const redisKeys = {
   GEOSPATIAL_FILE_NAME,
   GEOSPATIAL_FILE_SIZE,
   GEOSPATIAL_FILE_TYPE,
+  GEOSPATIAL_HECTARES,
+  GEOSPATIAL_GRID_REFERENCE,
   LAND_BOUNDARY_MAP_CONFIG,
   LAND_BOUNDARY_UPLOAD_TYPE,
   LAND_BOUNDARY_LOCATION,

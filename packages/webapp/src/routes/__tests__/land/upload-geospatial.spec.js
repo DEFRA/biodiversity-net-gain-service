@@ -23,7 +23,10 @@ describe(url, () => {
     const mockLandBoundary = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
-        mapConfig: {}
+        mapConfig: {
+          hectares: 2,
+          gridRef: 'ST123456'
+        }
       }
     ]
     const baseConfig = {

@@ -10,12 +10,10 @@ import { Fill, Stroke, Style } from 'ol/style'
 import { Map as OpenLayersMap, View } from 'ol'
 import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
-import MousePosition from 'ol/control/MousePosition'
-import { ScaleLine, defaults as defaultControls } from 'ol/control'
-import { createStringXY } from 'ol/coordinate'
+import { defaults as defaultControls } from 'ol/control'
 import 'ol/ol.css'
 
-let token
+let token, landBoundarySource
 
 const initialise27700Projection = () => {
   proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 ' +
@@ -111,18 +109,19 @@ const getLandBoundarySource = config => {
 const getLandBoundaryStyle = () => {
   return new Style({
     fill: new Fill({
-      color: 'rgba(178, 17, 34, 0.1)'
+      color: 'rgba(255, 255, 255, 0.5)'
     }),
     stroke: new Stroke({
-      color: '#b21122',
+      color: '#B10E1E',
       width: 3
     })
   })
 }
 
 const getLandBoundaryLayer = config => {
+  landBoundarySource = getLandBoundarySource(config)
   return new VectorLayer({
-    source: getLandBoundarySource(config),
+    source: landBoundarySource,
     style: getLandBoundaryStyle()
   })
 }
@@ -134,24 +133,6 @@ const getView = config => {
     extent: config.extent,
     zoom: config.epsg === '27700' ? 13 : 17,
     showFullExtent: true
-  })
-}
-
-const getScaleBarControl = () => {
-  return new ScaleLine({
-    bar: true,
-    steps: 4,
-    text: true,
-    minWidth: 140
-  })
-}
-
-const getMousePositionControl = config => {
-  return new MousePosition({
-    coordinateFormat: createStringXY(4),
-    projection: `EPSG:${config.epsg}`,
-    className: '.map-coordinates',
-    target: document.getElementById('map-coordinates')
   })
 }
 
@@ -167,14 +148,11 @@ const getMapOptions = async config => {
 
 const getMap = async config => {
   const options = await getMapOptions(config)
-  const scaleBarControl = getScaleBarControl()
-  const mousePositionControl = getMousePositionControl(config)
   return new OpenLayersMap({
-    controls: defaultControls().extend([scaleBarControl, mousePositionControl]),
+    controls: defaultControls(),
     target: 'map',
     layers: options.layers,
-    view: options.view,
-    interactions: options.interactions || []
+    view: options.view
   })
 }
 
@@ -185,7 +163,12 @@ const initialiseMap = config => {
       if (config.epsg === '27700') {
         initialise27700Projection()
       }
-      await getMap(config)
+      const map = await getMap(config)
+
+      // Set view to the extent of the feature loaded
+      map.once('loadend', () => {
+        map.getView().fit(landBoundarySource.getExtent(), { padding: [10, 10, 10, 10] })
+      })
     }
   )()
 }
