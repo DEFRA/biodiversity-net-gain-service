@@ -45,7 +45,6 @@ describe(url, () => {
     // })
 
     it('should allow confirmation that the correct metric file has been uploaded', done => {
-      postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.YES
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -53,14 +52,18 @@ describe(url, () => {
           redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
           redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData.startPage)
           const request = {
-            yar: redisMap
+            yar: redisMap,
+            payload: {
+              checkUploadMetric: constants.confirmLandBoundaryOptions.YES
+            }
           }
           const h = {
-            view: (view) => {
+
+            redirect: (view) => {
               viewResult = view
             }
           }
-          await confirmDevelopmentDetails.default[0].handler(request, h)
+          await confirmDevelopmentDetails.default[1].handler(request, h)
           expect(viewResult).toEqual(url.substring(url.indexOf('/') + 1))
           done()
         } catch (err) {
