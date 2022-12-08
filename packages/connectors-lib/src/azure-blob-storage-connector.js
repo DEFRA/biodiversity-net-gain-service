@@ -13,8 +13,21 @@ const deleteBlobIfExists = async config => {
   const options = {
     deleteSnapshots: 'include'
   }
-  const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
-  return blockBlobClient.deleteIfExists(options)
+
+  // Defect BNGP-1738
+  // Networking in the official environments appears to conflict with Microsoft Azure code used to construct
+  // a BlockBlobClent involving a null value. This problem does not occur when connecting to Azurite or
+  // Microsoft Azure blob storage directly.
+  if (config.containerName !== null &&
+      config.containerName !== undefined &&
+      config.blobName !== null &&
+      config.blobName !== undefined) {
+    const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
+    return blockBlobClient.deleteIfExists(options)
+  } else {
+    // The blob cannot exist.
+    return Promise.resolve(false)
+  }
 }
 
 const downloadStreamIfExists = async (logger, config) => {
