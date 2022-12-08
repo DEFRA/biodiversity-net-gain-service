@@ -1,7 +1,13 @@
 import processTrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 import { BlobBufferError, CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
-jest.mock('@defra/bng-connectors-lib')
+import { Readable } from 'stream'
+import { blobExists, recreateContainers } from '@defra/bng-azure-storage-test-utils'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { logger } from 'defra-logging-facade'
+import BngExtractionService from '@defra/bng-metric-service/src/BngMetricExtractionService.js'
+import fs from 'fs'
+// jest.mock('@defra/bng-connectors-lib')
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
@@ -112,19 +118,6 @@ describe('Trusted file processing', () => {
     })
   })
 
-  it.skip('should extract developer metric data. ', done => {
-    const config = {
-      expectedSignalRMessageArguments: [{
-        uploadType: 'developer-metric-extraction',
-        location: '3f71693c-3b1b-448c-827c-0ee181d49929/metric-upload/metric-file.xlsx',
-        containerName: 'trusted'
-      }],
-      fileExtension: METRIC_FILE_EXTENSION,
-      processDeveloperMetricExtractionFunction: throwCoordinateSystemValidationError
-    }
-    performDeveloperMetricExtractionTest(config, done)
-  })
-
   it('should respond while extacting metric data if blob not exists. ', done => {
     const config = {
       expectedSignalRMessageArguments: [{
@@ -134,6 +127,52 @@ describe('Trusted file processing', () => {
       processDeveloperMetricExtractionFunction: throwBlobNotExistsError
     }
     performDeveloperMetricExtractionFailedTest(config, done)
+  })
+
+  describe('Processing developer metric extraction', () => {
+    const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-file.xlsx'
+    const userId = 'mock-session-id'
+    const filenameRoot = 'metric-file'
+    const filename = `${filenameRoot}${METRIC_FILE_EXTENSION}`
+    const config = {
+      blobConfig: {
+        containerName: 'trusted',
+        blobName: mockDataPath
+      },
+      expectedSignalRMessage: {
+        arguments: [{
+          userId,
+          target: `Processed ${filename}`,
+          metricData: {
+            projectName: 'mock project',
+            projectAuthority: 'mock authority'
+          }
+        }]
+      }
+    }
+
+    beforeEach(async () => {
+      await recreateContainers()
+    })
+
+    it('should extract metric file data', async () => {
+      const readStream = fs.createReadStream(mockDataPath)
+      await blobStorageConnector.uploadStream(config.blobConfig, readStream)
+      await expect(blobExists(config.blobConfig.containerName, config.blobConfig.blobName)).resolves.toStrictEqual(true)
+      const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config.blobConfig)
+      expect(buffer).toBeDefined()
+
+      await processTrustedFile(getContext(), {
+        uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+        location: mockDataPath,
+        containerName: 'trusted'
+      })
+
+      const readableStream = Readable.from(buffer)
+      const extractService = new BngExtractionService()
+      const metricData = await extractService.extractMetricContent(readableStream)
+      expect(metricData).toBeDefined()
+    })
   })
 })
 
@@ -361,20 +400,6 @@ const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
   })
 }
 
-const performDeveloperMetricExtractionTest = (config, done) => {
-  jest.isolateModules(async () => {
-    try {
-      const testConfig = buildConfig(config.fileExtension, DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE)
-      testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
-
-      await processTrustedFile(getContext(), testConfig.message)
-      expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
-      done()
-    } catch (e) {
-      done(e)
-    }
-  })
-}
 const performDeveloperMetricExtractionFailedTest = (config, done) => {
   jest.isolateModules(async () => {
     try {
