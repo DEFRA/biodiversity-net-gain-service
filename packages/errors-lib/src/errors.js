@@ -2,7 +2,7 @@ import CoordinateSystemValidationError from './coordinate-system-validation-erro
 import ThreatScreeningError from './threat-screening-error.js'
 import UploadTypeValidationError from './upload-type-validation-error.js'
 import ValidationError from './validation-error.js'
-import BlobBufferError from './blob-buffer-error.js'
+import MetricExtractionError from './metric-extraction-error.js'
 
 const INVALID_COORDINATE_SYSTEM = 'INVALID-COORDINATE-SYSTEM'
 const INVALID_FEATURE_COUNT = 'INVALID-FEATURE-COUNT'
@@ -20,4 +20,4 @@ const uploadGeospatialLandBoundaryErrorCodes = Object.freeze({
   BUFFER_NOT_EXISTS
 })
 
-export { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, BlobBufferError }
+export { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, MetricExtractionError }
