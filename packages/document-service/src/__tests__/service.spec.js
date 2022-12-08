@@ -22,8 +22,11 @@ describe('The document service', () => {
         uploadFunction: jest.fn()
       }
     }
-    await extractMetric(logger, config)
-    expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {})
+
+    const documentStream = Readable.from('mock document')
+    await uploadDocument(logger, config, documentStream)
+    // The upload function should have been called after the upload function has been removed from the configuration.
+    expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {}, documentStream)
   })
 
   it('should extract metric', async () => {
@@ -35,11 +38,8 @@ describe('The document service', () => {
         extractMetricFunction: jest.fn()
       }
     }
-
-    const documentStream = Readable.from('mock document')
-    await uploadDocument(logger, config, documentStream)
-    // The upload function should have been called after the upload function has been removed from the configuration.
-    expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {}, documentStream)
+    await extractMetric(logger, config)
+    expect(config.functionConfig.extractMetricFunction).toHaveBeenCalledWith(logger, {})
   })
 
   describe('threat screening', () => {
