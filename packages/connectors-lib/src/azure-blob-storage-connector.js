@@ -18,7 +18,6 @@ const deleteBlobIfExists = async config => {
   // Networking in the official environments appears to conflict with Microsoft Azure code used to construct
   // a BlockBlobClent involving a null value. This problem does not occur when connecting to Azurite or
   // Microsoft Azure blob storage directly.
-  console.log(`config is **${JSON.stringify(config)}**`)
   if (config.containerName !== null &&
       config.containerName !== undefined &&
       config.blobName !== null &&
@@ -26,7 +25,6 @@ const deleteBlobIfExists = async config => {
     const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
     return blockBlobClient.deleteIfExists(options)
   } else {
-    console.log('Bypassing deletion attempt as blob cannot exist')
     // The blob cannot exist.
     return Promise.resolve(false)
   }
