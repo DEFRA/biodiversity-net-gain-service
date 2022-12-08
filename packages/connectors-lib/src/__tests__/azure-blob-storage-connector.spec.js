@@ -122,4 +122,32 @@ describe('The Azure blob storage connector', () => {
     expect(targetBuffer).toBeDefined()
     expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
   })
+  it('should not attempt to delete a blob with a null container name', async () => {
+    const config = {
+      containerName: null,
+      blobName: 'mockBlob'
+    }
+    await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
+  it('should not attempt to delete a blob with a null blob name', async () => {
+    const config = {
+      containerName: 'mockContainer',
+      blobName: null
+    }
+    await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
+  it('should not attempt to delete a blob with an undefined container name', async () => {
+    const config = {
+      containerName: undefined,
+      blobName: 'mockBlob'
+    }
+    await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
+  it('should not attempt to delete a blob with an undefined blob name', async () => {
+    const config = {
+      containerName: 'mockContainer',
+      blobName: undefined
+    }
+    await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
 })
