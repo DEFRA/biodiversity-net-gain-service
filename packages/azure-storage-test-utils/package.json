@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-azure-storage-test-utils",
-  "version": "0.37.0",
+  "version": "0.37.2",
   "type": "module",
   "description": "Azure storage related test utilities for Biodiversity Net Gain",
   "main": "src/main.js",
