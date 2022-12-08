@@ -1,4 +1,4 @@
-import { screenDocumentForThreats, uploadDocument } from '../service.js'
+import { extractMetric, screenDocumentForThreats, uploadDocument } from '../service.js'
 import axios from 'axios'
 import fs from 'fs'
 import { Readable } from 'stream'
@@ -20,6 +20,19 @@ describe('The document service', () => {
     const config = {
       functionConfig: {
         uploadFunction: jest.fn()
+      }
+    }
+    await extractMetric(logger, config)
+    expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {})
+  })
+
+  it('should extract metric', async () => {
+    const logger = {
+      log: jest.fn()
+    }
+    const config = {
+      functionConfig: {
+        extractMetricFunction: jest.fn()
       }
     }
 
