@@ -1,12 +1,11 @@
 import Session from '../helpers/session.js'
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../developer/confirm-development-details.js'
 
 jest.mock('@defra/bng-connectors-lib')
 
 const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
-const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const mockMetricData = {
   startPage: {
     planningAuthority: 'Your District Council ',
@@ -28,34 +27,8 @@ const mockMetricData = {
 
 describe(url, () => {
   describe('GET', () => {
-    let redisMap
-    const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
-    beforeEach(() => {
-      redisMap = new Map()
-    })
-
-    it('It should download the mocked metric file data from blobStorageConnector', done => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult
-          const confirmDevelopmentDetails = require('../../developer/confirm-development-details.js')
-          redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
-          // redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
-          const request = {
-            yar: redisMap
-          }
-          const h = {
-            view: (view) => {
-              viewResult = view
-            }
-          }
-          await confirmDevelopmentDetails.default[0].handler(request, h)
-          expect(viewResult).toEqual(url.substring(url.indexOf('/') + 1))
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
     })
   })
 
