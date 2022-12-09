@@ -1,0 +1,56 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Do you have proof of ownership for the land?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "landOwnership",
+          name: "landOwnership",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "<span class='govuk-!-display-block govuk-hint'>You'll need to upload a proof of ownership document. We'll use this to check who owns the land where the biodiversity gain site is.</span>
+                   <span class='govuk-!-display-block govuk-hint'>Documents we'll accept as proof are, a copy of the:</span>
+                    <ul class='govuk-list govuk-list--bullet app-secondary-text-colour'>
+                      <li>title deeds - the title register and the title plan</li>
+                      <li>lease agreement - as long as it covers the duration of the legal agreement that secures the biodiversity gain site</li>
+                    </ul>"
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes",
+              checked: checked(landOwnership, "Yes")
+            },
+            {
+              value: "No",
+              text: "No",
+              checked: checked(landOwnership, "No")
+            },
+            {
+              value: "Not sure",
+              text: "I'm not sure",
+              checked: checked(landOwnership, "Not sure")
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

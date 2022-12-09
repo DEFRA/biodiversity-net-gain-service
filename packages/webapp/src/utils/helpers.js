@@ -143,6 +143,21 @@ const getLegalAgreementParties = legalAgreementParties => {
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
 
+const getEligibilityResults = (session) => {
+  const eligibilityResults = {
+    Yes: [],
+    No: [],
+    'Not sure': []
+  }
+  session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY)].push(constants.redisKeys.ELIGIBILITY_BOUNDARY)
+  session.get(constants.redisKeys.ELIGIBILITY_CONSENT) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_CONSENT)].push(constants.redisKeys.ELIGIBILITY_CONSENT)
+  session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)].push(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)
+  session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)].push(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)
+  session.get(constants.redisKeys.ELIGIBILITY_HMMP) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_HMMP)].push(constants.redisKeys.ELIGIBILITY_HMMP)
+  session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) && eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
+  return eligibilityResults
+}
+
 export {
   validateDate,
   dateClasses,
@@ -157,5 +172,6 @@ export {
   getAllLandowners,
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
-  checked
+  checked,
+  getEligibilityResults
 }

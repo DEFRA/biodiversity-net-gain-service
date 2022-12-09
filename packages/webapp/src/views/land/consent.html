@@ -1,0 +1,52 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Do you have consent to register the biodiversity gain site?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "consent",
+          name: "consent",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "<span class='govuk-!-display-block govuk-hint'>You'll need the consent of all landowners listed on the title register for the land.</span>
+                   <span class='govuk-!-display-block govuk-hint'>You could be prosecuted or have to pay a fine if you register a biodiversity gain site without the landowners' consent.</span>"
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes",
+              checked: checked(consent, "Yes")
+            },
+            {
+              value: "No",
+              text: "No",
+              checked: checked(consent, "No")
+            },
+            {
+              value: "Not sure",
+              text: "I'm not sure",
+              checked: checked(consent, "Not sure")
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

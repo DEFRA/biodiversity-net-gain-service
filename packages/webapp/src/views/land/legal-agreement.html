@@ -1,0 +1,51 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Do you have a legal agreement securing your biodiversity gain site?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "legalAgreement",
+          name: "legalAgreement",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "You will need to secure your site with either a <a href='https://www.gov.uk/guidance/planning-obligations'>planning obligation (S106 agreement)</a> or a <a href='https://www.gov.uk/guidance/getting-and-using-a-conservation-covenant-agreement'>conservation covenant</a>, for at least 30 years."
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes",
+              checked: checked(legalAgreement, "Yes")
+            },
+            {
+              value: "No",
+              text: "No",
+              checked: checked(legalAgreement, "No")
+            },
+            {
+              value: "Not sure",
+              text: "I'm not sure",
+              checked: checked(legalAgreement, "Not sure")
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

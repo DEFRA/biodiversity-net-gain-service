@@ -1,0 +1,58 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Do you have a file that shows the boundary of the biodiversity gain site?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "boundary",
+          name: "boundary",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "<span class='govuk-!-display-block govuk-hint'>Do you have a file showing the boundary of the biodiversity gain site?</span>
+                   <span class='govuk-!-display-block govuk-hint'>You can upload a:</span>
+                   <ul class='govuk-list govuk-list--bullet app-secondary-text-colour'>
+                    <li>document</li>
+                    <li>image</li>
+                    <li>geospatial file</li>
+                  </ul>
+                  <span class='govuk-!-display-block govuk-hint'>If you upload a document or image you also need to know the grid reference and area in hectares.</span>"
+          },
+          items: [
+            {
+              value: "Yes",
+              text: "Yes",
+              checked: checked(boundary, "Yes")
+            },
+            {
+              value: "No",
+              text: "No",
+              checked: checked(boundary, "No")
+            },
+            {
+              value: "I'm not sure",
+              text: "I'm not sure",
+              checked: checked(boundary, "I'm not sure")
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'form-layout.html' %}
+
+{% if eligibilityResults.Yes | length === 6 %}
+{% set pageHeading = "You have everything you need to register" %}
+{% else %}
+{% set pageHeading = "You do not have everything you need to register" %}
+{% endif %}
+
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        {% if eligibilityResults.Yes | length === 6 %}
+ 
+          <p>Continue to add the biodiversity gain site information and submit your registration.</p>
+
+        {% else %}
+
+          {% if eligibilityResults.Yes | length > 0 %}
+            <p>You have:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              {% for item in eligibilityResults.Yes %}
+                {{ eligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if eligibilityResults.No | length > 0 %}
+            <p>You do not have:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              {% for item in eligibilityResults.No %}
+                {{ eligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if eligibilityResults["Not sure"] | length > 0 %}
+          <p>You're not sure if you have:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              {% for item in eligibilityResults["Not sure"] %}
+                {{ eligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="govuk-inset-text">You can continue to register a biodiversity gain site but you will not be able to submit it until you have everything.</div>
+          
+        {% endif %}
+
+        {{ govukButton({
+          text: "Continue",
+          href: "/land/name"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

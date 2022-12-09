@@ -131,6 +131,16 @@ const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
+const ELIGIBILITY_CHECK_YOU_CAN_REGISTER = 'land/check-you-can-register'
+const ELIGIBILITY_SITE_IN_ENGLAND = 'land/site-in-england'
+const ELIGIBILITY_CANNOT_CONTINUE = 'land/cannot-continue'
+const ELIGIBILITY_CONSENT = 'land/consent'
+const ELIGIBILITY_LEGAL_AGREEMENT = 'land/legal-agreement'
+const ELIGIBILITY_OWNERSHIP_PROOF = 'land/ownership-proof'
+const ELIGIBILITY_BOUNDARY = 'land/boundary'
+const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
+const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
+const ELIGIBILITY_RESULTS = 'land/results'
 
 const confirmFileUploadOptions = {
   NO,
@@ -260,7 +270,14 @@ const redisKeys = {
   METRIC_UPLOADED_ANSWER,
   REFERER,
   EMAIL_VALUE,
-  CONFIRM_EMAIL
+  CONFIRM_EMAIL,
+  ELIGIBILITY_SITE_IN_ENGLAND,
+  ELIGIBILITY_CONSENT,
+  ELIGIBILITY_LEGAL_AGREEMENT,
+  ELIGIBILITY_OWNERSHIP_PROOF,
+  ELIGIBILITY_BOUNDARY,
+  ELIGIBILITY_BIODIVERSITY_METRIC,
+  ELIGIBILITY_HMMP
 }
 
 const routes = {
@@ -317,7 +334,17 @@ const routes = {
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
   EMAIL,
-  CORRECT_EMAIL
+  CORRECT_EMAIL,
+  ELIGIBILITY_CHECK_YOU_CAN_REGISTER,
+  ELIGIBILITY_SITE_IN_ENGLAND,
+  ELIGIBILITY_CANNOT_CONTINUE,
+  ELIGIBILITY_CONSENT,
+  ELIGIBILITY_LEGAL_AGREEMENT,
+  ELIGIBILITY_OWNERSHIP_PROOF,
+  ELIGIBILITY_BOUNDARY,
+  ELIGIBILITY_BIODIVERSITY_METRIC,
+  ELIGIBILITY_HMMP,
+  ELIGIBILITY_RESULTS
 }
 
 const uploadErrors = {
@@ -343,6 +370,15 @@ const uploadTypes = {
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
   LAND_OWNERSHIP_UPLOAD_TYPE
+}
+
+const eligibilityHTML = {
+  [ELIGIBILITY_BOUNDARY]: '<li>the boundary of the land</li>',
+  [ELIGIBILITY_CONSENT]: '<li>consent from the landowner</li>',
+  [ELIGIBILITY_OWNERSHIP_PROOF]: '<li>proof of ownership of the land</li>',
+  [ELIGIBILITY_BIODIVERSITY_METRIC]: '<li>a completed Biodiversity metric (Secretary of State version) for the land</li>',
+  [ELIGIBILITY_HMMP]: '<li>a habitat management and monitoring plan</li>',
+  [ELIGIBILITY_LEGAL_AGREEMENT]: '<li>a legal agreement securing the habitat enhancements for 30 years</li>'
 }
 
 // setReferer contain routes that can be set as a referer for a user
@@ -390,5 +426,6 @@ export default Object.freeze({
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,
-  LEGAL_AGREEMENT_DOCUMENTS
+  LEGAL_AGREEMENT_DOCUMENTS,
+  eligibilityHTML
 })
