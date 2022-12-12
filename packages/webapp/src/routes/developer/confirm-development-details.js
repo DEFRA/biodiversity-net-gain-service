@@ -39,8 +39,7 @@ const handlers = {
 }
 
 const getContext = request => {
-  const startPage = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  return startPage
+  return request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
 }
 
 export default [{

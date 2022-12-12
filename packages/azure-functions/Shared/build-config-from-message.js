@@ -8,24 +8,20 @@ const buildConfigFromMessage = message => {
   const filename = path.basename(fileLocation, fileExtension)
 
   let _config
-  switch (message.uploadType) {
-    case constants.uploadTypes.DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE:
-      _config = {
-        containerName: message.containerName,
-        blobName: message.location
+  if (message.uploadType === constants.uploadTypes.DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE) {
+    _config = {
+      containerName: message.containerName,
+      blobName: message.location
+    }
+  } else {
+    _config = {
+      fileConfig: {
+        fileLocation,
+        fileExtension,
+        fileDirectory,
+        filename
       }
-      break
-
-    default:
-      _config = {
-        fileConfig: {
-          fileLocation,
-          fileExtension,
-          fileDirectory,
-          filename
-        }
-      }
-      break
+    }
   }
 
   return Object.freeze({

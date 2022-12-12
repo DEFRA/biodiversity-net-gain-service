@@ -34,6 +34,7 @@ const addMetricDetailsToConfiguration = async (config, logger) => {
     containerName: config.blobConfig.containerName,
     location: config.blobConfig.blobName
   }
+  logger.log(`${new Date().toUTCString()} ${config.blobConfig.blobName} Metric details captured`)
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
