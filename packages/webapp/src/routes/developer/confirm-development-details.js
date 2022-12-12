@@ -38,9 +38,7 @@ const handlers = {
   }
 }
 
-const getContext = request => {
-  return request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-}
+const getContext = request => request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
 
 export default [{
   method: 'GET',
