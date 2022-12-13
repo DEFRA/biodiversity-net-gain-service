@@ -10,7 +10,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '@defra/bng-connectors-lib/azure-storage': '<rootDir>/node_modules/@defra/bng-azure-storage-test-utils/node_modules/@defra/bng-connectors-lib/src/helpers/azure-storage.js',
-    '@defra/bng-metric-service': '<rootDir>/node_modules/@defra/bng-metric-service/src/BngMetricExtractionService.js'
+    '@defra/bng-metric-service': '<rootDir>/node_modules/@defra/bng-metric-service/src/service.js'
   },
   setupFiles: ['<rootDir>/.jest/test.env.js'],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.js'],

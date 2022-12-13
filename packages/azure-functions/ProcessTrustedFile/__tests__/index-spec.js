@@ -1,13 +1,11 @@
 import processTrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
-import { BlobBufferError, CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { Readable } from 'stream'
-import { blobExists, recreateContainers } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import { logger } from 'defra-logging-facade'
-import BngExtractionService from '@defra/bng-metric-service/src/BngMetricExtractionService.js'
 import fs from 'fs'
-// jest.mock('@defra/bng-connectors-lib')
+jest.mock('@defra/bng-connectors-lib')
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
@@ -15,6 +13,13 @@ const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
+
+const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
+const mockDownloadStreamIfExists = async (config, context) => {
+  const readStream = fs.createReadStream(mockDataPath)
+  const readableStream = Readable.from(readStream)
+  return readableStream
+}
 
 describe('Trusted file processing', () => {
   it('should process a known geospatial upload type in a compressed file.', done => {
@@ -117,61 +122,52 @@ describe('Trusted file processing', () => {
       }
     })
   })
+})
 
-  it('should respond while extacting metric data if blob not exists. ', done => {
-    const config = {
-      expectedSignalRMessageArguments: [{
-        errorCode: 'BUFFER-NOT-EXISTS'
-      }],
-      fileExtension: METRIC_FILE_EXTENSION,
-      processDeveloperMetricExtractionFunction: throwBlobNotExistsError
-    }
-    performDeveloperMetricExtractionFailedTest(config, done)
+describe('Processing developer metric extraction', () => {
+  beforeEach(async () => {
+    await recreateContainers()
   })
 
-  describe('Processing developer metric extraction', () => {
-    const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-file.xlsx'
-    const userId = 'mock-session-id'
-    const filenameRoot = 'metric-file'
-    const filename = `${filenameRoot}${METRIC_FILE_EXTENSION}`
-    const config = {
-      blobConfig: {
-        containerName: 'trusted',
-        blobName: mockDataPath
-      },
-      expectedSignalRMessage: {
-        arguments: [{
-          userId,
-          target: `Processed ${filename}`,
-          metricData: {
-            projectName: 'mock project',
-            projectAuthority: 'mock authority'
-          }
-        }]
+  it('should extract metric file data', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+
+        blobStorageConnector.downloadToBufferIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'trusted'
+        })
+        await expect(blobStorageConnector.downloadToBufferIfExists).toHaveBeenCalled()
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
+        done()
+      } catch (e) {
+        done(e)
       }
-    }
-
-    beforeEach(async () => {
-      await recreateContainers()
     })
+  })
 
-    it('should extract metric file data', async () => {
-      const readStream = fs.createReadStream(mockDataPath)
-      await blobStorageConnector.uploadStream(config.blobConfig, readStream)
-      await expect(blobExists(config.blobConfig.containerName, config.blobConfig.blobName)).resolves.toStrictEqual(true)
-      const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config.blobConfig)
-      expect(buffer).toBeDefined()
+  it('should throw exception if not extracted data', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
 
-      await processTrustedFile(getContext(), {
-        uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
-        location: mockDataPath,
-        containerName: 'trusted'
-      })
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'unknown'
+        })
 
-      const readableStream = Readable.from(buffer)
-      const extractService = new BngExtractionService()
-      const metricData = await extractService.extractMetricContent(readableStream)
-      expect(metricData).toBeDefined()
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].errorCode).toBe('BUFFER-NOT-EXISTS')
+        done()
+      } catch (e) {
+        done(e)
+      }
     })
   })
 })
@@ -373,11 +369,6 @@ const throwValidationError = testConfig => {
   throw new ValidationError(errorCode)
 }
 
-const throwBlobNotExistsError = testConfig => {
-  const errorCode = testConfig.expectedSignalRMessage.arguments[0].errorCode
-  throw new BlobBufferError(errorCode)
-}
-
 const throwError = testConfig => {
   const errorMessage = testConfig.expectedSignalRMessage.arguments[0].errorMessage
   throw new Error(errorMessage)
@@ -394,29 +385,6 @@ const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
         expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
         done()
       })
-    } catch (e) {
-      done(e)
-    }
-  })
-}
-
-const performDeveloperMetricExtractionFailedTest = (config, done) => {
-  jest.isolateModules(async () => {
-    try {
-      jest.mock('@defra/bng-metric-service')
-      const testConfig = buildConfig(config.fileExtension, DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE)
-      testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
-      testConfig.message.containerName = 'unknown'
-
-      const BngExtractionService = await import('@defra/bng-metric-service')
-      BngExtractionService.extractMetricContent = jest.fn().mockImplementation(async (logger, config) => {
-        config.processDeveloperMetricExtractionFunction(testConfig)
-      })
-
-      await processTrustedFile(getContext(), testConfig.message)
-
-      expect(getContext().bindings.signalRMessages[0].arguments).toStrictEqual(testConfig.expectedSignalRMessage.arguments)
-      done()
     } catch (e) {
       done(e)
     }

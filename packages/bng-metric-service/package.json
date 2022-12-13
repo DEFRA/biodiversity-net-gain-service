@@ -5,6 +5,7 @@
   "description": "Bio diversity data extractor",
   "type": "module",
   "module": "commonjs",
+  "main": "src/service.js",
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "lint": "standard"
