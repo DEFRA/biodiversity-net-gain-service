@@ -17,17 +17,17 @@ describe(url, () => {
       }
     })
     it('Should continue journey to ELGIBILITY_CONSENT if yes is chosen', async () => {
-      postOptions.payload.inEngland = 'Yes'
+      postOptions.payload.inEngland = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_CONSENT)
     })
     it('Should continue journey to ELIGIBILITY_CANNOT_CONTINUE if no is chosen', async () => {
-      postOptions.payload.inEngland = 'No'
+      postOptions.payload.inEngland = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_CANNOT_CONTINUE)
     })
     it('Should continue journey to ELIGIBILITY_CANNOT_CONTINUE if not sure is chosen', async () => {
-      postOptions.payload.inEngland = 'Not sure'
+      postOptions.payload.inEngland = 'not sure'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_CANNOT_CONTINUE)
     })

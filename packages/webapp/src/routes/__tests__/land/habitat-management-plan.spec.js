@@ -17,17 +17,17 @@ describe(url, () => {
       }
     })
     it('Should continue journey to ELIGIBILITY_RESULTS if yes is chosen', async () => {
-      postOptions.payload.hmmp = 'Yes'
+      postOptions.payload.hmmp = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_RESULTS)
     })
     it('Should continue journey to ELIGIBILITY_RESULTS if no is chosen', async () => {
-      postOptions.payload.hmmp = 'No'
+      postOptions.payload.hmmp = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_RESULTS)
     })
     it('Should continue journey to ELIGIBILITY_RESULTS if not sure is chosen', async () => {
-      postOptions.payload.hmmp = 'Not sure'
+      postOptions.payload.hmmp = 'not sure'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_RESULTS)
     })

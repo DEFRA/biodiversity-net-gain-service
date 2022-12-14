@@ -17,17 +17,17 @@ describe(url, () => {
       }
     })
     it('Should continue journey to ELIGIBILITY_LEGAL_AGREEMENT if yes is chosen', async () => {
-      postOptions.payload.consent = 'Yes'
+      postOptions.payload.consent = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_LEGAL_AGREEMENT)
     })
     it('Should continue journey to ELIGIBILITY_LEGAL_AGREEMENT if no is chosen', async () => {
-      postOptions.payload.consent = 'No'
+      postOptions.payload.consent = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_LEGAL_AGREEMENT)
     })
     it('Should continue journey to ELIGIBILITY_LEGAL_AGREEMENT if not sure is chosen', async () => {
-      postOptions.payload.consent = 'Not sure'
+      postOptions.payload.consent = 'not sure'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_LEGAL_AGREEMENT)
     })

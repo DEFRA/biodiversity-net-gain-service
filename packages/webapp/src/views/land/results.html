@@ -15,34 +15,34 @@
           {{ pageHeading }}
         </h1>
 
-        {% if eligibilityResults.Yes | length === 6 %}
+        {% if eligibilityResults.yes | length === 6 %}
  
           <p>Continue to add the biodiversity gain site information and submit your registration.</p>
 
         {% else %}
 
-          {% if eligibilityResults.Yes | length > 0 %}
+          {% if eligibilityResults.yes | length > 0 %}
             <p>You have:</p>
             <ul class="govuk-list govuk-list--bullet">
-              {% for item in eligibilityResults.Yes %}
+              {% for item in eligibilityResults.yes %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
             </ul>
           {% endif %}
 
-          {% if eligibilityResults.No | length > 0 %}
+          {% if eligibilityResults.no | length > 0 %}
             <p>You do not have:</p>
             <ul class="govuk-list govuk-list--bullet">
-              {% for item in eligibilityResults.No %}
+              {% for item in eligibilityResults.no %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
             </ul>
           {% endif %}
 
-          {% if eligibilityResults["Not sure"] | length > 0 %}
+          {% if eligibilityResults["not sure"] | length > 0 %}
           <p>You're not sure if you have:</p>
             <ul class="govuk-list govuk-list--bullet">
-              {% for item in eligibilityResults["Not sure"] %}
+              {% for item in eligibilityResults["not sure"] %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
             </ul>

@@ -21,7 +21,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.ELIGIBILITY_SITE_IN_ENGLAND, inEngland)
-    if (inEngland === 'Yes') {
+    if (inEngland === 'yes') {
       return h.redirect(constants.routes.ELIGIBILITY_CONSENT)
     } else {
       return h.redirect(constants.routes.ELIGIBILITY_CANNOT_CONTINUE)

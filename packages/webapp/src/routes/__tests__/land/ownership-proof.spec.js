@@ -17,17 +17,17 @@ describe(url, () => {
       }
     })
     it('Should continue journey to ELIGIBILITY_OWNERSHIP_PROOF if yes is chosen', async () => {
-      postOptions.payload.landOwnership = 'Yes'
+      postOptions.payload.landOwnership = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BOUNDARY)
     })
     it('Should continue journey to ELIGIBILITY_OWNERSHIP_PROOF if no is chosen', async () => {
-      postOptions.payload.landOwnership = 'No'
+      postOptions.payload.landOwnership = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BOUNDARY)
     })
     it('Should continue journey to ELIGIBILITY_OWNERSHIP_PROOF if not sure is chosen', async () => {
-      postOptions.payload.landOwnership = 'Not sure'
+      postOptions.payload.landOwnership = 'not sure'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BOUNDARY)
     })

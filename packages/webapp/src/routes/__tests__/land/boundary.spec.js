@@ -17,17 +17,17 @@ describe(url, () => {
       }
     })
     it('Should continue journey to ELIGIBILITY_BIODIVERSITY_METRIC if yes is chosen', async () => {
-      postOptions.payload.boundary = 'Yes'
+      postOptions.payload.boundary = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BIODIVERSITY_METRIC)
     })
     it('Should continue journey to ELIGIBILITY_BIODIVERSITY_METRIC if no is chosen', async () => {
-      postOptions.payload.boundary = 'No'
+      postOptions.payload.boundary = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BIODIVERSITY_METRIC)
     })
     it('Should continue journey to ELIGIBILITY_BIODIVERSITY_METRIC if not sure is chosen', async () => {
-      postOptions.payload.boundary = 'Not sure'
+      postOptions.payload.boundary = 'not sure'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.ELIGIBILITY_BIODIVERSITY_METRIC)
     })

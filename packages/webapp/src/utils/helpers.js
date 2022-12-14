@@ -145,9 +145,9 @@ const checked = (selectedVal, val) => selectedVal === val
 
 const getEligibilityResults = session => {
   const eligibilityResults = {
-    Yes: [],
-    No: [],
-    'Not sure': []
+    yes: [],
+    no: [],
+    'not sure': []
   }
   session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY) &&
     eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY)].push(constants.redisKeys.ELIGIBILITY_BOUNDARY)
