@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% if eligibilityResults.Yes | length === 6 %}
+{% if eligibilityResults.yes | length === 6 %}
 {% set pageHeading = "You have everything you need to register" %}
 {% else %}
 {% set pageHeading = "You do not have everything you need to register" %}
