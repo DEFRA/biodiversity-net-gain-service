@@ -1,9 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import BngMetricSingleDataExtractor from '../src/helpers/extractors/bng-metric-single-data-extractor.js'
-import {
-  habitatBaselineExtractionConfig, startExtractionConfig
-} from '../src/helpers/extractors/extractionconfig/configuration.js'
+import BngMetricSingleDataExtractor from '../src/helpers/extractors/BngMetricSingleDataExtractor.js'
+import bngMetricService from '../src/service.js'
 
 describe('BNG data extractor test', () => {
   let readableStream, bngMetricDataExtractor
@@ -15,7 +13,7 @@ describe('BNG data extractor test', () => {
   })
 
   it('should be transfer excel stream to json for start', async () => {
-    const response = await bngMetricDataExtractor.extractContent(readableStream, { start: startExtractionConfig })
+    const response = await bngMetricDataExtractor.extractContent(readableStream, { start: bngMetricService.extractionConfiguration.startExtractionConfig })
     expect(response).not.toBeFalsy()
     expect(response.start.projectName).toBe('Metric extraction Project')
     expect(response.start.applicant).toBe('A Developer')
@@ -30,7 +28,7 @@ describe('BNG data extractor test', () => {
   })
 
   it('should transform excel stream to json for A-1 Site Habitat Baseline', async () => {
-    const response = await bngMetricDataExtractor.extractContent(readableStream, { habitatBaseline: habitatBaselineExtractionConfig })
+    const response = await bngMetricDataExtractor.extractContent(readableStream, { habitatBaseline: bngMetricService.extractionConfiguration.habitatBaselineExtractionConfig })
     expect(response).not.toBeFalsy()
     expect(response.habitatBaseline.length).toBe(249)
     expect(response.habitatBaseline[0]['Broad habitat']).toBe('Grassland')

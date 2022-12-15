@@ -63,7 +63,7 @@ describe(url, () => {
           session.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData.startPage)
           session.set('filename', constants.redisKeys.METRIC_LOCATION)
           const payload = {
-            confirmDevDetails: 'yes'
+            confirmDevDetails: constants.CONFIRM_DEVELOPMENT_DETAILS.YES
           }
           let viewArgs = ''
           let redirectArgs = ''

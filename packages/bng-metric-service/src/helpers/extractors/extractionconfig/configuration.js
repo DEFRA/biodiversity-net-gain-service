@@ -6,7 +6,7 @@ const areaHectares = 'Area (hectares)'
 const habitatUnitsDelivered = 'Habitat units delivered'
 const strategicSignificance = 'Strategic significance'
 
-export const startExtractionConfig = {
+const startExtractionConfig = {
   sheetName: 'Start',
   titleCellAddress: 'D9',
   startCell: 'D10',
@@ -24,7 +24,7 @@ const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 
   'Score', 'Condition ', 'Score', 'Condition', 'Score_1', strategicSignificance,
   'Strategic significance_1', 'Strategic Significance multiplier', 'Total habitat units',
   'Baseline units retained', 'Baseline units enhanced', 'Area lost', 'Units lost']
-export const habitatBaselineExtractionConfig = {
+const habitatBaselineExtractionConfig = {
   sheetName: 'A-1 Site Habitat Baseline',
   titleCellAddress: 'D3',
   startCell: 'D10',
@@ -37,3 +37,5 @@ export const habitatBaselineExtractionConfig = {
     __EMPTY_4: habitatUnitsDelivered
   }
 }
+
+export default { startExtractionConfig, habitatBaselineExtractionConfig }

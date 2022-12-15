@@ -1,14 +1,8 @@
-import { habitatBaselineExtractionConfig, startExtractionConfig } from './extractors/extractionconfig/configuration.js'
-import BngMetricSingleDataExtractor from './extractors/bng-metric-single-data-extractor.js'
+import BngMetricSingleDataExtractor from './extractors/BngMetricSingleDataExtractor.js'
 
-const extractMetricContent = contentInputStream => {
+const extractMetricContent = (contentInputStream, options) => {
   const bngSingleExtractor = new BngMetricSingleDataExtractor()
-  const extractionConfiguration = {
-    startPage: startExtractionConfig,
-    siteHabitatBaseline: habitatBaselineExtractionConfig
-  }
-
-  return bngSingleExtractor.extractContent(contentInputStream, extractionConfiguration)
+  return bngSingleExtractor.extractContent(contentInputStream, options.extractionConfiguration)
 }
 
 export default extractMetricContent

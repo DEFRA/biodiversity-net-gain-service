@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import extractMetricContent from '../src/helpers/bng-metric-extraction-service.js'
-jest.mock('../src/service.js')
+import bngMetricService from '../src/service.js'
 
 describe('BNG data extrator service test', () => {
   let readableStream
@@ -12,9 +12,13 @@ describe('BNG data extrator service test', () => {
   })
 
   it('must extract all the configured excel sheets in a biodiversity metric file', async () => {
-    // const spy = jest.spyOn(bngMetricService, 'extractMetricContent').mockImplementation(contentInputStream => {})
-    const response = await extractMetricContent(readableStream)
+    const options = {
+      extractionConfiguration: {
+        startPage: bngMetricService.extractionConfiguration.startExtractionConfig,
+        siteHabitatBaseline: bngMetricService.extractionConfiguration.habitatBaselineExtractionConfig
+      }
+    }
+    const response = await extractMetricContent(readableStream, options)
     expect(Object.keys(response).length).toBe(2)
-    // expect(spy).toHaveBeenCalled()
   })
 })

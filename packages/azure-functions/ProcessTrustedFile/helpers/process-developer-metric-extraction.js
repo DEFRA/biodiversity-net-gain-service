@@ -14,7 +14,11 @@ export default async function (context, config) {
     const buffer = await blobStorageConnector.downloadToBufferIfExists(context, blobConfig)
     if (buffer) {
       const readableStream = Readable.from(buffer)
-      metricData = await bngMetricService.extractMetricContent(readableStream)
+      const extractionConfiguration = {
+        startPage: bngMetricService.extractionConfiguration.startExtractionConfig,
+        siteHabitatBaseline: bngMetricService.extractionConfiguration.habitatBaselineExtractionConfig
+      }
+      metricData = await bngMetricService.extractMetricContent(readableStream, { extractionConfiguration })
     } else {
       throw new MetricExtractionError(uploadGeospatialLandBoundaryErrorCodes.BUFFER_NOT_EXISTS, 'Blob not exists')
     }
