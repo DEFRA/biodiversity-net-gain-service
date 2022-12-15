@@ -60,6 +60,7 @@ describe(url, () => {
     it('should allow confirmation that the correct metric file has been uploaded', (done) => {
       jest.isolateModules(async () => {
         try {
+          let viewResult
           const checkMetricFile = require('../../developer/check-metric-file.js')
           redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
           redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
@@ -69,9 +70,18 @@ describe(url, () => {
               checkUploadMetric: constants.confirmLandBoundaryOptions.YES
             }
           }
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
           const extractDeveloperMetric = require('../../../utils/extract-developer-metric.js')
           const spy = jest.spyOn(extractDeveloperMetric, 'extractMetricData')
-          await checkMetricFile.default[1].handler(request)
+          await checkMetricFile.default[1].handler(request, h)
+          expect(`/${viewResult}`).toEqual(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
           expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {

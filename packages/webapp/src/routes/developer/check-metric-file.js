@@ -13,6 +13,7 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, context)
   },
   post: async (request, h) => {
+    let errorMessage
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
@@ -28,16 +29,22 @@ const handlers = {
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
       const metricFileName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       const config = buildConfig(request.yar.id, path.basename(metricFileName))
-      const metricFileData = await extractMetricData(logger, config)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
+      try {
+        const metricFileData = await extractMetricData(logger, config)
+        request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
+        return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
+      } catch (error) {
+        logger.error(error)
+        errorMessage = 'Sorry there is a problem with the service try again later.'
+      }
     }
+    errorMessage = 'Select yes if this is the correct file'
     return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
       ...getContext(request),
       err: [
         {
-          text: 'Select yes if this is the correct file',
+          text: errorMessage,
           href
         }
       ]
