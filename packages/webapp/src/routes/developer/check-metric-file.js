@@ -28,25 +28,20 @@ const handlers = {
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
       const metricFileName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       const config = buildConfig(request.yar.id, path.basename(metricFileName))
-      try {
-        const metricFileData = await extractMetricData(logger, config)
-        request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
-        return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
-      } catch (error) {
-        logger.error(error)
-      }
-    } else {
-      return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
-        filename: path.basename(metricUploadLocation),
-        ...getContext(request),
-        err: [
-          {
-            text: 'Select yes if this is the correct file',
-            href
-          }
-        ]
-      })
+      const metricFileData = await extractMetricData(logger, config)
+      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
+      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
     }
+    return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
+      filename: path.basename(metricUploadLocation),
+      ...getContext(request),
+      err: [
+        {
+          text: 'Select yes if this is the correct file',
+          href
+        }
+      ]
+    })
   }
 }
 
