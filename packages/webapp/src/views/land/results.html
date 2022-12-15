@@ -22,8 +22,8 @@
         {% else %}
 
           {% if eligibilityResults.yes | length > 0 %}
-            <p>You have:</p>
-            <ul class="govuk-list govuk-list--bullet">
+            <p data-testid="youHaveHeading">You have:</p>
+            <ul class="govuk-list govuk-list--bullet" data-testid="youHaveList">
               {% for item in eligibilityResults.yes %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
@@ -31,8 +31,8 @@
           {% endif %}
 
           {% if eligibilityResults.no | length > 0 %}
-            <p>You do not have:</p>
-            <ul class="govuk-list govuk-list--bullet">
+            <p data-testid="youDoNotHaveHeading">You do not have:</p>
+            <ul class="govuk-list govuk-list--bullet" data-testid="youDoNotHaveList">
               {% for item in eligibilityResults.no %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
@@ -40,8 +40,8 @@
           {% endif %}
 
           {% if eligibilityResults["not sure"] | length > 0 %}
-          <p>You're not sure if you have:</p>
-            <ul class="govuk-list govuk-list--bullet">
+          <p data-testid="youAreNotSureHeading"></p>>You're not sure if you have:</p>
+            <ul class="govuk-list govuk-list--bullet" data-testid="youAreNotSureHeading">
               {% for item in eligibilityResults["not sure"] %}
                 {{ eligibilityHTML[item] | safe }}
               {% endfor %}
