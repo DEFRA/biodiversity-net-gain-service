@@ -22,7 +22,7 @@
         {% else %}
 
           {% if eligibilityResults.yes | length > 0 %}
-            <p data-testid="youHaveHeading">You have:</p>
+            <p id="youHaveHeading">You have:</p>
             <ul class="govuk-list govuk-list--bullet" id="youHaveList">
               {% for item in eligibilityResults.yes %}
                 {{ eligibilityHTML[item] | safe }}
@@ -31,7 +31,7 @@
           {% endif %}
 
           {% if eligibilityResults.no | length > 0 %}
-            <p data-testid="youDoNotHaveHeading">You do not have:</p>
+            <p id="youDoNotHaveHeading">You do not have:</p>
             <ul class="govuk-list govuk-list--bullet" id="youDoNotHaveList">
               {% for item in eligibilityResults.no %}
                 {{ eligibilityHTML[item] | safe }}
