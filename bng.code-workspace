@@ -7,6 +7,9 @@
 			"path": "./packages/azure-functions"
 		},
 		{
+			"path": "./packages/database-version-control"
+		},
+		{
 			"path": "./packages/webapp"
 		}
 	],

@@ -1,0 +1,33 @@
+{
+  "name": "@defra/bng-database-version-control",
+  "version": "0.35.0",
+  "private": true,
+  "description": "Database version control for Biodiversity Net Gain",
+  "main": "src/migrator-cli.mjs",
+  "scripts": {
+    "test": "echo \\\"Error: run tests from root\\\" && exit 1",
+    "local:cli-up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs up",
+    "cli-up": "node src/migrator-cli.mjs up",
+    "local:up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/up.mjs",
+    "local:cli-down": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs down",
+    "cli-down": "node src/migrator-cli.mjs down",
+    "local:cli-pending": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs pending",
+    "cli-pending": "node src/migrator-cli.mjs pending",
+    "local:cli-executed": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs executed",
+    "cli-executed": "node src/migrator-cli.mjs executed",    
+    "local:cli-create": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs create",
+    "cli-create": "node src/migrator-cli.mjs create",
+    "local:cli-repair": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.mjs repair",
+    "cli-repair": "node src/migrator-cli.mjs repair"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DEFRA/biodiversity-net-gain-service",
+    "directory": "packages/database-version-control"
+  },
+  "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
+  "license": "OGL-UK-3.0",
+  "dependencies": {
+    "@slonik/migrator": "0.11.3"
+  }
+}
