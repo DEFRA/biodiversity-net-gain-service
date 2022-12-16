@@ -1,0 +1,51 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Do you have a completed Biodiversity Metric 4.0 for the biodiversity gain site?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukRadios({
+          idPrefix: "metric",
+          name: "metric",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              text: pageHeading,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            html: "You need to calculate the biodiversity value of the land using <a href='http://publications.naturalengland.org.uk/publication/6049804846366720'>Natural England's biodiversity metric</a>."
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              checked: checked(metric, "yes")
+            },
+            {
+              value: "no",
+              text: "No",
+              checked: checked(metric, "no")
+            },
+            {
+              value: "not sure",
+              text: "I'm not sure",
+              checked: checked(metric, "not sure")
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
