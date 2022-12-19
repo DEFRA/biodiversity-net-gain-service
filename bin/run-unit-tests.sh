@@ -11,17 +11,17 @@ destroy_test_double_infrastructure=0
 ./bin/init-babel-config-if-needed.sh
 ./bin/init-jest-database-version-control-env-file.sh
 
+if [ ! -f ${POSTGRES_PASSWORD_SECRET_PATH} ]; then
+  echo Creating ${POSTGRES_PASSWORD_SECRET_PATH} for unit tests
+  echo postgres > ${POSTGRES_PASSWORD_SECRET_PATH}
+fi
+
 if `nc -z localhost 10000 && nc -z localhost 10001 && nc -z localhost 8082 && nc -z localhost 8888`; then
   echo Test double infrastructure is running
 else
   echo Setting up test double infrastructure
   npm run docker:start-test-double-infrastructure
   destroy_test_double_infrastructure=1
-fi
-
-if [ ! -f ${POSTGRES_PASSWORD_SECRET_PATH} ]; then
-  echo Creating ${POSTGRES_PASSWORD_SECRET_PATH} for unit tests
-  echo postgres > ${POSTGRES_PASSWORD_SECRET_PATH}
 fi
 
 jest --runInBand
