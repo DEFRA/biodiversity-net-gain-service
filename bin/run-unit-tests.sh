@@ -5,6 +5,7 @@
 export AZURE_STORAGE_CONNECTION_STRING="${AZURITE_STORAGE_CONNECTION_STRING:-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;}"
 
 POSTGRES_PASSWORD_SECRET_PATH=docker/secrets/POSTGRES_PASSWORD
+POSTGIS_VOLUME_PATH=docker/volumes/postgis
 
 destroy_test_double_infrastructure=0
 
@@ -14,6 +15,11 @@ destroy_test_double_infrastructure=0
 if [ ! -f ${POSTGRES_PASSWORD_SECRET_PATH} ]; then
   echo Creating ${POSTGRES_PASSWORD_SECRET_PATH} for unit tests
   echo postgres > ${POSTGRES_PASSWORD_SECRET_PATH}
+fi
+
+if [ ! -d ${POSTGIS_VOLUME_PATH} ]; then
+  echo Creating ${POSTGIS_VOLUME_PATH} for unit tests
+  mkdir -p ${POSTGIS_VOLUME_PATH}
 fi
 
 if `nc -z localhost 10000 && nc -z localhost 10001 && nc -z localhost 8082 && nc -z localhost 8888`; then
