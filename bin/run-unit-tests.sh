@@ -30,8 +30,6 @@ else
   destroy_test_double_infrastructure=1
 fi
 
-docker logs docker_postgis_1
-
 jest --runInBand
 
 # Use the exit code from Jest as the script exit code so that test
