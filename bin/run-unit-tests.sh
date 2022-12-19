@@ -4,6 +4,8 @@
 # Environment variables set through Node.js do not appear to propagate to native code.
 export AZURE_STORAGE_CONNECTION_STRING="${AZURITE_STORAGE_CONNECTION_STRING:-DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;}"
 
+POSTGRES_PASSWORD_SECRET_PATH=docker/secrets/POSTGRES_PASSWORD
+
 destroy_test_double_infrastructure=0
 
 ./bin/init-babel-config-if-needed.sh
@@ -15,6 +17,11 @@ else
   echo Setting up test double infrastructure
   npm run docker:start-test-double-infrastructure
   destroy_test_double_infrastructure=1
+fi
+
+if [ ! -f ${POSTGRES_PASSWORD_SECRET_PATH} ]; then
+  echo Creating ${POSTGRES_PASSWORD_SECRET_PATH} for unit tests
+  echo postgres > ${POSTGRES_PASSWORD_SECRET_PATH}
 fi
 
 jest --runInBand

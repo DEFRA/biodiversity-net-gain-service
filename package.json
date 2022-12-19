@@ -23,7 +23,7 @@
     "docker:start-dev-tools": "docker-compose -f docker/dev-tools.yml up -d",
     "docker:start-services": "docker-compose -f docker/services.yml up -d",
     "docker:stop-infrastructure": "docker-compose -f docker/infrastructure.yml down",
-    "docker:stop-test-double-infrastructure": "docker-compose -f docker/infrastructure.yml rm -f -s azure_services azurite",
+    "docker:stop-test-double-infrastructure": "docker-compose -f docker/infrastructure.yml rm -f -s azure_services azurite postgis",
     "docker:stop-dev-tools": "docker-compose -f docker/dev-tools.yml down",
     "docker:stop-services": "docker-compose -f docker/services.yml down",
     "docker:stop": "docker-compose -f docker/services.yml -f docker/dev-tools.yml -f docker/infrastructure.yml down",
