@@ -7,6 +7,7 @@ export AZURE_STORAGE_CONNECTION_STRING="${AZURITE_STORAGE_CONNECTION_STRING:-Def
 destroy_test_double_infrastructure=0
 
 ./bin/init-babel-config-if-needed.sh
+./bin/init-jest-database-version-control-env-file.sh
 
 if `nc -z localhost 10000 && nc -z localhost 10001 && nc -z localhost 8082 && nc -z localhost 8888`; then
   echo Test double infrastructure is running
