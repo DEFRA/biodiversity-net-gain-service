@@ -30,7 +30,7 @@ services:
     secrets:
       - POSTGRES_PASSWORD
     volumes:
-      - ./volumes/postgis:/var/lib/postgresql/data
+      #- ./volumes/postgis:/var/lib/postgresql/data
       - ./src/postgis/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   ##############################################################################################################
