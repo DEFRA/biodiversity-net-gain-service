@@ -4,10 +4,6 @@ const exec = util.promisify(require('node:child_process').exec)
 const migrator = require('../migrator.js')
 
 describe('The database version control migrator command line interface', () => {
-  // Give the connection pool time to close before the test run ends.
-  // https://github.com/gajus/slonik/issues/63#issuecomment-500889445
-  afterAll(() => new Promise(resolve => setTimeout(resolve, 4000)))
-
   it('should initialise correctly and be able to run and rollback all pending migrations using the command line interface', async () => {
     const migrations = fs.readdirSync('packages/database-version-control/src/migrations')
     // Jest does not appear to generate test coverage for subprocesses by default.
