@@ -11,13 +11,7 @@ const startExtractionConfig = {
   titleCellAddress: 'D9',
   startCell: 'D10',
   cellHeaders: startHeaders,
-  columnsToBeRemoved: ['__EMPTY'],
-  substitutions: {
-    __EMPTY: broadHabitat,
-    __EMPTY_1: proposedHabitat,
-    __EMPTY_3: areaHectares,
-    __EMPTY_4: habitatUnitsDelivered
-  }
+  columnsToBeRemoved: ['__EMPTY']
 }
 // Habitat baseline configuration
 const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 'Distinctiveness',

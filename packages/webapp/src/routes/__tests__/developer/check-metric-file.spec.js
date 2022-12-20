@@ -4,24 +4,6 @@ import { submitPostRequest } from '../helpers/server.js'
 const url = '/developer/check-metric-file'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
-const mockMetricData = {
-  startPage: {
-    planningAuthority: 'Your District Council ',
-    projectName: 'A Major Development',
-    applicant: 'A Developer',
-    applicationType: 'Outline Planning',
-    planningApplicationReference: 'A111111',
-    assessor: 'A.Junior',
-    reviewer: 'A.Senior',
-    metricVersion: 'v1.1',
-    assessmentDate: 44441,
-    planningAuthorityReviewer: 'A.N.Officer',
-    cellStyleConventions: undefined,
-    enterData: undefined,
-    automaticLookup: undefined,
-    result: undefined
-  }
-}
 
 describe(url, () => {
   describe('GET', () => {
@@ -63,11 +45,10 @@ describe(url, () => {
           let viewResult
           const checkMetricFile = require('../../developer/check-metric-file.js')
           redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
-          redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
           const request = {
             yar: redisMap,
             payload: {
-              checkUploadMetric: constants.confirmLandBoundaryOptions.YES
+              checkUploadMetric: constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
             }
           }
           const h = {
@@ -81,8 +62,9 @@ describe(url, () => {
           const extractDeveloperMetric = require('../../../utils/extract-developer-metric.js')
           const spy = jest.spyOn(extractDeveloperMetric, 'extractMetricData')
           await checkMetricFile.default[1].handler(request, h)
-          expect(`/${viewResult}`).toEqual(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
+          expect(request.payload.checkUploadMetric).toBe('yes')
           expect(spy).toHaveBeenCalledTimes(1)
+          expect(viewResult).toEqual(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
           done()
         } catch (err) {
           done(err)
