@@ -28,7 +28,7 @@ jobs:
       - name: Add azure_services to hosts
         run: |
           sudo echo "127.0.0.1 azure_services" | sudo tee -a /etc/hosts
-      - name: Do not run the database container with a volume.
+      - name: Do not use a Postgres data volume
         run: |
           sed -i "s/- .\/volumes\/postgis/#- . \/volumes\/postgis/" docker/infrastructure.yml
       - name: Run tests
