@@ -6,6 +6,7 @@
   "main": "src/migrator-cli.js",
   "scripts": {
     "test": "echo \\\"Error: run tests from root\\\" && exit 1",
+    "local:install": "bin/init-database-version-control-env-if-needed.sh",
     "local:cli-up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js up",
     "cli-up": "node src/migrator-cli.js up",
     "local:up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/up.js",
