@@ -35,7 +35,18 @@ Before building and running the docker containers, appropriate secrets files nee
 | ----------- | ----------- | ----------- |
 | pgadmin | PGADMIN_DEFAULT_PASSWORD | In the Docker secrets directory, create a file called PGADMIN_DEFAULT_PASSWORD containing the password |
 | postgis | POSTGRES_PASSWORD | In the Docker secrets directory, create a file called POSTGRES_PASSWORD containing the password |
+| postgis | DATABASE_VESION_CONTROL_ENV | In the Docker secrets directory, create a file called DATABASE_VESION_CONTROL_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [database-version-control](../packages/database-version-control/) directory. |
 | webapp | WEBAPP_ENV | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [webapp](../packages/webapp/) directory. |
+
+### DATABASE_VESION_CONTROL_ENV template
+
+```bash
+export POSTGRES_CONNECTION_STRING=
+export POSTGRES_BNG_USER_PASSWORD=
+export POSTGRES_BNG_CLIENT_ID=
+```
+
+Note that this secrets template is prepopulated with variables necessary for locally run containers. See the database-version-control  ReadMe for further information on variables.
 
 ### WEBAPP_ENV template
 
@@ -93,7 +104,7 @@ For local development, environment variables can be configured by running the co
 [azure-functions](../packages/azure-functions/) directory. This is used in the sequence of commands below.
 
 ```sh
-#R un the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
+# Run the serverless functions locally, inside a new terminal (note there is no current containerisation support for the serverless functions)
 cd packages/azure-functions
 npm run local:install
 npm run start
