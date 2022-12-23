@@ -1,0 +1,7 @@
+# WARNING - All environment variables MUST be enclosed in double quotes to ensure the maximum degree of protection
+# against secrets being committed to version control unintentionally.
+
+# Example: postgresql://postgres:<<Replace with password>>@localhost:5432/bng
+export POSTGRES_CONNECTION_STRING=""
+export POSTGRES_BNG_USER_PASSWORD=""
+export POSTGRES_BNG_CLIENT_ID=""
