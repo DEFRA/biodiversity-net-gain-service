@@ -12,7 +12,7 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
-const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 
 const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
 const mockDownloadStreamIfExists = async (config, context) => {
@@ -137,7 +137,7 @@ describe('Processing developer metric extraction', () => {
         blobStorageConnector.downloadToBufferIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
 
         await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
           location: 'mock-session-id/mock-data.xlsx',
           containerName: 'trusted'
         })
@@ -157,7 +157,7 @@ describe('Processing developer metric extraction', () => {
         const context = getContext()
 
         await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
           location: 'mock-session-id/mock-data.xlsx',
           containerName: 'unknown'
         })
@@ -192,47 +192,33 @@ const buildConfig = (fileExtension, uploadType) => {
     }
   }
 
-  let _config
+  const config = {
+    message: {
+      uploadType,
+      location: `${fileDirectory}/${filename}`,
+      containerName: 'trusted'
+    },
+    expectedSignalRMessage: {
+      userId,
+      target: `Processed ${filename}`,
+      arguments: [{
+        location: outputFileLocation
+      }]
+    }
+  }
   switch (uploadType) {
-    case DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE:
-      _config = {
-        metricData,
-        message: {
-          uploadType,
-          location: `${fileDirectory}/${filename}`,
-          containerName: 'trusted'
-        },
-        expectedSignalRMessage: {
-          userId,
-          target: `Processed ${filename}`,
-          arguments: [{
-            location: outputFileLocation,
-            metricData
-          }]
-        }
-      }
+    case DEVELOPER_METRIC_UPLOAD_TYPE:
+      config.metricData = metricData
+      config.expectedSignalRMessage.arguments[0].metricData = metricData
       break
 
     default:
-      _config = {
-        mapConfig,
-        message: {
-          uploadType,
-          location: `${fileDirectory}/${filename}`
-        },
-        expectedSignalRMessage: {
-          userId,
-          target: `Processed ${filename}`,
-          arguments: [{
-            location: outputFileLocation,
-            mapConfig
-          }]
-        }
-      }
+      config.mapConfig = mapConfig
+      config.expectedSignalRMessage.arguments[0].mapConfig = mapConfig
       break
   }
 
-  return _config
+  return config
 }
 
 const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) => {

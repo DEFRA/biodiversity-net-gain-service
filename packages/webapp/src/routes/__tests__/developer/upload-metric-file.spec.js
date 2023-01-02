@@ -23,14 +23,15 @@ describe(url, () => {
     const mockDevMetricData = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
-        mapConfig: {}
+        metricData: {}
       }
     ]
     const baseConfig = {
       uploadType: 'developer-upload-metric',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockDevMetricData
+      eventData: mockDevMetricData,
+      containerName: 'untrusted'
     }
 
     beforeEach(async () => {

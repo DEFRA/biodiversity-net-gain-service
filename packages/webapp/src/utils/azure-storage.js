@@ -16,26 +16,11 @@ const addFileDetailsToConfiguration = (config, filename) => {
 
   const message = {
     uploadType: config.queueConfig.uploadType,
-    location: config.blobConfig.blobName
+    location: config.blobConfig.blobName,
+    containerName: config.blobConfig.containerName
   }
 
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
-const downloadStreamAndQueueMessage = async (logger, config) => {
-  addMetricDetailsToConfiguration(config, logger)
-  await storageQueueConnector.sendMessage(config.queueConfig)
-  logger.log(`${new Date().toUTCString()} ${config.blobConfig.fileName} has been downloaded and message has been queued`)
-}
-
-const addMetricDetailsToConfiguration = async (config, logger) => {
-  const message = {
-    uploadType: config.queueConfig.uploadType,
-    containerName: config.blobConfig.containerName,
-    location: config.blobConfig.blobName
-  }
-  logger.log(`${new Date().toUTCString()} ${config.blobConfig.blobName} Metric details captured`)
-  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
-}
-
-export { uploadStreamAndQueueMessage, downloadStreamAndQueueMessage }
+export { uploadStreamAndQueueMessage }

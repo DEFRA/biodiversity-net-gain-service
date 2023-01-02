@@ -1,4 +1,4 @@
-import { extractMetric, screenDocumentForThreats, uploadDocument } from '../service.js'
+import { screenDocumentForThreats, uploadDocument } from '../service.js'
 import axios from 'axios'
 import fs from 'fs'
 import { Readable } from 'stream'
@@ -27,19 +27,6 @@ describe('The document service', () => {
     await uploadDocument(logger, config, documentStream)
     // The upload function should have been called after the upload function has been removed from the configuration.
     expect(config.functionConfig.uploadFunction).toHaveBeenCalledWith(logger, {}, documentStream)
-  })
-
-  it('should extract metric', async () => {
-    const logger = {
-      log: jest.fn()
-    }
-    const config = {
-      functionConfig: {
-        extractMetricFunction: jest.fn()
-      }
-    }
-    await extractMetric(logger, config)
-    expect(config.functionConfig.extractMetricFunction).toHaveBeenCalledWith(logger, {})
   })
 
   describe('threat screening', () => {
