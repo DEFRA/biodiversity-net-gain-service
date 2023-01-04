@@ -1,6 +1,9 @@
 import processApplication from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 
+jest.mock('@defra/bng-connectors-lib')
+jest.mock('../../Shared/db-queries.js')
+
 const req = {
   body: {
     landownerGainSiteRegistration: {
@@ -48,14 +51,54 @@ describe('Processing an application', () => {
     Sad paths
       application process fails due to malformed content
   */
-  it('Should process valid application successfully', done => {
+  it('Should process valid application without a reference successfully', done => {
     jest.isolateModules(async () => {
       try {
+        const dbQueries = require('../../Shared/db-queries.js')
+        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                fn_create_application_reference: 'REF0601220001'
+              }
+            ]
+          }
+        })
         // execute function
         await processApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('REF0601220001')
+        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+
+  it('Should process valid application with a reference successfully', done => {
+    jest.isolateModules(async () => {
+      try {
+        const dbQueries = require('../../Shared/db-queries.js')
+        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                fn_create_application_reference: 'REF0601220001'
+              }
+            ]
+          }
+        })
+        req.body.landownerGainSiteRegistration.gainSiteReference = 'test'
+        // execute function
+        await processApplication(getContext(), req)
+        const context = getContext()
+        expect(context.res.status).toEqual(200)
+        expect(context.bindings.outputSbQueue).toEqual(req.body)
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('test')
+        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)

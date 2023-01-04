@@ -35,7 +35,7 @@ Example
 To rollback all migrations:
 
 ```sh
-node src/migrator-cli.js down --to 0
+npm run local:cli-down -- --to 0
 ```
 
 **Note that all mandatory environment variables must be set before running commands this way.**

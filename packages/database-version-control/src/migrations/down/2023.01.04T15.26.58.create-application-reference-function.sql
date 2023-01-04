@@ -1,0 +1,1 @@
+drop function bng.fn_create_application_reference();

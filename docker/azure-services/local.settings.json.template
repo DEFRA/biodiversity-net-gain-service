@@ -22,7 +22,13 @@
     "AzureSignalRConnectionString": "Endpoint=http://azure_services;Port=8888;AccessKey=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGH;Version=1.0;",
     "WEBSITE_NODE_DEFAULT_VERSION": "~16",
     "OPERATOR_SB_CONNECTION_STRING": "",
-    "AzureWebJobs.ProcessAVMessage.Disabled": true
+    "AzureWebJobs.ProcessAVMessage.Disabled": true,
+    "POSTGRES_HOST": "localhost",
+    "POSTGRES_USER": "postgres",
+    "POSTGRES_PASSWORD": "postgres",
+    "POSTGRES_DATABASE": "bng",
+    "POSTGRES_PORT": "5432",
+    "POSTGRES_SSL_MODE": ""
   },
   "ConnectionStrings": {}
 }

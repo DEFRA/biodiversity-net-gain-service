@@ -1,0 +1,1 @@
+drop table bng.application_reference;
