@@ -1,6 +1,9 @@
 import processApplication from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 
+jest.mock('@defra/bng-connectors-lib')
+jest.mock('../../Shared/db-queries.js')
+
 const req = {
   body: {
     landownerGainSiteRegistration: {
@@ -51,11 +54,22 @@ describe('Processing an application', () => {
   it('Should process valid application successfully', done => {
     jest.isolateModules(async () => {
       try {
+        const dbQueries = require('../../Shared/db-queries.js')
+        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                fn_create_application_reference: 'REF0601220001'
+              }
+            ]
+          }
+        })
         // execute function
         await processApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('REF0601220001')
         done()
       } catch (err) {
         done(err)
