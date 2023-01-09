@@ -8,9 +8,9 @@ describe('PostgresConnector', () => {
     expect(typeof db.query).toEqual('function')
     expect(typeof db.end).toEqual('function')
   })
-  it('should query', () => {
+  it('should query', async () => {
     const db = new postgresConnector.Db('testConnectionString')
-    db.query('test query')
+    await db.query('test query')
   })
   it('should end', async () => {
     const db = new postgresConnector.Db('testConnectionString')
