@@ -5,7 +5,8 @@ const dbConnection = process.env.POSTGRES_CONNECTION_STRING
 // nor could a pre built query string be executed, due to the way slonik protects against injection etc.
 
 const initDatabase = async () => {
-  const connectionString = dbConnection.substring(0, dbConnection.lastIndexOf('/')) + '/postgres'
+  const connectionString = `${dbConnection.substring(0, dbConnection.lastIndexOf('/'))}/postgres${process.env.POSTGRES_SSL_MODE ? `?sslmode=${process.env.POSTGRES_SSL_MODE}` : ''}`
+  console.log(connectionString)
   const dbName = dbConnection.substring(dbConnection.lastIndexOf('/') + 1, dbConnection.length)
   const pool = new pg.Pool({ connectionString })
   const result = await pool.query(`select 1 from pg_database WHERE datname='${dbName}';`)
