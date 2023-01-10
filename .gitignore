@@ -127,3 +127,5 @@ biodiversity-net-gain-service.code-workspace
 
 # Database version control environment variable script for unit tests
 bin/jest-database-version-control-env.sh
+
+.DS_Store
