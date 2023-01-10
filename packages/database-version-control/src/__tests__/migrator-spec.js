@@ -17,5 +17,5 @@ describe('The database version control migrator', () => {
       const migrator = require('../migrator.js')
       expect(migrator).not.toEqual(null)
     })
-  })    
+  })
 })
