@@ -4,9 +4,10 @@ const dbConnection = process.env.POSTGRES_CONNECTION_STRING
 // pg is being used, and not slonik, as slonik would not allow a database to be created with a paramterised name
 // nor could a pre built query string be executed, due to the way slonik protects against injection etc.
 
+const sslMode = process.env.POSTGRES_SSL_MODE ? `?sslmode=${process.env.POSTGRES_SSL_MODE}` : ''
+
 const initDatabase = async () => {
-  const connectionString = `${dbConnection.substring(0, dbConnection.lastIndexOf('/'))}/postgres${process.env.POSTGRES_SSL_MODE ? `?sslmode=${process.env.POSTGRES_SSL_MODE}` : ''}`
-  console.log(connectionString)
+  const connectionString = `${dbConnection.substring(0, dbConnection.lastIndexOf('/'))}/postgres${sslMode}`
   const dbName = dbConnection.substring(dbConnection.lastIndexOf('/') + 1, dbConnection.length)
   const pool = new pg.Pool({ connectionString })
   const result = await pool.query(`select 1 from pg_database WHERE datname='${dbName}';`)

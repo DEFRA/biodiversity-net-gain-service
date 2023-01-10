@@ -4,8 +4,9 @@ const { createPool, sql } = require('slonik')
 
 const migrationsSchemaName = 'slonik_tools'
 const migrationsSchemaIdentifier = sql.identifier([migrationsSchemaName])
+const sslMode = process.env.POSTGRES_SSL_MODE ? `?sslmode=${process.env.POSTGRES_SSL_MODE}` : ''
 
-const slonik = createPool(`${process.env.POSTGRES_CONNECTION_STRING}${process.env.POSTGRES_SSL_MODE ? `?sslmode=${process.env.POSTGRES_SSL_MODE}` : ''}`, {
+const slonik = createPool(`${process.env.POSTGRES_CONNECTION_STRING}${sslMode}`, {
   interceptors: [
     {
       afterPoolConnection: async (_context, connection) => {

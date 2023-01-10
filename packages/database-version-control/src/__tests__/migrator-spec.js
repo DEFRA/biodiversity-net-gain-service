@@ -3,6 +3,7 @@ const migrator = require('../migrator.js')
 
 describe('The database version control migrator', () => {
   it('should initialise correctly and be able to run and rollback all pending migrations programmatically', async () => {
+    process.env.POSTGRES_SSL_MODE = 'require'
     const migrations = fs.readdirSync('packages/database-version-control/src/migrations')
     expect((await migrator.pending()).map(m => m.name)).toEqual(migrations.slice(0, migrations.length - 1))
     await migrator.up()

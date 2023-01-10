@@ -3,6 +3,7 @@ jest.mock('pg')
 
 describe('init-database', () => {
   it('should call query twice and end once if no database result', async () => {
+    process.env.POSTGRES_SSL_MODE = 'require'
     const pg = require('pg')
 
     pg.Pool.prototype.query = jest.fn().mockImplementation(() => {
