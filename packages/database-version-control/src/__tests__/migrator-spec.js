@@ -12,7 +12,6 @@ describe('The database version control migrator', () => {
   }, 10000)
   it('should initialise correctly when POSTGRES_SSL_MODE is set to require', async () => {
     jest.isolateModules(async () => {
-      jest.mock('pg')
       process.env.POSTGRES_SSL_MODE = 'require'
       const migrator = require('../migrator.js')
       expect(migrator).not.toEqual(null)
