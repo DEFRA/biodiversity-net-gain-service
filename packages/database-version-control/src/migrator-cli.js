@@ -5,7 +5,12 @@ const executeMigrator = async () => {
   const initDatabase = require('./init-database.js')
   const migrator = require('./migrator.js')
   await initDatabase()
-  migrator.runAsCLI()
+  await migrator.runAsCLI()
 }
 
-executeMigrator()
+// Execute function if not being required.
+if (!module.main) {
+  executeMigrator()
+}
+
+module.exports = executeMigrator

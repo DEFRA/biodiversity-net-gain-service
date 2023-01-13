@@ -7,7 +7,6 @@ describe('init-database', () => {
     const pg = require('pg')
 
     pg.Pool.prototype.query = jest.fn().mockImplementation(() => {
-      console.log('in mock')
       return {
         rowCount: 0
       }
@@ -23,7 +22,6 @@ describe('init-database', () => {
     const pg = require('pg')
 
     pg.Pool.prototype.query = jest.fn().mockImplementation(() => {
-      console.log('in mock')
       return {
         rowCount: 1
       }
