@@ -1,4 +1,3 @@
-process.env.POSTGRES_CONNECTION_STRING="postgresql://postgres:postgres@localhost:5432/bng"
 process.env.POSTGRES_HOST="localhost"
 process.env.POSTGRES_USER="postgres"
 process.env.POSTGRES_PASSWORD="postgres"
