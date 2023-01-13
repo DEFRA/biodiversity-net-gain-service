@@ -1,1 +1,1 @@
-drop table bng_user.application_reference;
+drop table bng.application_reference;

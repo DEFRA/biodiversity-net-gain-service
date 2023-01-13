@@ -1,1 +1,1 @@
-drop function bng_user.fn_create_application_reference();
+drop function bng.fn_create_application_reference();

@@ -3,15 +3,13 @@ import pg from 'pg'
 let pool
 
 class Db {
-  constructor (connectionString, test = false) {
-    this.init(connectionString, test)
+  constructor (config, test = false) {
+    this.init(config, test)
   }
 
-  init (connectionString, test) {
+  init (config, test) {
     if (!test && (!pool || pool.ending)) {
-      pool = new pg.Pool({
-        connectionString
-      })
+      pool = new pg.Pool(config)
     }
   }
 

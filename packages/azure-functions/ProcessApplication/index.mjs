@@ -1,5 +1,7 @@
 import { postgresConnector } from '@defra/bng-connectors-lib'
 import { createApplicationReference } from '../Shared/db-queries.js'
+import { DefaultAzureCredential } from '@azure/identity'
+import DbConfig from '../Shared/db-config.js'
 
 const buildConfig = body => {
   return {
@@ -16,9 +18,14 @@ const buildConfig = body => {
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   try {
+    const dbConfig = JSON.parse(JSON.stringify(DbConfig))
     // Generate gain site reference if not already present
     if (!req.body.landownerGainSiteRegistration.gainSiteReference) {
-      const db = new postgresConnector.Db(process.env.POSTGRES_CONNECTION_STRING)
+      if (!dbConfig.password) {
+        const credential = new DefaultAzureCredential()
+        dbConfig.password = (await credential.getToken('https://ossrdbms-aad.database.windows.net')).token
+      }
+      const db = new postgresConnector.Db(dbConfig)
       const applicationReference = await createApplicationReference(db)
       req.body.landownerGainSiteRegistration.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
       await db.end()

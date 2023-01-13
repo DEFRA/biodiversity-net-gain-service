@@ -8,6 +8,6 @@ describe('createApplicationReference', () => {
     const db = {
       query: query => query
     }
-    expect(createApplicationReference(db)).toEqual('select bng_user.fn_create_application_reference();')
+    expect(createApplicationReference(db)).toEqual('select bng.fn_create_application_reference();')
   })
 })
