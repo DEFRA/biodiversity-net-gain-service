@@ -11,7 +11,12 @@ database to perform database version control activities.
 
 | name    | description | mandatory |
 |---------|-------------|-----------|
-| POSTGRES_CONNECTION_STRING | Connection string used to access a Postgres instance with an **administrative** account | Y |
+| POSTGRES_HOST | Host of database | Y |
+| POSTGRES_USER | user of database | Y |
+| POSTGRES_PASSWORD | user password, leave blank to assume managed identity | N |
+| POSTGRES_DATABASE | database name | Y |
+| POSTGRES_PORT | database port | Y |
+| POSTGRES_SSL_MODE | SSL type, set blank for none for local docker database, or 'require' for azure postgresql service | N |
 | POSTGRES_BNG_USER_PASSWORD | Password for a runtime user account with read write access to Biodiversity Net Gain database elements | Y (if using password based authentication) |
 | POSTGRES_BNG_CLIENT_ID | Microsoft Azure managed identity client ID for a runtime user account with read write access to Biodiversity Net Gain database elements | Y (if using Microsoft Azure managed identity based authentication) |
 
