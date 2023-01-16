@@ -37,6 +37,12 @@ steps:
     cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
   displayName: 'Build webapp image and output to tar'
 
+- script: |
+    cd $(System.DefaultWorkingDirectory)/packages/database-version-control
+    zip -rq database-version-control.zip .
+    cp database-version-control.zip $(Build.ArtifactStagingDirectory)/database-version-control.zip
+  displayName: 'Create Database version control artifact'
+
 - task: UniversalPackages@0
   inputs:
     command: 'publish'
