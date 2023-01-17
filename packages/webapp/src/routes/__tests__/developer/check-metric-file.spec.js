@@ -12,7 +12,6 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkMetricFile = require('../../developer/check-metric-file.js')
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
-      // redisMap.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, (4 * 1024))
       const request = {
         yar: redisMap
       }
@@ -38,39 +37,6 @@ describe(url, () => {
         payload: {}
       }
     })
-
-    // it('should allow confirmation that the correct metric file has been uploaded', (done) => {
-    //   jest.isolateModules(async () => {
-    //     try {
-    //       let viewResult
-    //       const checkMetricFile = require('../../developer/check-metric-file.js')
-    //       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
-    //       const request = {
-    //         yar: redisMap,
-    //         payload: {
-    //           checkUploadMetric: constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
-    //         }
-    //       }
-    //       const h = {
-    //         redirect: (view) => {
-    //           viewResult = view
-    //         },
-    //         view: (view) => {
-    //           viewResult = view
-    //         }
-    //       }
-    //       const extractDeveloperMetric = require('../../../utils/extract-developer-metric.js')
-    //       const spy = jest.spyOn(extractDeveloperMetric, 'extractMetricData')
-    //       await checkMetricFile.default[1].handler(request, h)
-    //       expect(request.payload.checkUploadMetric).toBe('yes')
-    //       expect(spy).toHaveBeenCalledTimes(1)
-    //       expect(viewResult).toEqual(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
-    //       done()
-    //     } catch (err) {
-    //       done(err)
-    //     }
-    //   })
-    // }, 1800000)
 
     it('should allow an alternative metric file to be uploaded ', (done) => {
       jest.isolateModules(async () => {

@@ -3,7 +3,7 @@ import path from 'path'
 import extractMetricContent from '../src/helpers/bng-metric-extraction-service.js'
 import bngMetricService from '../src/service.js'
 
-describe('BNG data extrator service test', () => {
+describe('BNG data extractor service test', () => {
   let readableStream
   const currentPath = process.cwd()
 

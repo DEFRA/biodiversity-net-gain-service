@@ -1,4 +1,4 @@
-import Session from '../helpers/session.js'
+import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../developer/confirm-development-details.js'

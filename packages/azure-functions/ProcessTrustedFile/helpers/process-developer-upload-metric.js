@@ -1,8 +1,6 @@
 import buildSignalRMessage from '../../Shared/build-signalr-message.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import { Readable } from 'stream'
 import bngMetricService from '@defra/bng-metric-service'
-import { MetricExtractionError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 
 export default async function (context, config) {
   let signalRMessageArguments, metricData
@@ -11,22 +9,24 @@ export default async function (context, config) {
       blobName: config.fileConfig.fileLocation,
       containerName: config.containerName
     }
-    const buffer = await blobStorageConnector.downloadToBufferIfExists(context, blobConfig)
-    if (buffer) {
-      const readableStream = Readable.from(buffer)
+    const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
+    if (response) {
+      const documentStream = response.readableStreamBody
       const extractionConfiguration = {
         startPage: bngMetricService.extractionConfiguration.startExtractionConfig,
         siteHabitatBaseline: bngMetricService.extractionConfiguration.habitatBaselineExtractionConfig
       }
-      metricData = await bngMetricService.extractMetricContent(readableStream, { extractionConfiguration })
+      metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
     } else {
-      throw new MetricExtractionError(uploadGeospatialLandBoundaryErrorCodes.BUFFER_NOT_EXISTS, 'Blob not exists')
+      throw new Error('Unable to retrieve blob')
     }
+
     signalRMessageArguments = [{
       location: config.fileConfig.fileLocation,
       metricData
     }]
   } catch (err) {
+    console.error(err)
     signalRMessageArguments = [{ errorCode: err.code }]
   } finally {
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]

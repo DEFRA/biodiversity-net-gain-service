@@ -18,7 +18,9 @@ const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/
 const mockDownloadStreamIfExists = async (config, context) => {
   const readStream = fs.createReadStream(mockDataPath)
   const readableStream = Readable.from(readStream)
-  return readableStream
+  return {
+    readableStreamBody: readableStream
+  }
 }
 
 describe('Trusted file processing', () => {
@@ -54,7 +56,7 @@ describe('Trusted file processing', () => {
     performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
-  it('should process a known developert metric file. ', done => {
+  it('should process a known developer metric file. ', done => {
     performDeveloperValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
@@ -134,14 +136,14 @@ describe('Processing developer metric extraction', () => {
       try {
         const context = getContext()
 
-        blobStorageConnector.downloadToBufferIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
 
         await processTrustedFile(context, {
           uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
           location: 'mock-session-id/mock-data.xlsx',
           containerName: 'trusted'
         })
-        await expect(blobStorageConnector.downloadToBufferIfExists).toHaveBeenCalled()
+        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
         await expect(context.bindings.signalRMessages).toBeDefined()
         await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
         done()
@@ -151,7 +153,7 @@ describe('Processing developer metric extraction', () => {
     })
   })
 
-  it('should throw exception if not extracted data', done => {
+  it('should throw error if unable to retreive blob', done => {
     jest.isolateModules(async () => {
       try {
         const context = getContext()
@@ -163,7 +165,7 @@ describe('Processing developer metric extraction', () => {
         })
 
         await expect(context.bindings.signalRMessages).toBeDefined()
-        await expect(context.bindings.signalRMessages[0].arguments[0].errorCode).toBe('BUFFER-NOT-EXISTS')
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeUndefined()
         done()
       } catch (e) {
         done(e)
