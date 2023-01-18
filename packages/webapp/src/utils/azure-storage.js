@@ -16,7 +16,8 @@ const addFileDetailsToConfiguration = (config, filename) => {
 
   const message = {
     uploadType: config.queueConfig.uploadType,
-    location: config.blobConfig.blobName
+    location: config.blobConfig.blobName,
+    containerName: config.blobConfig.containerName
   }
 
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')

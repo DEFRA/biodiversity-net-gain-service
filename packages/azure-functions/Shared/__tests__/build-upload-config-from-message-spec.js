@@ -13,6 +13,7 @@ const message = {
 describe('Building config from a message', () => {
   it('should convert a message to configuration', async () => {
     const expectedConfig = {
+      containerName: message.containerName,
       fileConfig: {
         fileLocation: message.location,
         fileExtension,
