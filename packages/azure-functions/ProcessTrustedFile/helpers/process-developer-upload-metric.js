@@ -26,7 +26,7 @@ export default async function (context, config) {
       metricData
     }]
   } catch (err) {
-    console.error(err)
+    console.log.error(err)
     signalRMessageArguments = [{ errorCode: err.code }]
   } finally {
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
