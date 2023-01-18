@@ -7,6 +7,7 @@ const buildUploadConfigFromMessage = message => {
   const filename = path.basename(fileLocation, fileExtension)
 
   return Object.freeze({
+    containerName: message.containerName,
     fileConfig: {
       fileLocation,
       fileExtension,

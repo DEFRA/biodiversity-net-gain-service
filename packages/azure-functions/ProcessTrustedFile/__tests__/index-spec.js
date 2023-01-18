@@ -1,12 +1,27 @@
 import processTrustedFile from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
+import { Readable } from 'stream'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import fs from 'fs'
+jest.mock('@defra/bng-connectors-lib')
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+
+const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
+const mockDownloadStreamIfExists = async (config, context) => {
+  const readStream = fs.createReadStream(mockDataPath)
+  const readableStream = Readable.from(readStream)
+  return {
+    readableStreamBody: readableStream
+  }
+}
 
 describe('Trusted file processing', () => {
   it('should process a known geospatial upload type in a compressed file.', done => {
@@ -39,6 +54,10 @@ describe('Trusted file processing', () => {
 
   it('should process a known metric file.', done => {
     performValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
+  })
+
+  it('should process a known developer metric file. ', done => {
+    performDeveloperValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
   it('should respond to a coordinate reference system validation error. ', done => {
@@ -107,6 +126,54 @@ describe('Trusted file processing', () => {
   })
 })
 
+describe('Processing developer metric extraction', () => {
+  beforeEach(async () => {
+    await recreateContainers()
+  })
+
+  it('should extract metric file data', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'trusted'
+        })
+        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
+
+  it('should throw error if unable to retreive blob', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'unknown'
+        })
+
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeUndefined()
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
+})
+
 const buildConfig = (fileExtension, uploadType) => {
   const userId = 'mock-session-id'
   const filenameRoot = 'mock-data'
@@ -120,21 +187,40 @@ const buildConfig = (fileExtension, uploadType) => {
     extent: ['mock extent']
   }
 
-  return {
-    mapConfig,
+  const metricData = {
+    startPage: {
+      projectName: 'mock project',
+      projectAuthority: 'mock authority'
+    }
+  }
+
+  const config = {
     message: {
       uploadType,
-      location: `${fileDirectory}/${filename}`
+      location: `${fileDirectory}/${filename}`,
+      containerName: 'trusted'
     },
     expectedSignalRMessage: {
       userId,
       target: `Processed ${filename}`,
       arguments: [{
-        location: outputFileLocation,
-        mapConfig
+        location: outputFileLocation
       }]
     }
   }
+  switch (uploadType) {
+    case DEVELOPER_METRIC_UPLOAD_TYPE:
+      config.metricData = metricData
+      config.expectedSignalRMessage.arguments[0].metricData = metricData
+      break
+
+    default:
+      config.mapConfig = mapConfig
+      config.expectedSignalRMessage.arguments[0].mapConfig = mapConfig
+      break
+  }
+
+  return config
 }
 
 const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) => {
@@ -274,4 +360,21 @@ const throwValidationError = testConfig => {
 const throwError = testConfig => {
   const errorMessage = testConfig.expectedSignalRMessage.arguments[0].errorMessage
   throw new Error(errorMessage)
+}
+
+const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'developer-upload-metric')
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
 }

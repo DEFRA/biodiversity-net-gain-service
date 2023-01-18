@@ -121,6 +121,20 @@ const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
+const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
+const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
+const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
+const DEVELOPER_METRIC_DATA = 'developer-metric-data'
+const DEV_DETAILS_CHECKED = 'dev-details-checked'
+const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
+const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
+const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
+const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
+const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
+
 const YES = 'yes'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
@@ -208,6 +222,16 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   }
 ]
 
+const CONFIRM_DEVELOPMENT_DETAILS = {
+  NO,
+  YES
+}
+
+const CHECK_UPLOAD_METRIC_OPTIONS = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   GAIN_SITE_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
@@ -277,7 +301,14 @@ const redisKeys = {
   ELIGIBILITY_OWNERSHIP_PROOF,
   ELIGIBILITY_BOUNDARY,
   ELIGIBILITY_BIODIVERSITY_METRIC,
-  ELIGIBILITY_HMMP
+  ELIGIBILITY_HMMP,
+  DEVELOPER_METRIC_DATA,
+  DEV_DETAILS_CHECKED,
+  DEVELOPER_METRIC_LOCATION,
+  DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
+  DEVELOPER_METRIC_FILE_NAME,
+  DEVELOPER_METRIC_FILE_SIZE,
+  DEVELOPER_METRIC_FILE_TYPE
 }
 
 const routes = {
@@ -344,7 +375,11 @@ const routes = {
   ELIGIBILITY_BOUNDARY,
   ELIGIBILITY_BIODIVERSITY_METRIC,
   ELIGIBILITY_HMMP,
-  ELIGIBILITY_RESULTS
+  ELIGIBILITY_RESULTS,
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_CHECK_UPLOAD_METRIC,
+  DEVELOPER_CONFIRM_DEV_DETAILS,
+  DEVELOPER_DOWNLOAD_METRIC_FILE
 }
 
 const uploadErrors = {
@@ -369,7 +404,9 @@ const uploadTypes = {
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
-  LAND_OWNERSHIP_UPLOAD_TYPE
+  LAND_OWNERSHIP_UPLOAD_TYPE,
+  DEVELOPER_METRIC_UPLOAD_TYPE,
+  DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
 }
 
 const eligibilityHTML = {
@@ -427,5 +464,7 @@ export default Object.freeze({
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
-  eligibilityHTML
+  eligibilityHTML,
+  CONFIRM_DEVELOPMENT_DETAILS,
+  CHECK_UPLOAD_METRIC_OPTIONS
 })

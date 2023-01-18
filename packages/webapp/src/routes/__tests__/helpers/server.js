@@ -98,7 +98,8 @@ const uploadFile = async (uploadConfig) => {
       // This has to be checked in this mock implementation because the web application session ID is generated dynamically.
       const expectedMessage = {
         uploadType: uploadConfig.uploadType,
-        location: blobName
+        location: blobName,
+        containerName: config.blobConfig.containerName
       }
 
       const response = await receiveMessages('untrusted-file-queue')
