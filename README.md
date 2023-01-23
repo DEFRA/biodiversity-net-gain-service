@@ -26,7 +26,6 @@
 | [database-version-control](packages/database-version-control) | [Slonik migrator](https://www.npmjs.com/package/@slonik/migrator) based version controlled database scripting for the Biodiversity Net Gain service. | Y |
 | [bng-metric-service](packages/bng-metric-service) | A library to provide Biodiversity metric file extraction related functions | N |
 
-
 ## Getting started
 
 * [Prerequisites](docs/prerequisites.md)
