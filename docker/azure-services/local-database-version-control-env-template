@@ -1,7 +1,11 @@
 # WARNING - All environment variables MUST be enclosed in double quotes to ensure the maximum degree of protection
 # against secrets being committed to version control unintentionally.
 
-# Example: postgresql://postgres:<<Replace with password>>@localhost:5432/bng
-export POSTGRES_CONNECTION_STRING=""
-export POSTGRES_BNG_USER_PASSWORD=""
+export POSTGRES_HOST="localhost"
+export POSTGRES_USER="postgres"
+export POSTGRES_PASSWORD="postgres" # if password is blank we will assume managed identity is to be used for connection
+export POSTGRES_DATABASE="bng"
+export POSTGRES_PORT="5432"
+export POSTGRES_SSL_MODE="" # set to require if sslmode required. (eg with azure postgres database) leave blank for local docker database.
+export POSTGRES_BNG_USER_PASSWORD="postgres"
 export POSTGRES_BNG_CLIENT_ID=""

@@ -23,6 +23,8 @@
 | [errors](packages/errors-lib) | Custom errors used by the Biodiversity Net Gain service | N |
 | [utils](packages/utils-lib) | Utilities used by the Biodiversity Net Gain service | N |
 | [geoprocessing-service](packages/geoprocessing-service) | A library providing cloud vendor agnostic geoprocessing functionality | N |
+| [database-version-control](packages/database-version-control) | [Slonik migrator](https://www.npmjs.com/package/@slonik/migrator) based version controlled database scripting for the Biodiversity Net Gain service. | Y |
+| [bng-metric-service](packages/bng-metric-service) | A library to provide Biodiversity metric file extraction related functions | N |
 
 ## Getting started
 
