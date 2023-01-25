@@ -5,7 +5,7 @@ CREATE FUNCTION bng.fn_create_application_reference()
 $$
 DECLARE 
 	insert_application_reference VARCHAR(20);
-	insert_id NUMERIC;
+	insert_id UUID;
 	insert_date TIMESTAMP;
 BEGIN
  	-- Do blank insert, get ID and datecreated
@@ -26,8 +26,8 @@ BEGIN
 			ELSE TO_CHAR(count(1), 'fm0000')
 			END
 			FROM bng.application_reference 
-			WHERE application_reference_id <= insert_id
-			AND (date_created AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date = (insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date
+			WHERE (date_created AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date = (insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date
+      AND date_created <= insert_date
 		)		
 	)
 	WHERE application_reference_id = insert_id;
