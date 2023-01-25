@@ -1,9 +1,10 @@
 import constants from '../utils/constants.js'
+import { formatAppRef } from '../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.REGISTRATION_SUBMITTED, {
-      gainSiteReference: request.yar.get(constants.redisKeys.GAIN_SITE_REFERENCE)
+      gainSiteReference: formatAppRef(request.yar.get(constants.redisKeys.GAIN_SITE_REFERENCE))
     })
   }
 }

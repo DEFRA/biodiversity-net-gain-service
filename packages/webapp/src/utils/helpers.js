@@ -164,6 +164,8 @@ const getEligibilityResults = session => {
   return eligibilityResults
 }
 
+const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
+
 export {
   validateDate,
   dateClasses,
@@ -179,5 +181,6 @@ export {
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
-  getEligibilityResults
+  getEligibilityResults,
+  formatAppRef
 }
