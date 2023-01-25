@@ -1,1 +1,1 @@
-drop table bng.application_reference;
+DROP TABLE IF EXISTS bng.application_reference;

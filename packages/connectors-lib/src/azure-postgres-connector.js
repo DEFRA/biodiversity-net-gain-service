@@ -3,12 +3,12 @@ import pg from 'pg'
 let pool
 
 class Db {
-  constructor (config, test = false) {
-    this.init(config, test)
+  constructor (config) {
+    this.init(config)
   }
 
-  init (config, test) {
-    if (!test && (!pool || pool.ending)) {
+  init (config) {
+    if (!pool || pool.ending) {
       pool = new pg.Pool(config)
     }
   }

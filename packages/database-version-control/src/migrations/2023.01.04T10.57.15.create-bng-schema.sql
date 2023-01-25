@@ -1,7 +1,7 @@
 DO
 $$
 BEGIN
-  IF NOT EXISTS (select nspname from pg_catalog.pg_namespace where nspname = 'bng') THEN
+  IF NOT EXISTS (SELECT nspname FROM pg_catalog.pg_namespace WHERE nspname = 'bng') THEN
      CREATE SCHEMA bng;
      GRANT USAGE ON SCHEMA bng to bng_readwrite;
      GRANT USAGE ON SCHEMA bng to bng_readonly;

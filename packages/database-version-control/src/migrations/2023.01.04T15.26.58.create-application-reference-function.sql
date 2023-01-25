@@ -1,13 +1,13 @@
-create function bng.fn_create_application_reference()
-   returns VARCHAR(20) 
-   language plpgsql
-  as
+CREATE FUNCTION bng.fn_create_application_reference()
+   RETURNS VARCHAR(20) 
+   LANGUAGE plpgsql
+  AS
 $$
-declare 
+DECLARE 
 	insert_application_reference VARCHAR(20);
-	insert_id numeric;
-	insert_date timestamp;
-begin
+	insert_id NUMERIC;
+	insert_date TIMESTAMP;
+BEGIN
  	-- Do blank insert, get ID and datecreated
 	INSERT INTO
 	bng.application_reference
