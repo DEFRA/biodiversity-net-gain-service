@@ -40,7 +40,7 @@ const application = session => {
           fileName: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
         }
       ],
-      gainSiteReference: '',
+      gainSiteReference: session.get(constants.redisKeys.GAIN_SITE_REFERENCE),
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),

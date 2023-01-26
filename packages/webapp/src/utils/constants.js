@@ -134,7 +134,6 @@ const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
-
 const YES = 'yes'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
@@ -157,6 +156,7 @@ const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
 const ELIGIBILITY_RESULTS = 'land/results'
 const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
 const REGISTRATION_SAVED = 'land/registration-saved'
+const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 
 const confirmFileUploadOptions = {
   NO,
@@ -310,7 +310,8 @@ const redisKeys = {
   DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
   DEVELOPER_METRIC_FILE_NAME,
   DEVELOPER_METRIC_FILE_SIZE,
-  DEVELOPER_METRIC_FILE_TYPE
+  DEVELOPER_METRIC_FILE_TYPE,
+  REGISTRATION_SAVED_REFERER
 }
 
 const routes = {
