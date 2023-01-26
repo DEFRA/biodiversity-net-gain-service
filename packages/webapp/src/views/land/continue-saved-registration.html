@@ -4,7 +4,10 @@
 {% set hideBackLink = true %}
 
 {% block formContent %}
-
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
@@ -15,6 +18,7 @@
       {{ govukInput({
         id: "email",
         name: "email",
+        errorMessage: err[0],
         label: {
           text: "Email address",
           classes: "govuk-label--s"
@@ -23,7 +27,8 @@
           text: "Enter the email address that you used when you started the registration."
         },
         autocomplete: "email",
-        spellcheck: false
+        spellcheck: false,
+        value: email
       }) }}
 
       {{ govukInput({
@@ -40,7 +45,9 @@
         classes: "govuk-!-width-one-half",
         id: "applicationReference",
         name: "applicationReference",
-        type: "text"
+        type: "text",
+        errorMessage: err[1],
+        value: applicationReference
       }) }}
 
       {{ govukButton({
@@ -53,5 +60,6 @@
 
     </div>
   </div>
+</div>
 
 {% endblock %}

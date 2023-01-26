@@ -1,5 +1,7 @@
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
+import { validateEmail as validateEmailHelper } from '../../utils/helpers.js'
+import email from './email.js'
 const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const handlers = {
@@ -7,10 +9,34 @@ const handlers = {
     return h.view(constants.views.CONTINUE_SAVED_REGISTRATION)
   },
   post: async (request, h) => {
-    const payload = validatePayload(request.payload)
+    const error = {
+      err: []
+    }
+    const {
+      email,
+      error: emailError
+    } = validateEmail(request.payload.email)
+
+    const {
+      applicationReference,
+      error: referenceError
+    } = validateApplicationReference(request.payload.applicationReference)
+
+    if (emailError || referenceError) {
+      error.err.push(emailError)
+      error.err.push(referenceError)
+      return h.view(constants.views.CONTINUE_SAVED_REGISTRATION, {
+        ...error,
+        email,
+        applicationReference
+      })
+    }
 
     // Get session for values
-    const session = await postJson(`${functionAppUrl}/getapplicationsession`, payload)
+    const session = await postJson(`${functionAppUrl}/getapplicationsession`, {
+      email,
+      applicationReference
+    })
 
     // Restore session to Yar object
     request.yar.set(session)
@@ -20,10 +46,56 @@ const handlers = {
   }
 }
 
-const validatePayload = payload => {
+const validateEmail = email => {
+  const id = '#email'
+  let error
+  if (!email) {
+    error = {
+      text: 'Enter the email address',
+      href: id
+    }
+  } else {
+    const result = validateEmailHelper(email, id)
+    if (result) {
+      error = error.err[0]
+    }
+  }
+
+  // if no error format the address to lower case
+  if (!error) {
+    email = email.toLowerCase()
+  }  
+
   return {
-    applicationReference: payload.applicationReference,
-    email: payload.email.toLowerCase()
+    email,
+    error
+  }  
+}
+
+const validateApplicationReference = applicationReference => {
+  const id = '#applicationReference'
+  let error
+
+  if (!applicationReference) {
+    error = {
+      text: 'Enter the reference number',
+      href: id
+    }
+  } else if (applicationReference.replace(/\D/g,'').length !== 10) {
+    error = {
+      text: 'Enter a reference number in the correct format',
+      href: id
+    }
+  }
+
+  // If no error then remove non numeric characters from string
+  if (!error) {
+    applicationReference = applicationReference.replace(/\D/g,'')
+  }
+
+  return {
+    applicationReference,
+    error
   }
 }
 
