@@ -1,0 +1,57 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Continue with a saved registration" %}
+{% set hideBackLink = true %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+
+      {{ govukInput({
+        id: "email",
+        name: "email",
+        label: {
+          text: "Email address",
+          classes: "govuk-label--s"
+        },
+        hint: {
+          text: "Enter the email address that you used when you started the registration."
+        },
+        autocomplete: "email",
+        spellcheck: false
+      }) }}
+
+      {{ govukInput({
+        label: {
+            text: "Reference number",
+            classes: "govuk-label--s"
+        },
+        hint: {
+          text: "You should have received the reference number in a confirmation email. For example, REF-150 311 001"
+        },
+        prefix: {
+          text: "REF-"
+        },
+        classes: "govuk-!-width-one-half",
+        id: "reference-number",
+        name: "reference-number",
+        type: "text"
+      }) }}
+
+      {{ govukButton({
+          text: "Continue"
+      }) }}
+
+      <p><a href="/start">Start a new biodiversity gain site registration</a></p>
+
+      {% include "common/get-help.html" %}
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -155,6 +155,8 @@ const ELIGIBILITY_BOUNDARY = 'land/boundary'
 const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
 const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
 const ELIGIBILITY_RESULTS = 'land/results'
+const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
+const REGISTRATION_SAVED = 'land/registration-saved'
 
 const confirmFileUploadOptions = {
   NO,
@@ -379,7 +381,9 @@ const routes = {
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_CHECK_UPLOAD_METRIC,
   DEVELOPER_CONFIRM_DEV_DETAILS,
-  DEVELOPER_DOWNLOAD_METRIC_FILE
+  DEVELOPER_DOWNLOAD_METRIC_FILE,
+  CONTINUE_SAVED_REGISTRATION,
+  REGISTRATION_SAVED
 }
 
 const uploadErrors = {
