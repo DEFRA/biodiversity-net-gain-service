@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
 import { validateEmail as validateEmailHelper } from '../../utils/helpers.js'
-import email from './email.js'
 const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const handlers = {
@@ -27,8 +26,8 @@ const handlers = {
       error.err.push(referenceError)
       return h.view(constants.views.CONTINUE_SAVED_REGISTRATION, {
         ...error,
-        email,
-        applicationReference
+        email: request.payload.email,
+        applicationReference: request.payload.applicationReference
       })
     }
 
@@ -38,11 +37,25 @@ const handlers = {
       applicationReference
     })
 
-    // Restore session to Yar object
-    request.yar.set(session)
+    if (Object.keys(session).length === 0) {
+      return h.view(constants.views.CONTINUE_SAVED_REGISTRATION, {
+        email,
+        applicationReference,
+        err: [{
+          text: 'We do not recognise your email address or reference number, try again',
+          href: '#email'
+        }, {
+          text: '',
+          href: '#applicationReference'
+        }]
+      })
+    } else {
+      // Restore session to Yar object
+      request.yar.set(session)
 
-    // Redirect to saved referer or default to task list
-    return h.redirect(session[constants.redisKeys.REGISTRATION_SAVED_REFERER] || constants.routes.REGISTER_LAND_TASK_LIST)
+      // Redirect to saved referer or default to task list
+      return h.redirect(session[constants.redisKeys.REGISTRATION_SAVED_REFERER] || constants.routes.REGISTER_LAND_TASK_LIST)
+    }
   }
 }
 
@@ -64,12 +77,12 @@ const validateEmail = email => {
   // if no error format the address to lower case
   if (!error) {
     email = email.toLowerCase()
-  }  
+  }
 
   return {
     email,
     error
-  }  
+  }
 }
 
 const validateApplicationReference = applicationReference => {
@@ -81,7 +94,7 @@ const validateApplicationReference = applicationReference => {
       text: 'Enter the reference number',
       href: id
     }
-  } else if (applicationReference.replace(/\D/g,'').length !== 10) {
+  } else if (applicationReference.replace(/\D/g, '').length !== 10) {
     error = {
       text: 'Enter a reference number in the correct format',
       href: id
@@ -90,7 +103,7 @@ const validateApplicationReference = applicationReference => {
 
   // If no error then remove non numeric characters from string
   if (!error) {
-    applicationReference = applicationReference.replace(/\D/g,'')
+    applicationReference = applicationReference.replace(/\D/g, '')
     applicationReference = `REF${applicationReference}`
   }
 
