@@ -65,19 +65,19 @@
     },
     html: 'This is a new service – <a class="govuk-link" href="#">give feedback</a> to help us to improve it.'
   }) }}
-  {% if not hideBackLink %}
-    {{ govukBackLink({
-      text: "Back",
-      href: "javascript: window.history.go(-1)"
-    }) }}
-  {% endif %}
-  {% if showSaveLink %}
-    <div class="app-save__wrapper">
+  <div class="app-save__wrapper">
+    {% if not hideBackLink %}
+      {{ govukBackLink({
+        text: "Back",
+        href: "javascript: window.history.go(-1)"
+      }) }}
+    {% endif %}
+    {% if showSaveLink %}
       <div class="app-save">
         <p><a class="govuk-link govuk-link--no-visited-state" href="/land/registration-saved">Save and return later</a></p>
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
+  </div>  
 {% endblock %}
 
 {% block content %}

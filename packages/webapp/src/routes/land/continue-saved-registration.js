@@ -91,6 +91,7 @@ const validateApplicationReference = applicationReference => {
   // If no error then remove non numeric characters from string
   if (!error) {
     applicationReference = applicationReference.replace(/\D/g,'')
+    applicationReference = `REF${applicationReference}`
   }
 
   return {
