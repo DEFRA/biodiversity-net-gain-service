@@ -4,9 +4,7 @@ import { validateEmail as validateEmailHelper } from '../../utils/helpers.js'
 const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.CONTINUE_SAVED_REGISTRATION)
-  },
+  get: async (_request, h) => h.view(constants.views.CONTINUE_SAVED_REGISTRATION),
   post: async (request, h) => {
     const error = {
       err: []
