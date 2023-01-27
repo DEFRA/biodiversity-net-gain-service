@@ -57,7 +57,7 @@ const validateEmail = email => {
   } else {
     const result = validateEmailHelper(email, id)
     if (result) {
-      error = error.err[0]
+      error = result.err[0]
     }
   }
 
