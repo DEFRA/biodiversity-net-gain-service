@@ -1,5 +1,4 @@
 import constants from '../../../utils/constants'
-import session from '../../../__mocks__/session'
 import registrationSaved from '../../land/registration-saved.js'
 import applicationSession from '../../../__mocks__/application-session.js'
 
@@ -13,13 +12,9 @@ describe(url, () => {
     const session = applicationSession()
     const referer = 'http://localhost:3000/land/register-task-list'
     let viewArgs = ''
-    let redirectArgs = ''
     const h = {
       view: (...args) => {
         viewArgs = args
-      },
-      redirect: (...args) => {
-        redirectArgs = args
       }
     }
 
@@ -28,10 +23,10 @@ describe(url, () => {
       return 'REF1234567890'
     })
 
-    await getHandler({ 
+    await getHandler({
       yar: session,
       headers: {
-        referer: referer
+        referer
       }
     }, h)
     expect(viewArgs[0]).toEqual(constants.views.REGISTRATION_SAVED)
@@ -43,13 +38,13 @@ describe(url, () => {
     const session = applicationSession()
     const referer = 'http://localhost:3000/land/register-task-list'
     session.set(constants.redisKeys.EMAIL_VALUE, undefined)
-    await expect(getHandler({ 
+    await expect(getHandler({
       yar: session,
       headers: {
-        referer: referer
+        referer
       }
     }))
-    .rejects
-    .toThrow('No email present for saving application Session')
+      .rejects
+      .toThrow('No email present for saving application Session')
   })
 })
