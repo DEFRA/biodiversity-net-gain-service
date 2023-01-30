@@ -16,7 +16,6 @@ const handlers = {
 
     // Save application and store returned gain site reference
     const gainSiteReference = await postJson(`${functionAppUrl}/saveapplicationsession`, request.yar._store)
-    request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, gainSiteReference)
 
     // Clear out user session
     request.yar.reset()
