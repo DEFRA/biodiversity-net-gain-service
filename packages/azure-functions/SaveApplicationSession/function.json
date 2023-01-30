@@ -2,17 +2,17 @@
   "disabled": false,
   "bindings": [
     {
-        "authLevel": "anonymous",
-        "type": "httpTrigger",
-        "direction": "in",
-        "name": "req",
-        "route": "saveapplicationsession",
-        "methods": [ "post" ]
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "route": "saveapplicationsession",
+      "methods": [ "post" ]
     },
     {
-        "type": "http",
-        "direction": "out",
-        "name": "res"
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }

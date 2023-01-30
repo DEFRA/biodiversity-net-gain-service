@@ -2,17 +2,6 @@ import getApplicationSession from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('../../Shared/db-queries.js')
-jest.mock('../../Shared/db-config.js')
-jest.mock('@azure/identity')
-const dbConfig = require('../../Shared/db-config')
-dbConfig.default = {
-  host: process.env.POSTGRES_HOST,
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DATABASE,
-  port: process.env.POSTGRES_PORT,
-  ssl: !!process.env.POSTGRES_SSL_MODE
-}
 
 const req = {
   body: {

@@ -1,0 +1,11 @@
+{ 
+  "disabled": false,
+  "bindings": [
+    {
+      "schedule": "0 0 0 * * *",
+      "name": "clearApplicationSessionTimer",
+      "type": "timerTrigger",
+      "direction": "in"
+    }
+  ]
+}
