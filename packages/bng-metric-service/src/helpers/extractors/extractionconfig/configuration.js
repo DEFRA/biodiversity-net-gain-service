@@ -19,9 +19,9 @@ const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 
   'Strategic significance_1', 'Strategic Significance multiplier', 'Total habitat units',
   'Baseline units retained', 'Baseline units enhanced', 'Area lost', 'Units lost']
 const habitatBaselineExtractionConfig = {
-  sheetName: 'A-1 Site Habitat Baseline',
-  titleCellAddress: 'D3',
-  startCell: 'D10',
+  sheetName: 'Headline Results',
+  titleCellAddress: 'B3',
+  startCell: 'B8',
   cellHeaders: habitatBaselineHeaders,
   columnsToBeRemoved: ['__EMPTY'],
   substitutions: {
