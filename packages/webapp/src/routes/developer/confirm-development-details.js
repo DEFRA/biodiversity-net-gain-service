@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processCompletedMetricTask } from '../../utils/helpers.js'
 
 const href = '#dev-details-checked-yes'
 const handlers = {
@@ -22,7 +23,8 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
+      processCompletedMetricTask(request, { taskTitle: 'Biodiversity 3.1 Metric calculations', title: 'Confirm development details' })
+      return h.redirect(constants.routes.DEVELOPER_METRIC_TASK_LIST)
     } else {
       return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
         filename: path.basename(metricUploadLocation),

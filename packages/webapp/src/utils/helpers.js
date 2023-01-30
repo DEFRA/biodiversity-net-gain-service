@@ -2,6 +2,7 @@ import moment from 'moment'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import validator from 'email-validator'
+import metricTaskList from './metric-task-list.js'
 
 const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
@@ -80,6 +81,25 @@ const processCompletedRegistrationTask = (request, taskDetails) => {
     }
   })
   request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+}
+
+const getMetricTasks = request => {
+  const metricTasks = request.yar.get(constants.redisKeys.METRIC_TASK_DETAILS)
+  if (!metricTasks) {
+    return JSON.parse(JSON.stringify(metricTaskList))
+  }
+  return metricTasks
+}
+
+const processCompletedMetricTask = (request, taskDetails) => {
+  const metricTasks = getMetricTasks(request)
+  const affectedTask = metricTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
+  affectedTask.tasks.forEach(task => {
+    if (task.title === taskDetails.title) {
+      task.status = constants.COMPLETE_METRIC_TASK_STATUS
+    }
+  })
+  request.yar.set(constants.redisKeys.METRIC_TASK_DETAILS, metricTasks)
 }
 
 const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
@@ -182,5 +202,6 @@ export {
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
-  formatAppRef
+  formatAppRef,
+  processCompletedMetricTask
 }

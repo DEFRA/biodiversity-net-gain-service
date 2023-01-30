@@ -13,7 +13,9 @@ export default async function (context, config) {
     if (response) {
       const documentStream = response.readableStreamBody
       const extractionConfiguration = {
-        startPage: bngMetricService.extractionConfiguration.startExtractionConfig
+        startPage: bngMetricService.extractionConfiguration.startExtractionConfig,
+        siteHabitatBaseline: bngMetricService.extractionConfiguration.habitatBaselineExtractionConfig,
+        headlineResult: bngMetricService.extractionConfiguration.headlineResultExtractionConfig
       }
       metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
     } else {

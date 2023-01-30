@@ -4,6 +4,7 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { processCompletedMetricTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
 const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
@@ -28,6 +29,8 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, metricFileData.filename)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, parseFloat(metricFileData.fileSize).toFixed(1))
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, metricFileData.fileType)
+
+      processCompletedMetricTask(request, { taskTitle: 'Biodiversity 3.1 Metric calculations', title: 'Upload metric calculation' })
     }
 
     return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
