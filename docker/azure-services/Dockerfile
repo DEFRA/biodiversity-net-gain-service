@@ -1,6 +1,6 @@
 # Dockerfile inspired by https://github.com/klabbet/signalr-emulator.
-FROM mcr.microsoft.com/dotnet/sdk:3.1-bullseye
-RUN apt-get update -y && apt-get install -y lsb-release apt-utils && apt-get clean all && \
+FROM mcr.microsoft.com/dotnet/sdk:6.0.405-bullseye-slim
+RUN apt-get update -y && apt-get install -y lsb-release apt-utils gpg && apt-get clean all && \
     # Install the Microsoft package signing key and repository.
     curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
     install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && rm packages.microsoft.gpg && \
@@ -15,7 +15,7 @@ RUN apt-get update -y && apt-get install -y lsb-release apt-utils && apt-get cle
 RUN useradd --shell /usr/sbin/nologin node
 # Install and initialise the SignalR emulator.
 WORKDIR /home/node/asrs-emulator
-RUN dotnet tool install --tool-path /usr/local/bin Microsoft.Azure.SignalR.Emulator --version 1.0.0-preview1-10809 && asrs-emulator upstream init
+RUN dotnet tool install --tool-path /usr/local/bin Microsoft.Azure.SignalR.Emulator --version 1.1.0 && asrs-emulator upstream init
 # Prepare to run the Azure functions that:
 # - process trusted files
 # - perform SignalR negotiation using the emulator
