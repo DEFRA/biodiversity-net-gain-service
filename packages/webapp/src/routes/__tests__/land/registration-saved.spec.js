@@ -7,7 +7,7 @@ jest.mock('../../../utils/http.js')
 const url = constants.routes.REGISTRATION_SAVED
 
 describe(url, () => {
-  describe('POST', () => {
+  describe('GET', () => {
     it('Should save a valid request to the database', async () => {
       const getHandler = registrationSaved[0].handler
       const session = applicationSession()

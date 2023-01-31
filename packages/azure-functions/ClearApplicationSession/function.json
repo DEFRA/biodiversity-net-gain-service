@@ -2,7 +2,7 @@
   "disabled": false,
   "bindings": [
     {
-      "schedule": "0 0 0 * * *",
+      "schedule": "%CLEAR_APPLICATION_SESSION_NCRONTAB%",
       "name": "clearApplicationSessionTimer",
       "type": "timerTrigger",
       "direction": "in"
