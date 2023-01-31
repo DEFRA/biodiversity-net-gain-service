@@ -31,7 +31,7 @@ describe(url, () => {
         }
       }, h)
       expect(viewArgs[0]).toEqual(constants.views.REGISTRATION_SAVED)
-      expect(viewArgs[1].gainSiteReference).toEqual('REF-123 456 7890')
+      expect(viewArgs[1].applicationReference).toEqual('REF-123 456 7890')
       expect(session.values.length).toEqual(0)
     })
     it('Should not save if no email address is present', async () => {

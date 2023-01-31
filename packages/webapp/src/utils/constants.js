@@ -1,7 +1,7 @@
 const ABOUT = 'about'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
-const GAIN_SITE_REFERENCE = 'gain-site-reference'
+const APPLICATION_REFERENCE = 'application-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -235,7 +235,7 @@ const CHECK_UPLOAD_METRIC_OPTIONS = {
 }
 
 const redisKeys = {
-  GAIN_SITE_REFERENCE,
+  APPLICATION_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_MAP_CONFIG,

@@ -6,7 +6,7 @@ jest.mock('../../Shared/db-queries.js')
 const req = {
   body: {
     'email-value': 'test@test.com',
-    'gain-site-reference': ''
+    'application-reference': ''
   }
 }
 
@@ -42,7 +42,7 @@ describe('Save Application Session', () => {
   it('Should save a valid session with email and reference', done => {
     jest.isolateModules(async () => {
       try {
-        req.body['gain-site-reference'] = 'REF001'
+        req.body['application-reference'] = 'REF001'
         const dbQueries = require('../../Shared/db-queries.js')
         dbQueries.saveApplicationSession = jest.fn().mockImplementation(() => {
           return {}

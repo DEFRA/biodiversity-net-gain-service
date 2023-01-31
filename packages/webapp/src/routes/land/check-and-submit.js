@@ -20,7 +20,7 @@ const handlers = {
       throw new Error(error)
     }
     const result = await postJson(`${functionAppUrl}/processapplication`, value)
-    request.yar.set(constants.redisKeys.GAIN_SITE_REFERENCE, result.gainSiteReference)
+    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.REGISTRATION_SUBMITTED)
   }
 }

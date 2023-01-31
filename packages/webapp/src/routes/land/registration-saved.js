@@ -15,14 +15,14 @@ const handlers = {
     }
 
     // Save application and store returned gain site reference
-    const gainSiteReference = await postJson(`${functionAppUrl}/saveapplicationsession`, request.yar._store)
+    const applicationReference = await postJson(`${functionAppUrl}/saveapplicationsession`, request.yar._store)
 
     // Clear out user session
     request.yar.reset()
 
     // Return gain site reference
     return h.view(constants.views.REGISTRATION_SAVED, {
-      gainSiteReference: formatAppRef(gainSiteReference)
+      applicationReference: formatAppRef(applicationReference)
     })
   }
 }
