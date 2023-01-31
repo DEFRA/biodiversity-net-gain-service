@@ -23,7 +23,11 @@ export default async function (context, req) {
     }
 
     // Save the applicationSession to database
-    await saveApplicationSession(db, [applicationSession[redisKeys.applicationReference], applicationSession[redisKeys.emailaddress].toLowerCase(), JSON.stringify(applicationSession)])
+    await saveApplicationSession(db, [
+      applicationSession[redisKeys.applicationReference],
+      applicationSession[redisKeys.emailaddress].toLowerCase(),
+      JSON.stringify(applicationSession)
+    ])
     await db.end()
 
     // Return application reference
