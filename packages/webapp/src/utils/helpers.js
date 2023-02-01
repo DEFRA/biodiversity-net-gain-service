@@ -203,5 +203,6 @@ export {
   checked,
   getEligibilityResults,
   formatAppRef,
-  processCompletedMetricTask
+  processCompletedMetricTask,
+  getMetricTasks
 }

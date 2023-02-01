@@ -1,5 +1,10 @@
 // start configuration
 const startHeaders = ['Project details']
+const broadHabitat = 'Broad Habitat'
+const proposedHabitat = 'Proposed habitat'
+const areaHectares = 'Area (hectares)'
+const habitatUnitsDelivered = 'Habitat units delivered'
+const strategicSignificance = 'Strategic significance'
 
 const startExtractionConfig = {
   sheetName: 'Start',
@@ -23,7 +28,7 @@ export const headlineResultExtractionConfig = {
   }
 }
 // Habitat baseline configuration
-const habitatBaselineHeaders = ['Broad habitat', ' Habitat type', areaHectares, 'Distinctiveness',
+const habitatBaselineHeaders = ['Broad habitat', 'Habitat type', areaHectares, 'Distinctiveness',
   'Score', 'Condition ', 'Score', 'Condition', 'Score_1', strategicSignificance,
   'Strategic significance_1', 'Strategic Significance multiplier', 'Total habitat units',
   'Baseline units retained', 'Baseline units enhanced', 'Area lost', 'Units lost']

@@ -78,7 +78,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual(url)
+          expect(redirectArgs[0]).toEqual(constants.routes.DEVELOPER_METRIC_TASK_LIST)
           done()
         } catch (err) {
           done(err)
