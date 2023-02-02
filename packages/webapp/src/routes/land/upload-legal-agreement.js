@@ -3,6 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
@@ -53,7 +54,15 @@ function processErrorUpload (err, h, legalAgreementId) {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_LEGAL_AGREEMENT),
+  get: async (request, h) => {
+    processRegistrationTask(request, { 
+      taskTitle: 'Legal information', 
+      title: 'Add legal agreement details' 
+    }, { 
+      inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
+    })
+    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT)
+  },
   post: async (request, h) => {
     const legalAgreementId = '#legalAgreement'
     const config = buildConfig(request.yar.id)

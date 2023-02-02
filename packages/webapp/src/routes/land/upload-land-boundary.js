@@ -4,6 +4,7 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -74,7 +75,15 @@ function processErrorUpload (err, h) {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_LAND_BOUNDARY),
+  get: async (request, h) => { 
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
+      inProgressUrl: constants.routes.UPLOAD_LAND_BOUNDARY
+    })
+    return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
+  },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(

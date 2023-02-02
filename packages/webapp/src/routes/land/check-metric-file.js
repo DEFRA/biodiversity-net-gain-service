@@ -1,11 +1,19 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import { processCompletedRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request)),
+  get: async (request, h) => {
+    processRegistrationTask(request, { 
+      taskTitle: 'Habitat information', 
+      title: 'Upload Biodiversity Metric 3.1' 
+    }, { 
+      inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
+    })
+    return h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request))
+  },
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
@@ -21,7 +29,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      processCompletedRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' })
+      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTER_LAND_TASK_LIST)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {

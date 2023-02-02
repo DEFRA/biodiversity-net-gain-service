@@ -51,8 +51,8 @@ const handlers = {
       // Restore session to Yar object
       request.yar.set(session)
 
-      // Redirect to saved referer or default to task list
-      return h.redirect(session[constants.redisKeys.REGISTRATION_SAVED_REFERER] || constants.routes.REGISTER_LAND_TASK_LIST)
+      // Redirect to task list
+      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
   }
 }

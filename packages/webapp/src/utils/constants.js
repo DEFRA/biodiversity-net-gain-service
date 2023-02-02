@@ -114,6 +114,7 @@ const LAND_OWNERSHIP_KEY = 'land-ownership-key'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
+const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -465,6 +466,7 @@ export default Object.freeze({
   threatScreeningStatusValues,
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
+  IN_PROGRESS_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,

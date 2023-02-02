@@ -1,12 +1,20 @@
 import constants from '../../utils/constants.js'
-import { processCompletedRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import path from 'path'
 import moment from 'moment'
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS, getContext(request)),
+  get: async (request, h) => {
+    processRegistrationTask(request, { 
+      taskTitle: 'Habitat information', 
+      title: 'Add habitat management and monitoring details' 
+    }, { 
+      inProgressUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS
+    })
+    return h.view(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS, getContext(request))
+  },
   post: async (request, h) => {
-    processCompletedRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat management and monitoring details' })
+    processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat management and monitoring details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

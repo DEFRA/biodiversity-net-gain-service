@@ -3,6 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -55,7 +56,16 @@ function processErrorUpload (err, h) {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_METRIC),
+  get: async (request, h) => {
+    processRegistrationTask(request, { 
+      taskTitle: 'Habitat information', 
+      title: 'Upload Biodiversity Metric 3.1' 
+    }, { 
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.UPLOAD_METRIC
+    })
+    return h.view(constants.views.UPLOAD_METRIC)
+  },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(

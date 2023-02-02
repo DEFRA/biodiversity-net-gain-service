@@ -1,11 +1,17 @@
 import constants from '../../utils/constants.js'
-import { validateDate, dateClasses } from '../../utils/helpers.js'
+import { validateDate, dateClasses, processRegistrationTask } from '../../utils/helpers.js'
 import moment from 'moment'
 
 const ID = 'habitatWorksStartDate'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, { 
+      taskTitle: 'Habitat information', 
+      title: 'Add habitat management and monitoring details' 
+    }, { 
+      inProgressUrl: constants.routes.HABITAT_WORKS_START_DATE
+    })
     const date = request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))
     return h.view(constants.views.HABITAT_WORKS_START_DATE, {
       dateClasses,
