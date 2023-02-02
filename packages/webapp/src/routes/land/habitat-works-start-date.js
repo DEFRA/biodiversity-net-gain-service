@@ -6,10 +6,10 @@ const ID = 'habitatWorksStartDate'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Add habitat management and monitoring details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Add habitat management and monitoring details'
+    }, {
       inProgressUrl: constants.routes.HABITAT_WORKS_START_DATE
     })
     const date = request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))

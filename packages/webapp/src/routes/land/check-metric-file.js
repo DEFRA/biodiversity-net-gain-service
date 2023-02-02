@@ -6,10 +6,10 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Upload Biodiversity Metric 3.1' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Upload Biodiversity Metric 3.1'
+    }, {
       inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
     })
     return h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request))
@@ -29,7 +29,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
+      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTER_LAND_TASK_LIST)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {

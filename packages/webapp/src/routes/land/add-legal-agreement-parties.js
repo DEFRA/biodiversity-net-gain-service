@@ -151,10 +151,10 @@ function getRoleDetails (roleValue, indexValue) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Legal information', 
-      title: 'Add legal agreement details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
       inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
     })
     const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)

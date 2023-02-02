@@ -2,11 +2,11 @@ import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (request, h) => { 
-    processRegistrationTask(request, { 
-      taskTitle: 'Legal information', 
-      title: 'Add legal agreement details' 
-    }, { 
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_TYPE
     })

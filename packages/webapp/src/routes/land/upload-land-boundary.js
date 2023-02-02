@@ -75,7 +75,7 @@ function processErrorUpload (err, h) {
 }
 
 const handlers = {
-  get: async (request, h) => { 
+  get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Land information',
       title: 'Add land boundary details'

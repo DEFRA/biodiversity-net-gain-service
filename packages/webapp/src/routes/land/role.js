@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checked } from '../../utils/helpers.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checked, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {

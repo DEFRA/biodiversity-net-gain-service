@@ -5,16 +5,16 @@ import moment from 'moment'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Add habitat management and monitoring details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Add habitat management and monitoring details'
+    }, {
       inProgressUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS
     })
     return h.view(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS, getContext(request))
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat management and monitoring details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
+    processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat management and monitoring details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

@@ -57,14 +57,14 @@ function processErrorUpload (err, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Land information', 
-      title: 'Add land ownership details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
     })
-    return  h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
+    return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
   },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)

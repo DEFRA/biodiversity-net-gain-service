@@ -5,10 +5,10 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Add habitat management and monitoring details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Add habitat management and monitoring details'
+    }, {
       inProgressUrl: constants.routes.CHECK_MANAGEMENT_PLAN
     })
     return h.view(constants.views.CHECK_MANAGEMENT_PLAN, getContext(request))

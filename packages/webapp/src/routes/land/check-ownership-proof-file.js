@@ -5,10 +5,10 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Land information', 
-      title: 'Add land ownership details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
       inProgressUrl: constants.routes.CHECK_PROOF_OF_OWNERSHIP
     })
     return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, getContext(request))

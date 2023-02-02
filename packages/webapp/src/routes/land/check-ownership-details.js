@@ -4,10 +4,10 @@ import path from 'path'
 import { boolToYesNo, listArray, processRegistrationTask, getAllLandowners } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Land information', 
-      title: 'Add land ownership details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
       inProgressUrl: constants.routes.CHECK_OWNERSHIP_DETAILS
     })
     const landownerNames = getAllLandowners(request.yar)
@@ -17,7 +17,7 @@ const handlers = {
     return h.view(constants.views.CHECK_OWNERSHIP_DETAILS, { landownerNames, consent, fileName, hideConsent, boolToYesNo, listArray })
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land ownership details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
+    processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land ownership details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

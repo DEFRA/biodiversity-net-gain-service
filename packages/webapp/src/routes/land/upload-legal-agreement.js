@@ -55,10 +55,10 @@ function processErrorUpload (err, h, legalAgreementId) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Legal information', 
-      title: 'Add legal agreement details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
       inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
     })
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT)

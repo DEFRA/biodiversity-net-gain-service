@@ -21,7 +21,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Your details', title: 'Add your details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
+    processRegistrationTask(request, { taskTitle: 'Your details', title: 'Add your details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

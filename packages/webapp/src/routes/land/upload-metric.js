@@ -57,10 +57,10 @@ function processErrorUpload (err, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Upload Biodiversity Metric 3.1' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Upload Biodiversity Metric 3.1'
+    }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_METRIC
     })

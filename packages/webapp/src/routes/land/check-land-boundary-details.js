@@ -4,16 +4,16 @@ import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-bounda
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, { 
-      taskTitle: 'Land information', 
-      title: 'Add land boundary details' 
-    }, { 
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
       inProgressUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS
     })
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, geospatialOrLandBoundaryContext(request))
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land boundary details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS})
+    processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land boundary details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }

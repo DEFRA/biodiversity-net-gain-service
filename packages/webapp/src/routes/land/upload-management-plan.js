@@ -8,15 +8,15 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
 const handlers = {
-  get: async (request, h) => { 
-    processRegistrationTask(request, { 
-      taskTitle: 'Habitat information', 
-      title: 'Add habitat management and monitoring details' 
-    }, { 
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Habitat information',
+      title: 'Add habitat management and monitoring details'
+    }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN
     })
-    return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN) 
+    return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN)
   },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
