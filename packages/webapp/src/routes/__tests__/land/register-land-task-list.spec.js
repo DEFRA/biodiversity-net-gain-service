@@ -40,6 +40,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-your-details',
             startTaskUrl: '/land/name',
+            inProgressUrl: '',
             id: 'add-your-details'
           }
         ]
@@ -52,6 +53,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-land-boundary-details',
             startTaskUrl: '/land/choose-land-boundary-upload',
+            inProgressUrl: '',
             id: 'add-land-boundary'
           },
           {
@@ -59,6 +61,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-ownership-details',
             startTaskUrl: '/land/upload-ownership-proof',
+            inProgressUrl: '',
             id: 'add-land-ownership'
           }
         ]
@@ -71,6 +74,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-file',
             startTaskUrl: '/land/upload-metric',
+            inProgressUrl: '',
             id: 'add-habitat-information'
           },
           {
@@ -78,6 +82,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-management-monitoring-details',
             startTaskUrl: '/land/upload-management-plan',
+            inProgressUrl: '',
             id: 'add-habitat-management'
           }
         ]
@@ -90,6 +95,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-legal-agreement-details',
             startTaskUrl: '/land/legal-agreement-type',
+            inProgressUrl: '',
             id: 'add-legal-agreement'
           }
         ]
@@ -133,6 +139,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-your-details',
             startTaskUrl: '/land/name',
+            inProgressUrl: '',
             id: 'add-your-details'
           }
         ]
@@ -145,6 +152,7 @@ describe(url, () => {
             status: 'COMPLETED',
             completedTaskUrl: '/land/check-land-boundary-details',
             startTaskUrl: '/land/choose-land-boundary-upload',
+            inProgressUrl: '',
             id: 'add-land-boundary'
           },
           {
@@ -152,6 +160,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-ownership-details',
             startTaskUrl: '/land/upload-ownership-proof',
+            inProgressUrl: '',
             id: 'add-land-ownership'
           }
         ]
@@ -164,6 +173,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-file',
             startTaskUrl: '/land/upload-metric',
+            inProgressUrl: '',
             id: 'add-habitat-information'
           },
           {
@@ -171,6 +181,7 @@ describe(url, () => {
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-management-monitoring-details',
             startTaskUrl: '/land/upload-management-plan',
+            inProgressUrl: '',
             id: 'add-habitat-management'
           }
         ]
@@ -183,6 +194,7 @@ describe(url, () => {
             status: 'COMPLETED',
             completedTaskUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
             startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
+            inProgressUrl: '',
             id: 'add-legal-agreement'
           }
         ]

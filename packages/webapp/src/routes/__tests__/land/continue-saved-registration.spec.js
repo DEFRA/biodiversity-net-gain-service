@@ -66,7 +66,7 @@ describe(url, () => {
         payload,
         yar: session
       }, h)
-      expect(redirectArgs[0]).toEqual(constants.routes.CHECK_AND_SUBMIT)
+      expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
     it('Should fail validation if no email', async () => {
       const postHandler = continueSavedRegistration[1].handler
