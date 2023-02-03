@@ -1,0 +1,238 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Confirm the off-site gain" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'confirmOffsiteGain' %}
+        {% set name = 'confirmOffsiteGain' %}
+        {% set id = 'offsite-details-checked-yes' %}
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+              legend: {
+                  text: pageHeading,
+                  classes: "govuk-fieldset__legend--l govuk-heading-l",
+                  isPageHeading: true
+              }
+          }) }}
+          <p>Confirm if these details match what you have agreed with the landowner.</p>
+        
+          {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: "Landowner"
+                },
+                value: {
+                  text: 'Bex Eco Farm Ltd'
+                }
+              },
+              {
+                key: {
+                  text: "Biodiversity gain site number"
+                },
+                value: {
+                  text: 'BGS-12778902'
+                }
+              }
+            ]
+          }) 
+        }}
+
+        {% from "govuk/components/table/macro.njk" import govukTable %}
+        {% set Grassland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Grassland</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Modified grassland</span>" %}
+        {% set Heathland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Heathland and scrub</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Bramble scrub</span>" %}
+        {% set Woodland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Woodland and forest</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Lowland mixed deciduous woodland</span>" %}
+        {% set HabitatUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>" %}
+        {% set HabitatBNGAdded = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>" %}
+        {% set NativeSpecies = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Native species rich hedgerow</span>" %}
+        {% set HedgerowUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>" %}
+        {% set HedgerowBNGAdded = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>" %}
+        {% set BNGUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity units</span>" %}
+        {% set BNG = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain</span>" %}
+        
+        {{ govukTable({
+            caption: '',
+            captionClasses: "govuk-table__caption--m",
+            firstCellIsHeader: true,
+            head: [
+              {
+                text: "Habitat type",
+                classes: "govuk-!-width-two-thirds"
+              },
+              {
+                text: "Biodiversity units"
+              }
+            ],
+            rows: [
+              [
+                {
+                  html: Grassland,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "1"
+                }
+              ],
+              [
+                {
+                  html: Heathland,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "1"
+                }
+              ],
+              [
+                {
+                  html: Woodland,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "2"
+                }
+              ],
+              [
+                {
+                  html: HabitatUnits,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "4"
+                }
+              ],
+              [
+                {
+                  html: HabitatBNGAdded,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "3%"
+                }
+              ]
+            ]
+          }) 
+          }}
+          {{ govukTable({
+            caption: '',
+            captionClasses: "govuk-table__caption--m",
+            firstCellIsHeader: true,
+            head: [
+              {
+                text: "Hedgerow type",
+                classes: "govuk-!-width-two-thirds"
+              },
+              {
+                text: "Biodiversity units"
+              }
+            ],
+            rows: [
+              [
+                {
+                  html: NativeSpecies,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "1"
+                }
+              ],
+              [
+                {
+                  html: HedgerowUnits,
+                  classes: "govuk-!-width-two-thirds govuk-body"
+                },
+                {
+                  text: "1"
+                }
+              ],
+              [
+                {
+                  html: HedgerowBNGAdded,
+                  classes: "govuk-!-width-two-thirds"
+                },
+                {
+                  text: "2%"
+                }
+              ]
+            ]
+          }) 
+          }}
+
+          {{ govukTable({
+            caption: '',
+            captionClasses: "govuk-table__caption--m",
+            firstCellIsHeader: true,
+            head: [
+              {
+                text: "Biodiversity",
+                classes: "govuk-!-width-two-thirds"
+              },
+              {
+                text: "Total"
+              }
+            ],
+            rows: [
+              [
+                {
+                  html: BNGUnits,
+                  classes: "govuk-!-width-two-thirds govuk-body"
+                },
+                {
+                  text: "5"
+                }
+              ],
+              [
+                {
+                  html: BNG,
+                  classes: "govuk-!-width-two-thirds govuk-body"
+                },
+                {
+                  text: "5%"
+                }
+              ]
+            ]
+          }) 
+          }}
+
+          {{ govukRadios({
+              idPrefix: prefix,
+              name: name,
+              id: id,
+              fieldset: {
+                  legend: {
+                      text: "Are these habitat details correct?",
+                      classes: "govuk-fieldset__legend--m"
+                  }
+              },
+              errorMessage: err[0],
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "offsite-details-checked-yes"
+                  },
+                  {
+                      value: "no",
+                      text: "No, I need to upload a different Metric file",
+                      id: "offsite-details-checked-no"
+                  }
+              ]
+          }) 
+        }}
+  
+          {{ govukButton({ text: 'Continue' }) }}
+      </div>
+  </div>
+  
+</div>
+</div>
+</div>
+{% endblock %}
