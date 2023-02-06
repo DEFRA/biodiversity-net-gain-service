@@ -41,7 +41,7 @@ describe('Email sending', () => {
       }
     })
   })
-  it('Should return the cause of an error if present', done => {
+  it('Should return the cause of an error that is contained in a response', done => {
     jest.isolateModules(async () => {
       const mockErrorResponseData = {
         response: {
@@ -60,6 +60,31 @@ describe('Email sending', () => {
 
       const NotifyClient = require('notifications-node-client').NotifyClient
       NotifyClient.prototype.sendEmail.mockRejectedValueOnce(mockErrorResponseData)
+      try {
+        await expect(sendEmail(baseConfig)).rejects.toEqual(expectedError)
+        expect(NotifyClient.prototype.sendEmail).toHaveBeenCalledTimes(1)
+        expect(NotifyClient.prototype.sendEmail).toHaveBeenCalledWith(
+          baseConfig.templateId,
+          baseConfig.emailAddress,
+          {
+            personalisation: baseConfig.personalisation,
+            reference: null,
+            emailReplyToId: null
+          }
+        )
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+  it('Should return the cause of an error that is not contained in a response', done => {
+    jest.isolateModules(async () => {
+      const mockError = new Error('Mock error message')
+      const expectedError = new Error(errorMessage, { cause: mockError })
+
+      const NotifyClient = require('notifications-node-client').NotifyClient
+      NotifyClient.prototype.sendEmail.mockRejectedValueOnce(mockError)
       try {
         await expect(sendEmail(baseConfig)).rejects.toEqual(expectedError)
         expect(NotifyClient.prototype.sendEmail).toHaveBeenCalledTimes(1)
