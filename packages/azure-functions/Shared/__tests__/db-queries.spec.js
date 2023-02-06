@@ -23,6 +23,16 @@ const expectedInsertStatement = `
   RETURNING application_session_id;
 `
 
+const getApplicationSessionByReferenceAndEmailStatement = `
+  SELECT
+    application_session
+  FROM
+    bng.application_session
+  WHERE
+    application_reference = $1
+    AND email = $2;
+`
+
 describe('createApplicationReference', () => {
   it('Should be a function', () => {
     expect(typeof createApplicationReference).toBe('function')
@@ -34,7 +44,7 @@ describe('createApplicationReference', () => {
     expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference();')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
-    expect(getApplicationSessionByReferenceAndEmail(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_reference = $1 AND email = $2;')
+    expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(getApplicationSessionByReferenceAndEmailStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
   })
 })

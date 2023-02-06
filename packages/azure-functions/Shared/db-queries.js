@@ -1,3 +1,4 @@
+
 const deleteStatement = `
   DELETE FROM
     bng.application_session
@@ -13,6 +14,15 @@ const insertStatement = `
     date_modified = now() AT TIME ZONE 'utc'
   RETURNING application_session_id;
 `
+const getApplicationSessionByReferenceAndEmailStatement = `
+  SELECT
+    application_session
+  FROM
+    bng.application_session
+  WHERE
+    application_reference = $1
+    AND email = $2;
+`
 
 const createApplicationReference = db => db.query('SELECT bng.fn_create_application_reference();')
 
@@ -20,7 +30,7 @@ const saveApplicationSession = (db, values) => db.query(insertStatement, values)
 
 const getApplicationSessionById = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values)
 
-const getApplicationSessionByReferenceAndEmail = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_reference = $1 AND email = $2;', values)
+const getApplicationSessionByReferenceAndEmail = (db, values) => db.query(getApplicationSessionByReferenceAndEmailStatement, values)
 
 const clearApplicationSession = db => db.query(deleteStatement)
 
