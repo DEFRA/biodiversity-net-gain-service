@@ -1,0 +1,70 @@
+/** ============================================================================================
+ * *                   Metric file headers
+ *   Most of headers will be used while defining metric file extraction config.
+ *   So,this list of headers would helps to avoid redundancy and code smell.
+ *===========================================================================================**/
+import { logger } from 'defra-logging-facade'
+
+export const headers = {
+  start: {
+    projectDetails: 'Project details'
+  },
+  baseline: [
+    'Baseline ref',
+    'Distinctiveness',
+    'Condition',
+    'Strategic significance',
+    'Spatial risk category',
+    'Units lost'
+  ],
+  offSiteHabitatBaseline: [
+    'Broad habitat',
+    'Habitat type',
+    'Area (hectares)',
+    'Score',
+    'Strategic position multiplier',
+    'Spatial risk multiplier',
+    'Total habitat units',
+    'Total habitat units_1',
+    'Baseline units retained',
+    'Baseline units enhanced',
+    'Area lost'
+  ],
+  offSiteHedgeBaseline: [
+    'Hedge number',
+    'Hedgerow type',
+    'Length (km)',
+    'Total hedgerow units',
+    'Length retained',
+    'Length enhanced',
+    'Units retained',
+    'Units enhanced',
+    'Length lost',
+    'Units lost'
+  ]
+}
+/** ================================================================================================
+ ** Returns header array on the basis of given array.
+ *@param headers type: The array of headers array will be combined and validated for config.
+ *@return type array
+ *================================================================================================**/
+const validateHeadersArray = (_headers) => {
+  if (_headers.length === 0) {
+    logger.log(`${new Date().toUTCString()} Required metric file fields are missing`)
+    return false
+  }
+  const combinedArray = [].concat(..._headers)
+  if((new Set(combinedArray)).size !== combinedArray.length){
+    logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
+    return false
+  }
+
+  return combinedArray.map(field => field.trim())
+}
+/* ========================================== END OF FUNCTION ====================================== */
+
+export default {
+  startHeaders: validateHeadersArray([headers.start]),
+  offSiteHabitatBaselineHeaders: validateHeadersArray([headers.baseline, headers.offSiteHabitatBaseline]),
+  offSiteHedgeBaselineHeaders: validateHeadersArray([headers.baseline, headers.offSiteHedgeBaseline])
+}

@@ -1,4 +1,4 @@
 import extractMetricContent from './helpers/bng-metric-extraction-service.js'
-import extractionConfiguration from './helpers/extractors/extractionconfig/configuration.js'
+import config from './helpers/config/bng-metric-extraction-config.js'
 
-export default { extractMetricContent, extractionConfiguration }
+export default { extractMetricContent, config }

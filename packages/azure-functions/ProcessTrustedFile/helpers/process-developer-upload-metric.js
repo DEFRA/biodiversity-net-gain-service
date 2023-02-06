@@ -12,9 +12,14 @@ export default async function (context, config) {
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
       const documentStream = response.readableStreamBody
+
+      // Configs of all required sheets from metric file
       const extractionConfiguration = {
-        startPage: bngMetricService.extractionConfiguration.startExtractionConfig
+        startPage: bngMetricService.config.startExtractionConfig,
+        offSiteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig
       }
+
+      // Process to extract metric file data using bng-metric-service package
       metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
     } else {
       throw new Error('Unable to retrieve blob')
