@@ -4,24 +4,11 @@
  *   So,this list of headers would helps to avoid redundancy and code smell.
  *===========================================================================================**/
 import { logger } from 'defra-logging-facade'
-import _ from 'lodash'
 
 export const headers = {
-  start: [
-    'Planning authority',
-    'Project name',
-    'Applicant',
-    'Application type',
-    'Planning application reference',
-    'Assessor',
-    'Assessment date',
-    'Reviewer',
-    'Date of LPA Review',
-    'Metric version',
-    'Planning authority reviewer',
-    'Required net gain (%)',
-    'Irreplaceable habitat present on-site at baseline'
-  ],
+  start: {
+    projectDetails: 'Project details'
+  },
   baseline: [
     'Baseline ref',
     'Distinctiveness',
@@ -52,7 +39,8 @@ export const headers = {
     'Length enhanced',
     'Units retained',
     'Units enhanced',
-    'Length lost'
+    'Length lost',
+    'Units lost'
   ]
 }
 /** ================================================================================================
@@ -60,14 +48,18 @@ export const headers = {
  *@param headers type: The array of headers array will be combined and validated for config.
  *@return type array
  *================================================================================================**/
-export const validateHeadersArray = _headers => {
+const validateHeadersArray = (_headers) => {
+  if (_headers.length === 0) {
+    logger.log(`${new Date().toUTCString()} Required metric file fields are missing`)
+    return false
+  }
   const combinedArray = [].concat(..._headers)
-  if ((new Set(combinedArray)).size !== combinedArray.length) {
-    logger.error(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
+  if((new Set(combinedArray)).size !== combinedArray.length){
+    logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
     return false
   }
 
-  return combinedArray.map(field => _.isString(field) && field.trim())
+  return combinedArray.map(field => field.trim())
 }
 /* ========================================== END OF FUNCTION ====================================== */
 

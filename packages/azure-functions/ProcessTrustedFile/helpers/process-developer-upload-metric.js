@@ -16,12 +16,11 @@ export default async function (context, config) {
       // Configs of all required sheets from metric file
       const extractionConfiguration = {
         startPage: bngMetricService.config.startExtractionConfig,
-        offSiteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig,
-        offSiteHedgeBaseline: bngMetricService.config.offSiteHedgeBaselineExtractionConfig
+        offSiteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig
       }
 
       // Process to extract metric file data using bng-metric-service package
-      metricData = await bngMetricService.extractMetricContent(documentStream, extractionConfiguration)
+      metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
     } else {
       throw new Error('Unable to retrieve blob')
     }
