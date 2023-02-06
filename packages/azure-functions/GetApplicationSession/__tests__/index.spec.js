@@ -1,4 +1,4 @@
-import getApplicationSession from '../index.mjs'
+import getApplicationSessionByReferenceAndEmail from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('../../Shared/db-queries.js')
@@ -15,18 +15,18 @@ describe('Get Application Session', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationSession = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationSessionByReferenceAndEmail = jest.fn().mockImplementation(() => {
           return {
             rows: [{
               application_session: {}
             }]
           }
         })
-        await getApplicationSession(getContext(), req)
+        await getApplicationSessionByReferenceAndEmail(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual('{}')
-        expect(dbQueries.getApplicationSession.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationSessionByReferenceAndEmail.mock.calls).toHaveLength(1)
         done()
       } catch (err) {
         done(err)
@@ -38,10 +38,10 @@ describe('Get Application Session', () => {
       try {
         req.body.email = ''
         const dbQueries = require('../../Shared/db-queries.js')
-        await getApplicationSession(getContext(), req)
+        await getApplicationSessionByReferenceAndEmail(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSession.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceAndEmail.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -53,10 +53,10 @@ describe('Get Application Session', () => {
       try {
         req.body.applicationReference = ''
         const dbQueries = require('../../Shared/db-queries.js')
-        await getApplicationSession(getContext(), req)
+        await getApplicationSessionByReferenceAndEmail(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSession.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceAndEmail.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)

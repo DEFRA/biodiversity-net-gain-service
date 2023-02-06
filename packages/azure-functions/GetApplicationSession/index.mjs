@@ -1,4 +1,4 @@
-import { getApplicationSession } from '../Shared/db-queries.js'
+import { getApplicationSessionByReferenceAndEmail } from '../Shared/db-queries.js'
 import getDBConnection from '../Shared/get-db-connection.js'
 
 export default async function (context, req) {
@@ -14,7 +14,7 @@ export default async function (context, req) {
     const db = await getDBConnection()
 
     // Get the application session from database
-    const applicationSession = await getApplicationSession(db, [applicationReference, email])
+    const applicationSession = await getApplicationSessionByReferenceAndEmail(db, [applicationReference, email])
 
     // Check if we have an application session to return
     if (applicationSession.rows[0]) {
