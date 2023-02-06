@@ -14,7 +14,8 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "lodash": "^4.17.21",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "engines": {
     "node": ">=16"

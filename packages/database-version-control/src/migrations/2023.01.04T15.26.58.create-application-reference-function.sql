@@ -27,7 +27,7 @@ BEGIN
 			END
 			FROM bng.application_reference 
 			WHERE (date_created AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date = (insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date
-      AND date_created <= insert_date
+      		AND date_created <= insert_date
 		)		
 	)
 	WHERE application_reference_id = insert_id;
