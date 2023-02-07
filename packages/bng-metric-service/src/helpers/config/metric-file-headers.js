@@ -4,11 +4,12 @@
  *   So,this list of headers would helps to avoid redundancy and code smell.
  *===========================================================================================**/
 import { logger } from 'defra-logging-facade'
+import _ from 'lodash'
 
 export const headers = {
-  start: {
-    projectDetails: 'Project details'
-  },
+  start: [
+    'Project details'
+  ],
   baseline: [
     'Baseline ref',
     'Distinctiveness',
@@ -54,12 +55,12 @@ const validateHeadersArray = (_headers) => {
     return false
   }
   const combinedArray = [].concat(..._headers)
-  if((new Set(combinedArray)).size !== combinedArray.length){
+  if ((new Set(combinedArray)).size !== combinedArray.length) {
     logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
     return false
   }
 
-  return combinedArray.map(field => field.trim())
+  return combinedArray.map(field => _.isString(field) && field.trim())
 }
 /* ========================================== END OF FUNCTION ====================================== */
 
