@@ -4,7 +4,7 @@
  *   So,this list of headers would helps to avoid redundancy and code smell.
  *===========================================================================================**/
 import { logger } from 'defra-logging-facade'
-import { isString } from 'lodash'
+import _ from 'lodash'
 
 export const headers = {
   start: [
@@ -41,7 +41,7 @@ export const headers = {
     'Units retained',
     'Units enhanced',
     'Length lost',
-    'Units lost',
+    'Units lost'
   ]
 }
 /** ================================================================================================
@@ -55,12 +55,12 @@ const validateHeadersArray = (_headers) => {
     return false
   }
   const combinedArray = [].concat(..._headers)
-  if((new Set(combinedArray)).size !== combinedArray.length){
+  if ((new Set(combinedArray)).size !== combinedArray.length) {
     logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
     return false
   }
 
-  return combinedArray.map(field => isString(field) && field.trim())
+  return combinedArray.map(field => _.isString(field) && field.trim())
 }
 /* ========================================== END OF FUNCTION ====================================== */
 
