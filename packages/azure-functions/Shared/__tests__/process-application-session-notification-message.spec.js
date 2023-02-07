@@ -1,7 +1,6 @@
 import { getContext } from '../../.jest/setup.js'
 import processApplicationSessionNotificationMessage from '../process-application-session-notification-message.js'
 import { randomUUID } from 'crypto'
-import { UnknownApplicationSessionIdError } from '@defra/bng-errors-lib'
 
 jest.mock('../db-queries.js')
 jest.mock('../send-email.js')
@@ -80,14 +79,12 @@ describe('Message processing for application session notifications', () => {
       }
     })
   })
-  it('Should ignore a message associated with an uknown application session', done => {
+  it('Should ignore a message associated with an unknown application session', done => {
     jest.isolateModules(async () => {
       const dbQueries = require('../../Shared/db-queries.js')
       const sendEmail = require('../send-email.js')
-      jest.spyOn(dbQueries, 'getApplicationSessionById')
       jest.spyOn(sendEmail, 'default')
 
-      const expectedError = new UnknownApplicationSessionIdError(randomUUID())
       dbQueries.getApplicationSessionById = jest.fn().mockImplementation(() => {})
 
       try {
@@ -102,8 +99,7 @@ describe('Message processing for application session notifications', () => {
             email: 'mockTemplateId'
           }
         }
-
-        await expect(processApplicationSessionNotificationMessage(context, config)).rejects.toEqual(expectedError)
+        await processApplicationSessionNotificationMessage(context, config)
         expect(dbQueries.getApplicationSessionById).toHaveBeenCalledTimes(1)
         expect(sendEmail.default).toHaveBeenCalledTimes(0)
         done()

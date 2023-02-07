@@ -7,11 +7,10 @@ import sendEmail from './send-email.js'
 export default async function (context, config) {
   const applicationSessionId = config?.message?.id
   const notificationType = config?.message?.notificationType
-  let promiseToReturn
 
   try {
     if (applicationSessionId && notificationType) {
-      promiseToReturn = sendEmailForApplicationSession(context, config)
+      await sendEmailForApplicationSession(context, config)
     } else {
       context.log.warn(`Ignoring unexpected message ${JSON.stringify(config.message)}`)
     }
@@ -22,7 +21,6 @@ export default async function (context, config) {
       throw err
     }
   }
-  return promiseToReturn
 }
 
 const getApplicationSession = async (_context, applicationSessionId) => {
