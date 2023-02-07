@@ -116,7 +116,8 @@
       "<rootDir>/packages/errors-lib/package.json",
       "<rootDir>/packages/geoprocessing-service/jest.config.cjs",
       "<rootDir>/packages/utils-lib/package.json",
-      "<rootDir>/packages/webapp/jest.config.cjs"
+      "<rootDir>/packages/webapp/jest.config.cjs",
+      "<rootDir>/packages/bng-metric-service/jest.config.cjs"
     ],
     "testEnvironment": "node",
     "testRunner": "jest-circus/runner",

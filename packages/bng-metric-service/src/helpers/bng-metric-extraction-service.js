@@ -10,14 +10,16 @@ const readAndExtractContent = async (contentInputStream, extractionConfiguration
     })
 
     contentInputStream.on('end', () => {
-      // Note: If in case extraction seems slow, then `sheetRows` option needs to added to extract limited rows 
-      const workBook = xslx.read(Buffer.concat(data), { type: 'buffer', sheetRows: 12, skipHidden: true})
+      // Note: If in case extraction seems slow, then `sheetRows` option needs to added to extract limited rows
+      const workBook = xslx.read(Buffer.concat(data), { type: 'buffer', sheetRows: 500, skipHidden: true })
       const response = {}
-      Object.keys(extractionConfiguration).forEach(key => {
-        if(extractionConfiguration.hasOwnProperty(key)){
-          response[key] = extractSingleSheetContent(workBook, extractionConfiguration[key])
-        }
-      })
+      if(!_.isEmpty(extractionConfiguration)){
+        Object.keys(extractionConfiguration).forEach(key => {
+          if (_.includes(extractionConfiguration, key)) {
+            response[key] = extractSingleSheetContent(workBook, extractionConfiguration[key])
+          }
+        })
+      }
       resolve(response)
     })
 
@@ -54,7 +56,7 @@ const extractSingleSheetContent = (workbook, extractionConfiguration) => {
   if (extractionConfiguration.sheetName === 'Start') {
     data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
   } else {
-    data = xslx.utils.sheet_to_json(worksheet, { header:3,blankrows: false, raw: true, defval: null, range: worksheet['!ref'], skipHidden: true})
+    data = xslx.utils.sheet_to_json(worksheet, { header: 3, blankrows: false, raw: true, defval: null, range: worksheet['!ref'], skipHidden: true })
     data = prepareDataValues(data, extractionConfiguration.cellHeaders)
   }
 
@@ -64,11 +66,12 @@ const extractSingleSheetContent = (workbook, extractionConfiguration) => {
 const prepareDataValues = (data, header) => {
   if (!_.isEmpty(data)) {
     return data.map(item => {
-      const keyValues = Object.keys(item).map(key => {
+      const keyValues = Object.keys(item).map((value, key) => {
         const _key = key.trim().replace(':', '')
         if (_.includes(header, _key)) {
           return { [_.camelCase(_key)]: item[key] }
         }
+        return item
       })
       return Object.assign({}, ...keyValues)
     })

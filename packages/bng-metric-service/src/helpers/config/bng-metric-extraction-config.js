@@ -5,7 +5,7 @@ const startExtractionConfig = {
   sheetName: 'Start',
   titleCellAddress: 'D9',
   startCell: 'D10',
-  cellHeaders: headers.startHeaders,
+  cellHeaders: headers.startHeaders
 }
 
 // D-1 Off-Site Habitat Baseline configuration
