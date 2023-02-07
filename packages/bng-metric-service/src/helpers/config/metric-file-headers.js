@@ -4,11 +4,12 @@
  *   So,this list of headers would helps to avoid redundancy and code smell.
  *===========================================================================================**/
 import { logger } from 'defra-logging-facade'
+import { isString } from 'lodash'
 
 export const headers = {
-  start: {
-    projectDetails: 'Project details'
-  },
+  start: [
+    'Project details'
+  ],
   baseline: [
     'Baseline ref',
     'Distinctiveness',
@@ -40,7 +41,7 @@ export const headers = {
     'Units retained',
     'Units enhanced',
     'Length lost',
-    'Units lost'
+    'Units lost',
   ]
 }
 /** ================================================================================================
@@ -59,7 +60,7 @@ const validateHeadersArray = (_headers) => {
     return false
   }
 
-  return combinedArray.map(field => field.trim())
+  return combinedArray.map(field => isString(field) && field.trim())
 }
 /* ========================================== END OF FUNCTION ====================================== */
 
