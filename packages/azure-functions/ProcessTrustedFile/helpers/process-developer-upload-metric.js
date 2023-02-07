@@ -20,7 +20,7 @@ export default async function (context, config) {
       }
 
       // Process to extract metric file data using bng-metric-service package
-      metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
+      metricData = await bngMetricService.extractMetricContent(documentStream, extractionConfiguration)
     } else {
       throw new Error('Unable to retrieve blob')
     }
