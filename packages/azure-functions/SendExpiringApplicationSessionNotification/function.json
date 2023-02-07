@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "saved-application-session-notification-queue",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}
