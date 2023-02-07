@@ -8,7 +8,19 @@ import _ from 'lodash'
 
 export const headers = {
   start: [
-    'Project details'
+    'Planning authority',
+    'Project name',
+    'Applicant',
+    'Application type',
+    'Planning application reference',
+    'Assessor',
+    'Assessment date',
+    'Reviewer',
+    'Date of LPA Review',
+    'Metric version',
+    'Planning authority reviewer',
+    'Required net gain (%)',
+    'Irreplaceable habitat present on-site at baseline'
   ],
   baseline: [
     'Baseline ref',
