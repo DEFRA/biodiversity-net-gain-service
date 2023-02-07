@@ -10,7 +10,7 @@ export default async function (context, config) {
 
   try {
     if (applicationSessionId && notificationType) {
-      await sendEmailForApplicationSession(context, config)
+      await sendNotificationForApplicationSession(context, config)
     } else {
       context.log.warn(`Ignoring unexpected message ${JSON.stringify(config.message)}`)
     }
@@ -38,6 +38,13 @@ const getApplicationSession = async (_context, applicationSessionId) => {
   }
 }
 
+const sendNotificationForApplicationSession = async (context, config) => {
+  if (config.message.notificationType === 'email') {
+    await sendEmailForApplicationSession(context, config)
+  } else {
+    context.log.warn(`Ignoring message due to unsupported notification type ${JSON.stringify(config.message)}`)
+  }
+}
 const sendEmailForApplicationSession = async (context, config) => {
   const applicationSession = await getApplicationSession(context, config.message.id)
   const emailConfig = {

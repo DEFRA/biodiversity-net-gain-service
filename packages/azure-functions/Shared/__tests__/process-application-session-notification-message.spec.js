@@ -51,6 +51,32 @@ describe('Message processing for application session notifications', () => {
       }
     })
   })
+  it('Should not attempt to send a notification for a valid application session using an unsupported transport', done => {
+    jest.isolateModules(async () => {
+      const dbQueries = require('../../Shared/db-queries.js')
+      jest.spyOn(dbQueries, 'getApplicationSessionById')
+
+      try {
+        const context = getContext()
+
+        const config = {
+          message: {
+            id: randomUUID(),
+            notificationType: 'sms'
+          },
+          templateIds: {
+            sms: 'mockTemplateId'
+          }
+        }
+
+        await processApplicationSessionNotificationMessage(context, config)
+        expect(dbQueries.getApplicationSessionById).toHaveBeenCalledTimes(0)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
   it('Should ignore an unexpected message', done => {
     jest.isolateModules(async () => {
       const dbQueries = require('../../Shared/db-queries.js')
