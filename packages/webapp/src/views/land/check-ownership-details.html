@@ -25,41 +25,41 @@
                         rows: [
                             {
                                 key: {
-                                text: 'Proof of land ownership file uploaded'
-                            },
+                                    text: 'Proof of land ownership file uploaded'
+                                },
                                 value: {
-                                text: fileName
-                            },
+                                    html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + fileName + "</span>"
+                                },
                                 actions: {
-                                items: [
-                                    {
-                                        href: '/land/check-ownership-proof-file',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "check-ownership-proof-file"
+                                    items: [
+                                        {
+                                            href: '/land/check-ownership-proof-file',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "check-ownership-proof-file"
+                                            }
                                         }
-                                    }
-                                ]
-                            }
+                                    ]
+                                }
                             },
                             {
                                 key: {
-                                text: 'Landowner name'
-                            },
-                              value: {
-                                html: listArray(landownerNames)
-                            },
+                                    text: 'Landowner name'
+                                },
+                                value: {
+                                    html: "<span data-testid=\"land-owner-names-value\">" + listArray(landownerNames) + "</span>"
+                                },
                                 actions: {
-                                items: [
-                                    {
-                                        href: '/land/registered-landowner',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "registered-landowner"
+                                    items: [
+                                        {
+                                            href: '/land/registered-landowner',
+                                            text: 'Change',
+                                            attributes: {
+                                                id: "registered-landowner"
+                                            }
                                         }
-                                    }
-                                ]
-                            }
+                                    ]
+                                }
                             },
                             {
                                 classes: consentVisible,
@@ -67,7 +67,7 @@
                                     text: 'Landowner consent'
                                 },
                                 value: {
-                                    html: boolToYesNo(consent)
+                                    html: "<span data-testid=\"land-owner-consent-value\">" + boolToYesNo(consent) + "</span>"
                                 },
                                 actions: {
                                     items: [

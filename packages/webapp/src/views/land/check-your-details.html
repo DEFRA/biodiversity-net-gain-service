@@ -12,7 +12,7 @@
         <dt class="govuk-summary-list__key" id = "fullname-label">
           Full name
         </dt>
-        <dd class="govuk-summary-list__value" id = "fullname-value">
+        <dd class="govuk-summary-list__value" id = "fullname-value" data-testid="applicant-full-name-value">
           {{ fullName }}
         </dd>
         <dd class="govuk-summary-list__actions">
@@ -25,7 +25,7 @@
         <dt class="govuk-summary-list__key" id = "role-label">
           Role
         </dt>
-        <dd class="govuk-summary-list__value" id = "role-value">
+        <dd class="govuk-summary-list__value" id = "role-value" data-testid="applicant-role-value">
           {% if role == 'Other' %}
             {{ roleOther }}
           {% else %}
@@ -42,7 +42,7 @@
         <dt class="govuk-summary-list__key" id = "email-label">
           Email address
         </dt>
-        <dd class="govuk-summary-list__value" id = "email-value">
+        <dd class="govuk-summary-list__value" id = "email-value" data-testid="applicant-emailaddress-value">
             {{ emailAddress }}
         </dd>
         <dd class="govuk-summary-list__actions">
