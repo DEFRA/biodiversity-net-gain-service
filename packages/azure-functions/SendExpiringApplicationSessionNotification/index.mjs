@@ -5,6 +5,8 @@ const templateIds = {
 }
 
 export default async function (context, message) {
-  context.log('Processing', JSON.stringify(message))
+  const messageAsString = JSON.stringify(message)
+  context.log('Processing', messageAsString)
   await processApplicationSessionNotificationMessage(context, { message, templateIds })
+  context.log('Attempted to send expiring application session notification for ', messageAsString)
 }
