@@ -9,7 +9,7 @@ describe('Email sending', () => {
     personalisation: {
       full_name: 'mockFullName',
       reg_number: 'mockRegNumber',
-      continue_registration: 'mockRegistrationNumber'
+      continue_registration: 'mockContinueRegistrationUrl'
     }
   }
   const errorMessage = 'Unable to send email'
