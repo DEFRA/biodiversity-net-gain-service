@@ -13,6 +13,7 @@ const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 
 const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
 const mockDownloadStreamIfExists = async (config, context) => {
@@ -121,6 +122,32 @@ describe('Trusted file processing', () => {
         })
       } catch (e) {
         done(e)
+      }
+    })
+  })
+
+  it('Should process a trusted LOJ metric file', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
+          const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
+          const readableStream = Readable.from(readStream)
+          return {
+            readableStreamBody: readableStream
+          }
+        })
+        await processTrustedFile(context, {
+          uploadType: LOJ_METRIC_UPLOAD_TYPE,
+          location: 'test',
+          containerName: 'test'
+        })
+        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
+        done()
+      } catch (err) {
+        done(err)
       }
     })
   })
