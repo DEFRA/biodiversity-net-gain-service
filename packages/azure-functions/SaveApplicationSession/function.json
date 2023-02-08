@@ -13,6 +13,13 @@
       "type": "http",
       "direction": "out",
       "name": "res"
-    }
+    },
+    {
+      "name": "savedApplicationSessionNotificationQueue",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "saved-application-session-notification-queue",
+      "connection": "AzureWebJobsStorage"
+    },
   ]
 }
