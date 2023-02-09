@@ -42,31 +42,65 @@ describe('BNG data extractor test', () => {
   })
 
   it('should transform excel stream to json for D-1 Off-Site Habitat Baseline', async () => {
-    const startExtractionConfig = bngMetricService.config.offSiteHabitatBaselineExtractionConfig
-    startExtractionConfig.endCell = 'AF12'
+    const offSiteHabitatBaselineExtractionConfig = bngMetricService.config.offSiteHabitatBaselineExtractionConfig
+    offSiteHabitatBaselineExtractionConfig.endCell = 'AF12'
     const response = await bngMetricService.extractMetricContent(readableStream, { habitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig })
-    const mockBaselineData = { areaHectares: 1, areaLost: 1, baselineRef: 1, baselineUnitsEnhanced: 0, baselineUnitsRetained: 0, broadHabitat: 'Grassland', condition: 'Fairly Good', distinctiveness: 'High', habitatType: 'Grassland - Traditional orchards', score: 6, spatialRiskCategory: null, spatialRiskMultiplier: '', strategicPositionMultiplier: 1.15, strategicSignificance: 'Formally identified in local strategy', totalHabitatUnits: 'Check Data ⚠', totalHabitatUnits1: 17.25, unitsLost: 17.25 }
+    const mockBaselineData = { areaHectares: 1, areaLost: 1, baselineRef: 1, baselineUnitsEnhanced: 0, baselineUnitsRetained: 0, broadHabitat: 'Grassland', condition7: 'Fairly Good', distinctiveness: 'High', habitatType3: 'Grassland - Traditional orchards', habitatType: 'Traditional orchards', score: 6, score1: 2.5, spatialRiskMultiplier: '', strategicPositionMultiplier: 1.15, strategicSignificance: 'Formally identified in local strategy', strategicSignificance1: 'High strategic significance ', totalHabitatUnits: 'Check Data ⚠', totalHabitatUnits1: 17.25, unitsLost: 17.25 }
 
     expect(response).toBeTruthy()
     expect(response.habitatBaseline.length).toBe(2)
     expect(response.habitatBaseline[0]).toEqual(mockBaselineData)
   })
+
+  it('must have habitat baseline config to extract D-1 Off-Site Habitat Baseline sheet', async () => {
+    const response = await bngMetricService.extractMetricContent(readableStream, { habitatBaseline: undefined })
+
+    expect(response).toBeTruthy()
+    expect(response.habitatBaseline).toBeUndefined()
+  })
+
+  it('should throw exception if sheetName does not exists', async () => {
+    const response = await bngMetricService.extractMetricContent(readableStream, { habitatBaseline: { sheetName: undefined } })
+
+    expect(response).toBeTruthy()
+    expect(response.habitatBaseline).toBeUndefined()
+  })
+
+  it('should not return extracted metric data if raw data does not exists', async () => {
+    const offSiteHabitatBaselineExtractionConfig = bngMetricService.config.offSiteHabitatBaselineExtractionConfig
+    const _readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages/bng-metric-service/__mock-data__/metric-file', 'metric-file-empty.xlsx')))
+    const response = await bngMetricService.extractMetricContent(_readableStream, { habitatBaseline: offSiteHabitatBaselineExtractionConfig })
+
+    expect(response).toBeTruthy()
+    expect(response.habitatBaseline[0]).toBeUndefined()
+  })
 })
 
 describe('BNG data extractor service test', () => {
-  let readableStream
   const currentPath = process.cwd()
 
-  beforeEach(() => {
-    readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages/bng-metric-service/__mock-data__/metric-file', 'metric-file.xlsm')))
-  })
-
   it('must extract all the configured excel sheets in a biodiversity metric file', async () => {
+    const readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages/bng-metric-service/__mock-data__/metric-file', 'metric-file.xlsm')))
     const extractionConfiguration = {
       startPage: bngMetricService.config.startExtractionConfig,
       siteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig
     }
     const response = await bngMetricService.extractMetricContent(readableStream, extractionConfiguration)
     expect(Object.keys(response).length).toBe(2)
+  })
+
+  it('must have file stream input to the function otherwise throws exception', async () => {
+    const readableStream = fs.createReadStream(path.join(path.resolve(currentPath, 'packages/bng-metric-service/__mock-data__/metric-file', 'forbidden.xlsx')))
+    const extractionConfiguration = {
+      startPage: bngMetricService.config.startExtractionConfig,
+      siteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig
+    }
+
+    try {
+      await bngMetricService.extractMetricContent(readableStream, extractionConfiguration)
+    } catch (error) {
+      expect(error).toBeDefined()
+      expect(error.message).toContain('EACCES: permission denied')
+    }
   })
 })
