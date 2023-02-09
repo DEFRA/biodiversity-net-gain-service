@@ -46,13 +46,8 @@
             ]
           }) 
         }}
-
+       
         {% from "govuk/components/table/macro.njk" import govukTable %}
-        {% set Grassland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Grassland</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Modified grassland</span>" %}
-        {% set Heathland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Heathland and scrub</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Bramble scrub</span>" %}
-        {% set Woodland = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Woodland and forest</span><span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Lowland mixed deciduous woodland</span>" %}
-        {% set HabitatUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>" %}
-        {% set HabitatBNGAdded = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>" %}
         {% set NativeSpecies = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Native species rich hedgerow</span>" %}
         {% set HedgerowUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>" %}
         {% set HedgerowBNGAdded = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>" %}
@@ -72,53 +67,7 @@
                 text: "Biodiversity units"
               }
             ],
-            rows: [
-              [
-                {
-                  html: Grassland,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "1"
-                }
-              ],
-              [
-                {
-                  html: Heathland,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "1"
-                }
-              ],
-              [
-                {
-                  html: Woodland,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "2"
-                }
-              ],
-              [
-                {
-                  html: HabitatUnits,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "4"
-                }
-              ],
-              [
-                {
-                  html: HabitatBNGAdded,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "3%"
-                }
-              ]
-            ]
+            rows: offSiteHabitatTableContent
           }) 
           }}
           {{ govukTable({
@@ -230,6 +179,7 @@
   
           {{ govukButton({ text: 'Continue' }) }}
       </div>
+      <div>{{offSiteHabitatBaseline[0]}}</div>
   </div>
   
 </div>
