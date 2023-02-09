@@ -48,9 +48,6 @@
         }}
        
         {% from "govuk/components/table/macro.njk" import govukTable %}
-        {% set NativeSpecies = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Native species rich hedgerow</span>" %}
-        {% set HedgerowUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>" %}
-        {% set HedgerowBNGAdded = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>" %}
         {% set BNGUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity units</span>" %}
         {% set BNG = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain</span>" %}
         
@@ -83,35 +80,7 @@
                 text: "Biodiversity units"
               }
             ],
-            rows: [
-              [
-                {
-                  html: NativeSpecies,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "1"
-                }
-              ],
-              [
-                {
-                  html: HedgerowUnits,
-                  classes: "govuk-!-width-two-thirds govuk-body"
-                },
-                {
-                  text: "1"
-                }
-              ],
-              [
-                {
-                  html: HedgerowBNGAdded,
-                  classes: "govuk-!-width-two-thirds"
-                },
-                {
-                  text: "2%"
-                }
-              ]
-            ]
+            rows: offSiteHedgerowTableContent
           }) 
           }}
 
