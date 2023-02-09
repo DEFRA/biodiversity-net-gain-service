@@ -4,7 +4,8 @@ import {
   getApplicationSessionById,
   getApplicationSessionByReferenceAndEmail,
   getExpiringApplicationSessions,
-  clearApplicationSession
+  clearApplicationSession,
+  recordExpiringApplicationSessionNotification
 } from '../db-queries.js'
 
 const expectedDeleteStatement = `
@@ -42,6 +43,14 @@ const expectedGetExpiringApplicationSessionsStatement = `
   WHERE
     date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days';
 `
+const expectedRecordExpiringApplicationSessionNotificationStatement = `
+  UPDATE
+    bng.application_session
+  SET
+    date_of_expiry_notification = NOW() AT TIME ZONE 'UTC'
+  WHERE
+    application_session_id = $1
+`
 
 describe('createApplicationReference', () => {
   it('Should be a function', () => {
@@ -57,5 +66,6 @@ describe('createApplicationReference', () => {
     expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(expectedGetApplicationSessionByReferenceAndEmailStatement)
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
+    expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
   })
 })

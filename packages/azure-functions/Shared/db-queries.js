@@ -30,7 +30,24 @@ const getExpiringApplicationSessionsStatement = `
   FROM
     bng.application_session
   WHERE
-    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days';
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days'
+    AND date_of_expiry_notification IS NULL
+  UNION
+  SELECT
+    application_session_id
+  FROM
+    bng.application_session
+  WHERE
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days'
+    AND date_modified > date_of_expiry_notification;
+`
+const recordExpiringApplicationSessionNotificationStatement = `
+  UPDATE
+    bng.application_session
+  SET
+    date_of_expiry_notification = NOW() AT TIME ZONE 'UTC'
+  WHERE
+    application_session_id = $1
 `
 
 const createApplicationReference = db => db.query('SELECT bng.fn_create_application_reference();')
@@ -45,11 +62,14 @@ const clearApplicationSession = db => db.query(deleteStatement)
 
 const getExpiringApplicationSessions = db => db.query(getExpiringApplicationSessionsStatement)
 
+const recordExpiringApplicationSessionNotification = (db, values) => db.query(recordExpiringApplicationSessionNotificationStatement, values)
+
 export {
   createApplicationReference,
   saveApplicationSession,
   getApplicationSessionById,
   getApplicationSessionByReferenceAndEmail,
   getExpiringApplicationSessions,
-  clearApplicationSession
+  clearApplicationSession,
+  recordExpiringApplicationSessionNotification
 }
