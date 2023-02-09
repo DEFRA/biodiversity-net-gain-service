@@ -41,7 +41,16 @@ const expectedGetExpiringApplicationSessionsStatement = `
   FROM
     bng.application_session
   WHERE
-    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days';
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days'
+    AND date_of_expiry_notification IS NULL
+  UNION
+  SELECT
+    application_session_id
+  FROM
+    bng.application_session
+  WHERE
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days'
+    AND date_modified > date_of_expiry_notification;
 `
 const expectedRecordExpiringApplicationSessionNotificationStatement = `
   UPDATE
