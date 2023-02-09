@@ -24,6 +24,15 @@ const getApplicationSessionByReferenceAndEmailStatement = `
     AND email = $2;
 `
 
+const getExpiringApplicationSessionsStatement = `
+  SELECT
+    application_session_id
+  FROM
+    bng.application_session
+  WHERE
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days';
+`
+
 const createApplicationReference = db => db.query('SELECT bng.fn_create_application_reference();')
 
 const saveApplicationSession = (db, values) => db.query(insertStatement, values)
@@ -34,10 +43,13 @@ const getApplicationSessionByReferenceAndEmail = (db, values) => db.query(getApp
 
 const clearApplicationSession = db => db.query(deleteStatement)
 
+const getExpiringApplicationSessions = db => db.query(getExpiringApplicationSessionsStatement)
+
 export {
   createApplicationReference,
   saveApplicationSession,
   getApplicationSessionById,
   getApplicationSessionByReferenceAndEmail,
+  getExpiringApplicationSessions,
   clearApplicationSession
 }

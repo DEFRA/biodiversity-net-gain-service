@@ -3,6 +3,7 @@ import {
   saveApplicationSession,
   getApplicationSessionById,
   getApplicationSessionByReferenceAndEmail,
+  getExpiringApplicationSessions,
   clearApplicationSession
 } from '../db-queries.js'
 
@@ -23,7 +24,7 @@ const expectedInsertStatement = `
   RETURNING application_session_id;
 `
 
-const getApplicationSessionByReferenceAndEmailStatement = `
+const expectedGetApplicationSessionByReferenceAndEmailStatement = `
   SELECT
     application_session
   FROM
@@ -31,6 +32,15 @@ const getApplicationSessionByReferenceAndEmailStatement = `
   WHERE
     application_reference = $1
     AND email = $2;
+`
+
+const expectedGetExpiringApplicationSessionsStatement = `
+  SELECT
+    application_session_id
+  FROM
+    bng.application_session
+  WHERE
+    date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days';
 `
 
 describe('createApplicationReference', () => {
@@ -44,7 +54,8 @@ describe('createApplicationReference', () => {
     expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference();')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
-    expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(getApplicationSessionByReferenceAndEmailStatement)
+    expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(expectedGetApplicationSessionByReferenceAndEmailStatement)
+    expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
   })
 })
