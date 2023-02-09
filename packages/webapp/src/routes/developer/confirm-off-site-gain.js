@@ -5,7 +5,12 @@ const handlers = {
     const context = getContext(request)
     const offSiteHabitatTableContent = getFormattedTableContent(context.offSiteHabitatBaseline, 'HABITAT')
     const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, 'HEDGEROW')
-    return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, { offSiteHedgerowTableContent, offSiteHabitatTableContent, ...context })
+
+    return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
+      offSiteHedgerowTableContent,
+      offSiteHabitatTableContent,
+      ...context
+    })
   },
   post: async (request, h) => {
     const confirmOffsiteGain = request.payload.confirmOffsiteGain
@@ -17,6 +22,7 @@ const getContext = request => request.yar.get(constants.redisKeys.DEVELOPER_METR
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
+  const noOfUnits = content.map(item => item.score).reduce((prev, next) => prev + next)
   switch (type) {
     case 'HABITAT':
       formattedContent = content.map(item => item.broadHabitat !== null
@@ -60,7 +66,7 @@ const getFormattedTableContent = (content, type) => {
         classes: 'govuk-!-width-two-thirds'
       },
       {
-        text: content.length
+        text: noOfUnits
       }
     ],
     [
