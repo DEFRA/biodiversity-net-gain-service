@@ -53,9 +53,7 @@ export default async function (context, req) {
       body: JSON.stringify(err)
     }
   } finally {
-    if (db) {
-      await db.end()
-    }
+    await db?.end()
   }
 }
 
