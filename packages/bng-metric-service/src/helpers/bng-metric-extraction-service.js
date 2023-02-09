@@ -11,7 +11,7 @@ const readAndExtractContent = async (contentInputStream, extractionConfiguration
 
     contentInputStream.on('end', () => {
       // Note: If in case extraction seems slow, then `sheetRows` option needs to added to extract limited rows
-      const workBook = xslx.read(Buffer.concat(data), { type: 'buffer' })
+      const workBook = xslx.read(Buffer.concat(data), { type: 'buffer', sheetRows: 100 })
       const response = {}
       if (!_.isUndefined(extractionConfiguration)) {
         Object.keys(extractionConfiguration).forEach(key => {
@@ -28,6 +28,7 @@ const readAndExtractContent = async (contentInputStream, extractionConfiguration
 }
 
 const extractSingleSheetContent = (workbook, extractionConfiguration) => {
+  // console.log("WB", workbook)
   if (_.isUndefined(extractionConfiguration) || _.isUndefined(workbook)) {
     logger.log(`${new Date().toUTCString()} Undifined metric extraction config`)
     return
@@ -61,36 +62,71 @@ const extractSingleSheetContent = (workbook, extractionConfiguration) => {
     data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
     data = parseVerticalColumns(data, extractionConfiguration)
   } else {
-    data = xslx.utils.sheet_to_json(worksheet, { blankrows: true, raw: true, defval: null, range: worksheet['!ref'], skipHidden: true })
-    data = prepareDataValues(data, extractionConfiguration.cellHeaders)
+    data = xslx.utils.sheet_to_json(worksheet, { skipHidden: false, blankrows: true, header: 3 })
+    data = prepareDataValues(data, extractionConfiguration)
   }
 
   return data
 }
 
+/** ================================================================================================
+ ** Returns formated key on the basis of given key string.
+ *@param key type: string | Key of the extracted data
+ *@return type: array
+ *================================================================================================**/
 const getFormatedNewKey = (key) => {
   const newKey = _.isString(key) ? key.trim().replace(':', '') : undefined
   return _.camelCase(newKey)
 }
 
+/** ================================================================================================
+ ** Returns parsed data array on the basis of given raw array.
+ *@param data type: array | Extracted raw data to json from metric file.
+ *@return type: array
+ *================================================================================================**/
 const parseVerticalColumns = (data) => {
   return data.reduce((obj, item) => Object.assign(obj, { [getFormatedNewKey(Object.values(item)[0])]: Object.values(item)[1] }), {})
 }
 
-const prepareDataValues = (data, header) => {
+/** ================================================================================================
+ ** Returns parsed data array on the basis of given raw array.
+ *@param data type: extracted raw data to json from metric file.
+ *@param header type: cell header from config.
+ *@return type: array
+ *================================================================================================**/
+const prepareDataValues = (data, config) => {
+  const result = []
+  const header = config.cellHeaders
+  const requiredField = config.requiredField
   if (!_.isEmpty(data)) {
-    return data.map(item => {
-      const keyValues = Object.keys(item).map(key => {
-        const _key = _.isString(key) ? key.trim().replace(':', '') : ''
-        if (_.includes(header, _key)) {
-          return { [_.camelCase(_key)]: item[key] }
+    const keyValues = Object.keys(data[0])
+    for (const item of data) {
+      // Check if required field is non empty to avoid unneccessary looping
+      if (_.isEmpty(item[requiredField]) || (!_.isUndefined(item[getFormatedNewKey(requiredField)]) && _.isEmpty(item[getFormatedNewKey(requiredField)]))) {
+        break
+      }
+
+      const tmpArr = keyValues.reduce((acc, el, i, arr) => {
+        // Filtering keys to remove trailing space
+        let _key = _.isString(el) ? el.trim().replace(':', '') : ''
+
+        // Checking if key exists into header config and EMPTY coulmn entries would be neglected
+        if (_.includes(header, el) || el.indexOf('EMPTY') === -1) {
+          // Checking for duplicates key and appending with index to differntiate
+          if (arr.indexOf(_key) !== i && acc.indexOf(_key) < 0) {
+            _key = `${_key}_${i}`
+          }
+
+          // Renamed keys in camelCase for easy to use and to avoid code smell
+          _key = _.camelCase(_key)
+          acc.push({ [_key]: item[el] })
         }
-        return null
-      })
-      return Object.assign({}, ...keyValues)
-    })
+        return acc
+      }, [])
+      result.push(Object.assign({}, ...tmpArr))
+    }
   }
-  return null
+  return result
 }
 
 export default (contentInputStream, config) => {
