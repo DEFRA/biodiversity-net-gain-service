@@ -16,7 +16,8 @@ export default async function (context, config) {
       // Configs of all required sheets from metric file
       const extractionConfiguration = {
         startPage: bngMetricService.config.startExtractionConfig,
-        offSiteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig
+        offSiteHabitatBaseline: bngMetricService.config.offSiteHabitatBaselineExtractionConfig,
+        offSiteHedgeBaseline: bngMetricService.config.offSiteHedgeBaselineExtractionConfig
       }
 
       // Process to extract metric file data using bng-metric-service package
