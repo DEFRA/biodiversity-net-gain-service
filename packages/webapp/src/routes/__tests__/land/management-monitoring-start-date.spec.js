@@ -82,10 +82,11 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const managementMonitoringStartDate = require('../../land/management-monitoring-start-date.js')
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, new Date('2022-11-30').toISOString())
           const request = {
-            yar: {
-              get: () => new Date('2022-11-30').toISOString()
-            },
+            yar: session,
             info: {
               referer: ''
             }

@@ -1,9 +1,16 @@
 import constants from '../../utils/constants.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const ID = '#fullName'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Your details',
+      title: 'Add your details'
+    }, {
+      inProgressUrl: constants.routes.NAME
+    })
     const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
     return h.view(constants.views.NAME, {
       fullName

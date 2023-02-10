@@ -1,9 +1,18 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CHECK_LEGAL_AGREEMENT, getContext(request)),
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
+      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT
+    })
+    return h.view(constants.views.CHECK_LEGAL_AGREEMENT, getContext(request))
+  },
   post: async (request, h) => {
     const checkLegalAgreement = request.payload.checkLegalAgreement
     const context = getContext(request)

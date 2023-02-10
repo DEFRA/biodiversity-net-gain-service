@@ -1,8 +1,14 @@
 import constants from '../../utils/constants.js'
-import { checked } from '../../utils/helpers.js'
+import { checked, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Your details',
+      title: 'Add your details'
+    }, {
+      inProgressUrl: constants.routes.ROLE
+    })
     const role = request.yar.get(constants.redisKeys.ROLE_KEY)
     const roleOther = request.yar.get(constants.redisKeys.ROLE_OTHER)
     return h.view(constants.views.ROLE, {

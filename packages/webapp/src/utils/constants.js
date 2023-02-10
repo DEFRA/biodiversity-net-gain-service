@@ -1,7 +1,7 @@
 const ABOUT = 'about'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
-const GAIN_SITE_REFERENCE = 'gain-site-reference'
+const APPLICATION_REFERENCE = 'application-reference'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -114,6 +114,7 @@ const LAND_OWNERSHIP_KEY = 'land-ownership-key'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
+const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -134,7 +135,6 @@ const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
-
 const YES = 'yes'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
@@ -155,6 +155,9 @@ const ELIGIBILITY_BOUNDARY = 'land/boundary'
 const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
 const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
 const ELIGIBILITY_RESULTS = 'land/results'
+const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
+const REGISTRATION_SAVED = 'land/registration-saved'
+const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 
 const confirmFileUploadOptions = {
   NO,
@@ -233,7 +236,7 @@ const CHECK_UPLOAD_METRIC_OPTIONS = {
 }
 
 const redisKeys = {
-  GAIN_SITE_REFERENCE,
+  APPLICATION_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_MAP_CONFIG,
@@ -308,7 +311,8 @@ const redisKeys = {
   DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
   DEVELOPER_METRIC_FILE_NAME,
   DEVELOPER_METRIC_FILE_SIZE,
-  DEVELOPER_METRIC_FILE_TYPE
+  DEVELOPER_METRIC_FILE_TYPE,
+  REGISTRATION_SAVED_REFERER
 }
 
 const routes = {
@@ -379,7 +383,9 @@ const routes = {
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_CHECK_UPLOAD_METRIC,
   DEVELOPER_CONFIRM_DEV_DETAILS,
-  DEVELOPER_DOWNLOAD_METRIC_FILE
+  DEVELOPER_DOWNLOAD_METRIC_FILE,
+  CONTINUE_SAVED_REGISTRATION,
+  REGISTRATION_SAVED
 }
 
 const uploadErrors = {
@@ -460,6 +466,7 @@ export default Object.freeze({
   threatScreeningStatusValues,
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
+  IN_PROGRESS_REGISTRATION_TASK_STATUS,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,

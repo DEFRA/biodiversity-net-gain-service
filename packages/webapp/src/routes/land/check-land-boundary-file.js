@@ -1,10 +1,19 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CHECK_LAND_BOUNDARY, getContext(request)),
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
+      inProgressUrl: constants.routes.CHECK_LAND_BOUNDARY
+    })
+    return h.view(constants.views.CHECK_LAND_BOUNDARY, getContext(request))
+  },
   post: async (request, h) => {
     const checkLandBoundary = request.payload.checkLandBoundary
     const landBoundaryLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)

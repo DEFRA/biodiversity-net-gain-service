@@ -44,6 +44,13 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | WEBSITE_CONTENTSHARE | The file path to the function app code and configuration in an event-driven scaling plan on Windows | Plan dependent |
 | WEBSITE_NODE_DEFAULT_VERSION | Default version of Node.js (**must be ~16**) |
 | OPERATOR_SB_CONNECTION_STRING | Operator integration tier service bus connection string | Y |
+| POSTGRES_HOST | Postgres host eg localhost | Y |
+| POSTGRES_USER | Postgres user eg postgres | Y |
+| POSTGRES_PASSWORD | Postgres password eg postgres | Y |
+| POSTGRES_DATABASE | Database name eg bng | Y |
+| POSTGRES_PORT | Postgres port eg 5432 | Y |
+| POSTGRES_SSL_MODE | Postgres SSL Mode eg require or blank | N |
+| CLEAR_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for clear application session timer (see [Timer trigger for Azure function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=in-process&pivots=programming-language-javascript#ncrontab-expressions)) | Y |
 
 ### App settings / environment variables for use with Azurite
 

@@ -159,3 +159,18 @@ $govuk-global-styles: true;
 .govuk-summary-list__actions {
   vertical-align: top;
 }
+
+// Save and return
+
+.app-save__wrapper {
+  min-height: 40px;
+  position: relative;
+}
+
+.app-save {
+  margin-top: govuk-spacing(2);
+  position: absolute;
+  right: 0;
+  top: 3px;
+  text-align: right;
+}

@@ -1,8 +1,15 @@
 import constants from '../../utils/constants.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
+      inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
+    })
     const mapConfig = {
       mapConfig: {
         ...request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)

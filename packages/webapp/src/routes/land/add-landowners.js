@@ -1,7 +1,14 @@
 import constants from '../../utils/constants.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
+      inProgressUrl: constants.routes.ADD_LANDOWNERS
+    })
     const landowners = request.yar.get(constants.redisKeys.LANDOWNERS)
     const role = request.yar.get(constants.redisKeys.ROLE_KEY)
     return h.view(constants.views.ADD_LANDOWNERS, {

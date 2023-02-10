@@ -1,9 +1,15 @@
 import constants from '../../utils/constants.js'
 import moment from 'moment'
-import { dateClasses, validateDate } from '../../utils/helpers.js'
+import { dateClasses, validateDate, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
+      inProgressUrl: constants.routes.LEGAL_AGREEMENT_START_DATE
+    })
     let date
     if (request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY)) {
       date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
