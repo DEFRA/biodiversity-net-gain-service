@@ -1,6 +1,6 @@
-# Appplication to register functions
+# Azure functions
 
-Node.js Microsoft Azure functions associated with procesing an application to the BNG public register.
+Node.js Microsoft Azure functions for the Biodiversity Net Gain service.
 Microsoft Azure SignalR is used to provide asynchronous notifications associated with function processing to the
 [web application](../webapp/).
 
@@ -51,6 +51,11 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | POSTGRES_PORT | Postgres port eg 5432 | Y |
 | POSTGRES_SSL_MODE | Postgres SSL Mode eg require or blank | N |
 | CLEAR_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for clear application session timer (see [Timer trigger for Azure function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=in-process&pivots=programming-language-javascript#ncrontab-expressions)) | Y |
+| EXPIRING_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for expiring application session timer | Y |
+| NOTIFY_CLIENT_API_KEY | [Gov.UK Notify](https://www.notifications.service.gov.uk/) API key | Y |
+| SAVED_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for saved application session notifications | Y |
+| EXPIRING_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for expiring application session notifications | Y |
+| CONTINUE_REGISTRATION_URL| URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
 
 ### App settings / environment variables for use with Azurite
 
