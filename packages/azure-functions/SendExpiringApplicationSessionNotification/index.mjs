@@ -14,7 +14,7 @@ export default async function (context, message) {
   context.log('Attempted to send expiring application session notification for ', messageAsString)
 }
 
-const recordApplicationSessionExpiryNotification = async (applicationSessionId) => {
+const recordApplicationSessionExpiryNotification = async applicationSessionId => {
   let db
   try {
     db = await getDBConnection()
