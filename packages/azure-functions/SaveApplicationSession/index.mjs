@@ -12,18 +12,15 @@ export default async function (context, req) {
   let db
   try {
     const applicationSession = req.body
-    let existingApplicationSessionReference
     if (!applicationSession[redisKeys.emailaddress]) {
       throw new Error('Email missing from request')
     }
     db = await getDBConnection()
 
-    if (applicationSession[redisKeys.applicationReference]) {
-      existingApplicationSessionReference = applicationSession[redisKeys.applicationReference]
-    } else {
-      // Generate an application session reference if not already present
-      const applicationReferenceResult = await createApplicationReference(db)
-      applicationSession[redisKeys.applicationReference] = applicationReferenceResult.rows[0].fn_create_application_reference
+    // Generate gain site reference if not already present
+    if (!applicationSession[redisKeys.applicationReference]) {
+      const result = await createApplicationReference(db)
+      applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
     }
 
     // Save the applicationSession to database
@@ -35,11 +32,8 @@ export default async function (context, req) {
       ])
 
     const savedApplicationSessionPrimaryKey = savedApplicationSessionResult.rows[0].application_session_id
+    sendNotification(context, savedApplicationSessionPrimaryKey)
 
-    if (!existingApplicationSessionReference) {
-      // The application has just been persisted for the first time, so send the applicant a notification.
-      sendNotification(context, savedApplicationSessionPrimaryKey)
-    }
     // Return application reference
     context.res = {
       status: 200,

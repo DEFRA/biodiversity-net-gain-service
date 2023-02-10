@@ -55,16 +55,22 @@ describe('Save Application Session', () => {
       }
     })
   })
-  it('Should save a valid session with email and reference but not send a notification', done => {
+  it('Should save a valid session with email and reference and send a notification', done => {
     jest.isolateModules(async () => {
       try {
         req.body['application-reference'] = 'REF001'
         const dbQueries = require('../../Shared/db-queries.js')
+        const applicationSessionId = randomUUID()
+
+        const expectedNotificationMessage = {
+          id: applicationSessionId,
+          notificationType: 'email'
+        }
         dbQueries.saveApplicationSession = jest.fn().mockImplementation(() => {
           return {
             rows: [
               {
-                application_session_id: randomUUID()
+                application_session_id: applicationSessionId
               }
             ]
           }
@@ -75,7 +81,7 @@ describe('Save Application Session', () => {
         expect(context.res.body).toEqual('"REF001"')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
-        expect(context.bindings.savedApplicationSessionNotificationQueue).toBeUndefined()
+        expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
         done()
       } catch (err) {
         done(err)
