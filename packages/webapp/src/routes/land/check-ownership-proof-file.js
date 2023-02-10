@@ -1,9 +1,18 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, getContext(request)),
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
+      inProgressUrl: constants.routes.CHECK_PROOF_OF_OWNERSHIP
+    })
+    return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, getContext(request))
+  },
   post: async (request, h) => {
     const checkLandOwnership = request.payload.checkLandOwnership
     const context = getContext(request)

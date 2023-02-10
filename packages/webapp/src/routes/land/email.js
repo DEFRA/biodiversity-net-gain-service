@@ -1,10 +1,16 @@
 import constants from '../../utils/constants.js'
-import { validateEmail } from '../../utils/helpers.js'
+import { validateEmail, processRegistrationTask } from '../../utils/helpers.js'
 
 const ID = '#emailAddress'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Your details',
+      title: 'Add your details'
+    }, {
+      inProgressUrl: constants.routes.EMAIL
+    })
     const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE)
     return h.view(constants.views.EMAIL, {
       emailAddress

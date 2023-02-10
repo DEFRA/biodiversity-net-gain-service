@@ -71,12 +71,22 @@ const getRegistrationTasks = request => {
   return registrationTasks
 }
 
-const processCompletedRegistrationTask = (request, taskDetails) => {
+/*
+  Helper function to set a task's status and inProgressUrl
+  options = {
+    status: constants.COMPLETE_REGISTRATION_TASK_STATUS,
+    inProgressUrl: constants.ADD_HECTARES
+  }
+*/
+const processRegistrationTask = (request, taskDetails, options) => {
   const registrationTasks = getRegistrationTasks(request)
   const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
   affectedTask.tasks.forEach(task => {
     if (task.title === taskDetails.title) {
-      task.status = constants.COMPLETE_REGISTRATION_TASK_STATUS
+      if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
+        task.status = options.status
+      }
+      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
   request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
@@ -170,7 +180,7 @@ export {
   validateDate,
   dateClasses,
   getRegistrationTasks,
-  processCompletedRegistrationTask,
+  processRegistrationTask,
   listArray,
   boolToYesNo,
   dateToString,

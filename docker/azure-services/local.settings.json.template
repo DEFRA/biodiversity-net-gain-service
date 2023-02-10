@@ -28,7 +28,8 @@
     "POSTGRES_PASSWORD": "postgres",
     "POSTGRES_DATABASE": "bng",
     "POSTGRES_PORT": "5432",
-    "POSTGRES_SSL_MODE": ""
+    "POSTGRES_SSL_MODE": "",
+    "CLEAR_APPLICATION_SESSION_NCRONTAB": "0 0 0 * * *"
   },
   "ConnectionStrings": {}
 }

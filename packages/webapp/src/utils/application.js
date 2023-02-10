@@ -11,7 +11,7 @@ const application = session => {
         firstName: null,
         lastName: session.get(constants.redisKeys.FULL_NAME),
         role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
-        email: session.get(constants.redisKeys.EMAIL_VALUE)
+        emailaddress: session.get(constants.redisKeys.EMAIL_VALUE)
       },
       files: [
         {
@@ -40,7 +40,7 @@ const application = session => {
           fileName: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
         }
       ],
-      gainSiteReference: '',
+      gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),

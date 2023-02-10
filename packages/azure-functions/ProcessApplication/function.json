@@ -2,12 +2,12 @@
   "disabled": false,
   "bindings": [
     {
-        "authLevel": "anonymous",
-        "type": "httpTrigger",
-        "direction": "in",
-        "name": "req",
-        "route": "processapplication",
-        "methods": [ "post" ]
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "route": "processapplication",
+      "methods": [ "post" ]
     },
     {
       "name": "outputSbQueue",
@@ -17,9 +17,9 @@
       "direction": "out"
     },
     {
-        "type": "http",
-        "direction": "out",
-        "name": "res"
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }

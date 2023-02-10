@@ -11,6 +11,10 @@ class Session {
   set (name, value) {
     this.values[name] = value
   }
+
+  reset () {
+    this.values = []
+  }
 }
 
 export default Session

@@ -1,9 +1,16 @@
 import constants from '../../utils/constants.js'
-import { checked } from '../../utils/helpers.js'
+import { checked, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD
+    })
     return h.view(constants.views.CHOOSE_LAND_BOUNDARY_UPLOAD, {
       ...context
     })

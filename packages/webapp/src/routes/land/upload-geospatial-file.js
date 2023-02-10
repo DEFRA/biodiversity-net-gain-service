@@ -6,12 +6,21 @@ import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
 const uploadGeospatialFileId = '#geospatialLandBoundary'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land boundary details'
+    }, {
+      inProgressUrl: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
+    })
+    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+  },
   post: async (request, h) => performUpload(request, h)
 }
 

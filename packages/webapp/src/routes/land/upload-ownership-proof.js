@@ -3,6 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
@@ -55,7 +56,16 @@ function processErrorUpload (err, h) {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.UPLOAD_LAND_OWNERSHIP),
+  get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
+    })
+    return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
+  },
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(

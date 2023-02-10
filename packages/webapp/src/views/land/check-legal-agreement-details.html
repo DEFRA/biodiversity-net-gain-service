@@ -2,6 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
+{% set showSaveLink = true %}
 {% set pageHeading = "Check the legal agreement details" %}
 
 {% block formContent %}
@@ -26,7 +27,7 @@
                                     text: 'Type of legal agreement'
                                 },
                                 value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value'>" + legalAgreementType + "</dd>"
+                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value' data-testid='legal-agreement-type-value'>" + legalAgreementType + "</dd>"
                                 },
                                 actions: {
                                 items: [
@@ -45,7 +46,7 @@
                                 text: 'Legal agreement file uploaded'
                             },
                                 value: {
-                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-file-value'>" + legalAgreementFileName + "</dd>"
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-file-value' data-testid='legal-agreement-file-name-value'>" + legalAgreementFileName + "</dd>"
                             },
                                 actions: {
                                 items: [
@@ -64,7 +65,7 @@
                                 text: 'Parties involved'
                             },
                                 value: {
-                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-parties-value'>" + listArray(partyNameAndRole) + "</dd>"
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-parties-value' data-testid='legal-agreement-parties-value'>" + listArray(partyNameAndRole) + "</dd>"
                             },
                                 actions: {
                                 items: [
@@ -83,7 +84,7 @@
                                 text: 'Start date'
                             },
                                 value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-start-date-value'>" +  dateToString(legalAgreementStartDate) + "</dd>"
+                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-start-date-value' data-testid='legal-agreement-start-date-value'>" +  dateToString(legalAgreementStartDate) + "</dd>"
                                 },
                                 actions: {
                                 items: [

@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
+import Session from '../../../__mocks__/session.js'
 const url = constants.routes.HABITAT_WORKS_START_DATE
 
 describe(url, () => {
@@ -80,12 +81,12 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const habitatWorksStartDate = require('../../land/habitat-works-start-date.js')
+          const session = new Session()
+          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, new Date('2022-11-30').toISOString())
           const request = {
-            yar: {
-              get: () => new Date('2022-11-30').toISOString(),
-              set: jest.fn()
-            },
-            headers: {
+            yar: session,
+            info: {
               referer: ''
             }
           }

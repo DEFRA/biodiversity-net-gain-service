@@ -58,7 +58,7 @@ describe(url, () => {
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
-              gainSiteReference: 'test-reference'
+              applicationReference: 'test-reference'
             }
           })
 
@@ -139,7 +139,7 @@ describe(url, () => {
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
-              gainSiteReference: 'test-reference'
+              applicationReference: 'test-reference'
             }
           })
 

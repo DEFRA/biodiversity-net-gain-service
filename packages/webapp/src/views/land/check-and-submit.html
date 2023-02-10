@@ -1,5 +1,6 @@
 {% extends 'form-layout.html' %}
 
+{% set showSaveLink = true %}
 {% set pageHeading = "Check your answers before submitting your information" %}
 
 {% block formContent %}
@@ -22,7 +23,7 @@
                 text: "Full name"
               },
               value: {
-                text: application.applicant.lastName
+                html: "<span data-testid=\"applicant-full-name-value\">" + application.applicant.lastName + "</span>"
               },
               actions: {
                 items: [
@@ -39,7 +40,7 @@
                 text: "Role"
               },
               value: {
-                text: application.applicant.role
+                html: "<span data-testid=\"applicant-role-value\">" + application.applicant.role + "</span>"
               },
               actions: {
                 items: [
@@ -56,7 +57,7 @@
                 text: "Email address"
               },
               value: {
-                text: application.applicant.email
+                html: "<span data-testid=\"applicant-emailaddress-value\">" + application.applicant.emailaddress + "</span>"
               },
               actions: {
                 items: [
@@ -81,7 +82,7 @@
                   text: "Land boundary file type"
               },
               value: {
-                  html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
+                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
               },
               actions: {
                 items: [
@@ -101,7 +102,7 @@
                 text: "Land boundary file uploaded"
               },
               value: {
-                html: "<span data-testid=\"land-boundary-file-value\">" + landBoundaryFileName + "</span>"
+                html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
               },
               actions: {
                 items: [
@@ -119,7 +120,7 @@
               },
               classes: hideClass(documentOrImage),
               value: {
-                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
+                html: "<div data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
               }
             },
             {
@@ -145,7 +146,7 @@
                 text: "Area in hectares"
               },
               value: {
-                html: "<span data-testid=\"hectares-value\">" + areaInHectare + "</span>"
+                html: "<span data-testid=\"area-in-hectares-value\">" + areaInHectare + "</span>"
               },              
               actions: {
                 items: [
@@ -171,7 +172,7 @@
                 text: "Proof of land ownership file uploaded"
               },
               value: {
-                text: application.files[4].fileName
+                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + application.files[4].fileName + "</span>"
               },
               actions: {
                 items: [
@@ -188,7 +189,7 @@
                 text: "Landowner name"
               },
               value: {
-                html: listArray(landownerNames)
+                html: "<span data-testid=\"land-owner-names-value\">" + listArray(landownerNames) + "</span>"
               },
               actions: {
                 items: [
@@ -206,7 +207,7 @@
               },
               classes: hideClass(hideConsent),
               value: {
-                text: boolToYesNo(application.landownerConsent)
+                html: "<span data-testid=\"land-owner-consent-value\">" + boolToYesNo(application.landownerConsent) + "</span>"
               },
               actions: {
                 items: [
@@ -232,7 +233,7 @@
                 text: "Biodiversity Metric file uploaded"
               },
               value: {
-                text: application.files[3].fileName
+                html: "<span data-testid=\"metric-file-name-value\">" + application.files[3].fileName + "</span>"
               },
               actions: {
                 items: [
@@ -257,7 +258,7 @@
                 text: "Habitat management and monitoring plan uploaded"
               },
               value: {
-                text: application.files[2].fileName
+                html: "<span data-testid=\"habitat-plan-file-name-value\">" + application.files[2].fileName + "</span>"
               },
               actions: {
                 items: [
@@ -274,7 +275,7 @@
                 text: "Start date of habitat enhancement works"
               },
               value: {
-                text: dateToString(application.habitatWorkStartDate)
+                html: "<span data-testid=\"habitat-work-start-date-value\">" + dateToString(application.habitatWorkStartDate) + "</span>"
               },
               actions: {
                 items: [
@@ -291,7 +292,7 @@
                 text: "Start date of the 30 year management and monitoring period"
               },
               value: {
-                text: dateToString(application.managementMonitoringStartDate)
+                html: "<span data-testid=\"management-monitoring-start-date-value\">" + dateToString(application.managementMonitoringStartDate) + "</span>"
               },
               actions: {
                 items: [
@@ -316,7 +317,7 @@
                 text: "Type of legal agreement"
               },
               value: {
-                text: legalAgreementType
+                html: "<span data-testid=\"legal-agreement-type-value\">" + legalAgreementType + "</span>"
               },
               actions: {
                 items: [
@@ -333,7 +334,7 @@
                 text: "Legal agreement file uploaded"
               },
               value: {
-                text: application.files[0].fileName
+                html: "<span data-testid=\"legal-agreement-file-name-value\">" + application.files[0].fileName + "</span>"
               },
               actions: {
                 items: [
@@ -350,7 +351,7 @@
                 text: "Parties involved"
               },
               value: {
-                html: listArray(legalAgreementParties)
+                html: "<span data-testid=\"legal-agreement-parties-value\">" + listArray(legalAgreementParties) + "</span>"
               },
               actions: {
                 items: [
@@ -367,7 +368,7 @@
                 text: "Start date"
               },
               value: {
-                text: dateToString(application.legalAgreementStartDate)
+                html: "<span data-testid=\"legal-agreement-start-date-value\">" +  dateToString(application.legalAgreementStartDate) + "</span>"
               },
               actions: {
                 items: [

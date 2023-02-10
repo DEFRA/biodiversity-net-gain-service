@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
-
+{% set showSaveLink = true %}
+{% set hideBackLink = true %}
 {% set pageHeading = "Register land as a biodiversity gain site" %}
 
 {% block content %}
@@ -17,25 +18,13 @@
                                 {% if task.taskTitle !== 'Submit your biodiversity gain site information' %}
                                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
-                                          {% if taskItem.status == 'COMPLETED' %}
-                                              <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
-                                                {{ taskItem.title }}
-                                              </a>
-                                          {% else %}
-                                              <a href="{{ taskItem.startTaskUrl }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
-                                                {{ taskItem.title }}
-                                              </a>
-                                          {% endif %}
+                                        <a href="{% if taskItem.status === 'COMPLETED' %}{{ taskItem.completedTaskUrl }}{% elif taskItem.status === 'IN PROGRESS' and taskItem.inProgressUrl %}{{ taskItem.inProgressUrl }}{% else %}{{ taskItem.startTaskUrl }}{% endif %}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
+                                          {{ taskItem.title }}
+                                        </a>
                                       </span>
-                                        {% if taskItem.status !== 'COMPLETED' %}
-                                            <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id = "{{ taskItem.id }}-status">
-                                                {{ taskItem.status }}
-                                            </strong>
-                                        {% else %}
-                                            <strong class="govuk-tag app-task-list__tag" id = "{{ taskItem.id }}-status">
-                                                {{ taskItem.status }}
-                                            </strong>
-                                        {% endif %}
+                                      <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif taskItem.status === 'NOT STARTED' %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">
+                                        {{ taskItem.status }}
+                                      </strong>
                                     </li>
                                 {% else %}
                                     <li>
