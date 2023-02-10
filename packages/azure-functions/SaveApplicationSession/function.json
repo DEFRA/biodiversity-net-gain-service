@@ -20,6 +20,6 @@
       "direction": "out",
       "queueName": "saved-application-session-notification-queue",
       "connection": "AzureWebJobsStorage"
-    },
+    }
   ]
 }
