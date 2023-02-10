@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-document-service",
-  "version": "0.46.0",
+  "version": "0.47.0",
   "type": "module",
   "private": false,
   "description": "Business service for Biodiversity Net Gain related documents",
@@ -16,12 +16,12 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@defra/bng-errors-lib": "0.46.0",
-    "@defra/bng-utils-lib": "0.46.0",
+    "@defra/bng-errors-lib": "0.47.0",
+    "@defra/bng-utils-lib": "0.47.0",
     "axios": "^1.1.3"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.46.0"
+    "@defra/bng-azure-storage-test-utils": "0.47.0"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }
