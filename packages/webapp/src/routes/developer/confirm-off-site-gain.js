@@ -4,7 +4,7 @@ const handlers = {
   get: (request, h) => {
     const context = getContext(request)
     const offSiteHabitatTableContent = getFormattedTableContent(context.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
-    const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, constants.offSiteGainTypes.HABITAT)
+    const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
 
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
       offSiteHedgerowTableContent,
