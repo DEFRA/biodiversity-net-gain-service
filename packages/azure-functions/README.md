@@ -19,13 +19,23 @@ Prerequisite dependencies used by multiple packages within this repository are d
 
 ## Function triggers
 
-* HTTP based triggering is used during Microsoft Azure SignalR client connection negotiation.
-* Message based triggering is used when processing uploads used to support an application.
+* HTTP based triggering is used:
+  * during Microsoft Azure SignalR client connection negotiation.
+  * when starting to submit an application to the Biodiversity Net Gain public register.
+* Message based triggering is used when:
+  * processing uploads to the service.
+  * submitting an application to the Biodiversity Net Gain public register.
+  * sending notications to users of the service.
+* Timer based triggering is used when:
+  * deleting unsubmitted, expired applications to the Biodiversity Net Gain public register.
+  * detecting unsubmitted applications to the Biodiversity Net Gain public register that are due to expire sooh.
 
 ## Message processing
 
-* Messages placed on the **untrusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessUntrustedFile** function.
-* Messages placed on the **trusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessTrustedFile** function.
+* Messages placed on the **untrusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessUntrustedFile** function.
+* Messages placed on the **trusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessTrustedFile** function.
+* Messages placed on the **saved-application-session-notification-queue*** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendSavedApplicationSessionNotification** function.
+* Messages placed on the **expiring-application-session-notification-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendExpiringApplicationSessionNotification** function.
 
 ## App settings / environment variables for deployment to Microsoft Azure
 
