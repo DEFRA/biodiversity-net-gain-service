@@ -35,7 +35,7 @@
     "@defra/bng-utils-lib": "0.47.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^6.0.2",
-    "@hapi/hapi": "20.2.2",
+    "@hapi/hapi": "21.2.2",
     "@hapi/inert": "7.0.1",
     "@hapi/vision": "7.0.1",
     "@hapi/wreck": "^18.0.1",
