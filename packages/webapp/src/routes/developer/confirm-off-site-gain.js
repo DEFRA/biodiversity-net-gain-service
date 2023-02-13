@@ -3,8 +3,8 @@ import constants from '../../utils/constants.js'
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
-    const offSiteHabitatTableContent = getFormattedTableContent(context.offSiteHabitatBaseline, 'HABITAT')
-    const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, 'HEDGEROW')
+    const offSiteHabitatTableContent = getFormattedTableContent(context.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
+    const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, constants.offSiteGainTypes.HABITAT)
 
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
       offSiteHedgerowTableContent,
@@ -24,7 +24,7 @@ const getFormattedTableContent = (content, type) => {
   let formattedContent
   const noOfUnits = content.map(item => item.score).reduce((prev, next) => prev + next)
   switch (type) {
-    case 'HABITAT':
+    case constants.offSiteGainTypes.HABITAT:
       formattedContent = content.map(item => item.broadHabitat !== null
         ? (
             [
@@ -39,7 +39,7 @@ const getFormattedTableContent = (content, type) => {
           )
         : null)
       break
-    case 'HEDGEROW':
+    case constants.offSiteGainTypes.HEDGEROW:
       formattedContent = content.map(item => item.hedgerowType !== null
         ? (
             [
@@ -56,9 +56,9 @@ const getFormattedTableContent = (content, type) => {
       break
     default:
       formattedContent = []
-      // code block
   }
 
+  // Last 2 rows for each table to display  No_of_units and % gain
   formattedContent.push(
     [
       {
