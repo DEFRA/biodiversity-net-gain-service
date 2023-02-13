@@ -160,6 +160,13 @@ const ELIGIBILITY_RESULTS = 'land/results'
 const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
 const REGISTRATION_SAVED = 'land/registration-saved'
 const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
+const HABITAT = 'HABITAT'
+const HEDGEROW = 'HEDGEROW'
+
+const offSiteGainTypes = {
+  HABITAT,
+  HEDGEROW
+}
 
 const confirmFileUploadOptions = {
   NO,
@@ -476,5 +483,6 @@ export default Object.freeze({
   LEGAL_AGREEMENT_DOCUMENTS,
   eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
-  CHECK_UPLOAD_METRIC_OPTIONS
+  CHECK_UPLOAD_METRIC_OPTIONS,
+  offSiteGainTypes
 })
