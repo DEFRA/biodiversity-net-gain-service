@@ -60,7 +60,8 @@ If running with rootful Docker in a firewalled environment, outbound connectivit
 * Microsoft Azure service bus queue named **ne.bng.landowner.inbound**
   * Messages are placed on this queue to trigger operator processing of a submitted application to the Biodiversity Net Gain public register.
 
-##  Microsoft Azure Service Bus Topics And Subscriptions
+## Microsoft Azure Service Bus Topics And Subscriptions
+
 * Microsoft Azure service bus topic named **defra.trade.filestore.notify** with a subscription called **filestore-notify-bng**.
   * Messages placed on this topic are used to process threat screening results of uploads to the Biodiversity Net Gain service.
 
