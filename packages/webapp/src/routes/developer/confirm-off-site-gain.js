@@ -1,5 +1,8 @@
 import constants from '../../utils/constants.js'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import path from 'path'
 
+const href = '#offsite-details-checked-yes'
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
@@ -14,7 +17,31 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmOffsiteGain = request.payload.confirmOffsiteGain
-    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
+    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+    request.yar.set(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmOffsiteGain)
+    if (confirmOffsiteGain === constants.CONFIRM_OFF_SITE_GAIN.NO) {
+      // delete the file from blob storage
+      const config = {
+        containerName: 'trusted',
+        blobName: metricUploadLocation
+      }
+      await blobStorageConnector.deleteBlobIfExists(config)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
+    } else if (confirmOffsiteGain === constants.CONFIRM_OFF_SITE_GAIN.YES) {
+      return h.redirect('/')
+    } else {
+      return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
+        filename: path.basename(metricUploadLocation),
+        ...await getContext(request),
+        err: [
+          {
+            text: 'Select yes if this is the correct data',
+            href
+          }
+        ]
+      })
+    }
   }
 }
 
@@ -22,7 +49,8 @@ const getContext = request => request.yar.get(constants.redisKeys.DEVELOPER_METR
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
-  const noOfUnits = content.map(item => item.score).reduce((prev, next) => prev + next)
+  console.log('AJ', content)
+  const noOfUnits = content.map(item => type === constants.offSiteGainTypes.HABITAT ? item.areaHectares : item.lengthKm).reduce((prev, next) => prev + next)
   switch (type) {
     case constants.offSiteGainTypes.HABITAT:
       formattedContent = content.map(item => item.broadHabitat !== null
@@ -33,11 +61,22 @@ const getFormattedTableContent = (content, type) => {
                 classes: 'govuk-!-width-two-thirds'
               },
               {
-                text: item.score
+                text: item.areaHectares
               }
             ]
           )
         : null)
+      formattedContent.push(
+        [
+          {
+            text: 'Total area',
+            classes: 'govuk-!-width-two-thirds'
+          },
+          {
+            text: noOfUnits
+          }
+        ]
+      )
       break
     case constants.offSiteGainTypes.HEDGEROW:
       formattedContent = content.map(item => item.hedgerowType !== null
@@ -48,37 +87,28 @@ const getFormattedTableContent = (content, type) => {
                 classes: 'govuk-!-width-two-thirds'
               },
               {
-                text: item.score
+                text: item.lengthKm
               }
             ]
           )
         : null)
+
+      formattedContent.push(
+        [
+          {
+            text: 'Total length',
+            classes: 'govuk-!-width-two-thirds'
+          },
+          {
+            text: noOfUnits
+          }
+        ]
+      )
       break
     default:
       formattedContent = []
   }
 
-  // Last 2 rows for each table to display  No_of_units and % gain
-  formattedContent.push(
-    [
-      {
-        html: "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Number of units</span>",
-        classes: 'govuk-!-width-two-thirds'
-      },
-      {
-        text: noOfUnits
-      }
-    ],
-    [
-      {
-        html: "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain added</span>",
-        classes: 'govuk-!-width-two-thirds'
-      },
-      {
-        text: '3%' // TODO: THIS VALUE CALCULATION SHOULD BE DONE AS PER BUSINESS REQUIREMENT
-      }
-    ]
-  )
   return formattedContent
 }
 export default [{

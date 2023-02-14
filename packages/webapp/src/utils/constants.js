@@ -136,6 +136,7 @@ const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
+const CONFIRM_OFFSITE_GAIN_CHECKED = 'confirm-offsite-gain-checked'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -233,7 +234,10 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
     htmlId: 'dont-have-document'
   }
 ]
-
+const CONFIRM_OFF_SITE_GAIN = {
+  NO,
+  YES
+}
 const CONFIRM_DEVELOPMENT_DETAILS = {
   NO,
   YES
@@ -321,7 +325,8 @@ const redisKeys = {
   DEVELOPER_METRIC_FILE_NAME,
   DEVELOPER_METRIC_FILE_SIZE,
   DEVELOPER_METRIC_FILE_TYPE,
-  REGISTRATION_SAVED_REFERER
+  REGISTRATION_SAVED_REFERER,
+  CONFIRM_OFFSITE_GAIN_CHECKED
 }
 
 const routes = {
@@ -484,5 +489,6 @@ export default Object.freeze({
   eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
   CHECK_UPLOAD_METRIC_OPTIONS,
-  offSiteGainTypes
+  offSiteGainTypes,
+  CONFIRM_OFF_SITE_GAIN
 })
