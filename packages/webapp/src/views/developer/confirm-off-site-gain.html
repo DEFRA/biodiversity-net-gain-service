@@ -61,7 +61,7 @@
                 classes: "govuk-!-width-two-thirds"
               },
               {
-                text: "Biodiversity units"
+                text: "Area in hectares"
               }
             ],
             rows: offSiteHabitatTableContent
@@ -77,46 +77,10 @@
                 classes: "govuk-!-width-two-thirds"
               },
               {
-                text: "Biodiversity units"
+                text: "Length in kilometres"
               }
             ],
             rows: offSiteHedgerowTableContent
-          }) 
-          }}
-
-          {{ govukTable({
-            caption: '',
-            captionClasses: "govuk-table__caption--m",
-            firstCellIsHeader: true,
-            head: [
-              {
-                text: "Biodiversity",
-                classes: "govuk-!-width-two-thirds"
-              },
-              {
-                text: "Total"
-              }
-            ],
-            rows: [
-              [
-                {
-                  html: BNGUnits,
-                  classes: "govuk-!-width-two-thirds govuk-body"
-                },
-                {
-                  text: "5"
-                }
-              ],
-              [
-                {
-                  html: BNG,
-                  classes: "govuk-!-width-two-thirds govuk-body"
-                },
-                {
-                  text: "5%"
-                }
-              ]
-            ]
           }) 
           }}
 
