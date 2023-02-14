@@ -1,17 +1,13 @@
 import constants from '../../utils/constants.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import path from 'path'
 
 const href = '#offsite-details-checked-yes'
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
-    const offSiteHabitatTableContent = getFormattedTableContent(context.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
-    const offSiteHedgerowTableContent = getFormattedTableContent(context.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
-
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
-      offSiteHedgerowTableContent,
-      offSiteHabitatTableContent,
+      ...context.offSiteHedgerowTableContent,
+      ...context.offSiteHabitatTableContent,
       ...context
     })
   },
@@ -31,8 +27,7 @@ const handlers = {
     } else if (confirmOffsiteGain === constants.CONFIRM_OFF_SITE_GAIN.YES) {
       return h.redirect('/')
     } else {
-      return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
-        filename: path.basename(metricUploadLocation),
+      return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
         ...await getContext(request),
         err: [
           {
@@ -45,11 +40,19 @@ const handlers = {
   }
 }
 
-const getContext = request => request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+const getContext = request => {
+  const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const offSiteHabitatTableContent = getFormattedTableContent(metricData.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
+  const offSiteHedgerowTableContent = getFormattedTableContent(metricData.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
+
+  return {
+    offSiteHabitatTableContent,
+    offSiteHedgerowTableContent
+  }
+}
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
-  console.log('AJ', content)
   const noOfUnits = content.map(item => type === constants.offSiteGainTypes.HABITAT ? item.areaHectares : item.lengthKm).reduce((prev, next) => prev + next)
   switch (type) {
     case constants.offSiteGainTypes.HABITAT:
