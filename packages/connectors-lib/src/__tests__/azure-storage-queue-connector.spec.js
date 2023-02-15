@@ -36,5 +36,5 @@ describe('The Azure blob storage connector', () => {
         done(err)
       }
     })
-  })
+  }, 20000)
 })
