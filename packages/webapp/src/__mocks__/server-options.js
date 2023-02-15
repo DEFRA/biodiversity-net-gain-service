@@ -1,4 +1,4 @@
-import CatboxMemory from '@hapi/catbox-memory'
+import { Engine as CatboxMemory } from '@hapi/catbox-memory'
 
 // use catbox-memory cache strategy for testing
 const serverOptions = {
