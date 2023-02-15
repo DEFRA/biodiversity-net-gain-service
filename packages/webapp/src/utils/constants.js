@@ -137,6 +137,7 @@ const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const CONFIRM_OFFSITE_GAIN_CHECKED = 'confirm-offsite-gain-checked'
+const DEVELOPER_LEGAL_AGREEMENT_UPLOAD = 'developer/legal-agreement-upload'
 
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -400,7 +401,8 @@ const routes = {
   DEVELOPER_DOWNLOAD_METRIC_FILE,
   CONTINUE_SAVED_REGISTRATION,
   REGISTRATION_SAVED,
-  DEVELOPER_CONFIRM_OFF_SITE_GAIN
+  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+  DEVELOPER_LEGAL_AGREEMENT_UPLOAD
 }
 
 const uploadErrors = {
