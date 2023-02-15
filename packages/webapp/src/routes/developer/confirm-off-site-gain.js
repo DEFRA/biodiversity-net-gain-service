@@ -42,8 +42,8 @@ const handlers = {
 
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const offSiteHabitatTableContent = getFormattedTableContent(metricData.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
-  const offSiteHedgerowTableContent = getFormattedTableContent(metricData.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
+  const offSiteHabitatTableContent = getFormattedTableContent(metricData?.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
+  const offSiteHedgerowTableContent = getFormattedTableContent(metricData?.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
 
   return {
     offSiteHabitatTableContent,
@@ -53,10 +53,10 @@ const getContext = request => {
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
-  const noOfUnits = content.map(item => type === constants.offSiteGainTypes.HABITAT ? item.areaHectares : item.lengthKm).reduce((prev, next) => prev + next)
+  const noOfUnits = (content || []).map(item => type === constants.offSiteGainTypes.HABITAT ? item.areaHectares : item.lengthKm).reduce((prev, next) => prev + next, 0)
   switch (type) {
     case constants.offSiteGainTypes.HABITAT:
-      formattedContent = content.map(item => item.broadHabitat !== null
+      formattedContent = (content || []).map(item => item.broadHabitat !== null
         ? (
             [
               {
@@ -82,7 +82,7 @@ const getFormattedTableContent = (content, type) => {
       )
       break
     case constants.offSiteGainTypes.HEDGEROW:
-      formattedContent = content.map(item => item.hedgerowType !== null
+      formattedContent = (content || []).map(item => item.hedgerowType !== null
         ? (
             [
               {
