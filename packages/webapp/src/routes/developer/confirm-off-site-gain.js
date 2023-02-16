@@ -2,6 +2,8 @@ import constants from '../../utils/constants.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 
 const href = '#offsite-details-checked-yes'
+const tableRowCss = 'govuk-!-width-two-thirds'
+const tableRowHTML = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>"
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
@@ -53,15 +55,16 @@ const getContext = request => {
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
-  const noOfUnits = (content || []).map(item => type === constants.offSiteGainTypes.HABITAT ? item.areaHectares : item.lengthKm).reduce((prev, next) => prev + next, 0)
+  const noOfHabitatUnits = (content || []).map(item => (type === constants.offSiteGainTypes.HABITAT && item.broadHabitat) ? item.areaHectares : 0).reduce((prev, next) => prev + next, 0)
+  const noOfHedgerowUnits = (content || []).map(item => (type === constants.offSiteGainTypes.HEDGEROW && item.hedgerowType) ? item.lengthKm : 0).reduce((prev, next) => prev + next, 0)
   switch (type) {
     case constants.offSiteGainTypes.HABITAT:
-      formattedContent = (content || []).map(item => item.broadHabitat !== null
+      formattedContent = (content || []).map(item => item.broadHabitat
         ? (
             [
               {
-                html: "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>" + item.broadHabitat + "</span> <span class='govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>" + item.habitatType + '</span>',
-                classes: 'govuk-!-width-two-thirds'
+                html: `${tableRowHTML} ${item.habitatType} </span>`,
+                classes: tableRowCss
               },
               {
                 text: item.areaHectares
@@ -73,21 +76,21 @@ const getFormattedTableContent = (content, type) => {
         [
           {
             text: 'Total area',
-            classes: 'govuk-!-width-two-thirds'
+            classes: tableRowCss
           },
           {
-            text: noOfUnits
+            text: noOfHabitatUnits
           }
         ]
       )
       break
     case constants.offSiteGainTypes.HEDGEROW:
-      formattedContent = (content || []).map(item => item.hedgerowType !== null
+      formattedContent = (content || []).map(item => item.hedgerowType
         ? (
             [
               {
-                html: "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>" + item.hedgerowType + '</span>',
-                classes: 'govuk-!-width-two-thirds'
+                html: `${tableRowHTML} ${item.hedgerowType} </span>`,
+                classes: tableRowCss
               },
               {
                 text: item.lengthKm
@@ -103,7 +106,7 @@ const getFormattedTableContent = (content, type) => {
             classes: 'govuk-!-width-two-thirds'
           },
           {
-            text: noOfUnits
+            text: noOfHedgerowUnits
           }
         ]
       )
