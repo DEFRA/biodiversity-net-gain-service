@@ -61,7 +61,7 @@ export const headers = {
  *@param headers type: The array of headers array will be combined and validated for config.
  *@return type array
  *================================================================================================**/
-export const validateHeadersArray = (_headers) => {
+export const validateHeadersArray = _headers => {
   const combinedArray = [].concat(..._headers)
   if ((new Set(combinedArray)).size !== combinedArray.length) {
     logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
