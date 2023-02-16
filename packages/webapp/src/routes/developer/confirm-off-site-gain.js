@@ -44,8 +44,8 @@ const handlers = {
 
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const offSiteHabitatTableContent = metricData?.offSiteHabitatBaseline ? getFormattedTableContent(metricData?.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT) : []
-  const offSiteHedgerowTableContent = metricData?.offSiteHedgeBaseline ? getFormattedTableContent(metricData?.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW) : []
+  const offSiteHabitatTableContent = getFormattedTableContent(metricData?.offSiteHabitatBaseline, constants.offSiteGainTypes.HABITAT)
+  const offSiteHedgerowTableContent = getFormattedTableContent(metricData?.offSiteHedgeBaseline, constants.offSiteGainTypes.HEDGEROW)
 
   return {
     offSiteHabitatTableContent,
@@ -55,10 +55,11 @@ const getContext = request => {
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
+  const noOfHabitatUnits = (content || []).map(item => (type === constants.offSiteGainTypes.HABITAT && item.broadHabitat) ? item.areaHectares : 0).reduce((prev, next) => prev + next, 0)
+  const noOfHedgerowUnits = (content || []).map(item => (type === constants.offSiteGainTypes.HEDGEROW && item.hedgerowType) ? item.lengthKm : 0).reduce((prev, next) => prev + next, 0)
   switch (type) {
-    case constants.offSiteGainTypes.HABITAT: {
-      const noOfHabitatUnits = content.map(item => item.broadHabitat ? item.areaHectares : 0).reduce((prev, next) => prev + next, 0)
-      formattedContent = (content).map(item => item.broadHabitat
+    case constants.offSiteGainTypes.HABITAT:
+      formattedContent = (content || []).map(item => item.broadHabitat
         ? (
             [
               {
@@ -82,11 +83,9 @@ const getFormattedTableContent = (content, type) => {
           }
         ]
       )
-    }
       break
-    case constants.offSiteGainTypes.HEDGEROW: {
-      const noOfHedgerowUnits = content.map(item => item.hedgerowType ? item.lengthKm : 0).reduce((prev, next) => prev + next, 0)
-      formattedContent = (content).map(item => item.hedgerowType
+    case constants.offSiteGainTypes.HEDGEROW:
+      formattedContent = (content || []).map(item => item.hedgerowType
         ? (
             [
               {
@@ -111,7 +110,6 @@ const getFormattedTableContent = (content, type) => {
           }
         ]
       )
-    }
       break
     default:
       formattedContent = []
