@@ -87,7 +87,7 @@ describe(url, () => {
             }
           }
           await checkMetricFile.default[1].handler(request, h)
-          expect(viewResult).toEqual('/developer/legal-agreement-upload')
+          expect(viewResult).toEqual('/#')
           done()
         } catch (err) {
           done(err)
@@ -125,7 +125,7 @@ describe(url, () => {
       })
     })
 
-    it('should show error if selected of the options selected', (done) => {
+    it('should show error if none of the options selected', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
