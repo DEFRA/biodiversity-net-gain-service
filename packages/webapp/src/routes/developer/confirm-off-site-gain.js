@@ -25,7 +25,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmOffsiteGain === constants.CONFIRM_OFF_SITE_GAIN.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_LEGAL_AGREEMENT_UPLOAD)
+      return h.redirect('/#')
     } else {
       return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
         ...await getContext(request),
