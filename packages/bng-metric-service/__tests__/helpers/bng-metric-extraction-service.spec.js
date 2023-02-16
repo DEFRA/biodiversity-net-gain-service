@@ -56,14 +56,14 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricService.extractMetricContent(readableStream, { habitatBaseline: undefined })
 
     expect(response).toBeTruthy()
-    expect(response.habitatBaseline).toBeUndefined()
+    expect(response.habitatBaseline).toBeNull()
   })
 
-  it('should throw exception if sheetName does not exists', async () => {
+  it('should return null if sheetName does not exists', async () => {
     const response = await bngMetricService.extractMetricContent(readableStream, { habitatBaseline: { sheetName: undefined } })
 
     expect(response).toBeTruthy()
-    expect(response.habitatBaseline).toBeUndefined()
+    expect(response.habitatBaseline).toBeNull()
   })
 
   it('should not return extracted metric data if raw data does not exists', async () => {
@@ -72,7 +72,7 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricService.extractMetricContent(_readableStream, { habitatBaseline: offSiteHabitatBaselineExtractionConfig })
 
     expect(response).toBeTruthy()
-    expect(response.habitatBaseline[0]).toBeUndefined()
+    expect(response.habitatBaseline[0]).toEqual({})
   })
 })
 
