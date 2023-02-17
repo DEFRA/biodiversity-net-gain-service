@@ -17,7 +17,7 @@ const f3OffSiteWaterCEnhancement = {
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Proposed habitat',
-    __EMPTY_2: 'River units delivered',
+    __EMPTY_3: 'River units delivered',
     'Condition ': 'Condition',
     'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years'
   }
