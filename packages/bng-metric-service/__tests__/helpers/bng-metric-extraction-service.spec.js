@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import bngMetricService from '../../src/service.js'
+import * as headers from '../../src/helpers/config/metric-file-headers.js'
 
 describe('BNG data extractor test', () => {
   let readableStream
@@ -72,7 +73,7 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricService.extractMetricContent(_readableStream, { habitatBaseline: offSiteHabitatBaselineExtractionConfig })
 
     expect(response).toBeTruthy()
-    expect(response.habitatBaseline[0]).toEqual({})
+    expect(response.habitatBaseline[0]).toBeUndefined()
   })
 })
 
@@ -102,5 +103,13 @@ describe('BNG data extractor service test', () => {
       expect(error).toBeDefined()
       expect(error.message).toContain('EACCES: permission denied')
     }
+  })
+})
+
+describe('BNG data extractor with inconsistent config/data', () => {
+  it('must highlight if duplicate field added to config', async () => {
+    const offSiteHabitatBaselineExtractionConfig = bngMetricService.config.offSiteHabitatBaselineExtractionConfig
+    offSiteHabitatBaselineExtractionConfig.cellHeaders = headers.validateHeadersArray(['Planning authority', 'Planning authority'])
+    expect(offSiteHabitatBaselineExtractionConfig.cellHeaders).toBe(false)
   })
 })
