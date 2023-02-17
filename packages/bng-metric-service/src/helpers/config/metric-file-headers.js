@@ -52,8 +52,7 @@ export const headers = {
     'Length enhanced',
     'Units retained',
     'Units enhanced',
-    'Length lost',
-    'Units lost'
+    'Length lost'
   ]
 }
 /** ================================================================================================
@@ -64,7 +63,7 @@ export const headers = {
 export const validateHeadersArray = _headers => {
   const combinedArray = [].concat(..._headers)
   if ((new Set(combinedArray)).size !== combinedArray.length) {
-    logger.log(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
+    logger.error(`${new Date().toUTCString()} Duplicate metric file field(s) exists`)
     return false
   }
 
