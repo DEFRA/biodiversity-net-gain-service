@@ -89,6 +89,7 @@ const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const METRIC_DATA = 'metric-data'
 const HOME = 'home'
 const NAME = 'land/name'
 const NAME_KEY = 'name-key'
@@ -288,6 +289,7 @@ const redisKeys = {
   LAND_OWNERSHIP_FILE_TYPE,
   METRIC_LOCATION,
   METRIC_FILE_SIZE,
+  METRIC_DATA,
   FULL_NAME,
   ROLE_KEY,
   NAME_KEY,
