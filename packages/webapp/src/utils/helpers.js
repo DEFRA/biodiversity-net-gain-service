@@ -2,6 +2,7 @@ import moment from 'moment'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import validator from 'email-validator'
+import habitatTypeMap from './habitatTypeMap.js'
 
 const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
@@ -176,6 +177,55 @@ const getEligibilityResults = session => {
 
 const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
 
+const habitatTypeAndConditionMapper = (sheets, metricData) => {
+  const habitatTypeAndCondition = []
+  for (const key in metricData) {
+    if (sheets.indexOf(key) > -1 && metricData[key].length > 1) {
+      // build up habitat
+      const items = []
+      metricData[key].forEach((item, index) => {
+        // ignore final item
+        if (index !== metricData[key].length - 1) {
+          items.push({
+            header: item[habitatTypeMap[key].header],
+            description: item[habitatTypeMap[key].description],
+            condition: item.Condition,
+            amount: item[habitatTypeMap[key].unitKey]
+          })
+        }
+      })
+
+      // push habitat parent information + items array
+      habitatTypeAndCondition.push({
+        ...habitatTypeMap[key],
+        total: metricData[key][metricData[key].length - 1][habitatTypeMap[key].unitKey],
+        items
+      })
+    }
+  }
+  return habitatTypeAndCondition
+}
+
+const combineHabitats = habitatTypeAndCondition => {
+  const combinedHabitats = {}
+  const combinedHabitatTypeAndCondition = []
+  habitatTypeAndCondition.forEach(item => {
+    if (!Object.prototype.hasOwnProperty.call(combinedHabitats, item.type)) {
+      combinedHabitats[item.type] = item
+    } else {
+      // concatenate the habitat items arrays
+      combinedHabitats[item.type].items = combinedHabitats[item.type].items.concat(item.items)
+      // Add totals
+      combinedHabitats[item.type].total += item.total
+    }
+  })
+
+  for (const key in combinedHabitats) {
+    combinedHabitatTypeAndCondition.push(combinedHabitats[key])
+  }
+  return combinedHabitatTypeAndCondition
+}
+
 export {
   validateDate,
   dateClasses,
@@ -192,5 +242,7 @@ export {
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
-  formatAppRef
+  formatAppRef,
+  habitatTypeAndConditionMapper,
+  combineHabitats
 }

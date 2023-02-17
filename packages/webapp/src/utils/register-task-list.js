@@ -42,7 +42,7 @@ const registerTaskList = {
         {
           title: 'Upload Biodiversity Metric 3.1',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_UPLOAD_METRIC,
+          completedTaskUrl: constants.routes.CHECK_METRIC_DETAILS,
           startTaskUrl: constants.routes.UPLOAD_METRIC,
           inProgressUrl: '',
           id: 'add-habitat-information'

@@ -1,5 +1,6 @@
 const headers = [
   'Baseline habitat',
+  'Proposed Broad Habitat',
   'Proposed Habitat',
   'Area (hectares)',
   'Condition',

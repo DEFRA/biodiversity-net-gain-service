@@ -159,6 +159,9 @@ const ELIGIBILITY_RESULTS = 'land/results'
 const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
 const REGISTRATION_SAVED = 'land/registration-saved'
 const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
+const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
+const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
+const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 
 const confirmFileUploadOptions = {
   NO,
@@ -387,7 +390,10 @@ const routes = {
   DEVELOPER_CONFIRM_DEV_DETAILS,
   DEVELOPER_DOWNLOAD_METRIC_FILE,
   CONTINUE_SAVED_REGISTRATION,
-  REGISTRATION_SAVED
+  REGISTRATION_SAVED,
+  CHECK_HABITAT_BASELINE,
+  CHECK_HABITAT_CREATED,
+  CHECK_METRIC_DETAILS
 }
 
 const uploadErrors = {
@@ -435,11 +441,13 @@ const setReferer = [
   CHECK_LEGAL_AGREEMENT_DETAILS,
   CHECK_MANAGEMENT_MONITORING_DETAILS,
   CHECK_LAND_BOUNDARY_DETAILS,
-  CORRECT_EMAIL
+  CORRECT_EMAIL,
+  CHECK_METRIC_DETAILS
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
+  UPLOAD_METRIC,
   REGISTER_LAND_TASK_LIST
 ]
 

@@ -1,5 +1,5 @@
 const headers = [
-  'Broad Habitat',
+  'Broad habitat',
   'Proposed habitat',
   'Area (hectares)',
   'Condition',
@@ -16,7 +16,7 @@ const d2OffSiteHabitatCreation = {
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
-    __EMPTY: 'Broad Habitat',
+    __EMPTY: 'Broad habitat',
     __EMPTY_1: 'Proposed habitat',
     __EMPTY_3: 'Area (hectares)',
     __EMPTY_6: 'Condition ',
