@@ -54,7 +54,8 @@ const applicationValidation = Joi.object({
       is: Joi.array().min(1),
       then: Joi.valid('true'),
       otherwise: Joi.valid('true', 'false')
-    }).default('false')
+    }).default('false'),
+    metricData: Joi.object().allow(null)
   })
 })
 

@@ -50,7 +50,8 @@ const application = session => {
       otherLandowners: otherLandowners(session) || [],
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
-      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false'
+      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
+      metricData: session.get(constants.redisKeys.METRIC_DATA)
     }
   }
 }
