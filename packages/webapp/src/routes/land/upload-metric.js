@@ -13,7 +13,8 @@ function processSuccessfulUpload (result, request, h) {
     request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    request.yar.set(constants.redisKeys.METRIC_DATA, result[0].metricData)
+    logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     resultView = constants.routes.CHECK_UPLOAD_METRIC
   }
   return h.redirect(resultView)

@@ -110,6 +110,7 @@
       "<rootDir>/packages/azure-functions/jest.config.cjs",
       "<rootDir>/packages/azure-storage-test-utils/jest.config.cjs",
       "<rootDir>/packages/azurite-bootstrap-service/jest.config.cjs",
+      "<rootDir>/packages/bng-metric-service/jest.config.cjs",
       "<rootDir>/packages/connectors-lib/jest.config.cjs",
       "<rootDir>/packages/database-version-control/jest.config.js",
       "<rootDir>/packages/document-service/jest.config.cjs",

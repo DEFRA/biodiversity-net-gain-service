@@ -26,30 +26,34 @@ class BngMetricSingleDataExtractor {
 
   #extractData = (workbook, extractionConfiguration) => {
     const worksheet = workbook.Sheets[extractionConfiguration.sheetName]
-    const sheetTitle =
+    if (!worksheet) {
+      return null
+    } else {
+      const sheetTitle =
       extractionConfiguration.titleCellAddress === undefined
         ? extractionConfiguration.sheetName
         : worksheet[extractionConfiguration.titleCellAddress].v
-    if (extractionConfiguration.endCell) {
-      worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
-    } else {
-      worksheet['!ref'] = `${extractionConfiguration.startCell}:${worksheet['!ref'].split(':')[1]}`
-    }
-    let data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
-    if (sheetTitle === 'Project details') {
-      const resultData = {}
-      data.map(item => {
-        resultData[_.camelCase(item[Object.keys(item)[0]].replace(':', ''))] =
+      if (extractionConfiguration.endCell) {
+        worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
+      } else {
+        worksheet['!ref'] = `${extractionConfiguration.startCell}:${worksheet['!ref'].split(':')[1]}`
+      }
+      let data = xslx.utils.sheet_to_json(worksheet, { blankrows: false })
+      if (sheetTitle === 'Project details') {
+        const resultData = {}
+        data.map(item => {
+          resultData[_.camelCase(item[Object.keys(item)[0]].replace(':', ''))] =
           item[Object.keys(item)[1]]
-        return item
-      })
-      data = resultData
-    } else {
-      data = this.#performSubstitution(data, extractionConfiguration)
-      data = this.#removeUnwantedColumns(data, extractionConfiguration)
-      data.sheetTitle = sheetTitle
+          return item
+        })
+        data = resultData
+      } else {
+        data = this.#performSubstitution(data, extractionConfiguration)
+        data = this.#removeUnwantedColumns(data, extractionConfiguration)
+        data.sheetTitle = sheetTitle
+      }
+      return data
     }
-    return data
   }
 
   #performSubstitution = (data, extractionConfiguration) => {
@@ -58,7 +62,7 @@ class BngMetricSingleDataExtractor {
         Object.keys(extractionConfiguration.substitutions).forEach(
           substitutionKey => {
             const substituteValue = content[substitutionKey]
-            if (substituteValue) {
+            if (typeof substituteValue !== 'undefined') {
               Object.defineProperty(
                 content,
                 extractionConfiguration.substitutions[substitutionKey],
@@ -85,7 +89,7 @@ class BngMetricSingleDataExtractor {
       })
 
       Object.keys(row).forEach(key => {
-        if (!extractionConfiguration.cellHeaders.includes(key) && row[key]) {
+        if (!extractionConfiguration.cellHeaders.includes(key)) {
           delete row[key]
         }
       })
