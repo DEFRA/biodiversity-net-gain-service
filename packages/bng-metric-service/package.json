@@ -15,7 +15,8 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "xlsx": "^0.18.5",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
+    "@defra/bng-errors-lib": "0.49.0"
   },
   "engines": {
     "node": ">=16"

@@ -11,11 +11,7 @@ const e1OffSiteHedgeBaseline = {
   startCell: 'B9',
   endCell: 'W258',
   cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    'Condition ': 'Condition',
-    'Length KM': 'Length (km)'
-  }
+  columnsToCheckNull: 'Distinctiveness'
 }
 
 export default e1OffSiteHedgeBaseline

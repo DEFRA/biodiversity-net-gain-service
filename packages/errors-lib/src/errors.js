@@ -17,4 +17,8 @@ const uploadGeospatialLandBoundaryErrorCodes = Object.freeze({
   MISSING_COORDINATE_SYSTEM
 })
 
-export { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes }
+const uploadMetricFileErrorCodes = Object.freeze({
+  INVALID_UPLOAD
+})
+
+export { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadMetricFileErrorCodes }
