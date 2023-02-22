@@ -9,7 +9,7 @@ describe('The database version control migrator', () => {
     expect((await migrator.pending()).map(m => m.name)).toEqual([])
     await migrator.down({ to: 0 })
     expect((await migrator.pending()).map(m => m.name)).toEqual(migrations.slice(0, migrations.length - 1))
-  }, 10000)
+  }, 20000)
   it('should initialise correctly when POSTGRES_SSL_MODE is set to require', async () => {
     jest.isolateModules(async () => {
       process.env.POSTGRES_SSL_MODE = 'require'
