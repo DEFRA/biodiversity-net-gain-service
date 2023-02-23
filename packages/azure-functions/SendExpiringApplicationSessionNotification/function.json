@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "expiring-application-session-notification-queue",
+      "connection": "AzureWebJobsStorage"
+    }
+  ]
+}

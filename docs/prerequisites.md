@@ -41,9 +41,29 @@ If running with rootful Docker in a firewalled environment, outbound connectivit
 ## Microsoft Azure Storage Queues
 
 * Microsoft Azure storage queue named **untrusted-file-queue**
-  * Messages placed on this queue are used to trigger Azure function based processing of blobs placed in the untrusted container. Queue based triggering is used due to:
-    * blob triggering being poll based
-    * event grid blob triggering being in public preview
+  * Messages placed on this queue are used to trigger Azure function based processing of blobs placed in the untrusted container.
+* Microsoft Azure storage queue named **trusted-file-queue**
+  * Messages placed on this queue are used to trigger Azure function based processing of blobs placed in the trusted container.
+* Microsoft Azure storage queue named **saved-application-session-notification-queue**
+  * Messages placed on this queue are used to trigger an Azure Function for sending an email notification when an incomplete application
+    to the Biodiversity Net Gain public register is saved.
+* Microsoft Azure storage queue named **expiring-application-session-notification-queue**
+  * Messages placed on this queue are used to trigger an Azure Function for sending an email notification when a saved, incomplete
+    application to the Biodiversity Net Gain public register is near to expiriring.
+
+* Storage queue based triggering is used due to:
+  * blob triggering being poll based
+  * event grid blob triggering being in public preview
+
+## Microsoft Azure Service Bus Queues
+
+* Microsoft Azure service bus queue named **ne.bng.landowner.inbound**
+  * Messages are placed on this queue to trigger operator processing of a submitted application to the Biodiversity Net Gain public register.
+
+## Microsoft Azure Service Bus Topics And Subscriptions
+
+* Microsoft Azure service bus topic named **defra.trade.filestore.notify** with a subscription called **filestore-notify-bng**.
+  * Messages placed on this topic are used to process threat screening results of uploads to the Biodiversity Net Gain service.
 
 ## Required Connectivity
 
