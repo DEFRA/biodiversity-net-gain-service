@@ -1,6 +1,6 @@
-# Appplication to register functions
+# Azure functions
 
-Node.js Microsoft Azure functions associated with procesing an application to the BNG public register.
+Node.js Microsoft Azure functions for the Biodiversity Net Gain service.
 Microsoft Azure SignalR is used to provide asynchronous notifications associated with function processing to the
 [web application](../webapp/).
 
@@ -19,13 +19,23 @@ Prerequisite dependencies used by multiple packages within this repository are d
 
 ## Function triggers
 
-* HTTP based triggering is used during Microsoft Azure SignalR client connection negotiation.
-* Message based triggering is used when processing uploads used to support an application.
+* HTTP based triggering is used:
+  * during Microsoft Azure SignalR client connection negotiation.
+  * when starting to submit an application to the Biodiversity Net Gain public register.
+* Message based triggering is used when:
+  * processing uploads to the service.
+  * submitting an application to the Biodiversity Net Gain public register.
+  * sending notications to users of the service.
+* Timer based triggering is used when:
+  * deleting unsubmitted, expired applications to the Biodiversity Net Gain public register.
+  * detecting unsubmitted applications to the Biodiversity Net Gain public register that are due to expire sooh.
 
 ## Message processing
 
-* Messages placed on the **untrusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessUntrustedFile** function.
-* Messages placed on the **trusted** queue (see [Prerequisites](../../docs/prerequisites.md)) are procesed by the **ProcessTrustedFile** function.
+* Messages placed on the **untrusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessUntrustedFile** function.
+* Messages placed on the **trusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessTrustedFile** function.
+* Messages placed on the **saved-application-session-notification-queue*** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendSavedApplicationSessionNotification** function.
+* Messages placed on the **expiring-application-session-notification-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendExpiringApplicationSessionNotification** function.
 
 ## App settings / environment variables for deployment to Microsoft Azure
 
@@ -51,6 +61,11 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | POSTGRES_PORT | Postgres port eg 5432 | Y |
 | POSTGRES_SSL_MODE | Postgres SSL Mode eg require or blank | N |
 | CLEAR_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for clear application session timer (see [Timer trigger for Azure function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=in-process&pivots=programming-language-javascript#ncrontab-expressions)) | Y |
+| EXPIRING_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for expiring application session timer | Y |
+| NOTIFY_CLIENT_API_KEY | [Gov.UK Notify](https://www.notifications.service.gov.uk/) API key | Y |
+| SAVED_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for saved application session notifications | Y |
+| EXPIRING_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for expiring application session notifications | Y |
+| CONTINUE_REGISTRATION_URL| URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
 
 ### App settings / environment variables for use with Azurite
 

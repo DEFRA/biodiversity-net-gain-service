@@ -1,8 +1,10 @@
 # bng-metric-service
+
 This package provides Biodiversity metric file extraction related functions. Configuration based extraction and conversion to JSON format is provided.
 Extensible configuration based processing allows data to be extracted for different purposes.
 
-# Extraction configuration available
+## Extraction configuration available
+
 | Sheet Name | Configuration Object used |
 |-------------|--------------------------|
 | Start | startExtractionConfig |
@@ -26,7 +28,6 @@ Extensible configuration based processing allows data to be extracted for differ
 | F-1 Off-Site Water'C Baseline | f1OffSiteWaterCBaselinev4 |
 | F-2 Off-Site Water'C Creation | f2OffSiteWaterCCreationv4 |
 | F-3 Off-Site WaterC Enhancement | f3OffSiteWaterCEnhancementv4 |
-
 
 The list above will be updated as more configuration based extraction is added. When all configuration based extraction is available this line will be removed.
 

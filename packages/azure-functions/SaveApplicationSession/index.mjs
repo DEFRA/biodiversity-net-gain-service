@@ -9,12 +9,13 @@ const redisKeys = {
 
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
+  let db
   try {
     const applicationSession = req.body
     if (!applicationSession[redisKeys.emailaddress]) {
       throw new Error('Email missing from request')
     }
-    const db = await getDBConnection()
+    db = await getDBConnection()
 
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
@@ -23,12 +24,15 @@ export default async function (context, req) {
     }
 
     // Save the applicationSession to database
-    await saveApplicationSession(db, [
-      applicationSession[redisKeys.applicationReference],
-      applicationSession[redisKeys.emailaddress].toLowerCase(),
-      JSON.stringify(applicationSession)
-    ])
-    await db.end()
+    const savedApplicationSessionResult =
+      await saveApplicationSession(db, [
+        applicationSession[redisKeys.applicationReference],
+        applicationSession[redisKeys.emailaddress].toLowerCase(),
+        JSON.stringify(applicationSession)
+      ])
+
+    const savedApplicationSessionPrimaryKey = savedApplicationSessionResult.rows[0].application_session_id
+    sendNotification(context, savedApplicationSessionPrimaryKey)
 
     // Return application reference
     context.res = {
@@ -42,5 +46,15 @@ export default async function (context, req) {
       status: 400,
       body: JSON.stringify(err)
     }
+  } finally {
+    await db?.end()
   }
+}
+
+const sendNotification = (context, applicationSessionId) => {
+  const message = {
+    id: applicationSessionId,
+    notificationType: 'email'
+  }
+  context.bindings.savedApplicationSessionNotificationQueue = message
 }

@@ -1,4 +1,5 @@
 import Context from '../__mocks__/mock-context.js'
+import timer from '../__mocks__/mock-timer.js'
 import { recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 
 const ORIGINAL_ENV = process.env
@@ -20,4 +21,8 @@ const getContext = () => {
   return context
 }
 
-export { getContext }
+const getTimer = () => {
+  return timer
+}
+
+export { getContext, getTimer }
