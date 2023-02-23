@@ -125,8 +125,5 @@
     "transformIgnorePatterns": [
       "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)"
     ]
-  },
-  "dependencies": {
-    "notifications-node-client": "^7.0.0"
   }
 }
