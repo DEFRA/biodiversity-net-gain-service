@@ -35,7 +35,7 @@ export default async function (context, config) {
       //   f3OffSiteWaterCEnhancementv4: bngMetricService.config['v4.0'].f3OffSiteWaterCEnhancement
       // }
       metricData = await bngMetricService.extractMetricContent(documentStream)
-      console.log("MD==>", metricData)
+      console.log('MD==>', metricData)
     } else {
       throw new Error('Unable to retrieve blob')
     }

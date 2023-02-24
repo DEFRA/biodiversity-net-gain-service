@@ -1,4 +1,4 @@
-const headers = [
+const cellHeaders = [
   'River type',
   'Length (km)',
   'Condition',
@@ -7,19 +7,11 @@ const headers = [
   'River units delivered'
 ]
 
-const f2OffSiteRiverCreation = {
+export default {
   sheetName: 'F-2 Off Site River Creation',
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AD260',
-  cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    __EMPTY: 'River units delivered',
-    'Condition ': 'Condition',
-    'Habitat created in advance/years ': 'Habitat created in advance/years',
-    'Length km': 'Length (km)'
-  }
+  columnsToCheckNull: '',
+  cellHeaders
 }
-
-export default f2OffSiteRiverCreation

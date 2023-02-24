@@ -10,6 +10,6 @@ export default {
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AA259',
-  cellHeaders,
   columnsToCheckNull: 'Broad habitat',
+  cellHeaders
 }

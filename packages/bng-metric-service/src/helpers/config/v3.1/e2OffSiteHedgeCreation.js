@@ -1,4 +1,4 @@
-const headers = [
+const cellHeaders = [
   'Habitat type',
   'Length (km)',
   'Condition',
@@ -7,19 +7,11 @@ const headers = [
   'Hedge units delivered'
 ]
 
-const e2OffSiteHedgeCreation = {
+export default {
   sheetName: 'E-2 Off Site Hedge Creation',
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AA260',
-  cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    __EMPTY: 'Hedge units delivered',
-    'Condition ': 'Condition',
-    'Habitat created in advance/years ': 'Habitat created in advance/years',
-    'Length KM': 'Length (km)'
-  }
+  columnsToCheckNull: '',
+  cellHeaders
 }
-
-export default e2OffSiteHedgeCreation

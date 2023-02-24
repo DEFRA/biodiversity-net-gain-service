@@ -8,11 +8,11 @@ const cellHeaders = [
   'Habitat units delivered'
 ]
 
-export default  {
+export default {
   sheetName: 'D-2 Off Site Habitat Creation',
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AC257',
-  cellHeaders,
-  columnsToCheckNull: 'Broad habitat'
+  columnsToCheckNull: 'Broad habitat',
+  cellHeaders
 }

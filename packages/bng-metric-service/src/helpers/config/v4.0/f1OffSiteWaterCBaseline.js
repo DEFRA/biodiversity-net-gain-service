@@ -1,20 +1,15 @@
-const headers = [
+const cellHeaders = [
   'River type',
   'Length (km)',
   'Condition',
   'Total river units'
 ]
 
-const f1OffSiteWaterCBaseline = {
+export default {
   sheetName: 'F-1 Off-Site Water\'C Baseline',
   titleCellAddress: 'B3',
   startCell: 'C9',
   endCell: 'AA258',
-  cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    'Condition ': 'Condition'
-  }
+  columnsToCheckNull: '',
+  cellHeaders
 }
-
-export default f1OffSiteWaterCBaseline

@@ -1,17 +1,15 @@
-const headers = [
+const cellHeaders = [
   'Hedgerow type',
   'Length (km)',
   'Condition',
   'Total hedgerow units'
 ]
 
-const e1OffSiteHedgeBaseline = {
+export default {
   sheetName: 'E-1 Off Site Hedge Baseline',
   titleCellAddress: 'B3',
   startCell: 'B9',
   endCell: 'W258',
-  cellHeaders: headers,
-  columnsToCheckNull: 'Distinctiveness'
+  columnsToCheckNull: 'Distinctiveness',
+  cellHeaders
 }
-
-export default e1OffSiteHedgeBaseline

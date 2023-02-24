@@ -1,32 +1,32 @@
 import _ from 'lodash'
 import xslx from 'xlsx'
 import { logger } from 'defra-logging-facade'
-import { getPreprocessedConfigs } from './extraction-config-helpers.js'
+import { getPreprocessedConfigs } from './get-preprocessed-configs.js'
 import { ValidationError, uploadMetricFileErrorCodes } from '@defra/bng-errors-lib'
 
 /** ================================================================================================
  ** Returns configs based on start work sheet metric version field along with its extracted data.
- *@param workbook type: WB | Read the metric file as a WorkBook using XLSX module 
- *@return type: object 
+ *@param workbook type: WB | Read the metric file as a WorkBook using XLSX module
+ *@return type: object
  *================================================================================================**/
-const getStartingDataAndConfigs = async (workBook) => {
+const getConfigsAndStartSheetData = async (workBook) => {
   try {
     // Get first sheet config
-    const startSheetConfig = (await import(`./config/start.js`)).default
-    
+    const startSheetConfig = (await import('./config/start.js')).default
+
     // Extract first sheet of the metric file to know its version
     const startSheetData = extractSingleSheetContent(workBook, startSheetConfig)
     // console.log("startSheetData==>", startSheetConfig, startSheetData)
-    const metricVersion = (startSheetData.metricVersion).toString().trim()
-    if(!metricVersion) {
+    const metricVersion = (startSheetData?.metricVersion)?.toString().trim()
+    if (!metricVersion) {
       throw new ValidationError(uploadMetricFileErrorCodes.INVALID_UPLOAD, 'Metric version field of Start worksheet required.')
     }
-  
+
     // Get configs of all defined file under config directory
     const extractionConfigs = await getPreprocessedConfigs(metricVersion)
-  
+
     // Return configs
-    return {startSheetData, extractionConfigs} 
+    return { startSheetData, extractionConfigs }
   } catch (err) {
     logger.error(err)
   }
@@ -34,7 +34,7 @@ const getStartingDataAndConfigs = async (workBook) => {
 
 /** ================================================================================================
  ** Returns extracted data for a single sheet at a time.
- *@param workbook type: WB | Read the metric file as a WorkBook using XLSX module 
+ *@param workbook type: WB | Read the metric file as a WorkBook using XLSX module
  *@param extractionConfig type: object | An object of specific work sheet.
  *@return type: array
  *================================================================================================**/
@@ -162,7 +162,6 @@ const getFilteredArrayByKeys = (headers, dataKeys, item) => dataKeys.reduce((acc
  *@param contentInputStream type: stream | Streamed data of uploaded file, which is passed by azure function.
  *@return type: array
  *================================================================================================**/
-
 export default async (contentInputStream) => {
   return new Promise((resolve, reject) => {
     const data = []
@@ -174,12 +173,15 @@ export default async (contentInputStream) => {
       try {
         // Note: If in case extraction seems slow, then `sheetRows` option needs to added to extract limited rows
         const workBook = xslx.read(Buffer.concat(data), { type: 'buffer', sheetRows: 100 })
+
+        const configAndStartSheetData = await getConfigsAndStartSheetData(workBook)
         
-        const {startSheetData, extractionConfigs} = await getStartingDataAndConfigs(workBook)
+        if(!configAndStartSheetData) throw new ValidationError('Start worksheet required')
+
+        const { startSheetData, extractionConfigs } = configAndStartSheetData
         const response = {
-          startPage: startSheetData
+          startPage: startSheetData || {}
         }
-  
         if (!_.isUndefined(extractionConfigs)) {
           Object.keys(extractionConfigs).forEach(key => {
             response[key] = extractSingleSheetContent(workBook, extractionConfigs[key])

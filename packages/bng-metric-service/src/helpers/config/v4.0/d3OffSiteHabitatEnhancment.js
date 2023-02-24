@@ -1,4 +1,4 @@
-const headers = [
+const cellHeaders = [
   'Baseline habitat',
   'Proposed Habitat',
   'Area (hectares)',
@@ -8,19 +8,11 @@ const headers = [
   'Habitat units delivered'
 ]
 
-const d3OffSiteHabitatEnhancement = {
+export default {
   sheetName: 'D-3 Off-Site Habitat Enhancment',
   titleCellAddress: 'E3',
   startCell: 'E11',
   endCell: 'AR259',
-  cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    __EMPTY: 'Area (hectares)',
-    __EMPTY_3: 'Condition',
-    __EMPTY_5: 'Habitat units delivered',
-    'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years'
-  }
+  columnsToCheckNull: '',
+  cellHeaders
 }
-
-export default d3OffSiteHabitatEnhancement

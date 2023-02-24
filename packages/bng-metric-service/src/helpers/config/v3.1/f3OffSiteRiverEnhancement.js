@@ -1,4 +1,4 @@
-const headers = [
+const cellHeaders = [
   'Baseline habitat',
   'Proposed habitat',
   'Length (km)',
@@ -8,20 +8,11 @@ const headers = [
   'River units delivered'
 ]
 
-const f3OffSiteRiverEnhancement = {
+export default {
   sheetName: 'F-3 Off Site River Enhancement',
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AQ258',
-  cellHeaders: headers,
-  columnsToBeRemoved: [],
-  substitutions: {
-    __EMPTY: 'Proposed habitat',
-    __EMPTY_2: 'River units delivered',
-    'Condition ': 'Condition',
-    'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years',
-    'Length KM': 'Length (km)'
-  }
+  columnsToCheckNull: '',
+  cellHeaders
 }
-
-export default f3OffSiteRiverEnhancement

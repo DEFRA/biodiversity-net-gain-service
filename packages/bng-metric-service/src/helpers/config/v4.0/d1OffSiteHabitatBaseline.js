@@ -1,4 +1,4 @@
-const headers = [
+const cellHeaders = [
   'Broad habitat',
   'Habitat type',
   'Area (hectares)',
@@ -6,13 +6,11 @@ const headers = [
   'Total habitat units'
 ]
 
-const d1OffSiteHabitatBaseline = {
+export default {
   sheetName: 'D-1 Off-Site Habitat Baseline',
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AA259',
-  cellHeaders: headers,
   columnsToCheckNull: 'Broad habitat',
+  cellHeaders
 }
-
-export default d1OffSiteHabitatBaseline
