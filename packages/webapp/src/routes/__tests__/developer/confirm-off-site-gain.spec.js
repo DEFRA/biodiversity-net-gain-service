@@ -53,7 +53,6 @@ describe(url, () => {
       }
       await checkMetricFile.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      // expect(contextResult).toBe({})
       expect(contextResult.offSiteHabitatTableContent).toBeDefined()
       expect(contextResult.offSiteHedgerowTableContent).toBeDefined()
       expect(contextResult).toBeDefined()
