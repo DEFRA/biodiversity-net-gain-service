@@ -37,7 +37,7 @@ const buildFileValidationConfig = config => {
   }
 }
 
-const getBuildConfig = (sessionId) => {
+const getBuildConfig = sessionId => {
   const config = {}
   buildBlobConfig(sessionId, config)
   buildQueueConfig(config)
