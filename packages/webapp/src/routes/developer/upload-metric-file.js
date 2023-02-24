@@ -100,14 +100,14 @@ const buildConfig = sessionId => {
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/`,
+    blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
     containerName: 'untrusted'
   }
 }
 
 const buildQueueConfig = config => {
   config.queueConfig = {
-    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+    uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
     queueName: 'untrusted-file-queue'
   }
 }

@@ -134,7 +134,6 @@ const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upl
 const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
 const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const CONFIRM_OFFSITE_GAIN_CHECKED = 'confirm-offsite-gain-checked'
@@ -427,7 +426,6 @@ const uploadTypes = {
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
   LAND_OWNERSHIP_UPLOAD_TYPE,
-  DEVELOPER_METRIC_UPLOAD_TYPE,
   DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
 }
 

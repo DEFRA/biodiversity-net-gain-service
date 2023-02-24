@@ -12,8 +12,7 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
-const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
+const METRIC_UPLOAD_TYPE = 'metric-upload'
 
 const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
 const mockDownloadStreamIfExists = async (config, context) => {
@@ -138,7 +137,7 @@ describe('Trusted file processing', () => {
           }
         })
         await processTrustedFile(context, {
-          uploadType: LOJ_METRIC_UPLOAD_TYPE,
+          uploadType: METRIC_UPLOAD_TYPE,
           location: 'test',
           containerName: 'test'
         })
@@ -166,7 +165,7 @@ describe('Processing developer metric extraction', () => {
         blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
 
         await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          uploadType: METRIC_UPLOAD_TYPE,
           location: 'mock-session-id/mock-data.xlsx',
           containerName: 'trusted'
         })
@@ -186,7 +185,7 @@ describe('Processing developer metric extraction', () => {
         const context = getContext()
 
         await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          uploadType: METRIC_UPLOAD_TYPE,
           location: 'mock-session-id/mock-data.xlsx',
           containerName: 'unknown'
         })
@@ -236,7 +235,7 @@ const buildConfig = (fileExtension, uploadType) => {
     }
   }
   switch (uploadType) {
-    case DEVELOPER_METRIC_UPLOAD_TYPE:
+    case METRIC_UPLOAD_TYPE:
       config.metricData = metricData
       config.expectedSignalRMessage.arguments[0].metricData = metricData
       break
