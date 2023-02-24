@@ -3,7 +3,7 @@ import constants from '../../../utils/constants.js'
 const url = '/developer/confirm-off-site-gain'
 
 const mockMetricData = {
-  offSiteHabitatBaseline: [
+  d1: [
     [
       {
         classes: 'govuk-!-width-two-thirds',
@@ -20,7 +20,7 @@ const mockMetricData = {
       }
     ]
   ],
-  offSiteHedgeBaseline: [
+  e1: [
     [
       {
         classes: 'govuk-!-width-two-thirds',
@@ -53,6 +53,7 @@ describe(url, () => {
       }
       await checkMetricFile.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
+      // expect(contextResult).toBe({})
       expect(contextResult.offSiteHabitatTableContent).toBeDefined()
       expect(contextResult.offSiteHedgerowTableContent).toBeDefined()
       expect(contextResult).toBeDefined()

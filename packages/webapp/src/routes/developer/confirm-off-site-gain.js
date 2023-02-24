@@ -54,66 +54,55 @@ const getContext = request => {
 
 const getFormattedTableContent = (content, type) => {
   let formattedContent
-  switch (type) {
-    case constants.offSiteGainTypes.HABITAT: {
-      const noOfHabitatUnits = content.map(item => item['Broad habitat'] ? item['Area (hectares)'] : 0).reduce((prev, next) => prev + next, 0)
-      formattedContent = (content).map(item => item['Broad habitat']
-        ? (
-            [
-              {
-                html: `${tableRowHTML} ${item['Broad habitat']} </span> ${tableRowHTML} ${item['Habitat type']} </span>`,
-                classes: tableRowCss
-              },
-              {
-                text: item['Area (hectares)']
-              }
-            ]
-          )
-        : null)
-      formattedContent.push(
-        [
-          {
-            text: 'Total area',
-            classes: tableRowCss
-          },
-          {
-            text: noOfHabitatUnits
-          }
-        ]
-      )
-    }
-      break
-    case constants.offSiteGainTypes.HEDGEROW: {
-      const noOfHedgerowUnits = content.map(item => item['Hedgerow type'] ? item['Length (km)'] : 0).reduce((prev, next) => prev + next, 0)
-      formattedContent = (content).map(item => item['Hedgerow type']
-        ? (
-            [
-              {
-                html: `${tableRowHTML} ${item['Hedgerow type']} </span>`,
-                classes: tableRowCss
-              },
-              {
-                text: item['Length (km)']
-              }
-            ]
-          )
-        : null)
+  if (type === constants.offSiteGainTypes.HABITAT) {
+    const noOfHabitatUnits = content.map(item => item['Broad habitat'] ? item['Area (hectares)'] : 0).reduce((prev, next) => prev + next, 0)
+    formattedContent = (content).filter(item => item['Broad habitat'] && (
+      [
+        {
+          html: `${tableRowHTML} ${item['Broad habitat']} </span> ${tableRowHTML} ${item['Habitat type']} </span>`,
+          classes: tableRowCss
+        },
+        {
+          text: item['Area (hectares)']
+        }
+      ]
+    ))
+    formattedContent.push(
+      [
+        {
+          text: 'Total area',
+          classes: tableRowCss
+        },
+        {
+          text: noOfHabitatUnits
+        }
+      ]
+    )
+  } else if (type === constants.offSiteGainTypes.HEDGEROW) {
+    const noOfHedgerowUnits = content.map(item => item['Hedgerow type'] ? item['Length (km)'] : 0).reduce((prev, next) => prev + next, 0)
+    formattedContent = (content).filter(item => item['Hedgerow type'] && (
+      [
+        {
+          html: `${tableRowHTML} ${item['Hedgerow type']} </span>`,
+          classes: tableRowCss
+        },
+        {
+          text: item['Length (km)']
+        }
+      ]
+    ))
 
-      formattedContent.push(
-        [
-          {
-            text: 'Total length',
-            classes: 'govuk-!-width-two-thirds'
-          },
-          {
-            text: noOfHedgerowUnits
-          }
-        ]
-      )
-    }
-      break
-    default:
-      formattedContent = []
+    formattedContent.push(
+      [
+        {
+          text: 'Total length',
+          classes: 'govuk-!-width-two-thirds'
+        },
+        {
+          text: noOfHedgerowUnits
+        }
+      ]
+    )
   }
 
   return formattedContent
