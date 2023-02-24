@@ -13,6 +13,7 @@ export default async function (context, config) {
     if (response) {
       const documentStream = response.readableStreamBody
       const extractionConfiguration = {
+        startPage: bngMetricService.extractionConfiguration.startExtractionConfig,
         d1OffSiteHabitatBaselinev31: bngMetricService.extractionConfiguration['v3.1'].d1OffSiteHabitatBaseline,
         d2OffSiteHabitatCreationv31: bngMetricService.extractionConfiguration['v3.1'].d2OffSiteHabitatCreation,
         d3OffSiteHabitatEnhancementv31: bngMetricService.extractionConfiguration['v3.1'].d3OffSiteHabitatEnhancement,
