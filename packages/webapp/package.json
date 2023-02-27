@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.52.0",
+  "version": "0.52.1",
   "private": true,
   "type": "module",
   "description": "",
@@ -29,7 +29,7 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.52.0",
+    "@defra/bng-connectors-lib": "^0.52.1",
     "@defra/bng-document-service": "0.52.0",
     "@defra/bng-errors-lib": "0.52.0",
     "@defra/bng-utils-lib": "0.52.0",
@@ -56,7 +56,7 @@
     "sass": "^1.58.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.52.0",
+    "@defra/bng-azure-storage-test-utils": "^0.52.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
