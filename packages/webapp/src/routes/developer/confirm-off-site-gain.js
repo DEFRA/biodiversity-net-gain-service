@@ -58,7 +58,7 @@ const getFormattedTableContent = (content, type) => {
   const hedgerowType = 'Hedgerow type'
   if (type === constants.offSiteGainTypes.HABITAT) {
     const noOfHabitatUnits = content.map(item => item[broadHabitat] ? item['Area (hectares)'] : 0).reduce((prev, next) => prev + next, 0)
-    formattedContent = (content).filter(item => item[broadHabitat] && (
+    formattedContent = content.map(item => item[broadHabitat] && (
       [
         {
           html: `${tableRowHTML} ${item[broadHabitat]} </span> ${tableRowHTML} ${item['Habitat type']} </span>`,
@@ -82,7 +82,7 @@ const getFormattedTableContent = (content, type) => {
     )
   } else if (type === constants.offSiteGainTypes.HEDGEROW) {
     const noOfHedgerowUnits = content.map(item => item[hedgerowType] ? item['Length (km)'] : 0).reduce((prev, next) => prev + next, 0)
-    formattedContent = (content).filter(item => item[hedgerowType] && (
+    formattedContent = content.map(item => item[hedgerowType] && (
       [
         {
           html: `${tableRowHTML} ${item[hedgerowType]} </span>`,
