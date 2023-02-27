@@ -42,6 +42,7 @@ const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
+const LEGAL_AGREEMENT_MIN_START_DATE = '2020-01-30'
 const MANAGEMENT_PLAN_KEY = 'management-plan-key'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
 const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
@@ -101,8 +102,10 @@ const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
+const HABITAT_WORKS_MIN_START_DATE = '2020-01-30'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
+const MANAGEMENT_MONITORING_MIN_START_DATE = '2020-01-30'
 const CHECK_MANAGEMENT_MONITORING_DETAILS = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
@@ -457,6 +460,12 @@ for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`
 }
 
+const minStartDates = {
+  LEGAL_AGREEMENT_MIN_START_DATE,
+  HABITAT_WORKS_MIN_START_DATE,
+  MANAGEMENT_MONITORING_MIN_START_DATE
+}
+
 export default Object.freeze({
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
@@ -483,5 +492,6 @@ export default Object.freeze({
   LEGAL_AGREEMENT_DOCUMENTS,
   eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
-  CHECK_UPLOAD_METRIC_OPTIONS
+  CHECK_UPLOAD_METRIC_OPTIONS,
+  minStartDates
 })
