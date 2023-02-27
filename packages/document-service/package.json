@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-document-service",
-  "version": "0.52.0",
+  "version": "0.52.2",
   "type": "module",
   "private": false,
   "description": "Business service for Biodiversity Net Gain related documents",
