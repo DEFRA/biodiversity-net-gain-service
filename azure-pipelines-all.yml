@@ -1,0 +1,56 @@
+# https://github.com/defra/biodiversity-net-gain-service
+
+variables:
+  - name: TAG
+    value: ${{ replace(Build.SourceBranchName, 'v', '') }}
+
+trigger:
+  branches:
+    include:
+      - refs/tags/v*
+
+pool:
+  name: Azure Pipelines
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    echo ${TAG}
+    npm ci --ignore-scripts && npm run lerna:i
+# TODO: there is currently a bug with lerna version that means npm packagelock v2 files
+# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
+# files don't match package files correctly.
+  displayName: 'npm install package dependencies'
+
+- script: |
+    cd $(System.DefaultWorkingDirectory)/packages/azure-functions && \
+    zip -rq func.zip .
+    cp func.zip $(Build.ArtifactStagingDirectory)/azure-functions.zip
+  displayName: 'Create function artifact'
+
+- script: |
+    docker-compose -f docker/services.build.azure.all.yml build
+    docker save bng-portal/webapp:${TAG} > web.tar
+    cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
+  displayName: 'Build webapp image and output to tar'
+
+- script: |
+    cd $(System.DefaultWorkingDirectory)/packages/database-version-control
+    zip -rq database-version-control.zip .
+    cp database-version-control.zip $(Build.ArtifactStagingDirectory)/database-version-control.zip
+  displayName: 'Create Database version control artifact'
+
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
+    vstsFeedPackagePublish: 'bng-portal'
+    versionOption: 'custom'
+    versionPublish: ${TAG}
+    packagePublishDescription: 'BNG application code artifacts'
