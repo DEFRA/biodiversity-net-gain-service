@@ -20,7 +20,11 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { day, month, year, context } = validateDate(request.payload, ID, 'date the 30 year management and monitoring period will start', constants.minStartDates.MANAGEMENT_MONITORING_MIN_START_DATE)
+    const { day, month, year, context } = validateDate(
+      request.payload,
+      ID,
+      'date the 30 year management and monitoring period will start',
+      constants.minStartDates.MANAGEMENT_MONITORING_MIN_START_DATE)
     const habitatWorksStartDate = request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY)
     const startDate = getFullISOString(day, month, year)
     if (!context.err && isDate1LessThanDate2(startDate, habitatWorksStartDate)) {

@@ -4,11 +4,13 @@ import registerTaskList from './register-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 
+const isoDateFormat = 'YYYY-MM-DD'
+
 const validateDate = (payload, ID, desc, minDate) => {
   const day = payload[`${ID}-day`]
   const month = payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
-  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD', true)
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
   if (!day && !month && !year) {
     context.err = [{
@@ -41,7 +43,7 @@ const validateDate = (payload, ID, desc, minDate) => {
       dateError: true
     }]
   } else if (minDate) {
-    const minStartDate = moment.utc(minDate, 'YYYY-MM-DD', true)
+    const minStartDate = moment.utc(minDate, isoDateFormat, true)
     if (!context.err && minStartDate.isValid() && !(date).isSameOrAfter(minStartDate, 'day')) {
       context.err = [{
         text: `Start date must be after ${minStartDate.subtract(1, 'day').format('D MMMM YYYY')}`,
@@ -61,7 +63,7 @@ const validateDate = (payload, ID, desc, minDate) => {
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 const getFullISOString = (day, month, year) => {
-  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD', true)
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   return date.isValid() && date.toISOString()
 }
 
@@ -71,7 +73,7 @@ const isDate1LessThanDate2 = (isoString1, isoString2) => {
   return date1.isValid() && date2.isValid() && (date1).isBefore(date2, 'day')
 }
 
-const validateAndParseISOString = (isoString) => {
+const validateAndParseISOString = isoString => {
   const date = moment.utc(isoString)
   return {
     day: date.isValid() && date.format('DD'),
@@ -80,7 +82,7 @@ const validateAndParseISOString = (isoString) => {
   }
 }
 
-const getFormattedDate = (dateString) => {
+const getFormattedDate = dateString => {
   const date = moment.utc(dateString)
   return date.isValid() && date.format('D MMMM YYYY')
 }
