@@ -43,11 +43,12 @@ const validateDate = (payload, ID, desc) => {
       dateError: true
     }]
   }
+  const dateAsISOString = !context.err && date.toISOString()
   return {
     day,
     month,
     year,
-    dateAsISOString: !context.err && date.toISOString(),
+    dateAsISOString,
     context
   }
 }
