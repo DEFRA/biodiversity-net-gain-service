@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
   dateClasses,
-  getFullISOString,
   getMinDateCheckError,
   processRegistrationTask,
   validateAndParseISOString,
@@ -40,7 +39,7 @@ const handlers = {
         ...context
       })
     } else {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, getFullISOString(day, month, year))
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, dateAsISOString)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     }
   }

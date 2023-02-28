@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
   dateClasses,
-  getFullISOString,
   getMinDateCheckError,
   processRegistrationTask,
   validateAndParseISOString,
@@ -40,7 +39,7 @@ const handlers = {
         ...context
       })
     } else {
-      request.yar.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, getFullISOString(day, month, year))
+      request.yar.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, dateAsISOString)
       return h.redirect(constants.routes.MANAGEMENT_MONITORING_START_DATE)
     }
   }

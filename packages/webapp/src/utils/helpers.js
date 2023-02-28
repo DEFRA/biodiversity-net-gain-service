@@ -66,11 +66,6 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
 
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
-const getFullISOString = (day, month, year) => {
-  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
-  return date.isValid() && date.toISOString()
-}
-
 const isDate1LessThanDate2 = (isoString1, isoString2) => {
   const date1 = moment.utc(isoString1)
   const date2 = moment.utc(isoString2)
@@ -289,7 +284,6 @@ export {
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,
-  getFullISOString,
   isDate1LessThanDate2,
   getFormattedDate,
   formatDateBefore,
