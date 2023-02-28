@@ -2,7 +2,7 @@
 
 variables:
   - name: TAG
-    value: Build.SourceBranchName #${{ replace(Build.SourceBranchName, 'v', '') }}
+    value: $(Build.SourceBranchName) #${{ replace(Build.SourceBranchName, 'v', '') }}
 
 trigger:
   branches:
