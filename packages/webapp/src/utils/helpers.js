@@ -6,7 +6,7 @@ import habitatTypeMap from './habitatTypeMap.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 
-const validateDate = (payload, ID, desc, minDate) => {
+const validateDate = (payload, ID, desc) => {
   const day = payload[`${ID}-day`]
   const month = payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
@@ -42,21 +42,25 @@ const validateDate = (payload, ID, desc, minDate) => {
       href: `#${ID}-day`,
       dateError: true
     }]
-  } else if (minDate) {
-    const minStartDate = moment.utc(minDate, isoDateFormat, true)
-    if (!context.err && minStartDate.isValid() && !(date).isSameOrAfter(minStartDate, 'day')) {
-      context.err = [{
-        text: `Start date must be after ${minStartDate.subtract(1, 'day').format('D MMMM YYYY')}`,
-        href: `#${ID}-day`,
-        dateError: true
-      }]
-    }
   }
   return {
     day,
     month,
     year,
+    dateAsISOString: !context.err && date.toISOString(),
     context
+  }
+}
+
+const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
+  if (isDate1LessThanDate2(dateAsISOString, minDateISOString)) {
+    return [{
+      text: `Start date must be after ${formatDateBefore(minDateISOString)}`,
+      href: `#${ID}-day`,
+      dateError: true
+    }]
+  } else {
+    return undefined
   }
 }
 
@@ -86,6 +90,8 @@ const getFormattedDate = dateString => {
   const date = moment.utc(dateString)
   return date.isValid() && date.format('D MMMM YYYY')
 }
+
+const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
 
 const listArray = array => {
   let html = ''
@@ -285,5 +291,7 @@ export {
   validateAndParseISOString,
   getFullISOString,
   isDate1LessThanDate2,
-  getFormattedDate
+  getFormattedDate,
+  formatDateBefore,
+  getMinDateCheckError
 }

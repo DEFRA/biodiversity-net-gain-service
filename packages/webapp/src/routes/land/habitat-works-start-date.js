@@ -1,5 +1,12 @@
 import constants from '../../utils/constants.js'
-import { validateDate, dateClasses, validateAndParseISOString, getFullISOString, processRegistrationTask } from '../../utils/helpers.js'
+import {
+  dateClasses,
+  getFullISOString,
+  getMinDateCheckError,
+  processRegistrationTask,
+  validateAndParseISOString,
+  validateDate
+} from '../../utils/helpers.js'
 
 const ID = 'habitatWorksStartDate'
 
@@ -20,7 +27,10 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { day, month, year, context } = validateDate(request.payload, ID, 'start date of the habitat enhancement works', constants.minStartDates.HABITAT_WORKS_MIN_START_DATE)
+    const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'start date of the habitat enhancement works')
+    if (!context.err) {
+      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.HABITAT_WORKS_MIN_START_DATE)
+    }
     if (context.err) {
       return h.view(constants.views.HABITAT_WORKS_START_DATE, {
         day,

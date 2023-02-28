@@ -216,7 +216,7 @@ describe(url, () => {
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
     it('should fail to add a legal agreement start date if less than the minimum date', async () => {
-      postOptions.payload['legalAgreementStartDate-day'] = '01'
+      postOptions.payload['legalAgreementStartDate-day'] = '20'
       postOptions.payload['legalAgreementStartDate-month'] = '01'
       postOptions.payload['legalAgreementStartDate-year'] = '2020'
 
