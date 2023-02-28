@@ -2,7 +2,7 @@
 
 variables:
   - name: TAG
-    value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
+    value: ${{replace(variables['Build.SourceBranchName'], 'v', '')}}
 
 trigger:
   branches:
@@ -19,6 +19,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    echo ${TAG}
     npm ci --ignore-scripts && npm run lerna:i
 # TODO: there is currently a bug with lerna version that means npm packagelock v2 files
 # are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
@@ -33,7 +34,7 @@ steps:
 
 - script: |
     docker-compose -f docker/services.build.azure.yml build
-    docker save ${CONTAINER_REGISTRY}/webapp:${TAG} > web.tar
+    docker save bng-portal/webapp:$(TAG) > web.tar
     cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
   displayName: 'Build webapp image and output to tar'
 
@@ -49,6 +50,7 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
-    vstsFeedPackagePublish: 'biodiversity-get-gain-service'
-    versionOption: 'patch'
+    vstsFeedPackagePublish: 'bng-portal'
+    versionOption: 'custom'
+    versionPublish: $(TAG)
     packagePublishDescription: 'BNG application code artifacts'
