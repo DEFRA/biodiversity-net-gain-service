@@ -8,7 +8,7 @@ const validateDate = (payload, ID, desc, minDate) => {
   const day = payload[`${ID}-day`]
   const month = payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
-  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD')
+  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD', true)
   const context = {}
   if (!day && !month && !year) {
     context.err = [{
@@ -34,14 +34,14 @@ const validateDate = (payload, ID, desc, minDate) => {
       href: `#${ID}-year`,
       yearError: true
     }]
-  } else if (!date.isValid() || !Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) {
+  } else if (!date.isValid()) {
     context.err = [{
       text: 'Start date must be a real date',
       href: `#${ID}-day`,
       dateError: true
     }]
   } else if (minDate) {
-    const minStartDate = moment.utc(minDate, 'YYYY-MM-DD')
+    const minStartDate = moment.utc(minDate, 'YYYY-MM-DD', true)
     if (!context.err && minStartDate.isValid() && !(date).isSameOrAfter(minStartDate, 'day')) {
       context.err = [{
         text: `Start date must be after ${minStartDate.subtract(1, 'day').format('D MMMM YYYY')}`,
@@ -61,18 +61,18 @@ const validateDate = (payload, ID, desc, minDate) => {
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 const getFullISOString = (day, month, year) => {
-  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD')
+  const date = moment.utc(`${year}-${month}-${day}`, 'YYYY-MM-DD', true)
   return date.isValid() && date.toISOString()
 }
 
 const isDate1LessThanDate2 = (isoString1, isoString2) => {
-  const date1 = moment.utc(isoString1, 'YYYY-MM-DD')
-  const date2 = moment.utc(isoString2, 'YYYY-MM-DD')
+  const date1 = moment.utc(isoString1)
+  const date2 = moment.utc(isoString2)
   return date1.isValid() && date2.isValid() && (date1).isBefore(date2, 'day')
 }
 
 const validateAndParseISOString = (isoString) => {
-  const date = moment.utc(isoString, 'YYYY-MM-DD')
+  const date = moment.utc(isoString)
   return {
     day: date.isValid() && date.format('DD'),
     month: date.isValid() && date.format('MM'),
@@ -81,8 +81,8 @@ const validateAndParseISOString = (isoString) => {
 }
 
 const getFormattedDate = (dateString) => {
-  const date = moment.utc(dateString, 'YYYY-MM-DD')
-  return date.format('D MMMM YYYY')
+  const date = moment.utc(dateString)
+  return date.isValid() && date.format('D MMMM YYYY')
 }
 
 const listArray = array => {
