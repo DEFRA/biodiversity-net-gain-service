@@ -34,7 +34,7 @@ steps:
 
 - script: |
     docker-compose -f docker/services.build.azure.all.yml build
-    docker save bng-portal/webapp:${TAG} > web.tar
+    docker save bng-portal/webapp:$(TAG) > web.tar
     cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
   displayName: 'Build webapp image and output to tar'
 
@@ -52,5 +52,5 @@ steps:
     vstsFeedPublish: 'b8802fc2-0825-411a-b9de-b129decae388'
     vstsFeedPackagePublish: 'bng-portal'
     versionOption: 'custom'
-    versionPublish: ${TAG}
+    versionPublish: $(TAG)
     packagePublishDescription: 'BNG application code artifacts'
