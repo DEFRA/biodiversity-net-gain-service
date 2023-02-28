@@ -1,9 +1,10 @@
 import Path from 'path'
+import * as fs from 'fs'
 import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
-
 const serviceName = 'Register land as a biodiversity gain site'
+const { version } = JSON.parse(fs.readFileSync('./package.json'))
 
 const views = {
   plugin: Vision,
@@ -37,8 +38,8 @@ const views = {
       serviceName,
       assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`,
-      titleSuffix: ' - GOV.UK'
-      // analyticsAccount: analyticsAccount
+      titleSuffix: ' - GOV.UK',
+      applicationVersion: version
     }
   }
 }
