@@ -13,7 +13,12 @@ const handlers = {
 }
 
 const performUpload = async (request, h) => {
-  const config = getBuildConfig(request.yar.id)
+  const buildConfig = {
+    uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
+    queueName: 'untrusted-file-queue',
+    containerName: 'untrusted'
+  }
+  const config = getBuildConfig(request.yar.id, buildConfig)
 
   try {
     const metricFileData = await uploadFiles(logger, request, config)

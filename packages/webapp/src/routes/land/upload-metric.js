@@ -67,7 +67,12 @@ const handlers = {
     return h.view(constants.views.UPLOAD_METRIC)
   },
   post: async (request, h) => {
-    const config = getBuildConfig(request.yar.id)
+    const buildConfig = {
+      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
+      queueName: 'untrusted-file-queue',
+      containerName: 'untrusted'
+    }
+    const config = getBuildConfig(request.yar.id, buildConfig)
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)

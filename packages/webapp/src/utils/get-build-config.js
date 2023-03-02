@@ -2,17 +2,19 @@ import { handleEvents } from './azure-signalr.js'
 import { uploadStreamAndQueueMessage } from './azure-storage.js'
 import constants from './constants.js'
 
-const buildBlobConfig = (sessionId, config) => {
+const buildBlobConfig = (sessionId, config, options) => {
+  const { containerName, uploadType } = options
   config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
+    blobName: `${sessionId}/${uploadType}/`,
+    containerName
   }
 }
 
-const buildQueueConfig = config => {
+const buildQueueConfig = (config, options) => {
+  const { queueName, uploadType } = options
   config.queueConfig = {
-    uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
+    uploadType,
+    queueName
   }
 }
 
@@ -37,10 +39,10 @@ const buildFileValidationConfig = config => {
   }
 }
 
-const getBuildConfig = sessionId => {
+const getBuildConfig = (sessionId, options) => {
   const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
+  buildBlobConfig(sessionId, config, options)
+  buildQueueConfig(config, options)
   buildFunctionConfig(config)
   buildSignalRConfig(sessionId, config)
   buildFileValidationConfig(config)
