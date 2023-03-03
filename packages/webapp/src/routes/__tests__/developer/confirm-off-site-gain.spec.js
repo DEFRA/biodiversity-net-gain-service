@@ -4,34 +4,20 @@ const url = '/developer/confirm-off-site-gain'
 
 const mockMetricData = {
   d1: [
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        html: '<span class=\'govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span> <span class=\'govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span>'
-      },
-      {
-        text: undefined
-      }
-    ],
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        text: 'Total area'
-      }
-    ]
+    {
+      'Broad habitat': 'Grassland',
+      'Habitat type': 'Traditional orchards',
+      'Area (hectares)': 5,
+      'Total habitat units': 10,
+      Condition: 'Fairly Good'
+    }
   ],
   e1: [
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        html: '<span class=\'govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span>'
-      },
-      { text: undefined }
-    ],
-    [
-      { classes: 'govuk-!-width-two-thirds', text: 'Total length' },
-      { text: NaN }
-    ]
+    {
+      'Hedgerow type': 'Native Species-rich native hedgerow with trees - associated with bank or ditch',
+      'Length (km)': 5.5,
+      'Total hedgerow units': 5
+    }
   ]
 }
 
@@ -53,9 +39,28 @@ describe(url, () => {
       }
       await checkMetricFile.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult.offSiteHabitatTableContent).toBeDefined()
-      expect(contextResult.offSiteHedgerowTableContent).toBeDefined()
-      expect(contextResult).toBeDefined()
+      expect(contextResult.offSiteHabitats.items).toEqual(mockMetricData.d1)
+      expect(contextResult.offSiteHabitats.total).toEqual(5)
+      expect(contextResult.offSiteHedgerows.items).toEqual(mockMetricData.e1)
+      expect(contextResult.offSiteHedgerows.total).toEqual(5.5)
+    })
+
+    it('should return 0 if empty metric got from extraction', async () => {
+      const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
+      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, { d1: [{ dummy: '' }], e1: [{ dummy: '' }] })
+      const request = {
+        yar: redisMap
+      }
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          contextResult = context
+        }
+      }
+      await checkMetricFile.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
+      expect(contextResult.offSiteHabitats.total).toEqual(0)
+      expect(contextResult.offSiteHedgerows.total).toEqual(0)
     })
   })
 
@@ -88,6 +93,7 @@ describe(url, () => {
             }
           }
           await checkMetricFile.default[1].handler(request, h)
+          // Note:  The expected location is temporary and will be replaced with the actual expected location once the associated functionality will be implemented.
           expect(viewResult).toEqual('/#')
           done()
         } catch (err) {
@@ -129,26 +135,22 @@ describe(url, () => {
     it('should show error if none of the options selected', (done) => {
       jest.isolateModules(async () => {
         try {
-          let viewResult
+          let viewResult = ''
           const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = undefined
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
             yar: redisMap,
-            payload: {
-              confirmOffsiteGain
-            }
+            payload: {}
           }
           const h = {
-            redirect: (view) => {
-              viewResult = view
-            },
-            view: (view) => {
-              viewResult = view
+            view: (...args) => {
+              viewResult = args
             }
           }
           await checkMetricFile.default[1].handler(request, h)
-          expect(viewResult).toEqual('developer/confirm-off-site-gain')
+          expect(viewResult[0]).toEqual('developer/confirm-off-site-gain')
+          expect(viewResult[1].err[0].text).toEqual('Select yes if this is the correct data')
           done()
         } catch (err) {
           done(err)

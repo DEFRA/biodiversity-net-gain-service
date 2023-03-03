@@ -13,78 +13,47 @@
         {% set id = 'offsite-details-checked-yes' %}
     </div>
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-          {{ govukFieldset({
+      -	<div class="govuk-grid-column-two-thirds">
+          	{{ govukFieldset({
               legend: {
                   text: pageHeading,
                   classes: "govuk-fieldset__legend--l govuk-heading-l",
                   isPageHeading: true
               }
-          }) }}
-          <p>Confirm if these details match what you have agreed with the landowner.</p>
+          	}) }}
+          	<p>Confirm if these details match what you have agreed with the landowner.</p>
         
-          {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+          	{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
-          {{ govukSummaryList({
-            rows: [
-              {
-                key: {
-                  text: "Landowner"
-                },
-                value: {
-                  text: 'Bex Eco Farm Ltd'
-                }
-              },
-              {
-                key: {
-                  text: "Biodiversity gain site number"
-                },
-                value: {
-                  text: 'BGS-12778902'
-                }
-              }
-            ]
-          }) 
-        }}
+			<!-- Note: Value of Landowner and Biodiversity gain site number will come from dataverse, mentioned same in comment of 751-->
+			{{ govukSummaryList({
+					rows: [
+					{
+						key: {
+						text: "Landowner"
+						},
+						value: {
+						text: 'Bex Eco Farm Ltd'
+						}
+					},
+					{
+						key: {
+						text: "Biodiversity gain site number"
+						},
+						value: {
+						text: 'BGS-12778902'
+						}
+					}
+					]
+				}) 
+			}}
        
         {% from "govuk/components/table/macro.njk" import govukTable %}
-        {% set BNGUnits = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity units</span>" %}
-        {% set BNG = "<span class='govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0'>Biodiversity net gain</span>" %}
         
-        {{ govukTable({
-            caption: '',
-            captionClasses: "govuk-table__caption--m",
-            firstCellIsHeader: true,
-            head: [
-              {
-                text: "Habitat type",
-                classes: "govuk-!-width-two-thirds"
-              },
-              {
-                text: "Area in hectares"
-              }
-            ],
-            rows: offSiteHabitatTableContent
-          }) 
-          }}
-          {{ govukTable({
-            caption: '',
-            captionClasses: "govuk-table__caption--m",
-            firstCellIsHeader: true,
-            head: [
-              {
-                text: "Hedgerow type",
-                classes: "govuk-!-width-two-thirds"
-              },
-              {
-                text: "Length in kilometres"
-              }
-            ],
-            rows: offSiteHedgerowTableContent
-          }) 
-          }}
+        {% include "common/off-site-habitat.html" %}
+        {% include "common/off-site-hedgerow.html" %}
 
-          {{ govukRadios({
+        {{ govukRadios({
               idPrefix: prefix,
               name: name,
               id: id,
@@ -110,10 +79,9 @@
           }) 
         }}
   
-          {{ govukButton({ text: 'Continue' }) }}
+        {{ govukButton({ text: 'Continue' }) }}
       </div>
-  </div>
-  
+  	</div>
 </div>
 </div>
 </div>

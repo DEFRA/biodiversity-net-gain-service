@@ -1,0 +1,33 @@
+<div class="app-table-responsive">
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Hedgerow type</th>
+        <th scope="col" class="govuk-table__header">Length in kilometres</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in offSiteHedgerows.items %}
+        {% if item['Hedgerow type'] and item['Length (km)'] is number %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            {{ item['Hedgerow type'] }}
+          </td>
+          <td class="govuk-table__cell">
+            {{ item['Length (km)'] }}
+          </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      <!-- Total -->
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__cell govuk-!-font-weight-bold">
+          Total length
+        </th>
+        <td class="govuk-table__cell">
+          {{ offSiteHedgerows.total }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
