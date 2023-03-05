@@ -90,9 +90,12 @@ Unlike other Lerna packages in the enclosing mono repository this package uses C
 
 ## Licencing of land boundary data
 
-Database scripts included in this repository include data sourced and adapted from [Administrative Boundaries - Environment Agency and Natural England Public Face Areas](https://environment.data.gov.uk/dataset/91d0fb43-209c-477f-91e3-74e756296268)
+Database scripts included in this repository include data derived from:
+* [Administrative Boundaries - Environment Agency and Natural England Public Face Areas](https://environment.data.gov.uk/dataset/91d0fb43-209c-477f-91e3-74e756296268)
+* [Scottish Local Government Improvement Service Local Authority Boundaries](https://data.spatialhub.scot/dataset/local_authority_boundaries-is/resource/d24c5735-0f1c-4819-a6bd-dbfeb93bd8e4)
+* [Electroral Ward Boundaries of Wales](https://datamap.gov.wales/layers/geonode:Wales_Ward_Boundaries_hwm)
 
-IN COMMON WITH OTHER INFORMATION IN THIS REPOSITORY, THE LAND BOUNDARY DATA IS LICENCED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE FOUND AT:
+IN COMMON WITH OTHER INFORMATION IN THIS REPOSITORY, ENGLISH, SCOTTISH AND WELSH LAND BOUNDARY DATA IS LICENCED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE FOUND AT:
 
 [http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
 
