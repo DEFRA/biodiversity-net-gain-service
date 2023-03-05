@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS bng.england_010k_27700;
