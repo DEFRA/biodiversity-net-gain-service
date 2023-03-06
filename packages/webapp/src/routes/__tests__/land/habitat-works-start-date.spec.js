@@ -23,6 +23,24 @@ describe(url, () => {
       postOptions.payload['habitatWorksStartDate-year'] = '2020'
       await submitPostRequest(postOptions)
     })
+    it('should continue journey if valid date is entered with single digit day', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '1'
+      postOptions.payload['habitatWorksStartDate-month'] = '02'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
+    it('should continue journey if valid date is entered with single digit month', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '01'
+      postOptions.payload['habitatWorksStartDate-month'] = '2'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
+    it('should continue journey if valid date is entered with single digit day and month', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '1'
+      postOptions.payload['habitatWorksStartDate-month'] = '2'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
     it('should stop journey if missing date', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
