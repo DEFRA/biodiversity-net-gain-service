@@ -1,5 +1,5 @@
 import { createApplicationReference, saveApplicationSession } from '../Shared/db-queries.js'
-import getDBConnection from '../Shared/get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 
 // Ensure these stay up to date with webapp constants file.
 const redisKeys = {

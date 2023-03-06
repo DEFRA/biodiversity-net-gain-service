@@ -116,7 +116,7 @@
       "<rootDir>/packages/document-service/jest.config.cjs",
       "<rootDir>/packages/errors-lib/package.json",
       "<rootDir>/packages/geoprocessing-service/jest.config.cjs",
-      "<rootDir>/packages/utils-lib/package.json",
+      "<rootDir>/packages/utils-lib/jest.config.cjs",
       "<rootDir>/packages/webapp/jest.config.cjs"
     ],
     "testEnvironment": "node",

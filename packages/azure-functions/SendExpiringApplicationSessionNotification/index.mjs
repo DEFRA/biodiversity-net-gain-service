@@ -1,6 +1,6 @@
 import processApplicationSessionNotificationMessage from '../Shared/process-application-session-notification-message.js'
 import { recordExpiringApplicationSessionNotification } from '../Shared/db-queries.js'
-import getDBConnection from '../Shared/get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 
 const templateIds = {
   email: process.env.EXPIRING_APPLICATION_SESSION_TEMPLATE_ID

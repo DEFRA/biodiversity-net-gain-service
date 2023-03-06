@@ -1,5 +1,5 @@
 import { clearApplicationSession } from '../Shared/db-queries.js'
-import getDBConnection from '../Shared/get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, _timer) {
   let db
