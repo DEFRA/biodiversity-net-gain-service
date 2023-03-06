@@ -1,6 +1,6 @@
 import applicationSessionKeys from './application-session-keys.js'
 import { getApplicationSessionById } from './db-queries.js'
-import getDBConnection from './get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 import { UnknownApplicationSessionIdError } from '@defra/bng-errors-lib'
 import sendEmail from './send-email.js'
 
