@@ -7,8 +7,8 @@ import habitatTypeMap from './habitatTypeMap.js'
 const isoDateFormat = 'YYYY-MM-DD'
 
 const validateDate = (payload, ID, desc) => {
-  const day = payload[`${ID}-day`]
-  const month = payload[`${ID}-month`]
+  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, 0) : payload[`${ID}-day`]
+  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, 0) : payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
