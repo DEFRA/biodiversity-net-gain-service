@@ -68,7 +68,7 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancementv4.length).toEqual(2)
     expect(Object.keys(response.d3OffSiteHabitatEnhancementv4[0]).length).toEqual(8)
     expect(response.d3OffSiteHabitatEnhancementv4[0]['Baseline habitat']).toEqual('Cropland - Arable field margins tussocky')
-    expect(response.d3OffSiteHabitatEnhancementv4[0]['Proposed Habitat']).toEqual('Lowland raised bog')
+    expect(response.d3OffSiteHabitatEnhancementv4[0]['Proposed habitat']).toEqual('Lowland raised bog')
     expect(response.d3OffSiteHabitatEnhancementv4[0]['Proposed Broad Habitat']).toEqual('Wetland')
     expect((response.d3OffSiteHabitatEnhancementv4[0]['Area (hectares)']).toFixed(2)).toEqual('19.47')
     expect(response.d3OffSiteHabitatEnhancementv4[0].Condition).toEqual('Good')
