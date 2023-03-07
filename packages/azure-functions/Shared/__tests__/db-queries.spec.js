@@ -61,9 +61,11 @@ const expectedRecordExpiringApplicationSessionNotificationStatement = `
     application_session_id = $1
 `
 
-describe('createApplicationReference', () => {
-  it('Should be a function', () => {
-    expect(typeof createApplicationReference).toBe('function')
+describe('Database queries', () => {
+  describe('createApplicationReference', () => {
+    it('Should be a function', () => {
+      expect(typeof createApplicationReference).toBe('function')
+    })
   })
   it('Should run db.query with correct script', () => {
     const db = {
