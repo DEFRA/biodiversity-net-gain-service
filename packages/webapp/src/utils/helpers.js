@@ -4,10 +4,22 @@ import registerTaskList from './register-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 
-const validateDate = (payload, ID, desc) => {
-  const day = payload[`${ID}-day`]
-  const month = payload[`${ID}-month`]
+const isoDateFormat = 'YYYY-MM-DD'
+
+const parsePayload = (payload, ID) => {
+  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
+  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
+  return {
+    day,
+    month,
+    year
+  }
+}
+
+const validateDate = (payload, ID, desc) => {
+  const { day, month, year } = parsePayload(payload, ID)
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
   if (!day && !month && !year) {
     context.err = [{
@@ -33,22 +45,58 @@ const validateDate = (payload, ID, desc) => {
       href: `#${ID}-year`,
       yearError: true
     }]
-  } else if (!moment.utc(`${year}-${month}-${day}`).isValid()) {
+  } else if (!date.isValid()) {
     context.err = [{
       text: 'Start date must be a real date',
       href: `#${ID}-day`,
       dateError: true
     }]
   }
+  const dateAsISOString = !context.err && date.toISOString()
   return {
     day,
     month,
     year,
+    dateAsISOString,
     context
   }
 }
 
+const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
+  if (isDate1LessThanDate2(dateAsISOString, minDateISOString)) {
+    return [{
+      text: `Start date must be after ${formatDateBefore(minDateISOString)}`,
+      href: `#${ID}-day`,
+      dateError: true
+    }]
+  } else {
+    return undefined
+  }
+}
+
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
+
+const isDate1LessThanDate2 = (isoString1, isoString2) => {
+  const date1 = moment.utc(isoString1)
+  const date2 = moment.utc(isoString2)
+  return date1.isValid() && date2.isValid() && (date1).isBefore(date2, 'day')
+}
+
+const validateAndParseISOString = isoString => {
+  const date = moment.utc(isoString)
+  return {
+    day: date.isValid() && date.format('DD'),
+    month: date.isValid() && date.format('MM'),
+    year: date.isValid() && date.format('YYYY')
+  }
+}
+
+const getFormattedDate = dateString => {
+  const date = moment.utc(dateString)
+  return date.isValid() && date.format('D MMMM YYYY')
+}
+
+const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
 
 const listArray = array => {
   let html = ''
@@ -244,5 +292,10 @@ export {
   getEligibilityResults,
   formatAppRef,
   habitatTypeAndConditionMapper,
-  combineHabitats
+  combineHabitats,
+  validateAndParseISOString,
+  isDate1LessThanDate2,
+  getFormattedDate,
+  formatDateBefore,
+  getMinDateCheckError
 }

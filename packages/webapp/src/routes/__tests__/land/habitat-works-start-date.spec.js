@@ -19,7 +19,25 @@ describe(url, () => {
     })
     it('should continue journey if valid date is entered', async () => {
       postOptions.payload['habitatWorksStartDate-day'] = '01'
-      postOptions.payload['habitatWorksStartDate-month'] = '01'
+      postOptions.payload['habitatWorksStartDate-month'] = '02'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
+    it('should continue journey if valid date is entered with single digit day', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '1'
+      postOptions.payload['habitatWorksStartDate-month'] = '02'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
+    it('should continue journey if valid date is entered with single digit month', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '01'
+      postOptions.payload['habitatWorksStartDate-month'] = '2'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      await submitPostRequest(postOptions)
+    })
+    it('should continue journey if valid date is entered with single digit day and month', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '1'
+      postOptions.payload['habitatWorksStartDate-month'] = '2'
       postOptions.payload['habitatWorksStartDate-year'] = '2020'
       await submitPostRequest(postOptions)
     })
@@ -75,6 +93,14 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Start date must be a real date')
+    })
+    it('should stop journey if date is less than the minimum date', async () => {
+      postOptions.payload['habitatWorksStartDate-day'] = '20'
+      postOptions.payload['habitatWorksStartDate-month'] = '01'
+      postOptions.payload['habitatWorksStartDate-year'] = '2020'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Start date must be after 29 January 2020')
     })
     it('Tests date from session', done => {
       jest.isolateModules(async () => {
