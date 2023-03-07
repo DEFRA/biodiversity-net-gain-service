@@ -1,0 +1,68 @@
+{% extends 'form-layout.html' %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Check Biodiversity Metric 4.0 and habitat declaration" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <h1 class="govuk-heading-l">
+                {{ pageHeading }}
+              </h1>
+              <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Biodiversity Metric 4.0 file uploaded
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    {{ filename }}
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/land/check-metric-file">
+                      Change<span class="govuk-visually-hidden"> biodiversity metric 4.0 file</span>
+                    </a>  
+                  </dd> 
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Baseline biodiversity value declaration
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    Yes
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/land/check-habitat-baseline">
+                      Change<span class="govuk-visually-hidden"> Baseline biodiversity value declaration</span>
+                    </a>  
+                  </dd> 
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Habitat creation and enhancement information is correct
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    Yes
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/land/check-habitat-created">
+                      Change<span class="govuk-visually-hidden"> Habitat creation and enhancement declaration</span>
+                    </a>  
+                  </dd> 
+                </div>
+              </dl>
+
+              {{ govukButton({
+                text: "Continue",
+                attributes: {
+                    id: "continue"
+                }
+              }) }}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

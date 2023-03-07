@@ -30,7 +30,7 @@ const handlers = {
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
       processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_BASELINE)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),

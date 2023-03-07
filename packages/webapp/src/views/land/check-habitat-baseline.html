@@ -1,0 +1,39 @@
+{% extends 'form-layout.html' %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Check the habitat baseline information" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">
+                    {{ pageHeading }}
+                </h1>
+
+                <p>We've taken this information from the metric file you uploaded.</p>
+
+                {% if habitatTypeAndCondition.length > 0 %}
+                  {% for habitat in habitatTypeAndCondition %}
+                    {% include "common/habitat-type-and-condition.html" %}
+                  {% endfor %}
+                {% endif %}
+
+                {{ govukButton({
+                    text: "Confirm and continue",
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
+
+                <p>Or</p>
+
+                <p><a href="/land/upload-metric" class="govuk-link--no-visited-state">Upload a different Biodiversity Metric 4.0</a></p>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
