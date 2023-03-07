@@ -5,6 +5,8 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { logger } from 'defra-logging-facade'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 
+jest.mock('../helpers/db-queries')
+
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const JSON_FILE_EXTENSION = '.json'
@@ -15,6 +17,18 @@ const mockDataPath = 'packages/geoprocessing-service/src/__mock-data__/uploads/g
 const invalidFileUploadErrorMessage = 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file'
 
 describe('The geoprocessing service', () => {
+  beforeEach(() => {
+    const dbQueries = require('../helpers/db-queries')
+    dbQueries.isPolygonInEnglandOnly = jest.fn().mockImplementation(() => {
+      return {
+        rows: [
+          {
+            fn_is_polygon_in_england_only: true
+          }
+        ]
+      }
+    })
+  })
   it('should convert a geopackage file containing a single polygon in the WGS84 coordinate reference system to GeoJSON', async () => {
     const filenameRoot = 'geopackage-land-boundary-4326'
     const config = await performLandBoundaryProcessing(`${filenameRoot}${GEOPACKAGE_FILE_EXTENSION}`, true)
@@ -65,6 +79,22 @@ describe('The geoprocessing service', () => {
   it('should reject an invalid GeoJSON file', async () => {
     const filenameRoot = 'invalid-file-content'
     const expectedError = new ValidationError('INVALID-FILE-UPLOAD', invalidFileUploadErrorMessage)
+    await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
+  })
+  it('should reject a GeoJSON file containing a land boundary crossing English borders ', async () => {
+    jest.resetAllMocks()
+    const dbQueries = require('../helpers/db-queries')
+    dbQueries.isPolygonInEnglandOnly = jest.fn().mockImplementation(() => {
+      return {
+        rows: [
+          {
+            fn_is_polygon_in_england_only: false
+          }
+        ]
+      }
+    })
+    const filenameRoot = 'crosses-english-border-27700'
+    const expectedError = new ValidationError('OUTSIDE_ENGLAND', 'Land boundaries must be located in England only')
     await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
   })
   it('should reject an ESRI shapefile without a projection', async () => {
