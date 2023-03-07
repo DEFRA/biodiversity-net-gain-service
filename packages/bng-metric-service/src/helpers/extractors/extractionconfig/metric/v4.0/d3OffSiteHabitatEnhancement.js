@@ -1,6 +1,7 @@
 const headers = [
   'Baseline habitat',
-  'Proposed Habitat',
+  'Proposed Broad Habitat',
+  'Proposed habitat',
   'Area (hectares)',
   'Condition',
   'Habitat enhanced in advance/years',
@@ -19,7 +20,8 @@ const d3OffSiteHabitatEnhancement = {
     __EMPTY: 'Area (hectares)',
     __EMPTY_3: 'Condition',
     __EMPTY_5: 'Habitat units delivered',
-    'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years'
+    'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years',
+    'Proposed Habitat': 'Proposed habitat'
   }
 }
 

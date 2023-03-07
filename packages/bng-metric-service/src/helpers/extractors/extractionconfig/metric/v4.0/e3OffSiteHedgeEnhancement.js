@@ -17,6 +17,7 @@ const e3OffSiteHedgeEnhancement = {
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Proposed habitat',
+    __EMPTY_1: 'Length (km)',
     __EMPTY_4: 'Hedge units delivered',
     'Condition ': 'Condition',
     'Habitat enhanced in advance/years ': 'Habitat enhanced in advance/years'

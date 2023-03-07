@@ -1,0 +1,38 @@
+<div class="app-table-responsive">
+  <table class="govuk-table">
+    <caption class="govuk-visually-hidden">Baseline {{ habitat.type }} types, condition and {% if habitat.type === 'Habitat' %}area{% else %}length{% endif %}</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">{{ habitat.type }} type and condition</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">{{ habitat.unit }}</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in habitat.items %}
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-body-s">
+          {% if item.header %}{{ item.header }}{% endif %}
+          <span class="govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+            {{ item.description }}
+          </span>
+          <span class="govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0 app-secondary-text-colour">
+            {{ item.condition }}
+          </span>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          {{ item.amount.toFixed(2) }}
+        </td>
+      </tr>
+      {% endfor %}
+      <!-- Total -->
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__cell">
+          Total
+        </th>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          {{ habitat.total.toFixed(2) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
