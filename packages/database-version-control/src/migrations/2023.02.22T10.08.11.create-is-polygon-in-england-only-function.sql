@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION bng.fn_is_in_england_only(
+CREATE OR REPLACE FUNCTION bng.fn_is_polygon_in_england_only(
     _boundaryAsGeoJson text)
   RETURNS boolean AS
 $BODY$

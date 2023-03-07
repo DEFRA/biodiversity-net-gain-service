@@ -1,5 +1,10 @@
 import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import OsGridRef, { LatLon } from 'geodesy/osgridref.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
+import { isPolygonInEnglandOnly } from './helpers/db-queries.js'
+
+const OSGB26_SRS_AUTHORITY_CODE = '27700'
+const WGS84_SRS_AUTHORITY_CODE = '4326'
 
 const processLandBoundary = async (logger, config) => {
   let dataset
@@ -64,7 +69,7 @@ const validateLayer = async layer => {
   const errorMessage = 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system'
   if (layer.srs) {
     validateSpatialReferenceSystem(layer.srs)
-    await validateFeatures(layer.features)
+    await validateFeatures(layer.features, layer.srs)
   } else {
     throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
   }
@@ -72,20 +77,45 @@ const validateLayer = async layer => {
 
 const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
-  if (authorityCode !== '27700' && authorityCode !== '4326') {
+  if (authorityCode !== OSGB26_SRS_AUTHORITY_CODE && authorityCode !== WGS84_SRS_AUTHORITY_CODE) {
     throw new CoordinateSystemValidationError(
       authorityCode, uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
   }
 }
 
-const validateFeatures = async features => {
-  if (await features.countAsync() !== 1) {
+const validateFeatures = async (features, srs) => {
+  if (await features.countAsync() === 1) {
+    const feature = await features.firstAsync()
+    await validateFeature(feature, srs)
+  } else {
     throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, 'Land boundaries must contain a single feature')
   }
 }
 
+const validateFeature = async (feature, srs) => {
+  const geometry = feature.getGeometry()
+  const geometryAsGeoJson = geometry.toObject()
+  const geometryToValidate = geometryAsGeoJson
+
+  if (srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
+    // TO DO - Reproject to OSGB36
+  } else {
+    let db
+    try {
+      db = await getDBConnection()
+      const result = await isPolygonInEnglandOnly(db, [geometryToValidate])
+      const polygonIsInEnglandOnly = result?.rows[0]?.fn_is_polygon_in_england_only
+      if (!polygonIsInEnglandOnly) {
+        throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND, 'Land boundaries must be located in England only')
+      }
+    } finally {
+      db?.end()
+    }
+  }
+}
+
 const getGridRef = (centroid, projection) => {
-  if (projection === '27700') {
+  if (projection === OSGB26_SRS_AUTHORITY_CODE) {
     const osGridRef = new OsGridRef(centroid.x, centroid.y)
     return osGridRef.toString()
   } else {
@@ -103,7 +133,7 @@ const createMapConfig = async (dataset, bufferDistance, gdal) => {
   const featureGeometryForArea = feature.getGeometry().clone()
   const featureCentroid = feature.getGeometry().centroid().clone()
 
-  if (authorityCode === '4326') {
+  if (authorityCode === WGS84_SRS_AUTHORITY_CODE) {
     // Reproject the geometry for display on a map.
     await featureGeometry.transformToAsync(gdal.SpatialReference.fromEPSGA(3857))
     await featureGeometryForArea.transformToAsync(gdal.SpatialReference.fromEPSGA(27700))

@@ -77,6 +77,9 @@ const uploadFile = async (uploadConfig) => {
     } else if (uploadConfig.generateInvalidFeatureCountError) {
       const errorMessage = 'The selected file must only contain one polygon'
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, errorMessage)
+    } else if (uploadConfig.generateOutsideEnglandError) {
+      const errorMessage = 'Entire land boundary must be in England'
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND, errorMessage)
     } else if (uploadConfig.generateInvalidUploadError) {
       const errorMessage = 'The selected file must be a GeoJSON, Geopackage or Shape file'
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, errorMessage)
