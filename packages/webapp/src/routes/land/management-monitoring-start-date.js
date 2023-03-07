@@ -1,6 +1,12 @@
 import constants from '../../utils/constants.js'
-import { validateDate, dateClasses, processRegistrationTask } from '../../utils/helpers.js'
-import moment from 'moment'
+import {
+  dateClasses,
+  getMinDateCheckError,
+  isDate1LessThanDate2,
+  processRegistrationTask,
+  validateAndParseISOString,
+  validateDate
+} from '../../utils/helpers.js'
 
 const ID = 'managementMonitoringStartDate'
 
@@ -12,19 +18,21 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.MANAGEMENT_MONITORING_START_DATE
     })
-    const date = request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY))
+    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY))
     return h.view(constants.views.MANAGEMENT_MONITORING_START_DATE, {
       dateClasses,
-      day: date && date.format('DD'),
-      month: date && date.format('MM'),
-      year: date && date.format('YYYY')
+      day,
+      month,
+      year
     })
   },
   post: async (request, h) => {
-    const { day, month, year, context } = validateDate(request.payload, ID, 'date the 30 year management and monitoring period will start')
-    const date = moment.utc(`${year}-${month}-${day}`)
-    const habitatWorksStartDate = moment(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY))
-    if (!context.err && date < habitatWorksStartDate) {
+    const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'date the 30 year management and monitoring period will start')
+    if (!context.err) {
+      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.MANAGEMENT_MONITORING_MIN_START_DATE)
+    }
+    const habitatWorksStartDate = request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY)
+    if (!context.err && isDate1LessThanDate2(dateAsISOString, habitatWorksStartDate)) {
       context.err = [{
         text: 'Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin',
         href: `#${ID}-day`,
@@ -40,7 +48,7 @@ const handlers = {
         ...context
       })
     } else {
-      request.yar.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, date.toISOString())
+      request.yar.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, dateAsISOString)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS)
     }
   }

@@ -1,6 +1,11 @@
 import constants from '../../utils/constants.js'
-import moment from 'moment'
-import { dateClasses, validateDate, processRegistrationTask } from '../../utils/helpers.js'
+import {
+  dateClasses,
+  getMinDateCheckError,
+  processRegistrationTask,
+  validateAndParseISOString,
+  validateDate
+} from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -10,21 +15,20 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_START_DATE
     })
-    let date
-    if (request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY)) {
-      date = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY) && moment(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
-    }
+    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
-      day: date?.format('DD'),
-      month: date?.format('MM'),
-      year: date?.format('YYYY')
+      day,
+      month,
+      year
     })
   },
   post: async (request, h) => {
     const ID = 'legalAgreementStartDate'
-    const { day, month, year, context } = validateDate(request.payload, ID, 'start date of the legal agreement')
-    const date = moment.utc(`${year}-${month}-${day}`)
+    const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'start date of the legal agreement')
+    if (!context.err) {
+      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.LEGAL_AGREEMENT_MIN_START_DATE)
+    }
 
     if (context.err) {
       return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
@@ -35,7 +39,7 @@ const handlers = {
         ...context
       })
     } else {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, date.toISOString())
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, dateAsISOString)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     }
   }

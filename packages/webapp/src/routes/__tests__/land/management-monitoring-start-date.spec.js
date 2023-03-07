@@ -20,7 +20,7 @@ describe(url, () => {
     })
     it('should continue journey if valid date is entered', async () => {
       postOptions.payload['managementMonitoringStartDate-day'] = '01'
-      postOptions.payload['managementMonitoringStartDate-month'] = '01'
+      postOptions.payload['managementMonitoringStartDate-month'] = '02'
       postOptions.payload['managementMonitoringStartDate-year'] = '2020'
       await submitPostRequest(postOptions)
     })
@@ -76,6 +76,14 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Start date must be a real date')
+    })
+    it('should stop journey if date is less than the minimum date', async () => {
+      postOptions.payload['managementMonitoringStartDate-day'] = '01'
+      postOptions.payload['managementMonitoringStartDate-month'] = '01'
+      postOptions.payload['managementMonitoringStartDate-year'] = '2020'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Start date must be after 29 January 2020')
     })
     it('Tests date from session', done => {
       jest.isolateModules(async () => {
