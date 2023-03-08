@@ -159,6 +159,7 @@ const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
+const COOKIES = 'cookies'
 
 const confirmFileUploadOptions = {
   NO,
@@ -383,7 +384,8 @@ const routes = {
   REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
-  CHECK_METRIC_DETAILS
+  CHECK_METRIC_DETAILS,
+  COOKIES
 }
 
 const uploadErrors = {
