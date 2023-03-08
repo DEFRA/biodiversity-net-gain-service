@@ -10,6 +10,10 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
+    const validationError = getValidation(result[0].metricData.validation)
+    if (validationError) {
+      return h.view(constants.views.UPLOAD_METRIC, validationError)
+    }
     request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
@@ -60,7 +64,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric 3.1'
+      title: 'Upload Biodiversity Metric'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_METRIC
@@ -131,6 +135,25 @@ const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: constants.metricFileExt
   }
+}
+
+const getValidation = metricValidation => {
+  const error = {
+    err: [
+      {
+        text: '',
+        href: UPLOAD_METRIC_ID
+      }
+    ]
+  }
+  if (!metricValidation.isVersion4) {
+    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
+  } else if (!metricValidation.isOffsiteDataPresent) {
+    error.err[0].text = 'The selected file does not have enough data'
+  } else if (!metricValidation.areOffsiteTotalsCorrect) {
+    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+  }
+  return error.err[0].text ? error : null
 }
 
 export default [{

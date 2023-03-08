@@ -70,7 +70,7 @@ describe(url, () => {
         taskTitle: 'Habitat information',
         tasks: [
           {
-            title: 'Upload Biodiversity Metric 3.1',
+            title: 'Upload Biodiversity Metric',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-details',
             startTaskUrl: '/land/upload-metric',
@@ -169,7 +169,7 @@ describe(url, () => {
         taskTitle: 'Habitat information',
         tasks: [
           {
-            title: 'Upload Biodiversity Metric 3.1',
+            title: 'Upload Biodiversity Metric',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-details',
             startTaskUrl: '/land/upload-metric',
