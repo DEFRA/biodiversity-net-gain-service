@@ -54,8 +54,8 @@ describe(url, () => {
           fullName: 'Test name'
         }
       }
-      const legalAgreementDetails = require('../../developer/details-name')
-      await legalAgreementDetails.default[1].handler(request, h)
+      const developerDetails = require('../../developer/details-name')
+      await developerDetails.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
     })
   })
