@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { validateName } from '../../utils/helpers.js'
 
 const ID = '#fullName'
 
@@ -23,22 +24,6 @@ const handlers = {
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || '#')
     }
   }
-}
-
-const validateName = fullName => {
-  const error = {}
-  if (!fullName) {
-    error.err = [{
-      text: 'Enter your full name',
-      href: ID
-    }]
-  } else if (fullName.length < 2) {
-    error.err = [{
-      text: 'Full name must be 2 characters or more',
-      href: ID
-    }]
-  }
-  return error.err ? error : null
 }
 
 export default [{

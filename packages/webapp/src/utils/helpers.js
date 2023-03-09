@@ -274,6 +274,22 @@ const combineHabitats = habitatTypeAndCondition => {
   return combinedHabitatTypeAndCondition
 }
 
+const validateName = (fullName, hrefId) => {
+  const error = {}
+  if (!fullName) {
+    error.err = [{
+      text: 'Enter your full name',
+      href: hrefId
+    }]
+  } else if (fullName.length < 2) {
+    error.err = [{
+      text: 'Full name must be 2 characters or more',
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 export {
   validateDate,
   dateClasses,
@@ -297,5 +313,6 @@ export {
   isDate1LessThanDate2,
   getFormattedDate,
   formatDateBefore,
-  getMinDateCheckError
+  getMinDateCheckError,
+  validateName
 }
