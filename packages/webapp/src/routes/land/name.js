@@ -18,7 +18,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const fullName = request.payload.fullName
-    const error = validateName(fullName)
+    const error = validateName(fullName, ID)
     if (error) {
       return h.view(constants.views.NAME, {
         fullName,
