@@ -1,3 +1,8 @@
+const { pipeline } = require('stream')
+const { createGunzip } = require('zlib')
+const { promisify } = require('util')
+const pipe = promisify(pipeline)
+const { createReadStream, createWriteStream } = require('fs')
 const path = require('path')
 const { SlonikMigrator } = require('@slonik/migrator')
 const { createPool, sql } = require('slonik')
@@ -16,6 +21,7 @@ const slonik = createPool(connectionString, {
   interceptors: [
     {
       afterPoolConnection: async (_context, connection) => {
+        await gunzipDataMigrations()
         await connection.query(sql`
           create schema if not exists ${migrationsSchemaIdentifier};
         `)
@@ -34,3 +40,20 @@ const migrator = new SlonikMigrator({
 })
 
 module.exports = migrator
+
+const gunzipDataMigrations = async () => {
+  const migrationsDirectoryPath = './src/migrations/'
+  const populateNationBoundary27700OutputFilePath = `${migrationsDirectoryPath}2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql`
+  const populateNationBoundary27700InputFilePath = `${populateNationBoundary27700OutputFilePath}.gz`
+
+  return Promise.all([
+    await gunzipDataMigration(`${populateNationBoundary27700InputFilePath}`, `${populateNationBoundary27700OutputFilePath}`)
+  ])
+}
+
+const gunzipDataMigration = async (inputFilePath, outputFilePath) => {
+  const gunzip = createGunzip()
+  const source = createReadStream(inputFilePath)
+  const destination = createWriteStream(outputFilePath)
+  return pipe(source, gunzip, destination)
+}

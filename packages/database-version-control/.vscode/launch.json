@@ -14,7 +14,8 @@
       "preLaunchTask": "createEnvFile",
       "postDebugTask": "deleteEnvFile",
       "envFile": "${workspaceFolder}/.env",
-      "program": "${workspaceFolder}/src/migrator.js",
+      "program": "${workspaceFolder}/src/migrator-cli.js" ,
+      "args": ["up"],
       "outputCapture": "std"
     }
   ]
