@@ -167,8 +167,8 @@ const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 const DEVELOPER_DETAILS_NAME = 'developer/details-name'
-const DEVELOPER_FULL_NAME = 'fullname'
-const DEVELOPER_REFERER = 'referer'
+const DEVELOPER_FULL_NAME = 'developer-fullname'
+const DEVELOPER_REFERER = 'developer-referer'
 
 const confirmFileUploadOptions = {
   NO,
