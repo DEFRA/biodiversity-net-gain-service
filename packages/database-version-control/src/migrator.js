@@ -21,7 +21,6 @@ const slonik = createPool(connectionString, {
   interceptors: [
     {
       afterPoolConnection: async (_context, connection) => {
-        await gunzipDataMigrations()
         await connection.query(sql`
           create schema if not exists ${migrationsSchemaIdentifier};
         `)
@@ -42,9 +41,12 @@ const migrator = new SlonikMigrator({
 module.exports = migrator
 
 const gunzipDataMigrations = async () => {
-  const migrationsDirectoryPath = './src/migrations/'
-  const populateNationBoundary27700OutputFilePath = `${migrationsDirectoryPath}2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql`
-  const populateNationBoundary27700InputFilePath = `${populateNationBoundary27700OutputFilePath}.gz`
+  const srcDirectoryPath = path.join(__dirname, '/')
+  const dataMigrationsDirectoryPath = `${srcDirectoryPath}data-migrations/`
+  const migrationsDirectoryPath = `${srcDirectoryPath}migrations/`
+  const populateNationBoundary27700Filename = '2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql'
+  const populateNationBoundary27700InputFilePath = `${dataMigrationsDirectoryPath}${populateNationBoundary27700Filename}.gz`
+  const populateNationBoundary27700OutputFilePath = `${migrationsDirectoryPath}${populateNationBoundary27700Filename}`
 
   return Promise.all([
     await gunzipDataMigration(`${populateNationBoundary27700InputFilePath}`, `${populateNationBoundary27700OutputFilePath}`)
@@ -57,3 +59,7 @@ const gunzipDataMigration = async (inputFilePath, outputFilePath) => {
   const destination = createWriteStream(outputFilePath)
   return pipe(source, gunzip, destination)
 }
+
+(
+  async () => { await gunzipDataMigrations() }
+)()
