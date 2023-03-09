@@ -49,7 +49,7 @@ const gunzipDataMigrations = async () => {
   const populateNationBoundary27700OutputFilePath = `${migrationsDirectoryPath}${populateNationBoundary27700Filename}`
 
   return Promise.all([
-    await gunzipDataMigration(`${populateNationBoundary27700InputFilePath}`, `${populateNationBoundary27700OutputFilePath}`)
+    gunzipDataMigration(`${populateNationBoundary27700InputFilePath}`, `${populateNationBoundary27700OutputFilePath}`)
   ])
 }
 
