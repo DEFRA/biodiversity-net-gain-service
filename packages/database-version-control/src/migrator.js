@@ -1,3 +1,4 @@
+const fs = require('fs')
 const { pipeline } = require('stream')
 const { createGunzip } = require('zlib')
 const { promisify } = require('util')
@@ -44,13 +45,21 @@ const gunzipDataMigrations = async () => {
   const srcDirectoryPath = path.join(__dirname, '/')
   const dataMigrationsDirectoryPath = `${srcDirectoryPath}data-migrations/`
   const migrationsDirectoryPath = `${srcDirectoryPath}migrations/`
-  const populateNationBoundary27700Filename = '2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql'
-  const populateNationBoundary27700InputFilePath = `${dataMigrationsDirectoryPath}${populateNationBoundary27700Filename}.gz`
-  const populateNationBoundary27700OutputFilePath = `${migrationsDirectoryPath}${populateNationBoundary27700Filename}`
 
-  return Promise.all([
-    gunzipDataMigration(`${populateNationBoundary27700InputFilePath}`, `${populateNationBoundary27700OutputFilePath}`)
-  ])
+  const dataMigrationFiles = fs.readdirSync(dataMigrationsDirectoryPath)
+  const promises = []
+  dataMigrationFiles.forEach(dataMigrationFile => {
+    const inputFilePath = `${dataMigrationsDirectoryPath}${dataMigrationFile}`
+    const outputFilePath = `${migrationsDirectoryPath}${dataMigrationFile.substring(0, dataMigrationFile.length - 3)}`
+
+    promises.push(
+      new Promise((resolve, reject) => {
+        resolve(gunzipDataMigration(`${inputFilePath}`, `${outputFilePath}`))
+      })
+    )
+  })
+
+  return Promise.all(promises)
 }
 
 const gunzipDataMigration = async (inputFilePath, outputFilePath) => {
