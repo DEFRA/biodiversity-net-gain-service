@@ -172,4 +172,40 @@ describe('BNG data extractor test', () => {
     expect(response.validation.isOffsiteDataPresent).toBe(false)
     expect(response.validation.areOffsiteTotalsCorrect).toBe(true)
   })
+
+  it('Should return nothing if no config', async () => {
+    const readableStreamv3 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0-empty.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv3, {})
+
+    expect(response).toEqual({})
+  })
+
+  it('Should remove a column without error', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: [
+          'Habitat type',
+          'Area (hectares)',
+          'Condition',
+          'Total habitat units'
+        ],
+        columnsToBeRemoved: [
+          'Broad habitat'
+        ],
+        substitutions: {
+          'Condition ': 'Condition'
+        }
+      }
+    }
+
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(Object.keys(response.test[0]).length).toEqual(4)
+    expect(response.test[0]['Broad habitat']).toBe(undefined)
+  })
 })
