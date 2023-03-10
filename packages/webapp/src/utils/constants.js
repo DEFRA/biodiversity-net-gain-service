@@ -166,6 +166,9 @@ const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
+const DEVELOPER_DETAILS_NAME = 'developer/details-name'
+const DEVELOPER_FULL_NAME = 'developer-fullname'
+const DEVELOPER_REFERER = 'developer-referer'
 
 const confirmFileUploadOptions = {
   NO,
@@ -321,7 +324,9 @@ const redisKeys = {
   DEVELOPER_METRIC_FILE_NAME,
   DEVELOPER_METRIC_FILE_SIZE,
   DEVELOPER_METRIC_FILE_TYPE,
-  REGISTRATION_SAVED_REFERER
+  REGISTRATION_SAVED_REFERER,
+  DEVELOPER_FULL_NAME,
+  DEVELOPER_REFERER
 }
 
 const routes = {
@@ -397,7 +402,8 @@ const routes = {
   REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
-  CHECK_METRIC_DETAILS
+  CHECK_METRIC_DETAILS,
+  DEVELOPER_DETAILS_NAME
 }
 
 const uploadErrors = {
