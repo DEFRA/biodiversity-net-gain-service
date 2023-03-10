@@ -24,8 +24,7 @@ describe(url, () => {
     it('Should continue journey if full name is provided', async () => {
       postOptions.payload.fullName = 'John Doe'
       const res = await submitPostRequest(postOptions)
-      // Note: Temp location added and will be cover into next ticket
-      expect(res.headers.location).toEqual('#')
+      expect(res.headers.location).toEqual('/developer/details-email')
     })
     it('Should fail journey if no name provided', async () => {
       const res = await submitPostRequest(postOptions, 200)
