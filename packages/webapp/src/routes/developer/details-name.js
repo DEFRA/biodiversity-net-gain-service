@@ -14,6 +14,7 @@ const handlers = {
     const fullName = request.payload.fullName
     const error = validateName(fullName, ID)
     if (error) {
+      request.yar.clear(constants.redisKeys.DEVELOPER_FULL_NAME)
       return h.view(constants.views.DEVELOPER_DETAILS_NAME, {
         fullName,
         ...error
