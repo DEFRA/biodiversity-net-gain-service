@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask, validateName } from '../../utils/helpers.js'
 
 const ID = '#fullName'
 
@@ -18,7 +18,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const fullName = request.payload.fullName
-    const error = validateName(fullName)
+    const error = validateName(fullName, ID)
     if (error) {
       return h.view(constants.views.NAME, {
         fullName,
@@ -29,22 +29,6 @@ const handlers = {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ROLE)
     }
   }
-}
-
-const validateName = fullName => {
-  const error = {}
-  if (!fullName) {
-    error.err = [{
-      text: 'Enter your full name',
-      href: ID
-    }]
-  } else if (fullName.length < 2) {
-    error.err = [{
-      text: 'Full name must be 2 characters or more',
-      href: ID
-    }]
-  }
-  return error.err ? error : null
 }
 
 export default [{
