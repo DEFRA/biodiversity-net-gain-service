@@ -1,3 +1,41 @@
 {% set serviceName = "Record biodiversity gains" %}
 
-{% include 'land/email.html' %}
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "What is your email address?" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-label-wrapper">
+                    <label class="govuk-label govuk-label--l" for="emailAddress">
+                      {{ pageHeading }}
+                    </label>
+                </h1>
+
+                <div id="email-hint" class="govuk-hint">
+                    We'll only use this to contact you about your registration.
+                </div>
+                {{ govukInput({
+                    id: "emailAddress",
+                    name: "emailAddress",
+                    errorMessage: err[0],
+                    autocomplete: "emailAddress",
+                    spellcheck: false,
+                    value: emailAddress
+                }) }}
+
+                {{ govukButton({
+                    text: "Continue",
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
