@@ -129,3 +129,6 @@ biodiversity-net-gain-service.code-workspace
 bin/jest-database-version-control-env.sh
 
 .DS_Store
+
+packages/database-version-control/src/migrations/2023.02.21T10.42.51.populate-nation-boundary-table.sql
+packages/database-version-control/src/data-migrations/2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql
