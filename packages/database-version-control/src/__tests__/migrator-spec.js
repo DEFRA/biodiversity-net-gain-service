@@ -4,14 +4,6 @@ const migrator = require('../migrator.js')
 const migrationsDirectoryPath = 'packages/database-version-control/src/migrations'
 
 describe('The database version control migrator', () => {
-  beforeAll(() => {
-    // Create a dummy migration file for each data migration file that is gzipped.
-    const dataMigrationFiles = fs.readdirSync('packages/database-version-control/src/data-migrations')
-    const migrationsDirectory = migrationsDirectoryPath
-    dataMigrationFiles.forEach(dataMigrationFile => {
-      fs.writeFileSync(`${migrationsDirectory}/${dataMigrationFile.substring(0, dataMigrationFile.length - 3)}`, 'mock data')
-    })
-  })
   it('should initialise correctly and be able to run and rollback all pending migrations programmatically', async () => {
     const migrations = fs.readdirSync(migrationsDirectoryPath)
     expect((await migrator.pending()).map(m => m.name)).toEqual(migrations.slice(0, migrations.length - 1))
