@@ -1,1 +1,2 @@
+src/data-migrations/*.sql
 src/migrations/2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql

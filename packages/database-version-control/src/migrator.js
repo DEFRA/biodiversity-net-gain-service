@@ -44,21 +44,20 @@ module.exports = migrator
 const gunzipDataMigrations = async () => {
   const srcDirectoryPath = path.join(__dirname, '/')
   const dataMigrationsDirectoryPath = `${srcDirectoryPath}data-migrations/`
-  const migrationsDirectoryPath = `${srcDirectoryPath}migrations/`
+  // Provide an option to disable data migrations during unit tests.
+  const migrationsDirectoryPath =
+    process.env.NODE_ENV === 'test' && process.env.DISABLE_DATA_MIGRATIONS === '1'
+      ? dataMigrationsDirectoryPath
+      : `${srcDirectoryPath}migrations/`
 
-  const dataMigrationFiles = fs.readdirSync(dataMigrationsDirectoryPath)
+  // Ensure that non-gzipped files in the data-migrations directory are ignored.
+  const dataMigrationFiles = fs.readdirSync(dataMigrationsDirectoryPath).filter(f => f.endsWith('.gz'))
   const promises = []
   dataMigrationFiles.forEach(dataMigrationFile => {
     const inputFilePath = `${dataMigrationsDirectoryPath}${dataMigrationFile}`
     const outputFilePath = `${migrationsDirectoryPath}${dataMigrationFile.substring(0, dataMigrationFile.length - 3)}`
-
-    promises.push(
-      new Promise((resolve, reject) => {
-        resolve(gunzipDataMigration(`${inputFilePath}`, `${outputFilePath}`))
-      })
-    )
+    promises.push(gunzipDataMigration(`${inputFilePath}`, `${outputFilePath}`))
   })
-
   return Promise.all(promises)
 }
 
