@@ -1,8 +1,17 @@
+import { randomUUID } from 'crypto'
 import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import OsGridRef, { LatLon } from 'geodesy/osgridref.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 import { isPolygonInEnglandOnly } from './helpers/db-queries.js'
+import path from 'path'
+import dirname from './helpers/dirname.cjs'
 
+const ostn15FormatFilePath = path.join(dirname, '../', 'ntv2-format-files/', 'OSTN15_NTv2_OSGBtoETRS.gsb')
+const wgs84ToOsgb36ReprojectionArgs = [
+  '-f', 'GEOJSON',
+  '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+  '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`
+]
 const OSGB26_SRS_AUTHORITY_CODE = '27700'
 const WGS84_SRS_AUTHORITY_CODE = '4326'
 
@@ -59,19 +68,30 @@ const closeDatasetIfNeeded = dataset => {
 const validateDataset = async dataset => {
   // Check that one layer is present and uses a supported coordinate reference system containing one feature.
   if (await dataset.layers.countAsync() === 1) {
-    await validateLayer(await dataset.layers.getAsync(0))
+    await validateLayer(await dataset.layers.getAsync(0), dataset)
   } else {
     throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT, 'Land boundaries must contain a single layer')
   }
 }
 
-const validateLayer = async layer => {
+const validateLayer = async (layer, dataset) => {
   const errorMessage = 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system'
-  if (layer.srs) {
-    validateSpatialReferenceSystem(layer.srs)
-    await validateFeatures(layer.features, layer.srs)
-  } else {
-    throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
+  let layerToValidate = layer
+  let osgb36Dataset
+
+  try {
+    if (layer.srs) {
+      validateSpatialReferenceSystem(layer.srs)
+      if (layer.srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
+        const osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
+        layerToValidate = await osgb36Dataset.layers.getAsync(0)
+      }
+      await validateFeatures(layerToValidate.features)
+    } else {
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
+    }
+  } finally {
+    closeDatasetIfNeeded(osgb36Dataset)
   }
 }
 
@@ -83,34 +103,30 @@ const validateSpatialReferenceSystem = srs => {
   }
 }
 
-const validateFeatures = async (features, srs) => {
+const validateFeatures = async (features) => {
   if (await features.countAsync() === 1) {
     const feature = await features.firstAsync()
-    await validateFeature(feature, srs)
+    await validateFeature(feature)
   } else {
     throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, 'Land boundaries must contain a single feature')
   }
 }
 
-const validateFeature = async (feature, srs) => {
+const validateFeature = async (feature) => {
   const geometry = feature.getGeometry()
   const geometryAsGeoJson = geometry.toObject()
   const geometryToValidate = geometryAsGeoJson
 
-  if (srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
-    // TO DO - Reproject to OSGB36
-  } else {
-    let db
-    try {
-      db = await getDBConnection()
-      const result = await isPolygonInEnglandOnly(db, [geometryToValidate])
-      const polygonIsInEnglandOnly = result?.rows[0]?.fn_is_polygon_in_england_only
-      if (!polygonIsInEnglandOnly) {
-        throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND, 'Land boundaries must be located in England only')
-      }
-    } finally {
-      db?.end()
+  let db
+  try {
+    db = await getDBConnection()
+    const result = await isPolygonInEnglandOnly(db, [geometryToValidate])
+    const polygonIsInEnglandOnly = result?.rows[0]?.fn_is_polygon_in_england_only_27700
+    if (!polygonIsInEnglandOnly) {
+      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND, 'Land boundaries must be located in England only')
     }
+  } finally {
+    db?.end()
   }
 }
 
@@ -161,6 +177,15 @@ const setGdalConfig = (gdal, config) => {
   Object.keys(config).forEach(key => {
     gdal.config.set(key, config[key])
   })
+}
+
+const reprojectFromWgs84ToOsgb36 = async dataset => {
+  const gdal = (await import('gdal-async')).default
+  const tmpDatasetName = `/vsimem/${randomUUID()}`
+  const tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
+  // Generated in memory datasets seem to need reopening to provide access to all of their data.
+  closeDatasetIfNeeded(tmpDataset)
+  return gdal.openAsync(tmpDatasetName)
 }
 
 export { processLandBoundary }
