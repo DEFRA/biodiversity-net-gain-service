@@ -88,17 +88,15 @@ A programmatic interface is provided by [src/migrator.js](src/migrator.js).
 
 Unlike other Lerna packages in the enclosing mono repository this package uses CommonJS currently. Migration to the use of ES Modules will be performed if possible.
 
-## Licencing of land boundary data
+## License
 
-Database scripts included in this repository include English, Scottish and Welsh land boundary data derived from:
-
-* **English boundary data** - [Administrative Boundaries - Environment Agency and Natural England Public Face Areas](https://environment.data.gov.uk/dataset/91d0fb43-209c-477f-91e3-74e756296268)
-* **Scottish boundary data** - [Scottish Local Government Improvement Service Local Authority Boundaries](https://data.spatialhub.scot/dataset/local_authority_boundaries-is/resource/d24c5735-0f1c-4819-a6bd-dbfeb93bd8e4)
-* **Welsh boundary data** - [Electroral Ward Boundaries of Wales](https://datamap.gov.wales/layers/geonode:Wales_Ward_Boundaries_hwm)
-
-IN COMMON WITH OTHER INFORMATION IN THIS REPOSITORY, ENGLISH, SCOTTISH AND WELSH LAND BOUNDARY DATA IS LICENCED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE FOUND AT:
+THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
 [http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
 
 The following attribution statement MUST be cited in your products and applications when using this information.
 > Contains public sector information licensed under the Open Government license v3
+
+### Additional licencing information
+
+Refer to [NOTICE](./NOTICE)

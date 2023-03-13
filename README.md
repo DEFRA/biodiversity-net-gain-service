@@ -50,11 +50,6 @@ THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE
 The following attribution statement MUST be cited in your products and applications when using this information.
 > Contains public sector information licensed under the Open Government license v3
 
-### Sources of land boundary data licenced under the Open Government Licence
+### Additional licencing information
 
-English, Scottish and Welsh land boundary data within database scripts of the [database-version-control](packages/database-version-control) package is derived from
-the following sources:
-
-* **English boundary data** - [Administrative Boundaries - Environment Agency and Natural England Public Face Areas](https://environment.data.gov.uk/dataset/91d0fb43-209c-477f-91e3-74e756296268)
-* **Scottish boundary data** - [Scottish Local Government Improvement Service Local Authority Boundaries](https://data.spatialhub.scot/dataset/local_authority_boundaries-is/resource/d24c5735-0f1c-4819-a6bd-dbfeb93bd8e4)
-* **Welsh boundary data** - [Electroral Ward Boundaries of Wales](https://datamap.gov.wales/layers/geonode:Wales_Ward_Boundaries_hwm)
+Refer to [NOTICE](./NOTICE)
