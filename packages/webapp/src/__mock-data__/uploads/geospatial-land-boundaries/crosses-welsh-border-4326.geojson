@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "crosses-welsh-border-4326",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -2.727557529626223, 52.953884314273147 ], [ -2.727286741377326, 52.953833197529946 ], [ -2.727459444104955, 52.953746552699599 ], [ -2.727557529626223, 52.953884314273147 ] ] ] } }
+]
+}
