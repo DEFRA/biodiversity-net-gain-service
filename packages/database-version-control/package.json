@@ -5,6 +5,7 @@
   "description": "Database version control for Biodiversity Net Gain",
   "main": "src/migrator-cli.js",
   "scripts": {
+    "postinstall": "npm run prepare-data-migrations",
     "test": "echo \\\"Error: run tests from root\\\" && exit 1",
     "local:install": "bin/init-database-version-control-env-if-needed.sh",
     "local:cli-up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js up",
@@ -18,7 +19,8 @@
     "local:cli-create": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js create",
     "cli-create": "node src/migrator-cli.js create",
     "local:cli-repair": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js repair",
-    "cli-repair": "node src/migrator-cli.js repair"
+    "cli-repair": "node src/migrator-cli.js repair",
+    "prepare-data-migrations": "node src/prepare-data-migrations.js"
   },
   "repository": {
     "type": "git",
