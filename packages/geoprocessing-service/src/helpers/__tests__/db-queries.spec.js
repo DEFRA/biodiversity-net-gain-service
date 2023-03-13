@@ -10,6 +10,6 @@ describe('Database queries', () => {
     const db = {
       query: query => query
     }
-    expect(isPolygonInEnglandOnly(db)).toEqual('SELECT bng.fn_is_polygon_in_england_only($1);')
+    expect(isPolygonInEnglandOnly(db)).toEqual('SELECT bng.fn_is_polygon_in_england_only_27700($1);')
   })
 })

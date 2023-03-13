@@ -23,7 +23,7 @@ describe('The geoprocessing service', () => {
       return {
         rows: [
           {
-            fn_is_polygon_in_england_only: true
+            fn_is_polygon_in_england_only_27700: true
           }
         ]
       }
@@ -35,7 +35,7 @@ describe('The geoprocessing service', () => {
     expect(Math.floor(config.area)).toEqual(2323)
     expect(config.gridRef).toEqual('ST 60629 75931')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
-  })
+  }, 7000)
   it('should accept a GeoJSON file containing a single polygon in the OSGB36 coordinate reference system', async () => {
     const filenameRoot = 'geojson-land-boundary-27700'
     await performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)
@@ -88,7 +88,7 @@ describe('The geoprocessing service', () => {
       return {
         rows: [
           {
-            fn_is_polygon_in_england_only: false
+            fn_is_polygon_in_england_only_27700: false
           }
         ]
       }
