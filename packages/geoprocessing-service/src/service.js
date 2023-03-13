@@ -83,7 +83,7 @@ const validateLayer = async (layer, dataset) => {
     if (layer.srs) {
       validateSpatialReferenceSystem(layer.srs)
       if (layer.srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
-        const osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
+        osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
         layerToValidate = await osgb36Dataset.layers.getAsync(0)
       }
       await validateFeatures(layerToValidate.features)
@@ -103,7 +103,7 @@ const validateSpatialReferenceSystem = srs => {
   }
 }
 
-const validateFeatures = async (features) => {
+const validateFeatures = async features => {
   if (await features.countAsync() === 1) {
     const feature = await features.firstAsync()
     await validateFeature(feature)
@@ -112,7 +112,7 @@ const validateFeatures = async (features) => {
   }
 }
 
-const validateFeature = async (feature) => {
+const validateFeature = async feature => {
   const geometry = feature.getGeometry()
   const geometryAsGeoJson = geometry.toObject()
   const geometryToValidate = geometryAsGeoJson
