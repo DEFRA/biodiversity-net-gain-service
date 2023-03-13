@@ -169,6 +169,8 @@ const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 const DEVELOPER_DETAILS_NAME = 'developer/details-name'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
+const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
+const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 
 const confirmFileUploadOptions = {
   NO,
@@ -326,7 +328,8 @@ const redisKeys = {
   DEVELOPER_METRIC_FILE_TYPE,
   REGISTRATION_SAVED_REFERER,
   DEVELOPER_FULL_NAME,
-  DEVELOPER_REFERER
+  DEVELOPER_REFERER,
+  DEVELOPER_EMAIL_VALUE
 }
 
 const routes = {
@@ -403,7 +406,8 @@ const routes = {
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
   CHECK_METRIC_DETAILS,
-  DEVELOPER_DETAILS_NAME
+  DEVELOPER_DETAILS_NAME,
+  DEVELOPER_DETAILS_EMAIL
 }
 
 const uploadErrors = {

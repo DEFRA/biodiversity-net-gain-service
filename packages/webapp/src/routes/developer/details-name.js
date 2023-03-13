@@ -14,14 +14,14 @@ const handlers = {
     const fullName = request.payload.fullName
     const error = validateName(fullName, ID)
     if (error) {
+      request.yar.clear(constants.redisKeys.DEVELOPER_FULL_NAME)
       return h.view(constants.views.DEVELOPER_DETAILS_NAME, {
         fullName,
         ...error
       })
     } else {
       request.yar.set(constants.redisKeys.DEVELOPER_FULL_NAME, fullName)
-      // Note: Temp location added and will be cover into next ticket
-      return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || '#')
+      return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_DETAILS_EMAIL)
     }
   }
 }
