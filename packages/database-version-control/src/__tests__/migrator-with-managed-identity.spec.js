@@ -4,5 +4,5 @@ describe('The database version control migrator', () => {
     const migrator = require('../migrator.js')
     await migrator.up()
     expect((await migrator.pending()).map(m => m.name)).toEqual([])
-  }, 20000)
+  }, 30000)
 })

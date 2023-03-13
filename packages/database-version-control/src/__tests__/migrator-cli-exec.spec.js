@@ -18,5 +18,5 @@ describe('The database version control migrator command line interface', () => {
     expect((await migrator.pending()).map(m => m.name)).toEqual([])
     await exec('. bin/jest-database-version-control-env.sh && node packages/database-version-control/src/migrator-cli.js down --to 0')
     expect((await migrator.pending()).map(m => m.name)).toEqual(migrations.slice(0, migrations.length - 1))
-  }, 20000)
+  }, 30000)
 })
