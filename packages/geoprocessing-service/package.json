@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-geoprocessing-service",
-  "version": "0.60.0",
+  "version": "0.60.1",
   "type": "module",
   "private": false,
   "description": "Geoprocessing service for Biodiversity Net Gain",
