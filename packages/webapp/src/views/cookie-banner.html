@@ -1,0 +1,82 @@
+{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
+<noscript>
+  {{ govukCookieBanner({
+  ariaLabel: serviceName,
+  messages: [
+    {
+      headingText: "Cookes on " + serviceName,
+      text: "We use cookies to make this service work and collect analytics information. To accept or reject cookies, turn on JavaScript in your browser settings or reload this page."
+    }
+  ]
+}) }}
+</noscript>
+<div class="js-cookies-container">
+  {% set html %}
+  <p>We use some essential cookies to make this service work.</p>
+  <p>We’d like to set additional cookies to understand how you use the service, remember your settings and improve the service.</p>
+  {% endset %}
+  {% set acceptHtml %}
+  <p>You’ve accepted analytics cookies. You can
+    <a class="govuk-link" href="/cookies">change your cookie settings</a>
+    at any time.</p>
+  {% endset %}
+  {% set rejectHtml %}
+  <p>You’ve rejected analytics cookies. You can
+    <a class="govuk-link" href="/cookies">change your cookie settings</a>
+    at any time.</p>
+  {% endset %}
+  {{ govukCookieBanner({
+    ariaLabel: serviceName,
+    classes: "js-cookies-banner",
+    messages: [
+      {
+        headingText: serviceName,
+        html: html,
+        classes: "js-question-banner",
+        actions: [
+          {
+            text: "Accept analytics cookies",
+            type: "button",
+            name: "cookies",
+            value: "accept",
+            classes: "js-cookies-button-accept"
+          },
+          {
+            text: "Reject analytics cookies",
+            type: "button",
+            name: "cookies",
+            value: "reject",
+            classes: "js-cookies-button-reject"
+          },
+          {
+            text: "View cookies",
+            href: "/cookies"
+          }
+        ]
+      },{
+        html: acceptHtml,
+        role: "alert",
+        hidden: true,
+        classes: "js-cookies-accepted",
+        actions: [
+          {
+            text: "Hide this message",
+            classes: "js-hide"
+          }
+        ]
+      },
+      {
+        html: rejectHtml,
+        role: "alert",
+        hidden: true,
+        classes: "js-cookies-rejected",
+        actions: [
+          {
+            text: "Hide this message",
+            classes: "js-hide"
+          }
+        ]
+      }
+    ]
+  }) }}
+</div>

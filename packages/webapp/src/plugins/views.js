@@ -39,7 +39,9 @@ const views = {
       assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
-      applicationVersion: version
+      applicationVersion: version,
+      googleTagmanagerID: process.env.GOOGLE_TAGMANAGER_ID,
+      showCookieBanner: true
     }
   }
 }
