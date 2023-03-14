@@ -1,6 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.DEVELOPER_DETAILS_EMAIL
+const hrefId = '#emailAddress'
 
 describe(url, () => {
   describe('GET', () => {
@@ -48,7 +49,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL)
       expect(resultContext.err[0]).toEqual({
         text: 'Enter your email address',
-        href: '#emailAddress'
+        href: hrefId
       })
     })
     it('Should return an error if email length is greater than 254', async () => {
@@ -71,7 +72,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL)
       expect(resultContext.err[0]).toEqual({
         text: 'Email address must be 254 characters or less',
-        href: '#emailAddress'
+        href: hrefId
       })
     })
     it('Should return an error if email format is invalid', async () => {
@@ -94,7 +95,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL)
       expect(resultContext.err[0]).toEqual({
         text: 'Enter an email address in the correct format, like name@example.com',
-        href: '#emailAddress'
+        href: hrefId
       })
     })
     it('Should proceed with the flow when a valid email is entered', async () => {
@@ -113,7 +114,7 @@ describe(url, () => {
       }
       const email = require('../../developer/details-email')
       await email.default[1].handler(request, h)
-      expect(viewResult).toBe('#')
+      expect(viewResult).toBe(constants.routes.DEVELOPER_DETAILS_EMAIL_CONFIRM)
       expect(redisMap.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)).toBe('name@example.com')
     })
   })

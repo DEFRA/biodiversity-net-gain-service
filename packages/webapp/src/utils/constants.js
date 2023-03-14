@@ -171,7 +171,8 @@ const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
-const DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
+const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
+const DEVELOPER_CONFIRM_EMAIL = 'developer-yes'
 
 const confirmFileUploadOptions = {
   NO,
@@ -330,7 +331,8 @@ const redisKeys = {
   REGISTRATION_SAVED_REFERER,
   DEVELOPER_FULL_NAME,
   DEVELOPER_REFERER,
-  DEVELOPER_EMAIL_VALUE
+  DEVELOPER_EMAIL_VALUE,
+  DEVELOPER_CONFIRM_EMAIL
 }
 
 const routes = {
@@ -409,7 +411,7 @@ const routes = {
   CHECK_METRIC_DETAILS,
   DEVELOPER_DETAILS_NAME,
   DEVELOPER_DETAILS_EMAIL,
-  DETAILS_EMAIL_CONFIRM
+  DEVELOPER_DETAILS_EMAIL_CONFIRM
 }
 
 const uploadErrors = {
