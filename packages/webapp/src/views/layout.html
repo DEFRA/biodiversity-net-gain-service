@@ -31,7 +31,7 @@
 
 {% block head %}
   {% if googleTagmanagerID %}
-    {% include "tagmanager-head.html" %}
+    <script type="text/javascript" src="{{ assetPath }}/js/tagmanager_head.js"></script>
   {% endif %}
   <!--[if !IE 8]><!-->
     <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet" />
@@ -53,8 +53,13 @@
 
 {% block bodyStart %}
   {% if googleTagmanagerID %}
-    {% include "tagmanager-body.html" %}
-    {% include "tagmanager-datalayer.html" %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe title="Google Tag Manager" src="https://www.googletagmanager.com/ns.html?id={{ googleTagmanagerID }}" height="0" width="0" style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <script type= "text/javascript" src="{{ assetPath }}/js/tagmanager_datalayer.js"></script>
   {% endif %}
   {% if showCookieBanner %}
     {% include "cookie-banner.html" %}
