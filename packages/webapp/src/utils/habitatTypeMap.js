@@ -20,7 +20,7 @@ const defaults = {
     type: 'River',
     unitKey: lengthKm,
     unit: lengthKm,
-    description: 'River type'
+    description: 'Watercourse type'
   }
 }
 

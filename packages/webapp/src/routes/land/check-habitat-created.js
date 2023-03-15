@@ -5,7 +5,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric 3.1'
+      title: 'Upload Biodiversity Metric'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_HABITAT_CREATED

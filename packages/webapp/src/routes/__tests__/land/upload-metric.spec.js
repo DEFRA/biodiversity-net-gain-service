@@ -18,17 +18,23 @@ describe('Metric file upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLegalAgreement = [
+    const mockMetric = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
-        mapConfig: {}
+        metricData: {
+          validation: {
+            isVersion4OrLater: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: true
+          }
+        }
       }
     ]
     const baseConfig = {
       uploadType: 'metric-upload',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockLegalAgreement
+      eventData: mockMetric
     }
 
     beforeEach(async () => {
@@ -141,6 +147,72 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return validation error message if not v4 metric', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.hasError = true
+          config.eventData[0].metricData.validation = {
+            isVersion4OrLater: false,
+            isOffsiteDataPresent: false,
+            areOffsiteTotalsCorrect: false
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return validation error message if fails isOffSiteDataPresent', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.hasError = true
+          config.eventData[0].metricData.validation = {
+            isVersion4OrLater: true,
+            isOffsiteDataPresent: false,
+            areOffsiteTotalsCorrect: false
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file does not have enough data')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.hasError = true
+          config.eventData[0].metricData.validation = {
+            isVersion4OrLater: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: false
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
           setImmediate(() => {
             done()
           })

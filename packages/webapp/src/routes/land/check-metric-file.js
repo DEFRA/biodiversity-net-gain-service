@@ -8,7 +8,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric 3.1'
+      title: 'Upload Biodiversity Metric'
     }, {
       inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
     })
@@ -29,7 +29,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric 3.1' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
+      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_BASELINE)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {

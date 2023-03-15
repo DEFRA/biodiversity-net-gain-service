@@ -12,28 +12,14 @@ export default async function (context, config) {
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
       const documentStream = response.readableStreamBody
-      const extractionConfiguration = {
-        d1OffSiteHabitatBaselinev31: bngMetricService.extractionConfiguration['v3.1'].d1OffSiteHabitatBaseline,
-        d2OffSiteHabitatCreationv31: bngMetricService.extractionConfiguration['v3.1'].d2OffSiteHabitatCreation,
-        d3OffSiteHabitatEnhancementv31: bngMetricService.extractionConfiguration['v3.1'].d3OffSiteHabitatEnhancement,
-        e1OffSiteHedgeBaselinev31: bngMetricService.extractionConfiguration['v3.1'].e1OffSiteHedgeBaseline,
-        e2OffSiteHedgeCreationv31: bngMetricService.extractionConfiguration['v3.1'].e2OffSiteHedgeCreation,
-        e3OffSiteHedgeEnhancementv31: bngMetricService.extractionConfiguration['v3.1'].e3OffSiteHedgeEnhancement,
-        f1OffSiteRiverBaselinev31: bngMetricService.extractionConfiguration['v3.1'].f1OffSiteRiverBaseline,
-        f2OffSiteRiverCreationv31: bngMetricService.extractionConfiguration['v3.1'].f2OffSiteRiverCreation,
-        f3OffSiteRiverEnhancementv31: bngMetricService.extractionConfiguration['v3.1'].f3OffSiteRiverEnhancement,
-        // Metric 4.0
-        d1OffSiteHabitatBaselinev4: bngMetricService.extractionConfiguration['v4.0'].d1OffSiteHabitatBaseline,
-        d2OffSiteHabitatCreationv4: bngMetricService.extractionConfiguration['v4.0'].d2OffSiteHabitatCreation,
-        d3OffSiteHabitatEnhancementv4: bngMetricService.extractionConfiguration['v4.0'].d3OffSiteHabitatEnhancement,
-        e1OffSiteHedgeBaselinev4: bngMetricService.extractionConfiguration['v4.0'].e1OffSiteHedgeBaseline,
-        e2OffSiteHedgeCreationv4: bngMetricService.extractionConfiguration['v4.0'].e2OffSiteHedgeCreation,
-        e3OffSiteHedgeEnhancementv4: bngMetricService.extractionConfiguration['v4.0'].e3OffSiteHedgeEnhancement,
-        f1OffSiteWaterCBaselinev4: bngMetricService.extractionConfiguration['v4.0'].f1OffSiteWaterCBaseline,
-        f2OffSiteWaterCCreationv4: bngMetricService.extractionConfiguration['v4.0'].f2OffSiteWaterCCreation,
-        f3OffSiteWaterCEnhancementv4: bngMetricService.extractionConfiguration['v4.0'].f3OffSiteWaterCEnhancement
+      const metricExtractionConfig = {
+        extractionConfiguration: {
+          start: bngMetricService.extractionConfiguration.startExtractionConfig,
+          ...bngMetricService.extractionConfiguration['v4.0']
+        },
+        validationConfiguration: bngMetricService.validationConfiguration
       }
-      metricData = await bngMetricService.extractMetricContent(documentStream, { extractionConfiguration })
+      metricData = await bngMetricService.extractMetricContent(documentStream, metricExtractionConfig)
     } else {
       throw new Error('Unable to retrieve blob')
     }
@@ -53,14 +39,15 @@ export default async function (context, config) {
 const processMetric = metricData => {
   return {
     startPage: metricData.startPage,
-    d1: metricData.d1OffSiteHabitatBaselinev31 || metricData.d1OffSiteHabitatBaselinev4,
-    d2: metricData.d2OffSiteHabitatCreationv31 || metricData.d2OffSiteHabitatCreationv4,
-    d3: metricData.d3OffSiteHabitatEnhancementv31 || metricData.d3OffSiteHabitatEnhancementv4,
-    e1: metricData.e1OffSiteHedgeBaselinev31 || metricData.e1OffSiteHedgeBaselinev4,
-    e2: metricData.e2OffSiteHedgeCreationv31 || metricData.e2OffSiteHedgeCreationv4,
-    e3: metricData.e3OffSiteHedgeEnhancementv31 || metricData.e3OffSiteHedgeEnhancementv4,
-    f1: metricData.f1OffSiteRiverBaselinev31 || metricData.f1OffSiteWaterCBaselinev4,
-    f2: metricData.f2OffSiteRiverCreationv31 || metricData.f2OffSiteWaterCCreationv4,
-    f3: metricData.f3OffSiteRiverEnhancementv31 || metricData.f3OffSiteWaterCEnhancementv4
+    d1: metricData.d1OffSiteHabitatBaseline,
+    d2: metricData.d2OffSiteHabitatCreation,
+    d3: metricData.d3OffSiteHabitatEnhancement,
+    e1: metricData.e1OffSiteHedgeBaseline,
+    e2: metricData.e2OffSiteHedgeCreation,
+    e3: metricData.e3OffSiteHedgeEnhancement,
+    f1: metricData.f1OffSiteWaterCBaseline,
+    f2: metricData.f2OffSiteWaterCCreation,
+    f3: metricData.f3OffSiteWaterCEnhancement,
+    validation: metricData.validation
   }
 }
