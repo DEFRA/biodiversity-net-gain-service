@@ -23,7 +23,7 @@ describe('Metric file upload controller tests', () => {
         location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
           validation: {
-            isVersion4: true,
+            isVersion4OrLater: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: true
           }
@@ -163,7 +163,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4: false,
+            isVersion4OrLater: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
@@ -185,7 +185,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4: true,
+            isVersion4OrLater: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
@@ -207,7 +207,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4: true,
+            isVersion4OrLater: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }

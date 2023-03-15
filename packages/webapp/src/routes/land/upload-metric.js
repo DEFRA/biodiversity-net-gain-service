@@ -146,7 +146,7 @@ const getValidation = metricValidation => {
       }
     ]
   }
-  if (!metricValidation.isVersion4) {
+  if (!metricValidation.isVersion4OrLater) {
     error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
