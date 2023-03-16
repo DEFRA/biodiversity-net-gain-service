@@ -49,6 +49,9 @@ const processLandBoundary = async (logger, config) => {
 
     // Return the configuration used to display the boundary on a map.
     return await createMapConfig(dataset, bufferDistance, gdal)
+  } catch (err) {
+    logger.error(err)
+    throw err
   } finally {
     closeDatasetIfNeeded(dataset)
     closeDatasetIfNeeded(outputDataset)
@@ -83,8 +86,17 @@ const validateLayer = async (layer, dataset) => {
     if (layer.srs) {
       validateSpatialReferenceSystem(layer.srs)
       if (layer.srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
-        osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
-        layerToValidate = await osgb36Dataset.layers.getAsync(0)
+        try {
+          osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
+          layerToValidate = await osgb36Dataset.layers.getAsync(0)
+        } catch (err) {
+          // If a reprojection from WGS84 to OSGB36 fails, it is probable that the coordinates are outside
+          // the area covered by OSGB36.
+          throw new ValidationError(
+            uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND,
+            'Land boundaries must be located in England only',
+            { cause: err })
+        }
       }
       await validateFeatures(layerToValidate.features)
     } else {

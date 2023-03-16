@@ -97,6 +97,11 @@ describe('The geoprocessing service', () => {
     const expectedError = new ValidationError('OUTSIDE_ENGLAND', 'Land boundaries must be located in England only')
     await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
   })
+  it('should reject a GeoJSON file containing a land boundary outside the United Kingdom', async () => {
+    const filenameRoot = 'outside-uk-4326'
+    const expectedError = new ValidationError('OUTSIDE_ENGLAND', 'Land boundaries must be located in England only')
+    await expect(performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).rejects.toEqual(expectedError)
+  })
   it('should reject an ESRI shapefile without a projection', async () => {
     const filenameRoot = 'shapefile-land-boundary-without-projection'
     const expectedError = new ValidationError('MISSING-COORDINATE-SYSTEM', 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system')
