@@ -69,10 +69,12 @@
   }) }}
   <div class="app-save__wrapper">
     {% if not hideBackLink %}
+    <div class="defra-js-show" hidden>
       {{ govukBackLink({
         text: "Back",
         href: "javascript: window.history.go(-1)"
       }) }}
+    </div>
     {% endif %}
     {% if showSaveLink %}
       <div class="app-save">
