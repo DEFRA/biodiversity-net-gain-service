@@ -293,11 +293,20 @@ const validateName = (fullName, hrefId) => {
 const emailValidator = (email, id) => {
   const tester = /^[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
   // https://en.wikipedia.org/wiki/Email_address  The format of an email address is local-part@domain, where the
-  // local part may be up to 64 octets long and the domain may have a maximum of 255 octets.[4]
+  // local part may be up to 64 octets long and the domain may have a maximum of 255 octets.
   if (!email) {
     return {
       err: [{
         text: 'Enter your email address',
+        href: id
+      }]
+    }
+  }
+
+  if (email.length > 255) {
+    return {
+      err: [{
+        text: 'Email address must be 254 characters or less',
         href: id
       }]
     }
@@ -317,9 +326,9 @@ const emailValidator = (email, id) => {
   const account = emailParts[0]
   const address = emailParts[1]
   let hasValidLength = true
-  if (account.length > 64) hasValidLength = false
-
-  else if (address.length > 255) hasValidLength = false
+  if (account.length > 64 || address.length > 255) {
+    hasValidLength = false
+  }
 
   const domainParts = address.split('.')
 
@@ -327,16 +336,19 @@ const emailValidator = (email, id) => {
   // It must match the requirements for a hostname, a list of dot-separated DNS labels, each label being limited to a length of 63 characters
   if (domainParts.some(function (part) {
     return part.length > 63
-  })) hasValidLength = false
+  })) {
+    hasValidLength = false
+  }
 
   if (!hasValidLength) {
     return {
       err: [{
-        text: 'Email address must be 254 characters or less',
+        text: 'Enter a valid email address',
         href: id
       }]
     }
   }
+  return null
 }
 
 export {
