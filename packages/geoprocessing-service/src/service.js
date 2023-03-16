@@ -86,17 +86,8 @@ const validateLayer = async (layer, dataset) => {
     if (layer.srs) {
       validateSpatialReferenceSystem(layer.srs)
       if (layer.srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
-        try {
-          osgb36Dataset = await reprojectFromWgs84ToOsgb36(dataset)
-          layerToValidate = await osgb36Dataset.layers.getAsync(0)
-        } catch (err) {
-          // If a reprojection from WGS84 to OSGB36 fails, it is probable that the coordinates are outside
-          // the area covered by OSGB36.
-          throw new ValidationError(
-            uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND,
-            'Land boundaries must be located in England only',
-            { cause: err })
-        }
+        osgb36Dataset = await reprojectFromWgs84ToOsgb36IfPossible(dataset)
+        layerToValidate = await osgb36Dataset.layers.getAsync(0)
       }
       await validateFeatures(layerToValidate.features)
     } else {
@@ -198,6 +189,19 @@ const reprojectFromWgs84ToOsgb36 = async dataset => {
   // Generated in memory datasets seem to need reopening to provide access to all of their data.
   closeDatasetIfNeeded(tmpDataset)
   return gdal.openAsync(tmpDatasetName)
+}
+
+const reprojectFromWgs84ToOsgb36IfPossible = async dataset => {
+  try {
+    return Promise.resolve(await reprojectFromWgs84ToOsgb36(dataset))
+  } catch (err) {
+    // If a reprojection from WGS84 to OSGB36 fails, it is probable that the coordinates are outside
+    // the area covered by OSGB36.
+    throw new ValidationError(
+      uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND,
+      'Land boundaries must be located in England only',
+      { cause: err })
+  }
 }
 
 export { processLandBoundary }
