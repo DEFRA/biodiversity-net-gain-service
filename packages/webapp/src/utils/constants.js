@@ -173,6 +173,7 @@ const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
 const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
+const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
 
 const confirmFileUploadOptions = {
   NO,
@@ -411,7 +412,8 @@ const routes = {
   CHECK_METRIC_DETAILS,
   DEVELOPER_DETAILS_NAME,
   DEVELOPER_DETAILS_EMAIL,
-  DEVELOPER_DETAILS_EMAIL_CONFIRM
+  DEVELOPER_DETAILS_EMAIL_CONFIRM,
+  DEVELOPER_DETAILS_CONFIRM
 }
 
 const uploadErrors = {
