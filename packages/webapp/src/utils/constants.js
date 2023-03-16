@@ -172,7 +172,7 @@ const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
-const DEVELOPER_CONFIRM_EMAIL = 'developer-yes'
+const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 
 const confirmFileUploadOptions = {
   NO,
