@@ -21,14 +21,9 @@
     "geodesy": "^2.4.0"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@defra/bng-azure-storage-test-utils": "0.60.0",
     "@defra/bng-connectors-lib": "0.60.0",
-=======
-    "@defra/bng-azure-storage-test-utils": "0.59.0",
-    "@defra/bng-connectors-lib": "0.59.0",
-    "@defra/bng-utils-lib": "0.59.1",
->>>>>>> Check if land boundaries cross the English border
+    "@defra/bng-utils-lib": "0.60.1",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
