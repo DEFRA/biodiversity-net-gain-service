@@ -150,7 +150,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM)
       expect(resultContext.errorMessage).toEqual('Email address cannot be left blank')
     })
-    it('Should return an error if none of the option selected', async () => {
+    it('should return an error if none of the option is selected', async () => {
       let viewResult, resultContext
       const h = {
         view: (view, context) => {
