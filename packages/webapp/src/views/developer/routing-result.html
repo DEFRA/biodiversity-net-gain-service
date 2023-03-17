@@ -13,10 +13,18 @@
                 {{ govukFieldset({
                     legend: {
                         text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
+                        classes: "govuk-fieldset__legend--l govuk-!-margin-bottom-6",
                         isPageHeading: true
                     }
                 }) }}
+                <p>We'll ask you a few questions to check you have everything you need.</p>
+                {{ govukButton({
+                    text: 'Continue',
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
+                <p><a href="developer/details-name">Skip to record the off-site biodiversity gains for a development project</a> if you know you have everything you need.</p>
             </div>
         </div>
     </div>
