@@ -1,0 +1,71 @@
+
+{% extends 'developer-form-layout.html' %}
+
+{% set pageHeading = "Is this email address correct?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% set emailHtml %}
+                {% set errorMessage = {text: errorMessage} if errorMessage else null %}
+                {{ govukInput({
+                    id: "emailAddress",
+                    name: "emailAddress",
+                    type: "email",
+                    autocomplete: "email",
+                    spellcheck: false,
+                    classes: "govuk-!-width-one-half",
+                    label: {
+                        text: "Email address"
+                    },
+                    errorMessage: errorMessage
+                }) }}
+            {% endset -%}
+            {{ govukRadios({
+                idPrefix: "correctEmail",
+                name: "correctEmail",
+                id: id,
+                fieldset: {
+                    legend: {
+                        text: pageHeading,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: emailAddress,
+                    classes: "govuk-hint govuk-!-font-size-27 app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes, use this email address",
+                        id: "email-correct-yes",
+                        checked: yesSelection
+                    },
+                    {
+                        value: "no",
+                        text: "No, I need to change it",
+                        id: "email-correct-no",
+                        checked: selected,
+                        conditional: {
+                            html: emailHtml
+                        }
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Continue",
+                attributes: {
+                    id: "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

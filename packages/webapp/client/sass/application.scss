@@ -179,3 +179,7 @@ $govuk-global-styles: true;
 .app-secondary-text-colour {
   color: #505a5f;
 }
+
+.wrap-text{
+  overflow-wrap: anywhere;
+}

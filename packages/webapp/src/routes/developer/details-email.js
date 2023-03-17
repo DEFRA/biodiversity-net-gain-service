@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { emailValidator } from '../../utils/helpers.js'
 
 const ID = '#emailAddress'
 
@@ -11,7 +12,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const emailAddress = request.payload.emailAddress
-    const error = validateEmail(emailAddress)
+    const error = emailValidator(emailAddress, ID)
     if (error) {
       request.yar.clear(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
       return h.view(constants.views.DEVELOPER_DETAILS_EMAIL, {
@@ -20,39 +21,9 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.DEVELOPER_EMAIL_VALUE, emailAddress)
-      // Note: Temp location added and will be cover into next ticket
-      return h.redirect('#')
+      return h.redirect(constants.routes.DEVELOPER_DETAILS_EMAIL_CONFIRM)
     }
   }
-}
-
-const checkEmailFormat = emailAddress => {
-  return String(emailAddress)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )
-}
-
-const validateEmail = emailAddress => {
-  const error = {}
-  if (!emailAddress) {
-    error.err = [{
-      text: 'Enter your email address',
-      href: ID
-    }]
-  } else if (emailAddress.length > 254) {
-    error.err = [{
-      text: 'Email address must be 254 characters or less',
-      href: ID
-    }]
-  } else if (!checkEmailFormat(emailAddress)) {
-    error.err = [{
-      text: 'Enter an email address in the correct format, like name@example.com',
-      href: ID
-    }]
-  }
-  return error.err ? error : null
 }
 
 export default [{
