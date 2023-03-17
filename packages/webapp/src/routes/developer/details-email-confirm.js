@@ -9,8 +9,6 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    // Note: Temp location added and will be cover into next ticket
-    let viewPage = h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || '#')
     if (request.payload.correctEmail === 'yes') {
       setEmailDetails(request)
     } else {
@@ -18,13 +16,15 @@ const handlers = {
       if (!emailValidationError) {
         setEmailDetails(request)
       } else {
-        if (emailValidationError.err[0].text === 'Enter your email address') {
-          emailValidationError.err[0].text = 'Email address cannot be left blank'
+        let errorMessage = emailValidationError.err[0].text
+        /* istanbul ignore else */
+        if (errorMessage === 'Enter your email address') {
+          errorMessage = 'Email address cannot be left blank'
         }
-        viewPage = h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage: emailValidationError.err[0].text, selected: true })
+        return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, selected: true })
       }
     }
-    return viewPage
+    return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)
   }
 }
 
