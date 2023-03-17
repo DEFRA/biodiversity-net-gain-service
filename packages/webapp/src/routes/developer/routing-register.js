@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 
-const href = '#routingRegister'
+const href = '#record-off-site'
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_ROUTING_REGISTER),
   post: async (request, h) => {
