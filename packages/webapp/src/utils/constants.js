@@ -177,6 +177,10 @@ const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
 const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
 const DEVELOPER_TASKLIST = 'developer/tasklist'
+const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
+const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
+const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
+const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
@@ -254,6 +258,11 @@ const CONFIRM_DEVELOPMENT_DETAILS = {
 const CHECK_UPLOAD_METRIC_OPTIONS = {
   NO,
   YES
+}
+
+const ROUTING_REGISTER_OPTIONS = {
+  REGISTER: 'register-gain-site',
+  RECORD: 'record-off-site'
 }
 
 const redisKeys = {
@@ -340,7 +349,8 @@ const redisKeys = {
   DEVELOPER_FULL_NAME,
   DEVELOPER_REFERER,
   DEVELOPER_EMAIL_VALUE,
-  DEVELOPER_CONFIRM_EMAIL
+  DEVELOPER_CONFIRM_EMAIL,
+  DEVELOPER_ROUTING_REGISTER_VALUE
 }
 
 const routes = {
@@ -421,7 +431,10 @@ const routes = {
   DEVELOPER_DETAILS_EMAIL,
   DEVELOPER_DETAILS_EMAIL_CONFIRM,
   DEVELOPER_DETAILS_CONFIRM,
-  DEVELOPER_TASKLIST
+  DEVELOPER_TASKLIST,
+  DEVELOPER_ROUTING_REGISTER,
+  DEVELOPER_ROUTING_RESULT,
+  DEVELOPER_ROUTING_SOLD
 }
 
 const uploadErrors = {
@@ -519,5 +532,6 @@ export default Object.freeze({
   CONFIRM_DEVELOPMENT_DETAILS,
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
-  AZURE_FUNCTION_APP_URL
+  AZURE_FUNCTION_APP_URL,
+  ROUTING_REGISTER_OPTIONS
 })
