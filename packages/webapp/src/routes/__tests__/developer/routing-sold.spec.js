@@ -1,24 +1,27 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
 const url = '/developer/routing-sold'
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-        await submitGetRequest({ url })
+      await submitGetRequest({ url })
     })
   })
 
   describe('POST', () => {
-    let redisMap, postOptions
+    let postOptions
     beforeEach(() => {
-      redisMap = new Map()
       postOptions = {
         url,
         payload: {}
       }
     })
 
-    it.todo('This will cover into next PR')
+    // Note: More test cases will be added in next PR
+    it('should redirect to the next page', async () => {
+      const res = await submitPostRequest(postOptions)
+      expect(res.headers.location).toEqual('#')
+    })
   })
 })
