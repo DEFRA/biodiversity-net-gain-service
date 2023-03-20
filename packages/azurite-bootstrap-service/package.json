@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-azurite-bootstrap-service",
-  "version": "0.61.0",
+  "version": "0.62.0",
   "type": "module",
   "private": true,
   "description": "Azurite bootstrap service for Biodiversity Net Gain",
@@ -16,7 +16,7 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.61.0",
+    "@defra/bng-connectors-lib": "0.62.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   }
 }

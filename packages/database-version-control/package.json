@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-database-version-control",
-  "version": "0.61.0",
+  "version": "0.62.0",
   "private": true,
   "description": "Database version control for Biodiversity Net Gain",
   "main": "src/migrator-cli.js",
