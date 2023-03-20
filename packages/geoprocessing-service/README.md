@@ -12,3 +12,16 @@ by setting the environment variable **AZURE_STORAGE_CONNECTION_STRING** as defin
 documentation. As environment variables set programmatically for testing purposes do not appear to propagate to native code, this environment variable is set in the shell
 script [run-unit-tests](../../bin/run-unit-tests). The environment variable in this shell script assumes use of the default Azurite storage account using a container
 running on localhost. To override this configuration, the environment variable **AZURITE_STORAGE_CONNECTION_STRING** can be used.
+
+## License
+
+THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
+
+[http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
+
+The following attribution statement MUST be cited in your products and applications when using this information.
+> Contains public sector information licensed under the Open Government license v3
+
+### Additional licencing information
+
+Refer to [NOTICE](./NOTICE)

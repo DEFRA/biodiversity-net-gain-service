@@ -106,6 +106,25 @@ describe(url, () => {
       })
     })
 
+    it('should display expected error details when an upload crosses English borders', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          config.generateOutsideEnglandError = true
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('There is a problem')
+          expect(response.payload).toContain('Entire land boundary must be in England')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should display expected error details when an upload uses an invalid Coordinate Reference System', (done) => {
       jest.isolateModules(async () => {
         try {

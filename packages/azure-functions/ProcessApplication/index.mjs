@@ -1,4 +1,4 @@
-import getDBConnection from '../Shared/get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 import { createApplicationReference } from '../Shared/db-queries.js'
 
 const buildConfig = body => {

@@ -49,3 +49,7 @@ THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE
 
 The following attribution statement MUST be cited in your products and applications when using this information.
 > Contains public sector information licensed under the Open Government license v3
+
+### Additional licencing information
+
+Refer to [NOTICE](./NOTICE)

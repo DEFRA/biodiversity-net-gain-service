@@ -82,8 +82,21 @@ npm run local:cli-down -- --to 0
 
 ### Programmtic interface
 
-A programmtic interface is provided by [src/migrator.js](src/migrator.js).
+A programmatic interface is provided by [src/migrator.js](src/migrator.js).
 
 ## Use of CommonJS
 
 Unlike other Lerna packages in the enclosing mono repository this package uses CommonJS currently. Migration to the use of ES Modules will be performed if possible.
+
+## License
+
+THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
+
+[http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
+
+The following attribution statement MUST be cited in your products and applications when using this information.
+> Contains public sector information licensed under the Open Government license v3
+
+### Additional licencing information
+
+Refer to [NOTICE](./NOTICE)

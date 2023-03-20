@@ -1,0 +1,32 @@
+Copyright (c) 2022 Defra
+
+Biodiversity Net Gain Service
+
+## Licencing of land boundary data
+
+English, Scottish and Welsh land boundary data within [database scripts](packages/database-version-control/src/data-migrations/) of the [database-version-control](packages/database-version-control) package is derived from
+the following sources:
+
+* **English boundary data** - [Administrative Boundaries - Environment Agency and Natural England Public Face Areas](https://environment.data.gov.uk/dataset/91d0fb43-209c-477f-91e3-74e756296268)
+* **Scottish boundary data** - [Scottish Local Government Improvement Service Local Authority Boundaries](https://data.spatialhub.scot/dataset/local_authority_boundaries-is/resource/d24c5735-0f1c-4819-a6bd-dbfeb93bd8e4)
+* **Welsh boundary data** - [Electroral Ward Boundaries of Wales](https://datamap.gov.wales/layers/geonode:Wales_Ward_Boundaries_hwm)
+
+IN COMMON WITH CONTENT CREATED BY DEFRA IN THIS REPOSITORY, ENGLISH, SCOTTISH AND WELSH LAND BOUNDARY DATA IS LICENCED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE FOUND AT:
+
+[http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
+
+The following attribution statement MUST be cited in your products and applications when using this information.
+> Contains public sector information licensed under the Open Government license v3
+
+## Licencing of Ordnance Survey Data
+[OSTN15_NTv2_OSGBtoETRS.gsb](./packages/geoprocessing-service/src/ntv2-format-files/OSTN15_NTv2_OSGBtoETRS.gsb) is licenced by Ordance Survey for use under the [BSD-Clause-2](https://opensource.org/license/bsd-2-clause/) licence. Please see [OSTN15 and OSGM15 for developers](https://www.ordnancesurvey.co.uk/business-government/tools-support/os-net/for-developers) for further details.
+
+Copyright (c) 2016 Ordnance Survey
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

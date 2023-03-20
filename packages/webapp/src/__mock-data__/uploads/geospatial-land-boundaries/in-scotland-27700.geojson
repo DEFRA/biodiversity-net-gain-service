@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "in-scotland-27700",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::27700" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 364916.816202161950059, 602672.007570621324703 ], [ 364949.659062271530274, 602662.06640725908801 ], [ 364915.125479085545521, 602651.518191499868408 ], [ 364916.816202161950059, 602672.007570621324703 ] ] ] } }
+]
+}

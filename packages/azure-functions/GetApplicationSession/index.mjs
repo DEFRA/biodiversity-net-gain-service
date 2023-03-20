@@ -1,5 +1,5 @@
 import { getApplicationSessionByReferenceAndEmail } from '../Shared/db-queries.js'
-import getDBConnection from '../Shared/get-db-connection.js'
+import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))

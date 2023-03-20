@@ -22,9 +22,10 @@
     "@azure/storage-blob": "^12.12.0",
     "@defra/bng-connectors-lib": "0.60.0",
     "@defra/bng-document-service": "0.60.0",
-    "@defra/bng-errors-lib": "0.60.0",
-    "@defra/bng-geoprocessing-service": "0.60.0",
+    "@defra/bng-errors-lib": "0.60.1",
+    "@defra/bng-geoprocessing-service": "0.60.1",
     "@defra/bng-metric-service": "0.60.0",
+    "@defra/bng-utils-lib": "0.60.1",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "moment": "^2.29.4",
     "notifications-node-client": "^7.0.0"

@@ -136,6 +136,9 @@ const getValidationErrorText = err => {
     case uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM:
       errorText = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
       break
+    case uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND:
+      errorText = 'Entire land boundary must be in England'
+      break
     default:
       // An unexpected error code has been received so rethrow the error.
       throw err
