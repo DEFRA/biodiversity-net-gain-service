@@ -12,6 +12,8 @@ const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
 const DEVELOPER_ELIGIBILITY_ENGLAND = 'developer/eligibility-england'
+const DEVELOPER_ELIGIBILITY_LO_CONSENT = 'developer/eligibility-landowner-consent'
+const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 // ./Routes constants
 
 // RedisKeys constants
@@ -29,6 +31,7 @@ const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
+const DEVELOPER_ELIGIBILITY_ENGLAND_VALUE = 'eligibility-value'
 // ./RedisKeys constants
 
 const ROUTING_REGISTER_OPTIONS = {
@@ -50,7 +53,9 @@ export default {
     DEVELOPER_ROUTING_REGISTER,
     DEVELOPER_ROUTING_RESULT,
     DEVELOPER_ROUTING_SOLD,
-    DEVELOPER_ELIGIBILITY_ENGLAND
+    DEVELOPER_ELIGIBILITY_ENGLAND,
+    DEVELOPER_ELIGIBILITY_LO_CONSENT,
+    DEVELOPER_ELIGIBILITY_NO
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -64,7 +69,8 @@ export default {
     DEVELOPER_REFERER,
     DEVELOPER_EMAIL_VALUE,
     DEVELOPER_CONFIRM_EMAIL,
-    DEVELOPER_ROUTING_REGISTER_VALUE
+    DEVELOPER_ROUTING_REGISTER_VALUE,
+    DEVELOPER_ELIGIBILITY_ENGLAND_VALUE
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
