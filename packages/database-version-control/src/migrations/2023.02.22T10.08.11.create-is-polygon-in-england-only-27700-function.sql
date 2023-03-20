@@ -2,9 +2,6 @@ CREATE OR REPLACE FUNCTION bng.fn_is_polygon_in_england_only_27700(
     _boundaryAsGeoJson text)
   RETURNS boolean AS
 $BODY$
-
-BEGIN
-
   BEGIN
     IF EXISTS (
       SELECT
@@ -28,8 +25,6 @@ BEGIN
       RETURN false;
     END IF;
   END;
-
-END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;

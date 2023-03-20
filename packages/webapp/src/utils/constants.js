@@ -178,6 +178,8 @@ const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
 const DEVELOPER_TASKLIST = 'developer/tasklist'
 
+const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
+
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
@@ -516,5 +518,6 @@ export default Object.freeze({
   eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
   CHECK_UPLOAD_METRIC_OPTIONS,
-  minStartDates
+  minStartDates,
+  AZURE_FUNCTION_APP_URL
 })

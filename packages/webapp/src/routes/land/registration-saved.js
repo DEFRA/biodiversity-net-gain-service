@@ -2,7 +2,6 @@ import url from 'url'
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
 import { formatAppRef } from '../../utils/helpers.js'
-const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const handlers = {
   get: async (request, h) => {
@@ -15,7 +14,7 @@ const handlers = {
     }
 
     // Save application and store returned gain site reference
-    const applicationReference = await postJson(`${functionAppUrl}/saveapplicationsession`, request.yar._store)
+    const applicationReference = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
 
     // Clear out user session
     request.yar.reset()

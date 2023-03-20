@@ -33,6 +33,7 @@
     "@defra/bng-document-service": "0.67.0",
     "@defra/bng-errors-lib": "0.67.0",
     "@defra/bng-utils-lib": "0.67.0",
+    "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.1",
     "@hapi/hapi": "21.2.2",

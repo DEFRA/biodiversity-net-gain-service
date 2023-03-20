@@ -5,7 +5,8 @@ import {
   getApplicationSessionByReferenceAndEmail,
   getExpiringApplicationSessions,
   clearApplicationSession,
-  recordExpiringApplicationSessionNotification
+  recordExpiringApplicationSessionNotification,
+  isPointInEngland
 } from '../db-queries.js'
 
 const expectedDeleteStatement = `
@@ -78,5 +79,6 @@ describe('Database queries', () => {
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
+    expect(isPointInEngland(db)).toEqual('select bng.fn_is_point_in_england_27700($1, $2)')
   })
 })

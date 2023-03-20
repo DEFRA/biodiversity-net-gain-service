@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
 import { validateEmail as validateEmailHelper } from '../../utils/helpers.js'
-const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.CONTINUE_SAVED_REGISTRATION),
@@ -30,7 +29,7 @@ const handlers = {
     }
 
     // Get session for values
-    const session = await postJson(`${functionAppUrl}/getapplicationsession`, {
+    const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
       email,
       applicationReference
     })

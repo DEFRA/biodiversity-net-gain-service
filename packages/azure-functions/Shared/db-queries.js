@@ -64,6 +64,8 @@ const getExpiringApplicationSessions = db => db.query(getExpiringApplicationSess
 
 const recordExpiringApplicationSessionNotification = (db, values) => db.query(recordExpiringApplicationSessionNotificationStatement, values)
 
+const isPointInEngland = (db, values) => db.query('select bng.fn_is_point_in_england_27700($1, $2)', values)
+
 export {
   createApplicationReference,
   saveApplicationSession,
@@ -71,5 +73,6 @@ export {
   getApplicationSessionByReferenceAndEmail,
   getExpiringApplicationSessions,
   clearApplicationSession,
-  recordExpiringApplicationSessionNotification
+  recordExpiringApplicationSessionNotification,
+  isPointInEngland
 }
