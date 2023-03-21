@@ -5,12 +5,15 @@ const handlers = {
   get: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
     return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, {
-      emailAddress
+      emailAddress,
+      // An option Yes would be selected by default as per discussion on 21-03-2023 with team
+      correctEmail: 'yes'
     })
   },
   post: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
-    if (request.payload.correctEmail === 'yes') {
+    const correctEmail = request.payload.correctEmail
+    if (correctEmail === 'yes') {
       setEmailDetails(request)
     } else {
       const newEmailAddress = request.payload.newEmailAddress
@@ -23,7 +26,7 @@ const handlers = {
         if (errorMessage === 'Enter your email address') {
           errorMessage = 'Email address cannot be left blank'
         }
-        return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, selected: true, newEmailAddress, emailAddress })
+        return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, correctEmail, newEmailAddress, emailAddress })
       }
     }
     return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)

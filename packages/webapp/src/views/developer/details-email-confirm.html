@@ -47,13 +47,13 @@
                         value: "yes",
                         text: "Yes, use this email address",
                         id: "email-correct-yes",
-                        checked: yesSelection
+                        checked: correctEmail == "yes"
                     },
                     {
                         value: "no",
                         text: "No, I need to change it",
                         id: "email-correct-no",
-                        checked: selected,
+                        checked: correctEmail == "no",
                         conditional: {
                             html: emailHtml
                         }
