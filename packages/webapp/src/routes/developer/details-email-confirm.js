@@ -1,21 +1,18 @@
 import constants from '../../utils/constants.js'
 import { emailValidator } from '../../utils/helpers.js'
 
+const href = '#detailsEmailConfirm'
 const handlers = {
   get: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
-    return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, {
-      emailAddress,
-      // An option Yes would be selected by default as per discussion on 21-03-2023 with team
-      correctEmail: 'yes'
-    })
+    return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { emailAddress })
   },
   post: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
     const correctEmail = request.payload.correctEmail
     if (correctEmail === 'yes') {
       setEmailDetails(request)
-    } else {
+    } else if (correctEmail === 'no') {
       const newEmailAddress = request.payload.newEmailAddress
       const emailValidationError = emailValidator(request.payload.newEmailAddress)
       if (!emailValidationError) {
@@ -28,6 +25,15 @@ const handlers = {
         }
         return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, correctEmail, newEmailAddress, emailAddress })
       }
+    } else {
+      return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, {
+        err: [
+          {
+            text: 'You need to select an option',
+            href
+          }
+        ]
+      })
     }
     return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)
   }

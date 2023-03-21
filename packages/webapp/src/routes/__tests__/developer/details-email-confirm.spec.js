@@ -72,8 +72,9 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_DETAILS_CONFIRM)
     })
 
-    it('Should not proceed to check your answer if email is invalid', async () => {
+    it('Should not proceed to check your answer if new email is invalid', async () => {
       let viewResult, resultContext
+      const emailAddress = 'test@example.com'
       const h = {
         view: (view, context) => {
           viewResult = view
@@ -84,10 +85,13 @@ describe(url, () => {
         }
       }
       const redisMap = new Map()
+      redisMap.set(constants.redisKeys.DEVELOPER_EMAIL_VALUE, emailAddress)
       const request = {
         yar: redisMap,
         payload: {
-          correctEmail: 'no'
+          correctEmail: 'no',
+          newEmailAddress: '',
+          emailAddress
         }
       }
       const correctEmail = require('../../developer/details-email-confirm')
@@ -95,7 +99,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM)
       expect(resultContext).toEqual({
         errorMessage: 'Email address cannot be left blank',
-        selected: true
+        ...request.payload
       })
     })
     it('Should not proceed to check your answer if no option and email is valid', async () => {
@@ -145,6 +149,30 @@ describe(url, () => {
       await correctEmail.default[1].handler(request, h)
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM)
       expect(resultContext.errorMessage).toEqual('Email address cannot be left blank')
+    })
+    it('Should return an error if none of the option selected', async () => {
+      let viewResult, resultContext
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          resultContext = context
+        },
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      const redisMap = new Map()
+      const request = {
+        yar: redisMap,
+        payload: {
+          correctEmail: undefined,
+          emailAddress: 'test@example.com'
+        }
+      }
+      const correctEmail = require('../../developer/details-email-confirm')
+      await correctEmail.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM)
+      expect(resultContext.err[0]).toEqual({ text: 'You need to select an option', href: '#detailsEmailConfirm' })
     })
   })
 })
