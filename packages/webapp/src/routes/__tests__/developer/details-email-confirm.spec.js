@@ -101,6 +101,9 @@ describe(url, () => {
     it('Should not proceed to check your answer if no option and email is valid', async () => {
       let viewResult
       const h = {
+        view: (view, context) => {
+          viewResult = view
+        },
         redirect: (view, context) => {
           viewResult = view
         }
@@ -110,7 +113,7 @@ describe(url, () => {
         yar: redisMap,
         payload: {
           correctEmail: 'no',
-          emailAddress: 'test@example.com'
+          newEmailAddress: 'test@example.com'
         }
       }
       const correctEmail = require('../../developer/details-email-confirm')

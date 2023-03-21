@@ -9,10 +9,12 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
     if (request.payload.correctEmail === 'yes') {
       setEmailDetails(request)
     } else {
-      const emailValidationError = emailValidator(request.payload.emailAddress)
+      const newEmailAddress = request.payload.newEmailAddress
+      const emailValidationError = emailValidator(request.payload.newEmailAddress)
       if (!emailValidationError) {
         setEmailDetails(request)
       } else {
@@ -21,7 +23,7 @@ const handlers = {
         if (errorMessage === 'Enter your email address') {
           errorMessage = 'Email address cannot be left blank'
         }
-        return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, selected: true })
+        return h.view(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM, { errorMessage, selected: true, newEmailAddress, emailAddress })
       }
     }
     return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)
@@ -31,7 +33,7 @@ const handlers = {
 const setEmailDetails = request => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONFIRM_EMAIL, request.payload.correctEmail)
   if (request.payload.correctEmail === 'no') {
-    request.yar.set(constants.redisKeys.DEVELOPER_EMAIL_VALUE, request.payload.emailAddress)
+    request.yar.set(constants.redisKeys.DEVELOPER_EMAIL_VALUE, request.payload.newEmailAddress)
   }
 }
 export default [{
