@@ -17,6 +17,43 @@
                         isPageHeading: true
                     }
                 }) }}
+                <p>You will need written consent from the landowner of the biodiversity gain site. This will need to include:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>a written statement confirming the landowner's consent</li>
+                    <li>the landowner's signature</li>
+                    <li>the date consent was agreed (this must be uploaded within 3 months of it being written)</li>
+                </ul>
+                <p>You could be prosecuted or have to pay a fine if you record off-site gain without consent.</p>
+                {{ govukRadios({
+                    id: "eligibilityLOConsent",
+                    name: "eligibilityLOConsentValue",
+                    items: [
+                        {
+                            value: "yes",
+                            text: "Yes",
+                            id: "written-consent-yes",
+                            checked: checked(hasWritternConsent, "yes") 
+                        },
+                        {
+                            value: "no",
+                            text: "No",
+                            id: "written-consent-no",
+                            checked: checked(hasWritternConsent, "no") 
+                        },
+                        {
+                            value: "not-sure",
+                            text: "I'm not sure",
+                            id: "written-consent-not-sure",
+                            checked: checked(hasWritternConsent, "not-sure") 
+                        }
+                    ]
+                }) }}
+                {{ govukButton({
+                    text: "Continue",
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
             </div>
         </div>
     </div>
