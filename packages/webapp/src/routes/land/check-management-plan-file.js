@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,12 +18,7 @@ const handlers = {
     const managementPlanLocation = request.yar.get(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
     request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_CHECKED, checkManagementPlan)
     if (checkManagementPlan === 'no') {
-      // delete the file from blob storage
-      const config = {
-        containerName: 'trusted',
-        blobName: managementPlanLocation
-      }
-      await blobStorageConnector.deleteBlobIfExists(config)
+      await deleteBlobFromContainers(managementPlanLocation)
       request.yar.clear(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
       return h.redirect(constants.routes.UPLOAD_MANAGEMENT_PLAN)
     } else if (checkManagementPlan === 'yes') {

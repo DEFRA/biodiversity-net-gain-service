@@ -1,17 +1,18 @@
 import { logger } from 'defra-logging-facade'
 import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
+import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
-function processSuccessfulUpload (result, request, h) {
+async function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
     const validationError = getValidation(result[0].metricData.validation)
     if (validationError) {
+      await deleteBlobFromContainers(result[0].location)
       return h.view(constants.views.UPLOAD_METRIC, validationError)
     }
     request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
@@ -74,8 +75,8 @@ const handlers = {
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
+      async function (result) {
+        return await processSuccessfulUpload(result, request, h)
       },
       function (err) {
         return processErrorUpload(err, h)

@@ -67,6 +67,7 @@ describe(url, () => {
             containerName: 'untrusted',
             blobName: mockFileLocation
           })
+          expect(spy).toHaveBeenCalledTimes(2)
           done()
         } catch (err) {
           done(err)

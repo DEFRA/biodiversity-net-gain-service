@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,12 +18,7 @@ const handlers = {
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
     if (checkLandOwnership === 'no') {
-      // delete the file from blob storage
-      const config = {
-        containerName: 'trusted',
-        blobName: context.fileLocation
-      }
-      await blobStorageConnector.deleteBlobIfExists(config)
+      await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {

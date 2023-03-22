@@ -1,6 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
+import * as azureStorage from '../../../utils/azure-storage.js'
 
 const GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME = 'geospatialLandBoundary'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
@@ -44,12 +45,15 @@ describe(url, () => {
     it('should upload a valid Geopackage to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'
           }
           await uploadFile(config)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })

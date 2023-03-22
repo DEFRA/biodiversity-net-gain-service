@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#dev-details-checked-yes'
 const handlers = {
@@ -13,12 +13,7 @@ const handlers = {
     const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
     if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.NO) {
-      // delete the file from blob storage
-      const config = {
-        containerName: 'trusted',
-        blobName: metricUploadLocation
-      }
-      await blobStorageConnector.deleteBlobIfExists(config)
+      await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {

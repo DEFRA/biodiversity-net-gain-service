@@ -2,7 +2,9 @@ import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import checkOwnershipProofFile from '../../../routes/land/check-ownership-proof-file'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_PROOF_OF_OWNERSHIP
+jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -30,9 +32,11 @@ describe(url, () => {
     })
 
     it('should allow an alternative land ownership file to be uploaded ', async () => {
+      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLandOwnership = 'no'
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_OWNERSHIP)
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('should detect an invalid response from user', async () => {

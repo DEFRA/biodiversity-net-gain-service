@@ -2,7 +2,9 @@ import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import checkLandBoundaryFile from '../../land/check-land-boundary-file.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_LAND_BOUNDARY
+jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -25,9 +27,11 @@ describe(url, () => {
     })
 
     it('should allow an alternative land boundary file to be uploaded ', async () => {
+      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLandBoundary = constants.confirmLandBoundaryOptions.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('should detect an invalid response from user', async () => {

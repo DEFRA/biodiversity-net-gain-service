@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,12 +18,7 @@ const handlers = {
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_CHECKED, checkLegalAgreement)
     if (checkLegalAgreement === 'no') {
-      // delete the file from blob storage
-      const config = {
-        containerName: 'trusted',
-        blobName: context.fileLocation
-      }
-      await blobStorageConnector.deleteBlobIfExists(config)
+      await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
