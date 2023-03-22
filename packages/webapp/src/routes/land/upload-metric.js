@@ -75,8 +75,8 @@ const handlers = {
   post: async (request, h) => {
     const config = buildConfig(request.yar.id)
     return uploadFiles(logger, request, config).then(
-      async function (result) {
-        return await processSuccessfulUpload(result, request, h)
+      function (result) {
+        return processSuccessfulUpload(result, request, h)
       },
       function (err) {
         return processErrorUpload(err, h)

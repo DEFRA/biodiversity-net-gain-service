@@ -23,7 +23,7 @@ const addFileDetailsToConfiguration = (config, filename) => {
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
-const deleteBlobFromContainers = async (blobName) => {
+const deleteBlobFromContainers = async blobName => {
   await Promise.all([
     blobStorageConnector.deleteBlobIfExists({
       containerName: 'trusted',
