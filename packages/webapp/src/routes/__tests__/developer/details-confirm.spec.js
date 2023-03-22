@@ -1,4 +1,3 @@
-import { submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 const url = constants.routes.DEVELOPER_DETAILS_CONFIRM
 
