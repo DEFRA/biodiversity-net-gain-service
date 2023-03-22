@@ -25,17 +25,4 @@ describe(url, () => {
       expect(resultContext.emailAddress).toEqual('test@example.com')
     })
   })
-
-  describe('POST', () => {
-    let postOptions
-    beforeEach(() => {
-      postOptions = {
-        url,
-        payload: {}
-      }
-    })
-    it('Should continue journey', async () => {
-      await submitPostRequest(postOptions)
-    })
-  })
 })

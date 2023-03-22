@@ -8,10 +8,6 @@ const handlers = {
       fullName,
       emailAddress
     })
-  },
-  post: async (request, h) => {
-    // Note: Next page location will be updated in next ticket
-    return h.redirect('#')
   }
 }
 
@@ -19,8 +15,4 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_DETAILS_CONFIRM,
   handler: handlers.get
-}, {
-  method: 'POST',
-  path: constants.routes.DEVELOPER_DETAILS_CONFIRM,
-  handler: handlers.post
 }]
