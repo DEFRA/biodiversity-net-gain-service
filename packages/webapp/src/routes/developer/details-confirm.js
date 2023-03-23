@@ -9,10 +9,8 @@ const handlers = {
       emailAddress
     })
   },
-  post: async (request, h) => {
-    // NOTE: Here needs to add more code for task progress status once tasklist ticket is ready develope
-    return h.redirect(constants.routes.DEVELOPER_TASKLIST)
-  }
+  // NOTE: Here needs to add more code for task progress status once tasklist ticket is ready develope
+  post: async (_request, h) => h.redirect(constants.routes.DEVELOPER_TASKLIST)
 }
 
 export default [{
