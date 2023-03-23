@@ -9,7 +9,7 @@
         {% include "errorbanner.html" %}
     {% endif %}
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds" id="detailsEmailConfirm">
+        <div class="govuk-grid-column-two-thirds">
             {% set emailHtml %}
                 {% set errorMessage = {text: errorMessage} if errorMessage else null %}
                 {{ govukInput({

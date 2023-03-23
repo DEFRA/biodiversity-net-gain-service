@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { emailValidator } from '../../utils/helpers.js'
 
-const href = '#detailsEmailConfirm'
+const href = '#email-correct-yes'
 const handlers = {
   get: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
@@ -9,11 +9,11 @@ const handlers = {
   },
   post: async (request, h) => {
     const emailAddress = request.yar.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
+    const newEmailAddress = request.payload.newEmailAddress
     const correctEmail = request.payload.correctEmail
     if (correctEmail === 'yes') {
       setEmailDetails(request)
     } else if (correctEmail === 'no') {
-      const newEmailAddress = request.payload.newEmailAddress
       const emailValidationError = emailValidator(request.payload.newEmailAddress)
       if (!emailValidationError) {
         setEmailDetails(request)
@@ -32,7 +32,9 @@ const handlers = {
             text: 'You need to select an option',
             href
           }
-        ]
+        ],
+        newEmailAddress,
+        emailAddress
       })
     }
     return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)

@@ -172,7 +172,7 @@ describe(url, () => {
       const correctEmail = require('../../developer/details-email-confirm')
       await correctEmail.default[1].handler(request, h)
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_EMAIL_CONFIRM)
-      expect(resultContext.err[0]).toEqual({ text: 'You need to select an option', href: '#detailsEmailConfirm' })
+      expect(resultContext.err[0]).toEqual({ text: 'You need to select an option', href: '#email-correct-yes' })
     })
   })
 })
