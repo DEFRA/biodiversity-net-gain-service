@@ -2,9 +2,7 @@ import constants from '../../utils/constants.js'
 
 // const href = '#routing-result'
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.DEVELOPER_ROUTING_RESULT)
-  }
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_ROUTING_RESULT)
 }
 
 export default [{

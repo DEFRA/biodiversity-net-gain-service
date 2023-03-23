@@ -1,3 +1,5 @@
+import developerConstants from './developer-constants.js'
+
 const ABOUT = 'about'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
@@ -129,19 +131,6 @@ const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
-const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
-const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
-const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
-const DEVELOPER_METRIC_DATA = 'developer-metric-data'
-const DEV_DETAILS_CHECKED = 'dev-details-checked'
-const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
-const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
-const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
-const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
-const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
-const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
-const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const YES = 'yes'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
@@ -168,19 +157,6 @@ const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
-const DEVELOPER_DETAILS_NAME = 'developer/details-name'
-const DEVELOPER_FULL_NAME = 'developer-fullname'
-const DEVELOPER_REFERER = 'developer-referer'
-const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
-const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
-const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
-const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
-const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
-const DEVELOPER_TASKLIST = 'developer/tasklist'
-const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
-const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
-const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
-const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
@@ -260,12 +236,8 @@ const CHECK_UPLOAD_METRIC_OPTIONS = {
   YES
 }
 
-const ROUTING_REGISTER_OPTIONS = {
-  REGISTER: 'register-gain-site',
-  RECORD: 'record-off-site'
-}
-
 const redisKeys = {
+  ...developerConstants.redisKeys,
   APPLICATION_REFERENCE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
   REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
@@ -338,22 +310,11 @@ const redisKeys = {
   ELIGIBILITY_BOUNDARY,
   ELIGIBILITY_BIODIVERSITY_METRIC,
   ELIGIBILITY_HMMP,
-  DEVELOPER_METRIC_DATA,
-  DEV_DETAILS_CHECKED,
-  DEVELOPER_METRIC_LOCATION,
-  DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
-  DEVELOPER_METRIC_FILE_NAME,
-  DEVELOPER_METRIC_FILE_SIZE,
-  DEVELOPER_METRIC_FILE_TYPE,
-  REGISTRATION_SAVED_REFERER,
-  DEVELOPER_FULL_NAME,
-  DEVELOPER_REFERER,
-  DEVELOPER_EMAIL_VALUE,
-  DEVELOPER_CONFIRM_EMAIL,
-  DEVELOPER_ROUTING_REGISTER_VALUE
+  REGISTRATION_SAVED_REFERER
 }
 
 const routes = {
+  ...developerConstants.routes,
   ABOUT,
   ADD_GRID_REFERENCE,
   ADD_HECTARES,
@@ -418,23 +379,11 @@ const routes = {
   ELIGIBILITY_BIODIVERSITY_METRIC,
   ELIGIBILITY_HMMP,
   ELIGIBILITY_RESULTS,
-  DEVELOPER_UPLOAD_METRIC,
-  DEVELOPER_CHECK_UPLOAD_METRIC,
-  DEVELOPER_CONFIRM_DEV_DETAILS,
-  DEVELOPER_DOWNLOAD_METRIC_FILE,
   CONTINUE_SAVED_REGISTRATION,
   REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
-  CHECK_METRIC_DETAILS,
-  DEVELOPER_DETAILS_NAME,
-  DEVELOPER_DETAILS_EMAIL,
-  DEVELOPER_DETAILS_EMAIL_CONFIRM,
-  DEVELOPER_DETAILS_CONFIRM,
-  DEVELOPER_TASKLIST,
-  DEVELOPER_ROUTING_REGISTER,
-  DEVELOPER_ROUTING_RESULT,
-  DEVELOPER_ROUTING_SOLD
+  CHECK_METRIC_DETAILS
 }
 
 const uploadErrors = {
@@ -454,14 +403,13 @@ const threatScreeningStatusValues = {
 }
 
 const uploadTypes = {
+  ...developerConstants.uploadTypes,
   GEOSPATIAL_UPLOAD_TYPE,
   LEGAL_AGREEMENT_UPLOAD_TYPE,
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,
-  LAND_OWNERSHIP_UPLOAD_TYPE,
-  DEVELOPER_METRIC_UPLOAD_TYPE,
-  DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
+  LAND_OWNERSHIP_UPLOAD_TYPE
 }
 
 const eligibilityHTML = {
@@ -533,5 +481,5 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
-  ROUTING_REGISTER_OPTIONS
+  ...developerConstants.options
 })

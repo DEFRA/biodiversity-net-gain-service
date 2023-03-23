@@ -2,9 +2,7 @@ import constants from '../../utils/constants.js'
 
 const href = '#routingRegister'
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.DEVELOPER_ROUTING_REGISTER)
-  },
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_ROUTING_REGISTER),
   post: async (request, h) => {
     const routingRegisterOption = request.payload.routingRegisterOption
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, routingRegisterOption)
