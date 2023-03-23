@@ -24,6 +24,11 @@ const handlers = {
     let route
     const uploadedGeospatialLandBoundaryLocation = request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
     const geoJsonLandBoundaryLocation = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+    const reprojectedGeoJsonLandBoundaryLocation = request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
+    const blobConfig = {
+      containerName: 'trusted',
+      blobName: geoJsonLandBoundaryLocation
+    }
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
         route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
@@ -32,6 +37,7 @@ const handlers = {
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         await deleteBlobFromContainers(geoJsonLandBoundaryLocation)
         await deleteBlobFromContainers(uploadedGeospatialLandBoundaryLocation)
+        await deleteBlobFromContainers(reprojectedGeoJsonLandBoundaryLocation)
         break
       default:
         return h.view(constants.views.CHECK_GEOSPATIAL_FILE, {

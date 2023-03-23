@@ -93,6 +93,14 @@ const performUpload = async (request, h) => {
       // Store the location of the uploaded file so it and the transformed GeoJSON file can be removed if needed.
       request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
     }
+
+    if (geospatialData[0].reprojectedLocation) {
+      // A geospatial upload using the WGS84 Coordinate Reference System has been uploaded.
+      // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System so
+      // that it can be part of the application submission.
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].reprojectedLocation)
+    }
+
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)

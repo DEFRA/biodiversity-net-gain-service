@@ -14,6 +14,7 @@ const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
+const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
 const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
 const mockDownloadStreamIfExists = async (config, context) => {
@@ -25,8 +26,12 @@ const mockDownloadStreamIfExists = async (config, context) => {
 }
 
 describe('Trusted file processing', () => {
-  it('should process a known geospatial upload type in a compressed file.', done => {
-    performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, done)
+  it('should process a known WGS84 geospatial upload type in a compressed file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, '4326', done)
+  })
+
+  it('should process a known OSGB36 geospatial upload type in a compressed file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, '27700', done)
   })
 
   it('should process a pdf upload for a legal agreement upload type. ', done => {
@@ -37,12 +42,20 @@ describe('Trusted file processing', () => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'management-plan', done)
   })
 
-  it('should process a GeoJSON file.', done => {
-    performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, done)
+  it('should process a WGS84 GeoJSON file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, '4326', done)
   })
 
-  it('should process a Geopackage file.', done => {
-    performValidGeospatialLandBoundaryProcessingTest(GEOPACKAGE_FILE_EXTENSION, done)
+  it('should process an OSGB36 GeoJSON file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(GEOJSON_FILE_EXTENSION, '27700', done)
+  })
+
+  it('should process a WGS84 Geopackage file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(GEOPACKAGE_FILE_EXTENSION, '4326', done)
+  })
+
+  it('should process an OSGB36 Geopackage file.', done => {
+    performValidGeospatialLandBoundaryProcessingTest(GEOPACKAGE_FILE_EXTENSION, '27700', done)
   })
 
   it('should process a known land boundary file.', done => {
@@ -201,16 +214,18 @@ describe('Processing developer metric extraction', () => {
   })
 })
 
-const buildConfig = (fileExtension, uploadType) => {
+const buildConfig = (fileExtension, uploadType, epsg) => {
   const userId = 'mock-session-id'
   const filenameRoot = 'mock-data'
   const fileDirectory = `${userId}/mockUploadType`
   const filename = `${filenameRoot}${fileExtension}`
   const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
+  const reprojectedFileDirectory = `${fileDirectory}/${REPROJECTED_TO_OSGB36}`
+  const reprojectedOutputFileLocation = uploadType.indexOf('.') > 0 ? `${reprojectedFileDirectory}/${filenameRoot}` : `${reprojectedFileDirectory}/${filenameRoot}.geojson`
 
   const mapConfig = {
     centroid: 'mock centroid',
-    epsg: 'mock authority key',
+    epsg: epsg || 'mock EPSG',
     extent: ['mock extent']
   }
 
@@ -235,6 +250,11 @@ const buildConfig = (fileExtension, uploadType) => {
       }]
     }
   }
+
+  if (epsg !== '27700') {
+    config.expectedSignalRMessage.arguments[0].reprojectedLocation = reprojectedOutputFileLocation
+  }
+
   switch (uploadType) {
     case DEVELOPER_METRIC_UPLOAD_TYPE:
       config.metricData = metricData
@@ -250,13 +270,13 @@ const buildConfig = (fileExtension, uploadType) => {
   return config
 }
 
-const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) => {
+const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, epsg, done) => {
   jest.isolateModules(async () => {
     try {
       const context = getContext()
       jest.mock('@defra/bng-geoprocessing-service')
       jest.mock('@defra/bng-connectors-lib')
-      const testConfig = buildConfig(fileExtension, 'geospatial-land-boundary')
+      const testConfig = buildConfig(fileExtension, 'geospatial-land-boundary', epsg)
       const geoprocessingService = await import('@defra/bng-geoprocessing-service')
       const { blobStorageConnector } = await import('@defra/bng-connectors-lib')
       geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
@@ -264,13 +284,29 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, done) =
       })
 
       const spy = jest.spyOn(blobStorageConnector, 'moveBlob')
+      let expectedNumberOfMoveBlobCalls
+
+      if (epsg === '27700') {
+        if (fileExtension === GEOJSON_FILE_EXTENSION) {
+          // OSGB36 GeoJSON uploads do not require converting to GeoJSON format. As such moveBlob should not be called in this scenario.
+          expectedNumberOfMoveBlobCalls = 0
+        } else {
+          // OSGB36 non-GeoJSON uploads need converting to GeoJSON. As such moveBlob should be called once in this scenario.
+          expectedNumberOfMoveBlobCalls = 1
+        }
+      } else if (fileExtension === GEOJSON_FILE_EXTENSION) {
+        // WGS84 GeoJSON uploads require reprojection to OSGB36. As such moveBlob should be called once in this scenario.
+        expectedNumberOfMoveBlobCalls = 1
+      } else {
+        // WGS84 non-GeoJSON uploads require conversion to GeoJSON and reprojection to OSGB36. As such moveBlob should be called twice in this scenario.
+        expectedNumberOfMoveBlobCalls = 2
+      }
 
       await processTrustedFile(context, testConfig.message)
 
       setImmediate(async () => {
         expect(context.bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
-        // GeoJSON uploads do not require converting to GeoJSON format. As such moveBlob should not be called in this scenario.
-        expect(spy).toHaveBeenCalledTimes(fileExtension === GEOJSON_FILE_EXTENSION ? 0 : 1)
+        expect(spy).toHaveBeenCalledTimes(expectedNumberOfMoveBlobCalls)
         done()
       })
     } catch (e) {

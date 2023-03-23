@@ -25,7 +25,9 @@ async function processSuccessfulUpload (result, request, h) {
     request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
     await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
     await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
     request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
+    request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
     request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
   }
   return resultView

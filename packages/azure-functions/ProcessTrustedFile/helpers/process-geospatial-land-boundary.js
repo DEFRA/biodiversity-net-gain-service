@@ -4,6 +4,9 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
+const OSGB26_SRS_AUTHORITY_CODE = '27700'
+const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
+const VSIAZ_TRUSTED = '/vsiaz/trusted'
 
 export default async function (context, config) {
   // Defect - BNGP-1711.
@@ -13,13 +16,16 @@ export default async function (context, config) {
   const isGeoJsonFile = config.fileConfig.fileExtension === GEOJSON_FILE_EXTENSION
   const tmpGeoJsonBlobName =
    `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}${new Date().toISOString()}${GEOJSON_FILE_EXTENSION}`
+  const tmpReprojectedGeoJsonBlobName = `${config.fileConfig.fileDirectory}/${REPROJECTED_TO_OSGB36}/${config.fileConfig.filename}${new Date().toISOString()}${GEOJSON_FILE_EXTENSION}`
   const geoJsonBlobName = `${config.fileConfig.fileDirectory}/${config.fileConfig.filename}${GEOJSON_FILE_EXTENSION}`
+  const reprojectedGeoJsonBlobName = `${config.fileConfig.fileDirectory}/${REPROJECTED_TO_OSGB36}/${config.fileConfig.filename}${GEOJSON_FILE_EXTENSION}`
 
   const landBoundaryConfig = {
     bufferDistance: process.env.LAND_BOUNDARY_BUFFER_DISTANCE || 500,
     inputLocation: `${config.fileConfig.fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/trusted/${config.fileConfig.fileLocation}`,
     // Prepare to use the GDAL virtual file system to convert a geospatial land boundary uploaded by a user to GeoJSON (if needed).
-    outputLocation: `/vsiaz/trusted/${tmpGeoJsonBlobName}`,
+    outputLocation: `${VSIAZ_TRUSTED}/${tmpGeoJsonBlobName}`,
+    reprojectedOutputLocation: `${VSIAZ_TRUSTED}/${tmpReprojectedGeoJsonBlobName}`,
     gdalEnvVars: gdalEnvVars()
   }
 
@@ -33,17 +39,25 @@ export default async function (context, config) {
     const mapConfig = await processLandBoundary(context.log, landBoundaryConfig)
 
     // Defect BNGP-1711.
+    // If timestamped GeoJSON files have been created, remove the timestamp from the filenames using the
+    // Azure blob storge API. This preserves the GeoJSON filenames so that dependent BNG software remains
+    // unchanged and allows the GeoJSON files to be overwritten by the user if required.
     if (!isGeoJsonFile) {
-      // If a timestamped GeoJSON file has been created, remove the timestamp from the filename using the
-      // Azure blob storge API. This preserves the GeoJSON filename so that dependent BNG software remains
-      // unchanged and allows the GeoJSON file to be overwritten by the user if required.
       await moveBlob(tmpGeoJsonBlobName, geoJsonBlobName)
+    }
+
+    if (mapConfig.epsg !== OSGB26_SRS_AUTHORITY_CODE) {
+      await moveBlob(tmpReprojectedGeoJsonBlobName, reprojectedGeoJsonBlobName)
     }
 
     signalRMessageArguments = [{
       location: geoJsonBlobName,
       mapConfig
     }]
+
+    if (mapConfig.epsg !== OSGB26_SRS_AUTHORITY_CODE) {
+      signalRMessageArguments[0].reprojectedLocation = reprojectedGeoJsonBlobName
+    }
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {
       signalRMessageArguments = [{

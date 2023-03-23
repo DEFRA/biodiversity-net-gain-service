@@ -21,7 +21,41 @@ describe(url, () => {
       postOptions.payload.confirmGeospatialLandBoundary = constants.confirmLandBoundaryOptions.YES
       await submitPostRequest(postOptions)
     })
-    it('should allow an alternative geospatial file to replace an existing GeoJSON file', done => {
+    it('should allow an alternative geospatial file to replace an existing WGS84 GeoJSON file', done => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const redisMap = new Map()
+          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const request = {
+            yar: redisMap,
+            payload: {
+              confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
+            }
+          }
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+          const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
+          await checkLandBoundary.default[1].handler(request, h)
+          expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+          // The existing GeoJSON file and the associated OSGB36 reprojected file should be removed.
+          expect(spy).toHaveBeenCalledTimes(2)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should allow an alternative geospatial file to replace an existing OSGB36 GeoJSON file', done => {
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -53,13 +87,48 @@ describe(url, () => {
         }
       })
     })
-    it('should allow an alternative geospatial file to replace an existing non-GeoJSON file', done => {
+    it('should allow an alternative geospatial file to replace an existing WGS84 non-GeoJSON file', done => {
       jest.isolateModules(async () => {
         try {
           let viewResult
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geopkg')
+          redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
+          redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const request = {
+            yar: redisMap,
+            payload: {
+              confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
+            }
+          }
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+          const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
+          await checkLandBoundary.default[1].handler(request, h)
+          expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+          // The existing Geopackage, the generated GeoJSON equivalent and the associated OSGB36 reprojected GeoJSON file should be removed.
+          expect(spy).toHaveBeenCalledTimes(3)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should allow an alternative geospatial file to replace an existing OSGB36 non-GeoJSON file', done => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const redisMap = new Map()
+          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
