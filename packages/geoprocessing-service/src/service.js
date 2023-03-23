@@ -5,15 +5,15 @@ import { isPolygonInEnglandOnly } from './helpers/db-queries.js'
 import path from 'path'
 import dirname from './helpers/dirname.cjs'
 
-const OSGB26_SRS_AUTHORITY_CODE = '27700'
+const OSGB36_SRS_AUTHORITY_CODE = '27700'
 const WGS84_SRS_AUTHORITY_CODE = '4326'
 
 const ostn15FormatFilePath = path.join(dirname, '../', 'ntv2-format-files/', 'OSTN15_NTv2_OSGBtoETRS.gsb')
 const wgs84ToOsgb36ReprojectionArgs = [
   '-f', 'GEOJSON',
-  '-a_srs', `EPSG:${OSGB26_SRS_AUTHORITY_CODE}`,
   '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
-  '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`
+  '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`,
+  '-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`
 ]
 
 const processLandBoundary = async (logger, config) => {
@@ -101,7 +101,7 @@ const validateLayer = async (layer, dataset, config) => {
 
 const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
-  if (authorityCode !== OSGB26_SRS_AUTHORITY_CODE && authorityCode !== WGS84_SRS_AUTHORITY_CODE) {
+  if (authorityCode !== OSGB36_SRS_AUTHORITY_CODE && authorityCode !== WGS84_SRS_AUTHORITY_CODE) {
     throw new CoordinateSystemValidationError(
       authorityCode, uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
   }
@@ -135,7 +135,7 @@ const validateFeature = async feature => {
 }
 
 const getGridRef = (centroid, projection) => {
-  if (projection === OSGB26_SRS_AUTHORITY_CODE) {
+  if (projection === OSGB36_SRS_AUTHORITY_CODE) {
     const osGridRef = new OsGridRef(centroid.x, centroid.y)
     return osGridRef.toString()
   } else {
