@@ -6,6 +6,8 @@ const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 const DEVELOPER_DETAILS_NAME = 'developer/details-name'
 const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
 const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
+const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
+const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
@@ -42,6 +44,8 @@ export default {
     DEVELOPER_DETAILS_NAME,
     DEVELOPER_DETAILS_EMAIL,
     DEVELOPER_DETAILS_EMAIL_CONFIRM,
+    DEVELOPER_DETAILS_CONFIRM,
+    DEVELOPER_TASKLIST,
     DEVELOPER_ROUTING_REGISTER,
     DEVELOPER_ROUTING_RESULT,
     DEVELOPER_ROUTING_SOLD
