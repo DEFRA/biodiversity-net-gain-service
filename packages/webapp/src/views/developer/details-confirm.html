@@ -1,0 +1,50 @@
+{% extends 'developer-form-layout.html' %}
+
+{% set pageHeading = "Check your details" %}
+
+{% block formContent %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key" id = "fullname-label">
+            Full name
+          </dt>
+          <dd class="govuk-summary-list__value" id = "fullname-value" data-testid="applicant-full-name-value">
+            {{ fullName }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/developer/details-name" id = "fullname">
+              Change<span class="govuk-visually-hidden"> full name</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key" id = "email-label">
+            Email address
+          </dt>
+          <dd class="govuk-summary-list__value" id = "email-value" data-testid="applicant-emailaddress-value">
+              {{ emailAddress }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/developer/details-email" id = "email">
+              Change<span class="govuk-visually-hidden"> email</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="govuk-!-padding-top-5">
+        {{ govukButton({
+          text: 'Continue',
+          attributes: {
+            id: "continue"
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

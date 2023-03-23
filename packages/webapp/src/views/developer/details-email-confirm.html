@@ -13,12 +13,13 @@
             {% set emailHtml %}
                 {% set errorMessage = {text: errorMessage} if errorMessage else null %}
                 {{ govukInput({
-                    id: "emailAddress",
-                    name: "emailAddress",
+                    id: "newEmailAddress",
+                    name: "newEmailAddress",
                     type: "email",
-                    autocomplete: "email",
                     spellcheck: false,
                     classes: "govuk-!-width-one-half",
+                    autocomplete: "newEmailAddress",
+                    value: newEmailAddress,
                     label: {
                         text: "Email address"
                     },
@@ -28,7 +29,7 @@
             {{ govukRadios({
                 idPrefix: "correctEmail",
                 name: "correctEmail",
-                id: id,
+                id: "detailsEmailConfirmOptions",
                 fieldset: {
                     legend: {
                         text: pageHeading,
@@ -46,13 +47,13 @@
                         value: "yes",
                         text: "Yes, use this email address",
                         id: "email-correct-yes",
-                        checked: yesSelection
+                        checked: correctEmail === "yes"
                     },
                     {
                         value: "no",
                         text: "No, I need to change it",
                         id: "email-correct-no",
-                        checked: selected,
+                        checked: correctEmail === "no",
                         conditional: {
                             html: emailHtml
                         }
