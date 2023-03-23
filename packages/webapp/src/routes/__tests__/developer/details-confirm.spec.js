@@ -1,4 +1,5 @@
 import constants from '../../../utils/constants'
+import { submitPostRequest } from '../helpers/server'
 const url = constants.routes.DEVELOPER_DETAILS_CONFIRM
 
 describe(url, () => {
@@ -22,6 +23,18 @@ describe(url, () => {
       expect(viewResult).toBe(constants.views.DEVELOPER_DETAILS_CONFIRM)
       expect(resultContext.fullName).toEqual('Test User')
       expect(resultContext.emailAddress).toEqual('test@example.com')
+    })
+  })
+  describe('POST', () => {
+    let postOptions
+    beforeEach(() => {
+      postOptions = {
+        url
+      }
+    })
+    it('Should redirect to task list page on continue', async () => {
+      const res = await submitPostRequest(postOptions)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
   })
 })

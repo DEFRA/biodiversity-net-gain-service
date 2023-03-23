@@ -8,6 +8,10 @@ const handlers = {
       fullName,
       emailAddress
     })
+  },
+  post: async (request, h) => {
+    // NOTE: Here needs to add more code for task progress status once tasklist ticket is ready develope
+    return h.redirect(constants.routes.DEVELOPER_TASKLIST)
   }
 }
 
@@ -15,4 +19,8 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_DETAILS_CONFIRM,
   handler: handlers.get
+}, {
+  method: 'POST',
+  path: constants.routes.DEVELOPER_DETAILS_CONFIRM,
+  handler: handlers.post
 }]
