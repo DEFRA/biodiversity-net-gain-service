@@ -4,7 +4,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
-const OSGB26_SRS_AUTHORITY_CODE = '27700'
+const OSGB36_SRS_AUTHORITY_CODE = '27700'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 const VSIAZ_TRUSTED = '/vsiaz/trusted'
 
@@ -47,7 +47,7 @@ export default async function (context, config) {
       await moveBlob(tmpGeoJsonBlobName, geoJsonBlobName)
     }
 
-    if (mapConfig.epsg !== OSGB26_SRS_AUTHORITY_CODE) {
+    if (mapConfig.epsg !== OSGB36_SRS_AUTHORITY_CODE) {
       await moveBlob(tmpReprojectedGeoJsonBlobName, reprojectedGeoJsonBlobName)
     }
 
@@ -56,7 +56,7 @@ export default async function (context, config) {
       mapConfig
     }]
 
-    if (mapConfig.epsg !== OSGB26_SRS_AUTHORITY_CODE) {
+    if (mapConfig.epsg !== OSGB36_SRS_AUTHORITY_CODE) {
       signalRMessageArguments[0].reprojectedLocation = reprojectedGeoJsonBlobName
     }
   } catch (err) {
