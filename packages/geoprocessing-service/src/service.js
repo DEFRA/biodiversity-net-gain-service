@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { CoordinateSystemValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import OsGridRef, { LatLon } from 'geodesy/osgridref.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
@@ -12,9 +13,10 @@ const ostn15FormatFilePath = path.join(dirname, '../', 'ntv2-format-files/', 'OS
 const wgs84ToOsgb36ReprojectionArgs = [
   '-f', 'GEOJSON',
   '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
-  '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`,
-  '-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`
+  '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`
 ]
+
+const wgs84ToOsgb36ReprojectionArgsWithAssignedSrs = JSON.parse(JSON.stringify(wgs84ToOsgb36ReprojectionArgs)).concat('-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`)
 
 const processLandBoundary = async (logger, config) => {
   let dataset
@@ -186,8 +188,15 @@ const setGdalConfig = (gdal, config) => {
 const reprojectFromWgs84ToOsgb36 = async (dataset, config) => {
   const gdal = (await import('gdal-async')).default
   const reprojectedDatasetName = config.reprojectedOutputLocation
-  const reprojectedDataset = await gdal.vectorTranslateAsync(reprojectedDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
-  // Generated in memory datasets seem to need reopening to provide access to all of their data.
+  const tmpDatasetName = `/vsimem/${randomUUID()}`
+  // Perfor the reprojection without an assigned SRS so that reprojection failures are detected.
+  const tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
+  // Flush the reprojected data.
+  closeDatasetIfNeeded(tmpDataset)
+  // Reprojection succeeded, so repeat the reprojection with an assigned SRS so that the persisted reprojection
+  // specifies the OSGB36 Coordimnate Reference System.
+  const reprojectedDataset = await gdal.vectorTranslateAsync(reprojectedDatasetName, dataset, wgs84ToOsgb36ReprojectionArgsWithAssignedSrs)
+  // Flush the reprojected data.
   closeDatasetIfNeeded(reprojectedDataset)
   return gdal.openAsync(reprojectedDatasetName)
 }
