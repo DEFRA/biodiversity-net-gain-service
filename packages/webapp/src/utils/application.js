@@ -61,12 +61,13 @@ const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &
 
 const getLandBoundaryFile = session => {
   if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
+    const { fileSize, fileLocation, fileName } = getGeospatialFileAttributes(session)
     return {
       contentMediaType: 'application/geo+json',
       fileType: 'geojson',
-      fileSize: session.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
-      fileLocation: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION),
-      fileName: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
+      fileSize,
+      fileLocation,
+      fileName
     }
   } else {
     return {
@@ -75,6 +76,22 @@ const getLandBoundaryFile = session => {
       fileSize: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
       fileLocation: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION),
       fileName: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION))
+    }
+  }
+}
+
+const getGeospatialFileAttributes = session => {
+  if (session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)) {
+    return {
+      fileSize: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
+    }
+  } else {
+    return {
+      fileSize: session.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
     }
   }
 }

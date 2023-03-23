@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-connectors-lib",
-  "version": "0.65.0",
+  "version": "0.65.1",
   "type": "module",
   "private": false,
   "description": "A library providing connectivity functionality for the Biodiversity Net Gain service",

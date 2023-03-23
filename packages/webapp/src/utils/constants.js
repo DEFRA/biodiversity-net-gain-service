@@ -29,6 +29,7 @@ const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
+const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
 const GEOSPATIAL_HECTARES = 'geospatial-hectares'
 const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
@@ -262,6 +263,7 @@ const redisKeys = {
   GEOSPATIAL_UPLOAD_TYPE,
   GEOSPATIAL_FILE_NAME,
   GEOSPATIAL_FILE_SIZE,
+  REPROJECTED_GEOSPATIAL_FILE_SIZE,
   GEOSPATIAL_FILE_TYPE,
   GEOSPATIAL_HECTARES,
   GEOSPATIAL_GRID_REFERENCE,

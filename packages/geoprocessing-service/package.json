@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.65.0",
-    "@defra/bng-connectors-lib": "0.65.0",
+    "@defra/bng-connectors-lib": "0.65.1",
     "@defra/bng-utils-lib": "0.65.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },

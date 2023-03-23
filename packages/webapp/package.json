@@ -29,7 +29,7 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.65.0",
+    "@defra/bng-connectors-lib": "0.65.1",
     "@defra/bng-document-service": "0.65.0",
     "@defra/bng-errors-lib": "0.65.0",
     "@defra/bng-utils-lib": "0.65.0",
