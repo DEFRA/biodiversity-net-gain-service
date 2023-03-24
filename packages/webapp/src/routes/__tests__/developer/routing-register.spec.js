@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
-const url = '/developer/routing-register'
+const url = constants.routes.DEVELOPER_ROUTING_REGISTER
 
 describe(url, () => {
   describe('GET', () => {
@@ -22,13 +22,13 @@ describe(url, () => {
     it('should redirect to the routing result if record gain site selected', async () => {
       postOptions.payload.routingRegisterOption = constants.ROUTING_REGISTER_OPTIONS.RECORD
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('/developer/routing-result')
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ROUTING_RESULT)
     })
 
     it('should redirect to the routing result if register off-site selected', async () => {
       postOptions.payload.routingRegisterOption = constants.ROUTING_REGISTER_OPTIONS.REGISTER
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('/developer/routing-sold')
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ROUTING_SOLD)
     })
 
     it('should detect if option does not selected', async () => {

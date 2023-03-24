@@ -1,6 +1,7 @@
+import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
 
-const url = '/developer/routing-sold'
+const url = constants.routes.DEVELOPER_ROUTING_SOLD
 
 describe(url, () => {
   describe('GET', () => {
