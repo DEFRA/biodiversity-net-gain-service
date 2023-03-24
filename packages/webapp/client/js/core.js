@@ -1,6 +1,19 @@
 'use strict'
 // "bng" represents the global namespace for client side js accross the service
-window.bng = {}
+window.bng = {
+  utils: {
+    getCookie: (name) => {
+      const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
+      return v ? v[2] : null
+    },
+    setCookie: (cookieName, cookieValue, cookieExpiryDays = 365) => {
+      const date = new Date()
+      date.setTime(date.getTime() + (cookieExpiryDays * 24 * 60 * 60 * 1000))
+      const expires = 'expires=' + date.toUTCString()
+      document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${expires};path=/`
+    }
+  }
+}
 
 // Hide defra-js-hide elements on page load
 const nonJsElements = document.getElementsByClassName('defra-js-hide')
@@ -14,3 +27,80 @@ const jsElements = document.getElementsByClassName('defra-js-show')
 Array.prototype.forEach.call(jsElements, function (element) {
   element.removeAttribute('hidden')
 })
+
+const acceptButton = document.querySelector('.js-cookies-button-accept')
+const rejectButton = document.querySelector('.js-cookies-button-reject')
+const acceptedBanner = document.querySelector('.js-cookies-accepted')
+const rejectedBanner = document.querySelector('.js-cookies-rejected')
+const questionBanner = document.querySelector('.js-question-banner')
+const cookieBanner = document.querySelector('.js-cookies-banner')
+const cookieBannerContainer = document.querySelector('.js-cookie-banner-container')
+const cookiePrefsPage = document.querySelector('.defra-js')
+const cookiePageBanner = document.querySelector('.js-cookie-page-banner')
+const cookieSeenBanner = 'seen_cookie_message'
+const cookieSeenBannerExpiry = 30
+const cookieUserPreference = 'set_cookie_usage'
+const cookieUserPreferenceExpiry = 30
+
+const savePreference = accepted => {
+  const prefs = {
+    analytics: accepted ? 'on' : 'off'
+  }
+  window.bng.utils.setCookie(cookieUserPreference, JSON.stringify(prefs), cookieUserPreferenceExpiry)
+  cookiePageBanner.style.display = 'block'
+  cookiePageBanner.setAttribute('tabindex', '-1')
+  cookiePageBanner.focus()
+}
+
+if (cookiePrefsPage) {
+  const saveButton = document.querySelector('#cookies-save')
+  cookiePageBanner.style.display = 'none'
+  saveButton?.addEventListener('click', function (event) {
+    event.preventDefault()
+    const analyticsPreference = document.querySelector('input[name="accept-analytics"]:checked')
+    savePreference(analyticsPreference.value === 'Yes')
+  })
+}
+
+if (cookieBannerContainer) {
+  const showCookieBanner = window.bng.utils.getCookie(cookieSeenBanner)
+  if (!showCookieBanner) {
+    cookieBannerContainer.style.display = 'block'
+  } else {
+    cookieBannerContainer.style.display = 'none'
+  }
+
+  const showBanner = banner => {
+    questionBanner.setAttribute('hidden', 'hidden')
+    banner.removeAttribute('hidden')
+    // Shift focus to the banner
+    banner.setAttribute('tabindex', '-1')
+    banner.focus()
+
+    banner.addEventListener('blur', function () {
+      banner.removeAttribute('tabindex')
+    })
+  }
+
+  acceptButton?.addEventListener('click', function (event) {
+    showBanner(acceptedBanner)
+    event.preventDefault()
+    savePreference(true)
+  })
+
+  rejectButton?.addEventListener('click', function (event) {
+    showBanner(rejectedBanner)
+    event.preventDefault()
+    savePreference(false)
+  })
+
+  acceptedBanner?.querySelector('.js-hide').addEventListener('click', function () {
+    cookieBanner.setAttribute('hidden', 'hidden')
+    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+  })
+
+  rejectedBanner?.querySelector('.js-hide').addEventListener('click', function () {
+    cookieBanner.setAttribute('hidden', 'hidden')
+    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+  })
+}
