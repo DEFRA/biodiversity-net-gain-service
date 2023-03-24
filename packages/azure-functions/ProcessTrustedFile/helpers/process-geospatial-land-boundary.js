@@ -58,6 +58,12 @@ export default async function (context, config) {
 
     if (mapConfig.epsg !== OSGB36_SRS_AUTHORITY_CODE) {
       signalRMessageArguments[0].reprojectedLocation = reprojectedGeoJsonBlobName
+
+      const reprojectedGeospatialUploadSizeInBytes = await blobStorageConnector.getBlobSizeInBytes({
+        containerName: 'trusted',
+        blobName: reprojectedGeoJsonBlobName
+      })
+      signalRMessageArguments[0].reprojectedFileSize = parseFloat(reprojectedGeospatialUploadSizeInBytes / 1024 / 1024)
     }
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {

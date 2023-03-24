@@ -99,13 +99,7 @@ const performUpload = async (request, h) => {
       // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System
       // and its size so that they can be part of the application submission.
       request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].reprojectedLocation)
-      const reprojectedGeospatialUploadSizeInBytes = await blobStorageConnector.getBlobSizeInBytes({
-        containerName: 'trusted',
-        blobName: geospatialData[0].reprojectedLocation
-      })
-      request.yar.set(
-        constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE,
-        parseFloat(parseFloat(reprojectedGeospatialUploadSizeInBytes / 1024 / 1024))).toFixed(4)
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, parseFloat(geospatialData[0].reprojectedFileSize).toFixed(4))
     }
 
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)

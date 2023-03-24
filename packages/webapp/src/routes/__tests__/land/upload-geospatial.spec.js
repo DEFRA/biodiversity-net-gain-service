@@ -49,6 +49,7 @@ describe(url, () => {
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
+          config.eventData[0].reprojectedFileSize = 0.0005
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'

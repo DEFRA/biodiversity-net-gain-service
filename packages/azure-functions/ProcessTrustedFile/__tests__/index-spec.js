@@ -222,7 +222,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
   const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
   const reprojectedFileDirectory = `${fileDirectory}/${REPROJECTED_TO_OSGB36}`
   const reprojectedOutputFileLocation = uploadType.indexOf('.') > 0 ? `${reprojectedFileDirectory}/${filenameRoot}` : `${reprojectedFileDirectory}/${filenameRoot}.geojson`
-
+  const reprojectedOutputFileSize = parseFloat(500 / 1024 / 1024)
   const mapConfig = {
     centroid: 'mock centroid',
     epsg: epsg || 'mock EPSG',
@@ -253,6 +253,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
 
   if (epsg !== '27700') {
     config.expectedSignalRMessage.arguments[0].reprojectedLocation = reprojectedOutputFileLocation
+    config.expectedSignalRMessage.arguments[0].reprojectedFileSize = reprojectedOutputFileSize
   }
 
   switch (uploadType) {
@@ -281,6 +282,10 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, epsg, d
       const { blobStorageConnector } = await import('@defra/bng-connectors-lib')
       geoprocessingService.processLandBoundary = jest.fn().mockImplementation(async (logger, config) => {
         return testConfig.mapConfig
+      })
+
+      blobStorageConnector.getBlobSizeInBytes = jest.fn().mockImplementation(async config => {
+        return 500
       })
 
       const spy = jest.spyOn(blobStorageConnector, 'moveBlob')
