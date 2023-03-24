@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url'
 import path from 'path'
+import webpack from 'webpack'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -35,5 +36,10 @@ export default {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      GOOGLE_TAGMANAGER_ID: 'GTM-PL85H6J' // use 'GTM-PL85H6J' unless process.env.GOOGLE_TAGMANAGER_ID is defined
+    })
+  ]
 }
