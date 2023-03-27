@@ -47,8 +47,11 @@ describe(url, () => {
           const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-          // The existing GeoJSON file and the associated OSGB36 reprojected file should be removed.
-          expect(spy).toHaveBeenCalledTimes(2)
+          // The existing GeoJSON file and the associated OSGB36 reprojected file should be removed
+          // from untrusted and trusted blob storage. An attempt should be made to delete non-existent
+          // non-GeoJSON files from untrusted and trusted blob storage (non-GeoJSON files don't exist as no
+          // conversion to GeoJSON was required originally).
+          expect(spy).toHaveBeenCalledTimes(6)
           done()
         } catch (err) {
           done(err)
@@ -80,7 +83,7 @@ describe(url, () => {
           const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-          expect(spy).toHaveBeenCalledTimes(4)
+          expect(spy).toHaveBeenCalledTimes(6)
           done()
         } catch (err) {
           done(err)
@@ -114,8 +117,9 @@ describe(url, () => {
           const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-          // The existing Geopackage, the generated GeoJSON equivalent and the associated OSGB36 reprojected GeoJSON file should be removed.
-          expect(spy).toHaveBeenCalledTimes(3)
+          // The existing Geopackage, the generated GeoJSON equivalent and the associated OSGB36 reprojected GeoJSON file should be removed
+          // from untrusted and trusted blob storage.
+          expect(spy).toHaveBeenCalledTimes(6)
           done()
         } catch (err) {
           done(err)
@@ -148,8 +152,11 @@ describe(url, () => {
           const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-          // The existing Geopackage and the generated GeoJSON equivalent should be removed.
-          expect(spy).toHaveBeenCalledTimes(4)
+          // The existing Geopackage and the generated GeoJSON equivalent should be removed
+          // from untrusted and trusted blob storage. An attempt should be made to delete non-existent
+          // reprojected files from blob stroage (reprojected files don't exist as no reprojection was
+          // required originally).
+          expect(spy).toHaveBeenCalledTimes(6)
           done()
         } catch (err) {
           done(err)
