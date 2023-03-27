@@ -3,7 +3,26 @@ import application from '../application'
 import constants from '../../utils/constants.js'
 
 describe('application', () => {
-  it('Should set the geojson file if geospatial file has been uploaded', () => {
+  it('Should set the geojson file if a WGS84 geospatial file has been uploaded', () => {
+    const session = applicationSession()
+    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
+    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
+    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
+    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
+    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
+    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'test-location/reprojectedToOsgb36/file.geojson')
+    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, '0.051')
+    session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
+    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
+    const app = application(session)
+    expect(app.landownerGainSiteRegistration.files[1].fileType).toEqual('geojson')
+    expect(app.landownerGainSiteRegistration.files[1].fileSize).toEqual('0.051')
+    expect(app.landownerGainSiteRegistration.files[1].fileName).toEqual('file.geojson')
+    expect(app.landownerGainSiteRegistration.landBoundaryGridReference).toEqual('ST123456')
+    expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
+  })
+  it('Should set the geojson file if an OSGB36 geospatial file has been uploaded', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)

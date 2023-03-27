@@ -12,6 +12,8 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const JSON_FILE_EXTENSION = '.json'
 const ZIP_FILE_EXTENSION = '.zip'
 const blobPathRoot = 'mock-session-id/landBoundary'
+const reprojectedToOsgb36 = 'reprojectedToOsgb36'
+const reprojectedBlobPathRoot = `${blobPathRoot}/${reprojectedToOsgb36}`
 const containerName = 'trusted'
 const mockDataPath = 'packages/geoprocessing-service/src/__mock-data__/uploads/geospatial-land-boundaries'
 const invalidFileUploadErrorMessage = 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file'
@@ -35,11 +37,19 @@ describe('The geoprocessing service', () => {
     expect(Math.floor(config.area)).toEqual(2323)
     expect(config.gridRef).toEqual('ST 60629 75931')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+    expect(await blobExists(containerName, `${reprojectedBlobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
   }, 7000)
+  it('should accept a GeoJSON file containing a single polygon in the WGS84 coordinate reference system', async () => {
+    const filenameRoot = 'land-boundary-4326'
+    await performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)
+    expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+    expect(await blobExists(containerName, `${reprojectedBlobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+  })
   it('should accept a GeoJSON file containing a single polygon in the OSGB36 coordinate reference system', async () => {
     const filenameRoot = 'geojson-land-boundary-27700'
     await performLandBoundaryProcessing(`${filenameRoot}${GEOJSON_FILE_EXTENSION}`)
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+    expect(await blobExists(containerName, `${reprojectedBlobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(false)
   })
   it('should accept a geopackage file containing a single polygon in the OSGB36 coordinate reference system', async () => {
     const filenameRoot = 'hectares_OSGB36_test'
@@ -50,6 +60,7 @@ describe('The geoprocessing service', () => {
     expect(config.hectares.toFixed(2)).toEqual('5.04')
     expect(config.gridRef).toEqual('ST 63632 74724')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+    expect(await blobExists(containerName, `${reprojectedBlobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(false)
   })
   it('should accept a gpkg file containing a single polygon in the WGS84 coordinate reference system', async () => {
     const filenameRoot = 'hectares_WGS84_test'
@@ -60,6 +71,7 @@ describe('The geoprocessing service', () => {
     expect(config.hectares.toFixed(2)).toEqual('5.04')
     expect(config.gridRef).toEqual('ST 63632 74724')
     expect(await blobExists(containerName, `${blobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
+    expect(await blobExists(containerName, `${reprojectedBlobPathRoot}/${filenameRoot}${GEOJSON_FILE_EXTENSION}`)).toBe(true)
   })
   it('should reject a geopackage file containing multiple layers', async () => {
     const filenameRoot = 'multiple-layer-land-boundaries'
@@ -134,10 +146,13 @@ const uploadFileAsStream = async filePath => {
 const buildConfig = (uploadPath, gdalConfig) => {
   const fileExtension = path.extname(uploadPath)
   const filename = path.basename(uploadPath, fileExtension)
-
+  const outputPath = `/vsiaz/${containerName}/${path.dirname(uploadPath)}`
+  const outputLocation = `${outputPath}/${filename}.geojson`
+  const reprojectedOutputLocation = `${outputPath}/${reprojectedToOsgb36}/${filename}.geojson`
   const config = {
     inputLocation: `${fileExtension === '.zip' ? '/vsizip' : ''}/vsiaz_streaming/${containerName}/${uploadPath}`,
-    outputLocation: `/vsiaz/${containerName}/${path.dirname(uploadPath)}/${filename}.geojson`
+    outputLocation,
+    reprojectedOutputLocation
   }
 
   if (fileExtension === '.geojson') {

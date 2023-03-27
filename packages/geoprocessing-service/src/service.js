@@ -6,14 +6,17 @@ import { isPolygonInEnglandOnly } from './helpers/db-queries.js'
 import path from 'path'
 import dirname from './helpers/dirname.cjs'
 
+const OSGB36_SRS_AUTHORITY_CODE = '27700'
+const WGS84_SRS_AUTHORITY_CODE = '4326'
+
 const ostn15FormatFilePath = path.join(dirname, '../', 'ntv2-format-files/', 'OSTN15_NTv2_OSGBtoETRS.gsb')
 const wgs84ToOsgb36ReprojectionArgs = [
   '-f', 'GEOJSON',
   '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
   '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`
 ]
-const OSGB26_SRS_AUTHORITY_CODE = '27700'
-const WGS84_SRS_AUTHORITY_CODE = '4326'
+
+const wgs84ToOsgb36ReprojectionArgsWithAssignedSrs = JSON.parse(JSON.stringify(wgs84ToOsgb36ReprojectionArgs)).concat('-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`)
 
 const processLandBoundary = async (logger, config) => {
   let dataset
@@ -40,7 +43,7 @@ const processLandBoundary = async (logger, config) => {
       logger.error(err)
       throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file')
     }
-    await validateDataset(dataset)
+    await validateDataset(dataset, config)
 
     if (config.outputLocation) {
       outputDataset = await gdal.vectorTranslateAsync(config.outputLocation, dataset)
@@ -68,16 +71,16 @@ const closeDatasetIfNeeded = dataset => {
   }
 }
 
-const validateDataset = async dataset => {
+const validateDataset = async (dataset, config) => {
   // Check that one layer is present and uses a supported coordinate reference system containing one feature.
   if (await dataset.layers.countAsync() === 1) {
-    await validateLayer(await dataset.layers.getAsync(0), dataset)
+    await validateLayer(await dataset.layers.getAsync(0), dataset, config)
   } else {
     throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT, 'Land boundaries must contain a single layer')
   }
 }
 
-const validateLayer = async (layer, dataset) => {
+const validateLayer = async (layer, dataset, config) => {
   const errorMessage = 'Missing coordinate reference system - geospatial uploads must use the OSGB36 or WGS84 coordinate reference system'
   let layerToValidate = layer
   let osgb36Dataset
@@ -86,7 +89,7 @@ const validateLayer = async (layer, dataset) => {
     if (layer.srs) {
       validateSpatialReferenceSystem(layer.srs)
       if (layer.srs.getAuthorityCode(null) === WGS84_SRS_AUTHORITY_CODE) {
-        osgb36Dataset = await reprojectFromWgs84ToOsgb36IfPossible(dataset)
+        osgb36Dataset = await reprojectFromWgs84ToOsgb36IfPossible(dataset, config)
         layerToValidate = await osgb36Dataset.layers.getAsync(0)
       }
       await validateFeatures(layerToValidate.features)
@@ -100,7 +103,7 @@ const validateLayer = async (layer, dataset) => {
 
 const validateSpatialReferenceSystem = srs => {
   const authorityCode = srs.getAuthorityCode(null)
-  if (authorityCode !== OSGB26_SRS_AUTHORITY_CODE && authorityCode !== WGS84_SRS_AUTHORITY_CODE) {
+  if (authorityCode !== OSGB36_SRS_AUTHORITY_CODE && authorityCode !== WGS84_SRS_AUTHORITY_CODE) {
     throw new CoordinateSystemValidationError(
       authorityCode, uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, 'Land boundaries must use the OSGB36 or WGS84 coordinate reference system')
   }
@@ -134,7 +137,7 @@ const validateFeature = async feature => {
 }
 
 const getGridRef = (centroid, projection) => {
-  if (projection === OSGB26_SRS_AUTHORITY_CODE) {
+  if (projection === OSGB36_SRS_AUTHORITY_CODE) {
     const osGridRef = new OsGridRef(centroid.x, centroid.y)
     return osGridRef.toString()
   } else {
@@ -182,18 +185,30 @@ const setGdalConfig = (gdal, config) => {
   })
 }
 
-const reprojectFromWgs84ToOsgb36 = async dataset => {
-  const gdal = (await import('gdal-async')).default
-  const tmpDatasetName = `/vsimem/${randomUUID()}`
-  const tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
-  // Generated in memory datasets seem to need reopening to provide access to all of their data.
-  closeDatasetIfNeeded(tmpDataset)
-  return gdal.openAsync(tmpDatasetName)
+const reprojectFromWgs84ToOsgb36 = async (dataset, config) => {
+  let tmpDataset
+  try {
+    const gdal = (await import('gdal-async')).default
+    const reprojectedDatasetName = config.reprojectedOutputLocation
+    const tmpDatasetName = `/vsimem/${randomUUID()}`
+    // Perform the reprojection without an assigned SRS so that reprojection failures are detected.
+    tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
+    // Reprojection succeeded, so repeat the reprojection with an assigned SRS so that the persisted reprojection
+    // specifies the OSGB36 Coordimnate Reference System.
+    // IMPORTANT - This reprojection relies on the OSTN15 ntv2 files being used by GDAL (see the postinstall NPM script for this mpdule).
+    // Without them the default reprojection from WGS84 to OSGB36 is used resulting in a loss of accuracy.
+    const reprojectedDataset = await gdal.vectorTranslateAsync(reprojectedDatasetName, dataset, wgs84ToOsgb36ReprojectionArgsWithAssignedSrs)
+    // Flush the reprojected data.
+    closeDatasetIfNeeded(reprojectedDataset)
+    return gdal.openAsync(reprojectedDatasetName)
+  } finally {
+    closeDatasetIfNeeded(tmpDataset)
+  }
 }
 
-const reprojectFromWgs84ToOsgb36IfPossible = async dataset => {
+const reprojectFromWgs84ToOsgb36IfPossible = async (dataset, config) => {
   try {
-    return Promise.resolve(await reprojectFromWgs84ToOsgb36(dataset))
+    return Promise.resolve(await reprojectFromWgs84ToOsgb36(dataset, config))
   } catch (err) {
     // If a reprojection from WGS84 to OSGB36 fails, it is probable that the coordinates are outside
     // the area covered by OSGB36.

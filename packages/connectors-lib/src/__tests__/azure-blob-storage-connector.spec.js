@@ -15,6 +15,7 @@ describe('The Azure blob storage connector', () => {
 
   it('should upload a stream to blob storage and allow subsequent download using environment variable configuration, followed by deletion of blob', async () => {
     const mockData = { mock: 'data' }
+    const expectedBlobSizeInBytes = Buffer.from(JSON.stringify(mockData)).length
     await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
     await expect(blobExists(config.containerName, config.blobName)).resolves.toStrictEqual(true)
 
@@ -22,6 +23,8 @@ describe('The Azure blob storage connector', () => {
     expect(buffer).toBeDefined()
     expect(JSON.parse(buffer.toString())).toStrictEqual(mockData)
 
+    const blobSizeInBytes = await blobStorageConnector.getBlobSizeInBytes(config)
+    expect(blobSizeInBytes).toBe(expectedBlobSizeInBytes)
     const response = await blobStorageConnector.downloadStreamIfExists(logger, config)
     expect(response).toBeDefined()
     response.readableStreamBody.on('data', chunk => {

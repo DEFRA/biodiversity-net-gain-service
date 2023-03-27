@@ -74,11 +74,18 @@ const getBlockBlobClient = (containerName, blobName) => {
   return containerClient.getBlockBlobClient(blobName)
 }
 
+const getBlobSizeInBytes = async config => {
+  const blockBlobClient = getBlockBlobClient(config.containerName, config.blobName)
+  const properties = await blockBlobClient.getProperties()
+  return properties.contentLength
+}
+
 export const blobStorageConnector = Object.freeze({
   copyBlob,
   deleteBlobIfExists,
   downloadStreamIfExists,
   downloadToBufferIfExists,
+  getBlobSizeInBytes,
   moveBlob,
   uploadStream
 })
