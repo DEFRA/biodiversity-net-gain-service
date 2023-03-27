@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -24,24 +24,14 @@ const handlers = {
     let route
     const uploadedGeospatialLandBoundaryLocation = request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
     const geoJsonLandBoundaryLocation = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-    const blobConfig = {
-      containerName: 'trusted',
-      blobName: geoJsonLandBoundaryLocation
-    }
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
         route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
-        // Delete the trusted GeoJSON file from blob storage
-        await blobStorageConnector.deleteBlobIfExists(blobConfig)
-
-        if (uploadedGeospatialLandBoundaryLocation) {
-          // Delete the trusted version of the non-GeoJSON file updaded by the user.
-          blobConfig.blobName = uploadedGeospatialLandBoundaryLocation
-          await blobStorageConnector.deleteBlobIfExists(blobConfig)
-        }
+        await deleteBlobFromContainers(geoJsonLandBoundaryLocation)
+        await deleteBlobFromContainers(uploadedGeospatialLandBoundaryLocation)
         break
       default:
         return h.view(constants.views.CHECK_GEOSPATIAL_FILE, {

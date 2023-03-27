@@ -1,6 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
 const url = constants.routes.UPLOAD_LAND_BOUNDARY
 
@@ -39,6 +40,8 @@ describe('Land boundary upload controller tests', () => {
     it('should upload land boundary document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
@@ -46,6 +49,7 @@ describe('Land boundary upload controller tests', () => {
             referer: 'http://localhost:30000/land/check-ownership-details'
           }
           await uploadFile(uploadConfig, 302)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })

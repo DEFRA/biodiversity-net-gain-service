@@ -2,7 +2,9 @@ import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import checkManagementPlanFile from '../../land/check-management-plan-file.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_MANAGEMENT_PLAN
+jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -25,9 +27,11 @@ describe(url, () => {
     })
 
     it('should allow an alternative management plan file to be uploaded ', async () => {
+      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkManagementPlan = constants.confirmManagementPlanOptions.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_MANAGEMENT_PLAN)
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('should detect an invalid response from user', async () => {

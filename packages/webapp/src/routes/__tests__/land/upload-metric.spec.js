@@ -1,6 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.UPLOAD_METRIC
 
@@ -159,6 +160,8 @@ describe('Metric file upload controller tests', () => {
     it('should return validation error message if not v4 metric', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
@@ -169,6 +172,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -181,6 +185,8 @@ describe('Metric file upload controller tests', () => {
     it('should return validation error message if fails isOffSiteDataPresent', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
@@ -191,6 +197,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -203,6 +210,8 @@ describe('Metric file upload controller tests', () => {
     it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
@@ -213,6 +222,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })

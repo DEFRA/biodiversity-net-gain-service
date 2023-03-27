@@ -2,8 +2,9 @@ import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../developer/confirm-development-details.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 
-jest.mock('@defra/bng-connectors-lib')
+jest.mock('../../../utils/azure-storage.js')
 
 const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
 const mockMetricData = {
@@ -46,9 +47,11 @@ describe(url, () => {
     })
 
     it('should allow an alternative metric file to be uploaded ', async () => {
+      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.confirmDevDetails = constants.CONFIRM_DEVELOPMENT_DETAILS.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('should detect an invalid response from user', async () => {

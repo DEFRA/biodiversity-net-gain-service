@@ -1,9 +1,8 @@
 import { logger } from 'defra-logging-facade'
 import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
+import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
@@ -24,14 +23,8 @@ async function processSuccessfulUpload (result, request, h) {
     request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
     request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
     request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
-    await blobStorageConnector.deleteBlobIfExists({
-      containerName: 'trusted',
-      blobName: request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
-    })
-    await blobStorageConnector.deleteBlobIfExists({
-      containerName: 'trusted',
-      blobName: request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-    })
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
     request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
     request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
   }
