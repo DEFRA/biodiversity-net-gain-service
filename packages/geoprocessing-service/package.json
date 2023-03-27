@@ -1,12 +1,14 @@
 {
   "name": "@defra/bng-geoprocessing-service",
-  "version": "0.65.0",
+  "version": "0.65.1",
   "type": "module",
   "private": false,
   "description": "Geoprocessing service for Biodiversity Net Gain",
   "main": "src/service.js",
   "scripts": {
-    "test": "echo \\\"Error: run tests from root\\\" && exit 1"
+    "postinstall": "npm run copy-ntv2-format-files",
+    "test": "echo \\\"Error: run tests from root\\\" && exit 1",
+    "copy-ntv2-format-files": "bin/copy-ntv2-format-files.sh"
   },
   "repository": {
     "type": "git",

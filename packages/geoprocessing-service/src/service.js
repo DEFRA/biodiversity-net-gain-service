@@ -186,19 +186,24 @@ const setGdalConfig = (gdal, config) => {
 }
 
 const reprojectFromWgs84ToOsgb36 = async (dataset, config) => {
-  const gdal = (await import('gdal-async')).default
-  const reprojectedDatasetName = config.reprojectedOutputLocation
-  const tmpDatasetName = `/vsimem/${randomUUID()}`
-  // Perfor the reprojection without an assigned SRS so that reprojection failures are detected.
-  const tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
-  // Flush the reprojected data.
-  closeDatasetIfNeeded(tmpDataset)
-  // Reprojection succeeded, so repeat the reprojection with an assigned SRS so that the persisted reprojection
-  // specifies the OSGB36 Coordimnate Reference System.
-  const reprojectedDataset = await gdal.vectorTranslateAsync(reprojectedDatasetName, dataset, wgs84ToOsgb36ReprojectionArgsWithAssignedSrs)
-  // Flush the reprojected data.
-  closeDatasetIfNeeded(reprojectedDataset)
-  return gdal.openAsync(reprojectedDatasetName)
+  let tmpDataset
+  try {
+    const gdal = (await import('gdal-async')).default
+    const reprojectedDatasetName = config.reprojectedOutputLocation
+    const tmpDatasetName = `/vsimem/${randomUUID()}`
+    // Perform the reprojection without an assigned SRS so that reprojection failures are detected.
+    tmpDataset = await gdal.vectorTranslateAsync(tmpDatasetName, dataset, wgs84ToOsgb36ReprojectionArgs)
+    // Reprojection succeeded, so repeat the reprojection with an assigned SRS so that the persisted reprojection
+    // specifies the OSGB36 Coordimnate Reference System.
+    // IMPORTANT - This reprojection relies on the OSTN15 ntv2 files being used by GDAL (see the postinstall NPM script for this mpdule).
+    // Without them the default reprojection from WGS84 to OSGB36 is used resulting in a loss of accuracy.
+    const reprojectedDataset = await gdal.vectorTranslateAsync(reprojectedDatasetName, dataset, wgs84ToOsgb36ReprojectionArgsWithAssignedSrs)
+    // Flush the reprojected data.
+    closeDatasetIfNeeded(reprojectedDataset)
+    return gdal.openAsync(reprojectedDatasetName)
+  } finally {
+    closeDatasetIfNeeded(tmpDataset)
+  }
 }
 
 const reprojectFromWgs84ToOsgb36IfPossible = async (dataset, config) => {

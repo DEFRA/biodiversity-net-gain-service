@@ -19,7 +19,7 @@ The following attribution statement MUST be cited in your products and applicati
 > Contains public sector information licensed under the Open Government license v3
 
 ## Licencing of Ordnance Survey Data
-[OSTN15_NTv2_OSGBtoETRS.gsb](./packages/geoprocessing-service/src/ntv2-format-files/OSTN15_NTv2_OSGBtoETRS.gsb) is licenced by Ordance Survey for use under the [BSD-Clause-2](https://opensource.org/license/bsd-2-clause/) licence. Please see [OSTN15 and OSGM15 for developers](https://www.ordnancesurvey.co.uk/business-government/tools-support/os-net/for-developers) for further details.
+[OSTN15_NTv2_ETRStoOSGB.gsb](./packages/geoprocessing-service/src/ntv2-format-files/OSTN15_NTv2_ETRStoOSGB.gsb) and [OSTN15_NTv2_OSGBtoETRS.gsb](./packages/geoprocessing-service/src/ntv2-format-files/OSTN15_NTv2_OSGBtoETRS.gsb) are licenced by Ordance Survey for use under the [BSD-Clause-2](https://opensource.org/license/bsd-2-clause/) licence. Please see [OSTN15 and OSGM15 for developers](https://www.ordnancesurvey.co.uk/business-government/tools-support/os-net/for-developers) for further details.
 
 Copyright (c) 2016 Ordnance Survey
 
