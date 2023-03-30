@@ -1,14 +1,12 @@
 {
   "name": "@defra/bng-geoprocessing-service",
-  "version": "0.66.0",
+  "version": "0.66.2",
   "type": "module",
   "private": false,
   "description": "Geoprocessing service for Biodiversity Net Gain",
   "main": "src/service.js",
   "scripts": {
-    "postinstall": "npm run copy-ntv2-format-files",
-    "test": "echo \\\"Error: run tests from root\\\" && exit 1",
-    "copy-ntv2-format-files": "bin/copy-ntv2-format-files.sh"
+    "test": "echo \\\"Error: run tests from root\\\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -18,14 +16,14 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@defra/bng-errors-lib": "0.66.0",
+    "@defra/bng-errors-lib": "^0.66.2",
     "gdal-async": "^3.6.2",
     "geodesy": "^2.4.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.66.0",
-    "@defra/bng-connectors-lib": "0.66.0",
-    "@defra/bng-utils-lib": "0.66.0",
+    "@defra/bng-azure-storage-test-utils": "^0.66.2",
+    "@defra/bng-connectors-lib": "^0.66.2",
+    "@defra/bng-utils-lib": "^0.66.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"

@@ -83,6 +83,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/**/src/**/*.js",
+      "<rootDir>/**/src/**/*.cjs",
       "<rootDir>/**/*.mjs",
       "<rootDir>/**/ProcessTrustedFile/**/*.js",
       "<rootDir>/**/ProcessUntrustedFile/**/*.js",
