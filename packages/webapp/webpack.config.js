@@ -13,9 +13,7 @@ export default {
     addLandowners: './client/js/pages/land/add-landowners.js',
     addLegalAgreementParties: './client/js/pages/land/add-legal-agreement-parties.js',
     checkAndSubmit: './client/js/pages/land/check-and-submit.js',
-    checkLandBoundaryDetails: './client/js/pages/land/check-land-boundary-details.js',
-    tagmanager_head: './client/js/tagmanager_head.js',
-    tagmanager_datalayer: './client/js/tagmanager_datalayer.js'
+    checkLandBoundaryDetails: './client/js/pages/land/check-land-boundary-details.js'
   },
   output: {
     path: path.resolve(__dirname, 'public/build/js'),
@@ -39,7 +37,7 @@ export default {
   },
   plugins: [
     new webpack.EnvironmentPlugin({
-      GOOGLE_TAGMANAGER_ID: 'GTM-PL85H6J' // use 'GTM-PL85H6J' unless process.env.GOOGLE_TAGMANAGER_ID is defined
+      GOOGLE_TAGMANAGER_ID: '' // use '' unless process.env.GOOGLE_TAGMANAGER_ID is defined
     })
   ]
 }
