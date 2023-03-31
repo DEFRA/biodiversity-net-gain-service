@@ -31,7 +31,7 @@ describe(url, () => {
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ROUTING_SOLD)
     })
 
-    it('should detect if option does not selected', async () => {
+    it('should detect if option is not selected', async () => {
       postOptions.payload = {}
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('You need to select an option')
