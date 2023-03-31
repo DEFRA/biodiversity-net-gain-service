@@ -5,8 +5,6 @@ import { postJson } from '../../utils/http.js'
 import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
-const functionAppUrl = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
-
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CHECK_AND_SUBMIT, {
@@ -19,7 +17,7 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    const result = await postJson(`${functionAppUrl}/processapplication`, value)
+    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
     request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.REGISTRATION_SUBMITTED)
   }

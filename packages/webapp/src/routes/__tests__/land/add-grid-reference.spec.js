@@ -3,6 +3,7 @@ import addGridReference from '../../land/add-grid-reference.js'
 import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants'
 const url = constants.routes.ADD_GRID_REFERENCE
+jest.mock('../../../utils/http.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -18,9 +19,27 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('should continue journey if valid grid reference is entered', async () => {
+    it('should continue journey if valid grid reference is entered inside of England', async () => {
+      const http = require('../../../utils/http.js')
+      http.postJson = jest.fn().mockImplementation(() => {
+        return {
+          isPointInEngland: true
+        }
+      })
       postOptions.payload.gridReference = 'SL123456'
       await submitPostRequest(postOptions)
+    })
+    it('should fail journey if valid grid reference outside of England is entered', async () => {
+      const http = require('../../../utils/http.js')
+      http.postJson = jest.fn().mockImplementation(() => {
+        return {
+          isPointInEngland: false
+        }
+      })
+      postOptions.payload.gridReference = 'SL123456'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Grid reference must be in England')
     })
     it('should show appropriate error if grid reference is empty', async () => {
       postOptions.payload.gridReference = ''
@@ -49,6 +68,12 @@ describe(url, () => {
     it('Ensure page uses referer if is set on post and hectares is present', done => {
       jest.isolateModules(async () => {
         try {
+          const http = require('../../../utils/http.js')
+          http.postJson = jest.fn().mockImplementation(() => {
+            return {
+              isPointInEngland: true
+            }
+          })
           const postHandler = addGridReference[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
@@ -79,6 +104,12 @@ describe(url, () => {
     it('Ensure page doesn\'t use referer if is set on post and grid reference is missing', done => {
       jest.isolateModules(async () => {
         try {
+          const http = require('../../../utils/http.js')
+          http.postJson = jest.fn().mockImplementation(() => {
+            return {
+              isPointInEngland: true
+            }
+          })
           const postHandler = addGridReference[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
