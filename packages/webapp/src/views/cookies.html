@@ -2,6 +2,15 @@
 
 {% set pageHeading = "Cookie Information" %}
 
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "/",
+    containerClasses: "govuk-width-container",
+    serviceName: serviceName,
+    serviceUrl: "/"
+  }) }}
+{% endblock %}
+
 {% block content %}
 
 <div class="govuk-grid-row">
