@@ -9,4 +9,8 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_ROUTING_RESULT,
   handler: handlers.get
+}, {
+  method: 'POST',
+  path: constants.routes.DEVELOPER_ROUTING_RESULT,
+  handler: handlers.post
 }]

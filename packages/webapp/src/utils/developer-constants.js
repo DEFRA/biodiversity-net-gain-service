@@ -11,6 +11,7 @@ const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
+const DEVELOPER_ELIGIBILITY_ENGLAND = 'developer/eligibility-england'
 // ./Routes constants
 
 // RedisKeys constants
@@ -48,7 +49,8 @@ export default {
     DEVELOPER_TASKLIST,
     DEVELOPER_ROUTING_REGISTER,
     DEVELOPER_ROUTING_RESULT,
-    DEVELOPER_ROUTING_SOLD
+    DEVELOPER_ROUTING_SOLD,
+    DEVELOPER_ELIGIBILITY_ENGLAND
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
