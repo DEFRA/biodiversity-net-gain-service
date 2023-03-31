@@ -76,6 +76,17 @@ export default async function (context, config) {
     } else {
       signalRMessageArguments = [{ errorMessage: err.message }]
     }
+    // Delete trusted/untrusted files as no longer of use
+    await Promise.all([
+      blobStorageConnector.deleteBlobIfExists({
+        containerName: 'trusted',
+        blobName: config.fileConfig.fileLocation
+      }),
+      blobStorageConnector.deleteBlobIfExists({
+        containerName: 'untrusted',
+        blobName: config.fileConfig.fileLocation
+      })
+    ])
   } finally {
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
   }

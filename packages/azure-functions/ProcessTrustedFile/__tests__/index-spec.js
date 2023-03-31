@@ -341,8 +341,8 @@ const performInvalidGeospatialLandBoundaryProcessingTest = (config, done) => {
   jest.isolateModules(async () => {
     try {
       jest.mock('@defra/bng-geoprocessing-service')
+      jest.mock('@defra/bng-connectors-lib')
       const testConfig = buildConfig(config.fileExtension, 'geospatial-land-boundary')
-
       testConfig.expectedSignalRMessage.arguments = config.expectedSignalRMessageArguments
 
       const geoprocessingService = (await import('@defra/bng-geoprocessing-service'))
@@ -351,10 +351,13 @@ const performInvalidGeospatialLandBoundaryProcessingTest = (config, done) => {
         config.processLandBoundaryMockFunction(testConfig)
       })
 
+      const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
+
       await processTrustedFile(getContext(), testConfig.message)
 
       setImmediate(async () => {
         expect(getContext().bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
+        expect(spy).toHaveBeenCalledTimes(2)
         done()
       })
     } catch (e) {
