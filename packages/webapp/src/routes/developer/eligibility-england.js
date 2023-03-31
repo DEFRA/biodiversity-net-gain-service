@@ -1,10 +1,7 @@
 import constants from '../../utils/constants.js'
 
-// const href = '#eligibilityEngland'
 const handlers = {
-  get: async (request, h) => {
-    return h.view(constants.views.DEVELOPER_ELIGIBILITY_ENGLAND)
-  }
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_ELIGIBILITY_ENGLAND)
 }
 
 export default [{
