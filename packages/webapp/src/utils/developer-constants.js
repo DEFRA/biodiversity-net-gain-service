@@ -1,0 +1,74 @@
+// Routes constants
+const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
+const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
+const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
+const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
+const DEVELOPER_DETAILS_NAME = 'developer/details-name'
+const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
+const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
+const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
+const DEVELOPER_TASKLIST = 'developer/tasklist'
+const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
+const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
+const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
+// ./Routes constants
+
+// RedisKeys constants
+const DEVELOPER_METRIC_DATA = 'developer-metric-data'
+const DEV_DETAILS_CHECKED = 'dev-details-checked'
+const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
+const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
+const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
+const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
+const DEVELOPER_FULL_NAME = 'developer-fullname'
+const DEVELOPER_REFERER = 'developer-referer'
+const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
+const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
+const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
+// ./RedisKeys constants
+
+const ROUTING_REGISTER_OPTIONS = {
+  REGISTER: 'register-gain-site',
+  RECORD: 'record-off-site'
+}
+
+export default {
+  routes: {
+    DEVELOPER_UPLOAD_METRIC,
+    DEVELOPER_CHECK_UPLOAD_METRIC,
+    DEVELOPER_CONFIRM_DEV_DETAILS,
+    DEVELOPER_DOWNLOAD_METRIC_FILE,
+    DEVELOPER_DETAILS_NAME,
+    DEVELOPER_DETAILS_EMAIL,
+    DEVELOPER_DETAILS_EMAIL_CONFIRM,
+    DEVELOPER_DETAILS_CONFIRM,
+    DEVELOPER_TASKLIST,
+    DEVELOPER_ROUTING_REGISTER,
+    DEVELOPER_ROUTING_RESULT,
+    DEVELOPER_ROUTING_SOLD
+  },
+  redisKeys: {
+    DEVELOPER_METRIC_DATA,
+    DEV_DETAILS_CHECKED,
+    DEVELOPER_METRIC_LOCATION,
+    DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION,
+    DEVELOPER_METRIC_FILE_NAME,
+    DEVELOPER_METRIC_FILE_SIZE,
+    DEVELOPER_METRIC_FILE_TYPE,
+    DEVELOPER_FULL_NAME,
+    DEVELOPER_REFERER,
+    DEVELOPER_EMAIL_VALUE,
+    DEVELOPER_CONFIRM_EMAIL,
+    DEVELOPER_ROUTING_REGISTER_VALUE
+  },
+  uploadTypes: {
+    DEVELOPER_METRIC_UPLOAD_TYPE,
+    DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
+  },
+  options: {
+    ROUTING_REGISTER_OPTIONS
+  }
+}

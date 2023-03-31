@@ -1,0 +1,51 @@
+{% extends 'developer-form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "What do you want to do?" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set registerGainSite = 'register-gain-site' %}
+        {% set recordOffSite = 'record-off-site' %}
+        {% set name = 'routingRegisterOption' %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds" id="routingRegister">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+                {{ govukRadios({
+                    name: name,
+                    errorMessage: err[0],
+                    items: [
+                        {
+                            value: registerGainSite,
+                            text: "Register a biodiversity gain site",
+                            id: registerGainSite,
+                            checked: noSelection
+                        },
+                        {
+                            value: recordOffSite,
+                            text: "Record off-site bodiversity gains for a development project",
+                            id: recordOffSite,
+                            checked: noSelection
+                        }
+                    ]
+                }) }}
+        
+                {{ govukButton({
+                    text: 'Continue',
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
