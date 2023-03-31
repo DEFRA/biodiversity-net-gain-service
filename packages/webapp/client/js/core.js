@@ -11,9 +11,30 @@ window.bng = {
       date.setTime(date.getTime() + (cookieExpiryDays * 24 * 60 * 60 * 1000))
       const expires = 'expires=' + date.toUTCString()
       document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${expires};path=/`
+    },
+    setupGoogleTagManager: () => {
+      const script = document.createElement('script')
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAGMANAGER_ID}`
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          'gtm.start': new Date().getTime(),
+          event: 'gtm.js'
+        })
+        const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
+        if (userPreferenceCookie) {
+          const cookiePreferences = JSON.parse(decodeURIComponent(userPreferenceCookie))
+          if (cookiePreferences.analytics === 'on') {
+            window.dataLayer.push({ event: 'Cookie Preferences', cookiePreferences })
+          }
+        }
+      }
+      document.body.appendChild(script)
     }
   }
 }
+
+let calledGTag = false
 
 // Hide defra-js-hide elements on page load
 const nonJsElements = document.getElementsByClassName('defra-js-hide')
@@ -34,7 +55,6 @@ const acceptedBanner = document.querySelector('.js-cookies-accepted')
 const rejectedBanner = document.querySelector('.js-cookies-rejected')
 const questionBanner = document.querySelector('.js-question-banner')
 const cookieBanner = document.querySelector('.js-cookies-banner')
-const cookieBannerContainer = document.querySelector('.js-cookie-banner-container')
 const cookiePrefsPage = document.querySelector('.defra-js')
 const cookiePageBanner = document.querySelector('.js-cookie-page-banner')
 const cookieSeenBanner = 'seen_cookie_message'
@@ -42,14 +62,23 @@ const cookieSeenBannerExpiry = 30
 const cookieUserPreference = 'set_cookie_usage'
 const cookieUserPreferenceExpiry = 30
 
+// If cookie banner is on page (i.e. not on cookie settings page)
+const cookieBannerContainer = document.querySelector('.js-cookie-banner-container')
+if (cookieBannerContainer) {
+  const seenCookieMessage = window.bng.utils.getCookie(cookieSeenBanner)
+  // Remove banner if seen and avoid flicker
+  if (seenCookieMessage) {
+    cookieBannerContainer.parentNode.removeChild(cookieBannerContainer)
+  } else {
+    cookieBannerContainer.style.display = 'block'
+  }
+}
+
 const savePreference = accepted => {
   const prefs = {
     analytics: accepted ? 'on' : 'off'
   }
   window.bng.utils.setCookie(cookieUserPreference, JSON.stringify(prefs), cookieUserPreferenceExpiry)
-  cookiePageBanner.style.display = 'block'
-  cookiePageBanner.setAttribute('tabindex', '-1')
-  cookiePageBanner.focus()
 }
 
 if (cookiePrefsPage) {
@@ -59,6 +88,9 @@ if (cookiePrefsPage) {
     event.preventDefault()
     const analyticsPreference = document.querySelector('input[name="accept-analytics"]:checked')
     savePreference(analyticsPreference.value === 'Yes')
+    cookiePageBanner.style.display = 'block'
+    cookiePageBanner.setAttribute('tabindex', '-1')
+    cookiePageBanner.focus()
   })
 }
 
@@ -83,24 +115,38 @@ if (cookieBannerContainer) {
   }
 
   acceptButton?.addEventListener('click', function (event) {
-    showBanner(acceptedBanner)
     event.preventDefault()
     savePreference(true)
+    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+    calledGTag = true
+    window.bng.utils.setupGoogleTagManager()
+    showBanner(acceptedBanner)
   })
 
   rejectButton?.addEventListener('click', function (event) {
-    showBanner(rejectedBanner)
     event.preventDefault()
     savePreference(false)
+    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+    showBanner(rejectedBanner)
   })
 
   acceptedBanner?.querySelector('.js-hide').addEventListener('click', function () {
     cookieBanner.setAttribute('hidden', 'hidden')
-    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
   })
 
   rejectedBanner?.querySelector('.js-hide').addEventListener('click', function () {
     cookieBanner.setAttribute('hidden', 'hidden')
-    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
   })
+}
+
+if (!calledGTag) {
+  // finally initialize GTM env if not already done (and cookie preferences allow)
+  const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
+  if (userPreferenceCookie) {
+    const cookiePreferences = JSON.parse(decodeURIComponent(userPreferenceCookie))
+    if (cookiePreferences.analytics === 'on') {
+      calledGTag = true
+      window.bng.utils.setupGoogleTagManager()
+    }
+  }
 }
