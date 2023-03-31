@@ -17,7 +17,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <div class="defra-cookie-settings">
-      <div class="js-cookie-page-banner">
+      <div class="js-cookie-page-banner" hidden>
         <div class="govuk-notification-banner govuk-notification-banner--success" role="alert"
           aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
           <div class="govuk-notification-banner__header">
@@ -112,7 +112,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="defra-no-js" style="display: none;">
+      <div class="defra-js-hide">
         <h2 class="govuk-heading-m">Change your cookie settings</h2>
         <p>We cannot change your cookie settings at the moment because JavaScript is not running in your browser. To fix
           this, try:</p>
@@ -121,7 +121,7 @@
           <li>reloading this page</li>
         </ul>
       </div>
-      <div class="defra-js">
+      <div class="defra-js-show" hidden>
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
