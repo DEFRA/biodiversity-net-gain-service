@@ -88,6 +88,7 @@ if (cookiePrefsPage) {
     event.preventDefault()
     const analyticsPreference = document.querySelector('input[name="accept-analytics"]:checked')
     savePreference(analyticsPreference.value === 'Yes')
+    window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
     cookiePageBanner.style.display = 'block'
     cookiePageBanner.setAttribute('tabindex', '-1')
     cookiePageBanner.focus()
