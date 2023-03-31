@@ -86,12 +86,12 @@ const savePreference = accepted => {
 
 if (cookiePrefsPage) {
   const saveButton = document.querySelector('#cookies-save')
-  cookiePageBanner.style.display = 'none'
   saveButton?.addEventListener('click', function (event) {
     event.preventDefault()
     const analyticsPreference = document.querySelector('input[name="accept-analytics"]:checked')
     savePreference(analyticsPreference.value === 'Yes')
     window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+    cookiePageBanner.removeAttribute('hidden')
     cookiePageBanner.style.display = 'block'
     cookiePageBanner.setAttribute('tabindex', '-1')
     cookiePageBanner.focus()
