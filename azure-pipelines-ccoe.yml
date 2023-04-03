@@ -14,6 +14,8 @@ pool:
 
 steps:
 - task: NodeTool@0
+  env:
+    GOOGLE_TAG_MANAGER_ID: ${GOOGLE_TAG_MANAGER_ID}
   inputs:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
