@@ -15,11 +15,11 @@
             <div class="govuk-grid-column-two-thirds" id="routingRegister">
                 {{ govukFieldset({
                     legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
+                      text: pageHeading,
+                      classes: "govuk-fieldset__legend--l",
+                      isPageHeading: true
                     }
-                }) }}
+                  }) }}
                 {{ govukRadios({
                     name: name,
                     errorMessage: err[0],

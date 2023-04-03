@@ -1,0 +1,23 @@
+{% extends 'developer-form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Is the biodiversity gain site you're using to record off-site gain for a development project in England?" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukFieldset({
+                    legend: {
+                        text: pageHeading,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

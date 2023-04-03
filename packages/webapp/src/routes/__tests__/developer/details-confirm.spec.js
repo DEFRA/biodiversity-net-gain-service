@@ -32,7 +32,7 @@ describe(url, () => {
         url
       }
     })
-    it('Should redirect to task list page on continue', async () => {
+    it('should redirect to the task list page on continue', async () => {
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
