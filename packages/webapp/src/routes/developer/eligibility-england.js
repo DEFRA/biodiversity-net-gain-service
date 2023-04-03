@@ -1,8 +1,12 @@
 import constants from '../../utils/constants.js'
+import { checked } from '../../utils/helpers.js'
 
 const href = '#eligibility-yes'
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.DEVELOPER_ELIGIBILITY_ENGLAND),
+  get: async (request, h) => h.view(constants.views.DEVELOPER_ELIGIBILITY_ENGLAND, {
+    ...getContext(request),
+    checked
+  }),
   post: async (request, h) => {
     const eligibilityEngValue = request.payload.eligibilityEngValue
     request.yar.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_ENGLAND_VALUE, eligibilityEngValue)
@@ -13,6 +17,7 @@ const handlers = {
     } else {
       return h.view(constants.views.DEVELOPER_ELIGIBILITY_ENGLAND, {
         ...getContext(request),
+        checked,
         err: [
           {
             text: 'You need to select an option',
@@ -32,4 +37,8 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_ELIGIBILITY_ENGLAND,
   handler: handlers.get
+}, {
+  method: 'POST',
+  path: constants.routes.DEVELOPER_ELIGIBILITY_ENGLAND,
+  handler: handlers.post
 }]

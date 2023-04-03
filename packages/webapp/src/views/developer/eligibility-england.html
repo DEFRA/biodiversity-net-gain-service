@@ -30,19 +30,19 @@
                             value: "yes",
                             text: "Yes",
                             id: "eligibility-yes",
-                            checked: selectedEligibility  === "yes" 
+                            checked: checked(selectedEligibility, "yes") 
                         },
                         {
                             value: "no",
                             text: "No",
                             id: "eligibility-no",
-                            checked: selectedEligibility  === "no" 
+                            checked: checked(selectedEligibility, "no") 
                         },
                         {
                             value: "not-sure",
                             text: "I'm not sure",
                             id: "eligibility-not-sure",
-                            checked: selectedEligibility  === "not-sure" 
+                            checked: checked(selectedEligibility, "not-sure")
                         }
                     ]
                 }) }}
