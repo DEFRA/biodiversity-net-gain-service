@@ -5,6 +5,12 @@
   messages: [
     {
       headingText: "Cookies on " + serviceName,
+      actions: [
+        {
+          text: "View cookies",
+          href: "/cookies"
+        }
+      ],
       text: "We use cookies to make this service work and collect analytics information. To accept or reject cookies, turn on JavaScript in your browser settings or reload this page."
     }
   ]
@@ -30,7 +36,7 @@
     classes: "js-cookies-banner",
     messages: [
       {
-        headingText: serviceName,
+        headingText: "Cookies on " + serviceName,
         html: html,
         classes: "js-question-banner",
         actions: [
