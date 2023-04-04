@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
-const url = '/developer/eligibility-landowner-consent'
+const url = constants.routes.DEVELOPER_ELIGIBILITY_LO_CONSENT
 
 describe(url, () => {
   describe('GET', () => {
@@ -21,7 +21,7 @@ describe(url, () => {
       }
     })
 
-    it('should redirect to eligibility metric if Yes selected', async () => {
+    it('should redirect to eligibility metric if Yes is selected', async () => {
       let viewResult
       const eligibilityLOConsentValue = 'yes'
       const h = {
@@ -37,7 +37,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_ELIGIBILITY_METRIC)
     })
 
-    it('should redirect to eligibility metric even if No selected', async () => {
+    it('should redirect to eligibility metric even if No is selected', async () => {
       let viewResult
       const eligibilityLOConsentValue = 'no'
       const h = {
@@ -53,7 +53,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_ELIGIBILITY_METRIC)
     })
 
-    it('should redirect to eligibility metric even if I\'m not sure selected', async () => {
+    it('should redirect to eligibility metric even if I\'m not sure is selected', async () => {
       let viewResult
       const eligibilityLOConsentValue = 'not-sure'
       const h = {
@@ -69,7 +69,7 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_ELIGIBILITY_METRIC)
     })
 
-    it('should show error if none of the options selected', async () => {
+    it('should show an error if any options is not selected', async () => {
       postOptions.payload = {
         eligibilityLOConsentValue: undefined
       }
