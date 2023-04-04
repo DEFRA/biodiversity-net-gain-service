@@ -38,7 +38,7 @@ describe(url, () => {
       expect(redisMap.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_ENGLAND_VALUE)).toEqual(eligibilityEngValue)
     })
 
-    it('should redirect to eligibility landowner consent if No selected', async () => {
+    it('should redirect to eligibility england no if No is selected', async () => {
       let viewResult
       const eligibilityEngValue = 'no'
       const h = {
@@ -55,7 +55,7 @@ describe(url, () => {
       expect(redisMap.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_ENGLAND_VALUE)).toEqual(eligibilityEngValue)
     })
 
-    it('should redirect to eligibility landowner consent if I\'m not sure selected', async () => {
+    it('should redirect to eligibility england no if I\'m not sure is selected', async () => {
       let viewResult
       const eligibilityEngValue = 'not-sure'
       const h = {
@@ -72,7 +72,7 @@ describe(url, () => {
       expect(redisMap.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_ENGLAND_VALUE)).toEqual(eligibilityEngValue)
     })
 
-    it('should show error if none of the options selected', async () => {
+    it('should show an error if any option is not selected', async () => {
       postOptions.payload = {
         eligibilityEngValue: undefined
       }
