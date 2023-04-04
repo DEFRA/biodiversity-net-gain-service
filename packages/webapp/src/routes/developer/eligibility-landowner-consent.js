@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { checked } from '../../utils/helpers.js'
 
-const href = '#eligibilityLOConsent'
+const href = '#writtenConsentYes'
 const handlers = {
   get: async (request, h) => h.view(constants.views.DEVELOPER_ELIGIBILITY_LO_CONSENT, {
     ...getContext(request),
