@@ -9,12 +9,47 @@
             {% include "errorbanner.html" %}
         {% endif %}
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
+            <div class="govuk-grid-column-two-thirds" id="eligibilityEngland">
+                {{ govukRadios({
+                    idPrefix: "eligibilityEngland",
+                    name: "eligibilityEngValue",
+                    fieldset: {
+                        legend: {
+                            text: pageHeading,
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    hint: {
+                        text: "The boundary of the biodiversity gain site cannot be in Scotland or Wales.",
+                        classes: "govuk-hint app-text-colour wrap-text"
+                    },
+                    errorMessage: err[0],
+                    items: [
+                        {
+                            value: "yes",
+                            text: "Yes",
+                            id: "eligibility-yes",
+                            checked: checked(selectedEligibility, "yes") 
+                        },
+                        {
+                            value: "no",
+                            text: "No",
+                            id: "eligibility-no",
+                            checked: checked(selectedEligibility, "no") 
+                        },
+                        {
+                            value: "not-sure",
+                            text: "I'm not sure",
+                            id: "eligibility-not-sure",
+                            checked: checked(selectedEligibility, "not-sure")
+                        }
+                    ]
+                }) }}
+                {{ govukButton({
+                    text: "Continue",
+                    attributes: {
+                        id: "continue"
                     }
                 }) }}
             </div>
