@@ -14,7 +14,7 @@ window.bng = {
     },
     setupGoogleTagManager: () => {
       const script = document.createElement('script')
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAGMANAGER_ID}`
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${process.env.GOOGLE_TAGMANAGER_ID}`
       script.onload = () => {
         window.dataLayer = window.dataLayer || []
         window.dataLayer.push({
