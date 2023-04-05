@@ -27,7 +27,7 @@ const handlers = {
 }
 
 const getContext = request => ({
-  hasWritternConsent: request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
+  hasWrittenConsent: request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
 })
 
 export default [{
