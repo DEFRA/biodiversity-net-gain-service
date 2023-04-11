@@ -21,15 +21,18 @@ window.bng = {
           'gtm.start': new Date().getTime(),
           event: 'gtm.js'
         })
-        const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
-        if (userPreferenceCookie) {
-          const cookiePreferences = JSON.parse(decodeURIComponent(userPreferenceCookie))
-          if (cookiePreferences.analytics === 'on') {
-            window.dataLayer.push({ event: 'Cookie Preferences', cookiePreferences })
-          }
-        }
+        window.bng.utils.fireGTagCookiePreferenceEvent()
       }
       document.body.appendChild(script)
+    },
+    fireGTagCookiePreferenceEvent: () => {
+      const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
+      if (userPreferenceCookie) {
+        const cookiePreferences = JSON.parse(decodeURIComponent(userPreferenceCookie))
+        if (cookiePreferences.analytics === 'on') {
+          window.dataLayer.push({ event: 'Cookie Preferences', cookiePreferences })
+        }
+      }
     }
   }
 }
@@ -82,11 +85,31 @@ const savePreference = accepted => {
 }
 
 if (cookiePrefsPage) {
+  const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
+  if (userPreferenceCookie) {
+    const cookiePreferences = JSON.parse(decodeURIComponent(userPreferenceCookie))
+    if (cookiePreferences.analytics === 'on') {
+      document.querySelector('#accept-analytics-yes').checked = true
+    }
+    if (cookiePreferences.analytics === 'off') {
+      document.querySelector('#accept-analytics-no').checked = true
+    }
+  } else {
+    document.querySelector('#accept-analytics-no').checked = true
+  }
   const saveButton = document.querySelector('#cookies-save')
   saveButton?.addEventListener('click', function (event) {
     event.preventDefault()
     const analyticsPreference = document.querySelector('input[name="accept-analytics"]:checked')
     savePreference(analyticsPreference.value === 'Yes')
+    if (analyticsPreference.value === 'Yes') {
+      if (!calledGTag) {
+        calledGTag = true
+        window.bng.utils.setupGoogleTagManager()
+      } else {
+        window.bng.utils.fireGTagCookiePreferenceEvent()
+      }
+    }
     window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
     cookiePageBanner.removeAttribute('hidden')
     cookiePageBanner.style.display = 'block'
