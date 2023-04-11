@@ -10,11 +10,45 @@
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
+                {{ govukRadios({
+                    name: "eligibilityMetricValue",
+                    fieldset: {
+                        legend: {
+                            text: pageHeading,
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    hint: {
+                        text: "This is the Metric file that the local planning authority reviewed with your Biodiversity Net Gain Statement.",
+                        classes: "govuk-hint app-text-colour wrap-text"
+                    },
+                    errorMessage: err[0],
+                    items: [
+                        {
+                            value: "yes",
+                            text: "Yes",
+                            id: "eligibilityMetricYes",
+                            checked: checked(selectedOption, "yes") 
+                        },
+                        {
+                            value: "no",
+                            text: "No",
+                            id: "eligibilityMetricNo",
+                            checked: checked(selectedOption, "no") 
+                        },
+                        {
+                            value: "not-sure",
+                            text: "I'm not sure",
+                            id: "eligibilityMetricNotSure",
+                            checked: checked(selectedOption, "not-sure")
+                        }
+                    ]
+                }) }}
+                {{ govukButton({
+                    text: "Continue",
+                    attributes: {
+                        id: "continue"
                     }
                 }) }}
             </div>
