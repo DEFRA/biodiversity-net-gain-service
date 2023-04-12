@@ -15,7 +15,7 @@ const DEVELOPER_ELIGIBILITY_ENGLAND = 'developer/eligibility-england'
 const DEVELOPER_ELIGIBILITY_LO_CONSENT = 'developer/eligibility-landowner-consent'
 const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
-const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-result'
+const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 // ./Routes constants
 
 // RedisKeys constants
