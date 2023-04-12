@@ -4,8 +4,12 @@
   "type": "module",
   "private": false,
   "description": "Geoprocessing service for Biodiversity Net Gain",
-  "main": "src/service.js",
+  "exports": {
+    ".": "./src/service.js",
+    "./copyNtv2FormatFiles": "./src/helpers/copy-ntv2-format-files.cjs"
+  },
   "scripts": {
+    "postinstall": "echo \"console.log('postinstall succeeded')\" | node -r @defra/bng-geoprocessing-service/copyNtv2FormatFiles -",
     "test": "echo \\\"Error: run tests from root\\\" && exit 1"
   },
   "repository": {
