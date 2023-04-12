@@ -4,7 +4,6 @@ import { getDeveloperEligibilityResults } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const developerEligibilityResults = getDeveloperEligibilityResults(request.yar)
-    console.log('Ajinkya', developerEligibilityResults, constants.developerEligibilityHTML)
     return h.view(constants.views.DEVELOPER_ELIGIBILITY_RESULT, {
       developerEligibilityResults,
       developerEligibilityHTML: constants.developerEligibilityHTML
