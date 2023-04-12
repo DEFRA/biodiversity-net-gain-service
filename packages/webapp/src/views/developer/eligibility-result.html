@@ -39,7 +39,7 @@
             </ul>
           {% endif %}
 
-          {% if developerEligibilityResults["not sure"] | length > 0 %}
+          {% if developerEligibilityResults["not-sure"] | length > 0 %}
           <p id="youAreNotSureHeading">You're not sure if you have:</p>
             <ul class="govuk-list govuk-list--bullet" id="youAreNotSureHeading">
               {% for item in developerEligibilityResults["not-sure"] %}
