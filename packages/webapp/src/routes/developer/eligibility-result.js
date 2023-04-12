@@ -1,13 +1,14 @@
 import constants from '../../utils/constants.js'
+import { getDeveloperEligibilityResults } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    const eligibilityMetricValue = request.yar.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
-    let pageHeading = 'You do not have everything you need to record off-site biodiversity gain for your development project'
-    if (eligibilityMetricValue === 'yes') {
-      pageHeading = 'You have everything you need to record off-site biodiversity gain for your development project'
-    }
-    return h.view(constants.views.DEVELOPER_ELIGIBILITY_RESULT, { pageHeading, eligibilityMetricValue })
+    const developerEligibilityResults = getDeveloperEligibilityResults(request.yar)
+    console.log('Ajinkya', developerEligibilityResults, constants.developerEligibilityHTML)
+    return h.view(constants.views.DEVELOPER_ELIGIBILITY_RESULT, {
+      developerEligibilityResults,
+      developerEligibilityHTML: constants.developerEligibilityHTML
+    })
   }
 }
 

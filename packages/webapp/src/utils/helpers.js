@@ -223,6 +223,19 @@ const getEligibilityResults = session => {
   return eligibilityResults
 }
 
+const getDeveloperEligibilityResults = session => {
+  const developerEligibilityResults = {
+    yes: [],
+    no: [],
+    'not-sure': []
+  }
+  session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE) &&
+  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)].push(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
+  session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE) &&
+  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
+  return developerEligibilityResults
+}
+
 const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
@@ -376,5 +389,6 @@ export {
   formatDateBefore,
   getMinDateCheckError,
   validateName,
-  emailValidator
+  emailValidator,
+  getDeveloperEligibilityResults
 }

@@ -1,4 +1,4 @@
-import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getEligibilityResults, formatAppRef } from '../helpers.js'
+import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getEligibilityResults, formatAppRef, getDeveloperEligibilityResults } from '../helpers.js'
 import Session from '../../__mocks__/session.js'
 import constants from '../../utils/constants.js'
 
@@ -118,6 +118,41 @@ describe('helpers file', () => {
       expect(results.yes.length).toEqual(2)
       expect(results.no.length).toEqual(2)
       expect(results['not sure'].length).toEqual(2)
+    })
+  })
+
+  describe('getDeveloperEligibilityResults', () => {
+    it('should organise eligibility results correctly', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
+      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'yes')
+      const results = getDeveloperEligibilityResults(session)
+      expect(results.yes.length).toEqual(2)
+    })
+    it('should organise eligibility results correctly', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
+      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
+      const results = getDeveloperEligibilityResults(session)
+      expect(results.yes.length).toEqual(1)
+      expect(results.no.length).toEqual(1)
+      expect(results['not-sure'].length).toEqual(0)
+    })
+    it('should organise eligibility results correctly', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
+      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'not-sure')
+      const results = getDeveloperEligibilityResults(session)
+      expect(results.yes.length).toEqual(1)
+      expect(results.no.length).toEqual(0)
+      expect(results['not-sure'].length).toEqual(1)
+    })
+    it('should organise eligibility results correctly', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'no')
+      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
+      const results = getDeveloperEligibilityResults(session)
+      expect(results.no.length).toEqual(2)
     })
   })
   describe('formatAppRef', () => {

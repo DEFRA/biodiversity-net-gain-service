@@ -1,22 +1,62 @@
-{% extends 'developer-form-layout.html' %}
++{% extends 'form-layout.html' %}
 
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% if developerEligibilityResults.yes | length === 2 %}
+{% set pageHeading = "You have everything you need to record off-site biodiversity gain for your development project" %}
+{% else %}
+{% set pageHeading = "You do not have everything you need to record off-site biodiversity gain for your development project" %}
+{% endif %}
 
-{% block formContent %}
-    <div class="govuk-body">
-        {% if err %}
-            {% include "errorbanner.html" %}
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        {% if developerEligibilityResults.yes | length === 2 %}
+ 
+          <p>Continue to record and submit the off-site biodiversity gain information for your development project.</p>
+
+        {% else %}
+
+          {% if developerEligibilityResults.yes | length > 0 %}
+            <p id="youHaveHeading">You have:</p>
+            <ul class="govuk-list govuk-list--bullet" id="youHaveList">
+              {% for item in developerEligibilityResults.yes %}
+                {{ developerEligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if developerEligibilityResults.no | length > 0 %}
+            <p id="youDoNotHaveHeading">You do not have:</p>
+            <ul class="govuk-list govuk-list--bullet" id="youDoNotHaveList">
+              {% for item in developerEligibilityResults.no %}
+                {{ developerEligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% if developerEligibilityResults["not sure"] | length > 0 %}
+          <p id="youAreNotSureHeading">You're not sure if you have:</p>
+            <ul class="govuk-list govuk-list--bullet" id="youAreNotSureHeading">
+              {% for item in developerEligibilityResults["not-sure"] %}
+                {{ developerEligibilityHTML[item] | safe }}
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <div class="govuk-inset-text">You can continue to record off-site biodiversity gain for your development project but you will not be able to submit the details until you have everything.</div>
+          
         {% endif %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
-                    }
-                }) }}
-            </div>
-        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          href: "/developer/details-name"
+        }) }}
+      </div>
     </div>
+  </div>
 {% endblock %}
