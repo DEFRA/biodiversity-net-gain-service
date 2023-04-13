@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
-
+{% set emailIndex = emailAddresses.length %}
 {% block formContent %}
-    <div class="govuk-body" data-module="moj-add-another">
+    <div class="govuk-body">
         {% if err %}
             {% include "errorbanner.html" %}
         {% endif %}
@@ -24,39 +24,67 @@
                     <p>For example, the person who will need to add proof of registration to the Gain Plan you submit to the local planning authority.</p>
                 </div>
 
-                {% call govukFieldset({
-                    classes: 'moj-add-another__item',
-                    legend: {
-                    text: 'Email',
-                    classes: 'moj-add-another__title govuk-fieldset__legend--m',
-                    isPageHeading: false
-                    }
-                }) %}
-            
-                {{ govukInput({
-                    id: "emailAddress[0][email]",
-                    name: "emailAddress[0][email]",
-                    errorMessage: err[0],
-                    autocomplete: "emailAddress",
-                    spellcheck: false,
-                    label: {
-                        text: "Email address",
-                        classes: "govuk-label"
-                    },
-                    attributes: {
-                        'data-name': 'emailAddress[%index%][email]',
-                        'data-id': 'emailAddress[%index%][email]'
-                    }
-                }) }}
-                {% endcall %}
-              
-                <div class="moj-button-action">
-                    {{ govukButton({
-                        type: "button",
-                        text: 'Add another email address',
-                        classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
-                    }) }}
+                <div class="saved-email-addresses">
+                    {% if emailAddresses %}
+                    {% for email in emailAddresses %}
+                        {% call govukFieldset({
+                            classes: 'moj-add-another__item',
+                            legend: {
+                                text: 'Email',
+                                classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                                isPageHeading: false
+                            }
+                        }) %}
+                        {{ govukInput({
+                            name: "emailAddresses[]",
+                            autocomplete: "emailAddresses",
+                            spellcheck: false,
+                            value: email,
+                            label: {
+                                text: "Email address",
+                                classes: "govuk-label"
+                            }
+                        }) }}
+                        {% endcall %}
+                    {% endfor %}
+                    {% endif %}
                 </div>
+                <div data-module="moj-add-another">
+                    {% call govukFieldset({
+                        classes: 'moj-add-another__item',
+                        legend: {
+                        text: 'Email',
+                        classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                        isPageHeading: false
+                        }
+                    }) %}
+                
+                    {{ govukInput({
+                        id: "emailAddresses["+emailIndex+"]",
+                        name: "emailAddresses[]",
+                        errorMessage: err[0],
+                        autocomplete: "emailAddresses",
+                        spellcheck: false,
+                        label: {
+                            text: "Email address",
+                            classes: "govuk-label"
+                        },
+                        attributes: {
+                            "data-name": "emailAddresses[%index%]",
+                            "data-id": "emailAddresses[%index%]"
+                        }
+                    }) }}
+                    {% endcall %}
+
+                    <div class="moj-button-action">
+                        {{ govukButton({
+                            type: "button",
+                            text: 'Add another email address',
+                            classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
+                        }) }}
+                    </div>
+                </div>
+              
                 {{ govukButton({
                     text: "Continue",
                     attributes: {
@@ -66,5 +94,4 @@
             </div>
         </div>
     </div>
-    <!-- <script src="{{ assetPath }}/moj/components/add-another/add-another.js"></script> -->
 {% endblock %}
