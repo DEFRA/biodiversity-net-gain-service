@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-console.log(process.cwd() + '**')
 const gdalDataDirectory = path.join('packages', 'geoprocessing-service', 'node_modules', 'gdal-async', 'deps', 'libproj', 'proj', 'data')
 
 describe('NTv2 format files', () => {
