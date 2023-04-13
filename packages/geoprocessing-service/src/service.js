@@ -5,7 +5,6 @@ import { getDBConnection } from '@defra/bng-utils-lib'
 import { isPolygonInEnglandOnly } from './helpers/db-queries.js'
 import path from 'path'
 import dirname from './helpers/dirname.cjs'
-import copyNtv2FormatFiles from './helpers/copy-ntv2-format-files.cjs'
 
 const OSGB36_SRS_AUTHORITY_CODE = '27700'
 const WGS84_SRS_AUTHORITY_CODE = '4326'
@@ -219,7 +218,5 @@ const reprojectFromWgs84ToOsgb36IfPossible = async (dataset, config) => {
       { cause: err })
   }
 }
-
-copyNtv2FormatFiles()
 
 export { processLandBoundary }

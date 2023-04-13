@@ -14,4 +14,4 @@ const copyNtv2FormatFiles = () => {
   logger.log('Copied NTv2 format files to GDAL data directory')
 }
 
-module.exports = copyNtv2FormatFiles
+copyNtv2FormatFiles()
