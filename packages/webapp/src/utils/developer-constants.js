@@ -15,7 +15,7 @@ const DEVELOPER_ELIGIBILITY_ENGLAND = 'developer/eligibility-england'
 const DEVELOPER_ELIGIBILITY_LO_CONSENT = 'developer/eligibility-landowner-consent'
 const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
-const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-result'
+const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 // ./Routes constants
 
 // RedisKeys constants
@@ -41,6 +41,11 @@ const DEVELOPER_ELIGIBILITY_METRIC_VALUE = 'developer-eligibility-metric-value'
 const ROUTING_REGISTER_OPTIONS = {
   REGISTER: 'register-gain-site',
   RECORD: 'record-off-site'
+}
+
+const developerEligibilityHTML = {
+  [DEVELOPER_WRITTEN_CONTENT_VALUE]: '<li>written consent from the landowner of the biodiversity gain site</li>',
+  [DEVELOPER_ELIGIBILITY_METRIC_VALUE]: '<li>a completed Biodiversity Metric file 4.0 for the site</li>'
 }
 
 export default {
@@ -85,6 +90,7 @@ export default {
     DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
   },
   options: {
-    ROUTING_REGISTER_OPTIONS
+    ROUTING_REGISTER_OPTIONS,
+    developerEligibilityHTML
   }
 }
