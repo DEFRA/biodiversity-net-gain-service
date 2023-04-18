@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
-{% set emailIndex = emailAddresses.length %}
+{% set emailIndex = emailAddresses.length-1 if emailAddresses else 0 %}
+{% set id = "emailAddresses["+emailIndex+"]" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -24,9 +25,12 @@
                     <p>For example, the person who will need to add proof of registration to the Gain Plan you submit to the local planning authority.</p>
                 </div>
 
+                {% if emailAddresses.length > 0 %}
                 <div class="saved-email-addresses">
-                    {% if emailAddresses %}
+                    {% set index = 0 %}
                     {% for email in emailAddresses %}
+                        {% if index < emailIndex %}
+                        {% set fieldId = "emailAddresses["+index+"]" %}
                         {% call govukFieldset({
                             classes: 'moj-add-another__item',
                             legend: {
@@ -36,19 +40,25 @@
                             }
                         }) %}
                         {{ govukInput({
-                            name: "emailAddresses[]",
-                            autocomplete: "emailAddresses",
+                            id: fieldId,
+                            name: "emailAddresses["+index+"]",
                             spellcheck: false,
+                            autocomplete: "email",
                             value: email,
+                            errorMessage: getErrById(err, fieldId),
                             label: {
                                 text: "Email address",
                                 classes: "govuk-label"
                             }
                         }) }}
+                        <button type="button" class="govuk-button govuk-button--secondary moj-add-another__remove-button">Remove</button>
                         {% endcall %}
+                        {% endif %}
+                        {% set index = index + 1 %}
                     {% endfor %}
-                    {% endif %}
                 </div>
+                {% endif %}
+
                 <div data-module="moj-add-another">
                     {% call govukFieldset({
                         classes: 'moj-add-another__item',
@@ -62,9 +72,10 @@
                     {{ govukInput({
                         id: "emailAddresses["+emailIndex+"]",
                         name: "emailAddresses[]",
-                        errorMessage: err[0],
-                        autocomplete: "emailAddresses",
+                        autocomplete: "email",
                         spellcheck: false,
+                        value: emailAddresses[emailIndex],
+                        errorMessage: getErrById(err, "emailAddresses["+emailIndex+"]"),
                         label: {
                             text: "Email address",
                             classes: "govuk-label"
@@ -84,7 +95,6 @@
                         }) }}
                     </div>
                 </div>
-              
                 {{ govukButton({
                     text: "Continue",
                     attributes: {
@@ -94,4 +104,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block bodyEnd %}
+    {{ super() }}
+    <script>
+        console.log("Before click 2")
+
+        if (window.GOVUKPrototypeKit && window.GOVUKPrototypeKit.documentReady) {
+            console.log("Before click 1")
+            window.GOVUKPrototypeKit.documentReady(function () {
+                console.log("Before click")
+                window.MOJFrontend.AddAnother.onAddButtonClick()
+                // const savedEmailItem = document.querySelectorAll()
+                // window.MOJFrontend.AddAnother.createRemoveButton();
+            });
+        }
+    </script>
 {% endblock %}

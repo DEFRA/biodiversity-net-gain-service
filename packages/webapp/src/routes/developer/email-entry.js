@@ -1,38 +1,12 @@
 import constants from '../../utils/constants.js'
-import { emailValidator } from '../../utils/helpers.js'
+import { emailValidator, getErrById } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { ...getContext(request) }),
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { getErrById }),
   post: async (request, h) => {
-    let emailAddresses = request.payload['emailAddresses[]']
-    let err = []
-    if (typeof emailAddresses === 'string') {
-      emailAddresses = [emailAddresses]
-      const result = emailValidator(emailAddresses[0], '#emailAddresses[0]')
-      if (result) {
-        err = [...result.err]
-      }
-    } else {
-      for (const i in emailAddresses) {
-        const result = emailValidator(emailAddresses[i], `#emailAddresses[${i}]`)
-        if (result) {
-          err = [...result.err]
-        }
-      }
-    }
-
+    const { emailAddresses, err } = getEmailAddressFromPayload(request)
     if (err.length > 0) {
-      return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { ...getContext(request), err })
-    }
-
-    if (!emailAddresses) {
-      return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, {
-        ...getContext(request),
-        err: [{
-          text: 'Enter your email address',
-          href: '#emailAddresses[0]'
-        }]
-      })
+      return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { emailAddresses, err, getErrById })
     }
 
     request.yar.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [...emailAddresses])
@@ -40,9 +14,21 @@ const handlers = {
   }
 }
 
-const getContext = request => ({
-  emailAddresses: request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
-})
+const getEmailAddressFromPayload = request => {
+  const emailAddresses = []
+  const err = []
+  const payload = Object.values(request.payload)
+
+  for (const i in payload) {
+    const email = payload[i]
+    emailAddresses.push(email)
+    const result = emailValidator(email, `#emailAddresses[${i}]`)
+    if (result) {
+      err.push(result.err[0])
+    }
+  }
+  return { emailAddresses, err }
+}
 
 export default [{
   method: 'GET',

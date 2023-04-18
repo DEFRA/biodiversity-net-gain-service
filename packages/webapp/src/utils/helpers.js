@@ -318,7 +318,7 @@ const emailValidator = (email, id) => {
   const tester = /^[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
   // https://en.wikipedia.org/wiki/Email_address  The format of an email address is local-part@domain, where the
   // local part may be up to 64 octets long and the domain may have a maximum of 255 octets.
-  if (!email) {
+  if (!email || email.length === 0) {
     return {
       err: [{
         text: 'Enter your email address',
@@ -336,6 +336,7 @@ const emailValidator = (email, id) => {
     }
   }
 
+  console.log('Email:@helper', email)
   const emailParts = email.split('@')
 
   if (emailParts.length !== 2 || !tester.test(email)) {
@@ -375,6 +376,9 @@ const emailValidator = (email, id) => {
   return null
 }
 
+// Nunjucks template function
+const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
+
 export {
   validateDate,
   dateClasses,
@@ -402,5 +406,6 @@ export {
   validateName,
   emailValidator,
   getDeveloperEligibilityResults,
-  validateBNGNumber
+  validateBNGNumber,
+  getErrById
 }
