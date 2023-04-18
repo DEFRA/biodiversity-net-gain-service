@@ -87,7 +87,11 @@
                                 "data-id": "emailAddresses[%index%]"
                             }
                         }) }}
-                        <button type="button" class="govuk-button govuk-button--secondary moj-add-another__remove-button">Remove</button>
+                        {{ govukButton({
+                            type: "button",
+                            text: 'Remove',
+                            classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button custom-remove-btn'
+                        }) }}
                         {% endcall %}
                     {% endif %}
 
