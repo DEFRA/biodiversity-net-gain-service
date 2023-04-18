@@ -336,7 +336,6 @@ const emailValidator = (email, id) => {
     }
   }
 
-  console.log('Email:@helper', email)
   const emailParts = email.split('@')
 
   if (emailParts.length !== 2 || !tester.test(email)) {

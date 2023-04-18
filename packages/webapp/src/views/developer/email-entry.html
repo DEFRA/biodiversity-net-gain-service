@@ -51,7 +51,11 @@
                                 classes: "govuk-label"
                             }
                         }) }}
-                        <button type="button" class="govuk-button govuk-button--secondary moj-add-another__remove-button">Remove</button>
+                        {{ govukButton({
+                            type: "button",
+                            text: 'Remove',
+                            classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button custom-remove-btn'
+                        }) }}
                         {% endcall %}
                         {% endif %}
                         {% set index = index + 1 %}
@@ -109,16 +113,18 @@
 {% block bodyEnd %}
     {{ super() }}
     <script>
-        console.log("Before click 2")
+        const removeBtns = document.querySelectorAll('.custom-remove-btn')
 
-        if (window.GOVUKPrototypeKit && window.GOVUKPrototypeKit.documentReady) {
-            console.log("Before click 1")
-            window.GOVUKPrototypeKit.documentReady(function () {
-                console.log("Before click")
-                window.MOJFrontend.AddAnother.onAddButtonClick()
-                // const savedEmailItem = document.querySelectorAll()
-                // window.MOJFrontend.AddAnother.createRemoveButton();
-            });
+        const removeEmailElement = (e) => {
+            if (e.target.classList.contains('custom-remove-btn')) {
+                e.target.closest('.govuk-fieldset').remove()
+            } else {
+                return
+            }
         }
+
+        removeBtns.forEach((btn) => {
+            btn.addEventListener('click', removeEmailElement)
+        })
     </script>
 {% endblock %}
