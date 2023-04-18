@@ -6,7 +6,8 @@
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
-{% set emailIndex = emailAddresses.length %}
+{% set emailIndex = emailAddresses.length-1 if emailAddresses else 0 %}
+{% set id = "emailAddresses["+emailIndex+"]" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -86,6 +87,7 @@
                                 "data-id": "emailAddresses[%index%]"
                             }
                         }) }}
+                        <button type="button" class="govuk-button govuk-button--secondary moj-add-another__remove-button">Remove</button>
                         {% endcall %}
                     {% endif %}
 
@@ -97,7 +99,6 @@
                         }) }}
                     </div>
                 </div>
-              
                 {{ govukButton({
                     text: "Continue",
                     attributes: {
