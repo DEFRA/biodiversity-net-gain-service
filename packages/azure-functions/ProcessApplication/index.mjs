@@ -1,5 +1,5 @@
 import { getDBConnection } from '@defra/bng-utils-lib'
-import { createApplicationReference } from '../Shared/db-queries.js'
+import { createApplicationReference, deleteApplicationSession } from '../Shared/db-queries.js'
 
 const buildConfig = body => {
   return {
@@ -18,10 +18,14 @@ export default async function (context, req) {
   let db
   try {
     // Generate gain site reference if not already present
-    if (!req.body.landownerGainSiteRegistration.gainSiteReference) {
-      db = await getDBConnection()
+    db = await getDBConnection()
+    let gainSiteReference = req.body.landownerGainSiteRegistration.gainSiteReference
+    if (!gainSiteReference) {
       const applicationReference = await createApplicationReference(db)
-      req.body.landownerGainSiteRegistration.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
+      gainSiteReference = applicationReference.rows[0].fn_create_application_reference
+    } else {
+      // Clear out saved application (reference was generated from saving)
+      await deleteApplicationSession(db, [gainSiteReference])
     }
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
@@ -29,7 +33,7 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(config.res)
     }
-    context.log(`Processed ${req.body.landownerGainSiteRegistration.gainSiteReference}`)
+    context.log(`Processed ${gainSiteReference}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
