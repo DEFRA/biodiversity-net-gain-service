@@ -58,6 +58,24 @@ const recordExpiringApplicationSessionNotificationStatement = `
     application_session_id = $1
 `
 
+const insertApplicationStatusStatement = `
+  INSERT INTO
+    bng.application_status (application_reference, application_status)
+  VALUES ($1, $2)  
+`
+
+const getApplicationStatusStatement = `
+  SELECT
+    application_status
+  FROM
+    bng.application_status
+  WHERE
+    application_reference = $1
+  ORDER BY
+    date_modified DESC
+  LIMIT 1
+`
+
 const createApplicationReference = db => db.query('SELECT bng.fn_create_application_reference();')
 
 const saveApplicationSession = (db, values) => db.query(insertApplicationSessionStatement, values)
@@ -76,6 +94,10 @@ const recordExpiringApplicationSessionNotification = (db, values) => db.query(re
 
 const isPointInEngland = (db, values) => db.query('select bng.fn_is_point_in_england_27700($1, $2)', values)
 
+const insertApplicationStatus = (db, values) => db.query(insertApplicationStatusStatement, values)
+
+const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
+
 export {
   createApplicationReference,
   saveApplicationSession,
@@ -85,5 +107,7 @@ export {
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
-  isPointInEngland
+  isPointInEngland,
+  insertApplicationStatus,
+  getApplicationStatus
 }

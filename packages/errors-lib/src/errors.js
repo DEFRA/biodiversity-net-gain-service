@@ -3,6 +3,7 @@ import ThreatScreeningError from './threat-screening-error.js'
 import UnknownApplicationSessionIdError from './unknown-application-session-id-error.js'
 import UploadTypeValidationError from './upload-type-validation-error.js'
 import ValidationError from './validation-error.js'
+import DuplicateApplicationReferenceError from './duplicate-application-reference-error.js'
 
 const INVALID_COORDINATE_SYSTEM = 'INVALID-COORDINATE-SYSTEM'
 const INVALID_FEATURE_COUNT = 'INVALID-FEATURE-COUNT'
@@ -26,5 +27,6 @@ export {
   UnknownApplicationSessionIdError,
   UploadTypeValidationError,
   ValidationError,
+  DuplicateApplicationReferenceError,
   uploadGeospatialLandBoundaryErrorCodes
 }
