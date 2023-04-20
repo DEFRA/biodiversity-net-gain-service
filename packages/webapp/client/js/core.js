@@ -22,17 +22,20 @@ window.bng = {
       })
     },
     setupGoogleTagManager: () => {
-      const script = document.createElement('script')
-      script.src = `https://www.googletagmanager.com/gtm.js?id=${process.env.GOOGLE_TAGMANAGER_ID}`
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || []
-        window.dataLayer.push({
-          'gtm.start': new Date().getTime(),
-          event: 'gtm.js'
-        })
-        window.bng.utils.fireGTagCookiePreferenceEvent()
+      const gtmid = process.env.GOOGLE_TAGMANAGER_ID
+      if (gtmid) {
+        const script = document.createElement('script')
+        script.src = `https://www.googletagmanager.com/gtm.js?id=${gtmid}`
+        script.onload = () => {
+          window.dataLayer = window.dataLayer || []
+          window.dataLayer.push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+          })
+          window.bng.utils.fireGTagCookiePreferenceEvent()
+        }
+        document.body.appendChild(script)
       }
-      document.body.appendChild(script)
     },
     fireGTagCookiePreferenceEvent: () => {
       const userPreferenceCookie = window.bng.utils.getCookie(cookieUserPreference)
