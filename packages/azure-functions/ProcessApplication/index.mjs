@@ -56,7 +56,7 @@ export default async function (context, req) {
     context.log.error(err)
     context.res = {
       status: 400,
-      body: JSON.stringify(err)
+      body: err
     }
   } finally {
     await db?.end()
