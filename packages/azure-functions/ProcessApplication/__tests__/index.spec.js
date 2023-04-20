@@ -74,6 +74,7 @@ describe('Processing an application', () => {
         expect(context.bindings.outputSbQueue).toEqual(req.body)
         expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('REF0601220001')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
@@ -86,15 +87,6 @@ describe('Processing an application', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
-          return {
-            rows: [
-              {
-                fn_create_application_reference: 'REF0601220001'
-              }
-            ]
-          }
-        })
         dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
           return {
             rows: []
@@ -108,6 +100,7 @@ describe('Processing an application', () => {
         expect(context.bindings.outputSbQueue).toEqual(req.body)
         expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('test')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
         done()
       } catch (err) {
@@ -120,15 +113,6 @@ describe('Processing an application', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
-          return {
-            rows: [
-              {
-                fn_create_application_reference: 'REF0601220001'
-              }
-            ]
-          }
-        })
         dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
           return {
             rows: [
