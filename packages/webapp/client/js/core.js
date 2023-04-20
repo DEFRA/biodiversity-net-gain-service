@@ -12,6 +12,15 @@ window.bng = {
       const expires = 'expires=' + date.toUTCString()
       document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${expires};path=/`
     },
+    deleteAnalyticsCookies: () => {
+      const splitCookies = document.cookie.split(';')
+      splitCookies.forEach((cookie) => {
+        const nameAndValue = cookie.trim().split('=')
+        if (nameAndValue && nameAndValue.length === 2 && nameAndValue[0].startsWith('_ga')) {
+          window.bng.utils.setCookie(nameAndValue[0], '', -1)
+        }
+      })
+    },
     setupGoogleTagManager: () => {
       const script = document.createElement('script')
       script.src = `https://www.googletagmanager.com/gtm.js?id=${process.env.GOOGLE_TAGMANAGER_ID}`
@@ -112,6 +121,8 @@ if (cookiePrefsPage) {
       } else {
         window.bng.utils.fireGTagCookiePreferenceEvent()
       }
+    } else {
+      window.bng.utils.deleteAnalyticsCookies()
     }
     window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
     cookiePageBanner.removeAttribute('hidden')
@@ -154,6 +165,7 @@ if (cookieBannerContainer) {
     event.preventDefault()
     savePreference(false)
     window.bng.utils.setCookie(cookieSeenBanner, 'true', cookieSeenBannerExpiry)
+    window.bng.utils.deleteAnalyticsCookies()
     showBanner(rejectedBanner)
   })
 
@@ -174,6 +186,9 @@ if (!calledGTag) {
     if (cookiePreferences.analytics === 'on') {
       calledGTag = true
       window.bng.utils.setupGoogleTagManager()
+    } else {
+      // delete any orphaned analytics cookies
+      window.bng.utils.deleteAnalyticsCookies()
     }
   }
 }
