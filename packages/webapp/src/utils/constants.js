@@ -490,5 +490,6 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options
 })
