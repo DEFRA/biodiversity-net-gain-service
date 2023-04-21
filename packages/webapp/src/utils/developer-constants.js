@@ -19,6 +19,7 @@ const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
 const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
+const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 // ./Routes constants
 
 // RedisKeys constants
@@ -41,7 +42,15 @@ const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const DEVELOPER_ELIGIBILITY_METRIC_VALUE = 'developer-eligibility-metric-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
+const CONFIRM_OFFSITE_GAIN_CHECKED = 'offsite-details-checked'
 // ./RedisKeys constants
+const HABITAT = 'HABITAT'
+const HEDGEROW = 'HEDGEROW'
+
+const offSiteGainTypes = {
+  HABITAT,
+  HEDGEROW
+}
 
 const ROUTING_REGISTER_OPTIONS = {
   REGISTER: 'register-gain-site',
@@ -74,7 +83,8 @@ export default {
     DEVELOPER_ELIGIBILITY_RESULT,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_EMAIL_ENTRY,
-    DEVELOPER_CHECK_ANSWERS
+    DEVELOPER_CHECK_ANSWERS,
+    DEVELOPER_CONFIRM_OFF_SITE_GAIN
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -93,7 +103,8 @@ export default {
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     DEVELOPER_ELIGIBILITY_METRIC_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
-    DEVELOPER_ADDITIONAL_EMAILS
+    DEVELOPER_ADDITIONAL_EMAILS,
+    CONFIRM_OFFSITE_GAIN_CHECKED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
@@ -101,6 +112,7 @@ export default {
   },
   options: {
     ROUTING_REGISTER_OPTIONS,
-    developerEligibilityHTML
+    developerEligibilityHTML,
+    offSiteGainTypes
   }
 }
