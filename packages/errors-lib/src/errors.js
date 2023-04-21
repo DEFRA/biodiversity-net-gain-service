@@ -11,6 +11,7 @@ const INVALID_LAYER_COUNT = 'INVALID-LAYER-COUNT'
 const INVALID_UPLOAD = 'INVALID-UPLOAD'
 const MISSING_COORDINATE_SYSTEM = 'MISSING-COORDINATE-SYSTEM'
 const OUTSIDE_ENGLAND = 'OUTSIDE_ENGLAND'
+const EMPTY_FILE_UPLOAD = 'EMPTY_FILE_UPLOAD'
 
 const uploadGeospatialLandBoundaryErrorCodes = Object.freeze({
   INVALID_COORDINATE_SYSTEM,
@@ -21,6 +22,11 @@ const uploadGeospatialLandBoundaryErrorCodes = Object.freeze({
   OUTSIDE_ENGLAND
 })
 
+const uploadWrittenConsentErrorCodes = Object.freeze({
+  INVALID_UPLOAD,
+  EMPTY_FILE_UPLOAD
+})
+
 export {
   CoordinateSystemValidationError,
   ThreatScreeningError,
@@ -28,5 +34,6 @@ export {
   UploadTypeValidationError,
   ValidationError,
   DuplicateApplicationReferenceError,
-  uploadGeospatialLandBoundaryErrorCodes
+  uploadGeospatialLandBoundaryErrorCodes,
+  uploadWrittenConsentErrorCodes
 }
