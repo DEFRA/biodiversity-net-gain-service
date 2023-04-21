@@ -17,6 +17,8 @@ const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
 const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
+const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
+const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 // ./Routes constants
 
 // RedisKeys constants
@@ -27,8 +29,6 @@ const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upl
 const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
 const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
-const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
@@ -38,7 +38,23 @@ const DEVELOPER_ELIGIBILITY_ENGLAND_VALUE = 'eligibility-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const DEVELOPER_ELIGIBILITY_METRIC_VALUE = 'developer-eligibility-metric-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
+const DEVELOPER_ORIGINAL_CONSENT_LOCATION = 'developer-original-consent-location'
+const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
+const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
+const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
+const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
 // ./RedisKeys constants
+
+// Other constants
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
+const DEVELOPER_CONSENT_UPLOAD_TYPE = 'developer-upload-consent'
+const CONSENT_FILE_EXT = [
+  '.doc',
+  '.docx',
+  '.pdf'
+]
+// ./Other constants
 
 const ROUTING_REGISTER_OPTIONS = {
   REGISTER: 'register-gain-site',
@@ -69,7 +85,9 @@ export default {
     DEVELOPER_ELIGIBILITY_NO,
     DEVELOPER_ELIGIBILITY_METRIC,
     DEVELOPER_ELIGIBILITY_RESULT,
-    DEVELOPER_BNG_NUMBER
+    DEVELOPER_BNG_NUMBER,
+    DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
+    DEVELOPER_AGREEMENT_CHECK
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -87,14 +105,21 @@ export default {
     DEVELOPER_ELIGIBILITY_ENGLAND_VALUE,
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     DEVELOPER_ELIGIBILITY_METRIC_VALUE,
-    BIODIVERSITY_NET_GAIN_NUMBER
+    BIODIVERSITY_NET_GAIN_NUMBER,
+    DEVELOPER_ORIGINAL_CONSENT_LOCATION,
+    DEVELOPER_CONSENT_FILE_LOCATION,
+    DEVELOPER_CONSENT_FILE_NAME,
+    DEVELOPER_CONSENT_FILE_SIZE,
+    DEVELOPER_CONSENT_FILE_TYPE
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
-    DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE
+    DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
+    DEVELOPER_CONSENT_UPLOAD_TYPE
   },
   options: {
     ROUTING_REGISTER_OPTIONS,
     developerEligibilityHTML
-  }
+  },
+  consentFileExt: CONSENT_FILE_EXT
 }

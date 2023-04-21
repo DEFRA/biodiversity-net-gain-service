@@ -1,0 +1,48 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload written consent to use a biodiversity gain site for off-site gain" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        <div id="written-consent-hint">
+          <p>This needs to include:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>a written statement confirming the landowners' consent</li>
+            <li>the landowner's signature</li>
+            <li>the date consent was agreed (this must uploaded within 3 months of it being written)</li>
+          </ul>
+        </div>
+        <div id="location-upload-hint">
+          <p>The file should be:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>a DOC, DOCX or PDF</li>
+            <li>no larger than 50MB</li>
+          </ul>
+        </div>
+          {{ govukFileUpload({
+            id: "uploadWrittenConsent",
+            name: "uploadWrittenConsent",
+            errorMessage: err[0],
+            label: {
+              text: "Upload a file"
+            }
+          }) }}
+          {{ govukButton({
+            text: "Upload file"
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
