@@ -237,6 +237,11 @@ const CHECK_UPLOAD_METRIC_OPTIONS = {
   YES
 }
 
+const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   ...developerConstants.redisKeys,
   APPLICATION_REFERENCE,
@@ -483,5 +488,6 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   ...developerConstants.options
 })
