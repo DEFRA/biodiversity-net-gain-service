@@ -7,6 +7,8 @@ import * as azureStorage from '../../../utils/azure-storage.js'
 jest.mock('../../../utils/azure-storage.js')
 
 const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
+const nextUrl = constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN
+
 const mockMetricData = {
   startPage: {
     planningAuthority: 'Your District Council ',
@@ -81,7 +83,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual(url)
+          expect(redirectArgs[0]).toEqual(nextUrl)
           done()
         } catch (err) {
           done(err)

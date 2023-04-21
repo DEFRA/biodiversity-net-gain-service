@@ -1,0 +1,90 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Confirm the off-site gain" %}
+{% set landowner_name = 'will come from dataverse' %}
+{% set bngReferenceNo = 'will come from dataverse' %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'confirmOffsiteGain' %}
+        {% set name = 'confirmOffsiteGain' %}
+        {% set id = 'offsite-details-checked-yes' %}
+    </div>
+    <div class="govuk-grid-row">
+      -	<div class="govuk-grid-column-two-thirds">
+          	{{ govukFieldset({
+              legend: {
+                  text: pageHeading,
+                  classes: "govuk-fieldset__legend--l govuk-heading-l",
+                  isPageHeading: true
+              }
+          	}) }}
+          	<p>Confirm if these details match what you have agreed with the landowner.</p>
+        
+          	{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+			<!-- Note: Value of Landowner and Biodiversity gain site number will come from dataverse, mentioned same in comment of 751-->
+			{{ govukSummaryList({
+					rows: [
+					{
+						key: {
+						text: "Landowner"
+						},
+						value: {
+						text: landowner_name
+						}
+					},
+					{
+						key: {
+						text: "Biodiversity gain site number"
+						},
+						value: {
+						text: bngReferenceNo
+						}
+					}
+					]
+				}) 
+			}}
+       
+        {% from "govuk/components/table/macro.njk" import govukTable %}
+        
+        {% include "common/off-site-habitat.html" %}
+        {% include "common/off-site-hedgerow.html" %}
+
+        {{ govukRadios({
+              idPrefix: prefix,
+              name: name,
+              id: id,
+              fieldset: {
+                  legend: {
+                      text: "Are these habitat details correct?",
+                      classes: "govuk-fieldset__legend--m"
+                  }
+              },
+              errorMessage: err[0],
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "offsite-details-checked-yes"
+                  },
+                  {
+                      value: "no",
+                      text: "No, I need to upload a different Metric file",
+                      id: "offsite-details-checked-no"
+                  }
+              ]
+          }) 
+        }}
+  
+        {{ govukButton({ text: 'Continue' }) }}
+      </div>
+  	</div>
+</div>
+</div>
+</div>
+{% endblock %}
