@@ -5,7 +5,7 @@ import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-erro
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
-const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
+const invalidUploadErrorText = 'The selected file must be an DOC, DOCX or PDF'
 const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
 
 const handlers = {
