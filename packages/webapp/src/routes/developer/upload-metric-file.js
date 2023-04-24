@@ -3,6 +3,7 @@ import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-erro
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
+import { processDeveloperTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
 const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
@@ -33,7 +34,7 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, metricFileData.fileSize)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, metricFileData.fileType)
     }
-
+    processDeveloperTask(request, { taskTitle: 'Biodiversity 4.0 Metric calculations', title: 'Upload Metric 4.0 file' }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
     return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
   } catch (err) {
     const errorContext = getErrorContext(err)
