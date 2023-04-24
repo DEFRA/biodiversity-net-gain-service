@@ -118,6 +118,8 @@ describe(url, () => {
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
       expect(contextResult).toBeDefined()
+      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toBeDefined()
+      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toBeDefined()
     })
   })
 
