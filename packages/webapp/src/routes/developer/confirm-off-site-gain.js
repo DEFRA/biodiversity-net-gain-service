@@ -20,7 +20,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_TASKLIST)
+      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
     } else {
       const context = getContext(request)
       return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
@@ -42,7 +42,7 @@ const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item)
   if (item[field1] && !isNaN(item[field2])) {
     return prev + item[field2]
   }
-  return 0
+  return prev
 }, 0)
 
 const getContext = request => {
