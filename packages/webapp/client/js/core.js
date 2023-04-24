@@ -10,16 +10,16 @@ window.bng = {
       const date = new Date()
       date.setTime(date.getTime() + (cookieExpiryDays * 24 * 60 * 60 * 1000))
       const expires = 'expires=' + date.toUTCString()
-      document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${expires};path=/`
+      const sameSite = 'SameSite=Strict'
+      document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${sameSite};${expires};path=/`
     },
     deleteCookie: (cookieName) => {
       const expires = 'expires=Thu, 01 Jan 1970 00:00:01 GMT'
       const path = 'path=/'
       const hostname = window.location.hostname
       const dotHostname = `.${hostname}`
-      document.cookie = `${cookieName}=;${expires};${path}`
-      document.cookie = `${cookieName}=;${expires};domain=${hostname};${path}`
-      document.cookie = `${cookieName}=;${expires};domain=${dotHostname};${path}`
+      const domain = `domain=${(hostname === 'localhost') ? 'localhost' : dotHostname}`
+      document.cookie = `${cookieName}=;${expires};${domain};${path}`
     },
     deleteAnalyticsCookies: () => {
       const splitCookies = document.cookie.split(';')
