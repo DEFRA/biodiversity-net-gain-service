@@ -4,43 +4,37 @@ const url = '/' + constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN
 
 const mockMetricData = {
   offSiteHabitatBaseline: [
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        html: '<span class=\'govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span> <span class=\'govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span>'
-      },
-      {
-        text: undefined
-      }
-    ],
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        text: 'Total area'
-      }
-    ]
+    {
+      'Broad habitat': 'Rocky shore ',
+      'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
+      'Area (hectares)': 1,
+      'Total habitat units': 'Check Data ⚠',
+      Condition: 'Fairly Good'
+    },
+    { 'Area (hectares)': 1, 'Total habitat units': 1 }
   ],
   offSiteHedgeBaseline: [
-    [
-      {
-        classes: 'govuk-!-width-two-thirds',
-        html: '<span class=\'govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0\'>undefined</span>'
-      },
-      { text: undefined }
-    ],
-    [
-      { classes: 'govuk-!-width-two-thirds', text: 'Total length' },
-      { text: NaN }
-    ]
+    {
+      'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+      'Length (km)': 3,
+      'Total hedgerow units': 27,
+      Condition: 'Good'
+    },
+    { 'Length (km)': 3, 'Total hedgerow units': 27 }
   ]
 }
+
+const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item) => {
+  const area = item[field1] && !isNaN(item[field2]) ? item[field2] : 0
+  return prev + area
+}, 0)
 
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
     const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
-      const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
+      const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
       const request = {
         yar: redisMap
@@ -51,11 +45,11 @@ describe(url, () => {
           contextResult = context
         }
       }
-      await checkMetricFile.default[0].handler(request, h)
+      await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult.noOfHabitatUnits).toEqual(1)
-      expect(contextResult.noOfHedgerowUnits).toEqual(1)
       expect(contextResult).toBeDefined()
+      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toBeDefined()
+      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toBeDefined()
     })
   })
 
@@ -70,7 +64,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
+          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'yes'
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -87,7 +81,7 @@ describe(url, () => {
               viewResult = view
             }
           }
-          await checkMetricFile.default[1].handler(request, h)
+          await confirmOffsiteGainOptions.default[1].handler(request, h)
           expect(viewResult).toEqual('/developer/tasklist')
           done()
         } catch (err) {
@@ -100,7 +94,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
+          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'no'
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -117,7 +111,7 @@ describe(url, () => {
               viewResult = view
             }
           }
-          await checkMetricFile.default[1].handler(request, h)
+          await confirmOffsiteGainOptions.default[1].handler(request, h)
           expect(viewResult).toEqual('/developer/upload-metric-file')
           done()
         } catch (err) {
@@ -130,7 +124,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkMetricFile = require('../../developer/confirm-off-site-gain.js')
+          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = undefined
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -147,7 +141,7 @@ describe(url, () => {
               viewResult = view
             }
           }
-          await checkMetricFile.default[1].handler(request, h)
+          await confirmOffsiteGainOptions.default[1].handler(request, h)
           expect(viewResult).toEqual('developer/confirm-off-site-gain')
           done()
         } catch (err) {
