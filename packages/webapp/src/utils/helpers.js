@@ -1,6 +1,7 @@
 import moment from 'moment'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
+import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 
@@ -120,6 +121,14 @@ const getRegistrationTasks = request => {
   return registrationTasks
 }
 
+const getDeveloperTasks = request => {
+  const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
+  if (!developersTasks) {
+    return JSON.parse(JSON.stringify(developerTaskList))
+  }
+  return developersTasks
+}
+
 /*
   Helper function to set a task's status and inProgressUrl
   options = {
@@ -139,6 +148,20 @@ const processRegistrationTask = (request, taskDetails, options) => {
     }
   })
   request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+}
+
+const processDeveloperTask = (request, taskDetails, options) => {
+  const developerTasks = getDeveloperTasks(request)
+  const affectedTask = developerTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
+  affectedTask.tasks.forEach(task => {
+    if (task.title === taskDetails.title) {
+      if (task.status !== constants.COMPLETE_DEVELOPER_TASK_STATUS && options.status) {
+        task.status = options.status
+      }
+      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
+    }
+  })
+  request.yar.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
 }
 
 const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
@@ -452,5 +475,7 @@ export {
   getErrById,
   checkApplicantDetails,
   getMaximumFileSizeExceededView,
-  getHumanReadableFileSize
+  getHumanReadableFileSize,
+  processDeveloperTask,
+  getDeveloperTasks
 }

@@ -50,6 +50,7 @@ const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
 const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
 const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
 const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
+const DEVELOPER_TASK_DETAILS = 'developerTaskDetails'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -69,6 +70,9 @@ const CONSENT_FILE_EXT = [
   '.pdf'
 ]
 // ./Other constants
+const DEFAULT_DEVELOPER_TASK_STATUS = 'NOT STARTED'
+const IN_PROGRESS_DEVELOPER_TASK_STATUS = 'IN PROGRESS'
+const COMPLETE_DEVELOPER_TASK_STATUS = 'COMPLETED'
 
 const ROUTING_REGISTER_OPTIONS = {
   REGISTER: 'register-gain-site',
@@ -131,7 +135,8 @@ export default {
     DEVELOPER_CONSENT_FILE_NAME,
     DEVELOPER_CONSENT_FILE_SIZE,
     DEVELOPER_CONSENT_FILE_TYPE,
-    DEVELOPER_CONSENT_ANSWER
+    DEVELOPER_CONSENT_ANSWER,
+    DEVELOPER_TASK_DETAILS
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
@@ -141,7 +146,10 @@ export default {
   options: {
     ROUTING_REGISTER_OPTIONS,
     developerEligibilityHTML,
-    offSiteGainTypes
+    offSiteGainTypes,
+    DEFAULT_DEVELOPER_TASK_STATUS,
+    IN_PROGRESS_DEVELOPER_TASK_STATUS,
+    COMPLETE_DEVELOPER_TASK_STATUS
   },
   consentFileExt: CONSENT_FILE_EXT
 }
