@@ -12,12 +12,21 @@ window.bng = {
       const expires = 'expires=' + date.toUTCString()
       document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${expires};path=/`
     },
+    deleteCookie: (cookieName) => {
+      const expires = 'expires=Thu, 01 Jan 1970 00:00:01 GMT'
+      const path = 'path=/'
+      const hostname = window.location.hostname
+      const dotHostname = `.${hostname}`
+      document.cookie = `${cookieName}=;${expires};${path}`
+      document.cookie = `${cookieName}=;${expires};domain=${hostname};${path}`
+      document.cookie = `${cookieName}=;${expires};domain=${dotHostname};${path}`
+    },
     deleteAnalyticsCookies: () => {
       const splitCookies = document.cookie.split(';')
       splitCookies.forEach((cookie) => {
         const nameAndValue = cookie.trim().split('=')
         if (nameAndValue && nameAndValue.length === 2 && nameAndValue[0].startsWith('_ga')) {
-          window.bng.utils.setCookie(nameAndValue[0], '', -1)
+          window.bng.utils.deleteCookie(nameAndValue[0])
         }
       })
     },
