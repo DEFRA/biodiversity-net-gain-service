@@ -24,11 +24,6 @@ const mockMetricData = {
   ]
 }
 
-const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item) => {
-  const area = item[field1] && !isNaN(item[field2]) ? item[field2] : 0
-  return prev + area
-}, 0)
-
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
@@ -42,29 +37,37 @@ describe(url, () => {
       const h = {
         view: (view, context) => {
           viewResult = view
-          contextResult = context
+          contextResult = {
+            ...context,
+            offSiteHabitats: {
+              items: '',
+              total: 0
+            },
+            offSiteHedgerows: {
+              items: '',
+              total: 0
+            }
+          }
         }
       }
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
       expect(contextResult).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toBeDefined()
     })
   })
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap
+    let redisMap, confirmOffsiteGainOptions
     beforeEach(() => {
       redisMap = new Map()
+      confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
     })
 
     it('should redirect to legal agreement upload screen if selected Yes', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'yes'
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -94,7 +97,6 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'no'
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -120,11 +122,10 @@ describe(url, () => {
       })
     })
 
-    it('should show error if none of the options selected', (done) => {
+    it('should show an error if none of the options are selected', (done) => {
       jest.isolateModules(async () => {
         try {
-          let viewResult
-          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
+          let viewResult, resultContext
           const confirmOffsiteGain = undefined
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
@@ -134,15 +135,72 @@ describe(url, () => {
             }
           }
           const h = {
-            redirect: (view) => {
+            redirect: (view, context) => {
               viewResult = view
+              resultContext = context
             },
-            view: (view) => {
+            view: (view, context) => {
               viewResult = view
+              resultContext = context
             }
           }
           await confirmOffsiteGainOptions.default[1].handler(request, h)
           expect(viewResult).toEqual('developer/confirm-off-site-gain')
+          expect(resultContext.err[0]).toEqual({
+            href: '#offsite-details-checked-yes',
+            text: 'Select yes if this is the correct file'
+          })
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should show an error if no any options are selected and required field\'s value is invalid', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const _mockMetricData = {
+            d1OffSiteHabitatBaseline: [
+              {
+                'Broad habitat': 'Rocky shore ',
+                'Area (hectares)': NaN,
+                'Total habitat units': 0,
+                Condition: 'Fairly Good'
+              }
+            ]
+          }
+          const { viewResult, resultContext } = await processConfirmOffSiteGain(_mockMetricData)
+          expect(viewResult).toEqual('developer/confirm-off-site-gain')
+          expect(resultContext.err[0]).toEqual({
+            href: '#offsite-details-checked-yes',
+            text: 'Select yes if this is the correct file'
+          })
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should show an error if no any options are selected and required field\'s value is valid', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const _mockMetricData = {
+            d1OffSiteHabitatBaseline: [
+              {
+                'Broad habitat': 'Rocky shore',
+                'Area (hectares)': 15.5,
+                'Total habitat units': 20,
+                Condition: 'Fairly Good'
+              }
+            ]
+          }
+          const { viewResult, resultContext } = await processConfirmOffSiteGain(_mockMetricData)
+          expect(viewResult).toEqual('developer/confirm-off-site-gain')
+          expect(resultContext.err[0]).toEqual({
+            href: '#offsite-details-checked-yes',
+            text: 'Select yes if this is the correct file'
+          })
           done()
         } catch (err) {
           done(err)
@@ -151,3 +209,31 @@ describe(url, () => {
     })
   })
 })
+
+const processConfirmOffSiteGain = async (_mockMetricData) => {
+  let viewResult, resultContext
+  const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
+  const redisMap = new Map()
+  const confirmOffsiteGain = undefined
+  redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
+  redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
+  const request = {
+    yar: redisMap,
+    payload: {
+      confirmOffsiteGain
+    }
+  }
+  const h = {
+    redirect: (view, context) => {
+      viewResult = view
+      resultContext = context
+    },
+    view: (view, context) => {
+      viewResult = view
+      resultContext = context
+    }
+  }
+  await confirmOffsiteGainOptions.default[1].handler(request, h)
+
+  return { viewResult, resultContext }
+}

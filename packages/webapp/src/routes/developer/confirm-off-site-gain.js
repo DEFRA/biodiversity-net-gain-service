@@ -39,8 +39,10 @@ const handlers = {
 }
 
 const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item) => {
-  const area = item[field1] && !isNaN(item[field2]) ? item[field2] : 0
-  return prev + area
+  if (item[field1] && !isNaN(item[field2])) {
+    return prev + item[field2]
+  }
+  return 0
 }, 0)
 
 const getContext = request => {
