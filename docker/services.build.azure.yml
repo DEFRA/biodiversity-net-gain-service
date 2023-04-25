@@ -10,4 +10,6 @@ services:
     image: bng-portal/webapp:${TAG:-latest}
     build:
       context: ../
+      args:
+        - GOOGLE_TAGMANAGER_ID
       dockerfile: packages/webapp/dockerfile

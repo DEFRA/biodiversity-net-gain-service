@@ -1,5 +1,10 @@
-FROM        node:16.13.2-alpine
+FROM        node:16.19.1-alpine
 LABEL       author="DEFRA"
+
+# The Google Tag Manager ID is available to anyone who uses the web application.
+# As such a build argument can be used to make it avaialable at build time
+# rather than a more secure mechanism required for secrets.
+ARG         GOOGLE_TAGMANAGER_ID
 
 ENV         PORT=3000
 

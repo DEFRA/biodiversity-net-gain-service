@@ -13,6 +13,7 @@
 {% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
 {% from "govuk/components/fieldset/macro.njk"            import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk"         import govukFileUpload %}
+{% from "govuk/components/footer/macro.njk"              import govukFooter %}
 {% from "govuk/components/input/macro.njk"               import govukInput %}
 {% from "govuk/components/inset-text/macro.njk"          import govukInsetText %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
@@ -48,6 +49,7 @@
 {% endblock %}
 
 {% block header %}
+  {% include "cookie-banner.html" %}
   {{ govukHeader({
     homepageUrl: "/",
     containerClasses: "govuk-width-container",
@@ -86,6 +88,10 @@
 
 {% block content %}
   <h1 class="govuk-heading-xl">Default page template</h1>
+{% endblock %}
+
+{% block footer %}
+  {% include "footer.html" %}
 {% endblock %}
 
 {% block bodyEnd %}
