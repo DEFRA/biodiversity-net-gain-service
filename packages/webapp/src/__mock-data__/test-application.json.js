@@ -1,3 +1,8 @@
+const msWord = 'application/msword'
+const modifiedGrassland = 'Modified grassland'
+const nativeHedgerow = 'Native hedgerow - associated with bank or ditch'
+const startDate = '2022-01-01T00:00:00.000Z'
+
 export default {
   data: {
     registrationTaskDetails: {
@@ -93,13 +98,13 @@ export default {
     'land-boundary': 'documentOrImage',
     'land-boundary-location': '800376c7-8652-4906-8848-70a774578dfe/land-boundary/legal-agreement.doc',
     'land-boundary-file-size': 0.01,
-    'land-boundary-file-type': 'application/msword',
+    'land-boundary-file-type': msWord,
     'land-boundary-checked': 'yes',
     'land-boundary-grid-reference': 'SE170441',
     'land-boundary-hectares': 2,
     'land-ownership-location': '800376c7-8652-4906-8848-70a774578dfe/land-ownership/legal-agreement.doc',
     'land-ownership-file-size': 0.01,
-    'land-ownership-file-type': 'application/msword',
+    'land-ownership-file-type': msWord,
     'land-ownership-checked': 'yes',
     landowners: [
       'Landowner Name 1',
@@ -120,7 +125,7 @@ export default {
         },
         {
           'Broad habitat': 'Grassland',
-          'Habitat type': 'Modified grassland',
+          'Habitat type': modifiedGrassland,
           'Area (hectares)': 1,
           'Total habitat units': 4,
           Condition: 'Moderate'
@@ -134,7 +139,7 @@ export default {
         },
         {
           'Broad habitat': 'Grassland',
-          'Habitat type': 'Modified grassland',
+          'Habitat type': modifiedGrassland,
           'Area (hectares)': 1,
           'Total habitat units': 2,
           Condition: 'Poor'
@@ -199,7 +204,7 @@ export default {
           'Area (hectares)': 1,
           Condition: 'Good',
           'Habitat units delivered': 4.9956750053,
-          'Proposed habitat': 'Modified grassland'
+          'Proposed habitat': modifiedGrassland
         },
         {
           'Area (hectares)': 2.5,
@@ -208,7 +213,7 @@ export default {
       ],
       e1: [
         {
-          'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+          'Hedgerow type': nativeHedgerow,
           'Length (km)': 0.3,
           'Total hedgerow units': 1.2,
           Condition: 'Poor'
@@ -240,11 +245,11 @@ export default {
       ],
       e3: [
         {
-          'Baseline habitat': 'Native hedgerow - associated with bank or ditch',
+          'Baseline habitat': nativeHedgerow,
           'Length (km)': 0.3,
           'Habitat enhanced in advance (years)': 0,
           'Delay in starting habitat enhancement (years)': 0,
-          'Proposed habitat': 'Native hedgerow - associated with bank or ditch',
+          'Proposed habitat': nativeHedgerow,
           'Hedge units delivered': 2.27835855,
           Condition: 'Moderate'
         },
@@ -310,14 +315,14 @@ export default {
     'check-uploaded-metric': true,
     'management-plan-location': '800376c7-8652-4906-8848-70a774578dfe/management-plan/legal-agreement.doc',
     'management-plan-file-size': 0.01,
-    'management-plan-file-type': 'application/msword',
+    'management-plan-file-type': msWord,
     'management-plan-checked': 'yes',
-    'habitat-works-start-date': '2022-01-01T00:00:00.000Z',
-    'management-monitoring-start-date': '2022-01-01T00:00:00.000Z',
+    'habitat-works-start-date': startDate,
+    'management-monitoring-start-date': startDate,
     'legal-agreement-type': '759150001',
     'legal-agreement-location': '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
     'legal-agreement-file-size': 0.01,
-    'legal-agreement-file-type': 'application/msword',
+    'legal-agreement-file-type': msWord,
     'legal-agreement-checked': 'yes',
     'legal-agreement-file-option': 'yes',
     'legal-agreement-parties': {
@@ -349,7 +354,7 @@ export default {
       ],
       selectionCount: 2
     },
-    'legal-agreement-start-date': '2022-01-01T00:00:00.000Z',
+    'legal-agreement-start-date': startDate,
     'application-reference': ''
   }
 }
