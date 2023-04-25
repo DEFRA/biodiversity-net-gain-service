@@ -398,6 +398,17 @@ const checkApplicantDetails = (request, h) => {
   return h.continue
 }
 
+const getMaximumFileSizeExceededView = config => {
+  return config.h.view(config.view, {
+    err: [
+      {
+        text: `The selected file must not be larger than ${config.maximumFileSize}MiB`,
+        href: config.href
+      }
+    ]
+  })
+}
+
 export {
   validateDate,
   dateClasses,
@@ -427,5 +438,6 @@ export {
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
-  checkApplicantDetails
+  checkApplicantDetails,
+  getMaximumFileSizeExceededView
 }

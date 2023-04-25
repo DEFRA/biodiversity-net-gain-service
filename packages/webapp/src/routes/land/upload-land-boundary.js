@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -56,6 +56,8 @@ function processErrorUpload (err, h) {
           href: LAND_BOUNDARY_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_LAND_BOUNDARY, {
@@ -89,7 +91,7 @@ const handlers = {
         return processErrorUpload(err, h)
       }
     ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
+      logger.log(`Problem uploading file ${err}`)
       return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
@@ -141,7 +143,8 @@ const buildSignalRConfig = (sessionId, config) => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.landBoundaryFileExt
+    fileExt: constants.landBoundaryFileExt,
+    maxFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB * 1024 * 1024
   }
 }
 
@@ -159,23 +162,16 @@ export default [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024) + 250,
       multipart: true,
       timeout: false,
       output: 'stream',
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: LAND_BOUNDARY_ID
-              }
-            ]
-          }).takeover()
+          return maximumFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -184,3 +180,12 @@ export default [{
   }
 }
 ]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: LAND_BOUNDARY_ID,
+    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+    view: constants.views.UPLOAD_LAND_BOUNDARY
+  })
+}
