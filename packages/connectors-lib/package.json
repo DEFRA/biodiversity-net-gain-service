@@ -20,14 +20,18 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/service-bus": "^7.8.0",
-    "@azure/storage-blob": "^12.12.0",
-    "@azure/storage-queue": "^12.11.0",
-    "@microsoft/signalr": "^6.0.14",
-    "pg": "^8.9.0"
+    "@azure/service-bus": "^7.9.0",
+    "@azure/storage-blob": "^12.14.0",
+    "@azure/storage-queue": "^12.13.0",
+    "@microsoft/signalr": "^6.0.16",
+    "pg": "^8.10.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@defra/bng-azure-storage-test-utils": "0.82.0",
+=======
+    "@defra/bng-azure-storage-test-utils": "^0.82.0",
+>>>>>>> 3de9711... updating dependencies
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
