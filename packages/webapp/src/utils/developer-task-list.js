@@ -29,17 +29,17 @@ const developerTaskList = {
         {
           title: 'Confirm development details',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: '',
-          startTaskUrl: '',
-          inProgressUrl: '',
+          completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
+          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'confirm-development-details'
         },
         {
           title: 'Confirm off-site gain',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: '',
-          startTaskUrl: '',
-          inProgressUrl: '',
+          completedTaskUrl: constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'confirm-off-site-gain'
         }
       ]
@@ -50,9 +50,9 @@ const developerTaskList = {
         {
           title: 'Upload the consent document',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: '',
-          startTaskUrl: '',
-          inProgressUrl: '',
+          completedTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'upload-consent-document'
         }
       ]
@@ -62,7 +62,7 @@ const developerTaskList = {
       tasks: [
         {
           title: 'Check your answers before you submit them to us',
-          status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
+          status: 'CANNOT START YET',
           completedTaskUrl: '',
           startTaskUrl: '',
           inProgressUrl: '',
