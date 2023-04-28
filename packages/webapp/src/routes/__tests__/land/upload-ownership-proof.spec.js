@@ -59,7 +59,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should upload land ownership document less than 50 MB', (done) => {
+    it('should upload land ownership document less than 50MiB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -74,7 +74,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload land ownership document less than 50 MB', (done) => {
+    it('should not upload land ownership document less than 50MiB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
