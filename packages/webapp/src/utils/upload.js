@@ -50,6 +50,7 @@ const createUploadConfiguration = config => {
 
 const handlePart = (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
+  const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   // Delay throwing errors until the form is closed.
   if (!part.filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
@@ -57,7 +58,7 @@ const handlePart = (logger, part, config, uploadResult) => {
   } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
-  } else if (fileSizeInBytes * 100 === 0) {
+  } else if (fileSize * 100 === 0) {
     uploadResult.errorMessage = constants.uploadErrors.emptyFile
     part.resume()
   } else if (fileSizeInBytes > config.fileValidationConfig.maxFileSize) {

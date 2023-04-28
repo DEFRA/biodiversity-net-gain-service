@@ -222,7 +222,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
   const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
   const reprojectedFileDirectory = `${fileDirectory}/${REPROJECTED_TO_OSGB36}`
   const reprojectedOutputFileLocation = uploadType.indexOf('.') > 0 ? `${reprojectedFileDirectory}/${filenameRoot}` : `${reprojectedFileDirectory}/${filenameRoot}.geojson`
-  const reprojectedOutputFileSize = parseFloat(500 / 1024 / 1024)
+  const reprojectedOutputFileSize = 500
   const mapConfig = {
     centroid: 'mock centroid',
     epsg: epsg || 'mock EPSG',

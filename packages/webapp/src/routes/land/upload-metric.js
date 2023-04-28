@@ -183,7 +183,7 @@ export default [{
           return h.view(constants.views.UPLOAD_METRIC, {
             err: [
               {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MiB`,
                 href: UPLOAD_METRIC_ID
               }
             ]

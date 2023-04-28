@@ -43,10 +43,12 @@ const handlers = {
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
   const location = fileLocation === null ? '' : path.parse(fileLocation).base
-  const size = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
+  const fileSize = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
+  const humanReadableFileSize = parseFloat(parseFloat(fileSize / 1024 / 1024).toFixed(2))
   return {
     filename: location,
-    fileSize: size
+    fileSize,
+    humanReadableFileSize
   }
 }
 

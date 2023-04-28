@@ -10,12 +10,15 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
     })
+    const fileSize = request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+    const humanReadableFileSize = parseFloat(parseFloat(fileSize / 1024 / 1024).toFixed(4))
     const mapConfig = {
       mapConfig: {
         ...request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
       },
       filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
-      fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+      fileSize,
+      humanReadableFileSize
     }
     return h.view(constants.views.CHECK_GEOSPATIAL_FILE, mapConfig)
   },
@@ -43,7 +46,8 @@ const handlers = {
             href: '#check-upload-correct-yes'
           }],
           filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
-          fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+          fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
+          humanReadableFileSize: parseFloat(parseFloat(request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE) / 1024 / 1024).toFixed(4))
         })
     }
     return h.redirect(route)

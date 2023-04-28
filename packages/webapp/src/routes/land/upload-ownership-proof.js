@@ -158,7 +158,7 @@ export default [{
           return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
             err: [
               {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MiB`,
                 href: LAND_OWNERSHIP_ID
               }
             ]

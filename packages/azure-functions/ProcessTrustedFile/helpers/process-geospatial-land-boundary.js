@@ -63,7 +63,7 @@ export default async function (context, config) {
         containerName: 'trusted',
         blobName: reprojectedGeoJsonBlobName
       })
-      signalRMessageArguments[0].reprojectedFileSize = parseFloat(reprojectedGeospatialUploadSizeInBytes / 1024 / 1024)
+      signalRMessageArguments[0].reprojectedFileSize = reprojectedGeospatialUploadSizeInBytes
     }
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {

@@ -99,13 +99,13 @@ const performUpload = async (request, h) => {
       // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System
       // and its size so that they can be part of the application submission.
       request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].reprojectedLocation)
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, parseFloat(geospatialData[0].reprojectedFileSize).toFixed(4))
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData[0].reprojectedFileSize)
     }
 
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, parseFloat(geospatialData.fileSize).toFixed(4))
+    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
     request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData[0].mapConfig.hectares.toFixed(2))
     request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData[0].mapConfig.gridRef)
@@ -236,7 +236,7 @@ export default [{
           return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [
               {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MiB`,
                 href: uploadGeospatialFileId
               }
             ]
