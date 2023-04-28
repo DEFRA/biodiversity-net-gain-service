@@ -112,19 +112,5 @@
 
 {% block bodyEnd %}
     {{ super() }}
-    <script>
-        const removeBtns = document.querySelectorAll('.custom-remove-btn')
-
-        const removeEmailElement = e => {
-            if (e.target.classList.contains('custom-remove-btn')) {
-                e.target.closest('.govuk-fieldset').remove()
-            } else {
-                return
-            }
-        }
-
-        removeBtns.forEach(btn => {
-            btn.addEventListener('click', removeEmailElement)
-        })
-    </script>
+    <script src="{{ assetPath }}/js/emailEntry.js"></script>
 {% endblock %}
