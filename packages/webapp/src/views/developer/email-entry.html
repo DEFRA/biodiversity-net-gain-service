@@ -1,11 +1,12 @@
 {% extends 'developer-form-layout.html' %}
 
 {% block header %}
+{{ super() }}
 <link href="{{ assetPath }}/stylesheets/pages/email-entry.css" rel="stylesheet" />
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
-{% set emailIndex = emailAddresses.length-1 if emailAddresses else 0 %}
+{% set emailIndex = emailAddresses.length if emailAddresses else 0 %}
 {% set id = "emailAddresses["+emailIndex+"]" %}
 {% block formContent %}
     <div class="govuk-body">
@@ -25,45 +26,42 @@
                     <p>For example, the person who will need to add proof of registration to the Gain Plan you submit to the local planning authority.</p>
                 </div>
 
-                {% if emailAddresses.length > 0 %}
-                <div class="saved-email-addresses">
-                    {% set index = 0 %}
-                    {% for email in emailAddresses %}
-                        {% if index < emailIndex %}
-                        {% set fieldId = "emailAddresses["+index+"]" %}
-                        {% call govukFieldset({
-                            classes: 'moj-add-another__item',
-                            legend: {
-                                text: 'Email',
-                                classes: 'moj-add-another__title govuk-fieldset__legend--m',
-                                isPageHeading: false
-                            }
-                        }) %}
-                        {{ govukInput({
-                            id: fieldId,
-                            name: "emailAddresses["+index+"]",
-                            spellcheck: false,
-                            autocomplete: "email",
-                            value: email,
-                            errorMessage: getErrById(err, fieldId),
-                            label: {
-                                text: "Email address",
-                                classes: "govuk-label"
-                            }
-                        }) }}
-                        {{ govukButton({
-                            type: "button",
-                            text: 'Remove',
-                            classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button custom-remove-btn'
-                        }) }}
-                        {% endcall %}
-                        {% endif %}
-                        {% set index = index + 1 %}
-                    {% endfor %}
-                </div>
-                {% endif %}
-
                 <div data-module="moj-add-another">
+                    {% if emailAddresses.length > 0 %}
+                    <div class="saved-email-addresses">
+                        {% set index = 0 %}
+                        {% for email in emailAddresses %}
+                            {% set fieldId = "emailAddresses["+index+"]" %}
+                            {% call govukFieldset({
+                                classes: 'moj-add-another__item',
+                                legend: {
+                                    text: 'Email',
+                                    classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                                    isPageHeading: false
+                                }
+                            }) %}
+                            {{ govukInput({
+                                id: fieldId,
+                                name: "emailAddresses["+index+"]",
+                                spellcheck: false,
+                                autocomplete: "email",
+                                value: email,
+                                errorMessage: getErrById(err, fieldId),
+                                label: {
+                                    text: "Email address",
+                                    classes: "govuk-label"
+                                }
+                            }) }}
+                            {{ govukButton({
+                                type: "button",
+                                text: 'Remove',
+                                classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button custom-remove-btn'
+                            }) }}
+                            {% endcall %}
+                            {% set index = index + 1 %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
                     {% call govukFieldset({
                         classes: 'moj-add-another__item',
                         legend: {
@@ -90,6 +88,7 @@
                         }
                     }) }}
                     {% endcall %}
+                    {% endif %}
 
                     <div class="moj-button-action">
                         {{ govukButton({

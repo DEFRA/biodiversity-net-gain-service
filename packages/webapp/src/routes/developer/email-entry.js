@@ -21,10 +21,20 @@ const getEmailAddressFromPayload = request => {
 
   for (const i in payload) {
     const email = payload[i]
-    emailAddresses.push(email)
-    const result = emailValidator(email, `#emailAddresses[${i}]`)
-    if (result) {
-      err.push(result.err[0])
+    if (Array.isArray(email)) {
+      email.forEach((item, index) => {
+        const result = emailValidator(item, `#emailAddresses[${index}]`)
+        if (result) {
+          err.push(result.err[0])
+        }
+        emailAddresses.push(item)
+      })
+    } else {
+      const result = emailValidator(email, `#emailAddresses[${i}]`)
+      if (result) {
+        err.push(result.err[0])
+      }
+      emailAddresses.push(email)
     }
   }
   return { emailAddresses, err }
