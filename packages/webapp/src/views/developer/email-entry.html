@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
-{% set emailIndex = emailAddresses.length-1 if emailAddresses else 0 %}
+{% set emailIndex = emailAddresses.length if emailAddresses else 0 %}
 {% set id = "emailAddresses["+emailIndex+"]" %}
 {% block formContent %}
     <div class="govuk-body">
