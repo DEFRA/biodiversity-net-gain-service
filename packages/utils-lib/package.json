@@ -16,15 +16,9 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-<<<<<<< HEAD
-    "@azure/identity": "^3.1.3",
-    "@defra/bng-connectors-lib": "0.82.0",
-    "axios": "^1.3.2"
-=======
     "@azure/identity": "^3.1.4",
     "@defra/bng-connectors-lib": "^0.82.0",
     "axios": "^1.3.6"
->>>>>>> 3de9711... updating dependencies
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }

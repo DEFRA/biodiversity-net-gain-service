@@ -29,17 +29,10 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@defra/bng-connectors-lib": "0.82.0",
-    "@defra/bng-document-service": "0.82.0",
-    "@defra/bng-errors-lib": "0.82.0",
-    "@defra/bng-utils-lib": "0.82.0",
-=======
     "@defra/bng-connectors-lib": "^0.82.0",
     "@defra/bng-document-service": "^0.82.0",
     "@defra/bng-errors-lib": "^0.82.0",
     "@defra/bng-utils-lib": "^0.82.0",
->>>>>>> 3de9711... updating dependencies
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.1",
@@ -64,11 +57,7 @@
     "sass": "^1.62.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@defra/bng-azure-storage-test-utils": "0.82.0",
-=======
     "@defra/bng-azure-storage-test-utils": "^0.82.0",
->>>>>>> 3de9711... updating dependencies
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.1",

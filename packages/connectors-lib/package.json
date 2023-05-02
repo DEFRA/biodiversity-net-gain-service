@@ -27,11 +27,7 @@
     "pg": "^8.10.0"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@defra/bng-azure-storage-test-utils": "0.82.0",
-=======
     "@defra/bng-azure-storage-test-utils": "^0.82.0",
->>>>>>> 3de9711... updating dependencies
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
