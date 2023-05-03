@@ -9,18 +9,18 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, context)
   },
   post: async (request, h) => {
-    const checkUploadMetric = request.payload.checkUploadMetric
-    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
-    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
-    if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
-      await deleteBlobFromContainers(metricUploadLocation)
+    const checkUploadConsent = request.payload.checkUploadConsent
+    const consentUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
+    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadConsent)
+    if (checkUploadConsent === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
+      await deleteBlobFromContainers(consentUploadLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
-      return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
-    } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
+      return h.redirect(constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD)
+    } else if (checkUploadConsent === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+      return h.redirect('/' + constants.views.DEVELOPER_TASKLIST)
     }
-    return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
-      filename: path.basename(metricUploadLocation),
+    return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, {
+      filename: path.basename(consentUploadLocation),
       ...getContext(request),
       err: [
         {
@@ -36,7 +36,7 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: request.yar.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE)
+    fileSize: request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE)
   }
 }
 

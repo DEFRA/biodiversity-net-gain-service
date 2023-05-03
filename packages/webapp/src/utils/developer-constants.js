@@ -19,6 +19,7 @@ const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
+const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 // ./Routes constants
 
 // RedisKeys constants
@@ -87,7 +88,8 @@ export default {
     DEVELOPER_ELIGIBILITY_RESULT,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-    DEVELOPER_AGREEMENT_CHECK
+    DEVELOPER_AGREEMENT_CHECK,
+    DEVELOPER_DOWNLOAD_CONSENT_FILE
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
