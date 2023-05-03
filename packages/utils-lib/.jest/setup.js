@@ -5,5 +5,5 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  process.env = ORIGINAL_ENV
+   process.env = { ...ORIGINAL_ENV }
 })

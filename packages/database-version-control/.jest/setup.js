@@ -6,7 +6,7 @@ afterEach(async () => {
   if (!JSON.parse(process.env.POSTGRES_SKIP_MIGRATION_ROLLBACK || false)) {
     await migrator.down({to: 0})
   }
-  process.env = ORIGINAL_ENV
+   process.env = { ...ORIGINAL_ENV }
 })
 
 // Give the connection pool time to close before the test run ends.

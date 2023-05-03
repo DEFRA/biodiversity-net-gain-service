@@ -18,7 +18,7 @@ afterEach(async () => {
       await server.stop()
     }
   } finally {
-    process.env = ORIGINAL_ENV
+     process.env = { ...ORIGINAL_ENV }
   }
 })
 
