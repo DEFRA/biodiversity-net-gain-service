@@ -26,7 +26,7 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, metricFileData[0].location)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, metricFileData.filename)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, parseFloat(metricFileData.fileSize).toFixed(1))
+      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, parseFloat(metricFileData.fileSize).toFixed(2))
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, metricFileData.fileType)
     }
 
