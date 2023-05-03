@@ -35,7 +35,6 @@ describe('Land boundary upload additional error tests', () => {
       await clearQueues()
     })
 
-
     it('should handle when upload processing fails due to a document service error', (done) => {
       jest.isolateModules(async () => {
         try {
