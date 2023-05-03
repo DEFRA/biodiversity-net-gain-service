@@ -77,6 +77,12 @@ const processErrorMessage = (errorMessage, error) => {
         href: DEVELOPER_UPLOAD_METRIC_ID
       }]
       break
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      error.err = [{
+        text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MiB`,
+        href: DEVELOPER_UPLOAD_METRIC_ID
+      }]
+      break
     default:
       if (errorMessage.indexOf('timed out') > 0) {
         error.err = [{
@@ -129,7 +135,8 @@ const buildSignalRConfig = (sessionId, config) => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.metricFileExt
+    fileExt: constants.metricFileExt,
+    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
   }
 }
 
