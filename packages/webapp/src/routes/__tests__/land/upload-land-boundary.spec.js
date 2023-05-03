@@ -52,7 +52,7 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-ownership-details'
           }
-          await uploadFile(uploadConfig, 302)
+          await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(3)
           setImmediate(() => {
             done()
@@ -68,7 +68,7 @@ describe('Land boundary upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-          await uploadFile(uploadConfig, 302)
+          await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
           })
@@ -85,6 +85,25 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
           await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload land boundary document larger than the configured maximum', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MiB`)
           setImmediate(() => {
             done()
           })
@@ -141,7 +160,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should  upload land boundary document 50 MB file', (done) => {
+    it('should upload land boundary document 50MiB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
