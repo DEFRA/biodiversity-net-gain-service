@@ -29,7 +29,7 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, writtenConsentFile.fileType)
     }
 
-    return h.redirect(constants.routes.DEVELOPER_AGREEMENT_CHECK)
+    return h.redirect(constants.routes.DEVELOPER_CONSENT_AGREEMENT_CHECK)
   } catch (err) {
     const errorContext = getErrorContext(err)
     return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, errorContext)

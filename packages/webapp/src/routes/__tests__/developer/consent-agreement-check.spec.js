@@ -1,7 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
-const url = constants.routes.DEVELOPER_AGREEMENT_CHECK
+const url = constants.routes.DEVELOPER_CONSENT_AGREEMENT_CHECK
 
 jest.mock('../../../utils/azure-signalr.js')
 

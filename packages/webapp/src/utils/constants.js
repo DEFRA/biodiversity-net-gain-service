@@ -237,6 +237,11 @@ const CHECK_UPLOAD_METRIC_OPTIONS = {
   YES
 }
 
+const CHECK_UPLOAD_CONSENT_OPTIONS = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   ...developerConstants.redisKeys,
   APPLICATION_REFERENCE,
@@ -484,5 +489,6 @@ export default Object.freeze({
   minStartDates,
   AZURE_FUNCTION_APP_URL,
   consentFileExt: developerConstants.consentFileExt,
+  CHECK_UPLOAD_CONSENT_OPTIONS,
   ...developerConstants.options
 })

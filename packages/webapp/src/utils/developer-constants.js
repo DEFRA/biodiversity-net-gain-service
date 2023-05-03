@@ -18,7 +18,8 @@ const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
 const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
-const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
+const DEVELOPER_CONSENT_AGREEMENT_CHECK = 'developer/consent-agreement-check'
+const DEVELOPER_DOWNLOAD_CONSENT_AGREEMENT = 'developer/download-consent-agreement-file'
 // ./Routes constants
 
 // RedisKeys constants
@@ -43,6 +44,7 @@ const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
 const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
 const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
 const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
+const DEVELOPER_CONSENT_FILE_CHECKED = 'developer-consent-file-checked'
 // ./RedisKeys constants
 
 // Other constants
@@ -87,7 +89,8 @@ export default {
     DEVELOPER_ELIGIBILITY_RESULT,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-    DEVELOPER_AGREEMENT_CHECK
+    DEVELOPER_CONSENT_AGREEMENT_CHECK,
+    DEVELOPER_DOWNLOAD_CONSENT_AGREEMENT
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -110,7 +113,8 @@ export default {
     DEVELOPER_CONSENT_FILE_LOCATION,
     DEVELOPER_CONSENT_FILE_NAME,
     DEVELOPER_CONSENT_FILE_SIZE,
-    DEVELOPER_CONSENT_FILE_TYPE
+    DEVELOPER_CONSENT_FILE_TYPE,
+    DEVELOPER_CONSENT_FILE_CHECKED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
