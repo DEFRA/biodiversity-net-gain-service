@@ -185,7 +185,7 @@ describe('Land boundary upload controller tests', () => {
           config.filePath = `${mockDataPath}/legal-agreement.pdf`
           config.generateHandleEventsError = true
           config.hasError = true
-          await uploadFile(config, 302)
+          await uploadFile(config)
           setImmediate(() => {
             done()
           })
