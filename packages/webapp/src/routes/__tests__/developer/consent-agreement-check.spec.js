@@ -38,17 +38,17 @@ describe(url, () => {
       }
     })
 
-    it('should allow an alternative metric file to be uploaded ', (done) => {
+    it('should allow an alternative concent file to be uploaded ', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
           const checkConsentFile = require('../../developer/consent-agreement-check.js')
           redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadConsent = constants.confirmLandBoundaryOptions.NO
+          postOptions.payload.checkUploadConsent = constants.CHECK_UPLOAD_METRIC_OPTIONS.NO
           const request = {
             yar: redisMap,
             payload: {
-              checkUploadConsent: constants.confirmLandBoundaryOptions.NO
+              checkUploadConsent: constants.CHECK_UPLOAD_METRIC_OPTIONS.NO
             }
           }
           const h = {
@@ -75,9 +75,39 @@ describe(url, () => {
       })
     })
 
+    it('should allow an concent file to be uploaded ', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const checkConsentFile = require('../../developer/consent-agreement-check.js')
+          redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+          postOptions.payload.checkUploadConsent = constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
+          const request = {
+            yar: redisMap,
+            payload: {
+              checkUploadConsent: constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
+            }
+          }
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          await checkConsentFile.default[1].handler(request, h)
+          expect(viewResult).toEqual(constants.routes.DEVELOPER_TASKLIST)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should detect an invalid response from user', async () => {
       postOptions.payload.checkUploadConsent = 'invalid'
-      await submitPostRequest(postOptions, 500)
+      await submitPostRequest(postOptions, 404)
     })
   })
 })
