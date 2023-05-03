@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { emailValidator, getErrById } from '../../utils/helpers.js'
+import { emailValidator, getErrById, validateName } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -20,15 +20,16 @@ const handlers = {
 const getEmailAddressFromPayload = request => {
   const emailAddresses = []
   const err = []
-  const payload = Object.values(request.payload)
 
-  for (const i in payload) {
-    const email = payload[i]
-    const result = emailValidator(email, `#emailAddresses[${i}]`)
-    if (result) {
-      err.push(result.err[0])
+  const fullNames = request.payload.fullNames
+  const emails = request.payload.emails
+
+  if (Array.isArray(emails)) {
+    for (const i in emails) {
+      processFieldValues(fullNames[i], emails[i], emailAddresses, err, i)
     }
-    emailAddresses.push(email)
+  } else {
+    processFieldValues(fullNames, emails, emailAddresses, err)
   }
   return { emailAddresses, err }
 }
@@ -36,6 +37,18 @@ const getEmailAddressFromPayload = request => {
 const getContext = request => ({
   emailAddresses: request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
 })
+
+const processFieldValues = (fullName, email, emailAddresses, err, index = 0) => {
+  const emailErr = emailValidator(email, `#email-${index}`)
+  const fullNameErr = validateName(fullName, `#fullName-${index}`)
+  if (fullNameErr) {
+    err.push(fullNameErr.err[0])
+  }
+  if (emailErr) {
+    err.push(emailErr.err[0])
+  }
+  emailAddresses.push({ fullName, email })
+}
 
 export default [{
   method: 'GET',

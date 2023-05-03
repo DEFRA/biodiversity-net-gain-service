@@ -25,19 +25,24 @@ const removeError = ($item) => {
   }
 }
 
-const updateAttr = ($item) => {
-  const index = getItem().length
-  const $label = $item.find('label:contains("Email address")')
+const updateElement = ($label, idPrefix, index) => {
   const $input = $label.siblings('input')
-  const id = `emailAddresses[${index}]`
+  const id = `${idPrefix}[${index}]`
   $label.attr('for', id)
   $input.attr('id', id)
-  $input.attr('name', id)
+}
+
+const updateElements = ($item) => {
+  const index = getItem().length
+  const $emailLabel = $item.find('label:contains("Email address")')
+  const $nameLabel = $item.find('label:contains("Full name")')
+  updateElement($emailLabel, 'email-', index)
+  updateElement($nameLabel, 'fullName-', index)
 }
 
 const cloneNewItem = (e) => {
   const $item = $container.find('.moj-add-another__item').last()
-  updateAttr($item)
+  updateElements($item)
   removeError($item)
 }
 
