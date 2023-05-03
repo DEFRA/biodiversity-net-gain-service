@@ -303,6 +303,17 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
+const validateBNGNumber = (bngNumber, hrefId) => {
+  const error = {}
+  if (!bngNumber.trim()) {
+    error.err = [{
+      text: 'Enter your Biodiversity gain site number',
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 const emailValidator = (email, id) => {
   const tester = /^[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
   // https://en.wikipedia.org/wiki/Email_address  The format of an email address is local-part@domain, where the
@@ -390,5 +401,6 @@ export {
   getMinDateCheckError,
   validateName,
   emailValidator,
-  getDeveloperEligibilityResults
+  getDeveloperEligibilityResults,
+  validateBNGNumber
 }
