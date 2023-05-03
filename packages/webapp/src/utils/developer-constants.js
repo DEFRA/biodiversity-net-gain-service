@@ -21,6 +21,7 @@ const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
 const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
+const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 // ./Routes constants
 
 // RedisKeys constants
@@ -92,7 +93,8 @@ export default {
     DEVELOPER_EMAIL_ENTRY,
     DEVELOPER_CHECK_ANSWERS,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-    DEVELOPER_AGREEMENT_CHECK
+    DEVELOPER_AGREEMENT_CHECK,
+    DEVELOPER_DOWNLOAD_CONSENT_FILE
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
