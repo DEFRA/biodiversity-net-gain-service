@@ -38,7 +38,7 @@ const developerTaskList = {
           title: 'Confirm off-site gain',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
           completedTaskUrl: constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          startTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
           inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'confirm-off-site-gain'
         }
@@ -50,9 +50,9 @@ const developerTaskList = {
         {
           title: 'Upload the consent document',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-          inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
+          startTaskUrl: constants.routes.DEVELOPER_EMAIL_ENTRY,
+          inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
           id: 'upload-consent-document'
         }
       ]
