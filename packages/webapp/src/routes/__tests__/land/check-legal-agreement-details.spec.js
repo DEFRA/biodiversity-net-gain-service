@@ -1,6 +1,7 @@
 import constants from '../../../utils/constants.js'
+import { submitGetRequest } from '../helpers/server.js'
 
-const url = constants.views.CHECK_LEGAL_AGREEMENT_DETAILS
+const url = constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe('Land boundary upload controller tests', () => {
@@ -24,6 +25,13 @@ describe('Land boundary upload controller tests', () => {
     })
   })
   describe('GET', () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {

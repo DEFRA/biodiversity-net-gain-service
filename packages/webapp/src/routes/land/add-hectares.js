@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -48,7 +48,10 @@ const validateHectares = hectares => {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_HECTARES,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.ADD_HECTARES,

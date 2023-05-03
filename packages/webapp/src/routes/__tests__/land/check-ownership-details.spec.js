@@ -1,10 +1,17 @@
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_OWNERSHIP_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 
 describe(url, () => {
   describe('GET', () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
     it(`should render the ${url.substring(1)} view`, async () => {
       jest.isolateModules(async () => {
         let viewResult, contextResult

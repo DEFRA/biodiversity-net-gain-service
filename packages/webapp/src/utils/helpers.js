@@ -384,6 +384,20 @@ const emailValidator = (email, id) => {
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
+const areApplicantDetailsPresent = session => (
+  session.get(constants.redisKeys.FULL_NAME) &&
+  session.get(constants.redisKeys.ROLE_KEY) &&
+  session.get(constants.redisKeys.EMAIL_VALUE)
+)
+
+// Route pre lifecycle method, redirects to Start if applicant details are not present
+const checkApplicantDetails = (request, h) => {
+  if (!areApplicantDetailsPresent(request.yar)) {
+    return h.redirect(constants.routes.START).takeover()
+  }
+  return h.continue
+}
+
 export {
   validateDate,
   dateClasses,
@@ -412,5 +426,6 @@ export {
   emailValidator,
   getDeveloperEligibilityResults,
   validateBNGNumber,
-  getErrById
+  getErrById,
+  checkApplicantDetails
 }

@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
@@ -21,7 +21,10 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,

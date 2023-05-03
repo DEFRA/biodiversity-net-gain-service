@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
@@ -134,7 +134,10 @@ const buildFileValidationConfig = config => {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_LEGAL_AGREEMENT,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 },
 {
   method: 'POST',

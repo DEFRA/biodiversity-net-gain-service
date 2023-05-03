@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -160,7 +160,10 @@ const getValidation = metricValidation => {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_METRIC,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 },
 {
   method: 'POST',

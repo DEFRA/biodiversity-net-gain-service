@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
@@ -135,7 +135,10 @@ function processErrorUpload (err, h) {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_MANAGEMENT_PLAN,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 },
 {
   method: 'POST',

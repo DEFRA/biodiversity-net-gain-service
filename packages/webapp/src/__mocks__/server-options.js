@@ -1,4 +1,4 @@
-import { Engine as CatboxMemory } from '@hapi/catbox-memory'
+import { Engine } from '@hapi/catbox-memory'
 
 // use catbox-memory cache strategy for testing
 const serverOptions = {
@@ -6,7 +6,7 @@ const serverOptions = {
     {
       name: 'redis_cache',
       provider: {
-        constructor: CatboxMemory
+        constructor: Engine
       }
     }
   ]

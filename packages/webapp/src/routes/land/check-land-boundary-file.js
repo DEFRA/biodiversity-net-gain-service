@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
@@ -53,7 +53,10 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LAND_BOUNDARY,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LAND_BOUNDARY,

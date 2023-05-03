@@ -2,7 +2,16 @@ import constants from '../../utils/constants.js'
 import application from '../../utils/application.js'
 import applicationValidation from '../../utils/application-validation.js'
 import { postJson } from '../../utils/http.js'
-import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
+import {
+  listArray,
+  boolToYesNo,
+  dateToString,
+  hideClass,
+  getAllLandowners,
+  getLegalAgreementDocumentType,
+  getNameAndRoles,
+  checkApplicantDetails
+} from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
@@ -43,7 +52,10 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.CHECK_AND_SUBMIT,
