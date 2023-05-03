@@ -25,7 +25,7 @@ const performUpload = async (request, h) => {
       }
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, writtenConsentFile[0].location)
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME, writtenConsentFile.filename)
-      request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, parseFloat(writtenConsentFile.fileSize).toFixed(1))
+      request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, parseFloat(writtenConsentFile.fileSize).toFixed(2))
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, writtenConsentFile.fileType)
     }
 
