@@ -42,7 +42,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkConsentFile = require('../../developer/check-consent-file.js')
+          const checkConsentFile = require('../../developer/consent-agreement-check.js')
           redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadConsent = constants.confirmLandBoundaryOptions.NO
           const request = {
