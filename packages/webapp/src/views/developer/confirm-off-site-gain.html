@@ -3,8 +3,6 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Confirm the off-site gain" %}
-{% set landowner_name = 'Landowner' %}
-{% set bngReferenceNo = 'BNG1234567' %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -32,18 +30,10 @@
 					rows: [
 					{
 						key: {
-						text: "Landowner"
-						},
-						value: {
-						text: landowner_name
-						}
-					},
-					{
-						key: {
 						text: "Biodiversity gain site number"
 						},
 						value: {
-						text: bngReferenceNo
+						text: gainSiteNumber
 						}
 					}
 					]
