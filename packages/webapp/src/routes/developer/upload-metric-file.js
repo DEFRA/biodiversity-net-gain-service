@@ -1,7 +1,6 @@
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
+import { buildConfig } from '../../utils/build-metric-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
@@ -14,7 +13,7 @@ const handlers = {
 }
 
 const performUpload = async (request, h) => {
-  const config = buildConfig(request.yar.id)
+  const config = buildConfig(request.yar.id, constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE)
 
   try {
     const metricFileData = await uploadFiles(logger, request, config)
@@ -91,52 +90,6 @@ const processErrorMessage = (errorMessage, error) => {
         }]
       }
       break
-  }
-}
-
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.metricFileExt,
-    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
   }
 }
 
