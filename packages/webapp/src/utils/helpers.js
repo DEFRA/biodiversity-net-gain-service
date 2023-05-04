@@ -402,11 +402,23 @@ const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
       {
-        text: `The selected file must not be larger than ${config.maximumFileSize}MiB`,
+        text: `The selected file must not be larger than ${config.maximumFileSize}MB`,
         href: config.href
       }
     ]
   })
+}
+
+const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => {
+  // Convert from bytes to kilobytes initially.
+  let humanReadableFileSize = parseFloat(fileSizeInBytes / 1024)
+  let units = 'kB'
+  if (parseInt(fileSizeInBytes) > 1048576) {
+    // Convert from kilobytes to megabytes
+    humanReadableFileSize = parseFloat(fileSizeInBytes / 1024 / 1024)
+    units = 'MB'
+  }
+  return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
 export {
@@ -439,5 +451,6 @@ export {
   validateBNGNumber,
   getErrById,
   checkApplicantDetails,
-  getMaximumFileSizeExceededView
+  getMaximumFileSizeExceededView,
+  getHumanReadableFileSize
 }

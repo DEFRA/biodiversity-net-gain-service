@@ -76,7 +76,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should upload legal agreement document less than 50MiB', (done) => {
+    it('should upload legal agreement document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -95,7 +95,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should not upload legal agreement document less than 50MiB', (done) => {
+    it('should not upload legal agreement document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

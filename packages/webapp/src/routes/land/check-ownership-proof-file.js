@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -38,12 +38,11 @@ const handlers = {
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
   const fileSize = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE)
-  const humanReadableFileSize = parseFloat(parseFloat(fileSize / 1024 / 1024).toFixed(2))
+  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     fileLocation,
-    fileSize,
-    humanReadableFileSize
+    fileSize: humanReadableFileSize
   }
 }
 

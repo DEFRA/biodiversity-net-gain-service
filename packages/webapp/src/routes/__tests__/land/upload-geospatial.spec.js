@@ -69,7 +69,7 @@ describe(url, () => {
       })
     })
 
-    it('should upload a 50MiB GeoJSON file to cloud storage', (done) => {
+    it('should upload a 50MB GeoJSON file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = JSON.parse(JSON.stringify(baseConfig))
@@ -305,7 +305,7 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a geospatial land boundary document more than 50MiB', (done) => {
+    it('should not upload a geospatial land boundary document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = JSON.parse(JSON.stringify(baseConfig))
@@ -313,7 +313,7 @@ describe(url, () => {
           uploadConfig.filePath = `${mockDataPath}/55MB.geojson`
           const response = await uploadFile(uploadConfig)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('The selected file must not be larger than 50MiB')
+          expect(response.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })

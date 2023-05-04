@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -11,14 +11,13 @@ const handlers = {
       inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
     })
     const fileSize = request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
-    const humanReadableFileSize = parseFloat(parseFloat(fileSize / 1024 / 1024).toFixed(4))
+    const humanReadableFileSize = getHumanReadableFileSize(fileSize)
     const mapConfig = {
       mapConfig: {
         ...request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
       },
       filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
-      fileSize,
-      humanReadableFileSize
+      fileSize: humanReadableFileSize
     }
     return h.view(constants.views.CHECK_GEOSPATIAL_FILE, mapConfig)
   },

@@ -79,7 +79,7 @@ const processErrorMessage = (errorMessage, error) => {
       break
     case constants.uploadErrors.maximumFileSizeExceeded:
       error.err = [{
-        text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MiB`,
+        text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
         href: DEVELOPER_UPLOAD_METRIC_ID
       }]
       break
@@ -163,7 +163,7 @@ export default [{
           return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
             err: [
               {
-                text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MiB`,
+                text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
                 href: DEVELOPER_UPLOAD_METRIC_ID
               }
             ]

@@ -58,7 +58,7 @@ describe(url, () => {
       })
     })
 
-    it('should upload a 50MiB Metric file to cloud storage', (done) => {
+    it('should upload a 50MB Metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -73,7 +73,7 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a developer metric file more than 50MiB', (done) => {
+    it('should not upload a developer metric file more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -81,7 +81,7 @@ describe(url, () => {
           uploadConfig.filePath = `${mockDataPath}/55MB.xlsx`
           const response = await uploadFile(uploadConfig)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('The selected file must not be larger than 50MiB')
+          expect(response.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -100,7 +100,7 @@ describe(url, () => {
           uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MiB`)
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })

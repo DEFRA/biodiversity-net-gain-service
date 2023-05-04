@@ -66,7 +66,7 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should upload metric document less than 50MiB', (done) => {
+    it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -128,7 +128,7 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should not upload metric file more than 50MiB', (done) => {
+    it('should not upload metric file more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

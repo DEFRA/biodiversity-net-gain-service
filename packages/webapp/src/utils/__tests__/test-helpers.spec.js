@@ -1,4 +1,15 @@
-import { listArray, boolToYesNo, dateToString, hideClass, getAllLandowners, getEligibilityResults, formatAppRef, getDeveloperEligibilityResults } from '../helpers.js'
+import {
+  listArray,
+  boolToYesNo,
+  dateToString,
+  hideClass,
+  getAllLandowners,
+  getEligibilityResults,
+  formatAppRef,
+  getDeveloperEligibilityResults,
+  getHumanReadableFileSize
+} from '../helpers.js'
+
 import Session from '../../__mocks__/session.js'
 import constants from '../../utils/constants.js'
 
@@ -158,6 +169,14 @@ describe('helpers file', () => {
   describe('formatAppRef', () => {
     it('Should format REF2301160004 to REF-230 116 0004', () => {
       expect(formatAppRef('REF2301160004')).toEqual('REF-230 116 0004')
+    })
+  })
+  describe('getHumamReadableFileSize', () => {
+    it('should convert a file size below 1MB to kilobytes', () => {
+      expect(getHumanReadableFileSize(512)).toEqual('0.5 kB')
+    })
+    it('should convert a file size avove 1MB to megabytes', () => {
+      expect(getHumanReadableFileSize(2097152)).toStrictEqual('2 MB')
     })
   })
 })

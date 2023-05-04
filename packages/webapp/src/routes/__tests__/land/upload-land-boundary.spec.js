@@ -63,7 +63,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should upload land boundary document less than 50MiB', (done) => {
+    it('should upload land boundary document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -78,7 +78,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should not upload land boundary document more than 50MiB', (done) => {
+    it('should not upload land boundary document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -103,7 +103,7 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MiB`)
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })
@@ -160,7 +160,7 @@ describe('Land boundary upload controller tests', () => {
       })
     })
 
-    it('should upload land boundary document 50MiB file', (done) => {
+    it('should upload land boundary document 50MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
