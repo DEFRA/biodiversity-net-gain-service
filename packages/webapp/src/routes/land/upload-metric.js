@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -48,6 +48,8 @@ function processErrorUpload (err, h) {
           href: UPLOAD_METRIC_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_METRIC, {
@@ -134,7 +136,8 @@ const buildSignalRConfig = (sessionId, config) => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.metricFileExt
+    fileExt: constants.metricFileExt,
+    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
   }
 }
 
@@ -180,14 +183,7 @@ export default [{
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_METRIC, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: UPLOAD_METRIC_ID
-              }
-            ]
-          }).takeover()
+          return maximumFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -196,3 +192,12 @@ export default [{
   }
 }
 ]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: UPLOAD_METRIC_ID,
+    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
+    view: constants.views.UPLOAD_METRIC
+  })
+}
