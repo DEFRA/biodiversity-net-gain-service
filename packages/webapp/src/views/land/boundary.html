@@ -50,7 +50,10 @@
         }) }}
 
       {{ govukButton({
-        html: "<span data-testid=\"Continue\">Continue</span>"
+        text: "Continue",
+        attributes: {
+          "data-testid": "continue"
+        }
       }) }}
       </div>
     </div>

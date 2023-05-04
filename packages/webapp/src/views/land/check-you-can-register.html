@@ -14,7 +14,10 @@
           <p>Check that you have all the documents, consent and calculations that you need.</p>
     
           {{ govukButton({
-            html: "<span data-testid=\"Continue\">Continue</span>",
+            text: "Continue",
+            attributes: {
+              "data-testid": "continue"
+            },
             href: "/land/site-in-england"
           }) }}
     

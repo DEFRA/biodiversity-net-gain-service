@@ -53,7 +53,10 @@
         {% endif %}
 
         {{ govukButton({
-          html: "<span data-testid=\"Continue\">Continue</span>",
+          text: "Continue",
+          attributes: {
+            "data-testid": "continue"
+          },
           href: "/land/name"
         }) }}
       </div>
