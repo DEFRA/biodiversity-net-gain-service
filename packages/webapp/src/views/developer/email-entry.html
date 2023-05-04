@@ -29,7 +29,6 @@
                     {% if emailAddresses.length > 0 %}
                     <div class="saved-email-addresses">
                         {% set index = 0 %}
-                        data: {{ emailAddresses | dump(2) }}
                         {% for details in emailAddresses %}
                             {% set emailAttrId = "email-"+index %}
                             {% set nameAttrId = "fullName-"+index %}
