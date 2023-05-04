@@ -41,8 +41,8 @@ const getContext = request => {
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileLocation,
-    fileSize: humanReadableFileSize
+    fileSize: humanReadableFileSize,
+    fileLocation
   }
 }
 

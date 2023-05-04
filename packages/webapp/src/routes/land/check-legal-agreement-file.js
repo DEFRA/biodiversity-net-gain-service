@@ -43,8 +43,8 @@ const getContext = request => {
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
-    fileLocation,
-    fileSize: humanReadableFileSize
+    fileSize: humanReadableFileSize,
+    fileLocation
   }
 }
 
