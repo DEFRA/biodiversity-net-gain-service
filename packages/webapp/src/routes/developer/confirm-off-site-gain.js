@@ -45,11 +45,18 @@ const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item)
   return prev
 }, 0)
 
-const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row => row['Register reference number'] === request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
+const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
+  row['Register reference number'] === request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const noOfHabitatUnits = getNumOfUnits(filterByBGN(metricData?.d1OffSiteHabitatBaseline, request), 'Broad habitat', 'Area (hectares)')
-  const noOfHedgerowUnits = getNumOfUnits(filterByBGN(metricData?.e1OffSiteHedgeBaseline, request), 'Hedgerow type', 'Length (km)')
+  const noOfHabitatUnits = getNumOfUnits(
+    filterByBGN(metricData?.d1OffSiteHabitatBaseline, request),
+    'Broad habitat',
+    'Area (hectares)')
+  const noOfHedgerowUnits = getNumOfUnits(
+    filterByBGN(metricData?.e1OffSiteHedgeBaseline, request),
+    'Hedgerow type',
+    'Length (km)')
   return {
     offSiteHabitats: {
       items: filterByBGN(metricData?.d1OffSiteHabitatBaseline, request),
