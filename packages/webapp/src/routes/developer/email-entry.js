@@ -2,7 +2,10 @@ import constants from '../../utils/constants.js'
 import { emailValidator, getErrById } from '../../utils/helpers.js'
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { getErrById }),
+  get: async (request, h) => {
+    const emailAddresses = request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+    return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { getErrById, emailAddresses })
+  },
   post: async (request, h) => {
     const { emailAddresses, err } = getEmailAddressFromPayload(request)
     if (err.length > 0) {
