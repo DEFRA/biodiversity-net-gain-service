@@ -1,6 +1,5 @@
 import developerConstants from './developer-constants.js'
 
-const ABOUT = 'about'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const APPLICATION_REFERENCE = 'application-reference'
@@ -64,7 +63,6 @@ const NO = 'no'
 const NO_AGAIN = 'noAgain'
 const OS_API_TOKEN = 'land/os-api-token'
 const PUBLIC_ROUTES = 'public-routes'
-const SESSION = 'session'
 const START = 'start'
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
@@ -157,6 +155,7 @@ const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
+const TEST_SEED_DATA = 'test/seed-data'
 
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 const COOKIES = 'cookies'
@@ -314,9 +313,8 @@ const redisKeys = {
   REGISTRATION_SAVED_REFERER
 }
 
-const routes = {
+let routes = {
   ...developerConstants.routes,
-  ABOUT,
   ADD_GRID_REFERENCE,
   ADD_HECTARES,
   ERROR,
@@ -341,7 +339,6 @@ const routes = {
   CHOOSE_LAND_BOUNDARY_UPLOAD,
   OS_API_TOKEN,
   PUBLIC_ROUTES,
-  SESSION,
   START,
   UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
   UPLOAD_MANAGEMENT_PLAN,
@@ -386,6 +383,15 @@ const routes = {
   CHECK_HABITAT_CREATED,
   CHECK_METRIC_DETAILS,
   COOKIES
+}
+
+// Routes that are only loaded if NODE_ENV === development
+const testRoutes = {
+  TEST_SEED_DATA
+}
+
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+  routes = { ...routes, ...testRoutes }
 }
 
 const uploadErrors = {

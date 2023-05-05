@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% set pageHeading = "Seed data" %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+  <p>This page is only accessible on the web application if NODE_ENV is set to development</p>
+  <p>Your client session is now pre loaded with some dummy data for testing on the service</p>
+  <p>Continue to the <a href="/land/register-land-task-list">task list</a></p>
+{% endblock %}
