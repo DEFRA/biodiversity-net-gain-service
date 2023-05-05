@@ -34,6 +34,8 @@ function processErrorUpload (err, h) {
           href: LAND_OWNERSHIP_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumOwnershipProofFileSizeExceeded(h)
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
         err: [{
@@ -41,8 +43,6 @@ function processErrorUpload (err, h) {
           href: LAND_OWNERSHIP_ID
         }]
       })
-    case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_LAND_OWNERSHIP, {
@@ -116,14 +116,7 @@ export default [{
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: LAND_OWNERSHIP_ID
-              }
-            ]
-          }).takeover()
+          return maximumOwnershipProofFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -133,7 +126,7 @@ export default [{
 }
 ]
 
-const maximumFileSizeExceeded = h => {
+const maximumOwnershipProofFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
     href: LAND_OWNERSHIP_ID,

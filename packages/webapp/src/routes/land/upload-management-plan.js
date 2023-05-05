@@ -20,9 +20,9 @@ const handlers = {
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,
-      uploadType: constants.uploadTypes.MANAGEMENT_PLAN_UPLOAD_TYPE,
+      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024,
       fileExt: constants.managementPlanFileExt,
-      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
+      uploadType: constants.uploadTypes.MANAGEMENT_PLAN_UPLOAD_TYPE
     })
     return uploadFiles(logger, request, config).then(
       function (result) {
@@ -79,7 +79,7 @@ function processErrorUpload (err, h) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
+      return maximumManagementPlanFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_MANAGEMENT_PLAN, {
@@ -116,7 +116,7 @@ export default [{
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h).takeover()
+          return maximumManagementPlanFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -126,7 +126,7 @@ export default [{
 }
 ]
 
-const maximumFileSizeExceeded = h => {
+const maximumManagementPlanFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
     href: MANAGEMENT_PLAN_ID,
