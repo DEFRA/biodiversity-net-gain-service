@@ -179,4 +179,5 @@ describe('helpers file', () => {
       expect(getHumanReadableFileSize(2097152)).toStrictEqual('2 MB')
     })
   })
+  // Test coverage for getMaximumFileSizeExceededView is provided as part of tests in other files.
 })
