@@ -74,7 +74,7 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
-    it('should not upload management plan document less than 50MB', (done) => {
+    it('should not upload management plan document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
