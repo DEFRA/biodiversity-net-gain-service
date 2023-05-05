@@ -1,8 +1,8 @@
 import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
 import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
@@ -23,65 +23,16 @@ const handlers = {
   post: async (request, h) => performUpload(request, h)
 }
 
-// TO DO - Refactor to reduce direct coupling to Microsoft Azure.
-// For example, extract Microsoft Azure specfic configuration code to an Azure specific module.
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.geospatialLandBoundaryFileExt,
-    maximumDecimalPlaces: 4,
-    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
-  }
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  // Configuration for storing the upload in an untrusted area
-  // of blob storage.
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  // Configuration for storage queue based triggering of upload processing.
-  // Queue based triggering is used as blob triggering can experience delays
-  // due to its poll based nature.
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: processGeospatialLandBoundaryEvent,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 30000,
-    // The session ID is used as the SignalR userID.
-    // This ensures that notification of the processed upload is only sent to
-    // the SignalR client connection associated with this session.
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
 const performUpload = async (request, h) => {
-  const config = buildConfig(request.yar.id)
+  const config = buildConfig({
+    sessionId: request.yar.id,
+    uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
+    fileExt: constants.geospatialLandBoundaryFileExt,
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
+  })
+
+  config.fileValidationConfig.maximumDecimalPlaces = 4
+  config.signalRConfig.eventProcessingFunction = processGeospatialLandBoundaryEvent
 
   try {
     const geospatialData = await uploadFiles(logger, request, config)

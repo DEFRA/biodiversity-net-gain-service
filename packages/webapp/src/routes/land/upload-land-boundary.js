@@ -1,6 +1,6 @@
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { checkApplicantDetails, processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
@@ -82,7 +82,12 @@ const handlers = {
     return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
   },
   post: async (request, h) => {
-    const config = buildConfig(request.yar.id)
+    const config = buildConfig({
+      sessionId: request.yar.id,
+      uploadType: constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE,
+      fileExt: constants.landBoundaryFileExt,
+      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
+    })
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)
@@ -99,52 +104,6 @@ const handlers = {
         }]
       })
     })
-  }
-}
-
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.landBoundaryFileExt,
-    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
   }
 }
 
