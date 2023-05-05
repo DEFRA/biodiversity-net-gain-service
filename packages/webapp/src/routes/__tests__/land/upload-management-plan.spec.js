@@ -90,6 +90,25 @@ describe('Management plan upload controller tests', () => {
       })
     })
 
+    it('should not upload managenent plan document larger than the configured maximum', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should not upload empty management plan', (done) => {
       jest.isolateModules(async () => {
         try {

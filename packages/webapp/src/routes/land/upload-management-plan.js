@@ -3,7 +3,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
@@ -80,7 +80,8 @@ const buildSignalRConfig = (sessionId, config) => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.managementPlanFileExt
+    fileExt: constants.managementPlanFileExt,
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
   }
 }
 
@@ -119,6 +120,8 @@ function processErrorUpload (err, h) {
           href: MANAGEMENT_PLAN_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_MANAGEMENT_PLAN, {
@@ -155,14 +158,7 @@ export default [{
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: MANAGEMENT_PLAN_ID
-              }
-            ]
-          }).takeover()
+          return maximumFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -171,3 +167,12 @@ export default [{
   }
 }
 ]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: MANAGEMENT_PLAN_ID,
+    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+    view: constants.views.UPLOAD_MANAGEMENT_PLAN
+  })
+}
