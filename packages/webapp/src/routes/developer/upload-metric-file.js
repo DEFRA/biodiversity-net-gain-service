@@ -1,6 +1,6 @@
 import { logger } from 'defra-logging-facade'
 import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
-import { buildConfig } from '../../utils/build-metric-upload-config.js'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
@@ -13,7 +13,12 @@ const handlers = {
 }
 
 const performUpload = async (request, h) => {
-  const config = buildConfig(request.yar.id, constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE)
+  const config = buildConfig({
+    sessionId: request.yar.id,
+    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+    fileExt: constants.metricFileExt,
+    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+  })
 
   try {
     const metricFileData = await uploadFiles(logger, request, config)

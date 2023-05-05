@@ -1,27 +1,30 @@
-import constants from './constants.js'
 import { uploadStreamAndQueueMessage } from './azure-storage.js'
 import { handleEvents } from './azure-signalr.js'
 
-const buildConfig = (sessionId, metricUploadType) => {
-  const config = { metricUploadType }
-  buildBlobConfig(sessionId, config)
+const buildConfig = (inputConfig) => {
+  const config = {
+    uploadType: inputConfig.uploadType,
+    fileExt: inputConfig.fileExt,
+    maxFileSize: inputConfig.maxFileSize
+  }
+  buildBlobConfig(inputConfig.sessionId, config)
   buildQueueConfig(config)
   buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
+  buildSignalRConfig(inputConfig.sessionId, config)
   buildFileValidationConfig(config)
   return config
 }
 
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
-    blobName: `${sessionId}/${config.metricUploadType}/`,
+    blobName: `${sessionId}/${config.uploadType}/`,
     containerName: 'untrusted'
   }
 }
 
 const buildQueueConfig = config => {
   config.queueConfig = {
-    uploadType: config.metricUploadType,
+    uploadType: config.uploadType,
     queueName: 'untrusted-file-queue'
   }
 }
@@ -43,8 +46,8 @@ const buildSignalRConfig = (sessionId, config) => {
 
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
-    fileExt: constants.metricFileExt,
-    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+    fileExt: config.fileExt,
+    maxFileSize: config.maxFileSize
   }
 }
 
