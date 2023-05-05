@@ -315,65 +315,74 @@ const validateBNGNumber = (bngNumber, hrefId) => {
 }
 
 const emailValidator = (email, id) => {
-  const tester = /^[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
-  // https://en.wikipedia.org/wiki/Email_address  The format of an email address is local-part@domain, where the
-  // local part may be up to 64 octets long and the domain may have a maximum of 255 octets.
-  if (!email) {
-    return {
-      err: [{
-        text: 'Enter your email address',
-        href: id
-      }]
+  try {
+    const tester = /^[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
+    // https://en.wikipedia.org/wiki/Email_address  The format of an email address is local-part@domain, where the
+    // local part may be up to 64 octets long and the domain may have a maximum of 255 octets.
+    if (!email || email.length === 0) {
+      return {
+        err: [{
+          text: 'Enter your email address',
+          href: id
+        }]
+      }
     }
-  }
 
-  if (email.length > 255) {
-    return {
-      err: [{
-        text: 'Email address must be 254 characters or less',
-        href: id
-      }]
+    if (email.length > 255) {
+      return {
+        err: [{
+          text: 'Email address must be 254 characters or less',
+          href: id
+        }]
+      }
     }
-  }
 
-  const emailParts = email.split('@')
+    const emailParts = email.split('@')
 
-  if (emailParts.length !== 2 || !tester.test(email)) {
-    return {
-      err: [{
-        text: 'Enter an email address in the correct format, like name@example.com',
-        href: id
-      }]
+    if (emailParts.length !== 2 || !tester.test(email)) {
+      return {
+        err: [{
+          text: 'Enter an email address in the correct format, like name@example.com',
+          href: id
+        }]
+      }
     }
-  }
 
-  const account = emailParts[0]
-  const address = emailParts[1]
-  let hasValidLength = true
-  if (account.length > 64 || address.length > 255) {
-    hasValidLength = false
-  }
-
-  const domainParts = address.split('.')
-
-  // https://en.wikipedia.org/wiki/Email_address#Domain
-  // It must match the requirements for a hostname, a list of dot-separated DNS labels, each label being limited to a length of 63 characters
-  if (domainParts.some(function (part) {
-    return part.length > 63
-  })) {
-    hasValidLength = false
-  }
-
-  if (!hasValidLength) {
-    return {
+    const account = emailParts[0]
+    const address = emailParts[1]
+    const invalidEmailError = {
       err: [{
         text: 'Enter a valid email address',
         href: id
       }]
     }
+    if (account.length > 64 || address.length > 255) {
+      return invalidEmailError
+    }
+
+    const domainParts = address.split('.')
+
+    // https://en.wikipedia.org/wiki/Email_address#Domain
+    // It must match the requirements for a hostname, a list of dot-separated DNS labels, each label being limited to a length of 63 characters
+    if (domainParts.some(function (part) {
+      return part.length > 63
+    })) {
+      return invalidEmailError
+    }
+
+    return null
+  } catch (error) {
+    return {
+      err: [{
+        text: 'Unexpected valdation error',
+        href: id
+      }]
+    }
   }
-  return null
 }
+
+// Nunjucks template function
+const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
 export {
   validateDate,
@@ -402,5 +411,6 @@ export {
   validateName,
   emailValidator,
   getDeveloperEligibilityResults,
-  validateBNGNumber
+  validateBNGNumber,
+  getErrById
 }

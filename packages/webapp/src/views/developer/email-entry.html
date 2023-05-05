@@ -1,0 +1,115 @@
+{% extends 'developer-form-layout.html' %}
+
+{% block header %}
+{{ super() }}
+<link href="{{ assetPath }}/stylesheets/pages/email-entry.css" rel="stylesheet" />
+{% endblock %}
+
+{% set pageHeading = "Enter additional email addresses" %}
+{% set emailIndex = emailAddresses.length if emailAddresses else 0 %}
+{% set id = "emailAddresses["+emailIndex+"]" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-label-wrapper">
+                    <label class="govuk-label govuk-label--l" for="emailAddress">
+                      {{ pageHeading }}
+                    </label>
+                </h1>
+
+                <div id="email-hint" class="govuk-hint govuk-!-margin-top-6">
+                    <p>Enter email addresses for anyone in your organisation who needs to be notified about what you're recording.</p>
+                    <p>For example, the person who will need to add proof of registration to the Gain Plan you submit to the local planning authority.</p>
+                </div>
+
+                <div data-module="moj-add-another">
+                    {% if emailAddresses.length > 0 %}
+                    <div class="saved-email-addresses">
+                        {% set index = 0 %}
+                        {% for email in emailAddresses %}
+                            {% set fieldId = "emailAddresses["+index+"]" %}
+                            {% call govukFieldset({
+                                classes: 'moj-add-another__item',
+                                legend: {
+                                    text: 'Email',
+                                    classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                                    isPageHeading: false
+                                }
+                            }) %}
+                            {{ govukInput({
+                                id: fieldId,
+                                name: "emailAddresses["+index+"]",
+                                spellcheck: false,
+                                autocomplete: "email",
+                                value: email,
+                                errorMessage: getErrById(err, fieldId),
+                                label: {
+                                    text: "Email address",
+                                    classes: "govuk-label"
+                                }
+                            }) }}
+                            {{ govukButton({
+                                type: "button",
+                                text: 'Remove',
+                                classes: 'govuk-button govuk-button--secondary moj-add-another__remove-button custom-remove-btn'
+                            }) }}
+                            {% endcall %}
+                            {% set index = index + 1 %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {% call govukFieldset({
+                        classes: 'moj-add-another__item',
+                        legend: {
+                        text: 'Email',
+                        classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                        isPageHeading: false
+                        }
+                    }) %}
+                
+                    {{ govukInput({
+                        id: "emailAddresses["+emailIndex+"]",
+                        name: "emailAddresses[]",
+                        autocomplete: "email",
+                        spellcheck: false,
+                        value: emailAddresses[emailIndex],
+                        errorMessage: getErrById(err, "emailAddresses["+emailIndex+"]"),
+                        label: {
+                            text: "Email address",
+                            classes: "govuk-label"
+                        },
+                        attributes: {
+                            "data-name": "emailAddresses[%index%]",
+                            "data-id": "emailAddresses[%index%]"
+                        }
+                    }) }}
+                    {% endcall %}
+                    {% endif %}
+
+                    <div class="moj-button-action">
+                        {{ govukButton({
+                            type: "button",
+                            text: 'Add another email address',
+                            classes: 'govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4'
+                        }) }}
+                    </div>
+                </div>
+                {{ govukButton({
+                    text: "Continue",
+                    attributes: {
+                        id: "continue"
+                    }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bodyEnd %}
+    {{ super() }}
+    <script src="{{ assetPath }}/js/emailEntry.js"></script>
+{% endblock %}

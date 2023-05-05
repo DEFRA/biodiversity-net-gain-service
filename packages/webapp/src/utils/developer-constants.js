@@ -17,6 +17,8 @@ const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
 const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
+const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
+const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 // ./Routes constants
 
 // RedisKeys constants
@@ -38,6 +40,7 @@ const DEVELOPER_ELIGIBILITY_ENGLAND_VALUE = 'eligibility-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const DEVELOPER_ELIGIBILITY_METRIC_VALUE = 'developer-eligibility-metric-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
+const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
 // ./RedisKeys constants
 
 const ROUTING_REGISTER_OPTIONS = {
@@ -69,7 +72,9 @@ export default {
     DEVELOPER_ELIGIBILITY_NO,
     DEVELOPER_ELIGIBILITY_METRIC,
     DEVELOPER_ELIGIBILITY_RESULT,
-    DEVELOPER_BNG_NUMBER
+    DEVELOPER_BNG_NUMBER,
+    DEVELOPER_EMAIL_ENTRY,
+    DEVELOPER_CHECK_ANSWERS
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -87,7 +92,8 @@ export default {
     DEVELOPER_ELIGIBILITY_ENGLAND_VALUE,
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     DEVELOPER_ELIGIBILITY_METRIC_VALUE,
-    BIODIVERSITY_NET_GAIN_NUMBER
+    BIODIVERSITY_NET_GAIN_NUMBER,
+    DEVELOPER_ADDITIONAL_EMAILS
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
