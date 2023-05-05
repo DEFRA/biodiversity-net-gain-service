@@ -38,7 +38,8 @@ const buildConfig = sessionId => {
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: constants.geospatialLandBoundaryFileExt,
-    maximumDecimalPlaces: 4
+    maximumDecimalPlaces: 4,
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
   }
 }
 
@@ -163,6 +164,12 @@ const processErrorMessage = (errorMessage, error) => {
     case constants.uploadErrors.emptyFile:
       error.err = [{
         text: 'The selected file is empty',
+        href: uploadGeospatialFileId
+      }]
+      break
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      error.err = [{
+        text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
         href: uploadGeospatialFileId
       }]
       break

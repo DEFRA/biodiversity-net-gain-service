@@ -323,6 +323,25 @@ describe(url, () => {
       })
     })
 
+    it('should not upload a geospatial land boundary larger than the configured maximum', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should display expected error details when non-file data is uploaded', (done) => {
       jest.isolateModules(async () => {
         try {
