@@ -38,15 +38,28 @@ const getContext = request => ({
   emailAddresses: request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
 })
 
+const validateEmail = (emailAddresses, email, err, index) => {
+  const hrefId = `#email-${index}`
+  if (emailAddresses.find(item => item.email === email)) {
+    err.push({
+      text: 'Email address already exists',
+      href: hrefId
+    })
+  }
+
+  const emailErr = emailValidator(email, hrefId)
+  if (emailErr) {
+    err.push(emailErr.err[0])
+  }
+}
+
 const processFieldValues = (fullName, email, emailAddresses, err, index = 0) => {
-  const emailErr = emailValidator(email, `#email-${index}`)
   const fullNameErr = validateName(fullName, `#fullName-${index}`)
   if (fullNameErr) {
     err.push(fullNameErr.err[0])
   }
-  if (emailErr) {
-    err.push(emailErr.err[0])
-  }
+
+  validateEmail(emailAddresses, email, err, index)
   emailAddresses.push({ fullName, email })
 }
 

@@ -41,6 +41,18 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_ANSWERS)
       expect(yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual([{ email: 'test@example.com', fullName: 'Test' }])
     })
+    it('should display an errors if duplicate email address submitted', async () => {
+      const emailAddresses = {
+        fullNames: ['Test', 'Test1'],
+        emails: ['test@example.com', 'test@example.com']
+      }
+      const { viewResult, resultContext } = await processEmailAddressesSubmission(emailAddresses)
+      expect(viewResult).toBe(constants.views.DEVELOPER_EMAIL_ENTRY)
+      expect(resultContext.err).toEqual([{
+        href: '#email-1',
+        text: 'Email address already exists'
+      }])
+    })
   })
 })
 

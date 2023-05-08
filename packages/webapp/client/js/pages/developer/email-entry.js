@@ -44,6 +44,12 @@ const cloneNewItem = (e) => {
   const $item = $container.find('.moj-add-another__item').last()
   updateElements($item)
   removeError($item)
+
+  // Remove 'Add another email address' button if fieldset count added more than 10
+  const $items = $container.find('.moj-add-another__item')
+  if ($items.length >= 10) {
+    $('button.moj-add-another__add-button').closest('.moj-button-action').remove()
+  }
 }
 
 $container.on('click', '.moj-add-another__add-button', cloneNewItem)
