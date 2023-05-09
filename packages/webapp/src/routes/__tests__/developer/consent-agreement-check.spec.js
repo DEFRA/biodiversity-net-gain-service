@@ -105,6 +105,36 @@ describe(url, () => {
       })
     })
 
+    it('should allow an alternative concent file to be uploaded on no option select', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const checkConsentFile = require('../../developer/consent-agreement-check.js')
+          redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+          postOptions.payload.checkUploadConsent = undefined
+          const request = {
+            yar: redisMap,
+            payload: {
+              checkUploadConsent: undefined
+            }
+          }
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          await checkConsentFile.default[1].handler(request, h)
+          expect(viewResult).toEqual(constants.views.DEVELOPER_AGREEMENT_CHECK)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should detect an invalid response from user', async () => {
       postOptions.payload.checkUploadConsent = 'invalid'
       await submitPostRequest(postOptions, 404)
