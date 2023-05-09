@@ -2,6 +2,8 @@
 'use strict'
 
 const $container = $('div[data-module="moj-add-another"]')
+const $addButtonWrapper = $container.find('div.moj-button-action')
+const addButtonWrapperClone = $addButtonWrapper.first().clone()
 
 const getItem = () => $container.find('fieldset')
 
@@ -12,6 +14,8 @@ const handleRemoveBtn = e => {
   } else {
     $(this).remove()
   }
+
+  updateAdditinalFieldset()
 }
 
 // Update attr and remove errors while cloning new elements
@@ -40,17 +44,28 @@ const updateElements = ($item) => {
   updateElement($nameLabel, 'fullName-', index)
 }
 
+const updateAdditinalFieldset = () => {
+  const $items = $container.find('.moj-add-another__item')
+  if ($items.length >= 10) {
+    $('button.moj-add-another__add-button').closest('.moj-button-action').remove()
+  } else if ($container.find('div.moj-button-action').length === 0) {
+    $container.append(addButtonWrapperClone)
+  }
+}
+
 const cloneNewItem = (e) => {
   const $item = $container.find('.moj-add-another__item').last()
   updateElements($item)
   removeError($item)
 
   // Remove 'Add another email address' button if fieldset count added more than 10
-  const $items = $container.find('.moj-add-another__item')
-  if ($items.length >= 10) {
-    $('button.moj-add-another__add-button').closest('.moj-button-action').remove()
-  }
+  updateAdditinalFieldset()
 }
 
 $container.on('click', '.moj-add-another__add-button', cloneNewItem)
+$container.on('click', '.moj-add-another__remove-button', handleRemoveBtn)
 $container.on('click', '.custom-remove-btn', handleRemoveBtn)
+
+$(document).ready(function () {
+  updateAdditinalFieldset()
+})

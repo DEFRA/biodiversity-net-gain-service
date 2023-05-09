@@ -40,7 +40,7 @@ const getContext = request => ({
 
 const validateEmail = (emailAddresses, email, err, index) => {
   const hrefId = `#email-${index}`
-  if (emailAddresses.find(item => item.email === email)) {
+  if (email.length > 0 && emailAddresses.find(item => item.email === email)) {
     err.push({
       text: 'Email address already exists',
       href: hrefId
