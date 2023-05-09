@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
 import { checkApplicantDetails } from '../../utils/helpers.js'
 
-const downloadManagementPlanFile = async (request, h) => {
+const downloadMetricFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   const config = {
     blobName,
@@ -18,7 +18,7 @@ const downloadManagementPlanFile = async (request, h) => {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_METRIC_FILE,
-  handler: downloadManagementPlanFile,
+  handler: downloadMetricFile,
   config: {
     pre: [checkApplicantDetails]
   }
