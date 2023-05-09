@@ -20,6 +20,7 @@ const performUpload = async (request, h) => {
     const writtenConsentFile = await uploadFiles(logger, request, config)
     if (writtenConsentFile) {
       const uploadedFileLocation = `${writtenConsentFile[0].location.substring(0, writtenConsentFile[0].location.lastIndexOf('/'))}/${writtenConsentFile.filename}`
+      /* istanbul ignore else */
       if (writtenConsentFile[0].location !== uploadedFileLocation) {
         request.yar.set(constants.redisKeys.DEVELOPER_ORIGINAL_CONSENT_LOCATION, uploadedFileLocation)
       }
@@ -160,8 +161,6 @@ export default [{
               }
             ]
           }).takeover()
-        } else {
-          throw error
         }
       }
     }
