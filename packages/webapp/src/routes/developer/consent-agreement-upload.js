@@ -151,6 +151,7 @@ export default [{
       allow: 'multipart/form-data',
       failAction: (req, h, error) => {
         logger.log(`${new Date().toUTCString()} Uploaded file is too large ${req.path}`)
+        logger.log(`${new Date().toUTCString()} error ${error}`)
         return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
           err: [
             {
