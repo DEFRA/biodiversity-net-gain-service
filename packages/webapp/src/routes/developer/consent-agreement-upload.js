@@ -20,7 +20,6 @@ const performUpload = async (request, h) => {
     const writtenConsentFile = await uploadFiles(logger, request, config)
     if (writtenConsentFile) {
       const uploadedFileLocation = `${writtenConsentFile[0].location.substring(0, writtenConsentFile[0].location.lastIndexOf('/'))}/${writtenConsentFile.filename}`
-      /* istanbul ignore else */
       if (writtenConsentFile[0].location !== uploadedFileLocation) {
         request.yar.set(constants.redisKeys.DEVELOPER_ORIGINAL_CONSENT_LOCATION, uploadedFileLocation)
       }
@@ -152,16 +151,14 @@ export default [{
       allow: 'multipart/form-data',
       failAction: (req, h, error) => {
         logger.log(`${new Date().toUTCString()} Uploaded file is too large ${req.path}`)
-        if (error.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_CONSENT_UPLOAD_MB}MB`,
-                href: DEVELOPER_WRITTEN_CONSENT_ID
-              }
-            ]
-          }).takeover()
-        }
+        return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
+          err: [
+            {
+              text: `The selected file must not be larger than ${process.env.MAX_CONSENT_UPLOAD_MB}MB`,
+              href: DEVELOPER_WRITTEN_CONSENT_ID
+            }
+          ]
+        }).takeover()
       }
     }
   }
