@@ -1,10 +1,11 @@
 import { submitGetRequest } from '../helpers/server.js'
 import { promises as fs } from 'fs'
-const url = '/land/download-geospatial-land-boundary-file'
+import constants from '../../../utils/constants.js'
+import application from '../../../__mock-data__/test-application.js'
+const url = constants.routes.DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')
-jest.mock('path')
 
 describe(url, () => {
   describe('GET', () => {
@@ -17,14 +18,13 @@ describe(url, () => {
           resolve(file)
         })
       })
-
-      // Mock the path.basename. //TODO better to inject the session yar values, but unsure how yet.
-      const path = require('path')
-      path.basename.mockImplementation(() => {
-        return 'legal-agreement.pdf'
-      })
-
-      await submitGetRequest({ url })
+      const sessionData = JSON.parse(application.dataString)
+      sessionData[constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION] = './test-location/dummy-file.doc'
+      await submitGetRequest({ url }, 200, sessionData)
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
     })
   })
 })
