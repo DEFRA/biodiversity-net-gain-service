@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { logger } from 'defra-logging-facade'
 
 const href = '#offsite-details-checked-yes'
 const handlers = {
@@ -44,7 +43,6 @@ const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
   row['Register reference number'] === request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  logger.info('metricData', metricData)
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1OffSiteHabitatBaseline, request)
   const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1OffSiteHedgeBaseline, request)
   const noOfHabitatUnits = getNumOfUnits(
@@ -55,8 +53,6 @@ const getContext = request => {
     e1OffSiteHedgeBaseline,
     'Hedgerow type',
     'Length (km)')
-  logger.info('d1OffSiteHabitatBaseline', d1OffSiteHabitatBaseline)
-  logger.info('e1OffSiteHedgeBaseline', e1OffSiteHedgeBaseline)
   return {
     offSiteHabitats: {
       items: d1OffSiteHabitatBaseline,
