@@ -13,31 +13,45 @@ describe(url, () => {
   describe('POST', () => {
     it('should return an errors if multiple null/invalid inputs submitted', async () => {
       const emailAddresses = {
-        'emailAddresses[]': '',
-        'emailAddresses[1]': 'test.com',
-        'emailAddresses[2]': 'gkjahkfhknsdfjkhauiwernlkdfngkjbalffdngjkkdskadknkvahdnalkwnfngearmljdfghareuiwrnbkdsgkjasdfnavdfnvlasdhfdgalgnfabdskjhjksdhfk@hsdfgajsdfjjbfjbdkjsdankjnjkasdgflkfgladbjsdbafgeriaytuioagdfjnvcknzjlhdskfkhksdfnkvertpoafdglknkwaeiglknldfaiuwehidfgkj.djkhksdaf'
+        fullNames: ['', ''],
+        emails: ['assadcom', '*@(*%#@']
       }
       const { viewResult, resultContext } = await processEmailAddressesSubmission(emailAddresses)
       expect(viewResult).toBe(constants.views.DEVELOPER_EMAIL_ENTRY)
       expect(resultContext.err).toEqual([{
-        href: '#emailAddresses[0]',
-        text: 'Enter your email address'
+        href: '#fullName-0',
+        text: 'Enter your full name'
       }, {
-        href: '#emailAddresses[1]',
+        href: '#email-0',
         text: 'Enter an email address in the correct format, like name@example.com'
       }, {
-        href: '#emailAddresses[2]',
-        text: 'Email address must be 254 characters or less'
+        href: '#fullName-1',
+        text: 'Enter your full name'
+      }, {
+        href: '#email-1',
+        text: 'Enter an email address in the correct format, like name@example.com'
       }])
     })
     it('should redirect to the check answer page', async () => {
       const emailAddresses = {
-        'emailAddresses[]': 'test@example.com',
-        'emailAddresses[1]': 'test1@example.com'
+        fullNames: 'Test',
+        emails: 'test@example.com'
       }
       const { viewResult, yar } = await processEmailAddressesSubmission(emailAddresses)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_ANSWERS)
-      expect(yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual(Object.values(emailAddresses))
+      expect(yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual([{ email: 'test@example.com', fullName: 'Test' }])
+    })
+    it('should display an errors if duplicate email address submitted', async () => {
+      const emailAddresses = {
+        fullNames: ['Test', 'Test1'],
+        emails: ['test@example.com', 'test@example.com']
+      }
+      const { viewResult, resultContext } = await processEmailAddressesSubmission(emailAddresses)
+      expect(viewResult).toBe(constants.views.DEVELOPER_EMAIL_ENTRY)
+      expect(resultContext.err).toEqual([{
+        href: '#email-1',
+        text: 'Email address already exists'
+      }])
     })
   })
 })

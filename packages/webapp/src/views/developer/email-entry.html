@@ -7,7 +7,6 @@
 
 {% set pageHeading = "Enter additional email addresses" %}
 {% set emailIndex = emailAddresses.length if emailAddresses else 0 %}
-{% set id = "emailAddresses["+emailIndex+"]" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -30,8 +29,9 @@
                     {% if emailAddresses.length > 0 %}
                     <div class="saved-email-addresses">
                         {% set index = 0 %}
-                        {% for email in emailAddresses %}
-                            {% set fieldId = "emailAddresses["+index+"]" %}
+                        {% for details in emailAddresses %}
+                            {% set emailAttrId = "email-"+index %}
+                            {% set nameAttrId = "fullName-"+index %}
                             {% call govukFieldset({
                                 classes: 'moj-add-another__item',
                                 legend: {
@@ -41,12 +41,24 @@
                                 }
                             }) %}
                             {{ govukInput({
-                                id: fieldId,
-                                name: "emailAddresses["+index+"]",
+                                id: nameAttrId,
+                                name: "fullNames",
+                                errorMessage: getErrById(err, nameAttrId),
+                                label: {
+                                  text: "Full name",
+                                  classes: "govuk-label"
+                                },
+                                autocomplete: "name",
+                                spellcheck: false,
+                                value: details.fullName
+                            }) }}
+                            {{ govukInput({
+                                id: emailAttrId,
+                                name: "emails",
                                 spellcheck: false,
                                 autocomplete: "email",
-                                value: email,
-                                errorMessage: getErrById(err, fieldId),
+                                value: details.email,
+                                errorMessage: getErrById(err, emailAttrId),
                                 label: {
                                     text: "Email address",
                                     classes: "govuk-label"
@@ -62,32 +74,39 @@
                         {% endfor %}
                     </div>
                     {% else %}
-                    {% call govukFieldset({
-                        classes: 'moj-add-another__item',
-                        legend: {
-                        text: 'Email',
-                        classes: 'moj-add-another__title govuk-fieldset__legend--m',
-                        isPageHeading: false
-                        }
-                    }) %}
-                
-                    {{ govukInput({
-                        id: "emailAddresses["+emailIndex+"]",
-                        name: "emailAddresses[]",
-                        autocomplete: "email",
-                        spellcheck: false,
-                        value: emailAddresses[emailIndex],
-                        errorMessage: getErrById(err, "emailAddresses["+emailIndex+"]"),
-                        label: {
-                            text: "Email address",
-                            classes: "govuk-label"
-                        },
-                        attributes: {
-                            "data-name": "emailAddresses[%index%]",
-                            "data-id": "emailAddresses[%index%]"
-                        }
-                    }) }}
-                    {% endcall %}
+                        {% set emailAttrId = "email-"+emailIndex %}
+                        {% set nameAttrId = "fullName-"+emailIndex %}
+                        {% call govukFieldset({
+                            classes: 'moj-add-another__item',
+                            legend: {
+                              text: 'Email',
+                              classes: 'moj-add-another__title govuk-fieldset__legend--m',
+                              isPageHeading: false
+                            }
+                        }) %}
+                        {{ govukInput({
+                            id: nameAttrId,
+                            name: "fullNames",
+                            label: {
+                                text: "Full name",
+                                classes: "govuk-label"
+                            },
+                            autocomplete: "name",
+                            spellcheck: false,
+                            value: ""
+                        }) }}
+                        {{ govukInput({
+                            id: emailAttrId,
+                            name: "emails",
+                            autocomplete: "email",
+                            spellcheck: false,
+                            value: "",
+                            label: {
+                                text: "Email address",
+                                classes: "govuk-label"
+                            }
+                        }) }}
+                        {% endcall %}
                     {% endif %}
 
                     <div class="moj-button-action">
