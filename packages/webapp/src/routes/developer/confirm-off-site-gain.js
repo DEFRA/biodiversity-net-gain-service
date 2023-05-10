@@ -6,11 +6,7 @@ const href = '#offsite-details-checked-yes'
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
-    return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
-      ...context.offSiteHedgerowTableContent,
-      ...context.offSiteHabitatTableContent,
-      ...context
-    })
+    return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
     const confirmOffsiteGain = request.payload.confirmOffsiteGain
@@ -25,9 +21,7 @@ const handlers = {
     } else {
       const context = getContext(request)
       return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
-        ...context.offSiteHedgerowTableContent,
-        ...context.offSiteHabitatTableContent,
-        ...context,
+        context,
         err: [
           {
             text: 'Select yes if this is the correct file',
