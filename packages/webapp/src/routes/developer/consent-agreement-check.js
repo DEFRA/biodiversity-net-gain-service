@@ -17,7 +17,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD)
     } else if (checkUploadConsent === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_TASKLIST)
+      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
     }
     return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, {
       filename: path.basename(consentUploadLocation),

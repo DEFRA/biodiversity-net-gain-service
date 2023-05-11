@@ -152,14 +152,18 @@ export default [{
       failAction: (req, h, error) => {
         logger.log(`${new Date().toUTCString()} Uploaded file is too large ${req.path}`)
         logger.log(`${new Date().toUTCString()} error ${error}`)
-        return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
-          err: [
-            {
-              text: `The selected file must not be larger than ${process.env.MAX_CONSENT_UPLOAD_MB}MB`,
-              href: DEVELOPER_WRITTEN_CONSENT_ID
-            }
-          ]
-        }).takeover()
+        if (error.output.statusCode === 413) { // Request entity too large
+          return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
+            err: [
+              {
+                text: `The selected file must not be larger than ${process.env.MAX_CONSENT_UPLOAD_MB}MB`,
+                href: DEVELOPER_WRITTEN_CONSENT_ID
+              }
+            ]
+          }).takeover()
+        } else {
+          throw error
+        }
       }
     }
   }

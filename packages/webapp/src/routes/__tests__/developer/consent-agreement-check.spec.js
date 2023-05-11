@@ -38,7 +38,7 @@ describe(url, () => {
       }
     })
 
-    it('should allow an alternative concent file to be uploaded ', (done) => {
+    it('should allow an alternative consent agreement file to be uploaded ', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -75,7 +75,7 @@ describe(url, () => {
       })
     })
 
-    it('should allow an concent file to be uploaded ', (done) => {
+    it('should allow an consent agreement file to be uploaded ', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -105,7 +105,7 @@ describe(url, () => {
       })
     })
 
-    it('should allow an alternative concent file to be uploaded on no option select', (done) => {
+    it('should allow an alternative consent agreement file to be uploaded on no option select', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
