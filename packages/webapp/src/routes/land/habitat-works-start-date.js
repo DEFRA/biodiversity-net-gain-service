@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
+  checkApplicantDetails,
   dateClasses,
   getMinDateCheckError,
   processRegistrationTask,
@@ -48,7 +49,10 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.HABITAT_WORKS_START_DATE,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.HABITAT_WORKS_START_DATE,

@@ -8,8 +8,11 @@ const url = constants.routes.LEGAL_AGREEMENT_START_DATE
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      const response = await submitGetRequest({ url })
-      expect(response.statusCode).toBe(200)
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
     })
 
     it(`should render the ${url.substring(1)} view date selected`, async () => {

@@ -5,7 +5,7 @@ import { handleEvents } from '../../utils/azure-signalr.js'
 import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
 const uploadGeospatialFileId = '#geospatialLandBoundary'
@@ -216,7 +216,10 @@ const getErrorContext = err => {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,

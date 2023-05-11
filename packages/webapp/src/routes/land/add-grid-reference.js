@@ -1,6 +1,6 @@
 import ngrToBng from '@defra/ngr-to-bng'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
@@ -64,7 +64,10 @@ const convertGridReferenceToPoint = gridReference => ngrToBng(gridReference)
 export default [{
   method: 'GET',
   path: constants.routes.ADD_GRID_REFERENCE,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.ADD_GRID_REFERENCE,

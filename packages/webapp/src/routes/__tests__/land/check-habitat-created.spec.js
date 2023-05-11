@@ -1,11 +1,18 @@
 import constants from '../../../utils/constants.js'
 import checkHabitatCreated from '../../land/check-habitat-created.js'
 import applicationSession from '../../../__mocks__/application-session.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_HABITAT_CREATED
 
 describe(url, () => {
   describe('GET', () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
     it(`should render the ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       const getHandler = checkHabitatCreated[0].handler
