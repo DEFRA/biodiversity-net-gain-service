@@ -38,7 +38,7 @@ describe(url, () => {
       }
     })
 
-    it('should allow an alternative consent agreement file to be uploaded ', (done) => {
+    it('should allow an alternative consent file to be uploaded', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -105,7 +105,7 @@ describe(url, () => {
       })
     })
 
-    it('should allow an alternative consent agreement file to be uploaded on no option select', (done) => {
+    it('should allow an alternative consent file to be uploaded on no option selected', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
@@ -137,7 +137,8 @@ describe(url, () => {
 
     it('should detect an invalid response from user', async () => {
       postOptions.payload.checkUploadConsent = 'invalid'
-      await submitPostRequest(postOptions, 404)
+      const response = await submitPostRequest(postOptions, 404)
+      expect(response.payload).toContain('Page not found')
     })
   })
 })
