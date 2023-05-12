@@ -248,7 +248,7 @@ describe(url, () => {
     it('should show error if none of the options selected', (done) => {
       jest.isolateModules(async () => {
         try {
-          let viewResult
+          let viewResult, resultContext
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = undefined
           redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
@@ -259,15 +259,21 @@ describe(url, () => {
             }
           }
           const h = {
-            redirect: (view) => {
+            redirect: (view, context) => {
               viewResult = view
+              resultContext = context
             },
-            view: (view) => {
+            view: (view, context) => {
               viewResult = view
+              resultContext = context
             }
           }
           await confirmOffsiteGainOptions.default[1].handler(request, h)
           expect(viewResult).toEqual('developer/confirm-off-site-gain')
+          expect(resultContext.err[0]).toEqual({
+            href: '#offsite-details-checked-yes',
+            text: 'Select yes if this is the correct file'
+          })
           done()
         } catch (err) {
           done(err)
