@@ -45,11 +45,23 @@ describe(url, () => {
           contextResult = context
         }
       }
+      const temp = {
+        gainSiteNumber: undefined,
+        offSiteHabitats: {
+          items: undefined,
+          total: 0
+        },
+        offSiteHedgerows: {
+          items: undefined,
+          total: 0
+        }
+      }
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toBeDefined()
+      expect(contextResult).toMatchObject(temp)
+      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
+      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
+      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toEqual(3)
     })
 
     it(`should render the ${url.substring(1)} view with proper data`, async () => {
@@ -73,6 +85,33 @@ describe(url, () => {
           }
         ]
       }
+
+      const mockContextResult = {
+        gainSiteNumber: undefined,
+        offSiteHabitats: {
+          items: [
+            {
+              'Area (hectares)': 1,
+              'Broad habitat': 'Rocky shore ',
+              Condition: 'Fairly Good',
+              'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
+              'Total habitat units': 0
+            }
+          ],
+          total: 1
+        },
+        offSiteHedgerows: {
+          items: [
+            {
+              Condition: 'Good',
+              'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+              'Length (km)': 3,
+              'Total hedgerow units': 27
+            }
+          ],
+          total: 3
+        }
+      }
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
@@ -86,7 +125,7 @@ describe(url, () => {
       }
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult).toBeDefined()
+      expect(contextResult).toMatchObject(mockContextResult)
     })
 
     it(`should render the ${url.substring(1)} view with some insufficient data`, async () => {
@@ -104,6 +143,22 @@ describe(url, () => {
           }
         ]
       }
+      const mockContextResult = {
+        gainSiteNumber: undefined,
+        offSiteHabitats: {
+          items: [{
+            'Area (hectares)': 1,
+            'Total habitat units': 0
+          }],
+          total: 0
+        },
+        offSiteHedgerows: {
+          items: [{
+            'Length (km)': 3
+          }],
+          total: 0
+        }
+      }
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
@@ -117,9 +172,9 @@ describe(url, () => {
       }
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toBeDefined()
-      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toBeDefined()
+      expect(contextResult).toMatchObject(mockContextResult)
+      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
+      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toEqual(3)
     })
   })
 
