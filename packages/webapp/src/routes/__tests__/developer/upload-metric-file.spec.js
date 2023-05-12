@@ -73,7 +73,7 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a developer metric file more than 50 MB', (done) => {
+    it('should not upload a developer metric file more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -82,6 +82,25 @@ describe(url, () => {
           const response = await uploadFile(uploadConfig)
           expect(response.payload).toContain('There is a problem')
           expect(response.payload).toContain('The selected file must not be larger than 50MB')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload a developer metric larger than the configured maximum', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.MAX_METRIC_UPLOAD_MB = 49
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })

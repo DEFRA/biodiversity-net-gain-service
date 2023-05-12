@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
@@ -43,10 +43,11 @@ const handlers = {
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
   const location = fileLocation === null ? '' : path.parse(fileLocation).base
-  const size = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
+  const fileSize = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
+  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: location,
-    fileSize: size
+    fileSize: humanReadableFileSize
   }
 }
 

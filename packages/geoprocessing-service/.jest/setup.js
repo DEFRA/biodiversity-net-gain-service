@@ -9,5 +9,5 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-  process.env = ORIGINAL_ENV
+   process.env = { ...ORIGINAL_ENV }
 })

@@ -1,9 +1,9 @@
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -56,6 +56,8 @@ function processErrorUpload (err, h) {
           href: LAND_BOUNDARY_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_LAND_BOUNDARY, {
@@ -80,7 +82,12 @@ const handlers = {
     return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
   },
   post: async (request, h) => {
-    const config = buildConfig(request.yar.id)
+    const config = buildConfig({
+      sessionId: request.yar.id,
+      uploadType: constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE,
+      fileExt: constants.landBoundaryFileExt,
+      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
+    })
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)
@@ -89,7 +96,7 @@ const handlers = {
         return processErrorUpload(err, h)
       }
     ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
+      logger.log(`Problem uploading file ${err}`)
       return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
@@ -97,51 +104,6 @@ const handlers = {
         }]
       })
     })
-  }
-}
-
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.LAND_BOUNDARY_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.landBoundaryFileExt
   }
 }
 
@@ -159,23 +121,16 @@ export default [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024) + 250,
       multipart: true,
       timeout: false,
       output: 'stream',
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: LAND_BOUNDARY_ID
-              }
-            ]
-          }).takeover()
+          return maximumFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -184,3 +139,12 @@ export default [{
   }
 }
 ]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: LAND_BOUNDARY_ID,
+    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+    view: constants.views.UPLOAD_LAND_BOUNDARY
+  })
+}

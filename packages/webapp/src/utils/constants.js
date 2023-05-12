@@ -398,6 +398,7 @@ const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
+  maximumFileSizeExceeded: 'Maxiumum file size exceeded',
   threatDetected: 'The selected file contains a virus',
   unsupportedFileExt: 'Unsupported file extension'
 }

@@ -23,12 +23,16 @@ const uploadFiles = async (logger, request, config) => {
       reject(err)
     })
     form.on('close', async function () {
-      try {
-        // Resolve the promise when all parts of the upload have been processed.
-        const eventData = await config.functionConfig.handleEventsFunction(config, events)
-        resolve(Object.assign(uploadResult, eventData))
-      } catch (err) {
-        reject(err)
+      if (uploadResult.errorMessage) {
+        reject(new Error(uploadResult.errorMessage))
+      } else {
+        try {
+          // Resolve the promise when all parts of the upload have been processed.
+          const eventData = await config.functionConfig.handleEventsFunction(config, events)
+          resolve(Object.assign(uploadResult, eventData))
+        } catch (err) {
+          reject(err)
+        }
       }
     })
     form.parse(request.raw.req)
@@ -45,16 +49,24 @@ const createUploadConfiguration = config => {
 }
 
 const handlePart = (logger, part, config, uploadResult) => {
+  const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
+  // Delay throwing errors until the form is closed.
   if (!part.filename) {
-    throw new Error(constants.uploadErrors.noFile)
+    uploadResult.errorMessage = constants.uploadErrors.noFile
+    part.resume()
   } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
-    throw new Error(constants.uploadErrors.unsupportedFileExt)
+    uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
+    part.resume()
   } else if (fileSize * 100 === 0) {
-    throw new Error(constants.uploadErrors.emptyFile)
+    uploadResult.errorMessage = constants.uploadErrors.emptyFile
+    part.resume()
+  } else if (fileSizeInBytes > config.fileValidationConfig.maxFileSize) {
+    uploadResult.errorMessage = constants.uploadErrors.maximumFileSizeExceeded
+    part.resume()
   } else {
     logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
-    uploadResult.fileSize = fileSize
+    uploadResult.fileSize = fileSizeInBytes
     if (part.filename) {
       uploadResult.filename = part.filename
     }
