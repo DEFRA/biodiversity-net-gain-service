@@ -24,7 +24,11 @@
           errorMessage: err[0],
           autocomplete: "number",
           spellcheck: false,
-          value: bngNumber
+          value: bngNumber,
+          label: {
+            text: "Biodiversity Gain Site Number",
+            classes: "govuk-visually-hidden"
+          }
         }) }}
 
         {{ govukButton({
