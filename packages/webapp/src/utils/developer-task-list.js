@@ -10,7 +10,7 @@ const developerTaskList = {
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
           completedTaskUrl: constants.routes.DEVELOPER_DETAILS_CONFIRM,
           startTaskUrl: constants.routes.DEVELOPER_DETAILS_NAME,
-          inProgressUrl: '',
+          inProgressUrl: constants.routes.DEVELOPER_DETAILS_NAME,
           id: 'add-your-details'
         }
       ]
@@ -51,7 +51,7 @@ const developerTaskList = {
           title: 'Upload the consent document',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
           completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-          startTaskUrl: constants.routes.DEVELOPER_EMAIL_ENTRY,
+          startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
           inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
           id: 'upload-consent-document'
         }
@@ -63,9 +63,9 @@ const developerTaskList = {
         {
           title: 'Check your answers before you submit them to us',
           status: 'CANNOT START YET',
-          completedTaskUrl: '',
-          startTaskUrl: '',
-          inProgressUrl: '',
+          completedTaskUrl: constants.routes.DEVELOPER_EMAIL_ENTRY,
+          startTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
+          inProgressUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
           id: 'check-your-answer'
         }
       ]
