@@ -25,6 +25,23 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.DEVELOPER_AGREEMENT_CHECK)
       expect(contextResult.filename).toEqual('sample.docx')
     })
+
+    it(`should render the ${url.substring(1)} without file info from cache`, async () => {
+      const checkConsentFile = require('../../developer/consent-agreement-check.js')
+      redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, null)
+      const request = {
+        yar: redisMap
+      }
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          contextResult = context
+        }
+      }
+      await checkConsentFile.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.views.DEVELOPER_AGREEMENT_CHECK)
+      expect(contextResult.filename).toEqual('')
+    })
   })
 
   describe('POST', () => {

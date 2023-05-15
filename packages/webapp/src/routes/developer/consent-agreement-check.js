@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -17,6 +18,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD)
     } else if (checkUploadConsent === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+      request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, true)
       return h.redirect(constants.routes.DEVELOPER_TASKLIST)
     }
     return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, {
@@ -34,9 +36,12 @@ const handlers = {
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
+  const fileSize = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE)
+  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE)
+    fileSize: humanReadableFileSize,
+    yesSelection: request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_ANSWER)
   }
 }
 
