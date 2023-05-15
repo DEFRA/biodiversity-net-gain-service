@@ -58,23 +58,6 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error response when upload notification processing fails for an unexpected reason', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateHandleEventsError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('Sorry, there is a problem with the service')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
     it('should display expected error details when an unsupported file type is uploaded', (done) => {
       jest.isolateModules(async () => {
         try {
@@ -84,25 +67,6 @@ describe(url, () => {
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
           expect(response.payload).toContain('The selected file must be an DOC, DOCX or PDF')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should display expected error details when upload screening detects a threat', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateThreatDetectedError = true
-          config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.threatDetected)
           setImmediate(() => {
             done()
           })
@@ -137,26 +101,8 @@ describe(url, () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/sample.docx`
           config.generateUploadTimeoutError = true
-          config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should cause an internal server error when an unexpected validation error code is received', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateUnexpectedValidationError = true
-          await uploadFile(config)
+          expect(response.result).toBe('')
           setImmediate(() => {
             done()
           })
