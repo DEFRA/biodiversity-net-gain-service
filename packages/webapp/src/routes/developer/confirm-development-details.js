@@ -18,7 +18,11 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
-      processDeveloperTask(request, { taskTitle: 'Biodiversity 4.0 Metric calculations', title: 'Confirm development details' }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
+      processDeveloperTask(request,
+        {
+          taskTitle: 'Biodiversity 4.0 Metric calculations',
+          title: 'Confirm development details'
+        }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       return h.redirect('/' + constants.views.DEVELOPER_TASKLIST)
     } else {
       return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
