@@ -23,7 +23,7 @@ const handlers = {
           taskTitle: 'Biodiversity 4.0 Metric calculations',
           title: 'Confirm development details'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-      return h.redirect('/' + constants.views.DEVELOPER_TASKLIST)
+      return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
     } else {
       return h.view(constants.views.DEVELOPER_CONFIRM_DEV_DETAILS, {
         filename: path.basename(metricUploadLocation),

@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { processDeveloperTask } from '../../utils/helpers.js'
 
 const href = '#offsite-details-checked-yes'
 const handlers = {
@@ -16,6 +17,11 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.YES) {
+      processDeveloperTask(request,
+        {
+          taskTitle: 'Biodiversity 4.0 Metric calculations',
+          title: 'Confirm off-site gain'
+        }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       return h.redirect(constants.routes.DEVELOPER_TASKLIST)
     } else {
       const context = getContext(request)
