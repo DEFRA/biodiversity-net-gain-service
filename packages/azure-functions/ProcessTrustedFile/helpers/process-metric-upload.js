@@ -1,6 +1,7 @@
 import buildSignalRMessage from '../../Shared/build-signalr-message.js'
 import bngMetricService from '@defra/bng-metric-service'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import processMetric from '../../Shared/process-metric-data.js'
 
 export default async function (context, config) {
   let signalRMessageArguments, metricData
@@ -24,6 +25,7 @@ export default async function (context, config) {
       throw new Error('Unable to retrieve blob')
     }
 
+    console.log('metricData==>', metricData)
     signalRMessageArguments = [{
       location: config.fileConfig.fileLocation,
       metricData: processMetric(metricData)
@@ -33,21 +35,5 @@ export default async function (context, config) {
     signalRMessageArguments = [{ errorCode: err.code }]
   } finally {
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
-  }
-}
-
-const processMetric = metricData => {
-  return {
-    startPage: metricData.startPage,
-    d1: metricData.d1OffSiteHabitatBaseline,
-    d2: metricData.d2OffSiteHabitatCreation,
-    d3: metricData.d3OffSiteHabitatEnhancement,
-    e1: metricData.e1OffSiteHedgeBaseline,
-    e2: metricData.e2OffSiteHedgeCreation,
-    e3: metricData.e3OffSiteHedgeEnhancement,
-    f1: metricData.f1OffSiteWaterCBaseline,
-    f2: metricData.f2OffSiteWaterCCreation,
-    f3: metricData.f3OffSiteWaterCEnhancement,
-    validation: metricData.validation
   }
 }
