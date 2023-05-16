@@ -9,6 +9,7 @@ const mockMetricData = {
       'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
       'Area (hectares)': 1,
       'Total habitat units': 'Check Data ⚠',
+      'Register reference number': 'AZ12208461',
       Condition: 'Fairly Good'
     },
     { 'Area (hectares)': 1, 'Total habitat units': 1 }
@@ -18,16 +19,12 @@ const mockMetricData = {
       'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
       'Length (km)': 3,
       'Total hedgerow units': 27,
+      'Register reference number': 'AZ12208461',
       Condition: 'Good'
     },
     { 'Length (km)': 3, 'Total hedgerow units': 27 }
   ]
 }
-
-const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item) => {
-  const area = item[field1] && !isNaN(item[field2]) ? item[field2] : 0
-  return prev + area
-}, 0)
 
 describe(url, () => {
   describe('GET', () => {
@@ -59,9 +56,6 @@ describe(url, () => {
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
       expect(contextResult).toMatchObject(temp)
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
-      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toEqual(3)
     })
 
     it(`should render the ${url.substring(1)} view with proper data`, async () => {
@@ -173,8 +167,6 @@ describe(url, () => {
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
       expect(contextResult).toMatchObject(mockContextResult)
-      expect(getNumOfUnits(mockMetricData.offSiteHabitatBaseline, 'Broad habitat', 'Area (hectares)')).toEqual(1)
-      expect(getNumOfUnits(mockMetricData.offSiteHedgeBaseline, 'Hedgerow type', 'Length (km)')).toEqual(3)
     })
   })
 
