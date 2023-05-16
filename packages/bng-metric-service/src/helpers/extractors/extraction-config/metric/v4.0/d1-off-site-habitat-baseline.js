@@ -3,14 +3,15 @@ const headers = [
   'Habitat type',
   'Area (hectares)',
   'Condition',
-  'Total habitat units'
+  'Total habitat units',
+  'Register reference number'
 ]
 
 const d1OffSiteHabitatBaseline = {
   sheetName: 'D-1 Off-Site Habitat Baseline',
   titleCellAddress: 'D3',
   startCell: 'D10',
-  endCell: 'AA259',
+  endCell: 'AF259',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
