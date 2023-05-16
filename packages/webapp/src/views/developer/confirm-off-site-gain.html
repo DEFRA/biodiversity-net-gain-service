@@ -1,22 +1,13 @@
-<<<<<<< HEAD
-{% extends 'form-layout.html' %}
-
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set pageHeading = "Confirm the off-site gain" %}
-=======
 {% extends 'developer-form-layout.html' %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Confirm off site gain" %}
->>>>>>> f7d10036 (partial commit for tasklist)
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
             {% include "errorbanner.html" %}
         {% endif %}
-<<<<<<< HEAD
         {% set idPrefix = 'confirmOffsiteGain' %}
         {% set name = 'confirmOffsiteGain' %}
         {% set id = 'offsite-details-checked-yes' %}
@@ -85,18 +76,4 @@
 </div>
 </div>
 </div>
-=======
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
-                    }
-                }) }}
-            </div>
-        </div>
-    </div>
->>>>>>> f7d10036 (partial commit for tasklist)
 {% endblock %}

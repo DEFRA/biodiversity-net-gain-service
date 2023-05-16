@@ -37,7 +37,7 @@ const developerTaskList = {
         {
           title: 'Confirm off-site gain',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+          completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
           startTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
           inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'confirm-off-site-gain'

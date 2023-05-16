@@ -7,7 +7,7 @@ import * as azureStorage from '../../../utils/azure-storage.js'
 jest.mock('../../../utils/azure-storage.js')
 
 const url = constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS
-const urlResult = constants.routes.DEVELOPER_TASKLIST
+const urlResult = constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN
 
 const mockMetricData = {
   startPage: {
