@@ -49,6 +49,7 @@ const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
 const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
 const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
 const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
+const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -129,7 +130,8 @@ export default {
     DEVELOPER_CONSENT_FILE_LOCATION,
     DEVELOPER_CONSENT_FILE_NAME,
     DEVELOPER_CONSENT_FILE_SIZE,
-    DEVELOPER_CONSENT_FILE_TYPE
+    DEVELOPER_CONSENT_FILE_TYPE,
+    DEVELOPER_CONSENT_ANSWER
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
