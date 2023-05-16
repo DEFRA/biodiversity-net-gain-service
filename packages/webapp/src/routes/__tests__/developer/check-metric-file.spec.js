@@ -75,6 +75,10 @@ describe(url, () => {
       })
     })
 
+    it('should allow confirmation that the correct metric file has been uploaded', async () => {
+      postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.YES
+      await submitPostRequest(postOptions)
+    })
     it('should detect an invalid response from user', async () => {
       postOptions.payload.checkUploadMetric = 'invalid'
       await submitPostRequest(postOptions, 500)
