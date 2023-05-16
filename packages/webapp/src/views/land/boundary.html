@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Do you have a file that shows the boundary of the biodiversity gain site?" %}
+{% set pageHeading = "Do you have a map showing the boundary of the biodiversity gain site?" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -21,14 +21,14 @@
             }
           },
           hint: {
-            html: "<span class='govuk-!-display-block govuk-hint'>Do you have a file showing the boundary of the biodiversity gain site?</span>
+            html: "<span class='govuk-!-display-block govuk-hint'>We'll check that this boundary matches the area covered by the conservation covenant.</span>
                    <span class='govuk-!-display-block govuk-hint'>You can upload a:</span>
                    <ul class='govuk-list govuk-list--bullet app-secondary-text-colour'>
                     <li>document</li>
                     <li>image</li>
                     <li>geospatial file</li>
                   </ul>
-                  <span class='govuk-!-display-block govuk-hint'>If you upload a document or image you also need to know the grid reference and area in hectares.</span>"
+                  <span class='govuk-!-display-block govuk-hint'>If you upload a document or image, you need the grid reference of the central point of the site and the area in hectares.</span>"
           },
           items: [
             {

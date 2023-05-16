@@ -15,7 +15,7 @@ const handlers = {
       return h.view(constants.views.ELIGIBILITY_BOUNDARY, {
         checked,
         err: [{
-          text: 'Select yes if you have a file that shows the boundary of the biodiversity gain site',
+          text: 'Select yes if you have a map showing the boundary of the biodiversity gain site',
           href: '#boundary'
         }]
       })
