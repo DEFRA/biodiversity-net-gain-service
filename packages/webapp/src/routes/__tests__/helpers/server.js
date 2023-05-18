@@ -4,8 +4,9 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
-import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
+import onPreHandler from '../../../__mocks__/on-pre-handler.js'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -96,6 +97,9 @@ const uploadFile = async (uploadConfig) => {
       })
     } else if (uploadConfig.generateHandleEventsError || !uploadComplete) {
       throw new Error(`Upload of ${config.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
+    } else if (uploadConfig.generateEmptyFileUploadError) {
+      const errorMessage = 'The selected file is empty'
+      throw new ValidationError(uploadWrittenConsentErrorCodes.EMPTY_FILE_UPLOAD, errorMessage)
     } else {
       // Check that a message corresponding to the uploaded blob has been queued.
       // This has to be checked in this mock implementation because the web application session ID is generated dynamically.
@@ -118,7 +122,8 @@ const uploadFile = async (uploadConfig) => {
   return response
 }
 
-const submitGetRequest = async (options, expectedResponseCode = 200) => {
+const submitGetRequest = async (options, expectedResponseCode = 200, sessionData) => {
+  await addOnPrehandler(sessionData)
   options.method = 'GET'
   return submitRequest(options, expectedResponseCode)
 }
@@ -132,6 +137,11 @@ const submitRequest = async (options, expectedResponseCode) => {
   const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
   return response
+}
+
+const addOnPrehandler = async (sessionData) => {
+  // Add session injection prehandler
+  await getServer().register(onPreHandler(sessionData))
 }
 
 export { startServer, submitGetRequest, submitPostRequest, uploadFile }

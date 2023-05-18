@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -37,10 +37,13 @@ const handlers = {
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+  const fileSize = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE)
+  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE),
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
+    fileSize: humanReadableFileSize,
     fileLocation
   }
 }
@@ -48,7 +51,10 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,

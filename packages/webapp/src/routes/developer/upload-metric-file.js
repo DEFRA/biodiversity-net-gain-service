@@ -1,7 +1,6 @@
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage } from '../../utils/azure-storage.js'
 import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 
@@ -14,7 +13,12 @@ const handlers = {
 }
 
 const performUpload = async (request, h) => {
-  const config = buildConfig(request.yar.id)
+  const config = buildConfig({
+    sessionId: request.yar.id,
+    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+    fileExt: constants.metricFileExt,
+    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+  })
 
   try {
     const metricFileData = await uploadFiles(logger, request, config)
@@ -26,7 +30,7 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, metricFileData[0].location)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, metricFileData.filename)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, parseFloat(metricFileData.fileSize).toFixed(1))
+      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, metricFileData.fileSize)
       request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, metricFileData.fileType)
     }
 
@@ -77,6 +81,12 @@ const processErrorMessage = (errorMessage, error) => {
         href: DEVELOPER_UPLOAD_METRIC_ID
       }]
       break
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      error.err = [{
+        text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
+        href: DEVELOPER_UPLOAD_METRIC_ID
+      }]
+      break
     default:
       if (errorMessage.indexOf('timed out') > 0) {
         error.err = [{
@@ -85,51 +95,6 @@ const processErrorMessage = (errorMessage, error) => {
         }]
       }
       break
-  }
-}
-
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.metricFileExt
   }
 }
 

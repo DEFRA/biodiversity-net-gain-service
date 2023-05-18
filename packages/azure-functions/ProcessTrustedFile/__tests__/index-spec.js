@@ -15,6 +15,7 @@ const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
+const CONSENT_AGREEMENT = 'developer-upload-consent'
 
 const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
 const mockDownloadStreamIfExists = async (config, context) => {
@@ -214,6 +215,52 @@ describe('Processing developer metric extraction', () => {
   })
 })
 
+describe('Processing developer consent', () => {
+  beforeEach(async () => {
+    await recreateContainers()
+  })
+
+  it('should extract consent file data', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+
+        await processTrustedFile(context, {
+          uploadType: CONSENT_AGREEMENT,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'trusted'
+        })
+        await expect(context.bindings.signalRMessages[0].arguments[0].location).toBeDefined()
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
+
+  it('should throw error if unable to retreive blob', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          location: 'mock-session-id/mock-data.xlsx',
+          containerName: 'unknown'
+        })
+
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].location).toBeUndefined()
+        done()
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
+})
+
 const buildConfig = (fileExtension, uploadType, epsg) => {
   const userId = 'mock-session-id'
   const filenameRoot = 'mock-data'
@@ -222,7 +269,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
   const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
   const reprojectedFileDirectory = `${fileDirectory}/${REPROJECTED_TO_OSGB36}`
   const reprojectedOutputFileLocation = uploadType.indexOf('.') > 0 ? `${reprojectedFileDirectory}/${filenameRoot}` : `${reprojectedFileDirectory}/${filenameRoot}.geojson`
-  const reprojectedOutputFileSize = parseFloat(500 / 1024 / 1024)
+  const reprojectedOutputFileSize = 500
   const mapConfig = {
     centroid: 'mock centroid',
     epsg: epsg || 'mock EPSG',

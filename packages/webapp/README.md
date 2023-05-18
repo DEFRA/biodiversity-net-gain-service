@@ -25,6 +25,8 @@ warning: other service dependencies will be missing, install and run from root o
 | AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |
 | COOKIE_IS_SECURE | Sets isSecure flag for session cookie, set to true if site is SSL or false if not | N |
 | MAX_METRIC_UPLOAD_MB | Maximum size of a biodiversity metric file upload (in megabytes) |
+| GOOGLE_TAGMANAGER_ID | Google Tag Manager ID | N |
+| NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
 
 #### Setting the SIGNALR_URL environment variable
 

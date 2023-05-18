@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, checked, habitatTypeAndConditionMapper } from '../../utils/helpers.js'
+import { processRegistrationTask, checked, habitatTypeAndConditionMapper, checkApplicantDetails } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -23,7 +23,10 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_HABITAT_BASELINE,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.CHECK_HABITAT_BASELINE,

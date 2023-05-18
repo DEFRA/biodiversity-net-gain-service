@@ -9,6 +9,13 @@ jest.mock('../../../utils/azure-storage.js')
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
+    it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({
         url,
         headers: {

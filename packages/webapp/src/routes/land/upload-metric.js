@@ -1,9 +1,9 @@
 import { logger } from 'defra-logging-facade'
-import { handleEvents } from '../../utils/azure-signalr.js'
-import { uploadStreamAndQueueMessage, deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -48,6 +48,8 @@ function processErrorUpload (err, h) {
           href: UPLOAD_METRIC_ID
         }]
       })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_METRIC, {
@@ -73,7 +75,12 @@ const handlers = {
     return h.view(constants.views.UPLOAD_METRIC)
   },
   post: async (request, h) => {
-    const config = buildConfig(request.yar.id)
+    const config = buildConfig({
+      sessionId: request.yar.id,
+      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
+      fileExt: constants.metricFileExt,
+      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+    })
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)
@@ -90,51 +97,6 @@ const handlers = {
         }]
       })
     })
-  }
-}
-
-const buildConfig = sessionId => {
-  const config = {}
-  buildBlobConfig(sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(sessionId, config)
-  buildFileValidationConfig(config)
-  return config
-}
-
-const buildBlobConfig = (sessionId, config) => {
-  config.blobConfig = {
-    blobName: `${sessionId}/${constants.uploadTypes.METRIC_UPLOAD_TYPE}/`,
-    containerName: 'untrusted'
-  }
-}
-
-const buildQueueConfig = config => {
-  config.queueConfig = {
-    uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
-    queueName: 'untrusted-file-queue'
-  }
-}
-
-const buildFunctionConfig = config => {
-  config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
-    handleEventsFunction: handleEvents
-  }
-}
-
-const buildSignalRConfig = (sessionId, config) => {
-  config.signalRConfig = {
-    eventProcessingFunction: null,
-    timeout: parseInt(process.env.UPLOAD_PROCESSING_TIMEOUT_MILLIS) || 180000,
-    url: `${process.env.SIGNALR_URL}?userId=${sessionId}`
-  }
-}
-
-const buildFileValidationConfig = config => {
-  config.fileValidationConfig = {
-    fileExt: constants.metricFileExt
   }
 }
 
@@ -160,7 +122,10 @@ const getValidation = metricValidation => {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_METRIC,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 },
 {
   method: 'POST',
@@ -177,14 +142,7 @@ export default [{
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.UPLOAD_METRIC, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-                href: UPLOAD_METRIC_ID
-              }
-            ]
-          }).takeover()
+          return maximumFileSizeExceeded(h).takeover()
         } else {
           throw err
         }
@@ -193,3 +151,12 @@ export default [{
   }
 }
 ]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: UPLOAD_METRIC_ID,
+    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
+    view: constants.views.UPLOAD_METRIC
+  })
+}

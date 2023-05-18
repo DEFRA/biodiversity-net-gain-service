@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import registerTaskList from '../../utils/register-task-list.js'
+import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -31,5 +32,8 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.REGISTER_LAND_TASK_LIST,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkApplicantDetails]
+  }
 }]

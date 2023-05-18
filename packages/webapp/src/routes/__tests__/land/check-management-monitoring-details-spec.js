@@ -1,5 +1,5 @@
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server'
+import { submitGetRequest, submitPostRequest } from '../helpers/server'
 
 const url = constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
@@ -12,6 +12,13 @@ describe(url, () => {
     redisMap.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, '2023-03-11T00:00:00.000Z')
   })
   describe('GET', () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
     it(`should render the ${url.substring(1)} view`, async () => {
       jest.isolateModules(async () => {
         let viewResult, contextResult

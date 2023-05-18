@@ -1,5 +1,6 @@
 import processApplication from '../index.mjs'
 import { getContext } from '../../.jest/setup.js'
+import applicationStatuses from '../../Shared/application-statuses.js'
 
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('../../Shared/db-queries.js')
@@ -73,6 +74,8 @@ describe('Processing an application', () => {
         expect(context.bindings.outputSbQueue).toEqual(req.body)
         expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('REF0601220001')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
+        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -84,13 +87,9 @@ describe('Processing an application', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
           return {
-            rows: [
-              {
-                fn_create_application_reference: 'REF0601220001'
-              }
-            ]
+            rows: []
           }
         })
         req.body.landownerGainSiteRegistration.gainSiteReference = 'test'
@@ -101,6 +100,39 @@ describe('Processing an application', () => {
         expect(context.bindings.outputSbQueue).toEqual(req.body)
         expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('test')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
+        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+
+  it('Should fail to process an application with a submitted status', done => {
+    jest.isolateModules(async () => {
+      try {
+        const dbQueries = require('../../Shared/db-queries.js')
+        dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                application_status: applicationStatuses.submitted
+              }
+            ]
+          }
+        })
+        req.body.landownerGainSiteRegistration.gainSiteReference = 'test'
+        // execute function
+        await processApplication(getContext(), req)
+        const context = getContext()
+        expect(context.res.status).toEqual(400)
+        expect(context.res.body.applicationReference).toEqual('test')
+        expect(context.res.body.message).toEqual('Application reference has already been processed')
+        expect(context.bindings.outputSbQueue).toBeFalsy()
+        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
+        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)

@@ -1,6 +1,7 @@
 import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
+import { submitGetRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
 
@@ -45,6 +46,10 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
     })
   })
 

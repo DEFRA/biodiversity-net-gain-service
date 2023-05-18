@@ -388,7 +388,10 @@
         <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
 
         {{ govukButton({
-          text: "Confirm and submit"
+          text: "Confirm and submit",
+          attributes: {
+            "data-testid": "continue"
+          }
         }) }}
       </div>
     </div>

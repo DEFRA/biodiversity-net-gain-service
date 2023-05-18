@@ -8,7 +8,7 @@
             }
         }) }}
         {% if fileSize !== null%}
-            {% set fileName = "<a download id = 'document-download' href='./" + downloadUrl + "'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + " MB</span>" %}
+            {% set fileName = "<a download id = 'document-download' href='./" + downloadUrl + "'>" + filename + "</a>, <span id = 'filesize'>" + fileSize + "</span>" %}
         {% endif %}
         {{ govukSummaryList({
             rows: [
@@ -54,7 +54,8 @@
         {{ govukButton({
             text: 'Continue',
             attributes: {
-                id: "continue"
+                id: "continue",
+                "data-testid": "continue"
             }
         }) }}
     </div>

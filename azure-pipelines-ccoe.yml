@@ -14,12 +14,15 @@ pool:
 
 steps:
 - task: NodeTool@0
+  env:
+    GOOGLE_TAGMANAGER_ID: ${GOOGLE_TAGMANAGER_ID}
   inputs:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
 
 - script: |
     echo ${TAG}
+    echo ${GOOGLE_TAGMANAGER_ID}
     npm ci --ignore-scripts && npm run lerna:i
 # TODO: there is currently a bug with lerna version that means npm packagelock v2 files
 # are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 

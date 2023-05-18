@@ -18,6 +18,10 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it('should redirect to Start page if no data applicant data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
   })
 
   describe('POST', () => {
@@ -49,7 +53,7 @@ describe(url, () => {
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
-          config.eventData[0].reprojectedFileSize = 0.0005
+          config.eventData[0].reprojectedFileSize = 500
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'
@@ -301,7 +305,7 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a geospatial land boundary document more than 50 MB', (done) => {
+    it('should not upload a geospatial land boundary document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = JSON.parse(JSON.stringify(baseConfig))
@@ -310,6 +314,25 @@ describe(url, () => {
           const response = await uploadFile(uploadConfig)
           expect(response.payload).toContain('There is a problem')
           expect(response.payload).toContain('The selected file must not be larger than 50MB')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload a geospatial land boundary larger than the configured maximum', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })
