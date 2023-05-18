@@ -155,6 +155,7 @@ const processDeveloperTask = (request, taskDetails, options) => {
   const affectedTask = developerTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
   affectedTask.tasks.forEach(task => {
     if (task.title === taskDetails.title) {
+      /* istanbul ignore else */
       if (task.status !== constants.COMPLETE_DEVELOPER_TASK_STATUS && options.status) {
         task.status = options.status
       }

@@ -207,14 +207,6 @@ describe(url, () => {
         yar: redisMap
       }
       getDeveloperTasks(request)
-      // developerTasks.taskList.forEach(task => {
-      //   if (task.taskTitle === 'Consent to use a biodiversity gain site for off-site gain') {
-      //     task.tasks[0].status = 'COMPLETED'
-      //   }
-      //   if (task.taskTitle === 'Biodiversity 4.0 Metric calculations') {
-      //     task.tasks[0].status = 'COMPLETED'
-      //   }
-      // })
       const developerTasklist = require('../../../routes/developer/tasklist')
       await developerTasklist.default[0].handler(request, h)
 

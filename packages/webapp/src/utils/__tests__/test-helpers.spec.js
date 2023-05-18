@@ -8,7 +8,8 @@ import {
   formatAppRef,
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
-  emailValidator
+  emailValidator,
+  getErrById
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -192,6 +193,21 @@ describe('helpers file', () => {
           }
         ]
       })
+    })
+  })
+
+  describe('getErrById', () => {
+    it('should return error object if attribute id is found in error\'s array', () => {
+      const mockErrors = [{ href: '#id-1', text: 'mock error' }]
+      expect(getErrById(mockErrors, 'id-1')).toEqual(mockErrors[0])
+    })
+    it('should return undefined if attribute id is not found in error\'s array', () => {
+      const mockErrors = [{ href: '#id-2', text: 'mock error' }]
+      expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
+    })
+    it('should return undefined if empty error\'s array is provided', () => {
+      const mockErrors = []
+      expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
     })
   })
 })
