@@ -496,5 +496,6 @@ export default Object.freeze({
   minStartDates,
   AZURE_FUNCTION_APP_URL,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+  consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options
 })
