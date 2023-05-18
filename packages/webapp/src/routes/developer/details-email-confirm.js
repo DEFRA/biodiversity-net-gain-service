@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { emailValidator } from '../../utils/helpers.js'
+import { emailValidator, processDeveloperTask } from '../../utils/helpers.js'
 
 const href = '#email-correct-yes'
 const handlers = {
@@ -37,6 +37,7 @@ const handlers = {
         emailAddress
       })
     }
+    processDeveloperTask(request, { taskTitle: 'Your details', title: 'Add your details' }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
     return h.redirect(constants.routes.DEVELOPER_DETAILS_CONFIRM)
   }
 }

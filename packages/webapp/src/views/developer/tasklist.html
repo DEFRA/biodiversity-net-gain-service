@@ -1,18 +1,56 @@
 {% extends 'developer-form-layout.html' %}
-
-{% set pageHeading = "Record off-site biodiversity gains for a development project" %}
-
-{% block formContent %}
-  <div class="govuk-body">
-    {% if err %}
-      {% include "errorbanner.html" %}
-    {% endif %}
+{% set showSaveLink = true %}
+{% set hideBackLink = true %}
+{% set pageHeading = "Register land as a biodiversity gain site" %}% set pageHeading = "Record off-site biodiversity gains for a development project" %}
+{% block content %}
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">
-          {{ pageHeading }}
-        </h1>
-      </div>
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
+            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ developerCompletedTasks}} of 7 sections.</p>
+            <ol class="app-task-list govuk-!-padding-top-3">
+                {% for task in developerTasks.taskList %}
+                    <li>
+                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
+                        <ul class="app-task-list__items">
+                            {% for taskItem in task.tasks %}
+                                {% if task.taskTitle !== 'Submit your biodiversity gain information' %}
+                                    <li class="app-task-list__item">
+                                      <span class="app-task-list__task-name">
+                                        <a href="{% if taskItem.status === 'COMPLETED' %}{{ taskItem.completedTaskUrl }}{% elif taskItem.status === 'IN PROGRESS' and taskItem.inProgressUrl %}{{ taskItem.inProgressUrl }}{% else %}{{ taskItem.startTaskUrl }}{% endif %}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
+                                          {{ taskItem.title }}
+                                        </a>
+                                      </span>
+                                      <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif taskItem.status === 'NOT STARTED' %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">
+                                        {{ taskItem.status }}
+                                      </strong>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <ul class="app-task-list__items">
+                                            <li class="app-task-list__item">
+                                                {% if developerCompletedTasks == 5 %}
+                                                    <span class="app-task-list__task-name" id="check-your-answers">
+                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="{{ developerTasks.taskList[developerTasks.taskList.length - 1].tasks[0].id }}">
+                                                                {{ developerTasks.taskList[developerTasks.taskList.length - 1].tasks[0].title }}
+                                                            </a>
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">Not started yet</strong>
+                                                {% else %}
+                                                    <span id="check-your-answers">
+                                                          {{ developerTasks.taskList[developerTasks.taskList.length - 1].tasks[0].title }}
+                                                    </span>
+                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">{{ taskItem.status }}</strong>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
     </div>
-  </div>
 {% endblock %}

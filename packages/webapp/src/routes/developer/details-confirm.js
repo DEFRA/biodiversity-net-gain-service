@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { processDeveloperTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -10,7 +11,10 @@ const handlers = {
     })
   },
   // NOTE: Here needs to add more code for task progress status once tasklist ticket is ready develope
-  post: async (_request, h) => h.redirect(constants.routes.DEVELOPER_TASKLIST)
+  post: async (_request, h) => {
+    processDeveloperTask(_request, { taskTitle: 'Your details', title: 'Add your details' }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
+    return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+  }
 }
 
 export default [{

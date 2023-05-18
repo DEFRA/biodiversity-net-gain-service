@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getHumanReadableFileSize, processDeveloperTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
@@ -18,7 +18,14 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      return h.redirect('/' + constants.views.DEVELOPER_CONFIRM_DEV_DETAILS)
+      processDeveloperTask(request,
+        {
+          taskTitle: 'Biodiversity 4.0 Metric calculations',
+          title: 'Upload Metric 4.0 file'
+        }, {
+          status: constants.COMPLETE_DEVELOPER_TASK_STATUS
+        })
+      return h.redirect(constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS)
     }
     return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
