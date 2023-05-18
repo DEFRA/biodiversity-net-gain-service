@@ -177,5 +177,52 @@ describe(url, () => {
         ]
       })
     })
+
+    it('should fetch developer tasklist from cache', async () => {
+      let viewResult, contextResult
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          contextResult = context
+        }
+      }
+      const developerTasks = {
+        taskList: [{
+          taskTitle: 'Your details',
+          tasks: [
+            {
+              title: 'Add your details',
+              status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
+              completedTaskUrl: constants.routes.DEVELOPER_DETAILS_CONFIRM,
+              startTaskUrl: constants.routes.DEVELOPER_DETAILS_NAME,
+              inProgressUrl: constants.routes.DEVELOPER_DETAILS_NAME,
+              id: 'add-your-details'
+            }
+          ]
+        }]
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
+      const request = {
+        yar: redisMap
+      }
+      getDeveloperTasks(request)
+      // developerTasks.taskList.forEach(task => {
+      //   if (task.taskTitle === 'Consent to use a biodiversity gain site for off-site gain') {
+      //     task.tasks[0].status = 'COMPLETED'
+      //   }
+      //   if (task.taskTitle === 'Biodiversity 4.0 Metric calculations') {
+      //     task.tasks[0].status = 'COMPLETED'
+      //   }
+      // })
+      const developerTasklist = require('../../../routes/developer/tasklist')
+      await developerTasklist.default[0].handler(request, h)
+
+      const response = await submitGetRequest(getOptions)
+      expect(response.statusCode).toBe(200)
+      expect(viewResult).toEqual('developer/tasklist')
+      expect(contextResult.developerTasks.taskList.length).toEqual(1)
+      expect(contextResult.developerTasks).toEqual(developerTasks)
+    })
   })
 })
