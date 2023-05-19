@@ -21,8 +21,8 @@ const developerTaskList = {
         {
           title: 'Upload Metric 4.0 file',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          completedTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
+          startTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
           inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'upload-metric-file'
         },
@@ -30,7 +30,7 @@ const developerTaskList = {
           title: 'Confirm development details',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
           completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+          startTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
           inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
           id: 'confirm-development-details'
         },
