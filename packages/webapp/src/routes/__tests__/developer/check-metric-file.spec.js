@@ -25,6 +25,23 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
       expect(contextResult.filename).toEqual('metric-file.xlsx')
     })
+
+    it(`should render the ${url.substring(1)} without file info`, async () => {
+      const checkMetricFile = require('../../developer/check-metric-file.js')
+      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, null)
+      const request = {
+        yar: redisMap
+      }
+      const h = {
+        view: (view, context) => {
+          viewResult = view
+          contextResult = context
+        }
+      }
+      await checkMetricFile.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
+      expect(contextResult.filename).toEqual('')
+    })
   })
 
   describe('POST', () => {
