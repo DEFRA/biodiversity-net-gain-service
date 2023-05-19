@@ -445,6 +445,25 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
+const getValidation = (metricValidation, href) => {
+  const error = {
+    err: [
+      {
+        text: '',
+        href
+      }
+    ]
+  }
+  if (!metricValidation.isVersion4OrLater) {
+    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
+  } else if (!metricValidation.isOffsiteDataPresent) {
+    error.err[0].text = 'The selected file does not have enough data'
+  } else if (!metricValidation.areOffsiteTotalsCorrect) {
+    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+  }
+  return error.err[0].text ? error : null
+}
+
 export {
   validateDate,
   dateClasses,
@@ -478,5 +497,6 @@ export {
   getMaximumFileSizeExceededView,
   getHumanReadableFileSize,
   processDeveloperTask,
-  getDeveloperTasks
+  getDeveloperTasks,
+  getValidation
 }

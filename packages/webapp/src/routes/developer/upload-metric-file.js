@@ -3,7 +3,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processDeveloperTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { processDeveloperTask, getMaximumFileSizeExceededView, getValidation } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -77,7 +77,7 @@ const handlers = {
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,
-      uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
     })
@@ -89,34 +89,15 @@ const handlers = {
         return processErrorUpload(err, h)
       }
     ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
+      logger.info(`Problem uploading file ${err}`)
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: UPLOAD_METRIC_ID
+          href: UPLOAD_METRIC_ID,
+          text: 'The selected file could not be uploaded -- try again'
         }]
       })
     })
   }
-}
-
-const getValidation = metricValidation => {
-  const error = {
-    err: [
-      {
-        text: '',
-        href: UPLOAD_METRIC_ID
-      }
-    ]
-  }
-  if (!metricValidation.isVersion4OrLater) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
-  } else if (!metricValidation.isOffsiteDataPresent) {
-    error.err[0].text = 'The selected file does not have enough data'
-  } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
-  }
-  return error.err[0].text ? error : null
 }
 
 export default [{
@@ -130,14 +111,13 @@ export default [{
   config: {
     handler: handlers.post,
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       output: 'stream',
-      timeout: false,
       parse: false,
       multipart: true,
+      timeout: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {
