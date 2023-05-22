@@ -167,54 +167,6 @@ describe('Trusted file processing', () => {
   })
 })
 
-describe('Processing developer metric extraction', () => {
-  beforeEach(async () => {
-    await recreateContainers()
-  })
-
-  it('should extract metric file data', done => {
-    jest.isolateModules(async () => {
-      try {
-        const context = getContext()
-
-        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
-
-        await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
-          location: 'mock-session-id/mock-data.xlsx',
-          containerName: 'trusted'
-        })
-        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
-        await expect(context.bindings.signalRMessages).toBeDefined()
-        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
-        done()
-      } catch (e) {
-        done(e)
-      }
-    })
-  })
-
-  it('should throw error if unable to retreive blob', done => {
-    jest.isolateModules(async () => {
-      try {
-        const context = getContext()
-
-        await processTrustedFile(context, {
-          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
-          location: 'mock-session-id/mock-data.xlsx',
-          containerName: 'unknown'
-        })
-
-        await expect(context.bindings.signalRMessages).toBeDefined()
-        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeUndefined()
-        done()
-      } catch (e) {
-        done(e)
-      }
-    })
-  })
-})
-
 describe('Processing developer consent', () => {
   beforeEach(async () => {
     await recreateContainers()
