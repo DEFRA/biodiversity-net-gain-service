@@ -445,7 +445,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getValidation = (metricValidation, href) => {
+const getMetricFileValidationErrors = (metricValidation, href) => {
   const error = {
     err: [
       {
@@ -498,5 +498,5 @@ export {
   getHumanReadableFileSize,
   processDeveloperTask,
   getDeveloperTasks,
-  getValidation
+  getMetricFileValidationErrors
 }

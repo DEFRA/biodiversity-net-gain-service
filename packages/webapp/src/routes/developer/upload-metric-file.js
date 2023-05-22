@@ -3,12 +3,12 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processDeveloperTask, getMaximumFileSizeExceededView, getValidation } from '../../utils/helpers.js'
+import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  const validationError = getValidation(result[0].metricData.validation)
+  const validationError = getMetricFileValidationErrors(result[0].metricData.validation)
   if (validationError) {
     await deleteBlobFromContainers(result[0].location)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
