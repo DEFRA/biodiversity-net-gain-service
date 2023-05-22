@@ -75,21 +75,19 @@ function processErrorUpload (err, h) {
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
   post: async (request, h) => {
-    const config = buildConfig({
+    // Get upload config object from common code
+    const uploadConfig = buildConfig({
       sessionId: request.yar.id,
-      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
-      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
+      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      logger.info(`Problem uploading file ${err}`)
+
+    return uploadFiles(logger, request, uploadConfig).then(
+      result => processSuccessfulUpload(result, request, h),
+      error => processErrorUpload(error, h)
+    ).catch(error => {
+      logger.info(`Problem uploading file ${error}`)
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           href: UPLOAD_METRIC_ID,
@@ -117,7 +115,7 @@ export default [{
       multipart: true,
       timeout: false,
       allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
+      failAction: (_request, h, err) => {
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {
