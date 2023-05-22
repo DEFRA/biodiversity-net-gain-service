@@ -8,30 +8,26 @@ import { processDeveloperTask, getMaximumFileSizeExceededView, getValidation } f
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    const validationError = getValidation(result[0].metricData.validation)
-    if (validationError) {
-      await deleteBlobFromContainers(result[0].location)
-      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
-    }
-
-    processDeveloperTask(request,
-      {
-        taskTitle: 'Biodiversity 4.0 Metric calculations',
-        title: 'Upload Metric 4.0 file'
-      }, {
-        status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
-      })
-
-    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
-    request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
-    logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC
+  const validationError = getValidation(result[0].metricData.validation)
+  if (validationError) {
+    await deleteBlobFromContainers(result[0].location)
+    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
   }
-  return h.redirect(resultView)
+
+  processDeveloperTask(request,
+    {
+      taskTitle: 'Biodiversity 4.0 Metric calculations',
+      title: 'Upload Metric 4.0 file'
+    }, {
+      status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
+    })
+
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
+  logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }
 
 function processErrorUpload (err, h) {
