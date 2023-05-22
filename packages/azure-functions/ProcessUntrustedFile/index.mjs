@@ -44,6 +44,7 @@ export default async function (context, message) {
         // If screening is disabled this function must upload document to trusted blob and send message to queue
         context.log('File security screening is disabled')
         await uploadDocument(config, documentStream)
+        message.containerName = baseConfig.trustedBlobStorageConfig.containerName
         sendMessage(context, message)
       }
     } else {
