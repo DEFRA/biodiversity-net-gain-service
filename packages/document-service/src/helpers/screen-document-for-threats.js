@@ -22,11 +22,12 @@ const screenDocumentForThreats = async (logger, config, stream) => {
   }
 
   const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
+
   try {
     logger.log(`Sending ${fileDetails.key} for screening`)
     await axios.request(putOptions)
   } catch (err) {
-    console.error(`Error connecting to AV service ${err}`)
+    logger.log(`Error connecting to AV service ${err}`)
     throw err
   }
 }
