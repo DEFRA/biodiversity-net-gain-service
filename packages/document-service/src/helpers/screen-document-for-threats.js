@@ -1,7 +1,8 @@
-import axios from 'axios'
+// import axios from 'axios'
 import FormData from 'form-data'
 import path from 'path'
 import { getBearerToken } from '@defra/bng-utils-lib'
+import Wreck from '@hapi/wreck'
 
 const AUTHORIZATION = 'Authorization'
 const FILE = 'file'
@@ -16,17 +17,21 @@ const screenDocumentForThreats = async (logger, config, stream) => {
 
   const options = {
     headers,
-    url,
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity
+    url
+    // maxContentLength: Infinity,
+    // maxBodyLength: Infinity
   }
 
-  const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
+  // const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
+  const wreckOptions = Object.assign({ payload: formData }, options)
+
   try {
     logger.log(`Sending ${fileDetails.key} for screening`)
-    await axios.request(putOptions)
+    // await axios.request(putOptions)
+    const { res } = await Wreck.put(url, wreckOptions)
+    logger.log(`Status Code: ${res.statusCode}`)
   } catch (err) {
-    console.error(`Error connecting to AV service ${err}`)
+    logger.log(`Error connecting to AV service ${err}`)
     throw err
   }
 }
