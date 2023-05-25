@@ -1,13 +1,13 @@
 {% extends 'developer-form-layout.html' %}
 {% set showSaveLink = true %}
 {% set hideBackLink = true %}
-{% set pageHeading = "Register land as a biodiversity gain site" %}% set pageHeading = "Record off-site biodiversity gains for a development project" %}
+{% set pageHeading = "Record off-site biodiversity gains for a development project" %}
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
-            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ developerCompletedTasks}} of 7 sections.</p>
+            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ developerCompletedTasks}} of 6 sections.</p>
             <ol class="app-task-list govuk-!-padding-top-3">
                 {% for task in developerTasks.taskList %}
                     <li>

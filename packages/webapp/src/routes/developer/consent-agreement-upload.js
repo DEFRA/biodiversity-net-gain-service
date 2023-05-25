@@ -2,7 +2,7 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, processDeveloperTask } from '../../utils/helpers.js'
 
 const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
 
@@ -14,6 +14,11 @@ async function processSuccessfulUpload (result, request, h) {
     request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, result.fileType)
     logger.log(`${new Date().toUTCString()} Received consent file data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    processDeveloperTask(request,
+      {
+        taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
+        title: 'Upload the consent document'
+      }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
     resultView = constants.routes.DEVELOPER_AGREEMENT_CHECK
   }
 
