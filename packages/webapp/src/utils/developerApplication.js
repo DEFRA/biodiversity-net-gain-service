@@ -11,14 +11,14 @@ const developerApplication = session => {
         role: 'Developer'
       },
       developmentDetails: {
-        projectName: session.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.projectName,
-        localAuthority: session.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.planningAuthority,
-        planningReference: session.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.planningApplicationReference
+        projectName: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.projectName,
+        localAuthority: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.planningAuthority,
+        planningReference: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA).startPage.planningApplicationReference
       },
       additionalEmailAddresses: additionalEmailAddresses(session) || [],
-      biodiversityGainSiteNumber: session.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      biodiversityGainSiteNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
     },
-    metricData: session.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
+    metricData: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
     // It’s better to send complete metric data instead of sending data for specific sheets
     // habitatExtractedFromMetric: [
     //   {
@@ -59,6 +59,6 @@ const developerApplication = session => {
 }
 
 const additionalEmailAddresses = session => session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS) &&
-  session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS).map(e => { return { fullName: e.fullName, email: e.emailAddress } })
+  session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS).map(e => ({ fullName: e.fullName, email: e.email }))
 
 export default developerApplication
