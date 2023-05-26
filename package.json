@@ -30,7 +30,7 @@
     "docker:azure:build": "docker-compose -f docker/services.build.azure.yml build && docker-compose -f docker/services.build.azure.yml push"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.21.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.21.5",
     "@babel/preset-env": "^7.21.4",
     "babel-jest": "^29.5.0",
     "detect-secrets": "^1.0.6",
