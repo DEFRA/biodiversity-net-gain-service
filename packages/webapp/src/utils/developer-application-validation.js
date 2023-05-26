@@ -3,7 +3,7 @@ import Joi from 'joi'
 const developerApplicationValidation = Joi.object({
   developerAllocation: Joi.object({
     applicant: Joi.object({
-      name: Joi.string().required(),
+      name: Joi.string().allow('', null),
       emailAddress: Joi.string().required(),
       role: Joi.string().valid('Developer').required()
     }),
