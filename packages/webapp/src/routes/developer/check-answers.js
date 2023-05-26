@@ -11,9 +11,9 @@ import { logger } from 'defra-logging-facade'
 
 const handlers = {
   get: async (request, h) => {
-    logger.info('GET Developer JSON payload for powerApp', developerApplication(request.yar).developerAllocation)
+    logger.info('GET Developer JSON payload for powerApp', developerApplication(request.yar))
     return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
-      developerApplication: developerApplication(request.yar).developerAllocation,
+      developerApplication: developerApplication(request.yar),
       ...getContext(request)
     })
   },
