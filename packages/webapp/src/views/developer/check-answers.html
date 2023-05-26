@@ -158,42 +158,23 @@
         <h2 class="govuk-heading-l">Additional email addresses</h2>
         {{ govukSummaryList({
           classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Email"
-              },
-              value: {
-                html: '<span> example@example.com  </span>'
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.DEVELOPER_EMAIL_ENTRY,
-                    text: "Change",
-                    visuallyHiddenText: " Addtional email addresses"
-                  }
-                ]
+          rows: {% for item in developerApplication.additionalEmailAddresses %}
+          key: {
+            text: "Email"
+          },
+          value: {
+            html: '<span>'+ item.email+'</span>'
+          },
+          actions: {
+            items: [
+              {
+                href: routes.DEVELOPER_EMAIL_ENTRY,
+                text: "Change",
+                visuallyHiddenText: " Addtional email addresses"
               }
-            },
-            {
-                key: {
-                  text: "Email"
-                },
-                value: {
-                  html: '<span> example@example.com  </span>'
-                },
-                actions: {
-                  items: [
-                    {
-                      href: routes.DEVELOPER_EMAIL_ENTRY,
-                      text: "Change",
-                      visuallyHiddenText: " Addtional email addresses"
-                    }
-                  ]
-                }
-              }
-          ]
+            ]
+          }
+        {% endfor %}
         }) }}
 
        
