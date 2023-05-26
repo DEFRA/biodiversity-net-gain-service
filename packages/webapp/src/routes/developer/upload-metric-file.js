@@ -1,107 +1,96 @@
 import { logger } from 'defra-logging-facade'
-import { ThreatScreeningError, UploadTypeValidationError } from '@defra/bng-errors-lib'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { processDeveloperTask } from '../../utils/helpers.js'
+import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 
-const invalidUploadErrorText = 'The selected file must be an XLSM or XLSX'
-const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
+const UPLOAD_METRIC_ID = '#uploadMetric'
+
+async function processSuccessfulUpload (result, request, h) {
+  const validationError = getMetricFileValidationErrors(result[0].metricData.validation)
+  if (validationError) {
+    await deleteBlobFromContainers(result[0].location)
+    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
+  }
+
+  processDeveloperTask(request,
+    {
+      taskTitle: 'Biodiversity 4.0 Metric calculations',
+      title: 'Upload Metric 4.0 file'
+    }, {
+      status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
+    })
+
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
+  logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
+}
+
+function processErrorUpload (err, h) {
+  switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file is empty',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
+    case constants.uploadErrors.noFile:
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'Select a Biodiversity Metric',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
+    case constants.uploadErrors.unsupportedFileExt:
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file must be an XLSM or XLSX',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h)
+    default:
+      if (err.message.indexOf('timed out') > 0) {
+        return h.redirect(constants.views.DEVELOPER_UPLOAD_METRIC, {
+          err: [{
+            text: 'The selected file could not be uploaded -- try again',
+            href: UPLOAD_METRIC_ID
+          }]
+        })
+      }
+      throw err
+  }
+}
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
-  post: async (request, h) => performUpload(request, h)
-}
+  post: async (request, h) => {
+    // Get upload config object from common code
+    const uploadConfig = buildConfig({
+      sessionId: request.yar.id,
+      fileExt: constants.metricFileExt,
+      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
+      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE
+    })
 
-const performUpload = async (request, h) => {
-  const config = buildConfig({
-    sessionId: request.yar.id,
-    uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
-    fileExt: constants.metricFileExt,
-    maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
-  })
-
-  try {
-    const metricFileData = await uploadFiles(logger, request, config)
-    if (metricFileData) {
-      const uploadedFileLocation = `${metricFileData[0].location.substring(0, metricFileData[0].location.lastIndexOf('/'))}/${metricFileData.filename}`
-      if (metricFileData[0].location !== uploadedFileLocation) {
-        request.yar.set(constants.redisKeys.DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION, uploadedFileLocation)
-      }
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, metricFileData[0].metricData)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, metricFileData[0].location)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, metricFileData.filename)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, metricFileData.fileSize)
-      request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, metricFileData.fileType)
-    }
-    processDeveloperTask(request,
-      {
-        taskTitle: 'Biodiversity 4.0 Metric calculations',
-        title: 'Upload Metric 4.0 file'
-      }, {
-        status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
-      })
-    return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
-  } catch (err) {
-    const errorContext = getErrorContext(err)
-    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, errorContext)
-  }
-}
-
-const getErrorContext = err => {
-  const error = {}
-  if (err instanceof ThreatScreeningError) {
-    const status = err.threatScreeningDetails.Status
-    error.err = [{
-      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
-      href: DEVELOPER_UPLOAD_METRIC_ID
-    }]
-  } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
-    error.err = [{
-      text: invalidUploadErrorText,
-      href: DEVELOPER_UPLOAD_METRIC_ID
-    }]
-  } else {
-    processErrorMessage(err.message, error)
-  }
-
-  if (error.err) {
-    // Prepare to redisplay the upload developer metric view with the configured error.
-    return error
-  } else {
-    // An unexpected error has occurred. Rethrow it so that the default error page is returned.
-    throw err
-  }
-}
-
-const processErrorMessage = (errorMessage, error) => {
-  switch (errorMessage) {
-    case constants.uploadErrors.noFile:
-      error.err = [{
-        text: 'Select a Biodiversity Metric',
-        href: DEVELOPER_UPLOAD_METRIC_ID
-      }]
-      break
-    case constants.uploadErrors.emptyFile:
-      error.err = [{
-        text: 'The selected file is empty',
-        href: DEVELOPER_UPLOAD_METRIC_ID
-      }]
-      break
-    case constants.uploadErrors.maximumFileSizeExceeded:
-      error.err = [{
-        text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
-        href: DEVELOPER_UPLOAD_METRIC_ID
-      }]
-      break
-    default:
-      if (errorMessage.indexOf('timed out') > 0) {
-        error.err = [{
-          text: constants.uploadErrors.uploadFailure,
-          href: DEVELOPER_UPLOAD_METRIC_ID
+    return uploadFiles(logger, request, uploadConfig).then(
+      result => processSuccessfulUpload(result, request, h),
+      error => processErrorUpload(error, h)
+    ).catch(error => {
+      logger.info(`Problem uploading file ${error}`)
+      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        err: [{
+          href: UPLOAD_METRIC_ID,
+          text: 'The selected file could not be uploaded -- try again'
         }]
-      }
-      break
+      })
+    })
   }
 }
 
@@ -118,25 +107,27 @@ export default [{
     payload: {
       maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       output: 'stream',
-      timeout: false,
       parse: false,
       multipart: true,
+      timeout: false,
       allow: 'multipart/form-data',
-      failAction: (req, h, error) => {
-        logger.log(`${new Date().toUTCString()} Uploaded file is too large ${req.path}`)
-        if (error.output.statusCode === 413) { // Request entity too large
-          return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-            err: [
-              {
-                text: `The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
-                href: DEVELOPER_UPLOAD_METRIC_ID
-              }
-            ]
-          }).takeover()
+      failAction: (_request, h, err) => {
+        if (err.output.statusCode === 413) { // Request entity too large
+          return maximumFileSizeExceeded(h).takeover()
         } else {
-          throw error
+          throw err
         }
       }
     }
   }
-}]
+}
+]
+
+const maximumFileSizeExceeded = h => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href: UPLOAD_METRIC_ID,
+    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
+    view: constants.views.DEVELOPER_UPLOAD_METRIC
+  })
+}

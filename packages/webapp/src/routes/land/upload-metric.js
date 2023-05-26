@@ -3,14 +3,14 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
-    const validationError = getValidation(result[0].metricData.validation)
+    const validationError = getMetricFileValidationErrors(result[0].metricData.validation)
     if (validationError) {
       await deleteBlobFromContainers(result[0].location)
       return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -98,25 +98,6 @@ const handlers = {
       })
     })
   }
-}
-
-const getValidation = metricValidation => {
-  const error = {
-    err: [
-      {
-        text: '',
-        href: UPLOAD_METRIC_ID
-      }
-    ]
-  }
-  if (!metricValidation.isVersion4OrLater) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
-  } else if (!metricValidation.isOffsiteDataPresent) {
-    error.err[0].text = 'The selected file does not have enough data'
-  } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
-  }
-  return error.err[0].text ? error : null
 }
 
 export default [{
