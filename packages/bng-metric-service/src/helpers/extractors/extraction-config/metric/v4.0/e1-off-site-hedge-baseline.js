@@ -3,7 +3,8 @@ const headers = [
   'Length (km)',
   'Condition',
   'Total hedgerow units',
-  'Register reference number'
+  'Register reference number',
+  'Hedge number'
 ]
 
 const e1OffSiteHedgeBaseline = {

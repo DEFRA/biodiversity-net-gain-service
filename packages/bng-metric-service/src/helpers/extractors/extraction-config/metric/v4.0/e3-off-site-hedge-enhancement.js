@@ -5,7 +5,8 @@ const headers = [
   'Condition',
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
-  'Hedge units delivered'
+  'Hedge units delivered',
+  'Proposed Broad Habitat'
 ]
 
 const e3OffSiteHedgeEnhancement = {
