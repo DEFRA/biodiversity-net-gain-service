@@ -23,7 +23,7 @@
                 text: "Project name"
               },
               value: {
-                html: '<span>{{ developerApplication.developmentDetails.projectName }}</span>'
+                html: '<span>'+developerApplication.developmentDetails.projectName+'</span>'
               }
             },
             {
@@ -31,7 +31,7 @@
                 text: "Local authority"
               },
               value: {
-                html: '<span>{{ developerApplication.developmentDetails.localAuthority }}</span>'
+                html: '<span>'+developerApplication.developmentDetails.localAuthority+'</span>'
               }
             },
             {
@@ -39,7 +39,7 @@
                 text: "Planning reference"
               },
               value: {
-                html: '<span>{{ developerApplication.developmentDetails.planningReference }}</span>'
+                html: '<span>'+developerApplication.developmentDetails.planningReference+'</span>'
               }
             }
             ]
@@ -79,7 +79,7 @@
                 text: "File added"
               },
               value: {
-                html: '<span> Emmer Green PP version.XLSM, 4.1MB  </span>'
+                html: '<span>'+developerApplication.files[0].fileName+'</span>'
               },
               actions: {
                 items: [
@@ -139,12 +139,12 @@
                 text: "File added"
               },
               value: {
-                html: '<span> Emmer Green written consent document.pdf, 1MB  </span>'
+                html: '<span>'+developerApplication.files[1].fileName+'</span>'
               },
               actions: {
                 items: [
                   {
-                    href: '#',
+                    href: routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
                     text: "Change",
                     visuallyHiddenText: " Consent to use a biodiversity gain site for off-site gain"
                   }
