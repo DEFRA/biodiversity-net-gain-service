@@ -5,7 +5,8 @@ const headers = [
   'Condition',
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
-  'Habitat units delivered'
+  'Habitat units delivered',
+  'Register reference number'
 ]
 
 const d2OffSiteHabitatCreation = {

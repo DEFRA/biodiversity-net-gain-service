@@ -24,6 +24,12 @@ const performUpload = async (request, h) => {
   try {
     const metricFileData = await uploadFiles(logger, request, config)
     if (metricFileData) {
+      console.log('metricFileData==>')
+      console.log(metricFileData[0].metricData.d2OffSiteHabitatCreation)
+      console.log(metricFileData[0].metricData.d3OffSiteHabitatEnhancement)
+      console.log(metricFileData[0].metricData.e1OffSiteHedgeBaseline)
+      console.log(metricFileData[0].metricData.e3OffSiteHedgeEnhancement)
+      console.log(metricFileData[0].metricData.f3OffSiteWaterCEnhancement)
       const uploadedFileLocation = `${metricFileData[0].location.substring(0, metricFileData[0].location.lastIndexOf('/'))}/${metricFileData.filename}`
       if (metricFileData[0].location !== uploadedFileLocation) {
         request.yar.set(constants.redisKeys.DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION, uploadedFileLocation)
