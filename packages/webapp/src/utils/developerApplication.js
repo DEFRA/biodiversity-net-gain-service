@@ -59,6 +59,6 @@ const developerApplication = session => {
 }
 
 const additionalEmailAddresses = session => session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS) &&
-  session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS).map(e => { return { fullName: e.fullName, email: e.fullName } })
+  session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS).map(e => { return { fullName: e.fullName, email: e.emailAddress } })
 
 export default developerApplication
