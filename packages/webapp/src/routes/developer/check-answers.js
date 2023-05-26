@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import developerApplication from '../../utils/developer-application.js'
+import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
   initialCapitalization,
   dateToString,
@@ -11,6 +12,14 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
       ...getContext(request)
     })
+  },
+  post: async (request, h) => {
+    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar))
+    if (error) {
+      throw new Error(error)
+    }
+    logger.info('POST Developer JSON payload for powerApp', value, error)
+    return h.redirect(constants.routes.DEVELOPER_ROUTING_REGISTER)
   }
 }
 
