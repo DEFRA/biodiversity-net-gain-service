@@ -23,7 +23,7 @@
     "@azure/service-bus": "^7.9.0",
     "@azure/storage-blob": "^12.14.0",
     "@azure/storage-queue": "^12.13.0",
-    "@microsoft/signalr": "^6.0.16",
+    "@microsoft/signalr": "^7.0.5",
     "pg": "^8.10.0"
   },
   "devDependencies": {
