@@ -70,4 +70,9 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
   handler: handlers.get
+},
+{
+  method: 'POST',
+  path: constants.routes.DEVELOPER_CHECK_ANSWERS,
+  handler: handlers.post
 }]
