@@ -30,6 +30,8 @@ describe(url, () => {
   })
 
   describe('GET', () => {
+    let viewResult, contextResult
+    const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
