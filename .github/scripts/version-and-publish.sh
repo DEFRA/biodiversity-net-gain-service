@@ -35,7 +35,6 @@ echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/nu
 npm whoami
 
 echo "Setting up git"
-echo ${GITHUB_AUTH}
 git config user.name "BNG Github Actions User[bot]"
 git config user.email "340972+BNG Github Actions User[bot]@users.noreply.github.com"
 
@@ -90,8 +89,8 @@ git tag "${NEW_VERSION}" -m "${NEW_VERSION}" -f
 git push origin "${NEW_VERSION}"
 
 # Publish packages to npm
-# echo "Publishing latest packages to npm"
-# lerna publish --registry=https://registry.npmjs.org/ from-git --yes --pre-dist-tag rc --no-verify-access
+echo "Publishing latest packages to npm"
+lerna publish --registry=https://registry.npmjs.org/ from-git --yes --pre-dist-tag rc --no-verify-access
 
 # If we've pushed a new release into master and it is not a hotfix/patch, then merge the changes back to develop
 # if [ "${BRANCH}" == "master" ] && [ "${RELEASE_TYPE}" != "patch" ]; then
