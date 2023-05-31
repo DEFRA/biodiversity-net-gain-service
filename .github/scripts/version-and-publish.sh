@@ -87,7 +87,7 @@ git push origin "${BRANCH}:${BRANCH}" --no-verify
 
 echo "Pushing new release tag to the remote"
 git tag "${NEW_VERSION}" -m "${NEW_VERSION}" -f
-git push origin "${NEW_VERSION}"
+git push origin "${NEW_VERSION}" --no-verify
 
 # Publish packages to npm
 echo "Publishing latest packages to npm"
