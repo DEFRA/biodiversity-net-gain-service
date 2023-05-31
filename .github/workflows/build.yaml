@@ -47,8 +47,16 @@ jobs:
     needs: tests
     if: ${{ github.event_name == 'push' }}
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v2
+        with: 
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Install NodeJS
         uses: actions/setup-node@v1
         with:
@@ -63,7 +71,6 @@ jobs:
         run: . ./.github/scripts/version-and-publish.sh
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
           HUSKY: 0
