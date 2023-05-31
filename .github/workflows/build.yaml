@@ -56,7 +56,8 @@ jobs:
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v2
-        with: ${{ steps.generate_token.outputs.token }}
+        with: 
+          token: ${{ steps.generate_token.outputs.token }}
       - name: Install NodeJS
         uses: actions/setup-node@v1
         with:
