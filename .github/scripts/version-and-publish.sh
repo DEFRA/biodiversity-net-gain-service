@@ -35,8 +35,8 @@ echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/nu
 npm whoami
 
 echo "Setting up git"
-git config user.name "GitHub Actions"
-git config user.email "actions@users.noreply.github.com"
+# git config user.name "GitHub Actions"
+# git config user.email "actions@users.noreply.github.com"
 
 # Ensure that git will return tags with pre-releases in the correct order (e.g. 0.1.0-rc.0 occurs before 0.1.0)
 echo "Removing existing git tag versionsort configuration"
