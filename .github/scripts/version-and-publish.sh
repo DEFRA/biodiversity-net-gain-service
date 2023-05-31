@@ -79,14 +79,14 @@ lerna version "${NEW_VERSION}" --yes --no-push --force-publish --exact
 # Generate changelog information for changes since the last tag
 echo "Generating changelog updates for all changes between ${PREVIOUS_VERSION} and ${NEW_VERSION}"
 lerna-changelog --from "${PREVIOUS_VERSION}" --to "${NEW_VERSION}" | cat - CHANGELOG.md > CHANGELOG.new && mv CHANGELOG.new CHANGELOG.md
-git commit -a --amend --no-edit --no-verify
+git commit -a --amend --no-edit --no-verify -m "${NEW_VERSION} [no ci]"
 
 # Push new tag, updated changelog and package metadata to the remote
 echo "Pushing new release to the remote"
 git push origin "${BRANCH}:${BRANCH}" --no-verify
 
 echo "Pushing new release tag to the remote"
-git tag "${NEW_VERSION}" -m "${NEW_VERSION} [no ci]" -f
+git tag "${NEW_VERSION}" -m "${NEW_VERSION}" -f
 git push origin "${NEW_VERSION}"
 
 # Publish packages to npm
