@@ -35,6 +35,7 @@ echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/nu
 npm whoami
 
 echo "Setting up git"
+echo ${GITHUB_AUTH}
 git config user.name "BNG Github Actions User[bot]"
 git config user.email "340972+BNG Github Actions User[bot]@users.noreply.github.com"
 
