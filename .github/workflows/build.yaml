@@ -72,7 +72,7 @@ jobs:
         run: . ./.github/scripts/version-and-publish.sh
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_AUTH: ${{ steps.generate_token.outputs.token }}
+          # GITHUB_AUTH: ${{ steps.generate_token.outputs.token }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
           HUSKY: 0
