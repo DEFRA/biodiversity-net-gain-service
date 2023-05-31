@@ -86,12 +86,12 @@ echo "Pushing new release to the remote"
 git push origin "${BRANCH}:${BRANCH}" --no-verify
 
 echo "Pushing new release tag to the remote"
-git tag "${NEW_VERSION}" -m "${NEW_VERSION}" -f
-git push origin "${NEW_VERSION}" --no-verify
+git tag "${NEW_VERSION}" -m "${NEW_VERSION} [no ci]" -f
+git push origin "${NEW_VERSION}"
 
 # Publish packages to npm
-echo "Publishing latest packages to npm"
-lerna publish --registry=https://registry.npmjs.org/ from-git --yes --pre-dist-tag rc --no-verify-access
+# echo "Publishing latest packages to npm"
+# lerna publish --registry=https://registry.npmjs.org/ from-git --yes --pre-dist-tag rc --no-verify-access
 
 # If we've pushed a new release into master and it is not a hotfix/patch, then merge the changes back to develop
 # if [ "${BRANCH}" == "master" ] && [ "${RELEASE_TYPE}" != "patch" ]; then
