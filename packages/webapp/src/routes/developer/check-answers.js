@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import developerApplication from '../../utils/developerApplication.js'
+import developerApplication from '../../utils/developer-application.js'
 import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
   listArray,
@@ -8,15 +8,16 @@ import {
   hideClass
 } from '../../utils/helpers.js'
 import { logger } from 'defra-logging-facade'
+import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
     const applicationData = developerApplication(request.yar)
     const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
-    logger.info('GET Developer JSON payload for powerApp', applicationData)
+    logger.info('GET Developer JSON payload for powerApp', applicationData.developerAllocation)
     return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
       developmentDetails: applicationData.developerAllocation.developmentDetails,
-      files: applicationData.files,
+      files: applicationData.developerAllocation.files,
       additionalEmailAddresses,
       ...getContext(request)
     })
@@ -26,8 +27,9 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    logger.info('POST Developer JSON payload for powerApp', value, error)
-    return h.redirect(constants.routes.DEVELOPER_ROUTING_REGISTER)
+    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
+    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.referenceNumber)
+    return h.redirect(constants.routes.DEVELOPER_CONFIRM)
   }
 }
 

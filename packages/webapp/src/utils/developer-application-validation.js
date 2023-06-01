@@ -14,7 +14,7 @@ const developerApplicationValidation = Joi.object({
     }),
     additionalEmailAddresses: Joi.array().items(Joi.object({
       fullName: Joi.string().required(),
-      emailAddress: Joi.string().required()
+      email: Joi.string().required()
     })).required(),
     biodiversityGainSiteNumber: Joi.string().allow(''),
     metricData: Joi.object().allow(null),
