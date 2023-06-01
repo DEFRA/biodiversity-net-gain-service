@@ -3,9 +3,6 @@
 #  GitHub Actions deployment script
 ###############################################################################
 # "Borrowed" from https://github.com/DEFRA/rod-licensing/blob/develop/scripts/github/deploy.sh
-# todo: at the moment a lot of this is not required, but may be introduced later on
-# for BNG ways of working
-# for example we don't currently have a develop branch or use tags or releases yet.
 ###############################################################################
 set -e
 trap 'exit 1' INT
@@ -35,8 +32,8 @@ echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> $HOME/.npmrc 2> /dev/nu
 npm whoami
 
 echo "Setting up git"
-git config user.name "GitHub Actions"
-git config user.email "actions@users.noreply.github.com"
+git config user.name "BNG Github Actions User[bot]"
+git config user.email "340972+BNG Github Actions User[bot]@users.noreply.github.com"
 
 # Ensure that git will return tags with pre-releases in the correct order (e.g. 0.1.0-rc.0 occurs before 0.1.0)
 echo "Removing existing git tag versionsort configuration"
@@ -78,7 +75,7 @@ lerna version "${NEW_VERSION}" --yes --no-push --force-publish --exact
 # Generate changelog information for changes since the last tag
 echo "Generating changelog updates for all changes between ${PREVIOUS_VERSION} and ${NEW_VERSION}"
 lerna-changelog --from "${PREVIOUS_VERSION}" --to "${NEW_VERSION}" | cat - CHANGELOG.md > CHANGELOG.new && mv CHANGELOG.new CHANGELOG.md
-git commit -a --amend --no-edit --no-verify
+git commit -a --amend --no-edit --no-verify -m "${NEW_VERSION} [no ci]"
 
 # Push new tag, updated changelog and package metadata to the remote
 echo "Pushing new release to the remote"
