@@ -18,8 +18,9 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    logger.info('POST Developer JSON payload for powerApp', value, error)
-    return h.redirect(constants.routes.DEVELOPER_ROUTING_REGISTER)
+    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
+    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.referenceNumber)
+    return h.redirect(constants.routes.DEVELOPER_CONFIRM)
   }
 }
 
