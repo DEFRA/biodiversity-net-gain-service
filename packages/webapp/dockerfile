@@ -1,4 +1,4 @@
-FROM        node:16.19.1-alpine
+FROM        node:16.20.0-alpine
 LABEL       author="DEFRA"
 
 # The Google Tag Manager ID is available to anyone who uses the web application.
@@ -18,7 +18,7 @@ COPY        bin bin
 COPY        package*.json ./
 COPY        lerna.json lerna.json
 
-RUN         npm ci --ignore-scripts && npm run lerna:i
+RUN         npm ci
 
 WORKDIR     /usr/src/packages/webapp
 

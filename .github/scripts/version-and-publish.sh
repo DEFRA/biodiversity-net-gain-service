@@ -71,9 +71,6 @@ fi
 echo "Updating version from ${PREVIOUS_VERSION} to ${NEW_VERSION}"
 # Update package files versions, project inter-dependencies and lerna.json with new version number
 lerna version "${NEW_VERSION}" --yes --no-push --force-publish --exact
-# TODO: there is currently a bug with lerna version that means npm packagelock v2 files
-# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
-# files don't match package files correctly.
 
 # Generate changelog information for changes since the last tag
 echo "Generating changelog updates for all changes between ${PREVIOUS_VERSION} and ${NEW_VERSION}"
