@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import developerApplication from '../../utils/developerApplication.js'
+import developerApplication from '../../utils/developer-application.js'
 import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
   initialCapitalization,
