@@ -3,7 +3,7 @@ import Joi from 'joi'
 const developerApplicationValidation = Joi.object({
   developerAllocation: Joi.object({
     applicant: Joi.object({
-      name: Joi.string().allow('', null),
+      name: Joi.string().required(),
       emailAddress: Joi.string().required(),
       role: Joi.string().valid('Developer').required()
     }),
@@ -14,11 +14,13 @@ const developerApplicationValidation = Joi.object({
     }),
     additionalEmailAddresses: Joi.array().items(Joi.object({
       fullName: Joi.string().required(),
-      emailAddress: Joi.string().required()
+      email: Joi.string().required()
     })).required(),
-    biodiversityGainSiteNumber: Joi.string().allow(''),
+    biodiversityGainSiteNumber: Joi.string().required(),
+    confirmDevelopmentDetails: Joi.string().valid('yes'),
+    confirmOffsiteGainDetails: Joi.string().valid('yes'),
     metricData: Joi.object().allow(null),
-    referenceNumber: Joi.string().allow(''),
+    referenceNumber: Joi.string().required(),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
       Joi.object({
