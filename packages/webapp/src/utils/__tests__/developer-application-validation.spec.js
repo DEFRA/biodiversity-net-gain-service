@@ -1,7 +1,7 @@
 import developerApplicationValidation from '../developer-application-validation.js'
 import developerApplication from '../developer-application.js'
 import constants from '../../utils/constants.js'
-import developerApplicationSession from '../../__mocks__/developer-Application-session.js'
+import developerApplicationSession from '../../__mocks__/developer-agitpplication-session.js'
 
 describe('developer-application-validation', () => {
   describe('validate', () => {
