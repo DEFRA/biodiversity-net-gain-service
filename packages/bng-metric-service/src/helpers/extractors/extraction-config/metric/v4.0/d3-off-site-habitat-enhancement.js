@@ -9,7 +9,8 @@ const headers = [
   'Habitat units delivered',
   'Total habitat area',
   'Distinctiveness change',
-  'Condition change'
+  'Condition change',
+  'Off-site reference'
 ]
 
 const d3OffSiteHabitatEnhancement = {

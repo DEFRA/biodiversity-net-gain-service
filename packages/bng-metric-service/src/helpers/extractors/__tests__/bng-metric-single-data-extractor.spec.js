@@ -17,7 +17,7 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(5)
-    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(5)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(6)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
@@ -35,7 +35,7 @@ describe('BNG data extractor test', () => {
     expect((response.d2OffSiteHabitatCreation[0]['Habitat units delivered']).toFixed(2)).toEqual('7.01')
 
     expect(response.d3OffSiteHabitatEnhancement.length).toEqual(4)
-    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(8)
+    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(10)
     expect(response.d3OffSiteHabitatEnhancement[0]['Baseline habitat']).toEqual('Grassland - Modified grassland')
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed habitat']).toEqual('Lowland raised bog')
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed Broad Habitat']).toEqual('Wetland')
@@ -46,7 +46,7 @@ describe('BNG data extractor test', () => {
     expect((response.d3OffSiteHabitatEnhancement[0]['Habitat units delivered']).toFixed(2)).toEqual('7.03')
 
     expect(response.e1OffSiteHedgeBaseline.length).toEqual(3)
-    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(4)
+    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(6)
     expect(response.e1OffSiteHedgeBaseline[0]['Hedgerow type']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
     expect(response.e1OffSiteHedgeBaseline[0].Condition).toEqual('Poor')
@@ -62,9 +62,8 @@ describe('BNG data extractor test', () => {
     expect((response.e2OffSiteHedgeCreation[0]['Hedge units delivered']).toFixed(2)).toEqual('1.77')
 
     expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
-    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(7)
+    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(6)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Native hedgerow - associated with bank or ditch')
-    expect(response.e3OffSiteHedgeEnhancement[0]['Proposed habitat']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.3)
     expect(response.e3OffSiteHedgeEnhancement[0].Condition).toEqual('Moderate')
     expect(response.e3OffSiteHedgeEnhancement[0]['Habitat enhanced in advance (years)']).toEqual(0)

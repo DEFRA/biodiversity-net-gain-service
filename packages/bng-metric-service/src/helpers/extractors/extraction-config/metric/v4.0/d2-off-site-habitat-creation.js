@@ -6,7 +6,7 @@ const headers = [
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
   'Habitat units delivered',
-  'Register reference number'
+  'Off-site reference'
 ]
 
 const d2OffSiteHabitatCreation = {

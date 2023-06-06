@@ -2,7 +2,8 @@ const headers = [
   'Watercourse type',
   'Length (km)',
   'Condition',
-  'Total watercourse units'
+  'Total watercourse units',
+  'Off-site reference'
 ]
 
 const f1OffSiteWaterCBaseline = {

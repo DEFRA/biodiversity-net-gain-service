@@ -4,7 +4,8 @@ const headers = [
   'Condition',
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
-  'Hedge units delivered'
+  'Hedge units delivered',
+  'Off-site reference'
 ]
 
 const e2OffSiteHedgeCreation = {

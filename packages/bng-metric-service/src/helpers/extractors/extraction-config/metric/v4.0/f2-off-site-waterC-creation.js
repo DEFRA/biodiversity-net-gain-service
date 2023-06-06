@@ -4,7 +4,8 @@ const headers = [
   'Condition',
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
-  'Watercourse units delivered'
+  'Watercourse units delivered',
+  'Off-site reference'
 ]
 
 const f2OffSiteWaterCCreation = {

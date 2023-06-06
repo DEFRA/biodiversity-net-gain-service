@@ -1,12 +1,11 @@
 const headers = [
   'Baseline habitat',
-  'Proposed habitat',
   'Length (km)',
   'Condition',
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
   'Hedge units delivered',
-  'Proposed Broad Habitat'
+  'Off-site reference'
 ]
 
 const e3OffSiteHedgeEnhancement = {
