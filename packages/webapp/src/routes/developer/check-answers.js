@@ -5,7 +5,6 @@ import {
   dateToString,
   hideClass
 } from '../../utils/helpers.js'
-import { logger } from 'defra-logging-facade'
 import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import { postJson } from '../../utils/http.js'
 
@@ -54,7 +53,6 @@ const getContext = _request => {
   const biodiversityGainSiteNumber = applicationData.developerAllocation.biodiversityGainSiteNumber
   const confirmDevelopmentDetails = applicationData.developerAllocation.confirmDevelopmentDetails
   const confirmOffsiteGainDetails = applicationData.developerAllocation.confirmOffsiteGainDetails
-  logger.info('GET Developer JSON payload for powerApp', JSON.stringify(applicationData))
   return {
     initialCapitalization,
     dateToString,
