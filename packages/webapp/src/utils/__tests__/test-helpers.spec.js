@@ -9,7 +9,8 @@ import {
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
-  getErrById
+  getErrById,
+  initialCapitalization
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -28,6 +29,14 @@ describe('helpers file', () => {
     })
     it('Should return No string for false string', () => {
       expect(boolToYesNo('false')).toEqual('No')
+    })
+  })
+  describe('initialCapitalization', () => {
+    it('Should return Yes string for yes', () => {
+      expect(initialCapitalization('yes')).toEqual('Yes')
+    })
+    it('Should return No string for no', () => {
+      expect(initialCapitalization('no')).toEqual('No')
     })
   })
   describe('listArray', () => {

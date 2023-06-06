@@ -41,34 +41,18 @@
               value: {
                 html: '<span>'+developmentDetails.planningReference+'</span>'
               }
-            }
-            ]
-          }) 
-        }}
-
-        <!--Landowner details-->
-        <h2 class="govuk-heading-l">Landowner details</h2>
-        {{ govukSummaryList({
-          classes: "govuk-!-margin-bottom-7",
-          rows: [
-            {
-              key: {
-                  text: "Landowner"
-              },
-              value: {
-                html: '<span> Bex\'s Eco Farm Ltd  </span>'
-              }
             },
             {
               key: {
                 text: "Biodiversity gain site number"
               },
               value: {
-                html: '<span> BNG12778902  </span>'
+                html: '<span>'+ biodiversityGainSiteNumber +'</span>'
               }
             }
-          ]
-        }) }}
+            ]
+          }) 
+        }}
 
         <!--Biodiversity Metric file-->
         <h2 class="govuk-heading-l">Biodiversity Metric file</h2>
@@ -97,7 +81,7 @@
                 text: "Confirm development details"
               },
               value: {
-                html: '<span> Yes  </span>'
+                html: '<span>'+  initialCapitalization(confirmDevelopmentDetails)  +'</span>'
               },
               actions: {
                 items: [
@@ -114,7 +98,7 @@
                 text: "Confirm off-site gain"
               },
               value: {
-                html: '<span> Yes  </span>'
+                html: '<span>'+ initialCapitalization(confirmOffsiteGainDetails)  +'</span>'
               },
               actions: {
                 items: [

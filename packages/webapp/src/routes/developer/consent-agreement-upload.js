@@ -13,6 +13,7 @@ async function processSuccessfulUpload (result, request, h) {
     request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, result.fileType)
+    request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME, result.filename)
     logger.log(`${new Date().toUTCString()} Received consent file data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
     processDeveloperTask(request,
       {
