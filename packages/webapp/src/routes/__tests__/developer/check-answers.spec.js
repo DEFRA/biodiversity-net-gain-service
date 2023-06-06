@@ -1,4 +1,4 @@
-import developerApplicationSession from '../../../__mocks__/developer-application-session.js'
+import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import checkAnswers from '../../../routes/developer/check-answers.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
@@ -9,15 +9,6 @@ import applicant from '../../../__mocks__/applicant.js'
 const checkAnswers = require('../../../routes/developer/check-answers.js').default
 const url = constants.routes.DEVELOPER_CHECK_ANSWERS
 jest.mock('../../../utils/http.js')
-const mockMetricFilePath = 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file.xlsx'
-const mockConsentFilePath = 'packages/webapp/src/__mock-data__/uploads/written-consent/sample.docx'
-const mockDevelopmentDetails = {
-  startPage: {
-    projectName: 'Test Project',
-    planningAuthority: 'Test Authority',
-    planningApplicationReference: 'Test Application Reference'
-  }
-}
 
 const auth = {
   credentials: {
@@ -26,20 +17,6 @@ const auth = {
 }
 
 describe(url, () => {
-  const redisMap = new Map()
-  beforeEach(() => {
-    redisMap.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, 'mock-metric-file-type')
-    redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, 'mock-consent-file-type')
-    redisMap.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, 5 * 1024)
-    redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, 2 * 1024)
-    redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockDevelopmentDetails)
-    redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockMetricFilePath)
-    redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockConsentFilePath)
-    redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, '123')
-    redisMap.set(constants.redisKeys.DEVELOPER_FULL_NAME, 'Test User')
-    redisMap.set(constants.redisKeys.DEVELOPER_EMAIL_VALUE, 'test@example.com')
-  })
-
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
@@ -170,7 +147,7 @@ describe(url, () => {
     it('Should process a valid application correctly', done => {
       jest.isolateModules(async () => {
         try {
-          const session = developerApplicationSession()
+          const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
 
           const http = require('../../../utils/http.js')
@@ -203,7 +180,7 @@ describe(url, () => {
     it('Should fail if backend errors', done => {
       jest.isolateModules(async () => {
         try {
-          const session = developerApplicationSession()
+          const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
 
           const http = require('../../../utils/http.js')
@@ -221,7 +198,7 @@ describe(url, () => {
     it('Should throw an error page if validation fails for application', done => {
       jest.isolateModules(async () => {
         try {
-          const session = developerApplicationSession()
+          const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
           session.set(constants.redisKeys.DEVELOPER_FULL_NAME, undefined)
 
@@ -249,7 +226,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           const postHandler = checkAnswers[1].handler
-          const session = developerApplicationSession()
+          const session = setDeveloperApplicationSession()
           session.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, undefined)
 
           const http = require('../../../utils/http.js')
@@ -272,7 +249,7 @@ describe(url, () => {
 
           await postHandler({ yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/application-submitted')
+          expect(redirectArgs[0]).toEqual('/developer/confirm')
           done()
         } catch (err) {
           done(err)
