@@ -62,7 +62,7 @@ describe('BNG data extractor test', () => {
     expect((response.e2OffSiteHedgeCreation[0]['Hedge units delivered']).toFixed(2)).toEqual('1.77')
 
     expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
-    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(6)
+    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(7)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.3)
     expect(response.e3OffSiteHedgeEnhancement[0].Condition).toEqual('Moderate')
