@@ -5,9 +5,7 @@ const url = constants.routes.DEVELOPER_APPLICATION_SUBMITTED
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({
-        url
-      })
+      await submitGetRequest({ url })
     })
   })
 })
