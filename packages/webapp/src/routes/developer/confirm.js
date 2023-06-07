@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (h) => h.view(constants.views.DEVELOPER_APPLICATION_SUBMITTED)
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_APPLICATION_SUBMITTED)
 }
 
 export default [{
