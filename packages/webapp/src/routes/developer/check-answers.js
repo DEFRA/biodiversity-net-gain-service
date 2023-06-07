@@ -54,9 +54,6 @@ const getContext = _request => {
   const confirmDevelopmentDetails = applicationData.developerAllocation.confirmDevelopmentDetails
   const confirmOffsiteGainDetails = applicationData.developerAllocation.confirmOffsiteGainDetails
   return {
-    initialCapitalization,
-    dateToString,
-    hideClass,
     routes: constants.routes,
     application: applicationData,
     developmentDetails,
@@ -64,7 +61,10 @@ const getContext = _request => {
     files,
     biodiversityGainSiteNumber,
     confirmDevelopmentDetails,
-    confirmOffsiteGainDetails
+    confirmOffsiteGainDetails,
+    initialCapitalization,
+    dateToString,
+    hideClass
   }
 }
 
