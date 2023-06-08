@@ -53,7 +53,7 @@ describe('BNG data extractor test', () => {
     expect((response.e1OffSiteHedgeBaseline[0]['Total hedgerow units']).toFixed(2)).toEqual('1.20')
 
     expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
-    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(6)
+    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(7)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Native hedgerow with trees')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.3)
     expect(response.e2OffSiteHedgeCreation[0].Condition).toEqual('Good')
@@ -62,7 +62,7 @@ describe('BNG data extractor test', () => {
     expect((response.e2OffSiteHedgeCreation[0]['Hedge units delivered']).toFixed(2)).toEqual('1.77')
 
     expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
-    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(7)
+    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(8)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.3)
     expect(response.e3OffSiteHedgeEnhancement[0].Condition).toEqual('Moderate')
@@ -71,14 +71,14 @@ describe('BNG data extractor test', () => {
     expect((response.e3OffSiteHedgeEnhancement[0]['Hedge units delivered']).toFixed(2)).toEqual('2.28')
 
     expect(response.f1OffSiteWaterCBaseline.length).toEqual(3)
-    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(4)
+    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(5)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Ditches')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(0.3)
     expect(response.f1OffSiteWaterCBaseline[0].Condition).toEqual('Poor')
     expect((response.f1OffSiteWaterCBaseline[0]['Total watercourse units']).toFixed(2)).toEqual('1.20')
 
-    expect(response.f2OffSiteWaterCCreation.length).toEqual(2)
-    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(6)
+    expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
+    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(7)
     expect(response.f2OffSiteWaterCCreation[0]['Watercourse type']).toEqual('Ditches')
     expect(response.f2OffSiteWaterCCreation[0]['Length (km)']).toEqual(0.3)
     expect(response.f2OffSiteWaterCCreation[0].Condition).toEqual('Fairly Good')
@@ -154,5 +154,38 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
     expect(Object.keys(response.test[0]).length).toEqual(4)
     expect(response.test[0]['Broad habitat']).toBe(undefined)
+  })
+
+  it('Should rejects with an error if a stream error occurs', async () => {
+    const { PassThrough } = require('stream')
+    jest.mock('../bng-metric-single-data-extractor.js')
+
+    const mockReadable = new PassThrough()
+    const mockError = new Error('mock file error')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const response = bngMetricDataExtractor.extractContent(mockReadable, { })
+    mockReadable.emit('error', mockError)
+    await expect(response).rejects.toEqual(mockError)
+  })
+
+  it('Should return data even if all extraction config properties are not provided', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: [
+          'Habitat type'
+        ],
+        columnsToBeRemoved: [],
+        substitutions: undefined,
+        cells: [{ cell: '!ref' }]
+      }
+    }
+
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(Object.keys(response.test[0]).length).toEqual(1)
+    expect(response.test[0].Condition).toBe(undefined)
   })
 })
