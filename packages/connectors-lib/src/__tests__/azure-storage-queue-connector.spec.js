@@ -14,7 +14,7 @@ describe('The Azure blob storage connector', () => {
     }
 
     const config = {
-      queueName: 'signalr-test-queue',
+      queueName: 'trusted-file-queue',
       message: Buffer.from(JSON.stringify(jsonMessage)).toString(base64)
     }
 
