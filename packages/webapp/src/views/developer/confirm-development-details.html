@@ -1,4 +1,5 @@
 {% extends 'form-layout.html' %}
+{% set devShowSaveLink = true %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
@@ -21,6 +22,7 @@
                   isPageHeading: true
               }
           }) }}
+          <p>These details have been taken from the Metric file your local planning authority reviewed with your Biodiversity Net Gain Statement.</p>
           {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
           {{ govukSummaryList({
@@ -35,7 +37,7 @@
               },
               {
                 key: {
-                  text: "Local authority"
+                  text: "Planning authority"
                 },
                 value: {
                   text: startPage['planningAuthority']
