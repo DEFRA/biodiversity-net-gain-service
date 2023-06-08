@@ -10,7 +10,7 @@ const f1OffSiteWaterCBaseline = {
   sheetName: 'F-1 Off-Site WaterC\' Baseline',
   titleCellAddress: 'B3',
   startCell: 'C9',
-  endCell: 'AA258',
+  endCell: 'AG258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
