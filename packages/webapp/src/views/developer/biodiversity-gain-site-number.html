@@ -1,6 +1,7 @@
 {% extends 'developer-form-layout.html' %}
 
 {% set pageHeading = "Enter your biodiversity gain site number" %}
+{% set devShowSaveLink = true %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -24,6 +25,7 @@
           errorMessage: err[0],
           spellcheck: false,
           value: bngNumber,
+          classes: "govuk-!-width-one-half",
           label: {
             text: "Biodiversity Gain Site Number",
             classes: "govuk-visually-hidden"
