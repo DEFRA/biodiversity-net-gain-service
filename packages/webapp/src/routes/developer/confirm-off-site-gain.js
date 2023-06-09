@@ -46,11 +46,11 @@ const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item)
 }, 0)
 
 const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  row['Register reference number'] === request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
+  row['Off-site reference'] === Number(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1OffSiteHabitatBaseline, request)
-  const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1OffSiteHedgeBaseline, request)
+  const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
+  const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1, request)
   const noOfHabitatUnits = getNumOfUnits(
     d1OffSiteHabitatBaseline,
     'Broad habitat',

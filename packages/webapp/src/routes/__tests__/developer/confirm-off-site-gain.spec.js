@@ -9,7 +9,7 @@ const mockMetricData = {
       'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
       'Area (hectares)': 1,
       'Total habitat units': 'Check Data ⚠',
-      'Register reference number': 'AZ12208461',
+      'Off-site reference': 'AZ12208461',
       Condition: 'Fairly Good'
     },
     { 'Area (hectares)': 1, 'Total habitat units': 1 }
@@ -19,7 +19,7 @@ const mockMetricData = {
       'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
       'Length (km)': 3,
       'Total hedgerow units': 27,
-      'Register reference number': 'AZ12208461',
+      'Off-site reference': 'AZ12208461',
       Condition: 'Good'
     },
     { 'Length (km)': 3, 'Total hedgerow units': 27 }
