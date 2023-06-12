@@ -31,9 +31,9 @@ const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
 const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
-const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
-const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
-const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
+const DEVELOPER_METRIC_FILE_NAME = 'developer-metric-filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'developer-metric-filesize'
+const DEVELOPER_METRIC_FILE_TYPE = 'developer-metric-filetype'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
@@ -51,7 +51,8 @@ const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
 const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
 const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
 const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
-const DEVELOPER_TASK_DETAILS = 'developerTaskDetails'
+const DEVELOPER_TASK_DETAILS = 'developer-task-details'
+const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -138,7 +139,8 @@ export default {
     DEVELOPER_CONSENT_FILE_SIZE,
     DEVELOPER_CONSENT_FILE_TYPE,
     DEVELOPER_CONSENT_ANSWER,
-    DEVELOPER_TASK_DETAILS
+    DEVELOPER_TASK_DETAILS,
+    DEVELOPER_APP_REFERENCE
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
