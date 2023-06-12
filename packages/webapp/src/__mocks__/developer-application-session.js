@@ -1,7 +1,7 @@
 import Session from './session.js'
 import developerApplicationMock from './developer-application-data.js'
 
-const setDeveloperApplicationSession = () => {
+const developerApplicationSession = () => {
   const session = new Session()
   Object.keys(developerApplicationMock).forEach((item) => {
     session.set(item, developerApplicationMock[item])
@@ -9,4 +9,4 @@ const setDeveloperApplicationSession = () => {
   return session
 }
 
-export default setDeveloperApplicationSession
+export default developerApplicationSession
