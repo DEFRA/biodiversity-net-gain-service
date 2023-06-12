@@ -4,6 +4,11 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
+// TO DO - If replay logic is effective at resolving intermittent threat scanning problems
+// with macro enabled spreadsheets, read host.json to determine if a custom maximum number of
+// replay attempts is configured.
+const maximumNumberOfReplayAttempts = 5
+
 const baseConfig = {
   untrustedBlobStorageConfig: {
     containerName: 'untrusted'
@@ -23,7 +28,7 @@ const baseConfig = {
 }
 
 export default async function (context, message) {
-  context.log('Processing', JSON.stringify(message))
+  context.log(`Processing ${JSON.stringify(message)} - Delivery attempt ${context?.bindingData?.dequeueCount}`)
   const config = buildConfig(message)
   // Blob based triggering of Azure functions can be delayed due to its polling based implementation and event grid based
   // blob triggering of Azure functions is in preview.
@@ -55,7 +60,11 @@ export default async function (context, message) {
     let signalRMessageArguments
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
+    } else if (context?.bindingData?.dequeueCount < maximumNumberOfReplayAttempts) {
+      // Replay the message
+      throw err
     } else {
+      // The maximum number of message processing attempts has been reached so send a notification to the clienr..
       signalRMessageArguments = [{ errorMessage: err.message }]
     }
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
