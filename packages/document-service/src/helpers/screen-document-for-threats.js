@@ -30,7 +30,11 @@ const screenDocumentForThreats = async (logger, config, stream) => {
     logger.log(`Sending ${fileDetails.key} for screening`)
     const axiosInstance = axios.create({
       httpAgent: new https.Agent({ keepAlive: true }),
-      timeout: requestTimeout
+      timeout: requestTimeout,
+      headers: {
+        'Connection': 'Keep-Alive',
+        'Keep-Alive': `timeout=${requestTimeout / 1000}, max=1000`
+      }
     })
     await axiosInstance.request(putOptions)
   } catch (err) {
