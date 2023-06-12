@@ -20,7 +20,7 @@ const developerApplication = session => {
       confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
       confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
       metricData: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
-      referenceNumber: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '', // Need to get one after submitting application
+      referenceNumber: session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || '', // Need to get one after submitting application
       submittedOn: new Date().toISOString(),
       files: [
         {

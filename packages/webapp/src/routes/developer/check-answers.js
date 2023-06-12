@@ -5,23 +5,12 @@ import {
   dateToString,
   hideClass
 } from '../../utils/helpers.js'
-import developerApplicationValidation from '../../utils/developer-application-validation.js'
-import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
       ...getContext(request)
     })
-  },
-  post: async (request, h) => {
-    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar))
-    if (error) {
-      throw new Error(error)
-    }
-    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
-    return h.redirect(constants.routes.DEVELOPER_APPLICATION_SUBMITTED)
   }
 }
 
@@ -44,8 +33,8 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
     }
   }))
 
-const getContext = _request => {
-  const applicationData = developerApplication(_request.yar)
+const getContext = request => {
+  const applicationData = developerApplication(request.yar)
   const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
 
   const developmentDetails = applicationData.developerAllocation.developmentDetails
@@ -72,8 +61,4 @@ export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
   handler: handlers.get
-}, {
-  method: 'POST',
-  path: constants.routes.DEVELOPER_CHECK_ANSWERS,
-  handler: handlers.post
 }]
