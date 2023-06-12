@@ -1,12 +1,12 @@
 import constants from '../../utils/constants.js'
 import developerApplication from '../../utils/developer-application.js'
+import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
   initialCapitalization,
   dateToString,
   hideClass,
   checkDeveloperDetails
 } from '../../utils/helpers.js'
-import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
