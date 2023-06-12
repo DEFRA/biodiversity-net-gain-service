@@ -1,9 +1,9 @@
-import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
-import checkAnswers from '../../../routes/developer/check-answers.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
 import developerApplicationData from '../../../__mocks__/developer-application-data.js'
+import setDeveloperApplicationSession from '../../__mocks__/developer-application-session.js'
 
+const checkAnswers = require('../../../routes/developer/check-answers.js')
 const url = constants.routes.DEVELOPER_CHECK_ANSWERS
 jest.mock('../../../utils/http.js')
 
