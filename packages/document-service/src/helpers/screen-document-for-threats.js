@@ -36,6 +36,7 @@ const screenDocumentForThreats = async (logger, config, stream) => {
         'Keep-Alive': `timeout=${requestTimeout / 1000}, max=1000`
       }
     })
+    logger.log(putOptions)
     await axiosInstance.request(putOptions)
   } catch (err) {
     logger.log(`Error connecting to AV service ${err}`)
