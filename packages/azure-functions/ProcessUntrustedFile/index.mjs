@@ -3,7 +3,6 @@ import buildSignalRMessage from '../Shared/build-signalr-message.js'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
-import { Readable } from 'stream'
 
 // TO DO - If replay logic is effective at resolving intermittent threat scanning problems
 // with macro enabled spreadsheets, read host.json to determine if a custom maximum number of
@@ -40,11 +39,10 @@ export default async function (context, message) {
   // storage queue. This ensures that the file will be present in the trusted file container BEFORE the queued message is processed.
 
   try {
-    // const response = await blobStorageConnector.downloadStreamIfExists(context, config.untrustedBlobStorageConfig)
-    const response = await blobStorageConnector.downloadToBufferIfExists(context, config.untrustedBlobStorageConfig)
+    const response = await blobStorageConnector.downloadStreamIfExists(context, config.untrustedBlobStorageConfig)
 
     if (response) {
-      const documentStream = Readable.from(response)
+      const documentStream = response.readableStreamBody
       if (!process.env.AV_DISABLE || !JSON.parse(process.env.AV_DISABLE)) {
         await screenDocument(context, config, documentStream)
       } else {
