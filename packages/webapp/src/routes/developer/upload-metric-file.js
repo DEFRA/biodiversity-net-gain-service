@@ -25,6 +25,8 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)

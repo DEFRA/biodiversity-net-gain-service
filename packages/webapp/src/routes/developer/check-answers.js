@@ -1,24 +1,16 @@
 import constants from '../../utils/constants.js'
 import developerApplication from '../../utils/developer-application.js'
-import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
-  listArray,
-  boolToYesNo,
+  initialCapitalization,
   dateToString,
   hideClass
 } from '../../utils/helpers.js'
-import { logger } from 'defra-logging-facade'
+import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    const applicationData = developerApplication(request.yar)
-    const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
-    logger.info('GET Developer JSON payload for powerApp', applicationData.developerAllocation)
     return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
-      developmentDetails: applicationData.developerAllocation.developmentDetails,
-      files: applicationData.developerAllocation.files,
-      additionalEmailAddresses,
       ...getContext(request)
     })
   },
@@ -28,8 +20,8 @@ const handlers = {
       throw new Error(error)
     }
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.referenceNumber)
-    return h.redirect(constants.routes.DEVELOPER_CONFIRM)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.referenceNumber)
+    return h.redirect(constants.routes.DEVELOPER_APPLICATION_SUBMITTED)
   }
 }
 
@@ -52,13 +44,27 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
     }
   }))
 
-const getContext = _request => {
+const getContext = request => {
+  const applicationData = developerApplication(request.yar)
+  const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
+
+  const developmentDetails = applicationData.developerAllocation.developmentDetails
+  const files = applicationData.developerAllocation.files
+  const biodiversityGainSiteNumber = applicationData.developerAllocation.biodiversityGainSiteNumber
+  const confirmDevelopmentDetails = applicationData.developerAllocation.confirmDevelopmentDetails
+  const confirmOffsiteGainDetails = applicationData.developerAllocation.confirmOffsiteGainDetails
   return {
-    listArray,
-    boolToYesNo,
+    routes: constants.routes,
+    application: applicationData,
+    developmentDetails,
+    additionalEmailAddresses,
+    files,
+    biodiversityGainSiteNumber,
+    confirmDevelopmentDetails,
+    confirmOffsiteGainDetails,
+    initialCapitalization,
     dateToString,
-    hideClass,
-    routes: constants.routes
+    hideClass
   }
 }
 
