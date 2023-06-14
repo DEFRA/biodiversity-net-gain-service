@@ -1,4 +1,4 @@
-import { submitGetRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 
@@ -164,6 +164,30 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+
+    it('should show an internal server error response when upload processing fails', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({ uploadType: null }, baseConfig)
+          config.filePath = `${mockDataPath}/sample.docx`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should handle failAction post route', async () => {
+      const expectedStatuCode = 415
+      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
+      expect(res.statusCode).toEqual(expectedStatuCode)
     })
   })
 })
