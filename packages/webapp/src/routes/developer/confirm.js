@@ -2,8 +2,8 @@ import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    const applicationReference = request.yar.get(constants.redisKeys.APPLICATION_REFERENCE)
-    return h.view(constants.views.DEVELOPER_CONFIRM, {
+    const applicationReference = request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
+    return h.view(constants.views.DEVELOPER_APPLICATION_SUBMITTED, {
       applicationReference
     })
   }
