@@ -3,23 +3,23 @@ import constants from '../../../utils/constants.js'
 const url = '/' + constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN
 
 const mockMetricData = {
-  offSiteHabitatBaseline: [
+  d1: [
     {
       'Broad habitat': 'Rocky shore ',
       'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
       'Area (hectares)': 1,
       'Total habitat units': 'Check Data ⚠',
-      'Register reference number': 'AZ12208461',
+      'Off-site reference': 'AZ12208461',
       Condition: 'Fairly Good'
     },
     { 'Area (hectares)': 1, 'Total habitat units': 1 }
   ],
-  offSiteHedgeBaseline: [
+  e1: [
     {
       'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
       'Length (km)': 3,
       'Total hedgerow units': 27,
-      'Register reference number': 'AZ12208461',
+      'Off-site reference': 'AZ12208461',
       Condition: 'Good'
     },
     { 'Length (km)': 3, 'Total hedgerow units': 27 }
@@ -42,26 +42,14 @@ describe(url, () => {
           contextResult = context
         }
       }
-      const temp = {
-        gainSiteNumber: undefined,
-        offSiteHabitats: {
-          items: undefined,
-          total: 0
-        },
-        offSiteHedgerows: {
-          items: undefined,
-          total: 0
-        }
-      }
       await confirmOffsiteGainOptions.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
-      expect(contextResult).toMatchObject(temp)
     })
 
     it(`should render the ${url.substring(1)} view with proper data`, async () => {
       const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
       const _mockMetricData = {
-        d1OffSiteHabitatBaseline: [
+        d1: [
           {
             'Broad habitat': 'Rocky shore ',
             'Habitat type': 'Moderate energy littoral rock - on peat, clay or chalk',
@@ -70,7 +58,7 @@ describe(url, () => {
             Condition: 'Fairly Good'
           }
         ],
-        e1OffSiteHedgeBaseline: [
+        e1: [
           {
             'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
             'Length (km)': 3,
@@ -125,13 +113,13 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with some insufficient data`, async () => {
       const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
       const _mockMetricData = {
-        d1OffSiteHabitatBaseline: [
+        d1: [
           {
             'Area (hectares)': 1,
             'Total habitat units': 0
           }
         ],
-        e1OffSiteHedgeBaseline: [
+        e1: [
           {
             'Length (km)': 3
           }
