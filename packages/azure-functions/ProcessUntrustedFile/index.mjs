@@ -77,7 +77,7 @@ const buildConfig = message => {
   config.trustedBlobStorageConfig.blobName = message.location
 
   config.avConfig.fileConfig = {
-    location: message.uploadType === 'metric-upload' ? process.env.METRIC_BLOB_NAME : message.location
+    location: message.uploadType = message.location
   }
 
   Object.assign(config, buildUploadConfigFromMessage(message))
