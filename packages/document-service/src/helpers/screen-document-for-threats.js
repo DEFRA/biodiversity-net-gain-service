@@ -32,7 +32,7 @@ const screenDocumentForThreats = async (logger, config, stream) => {
       httpAgent: new https.Agent({ keepAlive: true }),
       timeout: requestTimeout,
       headers: {
-        'Connection': 'Keep-Alive',
+        Connection: 'Keep-Alive',
         'Keep-Alive': `timeout=${requestTimeout / 1000}, max=1000`
       }
     })
