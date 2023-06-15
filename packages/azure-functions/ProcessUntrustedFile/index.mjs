@@ -73,8 +73,9 @@ export default async function (context, message) {
 
 const buildConfig = message => {
   const config = JSON.parse(JSON.stringify(baseConfig))
-  config.untrustedBlobStorageConfig.blobName = process.env.BLOB_NAME
-  config.trustedBlobStorageConfig.blobName = process.env.BLOB_NAME
+  const blobName = process.env.BLOB_NAME || message.location
+  config.untrustedBlobStorageConfig.blobName = blobName
+  config.trustedBlobStorageConfig.blobName = blobName
 
   config.avConfig.fileConfig = {
     location: message.location
