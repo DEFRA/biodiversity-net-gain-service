@@ -37,7 +37,7 @@ const screenDocumentForThreats = async (logger, config, stream) => {
       }
     })
     logger.log(putOptions)
-    await axiosInstance.request(putOptions)
+    return axiosInstance.request(putOptions)
   } catch (err) {
     logger.log(`Error connecting to AV service ${err}`)
     throw err
