@@ -73,7 +73,7 @@ export default async function (context, message) {
 
 const buildConfig = message => {
   const config = JSON.parse(JSON.stringify(baseConfig))
-  const blobName = process.env.BLOB_NAME || message.location
+  const blobName = message.uploadType === 'metric-upload' ? process.env.METRIC_BLOB_NAME : message.location
   config.untrustedBlobStorageConfig.blobName = blobName
   config.trustedBlobStorageConfig.blobName = blobName
 
