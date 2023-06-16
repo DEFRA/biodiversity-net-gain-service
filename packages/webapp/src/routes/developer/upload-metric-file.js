@@ -7,6 +7,9 @@ import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileVali
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
+const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
+  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
+
 async function processSuccessfulUpload (result, request, h) {
   const validationError = getMetricFileValidationErrors(result[0].metricData.validation)
   if (validationError) {
@@ -27,6 +30,17 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+  if (filterByBGN(result[0].metricData?.d1, request).length <= 0 || filterByBGN(result[0].metricData?.e1, request) <= 0) {
+    const error = {
+      err: [
+        {
+          text: 'Enter the off-site reference that matches the off-site reference in the uploaded metric.'
+        }
+      ]
+    }
+    await deleteBlobFromContainers(result[0].location)
+    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, error)
+  }
   return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }
 
