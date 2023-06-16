@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "name": "ProcessAVMessage",
+      "name": "message",
       "type": "serviceBusTrigger",
       "direction": "in",
       "queueName": "untrusted-file-queue",
