@@ -1,0 +1,25 @@
+{
+  "bindings": [
+    {
+      "name": "ProcessAVMessage",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "untrusted-file-queue",
+      "connection": "OPERATOR_SB_CONNECTION_STRING"
+    },
+    {
+      "name": "trustedFileQueue",
+      "type": "queue",
+      "direction": "out",
+      "queueName": "trusted-file-queue",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "type": "signalR",
+      "name": "signalRMessages",
+      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
+      "connectionStringSetting": "AzureSignalRConnectionString",
+      "direction": "out"
+    }
+  ]
+}
