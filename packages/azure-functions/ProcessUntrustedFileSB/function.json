@@ -5,7 +5,7 @@
       "type": "serviceBusTrigger",
       "direction": "in",
       "queueName": "untrusted-file-queue",
-      "connection": "OPERATOR_SB_CONNECTION_STRING"
+      "connection": "AV_API_SB_CONNECTION_STRING"
     },
     {
       "name": "trustedFileQueue",
