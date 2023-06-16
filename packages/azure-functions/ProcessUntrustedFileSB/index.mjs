@@ -44,7 +44,8 @@ export default async function (context, message) {
     if (response) {
       const documentStream = response.readableStreamBody
       if (!process.env.AV_DISABLE || !JSON.parse(process.env.AV_DISABLE)) {
-        await screenDocument(context, config, documentStream)
+        const response = await screenDocument(context, config, documentStream)
+        context.log(`Screening reequest submitted ${response.data}`)
       } else {
         // If screening is disabled this function must upload document to trusted blob and send message to queue
         context.log('File security screening is disabled')
