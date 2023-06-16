@@ -77,7 +77,7 @@ const buildConfig = message => {
   config.trustedBlobStorageConfig.blobName = message.location
 
   config.avConfig.fileConfig = {
-    location: message.uploadType = message.location
+    location: message.location
   }
 
   Object.assign(config, buildUploadConfigFromMessage(message))
