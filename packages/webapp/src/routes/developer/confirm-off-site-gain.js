@@ -22,7 +22,7 @@ const handlers = {
           taskTitle: 'Biodiversity 4.0 Metric calculations',
           title: 'Confirm off-site gain'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
     } else {
       const context = getContext(request)
       return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {

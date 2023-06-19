@@ -445,13 +445,15 @@ const setReferer = [
   CHECK_MANAGEMENT_MONITORING_DETAILS,
   CHECK_LAND_BOUNDARY_DETAILS,
   CORRECT_EMAIL,
-  CHECK_METRIC_DETAILS
+  CHECK_METRIC_DETAILS,
+  ...developerConstants.setDeveloperReferer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
   UPLOAD_METRIC,
-  REGISTER_LAND_TASK_LIST
+  REGISTER_LAND_TASK_LIST,
+  ...developerConstants.clearDeveloperReferer
 ]
 
 const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
