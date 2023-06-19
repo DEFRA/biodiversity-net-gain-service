@@ -4,7 +4,8 @@ const headers = [
   'Condition',
   'Total hedgerow units',
   'Off-site reference',
-  'Hedge number'
+  'Hedge number',
+  'Strategic significance'
 ]
 
 const e1OffSiteHedgeBaseline = {

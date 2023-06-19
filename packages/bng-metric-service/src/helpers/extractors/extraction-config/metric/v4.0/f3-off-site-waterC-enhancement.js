@@ -6,7 +6,9 @@ const headers = [
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
   'Watercourse units delivered',
-  'Off-site reference'
+  'Off-site reference',
+  'Extent of encroachment',
+  'Extent of encroachment for both banks'
 ]
 
 const f3OffSiteWaterCEnhancement = {
