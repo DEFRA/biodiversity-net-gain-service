@@ -3,7 +3,10 @@ const headers = [
   'Length (km)',
   'Condition',
   'Total watercourse units',
-  'Off-site reference'
+  'Off-site reference',
+  'Extent of encroachment',
+  'Extent of encroachment for both banks',
+  'Strategic significance'
 ]
 
 const f1OffSiteWaterCBaseline = {
