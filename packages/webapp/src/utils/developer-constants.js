@@ -68,8 +68,8 @@ const setDeveloperReferer = [
   DEVELOPER_CHECK_ANSWERS
 ]
 const clearDeveloperReferer = [
-  'developer/upload-metric-file',
-  'developer/tasklist'
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_TASKLIST
 ]
 // Other constants
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
