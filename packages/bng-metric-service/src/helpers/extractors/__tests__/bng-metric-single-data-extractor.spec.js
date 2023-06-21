@@ -17,13 +17,14 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(5)
-    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(6)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(7)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
     expect(response.d1OffSiteHabitatBaseline[0].Condition).toEqual('Condition Assessment N/A')
     expect((response.d1OffSiteHabitatBaseline[0]['Total habitat units']).toFixed(2)).toEqual('2.00')
     expect(response.d1OffSiteHabitatBaseline[0]['Off-site reference']).toEqual(1234)
+    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.d2OffSiteHabitatCreation.length).toEqual(3)
     expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(8)

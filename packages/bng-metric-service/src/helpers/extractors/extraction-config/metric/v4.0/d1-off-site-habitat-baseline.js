@@ -4,7 +4,8 @@ const headers = [
   'Area (hectares)',
   'Condition',
   'Total habitat units',
-  'Off-site reference'
+  'Off-site reference',
+  'Strategic significance'
 ]
 
 const d1OffSiteHabitatBaseline = {
