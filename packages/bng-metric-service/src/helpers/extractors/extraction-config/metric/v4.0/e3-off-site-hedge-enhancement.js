@@ -5,14 +5,15 @@ const headers = [
   'Condition',
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
-  'Hedge units delivered'
+  'Hedge units delivered',
+  'Off-site reference'
 ]
 
 const e3OffSiteHedgeEnhancement = {
   sheetName: 'E-3 Off-Site Hedge Enhancement',
   titleCellAddress: 'B3',
   startCell: 'B11',
-  endCell: 'AL258',
+  endCell: 'AO258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {

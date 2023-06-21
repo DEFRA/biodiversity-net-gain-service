@@ -6,14 +6,18 @@ const headers = [
   'Condition',
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
-  'Habitat units delivered'
+  'Habitat units delivered',
+  'Total habitat area',
+  'Distinctiveness change',
+  'Condition change',
+  'Off-site reference'
 ]
 
 const d3OffSiteHabitatEnhancement = {
   sheetName: 'D-3 Off-Site Habitat Enhancment',
   titleCellAddress: 'E3',
   startCell: 'E11',
-  endCell: 'AR259',
+  endCell: 'AU259',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
@@ -21,7 +25,8 @@ const d3OffSiteHabitatEnhancement = {
     __EMPTY_3: 'Condition',
     __EMPTY_5: 'Habitat units delivered',
     'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)',
-    'Proposed Habitat': 'Proposed habitat'
+    'Proposed Habitat': 'Proposed habitat',
+    ' Distinctiveness change': 'Distinctiveness change'
   }
 }
 

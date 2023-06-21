@@ -5,14 +5,17 @@ const headers = [
   'Condition',
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
-  'Watercourse units delivered'
+  'Watercourse units delivered',
+  'Off-site reference',
+  'Extent of encroachment',
+  'Extent of encroachment for both banks'
 ]
 
 const f3OffSiteWaterCEnhancement = {
   sheetName: 'F-3 Off-Site WaterC Enhancement',
   titleCellAddress: 'B3',
   startCell: 'B11',
-  endCell: 'AQ258',
+  endCell: 'AT258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
