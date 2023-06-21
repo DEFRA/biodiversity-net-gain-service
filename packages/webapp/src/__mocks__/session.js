@@ -15,6 +15,10 @@ class Session {
   reset () {
     this.values = []
   }
+
+  clear (name) {
+    this.values = this.values.filter((_val, key) => key !== name)
+  }
 }
 
 export default Session

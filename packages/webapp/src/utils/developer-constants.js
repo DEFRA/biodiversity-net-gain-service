@@ -23,6 +23,7 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
+const DEVELOPER_APPLICATION_SUBMITTED = 'developer/confirm'
 // ./Routes constants
 
 // RedisKeys constants
@@ -30,9 +31,9 @@ const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
 const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
-const DEVELOPER_METRIC_FILE_NAME = 'metric_filename'
-const DEVELOPER_METRIC_FILE_SIZE = 'metric_filesize'
-const DEVELOPER_METRIC_FILE_TYPE = 'metric_filetype'
+const DEVELOPER_METRIC_FILE_NAME = 'developer-metric-filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'developer-metric-filesize'
+const DEVELOPER_METRIC_FILE_TYPE = 'developer-metric-filetype'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
@@ -50,7 +51,8 @@ const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
 const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
 const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
 const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
-const DEVELOPER_TASK_DETAILS = 'developerTaskDetails'
+const DEVELOPER_TASK_DETAILS = 'developer-task-details'
+const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -60,6 +62,15 @@ const offSiteGainTypes = {
   HEDGEROW
 }
 
+const setDeveloperReferer = [
+  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+  DEVELOPER_AGREEMENT_CHECK,
+  DEVELOPER_CHECK_ANSWERS
+]
+const clearDeveloperReferer = [
+  DEVELOPER_UPLOAD_METRIC,
+  DEVELOPER_TASKLIST
+]
 // Other constants
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
@@ -109,7 +120,8 @@ export default {
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
-    DEVELOPER_DOWNLOAD_CONSENT_FILE
+    DEVELOPER_DOWNLOAD_CONSENT_FILE,
+    DEVELOPER_APPLICATION_SUBMITTED
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -136,7 +148,8 @@ export default {
     DEVELOPER_CONSENT_FILE_SIZE,
     DEVELOPER_CONSENT_FILE_TYPE,
     DEVELOPER_CONSENT_ANSWER,
-    DEVELOPER_TASK_DETAILS
+    DEVELOPER_TASK_DETAILS,
+    DEVELOPER_APP_REFERENCE
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
@@ -151,5 +164,7 @@ export default {
     IN_PROGRESS_DEVELOPER_TASK_STATUS,
     COMPLETE_DEVELOPER_TASK_STATUS
   },
-  consentFileExt: CONSENT_FILE_EXT
+  consentFileExt: CONSENT_FILE_EXT,
+  setDeveloperReferer,
+  clearDeveloperReferer
 }

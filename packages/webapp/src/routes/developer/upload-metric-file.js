@@ -21,11 +21,11 @@ async function processSuccessfulUpload (result, request, h) {
     }, {
       status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
     })
-
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }

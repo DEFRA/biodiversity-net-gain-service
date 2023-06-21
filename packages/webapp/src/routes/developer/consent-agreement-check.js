@@ -24,7 +24,7 @@ const handlers = {
           title: 'Upload the consent document'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, true)
-      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
     }
     return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, {
       filename: path.basename(consentUploadLocation),

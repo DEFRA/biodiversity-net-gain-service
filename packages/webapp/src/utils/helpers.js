@@ -164,6 +164,7 @@ const processDeveloperTask = (request, taskDetails, options) => {
   })
   request.yar.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
 }
+const initialCapitalization = text => text[0].toUpperCase() + text.slice(1)
 
 const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
 
@@ -498,5 +499,6 @@ export {
   getHumanReadableFileSize,
   processDeveloperTask,
   getDeveloperTasks,
-  getMetricFileValidationErrors
+  getMetricFileValidationErrors,
+  initialCapitalization
 }

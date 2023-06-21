@@ -1,23 +1,165 @@
 {% extends 'developer-form-layout.html' %}
 
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set showSaveLink = true %}
+{% set pageHeading = "Check your answers before submitting your information" %}
 
-{% set pageHeading = "Check your answers before you submitting your information" %}
 {% block formContent %}
-    <div class="govuk-body">
-        {% if err %}
-            {% include "errorbanner.html" %}
-        {% endif %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukFieldset({
-                    legend: {
-                        text: pageHeading,
-                        classes: "govuk-fieldset__legend--l",
-                        isPageHeading: true
-                    }
-                }) }}
-            </div>
-        </div>
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+          </h1>
+        <!-- Development project details -->
+        <h2 class="govuk-heading-m">Development project details</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "Project name"
+              },
+              value: {
+                html: '<span>'+developmentDetails.projectName+'</span>'
+              }
+            },
+            {
+              key: {
+                text: "Local authority"
+              },
+              value: {
+                html: '<span>'+developmentDetails.localAuthority+'</span>'
+              }
+            },
+            {
+              key: {
+                text: "Planning reference"
+              },
+              value: {
+                html: '<span>'+developmentDetails.planningReference+'</span>'
+              }
+            },
+            {
+              key: {
+                text: "Biodiversity gain site number"
+              },
+              value: {
+                html: '<span>'+ biodiversityGainSiteNumber +'</span>'
+              }
+            }
+            ]
+          }) 
+        }}
+
+        <!--Biodiversity Metric file-->
+        <h2 class="govuk-heading-l">Biodiversity Metric file</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "File added"
+              },
+              value: {
+                html: '<span>'+files[0].fileName+'</span>'
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.DEVELOPER_CHECK_UPLOAD_METRIC,
+                    text: "Change",
+                    visuallyHiddenText: " Metric Upload"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Confirm development details"
+              },
+              value: {
+                html: '<span>'+  initialCapitalization(confirmDevelopmentDetails)  +'</span>'
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.DEVELOPER_CONFIRM_DEV_DETAILS,
+                    text: "Change",
+                    visuallyHiddenText: " confirm development details"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Confirm off-site gain"
+              },
+              value: {
+                html: '<span>'+ initialCapitalization(confirmOffsiteGainDetails)  +'</span>'
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+                    text: "Change",
+                    visuallyHiddenText: " confirm off-site gain"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!--Consent to use a biodiversity gain site for off-site gain-->
+        <h2 class="govuk-heading-l">Consent to use a biodiversity gain site for off-site gain</h2>
+
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: [
+            {
+              key: {
+                text: "File added"
+              },
+              value: {
+                html: '<span>'+files[1].fileName+'</span>'
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
+                    text: "Change",
+                    visuallyHiddenText: " Consent to use a biodiversity gain site for off-site gain"
+                  }
+                ]
+              }
+            }
+          ]
+        }) }}
+
+        <!--Addtional email addresses-->
+        <h2 class="govuk-heading-l">Additional email addresses</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-7',
+          rows: additionalEmailAddresses
+        }) }}
+
+       
+        <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
+
+        <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
+
+        {{ govukButton({
+          text: "Confirm and submit",
+          attributes: {
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
     </div>
+  </div>
+{% endblock %}
+{% block bodyEnd %}
 {% endblock %}
