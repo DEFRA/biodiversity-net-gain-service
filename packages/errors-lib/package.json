@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-errors-lib",
-  "version": "0.133.0",
+  "version": "0.134.0",
   "type": "module",
   "private": false,
   "description": "Custom errors for Biodiversity Net Gain",
