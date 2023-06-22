@@ -2,7 +2,7 @@ import constants from './constants.js'
 import path from 'path'
 
 // Developer Application object schema must match the expected payload format for the Operator application
-export default (session) => {
+export default session => {
   return {
     developerAllocation: {
       applicant: {
