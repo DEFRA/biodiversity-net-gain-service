@@ -25,7 +25,7 @@ const msalClientApplication = new msal.ConfidentialClientApplication({
 
 const getAuthenticationUrl = () => {
   const authCodeUrlParameters = {
-    scopes: ['openid', 'offline_access', defraIdConfig.clientId],
+    scopes: ['openid', 'offline_access', DEFRA_ID.DEFRA_ID_CLIENT_ID],
     extraQueryParameters: {
       serviceId: defraIdConfig.serviceId
     },
