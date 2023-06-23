@@ -72,7 +72,7 @@ describe('Database queries', () => {
     const db = {
       query: query => query
     }
-    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference();')
+    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_ref_number();')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
     expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(expectedGetApplicationSessionByReferenceAndEmailStatement)

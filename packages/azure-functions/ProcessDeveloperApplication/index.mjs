@@ -28,7 +28,7 @@ export default async function (context, req) {
     db = await getDBConnection()
     if (!req.body.developerAllocation.referenceNumber) {
       const applicationReference = await createApplicationReference(db)
-      req.body.developerAllocation.referenceNumber = applicationReference.rows[0].fn_create_application_reference
+      req.body.developerAllocation.referenceNumber = applicationReference.rows[0].fn_create_application_ref_number
     } else {
       // Check if application has been submitted and throw error if true
       const status = await getApplicationStatus(db, [req.body.developerAllocation.referenceNumber])
