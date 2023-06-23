@@ -1,5 +1,6 @@
 import Hapi from '@hapi/hapi'
 import Inert from '@hapi/inert'
+import auth from './plugins/auth.js'
 import views from './plugins/views.js'
 import router from './plugins/router.js'
 import errorPages from './plugins/error-pages.js'
@@ -31,6 +32,7 @@ const createServer = async options => {
 
 const init = async server => {
   // Register the plugins
+  await server.register(auth)
   await server.register(Inert)
   await server.register(views)
   await server.register(await router())

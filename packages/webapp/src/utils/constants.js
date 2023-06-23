@@ -1,4 +1,5 @@
 import developerConstants from './developer-constants.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
@@ -156,8 +157,9 @@ const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 const TEST_SEED_DATA = 'test/seed-data'
-
-const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
+const SIGNIN = 'signin'
+const SIGNIN_CALLBACK = 'signin/callback'
+const SIGNOUT = 'signout'
 const COOKIES = 'cookies'
 
 const confirmFileUploadOptions = {
@@ -387,7 +389,10 @@ let routes = {
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
   CHECK_METRIC_DETAILS,
-  COOKIES
+  COOKIES,
+  SIGNIN,
+  SIGNIN_CALLBACK,
+  SIGNOUT
 }
 
 // Routes that are only loaded if NODE_ENV === development
@@ -395,7 +400,7 @@ const testRoutes = {
   TEST_SEED_DATA
 }
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (NODE_ENV) {
   routes = { ...routes, ...testRoutes }
 }
 
