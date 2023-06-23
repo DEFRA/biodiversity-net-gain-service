@@ -1,3 +1,7 @@
+import path from 'path'
+import fs from 'fs'
+import https from 'https'
+import { fileURLToPath } from 'url'
 import Hapi from '@hapi/hapi'
 import Inert from '@hapi/inert'
 import auth from './plugins/auth.js'
@@ -9,7 +13,10 @@ import session from './plugins/session.js'
 import cache from './plugins/cache.js'
 import onPostHandler from './plugins/on-post-handler.js'
 import Blipp from 'blipp'
-import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT } from './utils/config.js'
+import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT, SETUP_SSL } from './utils/config.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)  
 
 const createServer = async options => {
   // Create the hapi server
@@ -26,6 +33,16 @@ const createServer = async options => {
     },
     cache
   }, options)
+
+  if (SETUP_SSL) {
+    // setup ssl
+    const httpsOptions = {
+      key: fs.readFileSync(path.join(__dirname, '../keys/tls.key')),
+      cert: fs.readFileSync(path.join(__dirname, '../keys/tls.crt'))
+    }
+
+    options.listener = https.createServer(httpsOptions)
+  }
 
   return new Hapi.Server(options)
 }

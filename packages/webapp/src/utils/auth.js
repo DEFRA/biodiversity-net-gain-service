@@ -35,13 +35,26 @@ const getAuthenticationUrl = () => {
   return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
 }
 
-const authenticate = async code => {
+const authenticate = async (code, cookieAuth) => {
   const { redirectUri } = authConfig
   const token = await msalClientApplication.acquireTokenByCode({
     code,
     redirectUri
   })
+  cookieAuth.set({
+    account: token.account
+  })
   return token
+}
+
+const refresh = async (account, cookieAuth, forceRefresh = true) => {
+  const token = await msalClientApplication.acquireTokenSilent({
+    account,
+    forceRefresh
+  })
+  cookieAuth.set({
+    account: token.account
+  })
 }
 
 const logout = async request => {
@@ -58,6 +71,7 @@ const getLogoutUrl = () => {
 export default {
   getAuthenticationUrl,
   authenticate,
+  refresh,
   logout,
   getLogoutUrl
 }

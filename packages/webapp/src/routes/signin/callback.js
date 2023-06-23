@@ -8,10 +8,7 @@ export default [{
       mode: 'try'
     },
     handler: async (request, h) => {
-      const token = await auth.authenticate(request.query.code, request.cookieAuth)
-      request.cookieAuth.set({
-        account: token.account
-      })
+      await auth.authenticate(request.query.code, request.cookieAuth)
       return h.redirect('/')
     }
   }
