@@ -23,6 +23,7 @@ describe('Metric file upload controller tests', () => {
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
+          d1: [{ 'Off-site reference': 'AZ12208461' }],
           validation: {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
@@ -47,8 +48,9 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -63,7 +65,9 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
