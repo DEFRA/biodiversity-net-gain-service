@@ -25,18 +25,18 @@ const msalClientApplication = new msal.ConfidentialClientApplication({
 
 const getAuthenticationUrl = () => {
   const authCodeUrlParameters = {
-    scopes: ['openid', 'offline_access', DEFRA_ID.DEFRA_ID_CLIENT_ID],
+    scopes: ['openid', 'offline_access', authConfig.clientId],
     extraQueryParameters: {
-      serviceId: defraIdConfig.serviceId
+      serviceId: DEFRA_ID.DEFRA_ID_SERVICE_ID
     },
-    redirectUri: authConf.redirectUri
+    redirectUri: authConfig.redirectUri
   }
 
   return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
 }
 
 const authenticate = async code => {
-  const { redirectUri } = authConf
+  const { redirectUri } = authConfig
   const token = await msalClientApplication.acquireTokenByCode({
     code,
     redirectUri
@@ -49,7 +49,7 @@ const logout = async request => {
 }
 
 const getLogoutUrl = () => {
-  const signoutUrl = new URL(`${authConf.authority}/oauth2/v2.0/logout`)
+  const signoutUrl = new URL(`${authConfig.authority}/oauth2/v2.0/logout`)
   signoutUrl.searchParams.append('post_logout_redirect_uri', SERVICE_HOME_URL)
   return signoutUrl
 }
