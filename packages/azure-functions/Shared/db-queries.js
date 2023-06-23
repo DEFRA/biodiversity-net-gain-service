@@ -76,7 +76,7 @@ const getApplicationStatusStatement = `
   LIMIT 1
 `
 
-const createApplicationReference = db => db.query('SELECT bng.fn_create_application_reference();')
+const createApplicationReference = db => db.query('SELECT bng.fn_create_application_ref_number();')
 
 const saveApplicationSession = (db, values) => db.query(insertApplicationSessionStatement, values)
 
