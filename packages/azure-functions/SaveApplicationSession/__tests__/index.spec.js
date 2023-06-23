@@ -28,7 +28,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_application_reference: 'REF0601220001'
+                fn_create_application_ref_number: 'REF0601220001'
               }
             ]
           }
