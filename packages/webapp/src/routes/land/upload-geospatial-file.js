@@ -18,7 +18,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
     })
-    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, { maxFileSize: process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB })
   },
   post: async (request, h) => performUpload(request, h)
 }
@@ -28,7 +28,7 @@ const performUpload = async (request, h) => {
     sessionId: request.yar.id,
     uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
     fileExt: constants.geospatialLandBoundaryFileExt,
-    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) * 1024 * 1024
   })
 
   config.fileValidationConfig.maximumDecimalPlaces = 4
@@ -120,7 +120,7 @@ const processErrorMessage = (errorMessage, error) => {
       break
     case constants.uploadErrors.maximumFileSizeExceeded:
       error.err = [{
-        text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+        text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB}MB`,
         href: uploadGeospatialFileId
       }]
       break
@@ -184,7 +184,7 @@ export default [{
   handler: handlers.post,
   options: {
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) + 1) * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false,
@@ -194,7 +194,7 @@ export default [{
           return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [
               {
-                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+                text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB}MB`,
                 href: uploadGeospatialFileId
               }
             ]

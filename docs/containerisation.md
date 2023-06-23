@@ -68,6 +68,7 @@ export ORDNANCE_SURVEY_API_SECRET=""
 export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB="50"
 # Change to http://azure_services:7071/api if the application to register web application is running in a container.
 export SIGNALR_URL="http://azure_services:8082/api"
+export MAX_GEOSPATIAL_FILE_UPLOAD_MB="1"
 ```
 
 See [Github actions workflow document](../.github/workflows/build.yaml) for build and CI details
