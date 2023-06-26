@@ -28,7 +28,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_application_ref_number: 'REF0601220001'
+                fn_create_application_ref_number: 'BNGREG-00000001-A4LI9'
               }
             ]
           }
@@ -45,7 +45,7 @@ describe('Save Application Session', () => {
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
-        expect(context.res.body).toEqual('"REF0601220001"')
+        expect(context.res.body).toEqual('"BNGREG-00000001-A4LI9"')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
