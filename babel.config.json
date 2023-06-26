@@ -1,4 +1,7 @@
 {
+  "plugins": [
+    "babel-plugin-transform-import-meta"
+  ],
   "presets": [
     [
       "@babel/preset-env",
@@ -7,7 +10,7 @@
           "node": "current"
         }
       }
-    ]
+    ]    
   ],
   "sourceType": "module"
 }

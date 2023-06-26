@@ -51,10 +51,4 @@ const validateSession = session => {
   return session.account && new Date().getTime() < session.account.idTokenClaims.exp * 1000
 }
 
-const returnIsValid = (isValid = false) => {
-  return {
-    isValid
-  }
-}
-
 export default authentication

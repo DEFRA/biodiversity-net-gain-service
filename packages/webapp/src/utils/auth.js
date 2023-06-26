@@ -15,7 +15,7 @@ const msalClientApplication = new msal.ConfidentialClientApplication({
   auth: authConfig,
   system: {
     loggerOptions: {
-      loggerCallback(_loglevel, message, _containsPii) {
+      loggerCallback (_loglevel, message, _containsPii) {
         console.log(message)
       },
       piiLoggingEnabled: false,
@@ -67,7 +67,6 @@ const getLogoutUrl = () => {
   signoutUrl.searchParams.append('post_logout_redirect_uri', `${SERVICE_HOME_URL}${constants.routes.SIGNED_OUT}`)
   return signoutUrl
 }
-
 
 export default {
   getAuthenticationUrl,
