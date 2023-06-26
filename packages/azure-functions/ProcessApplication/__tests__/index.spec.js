@@ -62,7 +62,7 @@ describe('Processing an application', () => {
           return {
             rows: [
               {
-                fn_create_application_ref_number: 'REF0601220001'
+                fn_create_application_ref_number: 'BNGREG-00000001-A4LI9'
               }
             ]
           }
@@ -72,7 +72,7 @@ describe('Processing an application', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('REF0601220001')
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('BNGREG-00000001-A4LI9')
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
