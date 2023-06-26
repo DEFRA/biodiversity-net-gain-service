@@ -276,5 +276,24 @@ describe('Metric file upload controller tests', () => {
       const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
       expect(res.statusCode).toEqual(expectedStatuCode)
     })
+
+    it('should display error if off-site reference is not matching', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.hasError = true
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('Enter the off-site reference that matches the off-site reference in the uploaded metric.')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 })
