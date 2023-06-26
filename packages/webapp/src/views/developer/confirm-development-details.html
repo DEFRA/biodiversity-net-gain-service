@@ -80,7 +80,13 @@
               ]
           }) }}
   
-          {{ govukButton({ text: 'Continue' }) }}
+          {{ govukButton({ 
+            text: 'Continue'
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+           }) }}
       </div>
   </div>
   
