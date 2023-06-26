@@ -160,6 +160,7 @@ const TEST_SEED_DATA = 'test/seed-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
+const SIGNED_OUT = 'signed-out'
 const COOKIES = 'cookies'
 
 const confirmFileUploadOptions = {
@@ -392,7 +393,8 @@ let routes = {
   COOKIES,
   SIGNIN,
   SIGNIN_CALLBACK,
-  SIGNOUT
+  SIGNOUT,
+  SIGNED_OUT
 }
 
 // Routes that are only loaded if NODE_ENV === development

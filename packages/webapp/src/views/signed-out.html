@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% set pageHeading = "You have signed out" %}
+
+{% set hideSigninNav = true %}
+{% set hideBackLink = true %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">
+          {{ pageHeading }}
+        </h1>
+        <div class="govuk-panel__body">
+          We've saved the details you entered so far.
+        </div>
+      </div>
+
+      <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">Your registrations</h2>
+
+      <a href="/signin">Sign in to continue with a registration</a>
+
+    </div>
+</div>
+{% endblock %}

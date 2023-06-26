@@ -21,12 +21,10 @@ const authentication = {
         appendNext: true,
         validate: async (request, session) => {
           // Check session token still has an account and non expired (20 mins expiry from Defra ID)
-          if (!session.account || new Date().getTime() >= session.account.idTokenClaims.exp * 1000) {
+          if (!validateSession(session)) {
             if (session.account) {
               // if we have an account then attempt refresh
               await auth.refresh(session.account, request.cookieAuth, false)
-
-              // TODO: what happens if refresh fails and doesn't reauthenticate properly?
               return {
                 isValid: true
               }
@@ -46,6 +44,16 @@ const authentication = {
       // sets all routes to default to session auth
       server.auth.default('session-auth')
     }
+  }
+}
+
+const validateSession = session => {
+  return session.account && new Date().getTime() < session.account.idTokenClaims.exp * 1000
+}
+
+const returnIsValid = (isValid = false) => {
+  return {
+    isValid
   }
 }
 

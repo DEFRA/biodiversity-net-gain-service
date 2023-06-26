@@ -1,5 +1,6 @@
 import msal from '@azure/msal-node'
 import { DEFRA_ID, IS_PRODUCTION, SERVICE_HOME_URL } from './config.js'
+import constants from './constants.js'
 
 const authConfig = {
   authority: `${DEFRA_ID.DEFRA_ID_INSTANCE}/${DEFRA_ID.DEFRA_ID_DOMAIN}/${DEFRA_ID.DEFRA_ID_POLICY_ID}`,
@@ -63,7 +64,7 @@ const logout = async request => {
 
 const getLogoutUrl = () => {
   const signoutUrl = new URL(`${authConfig.authority}/oauth2/v2.0/logout`)
-  signoutUrl.searchParams.append('post_logout_redirect_uri', SERVICE_HOME_URL)
+  signoutUrl.searchParams.append('post_logout_redirect_uri', `${SERVICE_HOME_URL}${constants.routes.SIGNED_OUT}`)
   return signoutUrl
 }
 

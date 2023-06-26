@@ -23,6 +23,20 @@ const onPostHandler = {
             // If no referer then clear referer key because user has broken the journey
             request.yar.clear(constants.redisKeys.REFERER)
           }
+          // Add Account details to context if present
+          if (request.auth?.isAuthenticated && request.auth.credentials?.account) {
+            if (!h.request.response.source.context) {
+              h.request.response.source.context = {}
+            }
+            const accountInfo = request.auth.credentials.account.idTokenClaims
+            h.request.response.source.context.auth = {
+              isAuthenticated: true,
+              firstName: accountInfo.firstName,
+              lastName: accountInfo.lastName,
+              email: accountInfo.email,
+              contactId: accountInfo.contactId
+            }
+          }
         }
         return h.continue
       })

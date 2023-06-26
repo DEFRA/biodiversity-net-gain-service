@@ -1,8 +1,9 @@
 import auth from '../utils/auth.js'
+import constants from '../utils/constants.js'
 
 export default [{
   method: 'GET',
-  path: '/signin',
+  path: constants.routes.SIGNIN,
   options: {
     auth: {
       mode: 'try'
