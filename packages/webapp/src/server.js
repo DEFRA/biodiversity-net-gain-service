@@ -15,7 +15,10 @@ import onPostHandler from './plugins/on-post-handler.js'
 import Blipp from 'blipp'
 import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT, SETUP_SSL } from './utils/config.js'
 
-const __filename = fileURLToPath(import.meta.url)
+if (!__filename) {
+  const __filename = fileURLToPath(import.meta.url)
+}
+// const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const createServer = async options => {

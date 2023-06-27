@@ -1,3 +1,17 @@
+// Mock out msal authentication client
+jest.mock('@azure/msal-node', () => {
+  return {
+    ConfidentialClientApplication: jest.fn().mockImplementation(() => {
+      console.log('in mock')
+      return {}
+    }),
+    LogLevel: {
+      Error: 'Error',
+      Info: 'Info'
+    }
+  }
+})
+
 import { createServer, init } from '../src/server.js'
 import serverOptions from '../src/__mocks__/server-options.js'
 
