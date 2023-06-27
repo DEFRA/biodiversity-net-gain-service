@@ -19,4 +19,3 @@ describe('Signin handler', () => {
     expect(response.headers.location).toEqual('/start')
   })
 })
-

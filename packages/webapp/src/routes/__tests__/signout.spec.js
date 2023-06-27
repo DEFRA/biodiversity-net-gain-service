@@ -1,9 +1,9 @@
 import { submitGetRequest } from './helpers/server.js'
 import constants from '../../utils/constants.js'
+import auth from '../../utils/auth.js'
 const url = constants.routes.SIGNOUT
 
 jest.mock('../../utils/auth.js')
-import auth from '../../utils/auth.js'
 
 describe('Signin handler', () => {
   it('Should render a non protected route without authentication', async () => {
@@ -32,4 +32,3 @@ describe('Signin handler', () => {
     expect(auth.getLogoutUrl).toHaveBeenCalledTimes(1)
   })
 })
-

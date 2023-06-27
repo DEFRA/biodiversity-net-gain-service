@@ -135,7 +135,7 @@ const submitPostRequest = async (options, expectedResponseCode = 302) => {
 
 const submitRequest = async (options, expectedResponseCode) => {
   // tests can pass in their own auth object
-  if (!options.hasOwnProperty('auth')) {
+  if (!Object.prototype.hasOwnProperty.call(options, 'auth')) {
     // Add in some default credentials to pass authentication on routes
     options.auth = {
       strategy: 'session-auth',
