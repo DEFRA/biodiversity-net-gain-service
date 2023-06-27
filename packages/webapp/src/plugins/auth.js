@@ -2,14 +2,16 @@ import Cookie from '@hapi/cookie'
 import auth from '../utils/auth.js'
 import { DEFRA_ID, COOKIE_IS_SECURE } from '../utils/config.js'
 
-const authentication = {
+const strategy = 'session-auth'
+
+const auth = {
   plugin: {
-    name: 'authentication',
+    name: 'auth',
     register: async (server, _options) => {
       await server.register(Cookie)
-      server.auth.strategy('session-auth', 'cookie', {
+      server.auth.strategy(strategy, 'cookie', {
         cookie: {
-          name: 'session-auth',
+          name: strategy,
           path: '/',
           password: DEFRA_ID.DEFRA_ID_SESSION_COOKIE_PASSWORD,
           isSecure: COOKIE_IS_SECURE,
@@ -42,13 +44,11 @@ const authentication = {
         }
       })
       // sets all routes to default to session auth
-      server.auth.default('session-auth')
+      server.auth.default(strategy)
     }
   }
 }
 
-const validateSession = session => {
-  return session.account && new Date().getTime() < session.account.idTokenClaims.exp * 1000
-}
+const validateSession = session => session.account && new Date().getTime() < session.account.idTokenClaims.exp * 1000
 
-export default authentication
+export default auth

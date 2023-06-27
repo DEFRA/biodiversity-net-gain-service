@@ -1,6 +1,6 @@
 import constants from '../utils/constants.js'
 
-const start = {
+const signedOut = {
   method: 'GET',
   path: constants.routes.SIGNED_OUT,
   options: {
@@ -9,4 +9,4 @@ const start = {
   handler: (_request, h) => h.view(constants.views.SIGNED_OUT)
 }
 
-export default start
+export default signedOut

@@ -58,9 +58,7 @@ const refresh = async (account, cookieAuth, forceRefresh = true) => {
   })
 }
 
-const logout = async request => {
-  return msalClientApplication.getTokenCache().removeAccount(request.auth.credentials.account)
-}
+const logout = async request => msalClientApplication.getTokenCache().removeAccount(request.auth.credentials.account)
 
 const getLogoutUrl = () => {
   const signoutUrl = new URL(`${authConfig.authority}/oauth2/v2.0/logout`)

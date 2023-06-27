@@ -2,7 +2,6 @@
 jest.mock('@azure/msal-node', () => {
   return {
     ConfidentialClientApplication: jest.fn().mockImplementation(() => {
-      console.log('in mock')
       return {}
     }),
     LogLevel: {
