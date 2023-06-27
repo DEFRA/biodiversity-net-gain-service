@@ -1,5 +1,5 @@
 import Cookie from '@hapi/cookie'
-import auth from '../utils/auth.js'
+import authentication from '../utils/auth.js'
 import { DEFRA_ID, COOKIE_IS_SECURE } from '../utils/config.js'
 
 const strategy = 'session-auth'
@@ -26,7 +26,7 @@ const auth = {
           if (!validateSession(session)) {
             if (session.account) {
               // if we have an account then attempt refresh
-              await auth.refresh(session.account, request.cookieAuth, false)
+              await authentication.refresh(session.account, request.cookieAuth, false)
               return {
                 isValid: true
               }
