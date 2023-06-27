@@ -9,8 +9,7 @@ export const KEEP_ALIVE_TIMEOUT_MS = process.env.KEEP_ALIVE_TIMEOUT_MS || undefi
 export const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 export const NODE_ENV = process.env.NODE_ENV
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prd'
-export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'https://localhost:3000'
-export const SETUP_SSL = process.env.SETUP_SSL ? JSON.parse(process.env.SETUP_SSL) : false
+export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'http://localhost:3000'
 
 // DefraId Config
 export const DEFRA_ID = {
@@ -21,5 +20,5 @@ export const DEFRA_ID = {
   DEFRA_ID_DOMAIN: process.env.DEFRA_ID_DOMAIN,
   DEFRA_ID_CLIENT_SECRET: process.env.DEFRA_ID_CLIENT_SECRET,
   DEFRA_ID_CLIENT_ID: process.env.DEFRA_ID_CLIENT_ID,
-  DEFRA_ID_REDIRECT_URI: process.env.DEFRA_ID_REDIRECT_URI || 'https://localhost:3000/signin/callback'
+  DEFRA_ID_REDIRECT_URI: process.env.DEFRA_ID_REDIRECT_URI || 'http://localhost:3000/signin/callback'
 }

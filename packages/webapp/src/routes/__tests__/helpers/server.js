@@ -134,6 +134,18 @@ const submitPostRequest = async (options, expectedResponseCode = 302) => {
 }
 
 const submitRequest = async (options, expectedResponseCode) => {
+  // Add in some default credentials to pass authentication on routes
+  options.auth = {
+    strategy: 'session-auth',
+    credentials: {
+      account: {
+        idTokenClaims: {
+          firstName: 'John',
+          lastName: 'Smith'
+        }
+      }
+    }
+  }
   const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
   return response
