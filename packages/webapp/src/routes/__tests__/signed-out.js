@@ -1,6 +1,6 @@
 import { submitGetRequest } from './helpers/server.js'
 import constants from '../../utils/constants.js'
-const url = constants.routes.START
+const url = constants.routes.SIGNED_OUT
 
 describe(url, () => {
   describe('GET', () => {

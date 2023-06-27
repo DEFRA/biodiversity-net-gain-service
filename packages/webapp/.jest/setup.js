@@ -2,7 +2,11 @@
 jest.mock('@azure/msal-node', () => {
   return {
     ConfidentialClientApplication: jest.fn().mockImplementation(() => {
-      return {}
+      return {
+        getAuthCodeUrl: () => {
+          return 'signin-url'
+        }
+      }
     }),
     LogLevel: {
       Error: 'Error',
