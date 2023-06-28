@@ -402,7 +402,7 @@ const testRoutes = {
   TEST_SEED_DATA
 }
 
-if (NODE_ENV) {
+if (NODE_ENV === 'development' || NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
 
