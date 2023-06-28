@@ -143,7 +143,8 @@ const submitRequest = async (options, expectedResponseCode) => {
         account: {
           idTokenClaims: {
             firstName: 'John',
-            lastName: 'Smith'
+            lastName: 'Smith',
+            email: 'john.smith@test.com'
           }
         }
       }

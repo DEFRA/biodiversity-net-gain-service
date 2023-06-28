@@ -4,9 +4,13 @@ const url = constants.routes.EMAIL
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view`, async () => {
+    it(`should render the ${url.substring(1)} view with session email if set`, async () => {
       const response = await submitGetRequest({ url })
-      expect(response.statusCode).toBe(200)
+      expect(response.payload).toContain('<input class="govuk-input" id="emailAddress" name="emailAddress" type="text" spellcheck="false" value="test@test.com" autocomplete="emailAddress">')
+    })
+    it(`should render the ${url.substring(1)} view with account email if no session email`, async () => {
+      const response = await submitGetRequest({ url }, 200, {})
+      expect(response.payload).toContain('<input class="govuk-input" id="emailAddress" name="emailAddress" type="text" spellcheck="false" value="john.smith@test.com" autocomplete="emailAddress">')
     })
     it('Should render email page with an input email set', async () => {
       let viewResult, resultContext
