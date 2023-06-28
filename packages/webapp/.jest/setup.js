@@ -1,3 +1,5 @@
+import { createServer, init } from '../src/server.js'
+import serverOptions from '../src/__mocks__/server-options.js'
 // Mock out msal authentication client
 jest.mock('@azure/msal-node', () => {
   return {
@@ -8,6 +10,16 @@ jest.mock('@azure/msal-node', () => {
         },
         acquireTokenSilent: () => {
           return ''
+        },
+        acquireTokenByCode: () => {
+          return {
+            token: 'test'
+          }
+        },
+        getTokenCache: () => {
+          return {
+            removeAccount: () => {}
+          }
         }
       }
     }),
@@ -17,9 +29,6 @@ jest.mock('@azure/msal-node', () => {
     }
   }
 })
-
-import { createServer, init } from '../src/server.js'
-import serverOptions from '../src/__mocks__/server-options.js'
 
 const ORIGINAL_ENV = process.env
 let server, context
