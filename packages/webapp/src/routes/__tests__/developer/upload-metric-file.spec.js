@@ -24,6 +24,7 @@ describe('Metric file upload controller tests', () => {
         location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
           d1: [{ 'Off-site reference': 'AZ12208461' }],
+          e1: [],
           validation: {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
