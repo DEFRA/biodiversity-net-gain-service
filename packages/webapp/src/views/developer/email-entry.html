@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% set pageHeading = "Enter additional email addresses" %}
+{% set devShowSaveLink = true %}
 {% set emailIndex = emailAddresses.length if emailAddresses else 0 %}
 {% set fieldLabel = "Additional email" %}
 {% block formContent %}
@@ -124,6 +125,7 @@
                         id: "continue"
                     }
                 }) }}
+                <p><a href="/developer/check-answers">Skip to check your answers</a>  if do not want to add any additional email addresses.</p>
             </div>
         </div>
     </div>
