@@ -18,4 +18,16 @@ describe('Route authentication', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual('/signin?next=%2Fland%2Fupload-metric')
   })
+
+  it('Should render protected page with Signin nav if authenticated', async () => {
+    const options = {
+      url: '/land/upload-metric'
+    }
+    const response = await submitGetRequest(options)
+    expect(response.payload).toContain(`<ul class="login-nav__list">
+    <li class="login-nav__list-item">John Smith |</li>
+    <li class="login-nav__list-item"><a id="link-manage-account" href="/land/register-land-task-list" class="govuk-link login-nav__link govuk-link--no-visited-state">Your registrations</a> |</li>
+    <li class="login-nav__list-item"><a id="link-sign-out" href="/signout" class="govuk-link login-nav__link govuk-link--no-visited-state">Sign out</a></li>
+  </ul>`)
+  })
 })
