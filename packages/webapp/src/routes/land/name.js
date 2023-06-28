@@ -11,7 +11,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.NAME
     })
-    const fullName = request.yar.get(constants.redisKeys.FULL_NAME)
+    const fullName = request.yar.get(constants.redisKeys.FULL_NAME) || request.auth.credentials.account.idTokenClaims.firstName + ' ' + request.auth.credentials.account.idTokenClaims.lastName
     return h.view(constants.views.NAME, {
       fullName
     })
