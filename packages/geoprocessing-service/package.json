@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-geoprocessing-service",
-  "version": "0.135.0",
+  "version": "0.136.0",
   "type": "module",
   "private": false,
   "description": "Geoprocessing service for Biodiversity Net Gain",
@@ -20,14 +20,14 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@defra/bng-errors-lib": "0.135.0",
+    "@defra/bng-errors-lib": "0.136.0",
     "gdal-async": "^3.6.3",
     "geodesy": "^2.4.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.135.0",
-    "@defra/bng-connectors-lib": "0.135.0",
-    "@defra/bng-utils-lib": "0.135.0",
+    "@defra/bng-azure-storage-test-utils": "0.136.0",
+    "@defra/bng-connectors-lib": "0.136.0",
+    "@defra/bng-utils-lib": "0.136.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
