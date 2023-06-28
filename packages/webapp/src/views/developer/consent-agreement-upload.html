@@ -40,7 +40,11 @@
             }
           }) }}
           {{ govukButton({
-            text: "Upload file"
+            text: "Upload file",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
           }) }}
       </div>
     </div>
