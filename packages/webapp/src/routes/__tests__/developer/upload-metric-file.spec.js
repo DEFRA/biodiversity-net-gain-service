@@ -54,7 +54,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
           const res = await uploadFile(uploadConfig)
-          expect(res.result).toContain('Enter the off-site reference that matches the off-site reference in the uploaded metric.')
+          expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
           setImmediate(() => {
             done()
           })

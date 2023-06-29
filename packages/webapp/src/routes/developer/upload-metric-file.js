@@ -30,11 +30,12 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result[0].metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-  if (result[0].metricData?.d1 && filterByBGN(result[0].metricData?.d1, request).length === 0 && result[0].metricData?.e1 && filterByBGN(result[0].metricData?.e1, request).length === 0) {
+  if (result[0].metricData?.d1 && filterByBGN(result[0].metricData?.d1, request).length === 0 &&
+  result[0].metricData?.e1 && filterByBGN(result[0].metricData?.e1, request).length === 0) {
     const error = {
       err: [
         {
-          text: 'Enter the off-site reference that matches the off-site reference in the uploaded metric.'
+          text: 'The uploaded metric does not contain the off-site reference entered.'
         }
       ]
     }
