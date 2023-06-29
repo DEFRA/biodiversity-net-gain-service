@@ -27,6 +27,7 @@ warning: other service dependencies will be missing, install and run from root o
 | MAX_METRIC_UPLOAD_MB | Maximum size of a biodiversity metric file upload (in megabytes) |
 | GOOGLE_TAGMANAGER_ID | Google Tag Manager ID | N |
 | NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
+| SERVICE_HOME_URL | Sets the full url of service home page | N |
 | DEFRA_ID_SESSION_COOKIE_PASSWORD | 32 character minimum password for session auth cookie | Y |
 | DEFRA_ID_POLICY_ID | Defra ID policy ID | Y |
 | DEFRA_ID_SERVICE_ID | Defra ID Service ID | Y |
