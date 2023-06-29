@@ -161,21 +161,6 @@ $govuk-global-styles: true;
   vertical-align: top;
 }
 
-// Save and return
-
-.app-save__wrapper {
-  min-height: 40px;
-  position: relative;
-}
-
-.app-save {
-  margin-top: govuk-spacing(2);
-  position: absolute;
-  right: 0;
-  top: 3px;
-  text-align: right;
-}
-
 // Secondary text colour
 .app-secondary-text-colour {
   color: #505a5f;

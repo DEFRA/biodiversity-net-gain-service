@@ -150,9 +150,6 @@ const ELIGIBILITY_BOUNDARY = 'land/boundary'
 const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
 const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
 const ELIGIBILITY_RESULTS = 'land/results'
-const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
-const REGISTRATION_SAVED = 'land/registration-saved'
-const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
@@ -317,8 +314,7 @@ const redisKeys = {
   ELIGIBILITY_OWNERSHIP_PROOF,
   ELIGIBILITY_BOUNDARY,
   ELIGIBILITY_BIODIVERSITY_METRIC,
-  ELIGIBILITY_HMMP,
-  REGISTRATION_SAVED_REFERER
+  ELIGIBILITY_HMMP
 }
 
 let routes = {
@@ -385,8 +381,6 @@ let routes = {
   ELIGIBILITY_BIODIVERSITY_METRIC,
   ELIGIBILITY_HMMP,
   ELIGIBILITY_RESULTS,
-  CONTINUE_SAVED_REGISTRATION,
-  REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
   CHECK_METRIC_DETAILS,
