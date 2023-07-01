@@ -66,7 +66,7 @@ describe(url, () => {
           config.hasError = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('The selected file must be an DOC, DOCX or PDF')
+          expect(response.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })

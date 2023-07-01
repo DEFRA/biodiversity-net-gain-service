@@ -45,7 +45,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
         err: [{
-          text: 'The selected file must be an DOC, DOCX or PDF',
+          text: 'The selected file must be a DOC, DOCX or PDF',
           href: DEVELOPER_WRITTEN_CONSENT_ID
         }]
       })
