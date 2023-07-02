@@ -143,7 +143,7 @@ describe('BNG data extractor test', () => {
     expect(response.validation.areOffsiteTotalsCorrect).toBe(true)
   })
 
-  it('Offsite totals check should check handle floating point rounding errors', async () => {
+  it('Offsite totals check should handle floating point rounding errors', async () => {
     const mockWorkbookData = {
       Sheets: {
         'D-1 Off-Site Habitat Baseline': { H259: { v: 5.699999999999999 } },
