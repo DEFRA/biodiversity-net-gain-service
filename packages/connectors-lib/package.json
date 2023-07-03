@@ -24,7 +24,7 @@
     "@azure/storage-blob": "^12.14.0",
     "@azure/storage-queue": "^12.13.0",
     "@microsoft/signalr": "^6.0.16",
-    "pg": "^8.10.0"
+    "pg": "^8.11.1"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.141.0",
