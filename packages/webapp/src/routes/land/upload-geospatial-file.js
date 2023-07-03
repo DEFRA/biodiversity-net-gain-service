@@ -73,7 +73,7 @@ const performUpload = async (request, h) => {
     return h.redirect(constants.routes.CHECK_GEOSPATIAL_FILE)
   } catch (err) {
     const errorContext = getErrorContext(err)
-    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, errorContext)
+    return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, { ...errorContext, maxFileSize: process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB })
   }
 }
 
@@ -197,7 +197,8 @@ export default [{
                 text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB}MB`,
                 href: uploadGeospatialFileId
               }
-            ]
+            ],
+            maxFileSize: process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB
           }).takeover()
         } else {
           throw err
