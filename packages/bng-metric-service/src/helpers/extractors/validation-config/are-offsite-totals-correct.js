@@ -5,7 +5,7 @@ const tolerance = 0.00000001
 
 const checkEqualsWithTolerance = (total, value1, value2) => Math.abs((value1 + value2) - total) < tolerance
 
-const areOffsiteTotalsCorrect = (workbook) => checkEqualsWithTolerance(
+const areOffsiteTotalsCorrect = workbook => checkEqualsWithTolerance(
   workbook.Sheets[sheetConfig.d1OffSiteHabitatBaseline.sheetName]?.H259?.v,
   workbook.Sheets[sheetConfig.d2OffSiteHabitatCreation.sheetName]?.G257?.v,
   workbook.Sheets[sheetConfig.d3OffSiteHabitatEnhancement.sheetName]?.V259?.v
