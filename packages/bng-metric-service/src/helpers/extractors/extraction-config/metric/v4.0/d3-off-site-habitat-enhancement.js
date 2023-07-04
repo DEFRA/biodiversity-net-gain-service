@@ -10,7 +10,8 @@ const headers = [
   'Total habitat area',
   'Distinctiveness change',
   'Condition change',
-  'Off-site reference'
+  'Off-site reference',
+  'GIS reference number'
 ]
 
 const d3OffSiteHabitatEnhancement = {

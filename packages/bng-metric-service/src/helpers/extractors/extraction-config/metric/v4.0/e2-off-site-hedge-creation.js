@@ -5,7 +5,8 @@ const headers = [
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
   'Hedge units delivered',
-  'Off-site reference'
+  'Off-site reference',
+  'GIS reference number'
 ]
 
 const e2OffSiteHedgeCreation = {

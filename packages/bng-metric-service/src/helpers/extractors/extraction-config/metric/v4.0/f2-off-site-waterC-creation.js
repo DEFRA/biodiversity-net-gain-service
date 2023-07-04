@@ -6,7 +6,8 @@ const headers = [
   'Delay in starting habitat creation (years)',
   'Watercourse units delivered',
   'Off-site reference',
-  'Extent of encroachment for both banks'
+  'Extent of encroachment for both banks',
+  'GIS reference number'
 ]
 
 const f2OffSiteWaterCCreation = {

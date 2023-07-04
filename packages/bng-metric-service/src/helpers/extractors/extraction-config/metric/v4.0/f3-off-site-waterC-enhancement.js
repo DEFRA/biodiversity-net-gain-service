@@ -8,7 +8,8 @@ const headers = [
   'Watercourse units delivered',
   'Off-site reference',
   'Extent of encroachment',
-  'Extent of encroachment for both banks'
+  'Extent of encroachment for both banks',
+  'GIS reference number'
 ]
 
 const f3OffSiteWaterCEnhancement = {
