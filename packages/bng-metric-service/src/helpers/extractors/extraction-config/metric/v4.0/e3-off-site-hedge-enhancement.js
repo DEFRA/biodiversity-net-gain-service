@@ -6,7 +6,8 @@ const headers = [
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
   'Hedge units delivered',
-  'Off-site reference'
+  'Off-site reference',
+  'GIS reference number'
 ]
 
 const e3OffSiteHedgeEnhancement = {
