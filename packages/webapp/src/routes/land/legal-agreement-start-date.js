@@ -5,7 +5,8 @@ import {
   getMinDateCheckError,
   processRegistrationTask,
   validateAndParseISOString,
-  validateDate
+  validateDate,
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const handlers = {

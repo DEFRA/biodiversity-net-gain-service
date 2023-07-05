@@ -1,5 +1,9 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { 
+  checkApplicantDetails, 
+  processRegistrationTask,
+  getLegalAgreementDocumentType
+} from '../../utils/helpers.js'
 
 function processEmptyPartySelection (partySelectionData, index, combinedError, startId) {
   const errorConstruct = {
