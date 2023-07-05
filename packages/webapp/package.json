@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.136.0",
+  "version": "0.149.0",
   "private": true,
   "type": "module",
   "description": "",
@@ -30,10 +30,10 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.136.0",
-    "@defra/bng-document-service": "0.136.0",
-    "@defra/bng-errors-lib": "0.136.0",
-    "@defra/bng-utils-lib": "0.136.0",
+    "@defra/bng-connectors-lib": "0.149.0",
+    "@defra/bng-document-service": "0.149.0",
+    "@defra/bng-errors-lib": "0.149.0",
+    "@defra/bng-utils-lib": "0.149.0",
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.1",
@@ -49,7 +49,7 @@
     "govuk-frontend": "4.6.0",
     "hapi-pino": "12.1.0",
     "joi": "^17.9.2",
-    "jquery": "^3.6.4",
+    "jquery": "^3.7.0",
     "moment": "^2.29.4",
     "multiparty": "^4.2.3",
     "nunjucks": "3.2.4",
@@ -58,14 +58,14 @@
     "sass": "^1.62.1"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.136.0",
+    "@defra/bng-azure-storage-test-utils": "0.149.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
-    "html-webpack-plugin": "^5.5.1",
+    "html-webpack-plugin": "^5.5.3",
     "nodemon": "^2.0.22",
     "stream-to-promise": "^3.0.0",
-    "style-loader": "^3.3.2",
-    "webpack": "^5.84.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   }
 }

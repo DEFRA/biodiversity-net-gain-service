@@ -118,6 +118,7 @@ const uploadFile = async (uploadConfig) => {
       return uploadConfig.eventData
     }
   })
+  if (uploadConfig.sessionData) await addOnPrehandler(uploadConfig.sessionData)
   const response = await submitRequest(options, expectedResponseCode)
   return response
 }
