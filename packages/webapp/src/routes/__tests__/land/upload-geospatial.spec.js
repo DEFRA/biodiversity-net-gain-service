@@ -69,11 +69,11 @@ describe(url, () => {
       })
     })
 
-    it('should upload a 50MB GeoJSON file to cloud storage', (done) => {
+    it('should upload a 1MB GeoJSON file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = JSON.parse(JSON.stringify(baseConfig))
-          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          uploadConfig.filePath = `${mockDataPath}/1MB.geojson`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -305,7 +305,7 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a geospatial land boundary document more than 50MB', (done) => {
+    it('should not upload a geospatial land boundary document more than 1MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = JSON.parse(JSON.stringify(baseConfig))
@@ -313,7 +313,7 @@ describe(url, () => {
           uploadConfig.filePath = `${mockDataPath}/55MB.geojson`
           const response = await uploadFile(uploadConfig)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('The selected file must not be larger than 50MB')
+          expect(response.payload).toContain('The selected file must not be larger than 1MB')
           setImmediate(() => {
             done()
           })
@@ -326,13 +326,13 @@ describe(url, () => {
     it('should not upload a geospatial land boundary larger than the configured maximum', (done) => {
       jest.isolateModules(async () => {
         try {
-          process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
+          process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB = 0.9
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
-          uploadConfig.filePath = `${mockDataPath}/50MB.geojson`
+          uploadConfig.filePath = `${mockDataPath}/1MB.geojson`
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
+          expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })
