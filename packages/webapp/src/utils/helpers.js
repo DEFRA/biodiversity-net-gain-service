@@ -465,6 +465,18 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
   return error.err[0].text ? error : null
 }
 
+const checkDeveloperDetails = (request, h) => {
+  if (!areDeveloperDetailsPresent(request.yar)) {
+    return h.redirect(constants.routes.START).takeover()
+  }
+  return h.continue
+}
+
+const areDeveloperDetailsPresent = session => (
+  session.get(constants.redisKeys.DEVELOPER_FULL_NAME) &&
+  session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
+)
+
 export {
   validateDate,
   dateClasses,
@@ -500,5 +512,6 @@ export {
   processDeveloperTask,
   getDeveloperTasks,
   getMetricFileValidationErrors,
-  initialCapitalization
+  initialCapitalization,
+  checkDeveloperDetails
 }
