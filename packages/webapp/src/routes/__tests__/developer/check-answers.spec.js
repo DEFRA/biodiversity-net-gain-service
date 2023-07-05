@@ -12,6 +12,10 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
+    it('should redirect to Start page if no develper data is available in session', async () => {
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
   })
   describe('POST', () => {
     it('Should process a valid application correctly', done => {
