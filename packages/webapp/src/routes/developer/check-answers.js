@@ -4,7 +4,8 @@ import developerApplicationValidation from '../../utils/developer-application-va
 import {
   initialCapitalization,
   dateToString,
-  hideClass
+  hideClass,
+  checkDeveloperDetails
 } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
@@ -71,7 +72,10 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
-  handler: handlers.get
+  handler: handlers.get,
+  config: {
+    pre: [checkDeveloperDetails]
+  }
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
