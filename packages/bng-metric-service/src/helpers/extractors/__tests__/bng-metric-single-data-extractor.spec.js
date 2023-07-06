@@ -230,7 +230,7 @@ describe('BNG data extractor test', () => {
     expect(Object.keys(response.test[0]).length).toEqual(1)
     expect(response.test[0].Condition).toBe(undefined)
   })
-  
+
   it('Should reject if not a valid metric spreadsheet', async () => {
     const readableStreamv3 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/macro-enabled-test.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()

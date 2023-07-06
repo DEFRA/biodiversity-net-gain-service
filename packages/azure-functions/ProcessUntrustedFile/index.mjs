@@ -4,10 +4,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
-// TO DO - If replay logic is effective at resolving intermittent threat scanning problems
-// with macro enabled spreadsheets, read host.json to determine if a custom maximum number of
-// replay attempts is configured.
-const maximumNumberOfReplayAttempts = 5
+const maximumNumberOfReplayAttempts = process.env.PROCESS_UNTRUSTED_ATTEMPTS || 5
 
 const baseConfig = {
   untrustedBlobStorageConfig: {
@@ -64,7 +61,7 @@ export default async function (context, message) {
       // Replay the message
       throw err
     } else {
-      // The maximum number of message processing attempts has been reached so send a notification to the clienr..
+      // The maximum number of message processing attempts has been reached so send a notification to the client..
       signalRMessageArguments = [{ errorMessage: err.message }]
     }
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
