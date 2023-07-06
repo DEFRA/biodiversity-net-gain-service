@@ -7,7 +7,7 @@ import { ThreatScreeningError } from '@defra/bng-errors-lib'
 // TO DO - If replay logic is effective at resolving intermittent threat scanning problems
 // with macro enabled spreadsheets, read host.json to determine if a custom maximum number of
 // replay attempts is configured.
-const maximumNumberOfReplayAttempts = 5
+const maximumNumberOfReplayAttempts = 10
 
 const baseConfig = {
   untrustedBlobStorageConfig: {
@@ -44,7 +44,8 @@ export default async function (context, message) {
     if (response) {
       const documentStream = response.readableStreamBody
       if (!process.env.AV_DISABLE || !JSON.parse(process.env.AV_DISABLE)) {
-        await screenDocument(context, config, documentStream)
+        const response = await screenDocument(context, config, documentStream)
+        context.log(`Screening reequest submitted ${response.data}`)
       } else {
         // If screening is disabled this function must upload document to trusted blob and send message to queue
         context.log('File security screening is disabled')
