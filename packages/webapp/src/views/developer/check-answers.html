@@ -140,11 +140,13 @@
         }) }}
 
         <!--Addtional email addresses-->
+        {% if additionalEmailAddresses.length > 0 %}
         <h2 class="govuk-heading-l">Additional email addresses</h2>
         {{ govukSummaryList({
           classes: 'govuk-!-margin-bottom-7',
           rows: additionalEmailAddresses
         }) }}
+        {% endif %}
 
        
         <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>

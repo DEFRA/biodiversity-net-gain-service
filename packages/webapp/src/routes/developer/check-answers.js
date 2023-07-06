@@ -20,6 +20,10 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
+    // Removing not required field from payload
+    delete value.developerAllocation.confirmDevelopmentDetails
+    delete value.developerAllocation.confirmOffsiteGainDetails
+
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
     request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.referenceNumber)
     return h.redirect(constants.routes.DEVELOPER_APPLICATION_SUBMITTED)
@@ -48,7 +52,6 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
 const getContext = request => {
   const applicationData = developerApplication(request.yar)
   const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
-
   const developmentDetails = applicationData.developerAllocation.developmentDetails
   const files = applicationData.developerAllocation.files
   const biodiversityGainSiteNumber = applicationData.developerAllocation.biodiversityGainSiteNumber
