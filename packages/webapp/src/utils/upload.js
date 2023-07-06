@@ -28,12 +28,8 @@ const uploadFiles = async (logger, request, config) => {
       } else {
         try {
           // Resolve the promise when all parts of the upload have been processed.
-          // Disable SignalR usage temporarily for debugging purposes.
-          // This will leave the promise unresolved
-          if (process.env.SIGNALR_URL) {
-            const eventData = await config.functionConfig.handleEventsFunction(config, events)
-            resolve(Object.assign(uploadResult, eventData))
-          }
+          const eventData = await config.functionConfig.handleEventsFunction(config, events)
+          resolve(Object.assign(uploadResult, eventData))
         } catch (err) {
           reject(err)
         }

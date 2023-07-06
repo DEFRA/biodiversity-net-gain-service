@@ -8,7 +8,6 @@ const AUTHORIZATION = 'Authorization'
 const FILE = 'file'
 const FILE_DETAILS = 'fileDetails'
 const OCP_APIM_SUBSCRIPTION_KEY = 'ocp-apim-subscription-key'
-const OCP_APIM_TRACE = 'ocp-apim-trace'
 
 const requestTimeout = process.env.AV_REQUEST_TIMEOUT_MS || 120000
 
@@ -37,7 +36,6 @@ const screenDocumentForThreats = async (logger, config, stream) => {
         'Keep-Alive': `timeout=${requestTimeout / 1000}, max=1000`
       }
     })
-    logger.log(putOptions)
     return axiosInstance.request(putOptions)
   } catch (err) {
     logger.log(`Error connecting to AV service ${err}`)
@@ -72,7 +70,6 @@ const buildHeaders = async (config, formData) => {
   const bearerToken = await getBearerToken(config.authenticationConfig)
   headers[AUTHORIZATION] = `Bearer ${bearerToken.access_token}`
   headers[OCP_APIM_SUBSCRIPTION_KEY] = process.env.AV_API_OCP_APIM_SUBSCRIPTION_KEY
-  headers[OCP_APIM_TRACE] = true
   return headers
 }
 
