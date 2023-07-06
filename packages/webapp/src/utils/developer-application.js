@@ -6,7 +6,8 @@ export default session => {
   return {
     developerAllocation: {
       applicant: {
-        name: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
+        firstName: null,
+        lastName: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
         emailAddress: session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE),
         role: 'Developer'
       },

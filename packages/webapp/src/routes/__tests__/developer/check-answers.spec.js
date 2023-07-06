@@ -87,7 +87,7 @@ describe(url, () => {
             }
           }
 
-          await expect(postHandler({ yar: session }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.name" is required')
+          await expect(postHandler({ yar: session }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.lastName" is required')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()
