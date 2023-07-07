@@ -1,0 +1,25 @@
+{ 
+  "disabled": false,
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "route": "processdeveloperapplication",
+      "methods": [ "post" ]
+    },
+    {
+      "name": "outputSbQueue",
+      "type": "serviceBus",
+      "queueName": "ne.bng.developer.inbound",
+      "connection": "OPERATOR_SB_CONNECTION_STRING",
+      "direction": "out"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ]
+}
