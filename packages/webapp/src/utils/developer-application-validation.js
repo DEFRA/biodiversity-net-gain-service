@@ -21,7 +21,7 @@ const developerApplicationValidation = Joi.object({
     confirmDevelopmentDetails: Joi.string().valid('yes'),
     confirmOffsiteGainDetails: Joi.string().valid('yes'),
     metricData: Joi.object().allow(null),
-    referenceNumber: Joi.string().allow(''),
+    gainSiteReference: Joi.string().allow(''),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
       Joi.object({
