@@ -65,7 +65,8 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | NOTIFY_CLIENT_API_KEY | [Gov.UK Notify](https://www.notifications.service.gov.uk/) API key | Y |
 | SAVED_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for saved application session notifications | Y |
 | EXPIRING_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for expiring application session notifications | Y |
-| CONTINUE_REGISTRATION_URL| URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
+| CONTINUE_REGISTRATION_URL | URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
+| PROCESS_UNTRUSTED_ATTEMPTS | Count of attempts of process Untrusted (purpose is to replay AV scanning issues) defaults to 5 | N |
 
 ### App settings / environment variables for use with Azurite
 

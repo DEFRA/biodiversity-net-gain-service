@@ -45,6 +45,7 @@ const buildConfig = message => {
   config.trustedBlobStorageConfig.blobName = location
   config.trustedQueueMessage = {
     uploadType: message.Collection,
+    containerName: baseConfig.trustedBlobStorageConfig.containerName,
     location
   }
   Object.assign(config, buildUploadConfigFromMessage({ location }))
