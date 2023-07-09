@@ -26,6 +26,7 @@ const message = {
 }
 
 const uploadMessage = {
+  containerName: 'trusted',
   uploadType: 'legal-agreement',
   location: '3f71693c-3b1b-448c-827c-0ee181d49929/legal-agreement/legal-agreement.doc'
 }

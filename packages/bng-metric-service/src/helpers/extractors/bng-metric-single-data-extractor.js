@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import xslx from 'xlsx'
+import isMetricWorkbook from './validation-config/is-metric-workbook.js'
 
 class BngMetricSingleDataExtractor {
   extractContent = async (contentInputStream, { extractionConfiguration, validationConfiguration }) => {
@@ -10,20 +11,29 @@ class BngMetricSingleDataExtractor {
       })
 
       contentInputStream.on('end', () => {
-        const workBook = xslx.read(Buffer.concat(data), { type: 'buffer' })
-        const response = {}
-        if (extractionConfiguration) {
-          Object.keys(extractionConfiguration).forEach(key => {
-            response[key] = this.#extractData(workBook, extractionConfiguration[key])
-          })
+        try {
+          const workBook = xslx.read(Buffer.concat(data), { type: 'buffer' })
+          const response = {}
+          if (extractionConfiguration) {
+            Object.keys(extractionConfiguration).forEach(key => {
+              response[key] = this.#extractData(workBook, extractionConfiguration[key])
+            })
+          }
+          // Validate data matches a metric workbook format
+          if (!isMetricWorkbook(workBook)) {
+            throw new Error('Workbook is not a valid metric')
+          }
+
+          if (validationConfiguration) {
+            response.validation = {}
+            Object.keys(validationConfiguration).forEach(key => {
+              response.validation[key] = this.#validateData(workBook, validationConfiguration[key])
+            })
+          }
+          resolve(response)
+        } catch (err) {
+          reject(err)
         }
-        if (validationConfiguration) {
-          response.validation = {}
-          Object.keys(validationConfiguration).forEach(key => {
-            response.validation[key] = this.#validateData(workBook, validationConfiguration[key])
-          })
-        }
-        resolve(response)
       })
 
       contentInputStream.on('error', err => {

@@ -36,7 +36,7 @@ const downloadStreamIfExists = async (logger, config) => {
   let returnValue
 
   if (blobExists) {
-    returnValue = blockBlobClient.download()
+    returnValue = await blockBlobClient.download()
   } else {
     logger.log('Blob does not exist')
   }

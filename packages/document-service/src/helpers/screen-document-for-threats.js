@@ -1,4 +1,5 @@
 import axios from 'axios'
+import https from 'https'
 import FormData from 'form-data'
 import path from 'path'
 import { getBearerToken } from '@defra/bng-utils-lib'
@@ -7,6 +8,8 @@ const AUTHORIZATION = 'Authorization'
 const FILE = 'file'
 const FILE_DETAILS = 'fileDetails'
 const OCP_APIM_SUBSCRIPTION_KEY = 'ocp-apim-subscription-key'
+
+const requestTimeout = process.env.AV_REQUEST_TIMEOUT_MS || 120000
 
 const screenDocumentForThreats = async (logger, config, stream) => {
   const fileDetails = buildFileDetails(config.fileConfig)
@@ -22,11 +25,20 @@ const screenDocumentForThreats = async (logger, config, stream) => {
   }
 
   const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
+
   try {
     logger.log(`Sending ${fileDetails.key} for screening`)
-    await axios.request(putOptions)
+    const axiosInstance = axios.create({
+      httpAgent: new https.Agent({ keepAlive: true }),
+      timeout: requestTimeout,
+      headers: {
+        Connection: 'Keep-Alive',
+        'Keep-Alive': `timeout=${requestTimeout / 1000}, max=1000`
+      }
+    })
+    return axiosInstance.request(putOptions)
   } catch (err) {
-    console.error(`Error connecting to AV service ${err}`)
+    logger.log(`Error connecting to AV service ${err}`)
     throw err
   }
 }
