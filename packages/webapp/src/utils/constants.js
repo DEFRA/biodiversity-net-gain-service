@@ -6,7 +6,6 @@ const APPLICATION_REFERENCE = 'application-reference'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
-const LEGAL_PARTY_REMOVE = 'land/legal-party-remove'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
@@ -347,7 +346,6 @@ let routes = {
   ADD_LEGAL_AGREEMENT_PARTIES,
   LEGAL_AGREEMENT_START_DATE,
   LEGAL_AGREEMENT_TYPE,
-  LEGAL_PARTY_REMOVE,
   CHECK_MANAGEMENT_PLAN,
   REGISTRATION_SUBMITTED,
   CHECK_AND_SUBMIT,
