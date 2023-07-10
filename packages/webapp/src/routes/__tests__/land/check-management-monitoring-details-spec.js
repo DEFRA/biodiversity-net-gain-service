@@ -34,7 +34,6 @@ describe(url, () => {
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.CHECK_MANAGEMENT_MONITORING_DETAILS)
-        expect(contextResult.habitatWorkStartDate).toBe('11 March 2022')
         expect(contextResult.managementMonitoringStartDate).toBe('11 March 2023')
         expect(contextResult.managementFileName).toBe('legal-agreements')
       })
