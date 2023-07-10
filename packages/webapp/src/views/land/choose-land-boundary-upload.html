@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 {% set showSaveLink = true %}
-{% set pageHeading = "Choose how to add the land boundary details for the biodiversity gain site" %}
+{% set pageHeading = "Choose how to add the biodiversity gain site boundary" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -23,9 +23,9 @@
           items: [
             {
               value: "geospatialData",
-              text: "Upload geospatial data file",
+              text: "Upload geospatial file",
               hint: {
-                text: "GeoJSON, Geopackage or Shape files"
+                text: "GeoJSON, GeoPackage or Shapefile"
               },
               checked: checked(landBoundaryUploadType, "geospatialData")
             },
@@ -39,9 +39,9 @@
             }
           ]
         }) }}
-        <p><a href="/land/need-boundary-file">I do not have a file showing the boundary of the land</a></p>
+        <p><a href="/land/need-boundary-file">I do not have a file showing the boundary of the biodiversity gain site</a></p>
         {{ govukButton({
-          text: "Continue",
+          text: "Save and continue",
           attributes: {
             id: "continue",
             "data-testid": "continue"
