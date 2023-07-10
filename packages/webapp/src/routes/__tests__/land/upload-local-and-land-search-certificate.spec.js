@@ -234,7 +234,5 @@ describe('Local Search upload controller tests', () => {
         }
       })
     })
-      
   })
-
 })
