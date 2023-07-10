@@ -36,7 +36,7 @@ describe(url, () => {
         }
         await legalAgreementDetails.default[0].handler(request, h)
         expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-        expect(contextResult.roles[0].otherPartyName).toEqual('')
+        expect(contextResult.partySelectionData.roles[0].otherPartyName).toEqual('')
       })
     })
   })

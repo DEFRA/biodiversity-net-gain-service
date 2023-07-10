@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
-import { 
-  checkApplicantDetails, 
+import {
+  checkApplicantDetails,
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
@@ -162,7 +162,7 @@ const handlers = {
       inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
     })
     const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-    const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE).toLowerCase()
+    const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)?.toLowerCase()
 
     if (partySelectionData) {
       partySelectionData.roles?.forEach(role => {
