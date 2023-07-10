@@ -9,10 +9,7 @@ describe(url, () => {
       const response = await submitGetRequest({ url })
       expect(response.statusCode).toBe(200)
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it(`should render the ${url.substring(1)} view with undefined other party`, async () => {
       jest.isolateModules(async () => {
         let viewResult, contextResult

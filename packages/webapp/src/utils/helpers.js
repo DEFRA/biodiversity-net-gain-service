@@ -227,27 +227,6 @@ const getLegalAgreementParties = legalAgreementParties => {
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
 
-const getEligibilityResults = session => {
-  const eligibilityResults = {
-    yes: [],
-    no: [],
-    'not sure': []
-  }
-  session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY)].push(constants.redisKeys.ELIGIBILITY_BOUNDARY)
-  session.get(constants.redisKeys.ELIGIBILITY_CONSENT) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_CONSENT)].push(constants.redisKeys.ELIGIBILITY_CONSENT)
-  session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)].push(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)
-  session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)].push(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)
-  session.get(constants.redisKeys.ELIGIBILITY_HMMP) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_HMMP)].push(constants.redisKeys.ELIGIBILITY_HMMP)
-  session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
-  return eligibilityResults
-}
-
 const getDeveloperEligibilityResults = session => {
   const developerEligibilityResults = {
     yes: [],
@@ -409,20 +388,6 @@ const emailValidator = (email, id) => {
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
-const areApplicantDetailsPresent = session => (
-  session.get(constants.redisKeys.FULL_NAME) &&
-  session.get(constants.redisKeys.ROLE_KEY) &&
-  session.get(constants.redisKeys.EMAIL_VALUE)
-)
-
-// Route pre lifecycle method, redirects to Start if applicant details are not present
-const checkApplicantDetails = (request, h) => {
-  if (!areApplicantDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
-  }
-  return h.continue
-}
-
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
@@ -480,7 +445,6 @@ export {
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
-  getEligibilityResults,
   formatAppRef,
   habitatTypeAndConditionMapper,
   combineHabitats,
@@ -494,7 +458,6 @@ export {
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
-  checkApplicantDetails,
   getMaximumFileSizeExceededView,
   getHumanReadableFileSize,
   processDeveloperTask,

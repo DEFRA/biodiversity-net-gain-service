@@ -1,7 +1,6 @@
 import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
-import { submitGetRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
 
@@ -37,19 +36,11 @@ describe(url, () => {
           expect(viewArgs[1].routes).not.toBeUndefined()
           expect(redirectArgs).toEqual('')
 
-          // Do some operator specific data checks
-          expect(viewArgs[1].application.applicant.role).toEqual('Other: test role')
-          expect(viewArgs[1].application.legalAgreementParties[1].role).toEqual('Other: Test role')
-
           done()
         } catch (err) {
           done(err)
         }
       })
-    })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
     })
   })
 
@@ -126,42 +117,6 @@ describe(url, () => {
           await expect(postHandler({ yar: session }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.lastName" is required')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-    it('pre bug fix test, should not fail if applicant is a landowner and no consent has been taken', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = checkAndSubmit[1].handler
-          const session = applicationSession()
-          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.redisKeys.LANDOWNERS, undefined)
-          session.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, undefined)
-
-          const http = require('../../../utils/http.js')
-          http.postJson = jest.fn().mockImplementation(() => {
-            return {
-              applicationReference: 'test-reference'
-            }
-          })
-
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-
-          await postHandler({ yar: session }, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/registration-submitted')
           done()
         } catch (err) {
           done(err)

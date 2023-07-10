@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processRegistrationTask, getNameAndRoles, dateToString, listArray, getLegalAgreementDocumentType, checkApplicantDetails } from '../../utils/helpers.js'
+import { processRegistrationTask, getNameAndRoles, dateToString, listArray, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -36,10 +36,7 @@ const getLegalAgreementFileName = fileLocation => fileLocation ? path.parse(file
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,

@@ -3,29 +3,8 @@ import constants from './constants.js'
 const registerTaskList = {
   taskList: [
     {
-      taskTitle: 'Your details',
-      tasks: [
-        {
-          title: 'Add your details',
-          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_YOUR_DETAILS,
-          startTaskUrl: constants.routes.NAME,
-          inProgressUrl: '',
-          id: 'add-your-details'
-        }
-      ]
-    },
-    {
       taskTitle: 'Land information',
       tasks: [
-        {
-          title: 'Add land boundary details',
-          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-          startTaskUrl: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-          inProgressUrl: '',
-          id: 'add-land-boundary'
-        },
         {
           title: 'Add land ownership details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
@@ -33,6 +12,14 @@ const registerTaskList = {
           startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
           inProgressUrl: '',
           id: 'add-land-ownership'
+        },
+        {
+          title: 'Add biodiversity gain site boundary details',
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          completedTaskUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
+          startTaskUrl: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+          inProgressUrl: '',
+          id: 'add-land-boundary'
         }
       ]
     },
@@ -40,7 +27,7 @@ const registerTaskList = {
       taskTitle: 'Habitat information',
       tasks: [
         {
-          title: 'Upload Biodiversity Metric',
+          title: 'Add habitat baseline, creation and enhancements',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_METRIC_DETAILS,
           startTaskUrl: constants.routes.UPLOAD_METRIC,

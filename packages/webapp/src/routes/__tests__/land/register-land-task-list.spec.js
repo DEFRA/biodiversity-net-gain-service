@@ -15,10 +15,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it('should render view with no completed task', async () => {
       let viewResult, contextResult
       const h = {
@@ -38,31 +35,10 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
-      expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+      expect(contextResult.registrationTasks.taskList.length).toEqual(4)
       expect(contextResult.registrationTasks.taskList[0]).toEqual({
-        taskTitle: 'Your details',
-        tasks: [
-          {
-            title: 'Add your details',
-            status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-your-details',
-            startTaskUrl: '/land/name',
-            inProgressUrl: '',
-            id: 'add-your-details'
-          }
-        ]
-      })
-      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Land information',
         tasks: [
-          {
-            title: 'Add land boundary details',
-            status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/choose-land-boundary-upload',
-            inProgressUrl: '',
-            id: 'add-land-boundary'
-          },
           {
             title: 'Add land ownership details',
             status: 'NOT STARTED',
@@ -70,14 +46,22 @@ describe(url, () => {
             startTaskUrl: '/land/upload-ownership-proof',
             inProgressUrl: '',
             id: 'add-land-ownership'
+          },
+          {
+            title: 'Add biodiversity gain site boundary details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '/land/check-land-boundary-details',
+            startTaskUrl: '/land/choose-land-boundary-upload',
+            inProgressUrl: '',
+            id: 'add-land-boundary'
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[2]).toEqual({
+      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Habitat information',
         tasks: [
           {
-            title: 'Upload Biodiversity Metric',
+            title: 'Add habitat baseline, creation and enhancements',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-details',
             startTaskUrl: '/land/upload-metric',
@@ -94,7 +78,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[3]).toEqual({
+      expect(contextResult.registrationTasks.taskList[2]).toEqual({
         taskTitle: 'Legal information',
         tasks: [
           {
@@ -137,46 +121,33 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
-      expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+      expect(contextResult.registrationTasks.taskList.length).toEqual(4)
       expect(contextResult.registrationTasks.taskList[0]).toEqual({
-        taskTitle: 'Your details',
-        tasks: [
-          {
-            title: 'Add your details',
-            status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-your-details',
-            startTaskUrl: '/land/name',
-            inProgressUrl: '',
-            id: 'add-your-details'
-          }
-        ]
-      })
-      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Land information',
         tasks: [
           {
-            title: 'Add land boundary details',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/choose-land-boundary-upload',
-            inProgressUrl: '',
-            id: 'add-land-boundary'
-          },
-          {
             title: 'Add land ownership details',
-            status: 'NOT STARTED',
+            status: 'COMPLETED',
             completedTaskUrl: '/land/check-ownership-details',
             startTaskUrl: '/land/upload-ownership-proof',
             inProgressUrl: '',
             id: 'add-land-ownership'
+          },
+          {
+            title: 'Add biodiversity gain site boundary details',
+            status: 'NOT STARTED',
+            completedTaskUrl: '/land/check-land-boundary-details',
+            startTaskUrl: '/land/choose-land-boundary-upload',
+            inProgressUrl: '',
+            id: 'add-land-boundary'
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[2]).toEqual({
+      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Habitat information',
         tasks: [
           {
-            title: 'Upload Biodiversity Metric',
+            title: 'Add habitat baseline, creation and enhancements',
             status: 'NOT STARTED',
             completedTaskUrl: '/land/check-metric-details',
             startTaskUrl: '/land/upload-metric',
@@ -193,7 +164,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[3]).toEqual({
+      expect(contextResult.registrationTasks.taskList[2]).toEqual({
         taskTitle: 'Legal information',
         tasks: [
           {

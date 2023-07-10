@@ -96,13 +96,8 @@ const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const METRIC_DATA = 'metric-data'
 const HOME = 'home'
-const NAME = 'land/name'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
-const ROLE = 'land/role'
-const ROLE_KEY = 'role'
-const ROLE_OTHER = 'role-other'
-const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
@@ -131,25 +126,12 @@ const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const REFERER = 'referer'
 const YES = 'yes'
-const EMAIL = 'land/email'
-const CORRECT_EMAIL = 'land/correct-email'
-const CONFIRM_EMAIL = YES
 const EMAIL_VALUE = 'email-value'
 const AWAITING_PROCESSING = 'AwaitingProcessing'
 const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
-const ELIGIBILITY_CHECK_YOU_CAN_REGISTER = 'land/check-you-can-register'
-const ELIGIBILITY_SITE_IN_ENGLAND = 'land/site-in-england'
-const ELIGIBILITY_CANNOT_CONTINUE = 'land/cannot-continue'
-const ELIGIBILITY_CONSENT = 'land/consent'
-const ELIGIBILITY_LEGAL_AGREEMENT = 'land/legal-agreement'
-const ELIGIBILITY_OWNERSHIP_PROOF = 'land/ownership-proof'
-const ELIGIBILITY_BOUNDARY = 'land/boundary'
-const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
-const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
-const ELIGIBILITY_RESULTS = 'land/results'
 const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
 const REGISTRATION_SAVED = 'land/registration-saved'
 const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
@@ -289,9 +271,7 @@ const redisKeys = {
   METRIC_FILE_SIZE,
   METRIC_DATA,
   FULL_NAME,
-  ROLE_KEY,
   NAME_KEY,
-  ROLE_OTHER,
   HABITAT_WORKS_START_DATE_KEY,
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
@@ -310,14 +290,6 @@ const redisKeys = {
   METRIC_UPLOADED_ANSWER,
   REFERER,
   EMAIL_VALUE,
-  CONFIRM_EMAIL,
-  ELIGIBILITY_SITE_IN_ENGLAND,
-  ELIGIBILITY_CONSENT,
-  ELIGIBILITY_LEGAL_AGREEMENT,
-  ELIGIBILITY_OWNERSHIP_PROOF,
-  ELIGIBILITY_BOUNDARY,
-  ELIGIBILITY_BIODIVERSITY_METRIC,
-  ELIGIBILITY_HMMP,
   REGISTRATION_SAVED_REFERER
 }
 
@@ -357,9 +329,6 @@ let routes = {
   CHECK_LAND_BOUNDARY_DETAILS,
   UPLOAD_LAND_OWNERSHIP,
   HOME,
-  NAME,
-  ROLE,
-  CHECK_YOUR_DETAILS,
   REGISTER_LAND_TASK_LIST,
   HABITAT_WORKS_START_DATE,
   MANAGEMENT_MONITORING_START_DATE,
@@ -373,18 +342,6 @@ let routes = {
   NEED_METRIC,
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
-  EMAIL,
-  CORRECT_EMAIL,
-  ELIGIBILITY_CHECK_YOU_CAN_REGISTER,
-  ELIGIBILITY_SITE_IN_ENGLAND,
-  ELIGIBILITY_CANNOT_CONTINUE,
-  ELIGIBILITY_CONSENT,
-  ELIGIBILITY_LEGAL_AGREEMENT,
-  ELIGIBILITY_OWNERSHIP_PROOF,
-  ELIGIBILITY_BOUNDARY,
-  ELIGIBILITY_BIODIVERSITY_METRIC,
-  ELIGIBILITY_HMMP,
-  ELIGIBILITY_RESULTS,
   CONTINUE_SAVED_REGISTRATION,
   REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
@@ -433,25 +390,14 @@ const uploadTypes = {
   LAND_OWNERSHIP_UPLOAD_TYPE
 }
 
-const eligibilityHTML = {
-  [ELIGIBILITY_BOUNDARY]: '<li>the boundary of the land</li>',
-  [ELIGIBILITY_CONSENT]: '<li>consent from the landowner</li>',
-  [ELIGIBILITY_OWNERSHIP_PROOF]: '<li>proof of ownership of the land</li>',
-  [ELIGIBILITY_BIODIVERSITY_METRIC]: '<li>a completed Biodiversity metric (Secretary of State version) for the land</li>',
-  [ELIGIBILITY_HMMP]: '<li>a habitat management and monitoring plan</li>',
-  [ELIGIBILITY_LEGAL_AGREEMENT]: '<li>a legal agreement securing the habitat enhancements for 30 years</li>'
-}
-
 // setReferer contain routes that can be set as a referer for a user
 // to return to from a "check your answers" page
 const setReferer = [
   CHECK_AND_SUBMIT,
-  CHECK_YOUR_DETAILS,
   CHECK_OWNERSHIP_DETAILS,
   CHECK_LEGAL_AGREEMENT_DETAILS,
   CHECK_MANAGEMENT_MONITORING_DETAILS,
   CHECK_LAND_BOUNDARY_DETAILS,
-  CORRECT_EMAIL,
   CHECK_METRIC_DETAILS,
   ...developerConstants.setDeveloperReferer
 ]
@@ -499,7 +445,6 @@ export default Object.freeze({
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
-  eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,

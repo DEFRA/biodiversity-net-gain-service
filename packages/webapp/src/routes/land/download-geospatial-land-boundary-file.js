@@ -2,7 +2,6 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const downloadGeospatialLandBoundaryFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
@@ -18,8 +17,5 @@ const downloadGeospatialLandBoundaryFile = async (request, h) => {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  handler: downloadGeospatialLandBoundaryFile,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: downloadGeospatialLandBoundaryFile
 }

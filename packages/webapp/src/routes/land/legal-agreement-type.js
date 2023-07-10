@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -43,10 +43,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.LEGAL_AGREEMENT_TYPE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.LEGAL_AGREEMENT_TYPE,

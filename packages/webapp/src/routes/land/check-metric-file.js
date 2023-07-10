@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
@@ -8,7 +8,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric'
+      title: 'Add habitat baseline, creation and enhancements'
     }, {
       inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
     })
@@ -24,7 +24,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Upload Biodiversity Metric' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
+      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat baseline, creation and enhancements' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_BASELINE)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
@@ -55,10 +55,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_UPLOAD_METRIC,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_UPLOAD_METRIC,

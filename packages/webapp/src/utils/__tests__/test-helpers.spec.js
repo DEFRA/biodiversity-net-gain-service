@@ -4,7 +4,6 @@ import {
   dateToString,
   hideClass,
   getAllLandowners,
-  getEligibilityResults,
   formatAppRef,
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
@@ -101,45 +100,6 @@ describe('helpers file', () => {
       session.set(constants.redisKeys.ROLE_KEY, 'Other')
       const list = getAllLandowners(session)
       expect(list).toEqual([])
-    })
-  })
-  describe('getEligibilityResults', () => {
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'yes')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(6)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'yes')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(4)
-      expect(results.no.length).toEqual(2)
-      expect(results['not sure'].length).toEqual(0)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'not sure')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'not sure')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(2)
-      expect(results.no.length).toEqual(2)
-      expect(results['not sure'].length).toEqual(2)
     })
   })
 

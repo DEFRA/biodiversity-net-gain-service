@@ -3,7 +3,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -67,7 +67,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric'
+      title: 'Add habitat baseline, creation and enhancements'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_METRIC
@@ -103,10 +103,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_METRIC,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 },
 {
   method: 'POST',
