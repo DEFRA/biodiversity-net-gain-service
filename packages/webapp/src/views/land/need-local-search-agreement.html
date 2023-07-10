@@ -1,0 +1,20 @@
+{% extends 'form-layout.html' %}
+{% set showSaveLink = true %}
+{% set pageHeading = "You need a legal agreement" %}
+
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    <p>You need to upload a local land charge search certificate to show the legal agreement has been registered with the local planning authority.</p>
+    
+
+    <p>Your file can be a DOC, DOCX or PDF. It must not be larger than 50MB.</p>
+        
+    {% include "common/get-help.html" %}
+
+  </div>
+</div>
+{% endblock %}

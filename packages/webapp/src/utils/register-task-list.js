@@ -67,6 +67,14 @@ const registerTaskList = {
           startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
           inProgressUrl: '',
           id: 'add-legal-agreement'
+        },
+        {
+          title: 'Add local and charge search certificate',
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          completedTaskUrl: constants.routes.CHECK_LOCAL_AND_SEARCH_FILE,
+          startTaskUrl: constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE,
+          inProgressUrl: '',
+          id: 'add-local-charge-search-certificate'
         }
       ]
     },
