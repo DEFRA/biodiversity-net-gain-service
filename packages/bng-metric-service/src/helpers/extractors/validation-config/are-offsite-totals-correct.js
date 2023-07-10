@@ -1,6 +1,6 @@
 import configuration from '../extraction-config/configuration.js'
 
-const sheetConfig = configuration['v4.0']
+const sheetConfig = await configuration.getExtractionConfiguration()
 const tolerance = 0.00000001
 
 const checkEqualsWithTolerance = (total, value1, value2) => Math.abs((value1 + value2) - total) < tolerance

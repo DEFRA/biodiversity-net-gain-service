@@ -53,6 +53,7 @@ const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
 const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
 const DEVELOPER_TASK_DETAILS = 'developer-task-details'
 const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
+const DEVELOPER_ROLE_KEY = 'developer-role-key'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -149,7 +150,8 @@ export default {
     DEVELOPER_CONSENT_FILE_TYPE,
     DEVELOPER_CONSENT_ANSWER,
     DEVELOPER_TASK_DETAILS,
-    DEVELOPER_APP_REFERENCE
+    DEVELOPER_APP_REFERENCE,
+    DEVELOPER_ROLE_KEY
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,

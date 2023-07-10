@@ -79,7 +79,8 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
-      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
+      role: (request.yar.get(constants.redisKeys.ROLE_KEY)).toLowerCase()
     })
     return uploadFiles(logger, request, config).then(
       function (result) {

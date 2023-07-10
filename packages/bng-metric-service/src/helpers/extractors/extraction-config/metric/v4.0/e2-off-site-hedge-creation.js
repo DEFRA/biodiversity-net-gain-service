@@ -1,19 +1,24 @@
-const headers = [
-  'Habitat type',
-  'Length (km)',
-  'Condition',
-  'Habitat created in advance (years)',
-  'Delay in starting habitat creation (years)',
-  'Hedge units delivered',
-  'Off-site reference'
-]
+export const headers = {
+  common: [
+    'Habitat type',
+    'Length (km)',
+    'Condition',
+    'Habitat created in advance (years)',
+    'Delay in starting habitat creation (years)',
+    'Hedge units delivered',
+    'Off-site reference'
+  ],
+  developer: [],
+  landowner: [
+    'Strategic significance'
+  ]
+}
 
-const e2OffSiteHedgeCreation = {
+export default {
   sheetName: 'E-2 Off-Site Hedge Creation',
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AD260',
-  cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Hedge units delivered',
@@ -21,5 +26,3 @@ const e2OffSiteHedgeCreation = {
     'Habitat created in advance (years) ': 'Habitat created in advance (years)'
   }
 }
-
-export default e2OffSiteHedgeCreation
