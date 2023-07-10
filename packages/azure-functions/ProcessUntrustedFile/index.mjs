@@ -4,6 +4,8 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { screenDocumentForThreats } from '@defra/bng-document-service'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
+const maximumNumberOfReplayAttempts = process.env.PROCESS_UNTRUSTED_ATTEMPTS || 5
+
 const baseConfig = {
   untrustedBlobStorageConfig: {
     containerName: 'untrusted'
@@ -23,7 +25,7 @@ const baseConfig = {
 }
 
 export default async function (context, message) {
-  context.log('Processing', JSON.stringify(message))
+  context.log(`Processing ${JSON.stringify(message)} - Delivery attempt ${context?.bindingData?.dequeueCount}`)
   const config = buildConfig(message)
   // Blob based triggering of Azure functions can be delayed due to its polling based implementation and event grid based
   // blob triggering of Azure functions is in preview.
@@ -44,6 +46,7 @@ export default async function (context, message) {
         // If screening is disabled this function must upload document to trusted blob and send message to queue
         context.log('File security screening is disabled')
         await uploadDocument(config, documentStream)
+        message.containerName = baseConfig.trustedBlobStorageConfig.containerName
         sendMessage(context, message)
       }
     } else {
@@ -54,7 +57,11 @@ export default async function (context, message) {
     let signalRMessageArguments
     if (err instanceof ThreatScreeningError) {
       signalRMessageArguments = [{ threatScreeningDetails: err.threatScreeningDetails }]
+    } else if (context?.bindingData?.dequeueCount < maximumNumberOfReplayAttempts) {
+      // Replay the message
+      throw err
     } else {
+      // The maximum number of message processing attempts has been reached so send a notification to the client..
       signalRMessageArguments = [{ errorMessage: err.message }]
     }
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]

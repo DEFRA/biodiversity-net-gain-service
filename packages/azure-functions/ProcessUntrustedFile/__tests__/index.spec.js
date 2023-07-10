@@ -14,7 +14,8 @@ const uploadType = 'mock-upload-type'
 
 const message = {
   uploadType,
-  location: `${userId}/${uploadType}/${filename}`
+  location: `${userId}/${uploadType}/${filename}`,
+  containerName: 'untrusted'
 }
 
 const mockDownloadStreamIfExists = async (context, config) => {
@@ -125,18 +126,21 @@ describe('Untrusted file processing', () => {
         const { blobStorageConnector } = require('@defra/bng-connectors-lib')
         const { screenDocumentForThreats } = require('@defra/bng-document-service')
         const mockData = JSON.stringify({ mock: 'data' })
+        const fileQueue = Object.assign(message, {
+          containerName: 'trusted'
+        })
 
         blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
 
         screenDocumentForThreats.mockReturnValue(Readable.from(mockData))
 
-        await processUntrustedFile(getContext(), message)
+        await processUntrustedFile(getContext(), Object.assign({}, message))
 
         setImmediate(async () => {
           await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
           await expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
           await expect(screenDocumentForThreats).not.toHaveBeenCalled()
-          expect(getContext().bindings.trustedFileQueue).toStrictEqual(message)
+          expect(getContext().bindings.trustedFileQueue).toEqual(fileQueue)
           done()
         })
       } catch (e) {

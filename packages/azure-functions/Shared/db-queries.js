@@ -1,4 +1,3 @@
-
 const deleteApplicationSessionsAt28DaysStatement = `
   DELETE FROM
     bng.application_session

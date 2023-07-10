@@ -8,3 +8,4 @@ process.env.SIGNALR_URL='http://localhost:8082/api'
 process.env.MAX_METRIC_UPLOAD_MB=50
 process.env.NODE_ENV='test'
 process.env.MAX_CONSENT_UPLOAD_MB=50
+process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB=1

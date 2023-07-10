@@ -15,7 +15,7 @@ describe('developer-application-validation', () => {
       const session = developerApplicationSession()
       session.set(constants.redisKeys.DEVELOPER_FULL_NAME, undefined)
       const { value, error } = developerApplicationValidation.validate(developerApplication(session))
-      expect(error.message).toEqual('"developerAllocation.applicant.name" is required')
+      expect(error.message).toEqual('"developerAllocation.applicant.lastName" is required')
       expect(value).not.toBeUndefined()
     })
   })

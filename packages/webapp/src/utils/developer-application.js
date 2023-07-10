@@ -2,11 +2,12 @@ import constants from './constants.js'
 import path from 'path'
 
 // Developer Application object schema must match the expected payload format for the Operator application
-const developerApplication = session => {
+export default session => {
   return {
     developerAllocation: {
       applicant: {
-        name: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
+        firstName: null,
+        lastName: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
         emailAddress: session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE),
         role: 'Developer'
       },
@@ -41,5 +42,3 @@ const developerApplication = session => {
     }
   }
 }
-
-export default developerApplication
