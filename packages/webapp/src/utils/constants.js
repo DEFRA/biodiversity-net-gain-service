@@ -103,8 +103,6 @@ const ROLE_KEY = 'role'
 const ROLE_OTHER = 'role-other'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
-const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
-const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const HABITAT_WORKS_MIN_START_DATE = MINIMUM_START_DATE
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
@@ -289,7 +287,6 @@ const redisKeys = {
   ROLE_KEY,
   NAME_KEY,
   ROLE_OTHER,
-  HABITAT_WORKS_START_DATE_KEY,
   REGISTERED_LANDOWNER_ONLY,
   LANDOWNERS,
   LANDOWNER_CONSENT_KEY,
@@ -358,7 +355,6 @@ let routes = {
   ROLE,
   CHECK_YOUR_DETAILS,
   REGISTER_LAND_TASK_LIST,
-  HABITAT_WORKS_START_DATE,
   MANAGEMENT_MONITORING_START_DATE,
   CHECK_MANAGEMENT_MONITORING_DETAILS,
   REGISTERED_LANDOWNER,

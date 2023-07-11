@@ -41,7 +41,6 @@ const application = session => {
         }
       ],
       gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
-      habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
       legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
