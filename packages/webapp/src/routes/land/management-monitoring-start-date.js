@@ -3,7 +3,6 @@ import {
   checkApplicantDetails,
   dateClasses,
   getMinDateCheckError,
-  isDate1LessThanDate2,
   processRegistrationTask,
   validateAndParseISOString,
   validateDate
