@@ -46,7 +46,6 @@ describe('auth plugin', () => {
       __esModule: true,
       default: {
         refresh: jest.fn().mockImplementation(() => {
-          console.log('in mock')
           return true
         })
       }
