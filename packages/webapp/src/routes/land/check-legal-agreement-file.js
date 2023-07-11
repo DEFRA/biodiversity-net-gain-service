@@ -1,10 +1,10 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { 
-  checkApplicantDetails, 
-  getHumanReadableFileSize, 
+import {
+  checkApplicantDetails,
+  getHumanReadableFileSize,
   processRegistrationTask,
-  getLegalAgreementDocumentType 
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 

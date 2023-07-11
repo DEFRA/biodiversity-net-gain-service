@@ -170,7 +170,7 @@ const handlers = {
           role.otherPartyName = ''
         }
       })
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, { 
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
         partySelectionData,
         legalAgreementType: getLegalAgreementDocumentType(documentType)
       })

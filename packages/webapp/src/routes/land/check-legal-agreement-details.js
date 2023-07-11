@@ -1,12 +1,12 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { 
+import {
   processRegistrationTask,
   getNameAndRoles,
   dateToString,
   listArray,
   getLegalAgreementDocumentType,
-  checkApplicantDetails 
+  checkApplicantDetails
 } from '../../utils/helpers.js'
 
 const handlers = {

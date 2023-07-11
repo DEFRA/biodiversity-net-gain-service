@@ -2,9 +2,9 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { 
-  checkApplicantDetails, 
-  getMaximumFileSizeExceededView, 
+import {
+  checkApplicantDetails,
+  getMaximumFileSizeExceededView,
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
@@ -71,7 +71,7 @@ const handlers = {
     })
 
     const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE).toLowerCase()
-    
+
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
       legalAgreementType: getLegalAgreementDocumentType(documentType)
     })
