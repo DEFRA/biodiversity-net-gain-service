@@ -44,7 +44,7 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
   const fileSize = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
-  const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE).toLowerCase()
+  const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)?.toLowerCase()
 
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
