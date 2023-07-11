@@ -8,7 +8,6 @@ describe(url, () => {
   const redisMap = new Map()
   beforeEach(() => {
     redisMap.set(constants.redisKeys.MANAGEMENT_PLAN_LOCATION, mockDataPath)
-    // redisMap.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, '2022-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY, '2023-03-11T00:00:00.000Z')
   })
   describe('GET', () => {
