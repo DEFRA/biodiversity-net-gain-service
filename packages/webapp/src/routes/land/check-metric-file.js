@@ -24,7 +24,12 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      processRegistrationTask(request, { taskTitle: 'Habitat information', title: 'Add habitat baseline, creation and enhancements' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
+      processRegistrationTask(request, {
+        taskTitle: 'Habitat information',
+        title: 'Add habitat baseline, creation and enhancements'
+      }, {
+        status: constants.COMPLETE_REGISTRATION_TASK_STATUS
+      })
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_BASELINE)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
