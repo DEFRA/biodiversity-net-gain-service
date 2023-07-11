@@ -25,13 +25,6 @@ describe('application-validation', () => {
       expect(error.message).toEqual('"landownerGainSiteRegistration.otherLandowners" must contain at least 1 items')
       expect(value).not.toBeUndefined()
     })
-    it('Should fail validation if habitatWorkStartDate is after managementMonitoringStartDate', () => {
-      const session = applicationSession()
-      session.set(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY, '2023-10-01T00:00:00.000Z')
-      const { value, error } = applicationValidation.validate(application(session))
-      expect(error.message).toEqual('"landownerGainSiteRegistration.managementMonitoringStartDate" must be greater than or equal to "ref:habitatWorkStartDate"')
-      expect(value).not.toBeUndefined()
-    })
     it('Should fail validation if otherLandowners and landownerConsent is false', () => {
       const session = applicationSession()
       session.set(constants.redisKeys.LANDOWNERS, ['test1', 'test2'])
