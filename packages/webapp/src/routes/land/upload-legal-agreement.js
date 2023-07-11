@@ -70,10 +70,10 @@ const handlers = {
       inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
     })
 
-    const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)?.toLowerCase()
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-      legalAgreementType: getLegalAgreementDocumentType(documentType)
+      legalAgreementType
     })
   },
   post: async (request, h) => {

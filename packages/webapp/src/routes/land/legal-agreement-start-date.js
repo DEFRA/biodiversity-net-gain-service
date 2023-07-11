@@ -18,14 +18,14 @@ const handlers = {
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_START_DATE
     })
     const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
-    const documentType = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)?.toLowerCase()
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
       day,
       month,
       year,
-      legalAgreementType: getLegalAgreementDocumentType(documentType)
+      legalAgreementType
     })
   },
   post: async (request, h) => {
