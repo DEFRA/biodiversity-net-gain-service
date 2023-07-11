@@ -18,39 +18,29 @@ function processSuccessfulUpload (result, request, h) {
   return h.redirect(resultView)
 }
 
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE, {
+    err: [{
+      text: message,
+      href: localChargeSearchCertificateId
+    }]
+  })
+}
+
 function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE, {
-        err: [{
-          text: 'The selected file is empty',
-          href: localChargeSearchCertificateId
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE, {
-        err: [{
-          text: 'Select a local and search agreement',
-          href: localChargeSearchCertificateId
-        }]
-      })
+      return buildErrorResponse(h, 'Select a local and search agreement')
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE, {
-        err: [{
-          text: 'The selected file must be a DOC, DOCX or PDF',
-          href: localChargeSearchCertificateId
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
+
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
       if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE, {
-          err: [{
-            text: 'The selected file could not be uploaded -- try again',
-            href: localChargeSearchCertificateId
-          }]
-        })
+        return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
       }
       throw err
   }
