@@ -10,6 +10,7 @@ const FILE_DETAILS = 'fileDetails'
 const OCP_APIM_SUBSCRIPTION_KEY = 'ocp-apim-subscription-key'
 
 const requestTimeout = process.env.AV_REQUEST_TIMEOUT_MS || 120000
+const postFix = process.env.AV_COLLECTION_POSTFIX
 
 const screenDocumentForThreats = async (logger, config, stream) => {
   const fileDetails = buildFileDetails(config.fileConfig)
@@ -50,7 +51,7 @@ const buildFileDetails = config => {
 
   return {
     key: fileLocationComponents[0],
-    collection: fileLocationComponents[1],
+    collection: `${fileLocationComponents[1]}${postFix ? '-' + postFix : ''}`,
     extension: fileExtension,
     service: 'bng',
     fileName: path.basename(fileLocationComponents[2], fileExtension),
