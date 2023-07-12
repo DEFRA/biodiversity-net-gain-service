@@ -1,7 +1,6 @@
 import url from 'url'
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
-import { formatAppRef } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -20,9 +19,7 @@ const handlers = {
     request.yar.reset()
 
     // Return gain site reference
-    return h.view(constants.views.REGISTRATION_SAVED, {
-      applicationReference: formatAppRef(applicationReference)
-    })
+    return h.view(constants.views.REGISTRATION_SAVED, { applicationReference })
   }
 }
 
