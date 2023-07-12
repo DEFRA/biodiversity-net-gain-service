@@ -30,9 +30,7 @@ const handlers = {
   }
 }
 
-const getName = account => {
-  return `${account.idTokenClaims.firstName} ${account.idTokenClaims.lastName}`
-}
+const getName = account => `${account.idTokenClaims.firstName} ${account.idTokenClaims.lastName}`
 
 export default [{
   method: 'GET',
