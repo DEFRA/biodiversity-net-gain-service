@@ -9,12 +9,12 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.LANDOWNER_CONSENT
     })
-    const name = request.yar.get(constants.redisKeys.FULL_NAME)
+    const name = getName(request.auth.credentials.account)
     return h.view(constants.views.LANDOWNER_CONSENT, { name })
   },
   post: async (request, h) => {
     const consent = request.payload.landownerConsent
-    const name = request.yar.get(constants.redisKeys.FULL_NAME)
+    const name = getName(request.auth.credentials.account)
     if (!consent) {
       return h.view(constants.views.LANDOWNER_CONSENT, {
         name,
@@ -28,6 +28,10 @@ const handlers = {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_OWNERSHIP_DETAILS)
     }
   }
+}
+
+const getName = account => {
+  return `${account.idTokenClaims.firstName} ${account.idTokenClaims.lastName}`
 }
 
 export default [{
