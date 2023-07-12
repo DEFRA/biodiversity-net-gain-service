@@ -120,7 +120,7 @@ To switch between connection to Microsoft Azure infrstructure and an Azurite con
 | AV_API_BASE_URL | Base URL required for threat screening |
 | AV_API_TOKEN_URL | The URL used to obtain tokens required for threat screening |
 | AV_API_SB_CONNECTION_STRING | Connection string for AV solution service bus |
-| AV_COLLECTION_POSTFIX | environment postfix for multiple test environment support eg tst1, tst2, tst3 |
+| AV_COLLECTION_POSTFIX | environment postfix for multiple test environment support eg tst1, tst2, tst3 (leave blank if not needed, it is not mandatory) |
 | AV_SB_SUBSCRIPTION | trade service bus subscription |
 
 ## Installation
