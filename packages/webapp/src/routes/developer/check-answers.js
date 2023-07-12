@@ -16,7 +16,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar))
+    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }
