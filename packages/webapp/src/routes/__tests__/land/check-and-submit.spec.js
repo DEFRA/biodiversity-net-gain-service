@@ -2,8 +2,15 @@ import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
+import applicant from '../../../__mocks__/applicant.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
+
+const auth = {
+  credentials: {
+    account: applicant
+  }
+}
 
 describe(url, () => {
   describe('GET', () => {
@@ -24,7 +31,7 @@ describe(url, () => {
             }
           }
 
-          await getHandler({ yar: session }, h)
+          await getHandler({ yar: session, auth }, h)
           expect(viewArgs[0]).toEqual(constants.views.CHECK_AND_SUBMIT)
           // Refactoring: could produce a Joi schema to validate returned data
           expect(viewArgs[1].application).not.toBeUndefined()
@@ -38,9 +45,8 @@ describe(url, () => {
           expect(redirectArgs).toEqual('')
 
           // Do some operator specific data checks
-          expect(viewArgs[1].application.applicant.role).toEqual('Other: test role')
-          expect(viewArgs[1].application.legalAgreementParties[1].role).toEqual('Other: Test role')
-
+          expect(viewArgs[1].application.applicant.emailAddress).toEqual('john.smith@test.com')
+          expect(viewArgs[1].application.applicant.contactId).toEqual('1234567890')
           done()
         } catch (err) {
           done(err)
@@ -78,7 +84,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ yar: session }, h)
+          await postHandler({ yar: session, auth }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.REGISTRATION_SUBMITTED])
           done()
@@ -98,7 +104,7 @@ describe(url, () => {
             throw new Error('test error')
           })
 
-          await expect(postHandler({ yar: session })).rejects.toThrow('test error')
+          await expect(postHandler({ yar: session, auth })).rejects.toThrow('test error')
           done()
         } catch (err) {
           done(err)
@@ -110,7 +116,6 @@ describe(url, () => {
         try {
           const session = applicationSession()
           const postHandler = checkAndSubmit[1].handler
-          session.set(constants.redisKeys.FULL_NAME, undefined)
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -123,7 +128,10 @@ describe(url, () => {
             }
           }
 
-          await expect(postHandler({ yar: session }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.lastName" is required')
+          const authCopy = JSON.parse(JSON.stringify(auth))
+          authCopy.credentials.account.idTokenClaims.lastName = ''
+
+          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.lastName" is not allowed to be empty')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()
@@ -159,7 +167,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ yar: session }, h)
+          await postHandler({ yar: session, auth }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual('/registration-submitted')
           done()
