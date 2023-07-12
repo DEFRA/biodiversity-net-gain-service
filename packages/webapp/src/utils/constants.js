@@ -132,9 +132,6 @@ const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
-const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
-const REGISTRATION_SAVED = 'land/registration-saved'
-const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
@@ -289,8 +286,7 @@ const redisKeys = {
   LAND_OWNERSHIP_KEY,
   METRIC_UPLOADED_ANSWER,
   REFERER,
-  EMAIL_VALUE,
-  REGISTRATION_SAVED_REFERER
+  EMAIL_VALUE
 }
 
 let routes = {
@@ -342,8 +338,6 @@ let routes = {
   NEED_METRIC,
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
-  CONTINUE_SAVED_REGISTRATION,
-  REGISTRATION_SAVED,
   CHECK_HABITAT_BASELINE,
   CHECK_HABITAT_CREATED,
   CHECK_METRIC_DETAILS,
