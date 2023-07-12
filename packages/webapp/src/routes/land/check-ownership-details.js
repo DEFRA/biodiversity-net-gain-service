@@ -1,7 +1,7 @@
 // THIS is just a placeholder route the ticket hasn't come in to sprint yet so is subject to change.
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { boolToYesNo, listArray, processRegistrationTask, getAllLandowners, checkApplicantDetails } from '../../utils/helpers.js'
+import { boolToYesNo, listArray, processRegistrationTask, getAllLandowners } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -29,10 +29,7 @@ function getOwnershipFileName (fileLocation) {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_OWNERSHIP_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_OWNERSHIP_DETAILS,

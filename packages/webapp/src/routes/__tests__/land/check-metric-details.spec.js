@@ -9,10 +9,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it(`should render the ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       const getHandler = checkMetricDetails[0].handler
@@ -40,7 +37,7 @@ describe(url, () => {
       }
       await postHandler({ yar: session }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-      expect(session.get(constants.redisKeys.REGISTRATION_TASK_DETAILS).taskList[2].tasks[0].status).toBe('COMPLETED')
+      expect(session.get(constants.redisKeys.REGISTRATION_TASK_DETAILS).taskList[1].tasks[0].status).toBe('COMPLETED')
     })
   })
 })

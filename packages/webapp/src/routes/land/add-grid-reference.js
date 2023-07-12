@@ -1,13 +1,13 @@
 import ngrToBng from '@defra/ngr-to-bng'
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Land information',
-      title: 'Add land boundary details'
+      title: 'Add biodiversity gain site boundary details'
     }, {
       inProgressUrl: constants.routes.ADD_GRID_REFERENCE
     })
@@ -64,10 +64,7 @@ const convertGridReferenceToPoint = gridReference => ngrToBng(gridReference)
 export default [{
   method: 'GET',
   path: constants.routes.ADD_GRID_REFERENCE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.ADD_GRID_REFERENCE,

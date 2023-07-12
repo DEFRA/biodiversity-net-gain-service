@@ -7,10 +7,6 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
   })
   describe('POST', () => {
     it('should flow to register task list', done => {
@@ -32,8 +28,8 @@ describe(url, () => {
           }
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toBe(constants.routes.REGISTER_LAND_TASK_LIST)
-          expect(request.yar.get('registrationTaskDetails').taskList.length).toBe(5)
-          expect(request.yar.get('registrationTaskDetails').taskList[1].tasks[0].status).toBe('COMPLETED')
+          expect(request.yar.get('registrationTaskDetails').taskList.length).toBe(4)
+          expect(request.yar.get('registrationTaskDetails').taskList[0].tasks[1].status).toBe('COMPLETED')
           done()
         } catch (err) {
           done(err)

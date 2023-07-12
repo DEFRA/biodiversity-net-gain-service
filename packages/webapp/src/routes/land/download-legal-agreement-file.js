@@ -2,7 +2,6 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const downloadLegalAgreementFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
@@ -18,8 +17,5 @@ const downloadLegalAgreementFile = async (request, h) => {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_LEGAL_AGREEMENT,
-  handler: downloadLegalAgreementFile,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: downloadLegalAgreementFile
 }

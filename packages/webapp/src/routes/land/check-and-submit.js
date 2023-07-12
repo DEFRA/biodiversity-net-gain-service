@@ -9,8 +9,7 @@ import {
   hideClass,
   getAllLandowners,
   getLegalAgreementDocumentType,
-  getNameAndRoles,
-  checkApplicantDetails
+  getNameAndRoles
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
@@ -52,10 +51,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_AND_SUBMIT,

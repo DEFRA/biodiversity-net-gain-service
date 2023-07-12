@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getFormattedDate, checkApplicantDetails } from '../../utils/helpers.js'
+import { processRegistrationTask, getFormattedDate } from '../../utils/helpers.js'
 import path from 'path'
 
 const handlers = {
@@ -39,10 +39,7 @@ function getManagementFileName (request) {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,

@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (_request, h) => h.view(constants.views.REGISTERED_LANDOWNER),
@@ -26,10 +25,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.REGISTERED_LANDOWNER,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.REGISTERED_LANDOWNER,

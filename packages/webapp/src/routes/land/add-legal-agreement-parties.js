@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 function processEmptyPartySelection (partySelectionData, index, combinedError, startId) {
   const errorConstruct = {
@@ -192,10 +192,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES,

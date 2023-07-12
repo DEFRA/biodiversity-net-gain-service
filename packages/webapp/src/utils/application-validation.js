@@ -6,7 +6,6 @@ const applicationValidation = Joi.object({
     applicant: Joi.object({
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
-      role: Joi.string().required(),
       emailAddress: Joi.string().email().required(),
       contactId: Joi.string().required()
     }),

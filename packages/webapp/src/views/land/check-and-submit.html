@@ -12,65 +12,6 @@
         <h1 class="govuk-heading-xl">
           {{ pageHeading }}
         </h1>
-        <!-- Your details -->
-        <h2 class="govuk-heading-l">Your details</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Full name"
-              },
-              value: {
-                html: "<span data-testid=\"applicant-full-name-value\">" + application.applicant.lastName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.NAME,
-                    text: "Change",
-                    visuallyHiddenText: " full name"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Role"
-              },
-              value: {
-                html: "<span data-testid=\"applicant-role-value\">" + application.applicant.role + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.ROLE,
-                    text: "Change",
-                    visuallyHiddenText: " role"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Email address"
-              },
-              value: {
-                html: "<span data-testid=\"applicant-emailaddress-value\">" + application.applicant.emailaddress + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.EMAIL,
-                    text: "Change",
-                    visuallyHiddenText: " emailAddress"
-                  }
-                ]
-              }
-            }
-            ]
-          }) }}
-
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
         {{ govukSummaryList({

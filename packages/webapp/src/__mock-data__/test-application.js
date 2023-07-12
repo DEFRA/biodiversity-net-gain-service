@@ -3,29 +3,8 @@ const dataString = `
   "registrationTaskDetails": {
     "taskList": [
       {
-        "taskTitle": "Your details",
-        "tasks": [
-          {
-            "title": "Add your details",
-            "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-your-details",
-            "startTaskUrl": "/land/name",
-            "inProgressUrl": "/land/name",
-            "id": "add-your-details"
-          }
-        ]
-      },
-      {
         "taskTitle": "Land information",
         "tasks": [
-          {
-            "title": "Add land boundary details",
-            "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-land-boundary-details",
-            "startTaskUrl": "/land/choose-land-boundary-upload",
-            "inProgressUrl": "/land/add-grid-reference",
-            "id": "add-land-boundary"
-          },
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
@@ -33,6 +12,14 @@ const dataString = `
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"
+          },
+          {
+            "title": "Add biodiversity gain site boundary details",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/check-land-boundary-details",
+            "startTaskUrl": "/land/choose-land-boundary-upload",
+            "inProgressUrl": "/land/add-grid-reference",
+            "id": "add-land-boundary"
           }
         ]
       },
@@ -40,7 +27,7 @@ const dataString = `
         "taskTitle": "Habitat information",
         "tasks": [
           {
-            "title": "Upload Biodiversity Metric",
+            "title": "Add habitat baseline, creation and enhancements",
             "status": "COMPLETED",
             "completedTaskUrl": "/land/check-metric-details",
             "startTaskUrl": "/land/upload-metric",
@@ -86,8 +73,6 @@ const dataString = `
     ]
   },
   "fullname": "Test Name",
-  "role": "Ecologist",
-  "role-other": "",
   "email-value": "test@test.com",
   "yes": "yes",
   "land-boundary": "documentOrImage",

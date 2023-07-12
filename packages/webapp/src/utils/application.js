@@ -10,7 +10,6 @@ const application = (session, account) => {
       applicant: {
         firstName: account.idTokenClaims.firstName,
         lastName: account.idTokenClaims.lastName,
-        role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
         emailAddress: account.idTokenClaims.email,
         contactId: account.idTokenClaims.contactId
       },
