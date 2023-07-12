@@ -1,6 +1,7 @@
 import fs from 'fs'
 import BngMetricSingleDataExtractor from '../bng-metric-single-data-extractor.js'
 import bngMetricService from '../../../service.js'
+import areOffsiteTotalsCorrect from '../validation-config/are-offsite-totals-correct.js'
 
 const options = {
   extractionConfiguration: {
@@ -142,6 +143,25 @@ describe('BNG data extractor test', () => {
     expect(response.validation.areOffsiteTotalsCorrect).toBe(true)
   })
 
+  it('Offsite totals check should handle floating point rounding errors', async () => {
+    const mockWorkbookData = {
+      Sheets: {
+        'D-1 Off-Site Habitat Baseline': { H259: { v: 5.699999999999999 } },
+        'D-2 Off-Site Habitat Creation': { G257: { v: 4.4 } },
+        'D-3 Off-Site Habitat Enhancment': { V259: { v: 1.3 } },
+        'E-1 Off-Site Hedge Baseline': { E258: { v: 5.700000000000001 } },
+        'E-2 Off-Site Hedge Creation': { E260: { v: 4.4 } },
+        'E-3 Off-Site Hedge Enhancement': { P258: { v: 1.3 } },
+        'F-1 Off-Site WaterC\' Baseline': { E258: { v: 0.0 } },
+        'F-2 Off-Site WaterC\' Creation': { D260: { v: 0.0 } },
+        'F-3 Off-Site WaterC Enhancement': { Q258: { v: 0.0 } }
+      }
+    }
+
+    const response = areOffsiteTotalsCorrect(mockWorkbookData)
+    expect(response).toBe(true)
+  })
+
   it('Should return nothing if no config', async () => {
     const readableStreamv3 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0-empty.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
@@ -209,5 +229,11 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
     expect(Object.keys(response.test[0]).length).toEqual(1)
     expect(response.test[0].Condition).toBe(undefined)
+  })
+
+  it('Should reject if not a valid metric spreadsheet', async () => {
+    const readableStreamv3 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/macro-enabled-test.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    await expect(bngMetricDataExtractor.extractContent(readableStreamv3, {})).rejects.toEqual(new Error('Workbook is not a valid metric'))
   })
 })

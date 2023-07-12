@@ -77,6 +77,7 @@ export DEFRA_ID_DOMAIN=""
 export DEFRA_ID_CLIENT_SECRET=""
 export DEFRA_ID_CLIENT_ID=""
 export DEFRA_ID_REDIRECT_URI=""
+export MAX_GEOSPATIAL_FILE_UPLOAD_MB="1"
 ```
 
 See [Github actions workflow document](../.github/workflows/build.yaml) for build and CI details

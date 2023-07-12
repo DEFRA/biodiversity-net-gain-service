@@ -23,6 +23,8 @@ describe('Metric file upload controller tests', () => {
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
+          d1: [{ 'Off-site reference': 'AZ12208461' }],
+          e1: [],
           validation: {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
@@ -43,12 +45,32 @@ describe('Metric file upload controller tests', () => {
       await clearQueues()
     })
 
+    it('should display error if off-site reference is not matching', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.hasError = true
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -63,7 +85,9 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.sessionData = {}
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()

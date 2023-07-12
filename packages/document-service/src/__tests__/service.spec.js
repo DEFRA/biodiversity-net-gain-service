@@ -36,6 +36,7 @@ describe('The document service', () => {
         status
       }
 
+      axios.create.mockImplementation(config => axios)
       axios.request
         .mockRejectedValue(mockError)
 
@@ -76,6 +77,7 @@ describe('The document service', () => {
 
     it('should make REST API calls when performing successful document security screening', done => {
       jest.isolateModules(async () => {
+        axios.create.mockImplementation(config => axios)
         axios.request
           .mockReturnValueOnce(putMockReturnValue)
 
@@ -104,6 +106,7 @@ describe('The document service', () => {
     it('should throw an error when document screening fails 2', async () => {
       const axios = require('axios')
       const error = new Error('unit test error')
+      axios.create.mockImplementation(config => axios)
       axios.request.mockImplementation(() => {
         throw error
       })

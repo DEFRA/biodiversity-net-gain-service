@@ -18,6 +18,9 @@
               classes: "govuk-label--l",
               isPageHeading: true
             },
+            hint: {
+              html: "<div class='govuk-hint'>For example, 12.05</div>"
+            },
             suffix: {
               text: "ha"
             },
@@ -27,7 +30,7 @@
           }) }}
 
           {{ govukButton({
-            text: "Continue",
+            text: "Save and continue",
             attributes: {
               id: "continue",
               "data-testid": "continue"

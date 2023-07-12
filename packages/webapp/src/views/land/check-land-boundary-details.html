@@ -2,7 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Check the land boundary details" %}
+{% set pageHeading = "Check the biodiversity gain site land boundary details" %}
 
 {% block formContent %}
     <div class="govuk-body">
@@ -23,7 +23,7 @@
                         rows: [
                           {
                             key: {
-                                text: 'Land boundary file type'
+                                text: 'File type'
                             },
                             value: {
                                 html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
@@ -43,7 +43,7 @@
                           },
                             {
                               key: {
-                                  text: 'Land boundary file uploaded'
+                                  text: 'File uploaded'
                               },
                               value: {
                                   html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
@@ -63,34 +63,34 @@
                             },
                             {
                               key: {
-                                text: "Land boundary on a map"
+                                text: "Boundary on a map"
                               },
                               classes: hideClass(documentOrImage) + ' defra-js-show hidden',
                               value: {
                                 html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
                               }
                             },
-                              {
-                                key: {
-                                    text: 'Grid reference'
-                                },
-                                value: {
-                                    html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
-                                },
-                                actions: {
-                                    items: [
-                                        {
-                                            href: '/land/add-grid-reference',
-                                            text: 'Change',
-                                            visuallyHiddenText: ' grid reference',
-                                            classes: hideClass(geospatial),
-                                            attributes: {
-                                                id: "add-grid-reference"
-                                            }
+                            {
+                            key: {
+                                text: 'Grid reference'
+                            },
+                            value: {
+                                html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
+                            },
+                            actions: {
+                                items: [
+                                    {
+                                        href: '/land/add-grid-reference',
+                                        text: 'Change',
+                                        visuallyHiddenText: ' grid reference',
+                                        classes: hideClass(geospatial),
+                                        attributes: {
+                                            id: "add-grid-reference"
                                         }
-                                    ]
-                                }
-                              },
+                                    }
+                                ]
+                            }
+                            },
                             {
                               key: {
                                   text: 'Area in hectares'
@@ -116,7 +116,7 @@
                     }) }}
                 <form method="post">
                     {{ govukButton({
-                        text: "Continue",
+                        text: "Save and continue",
                         attributes: {
                             id: "continue",
                             "data-testid": "continue"
