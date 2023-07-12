@@ -3,9 +3,11 @@ import Joi from 'joi'
 const developerApplicationValidation = Joi.object({
   developerAllocation: Joi.object({
     applicant: Joi.object({
-      name: Joi.string().required(),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
       emailAddress: Joi.string().required(),
-      role: Joi.string().valid('Developer').required()
+      role: Joi.string().valid('Developer').required(),
+      contactId: Joi.string().required()
     }),
     developmentDetails: Joi.object({
       projectName: Joi.string().required(),

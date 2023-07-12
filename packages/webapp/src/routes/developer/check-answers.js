@@ -34,7 +34,7 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
   }))
 
 const getContext = request => {
-  const applicationData = developerApplication(request.yar)
+  const applicationData = developerApplication(request.yar, request.auth.credentials.account)
   const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
 
   const developmentDetails = applicationData.developerAllocation.developmentDetails

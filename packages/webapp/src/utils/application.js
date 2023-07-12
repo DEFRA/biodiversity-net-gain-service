@@ -4,14 +4,15 @@ import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
 
-const application = session => {
+const application = (session, account) => {
   return {
     landownerGainSiteRegistration: {
       applicant: {
-        firstName: null,
-        lastName: session.get(constants.redisKeys.FULL_NAME),
+        firstName: account.idTokenClaims.firstName,
+        lastName: account.idTokenClaims.lastName,
         role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
-        emailaddress: session.get(constants.redisKeys.EMAIL_VALUE)
+        emailAddress: account.idTokenClaims.email,
+        contactId: account.idTokenClaims.contactId
       },
       files: [
         {
