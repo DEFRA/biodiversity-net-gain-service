@@ -8,3 +8,11 @@ process.env.SIGNALR_URL='http://localhost:8082/api'
 process.env.MAX_METRIC_UPLOAD_MB=50
 process.env.NODE_ENV='test'
 process.env.MAX_CONSENT_UPLOAD_MB=50
+process.env.DEFRA_ID_SESSION_COOKIE_PASSWORD || 'the-password-must-be-at-least-32-characters-long',
+process.env.DEFRA_ID_POLICY_ID = 'policyId'
+process.env.DEFRA_ID_SERVICE_ID = 'serviceId'
+process.env.DEFRA_ID_INSTANCE = 'http://instance'
+process.env.DEFRA_ID_DOMAIN = 'domain'
+process.env.DEFRA_ID_CLIENT_SECRET = 'clientSecret'
+process.env.DEFRA_ID_CLIENT_ID = 'clientId'
+process.env.DEFRA_ID_REDIRECT_URI = 'redirectUrl'

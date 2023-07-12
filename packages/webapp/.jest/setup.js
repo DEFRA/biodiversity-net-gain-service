@@ -1,5 +1,34 @@
 import { createServer, init } from '../src/server.js'
 import serverOptions from '../src/__mocks__/server-options.js'
+// Mock out msal authentication client
+jest.mock('@azure/msal-node', () => {
+  return {
+    ConfidentialClientApplication: jest.fn().mockImplementation(() => {
+      return {
+        getAuthCodeUrl: () => {
+          return 'signin-url'
+        },
+        acquireTokenSilent: () => {
+          return ''
+        },
+        acquireTokenByCode: () => {
+          return {
+            token: 'test'
+          }
+        },
+        getTokenCache: () => {
+          return {
+            removeAccount: () => {}
+          }
+        }
+      }
+    }),
+    LogLevel: {
+      Error: 'Error',
+      Info: 'Info'
+    }
+  }
+})
 
 const ORIGINAL_ENV = process.env
 let server, context

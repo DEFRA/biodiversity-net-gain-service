@@ -11,7 +11,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.EMAIL
     })
-    const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE)
+    const emailAddress = request.yar.get(constants.redisKeys.EMAIL_VALUE) || request.auth.credentials.account.idTokenClaims.email
     return h.view(constants.views.EMAIL, {
       emailAddress
     })

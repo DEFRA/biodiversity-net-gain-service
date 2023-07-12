@@ -4,13 +4,23 @@ const url = constants.routes.NAME
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({
+    it(`should render the ${url.substring(1)} view and use name from session is set`, async () => {
+      const response = await submitGetRequest({
         headers: {
           referer: constants.routes.CHECK_YOUR_DETAILS
         },
         url
       })
+      expect(response.payload).toContain('<input class="govuk-input" id="fullName" name="fullName" type="text" spellcheck="false" value="Test Name" autocomplete="name">')
+    })
+    it(`should render the ${url.substring(1)} view and use name from account details if no session`, async () => {
+      const response = await submitGetRequest({
+        headers: {
+          referer: constants.routes.CHECK_YOUR_DETAILS
+        },
+        url
+      }, 200, {})
+      expect(response.payload).toContain('<input class="govuk-input" id="fullName" name="fullName" type="text" spellcheck="false" value="John Smith" autocomplete="name">')
     })
   })
   describe('POST', () => {

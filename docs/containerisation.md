@@ -68,6 +68,15 @@ export ORDNANCE_SURVEY_API_SECRET=""
 export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB="50"
 # Change to http://azure_services:7071/api if the application to register web application is running in a container.
 export SIGNALR_URL="http://azure_services:8082/api"
+export SERVICE_HOME_URL="http://localhost:3000"
+export DEFRA_ID_SESSION_COOKIE_PASSWORD=""
+export DEFRA_ID_POLICY_ID=""
+export DEFRA_ID_SERVICE_ID=""
+export DEFRA_ID_INSTANCE=""
+export DEFRA_ID_DOMAIN=""
+export DEFRA_ID_CLIENT_SECRET=""
+export DEFRA_ID_CLIENT_ID=""
+export DEFRA_ID_REDIRECT_URI=""
 ```
 
 See [Github actions workflow document](../.github/workflows/build.yaml) for build and CI details
