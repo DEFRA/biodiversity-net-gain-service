@@ -42,6 +42,7 @@
 					"--runInBand",
           "--testTimeout",
           "999999",
+          "--silent=false",
           "--config",
           "${workspaceFolder}/package.json",
           "${fileBasenameNoExtension}"
