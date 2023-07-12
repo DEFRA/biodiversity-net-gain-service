@@ -2,7 +2,7 @@ describe('Constants', () => {
   beforeEach(() => {
     jest.resetModules()
   })
-  it('Should load test routes if NODE_ENV is set to development', () => {
+  it('Should load test routes if NODE_ENV is set to test', () => {
     const NODE_ENV = process.env.NODE_ENV
     process.env.NODE_ENV = 'test'
     const constants = require('../constants')

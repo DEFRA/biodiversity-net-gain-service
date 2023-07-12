@@ -4,9 +4,10 @@ import constants from './constants.js'
 const applicationValidation = Joi.object({
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
-      firstName: Joi.string().allow('', null),
+      firstName: Joi.string().required(),
       lastName: Joi.string().required(),
-      emailaddress: Joi.string().email().required()
+      emailAddress: Joi.string().email().required(),
+      contactId: Joi.string().required()
     }),
     files: Joi.array().items(
       Joi.object({
