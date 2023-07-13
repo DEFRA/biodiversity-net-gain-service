@@ -17,34 +17,22 @@
                         {{ pageHeading }}
                     </h1>
                     <form method="post">
-                        {% if selectionCount == undefined %}
-                            {% set  selectionCount = 1 %}
-                        {% endif %}
-                        {% for i in range(0, partySelectionData.selectionCount) %}
                             {% set  organisationValue = '' %}
                             {% set  roleRowIndex = 0 %}
                             {% set  orgErrorMessage = '' %}
                             {% set  roleErrorMessage = '' %}
-                            {% for org in partySelectionData.organisations %}
-                                {% if org.index == i %}
-                                    {% set  organisationValue = org.value %}
-                                {% endif %}
-                            {% endfor %}
-                            {% for role in partySelectionData.roles %}
-                                {% if role.organisationIndex == i %}
-                                    {% set  roleRowIndex = role %}
-                                {% endif %}
-                            {% endfor %}
-                            {% for orgError in organisationError %}
-                                {% if orgError.index == i %}
-                                    {% set  orgErrorMessage = orgError %}
-                                {% endif %}
-                            {% endfor %}
-                            {% for roleErr in roleError %}
+                            {% set  organisationValue = organisation.value %}
+                            {# {% for role in roles %}
+                                {% set  roleRowIndex = role %}
+                            {% endfor %} #}
+                            {# {% for orgError in organisationError %}
+                                {% set  orgErrorMessage = orgError %}
+                            {% endfor %} #}
+                            {# {% for roleErr in roleError %}
                                 {% if roleErr.index == i %}
                                     {% set  roleErrorMessage = roleErr %}
                                 {% endif %}
-                            {% endfor %}
+                            {% endfor %} #}
                             {% call govukFieldset({
                                 classes: "moj-add-another__item",
                                 legend: {
@@ -54,21 +42,21 @@
                                 }
                             }) %}
                                 {{ govukInput({
-                                    id: "organisation[" + i + "][organisationName]",
-                                    name: "organisation[" + i + "][organisationName]",
+                                    id: "organisation[organisationName]",
+                                    name: "organisation[organisationName]",
                                     value: organisationValue,
                                     label: {
                                         text: "Full name or organisation"
                                     },
                                     errorMessage: orgErrorMessage,
                                     attributes: {
-                                        "data-name": "organisation[%index%][organisationName]",
-                                        "data-id": "organisation[%index%][organisationName]",
-                                        "aria-describedby": "organisation[" + i + "][organisationName]"
+                                        "data-name": "organisation[organisationName]",
+                                        "data-id": "organisation[organisationName]",
+                                        "aria-describedby": "organisation[organisationName]"
                                     }
                                 }) }}
                                 {{ govukRadios({
-                                    name: "organisation[" + i + "][role]",
+                                    name: "organisation[role]",
                                     fieldset: {
                                         legend: {
                                             text: "Role",
@@ -76,7 +64,7 @@
                                         }
                                     },
                                     attributes: {
-                                        id: "organisation[" + i + "][role]"
+                                        id: "organisation[role]"
                                     },
                                     hint: {
                                         html: "<div class='govuk-hint'>Select one option.</div>"
@@ -84,60 +72,60 @@
                                     errorMessage: roleErrorMessage,
                                     items: [
                                         {
-                                            id: "countryCouncil[" + i + "][role]",
-                                            name: "organisation[" + i + "][role]",
-                                            value: "County Council",
-                                            text: "County Council",
-                                            checked: roleRowIndex.county_council,
+                                            id: "localAuthority[role]",
+                                            name: "organisation[role]",
+                                            value: "Local authority",
+                                            text: "Local authority",
+                                            checked: roleRowIndex.local_authority,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "organisation[%index%][role]",
-                                                "data-id": "organisation[%index%][role]",
-                                                "aria-describedby": "countyCouncil[" + i + "][role]"
+                                                "data-name": "organisationError[role]",
+                                                "data-id": "organisation[role]",
+                                                "aria-describedby": "countyCouncil[role]"
                                             }
                                         },
                                         {
-                                            id: "developer[" + i + "][role]",
-                                            name: "organisation[" + i + "][role]",
+                                            id: "developer[role]",
+                                            name: "organisation[role]",
                                             value: "Developer",
                                             text: "Developer",
                                             checked: roleRowIndex.developer,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "organisation[%index%][role]",
-                                                "data-id": "organisation[%index%][role]",
-                                                "aria-describedby": "developer[" + i + "][role]"
+                                                "data-name": "organisation[role]",
+                                                "data-id": "organisation[role]",
+                                                "aria-describedby": "developer[role]"
                                             }
                                         },
                                         {
-                                            id: "landOwner[" + i + "][role]",
-                                            name: "organisation[" + i + "][role]",
+                                            id: "landOwner[role]",
+                                            name: "organisation[role]",
                                             value: "Landowner",
                                             text: "Landowner",
                                             checked: roleRowIndex.landowner,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "organisation[%index%][role]",
-                                                "data-id": "organisation[%index%][role]",
-                                                "aria-describedby": "landowner[" + i + "][role]"
+                                                "data-name": "organisation[role]",
+                                                "data-id": "organisation[role]",
+                                                "aria-describedby": "landowner[role]"
                                             }
                                         },
                                         {
-                                            id: "responsibleBody[" + i + "][role]",
-                                            name: "organisation[" + i + "][role]",
+                                            id: "responsibleBody[role]",
+                                            name: "organisation[role]",
                                             value: "Responsible body",
                                             text: "Responsible body",
                                             checked: roleRowIndex.responsible_body,
                                             classes: "govuk-input--width-2",
                                             attributes: {
-                                                "data-name": "organisation[%index%][role]",
-                                                "data-id": "organisation[%index%][role]",
-                                                "aria-describedby": "responsible[" + i + "][role]"
+                                                "data-name": "organisation[role]",
+                                                "data-id": "organisation[role]",
+                                                "aria-describedby": "responsible[role]"
                                             }
                                         },
                                         {
-                                            id: "other[" + i + "][role]",
-                                            name: "organisation[" + i + "][role]",
+                                            id: "other[role]",
+                                            name: "organisation[role]",
                                             value: "Other",
                                             text: "Other",
                                             checked: roleRowIndex.other,
@@ -153,35 +141,14 @@
                                                     </div>'
                                             },
                                             attributes: {
-                                                "data-name": "organisation[%index%][role]",
-                                                "data-id": "other[%index%][role]",
-                                                "aria-describedby": "organisation[" + i + "][role]"
+                                                "data-name": "organisation[role]",
+                                                "data-id": "other[role]",
+                                                "aria-describedby": "organisation[role]"
                                             }
                                         }
                                     ]
                                 }) }}
-                                {% if partySelectionData.selectionCount > 1 %}
-                                    <div class="moj-button-action">
-                                        {{ govukButton({
-                                            text: "Remove",
-                                            classes: "govuk-button govuk-button--secondary moj-add-another__remove-button",
-                                            attributes: {
-                                                id: "remove" + i
-                                            }
-                                        }) }}
-                                    </div>
-                                {% endif %}
                             {% endcall %}
-                        {% endfor %}
-                        <div class="moj-button-action">
-                            {{ govukButton({
-                                text: "Add another",
-                                classes: "govuk-button--secondary moj-add-another__add-button govuk-!-margin-bottom-4",
-                                attributes: {
-                                    id: "addOtherOrganisation"
-                                }
-                            }) }}
-                        </div>
 
                         <div class="moj-button-action">
                             {{ govukButton({
