@@ -2,10 +2,11 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const localChargeSearchCertificateId = '#localChargeSearchCertificate'
-
+const maxFileSize = (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
@@ -37,7 +38,7 @@ function processErrorUpload (err, h) {
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
 
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
+      return maximumFileSizeExceeded(h, localChargeSearchCertificateId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
@@ -96,32 +97,6 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE,
   handler: handlers.post,
-  options: {
-    payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
-      multipart: true,
-      timeout: false,
-      output: 'stream',
-      parse: false,
-      allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
-        if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h).takeover()
-        } else {
-          throw err
-        }
-      }
-    }
-  }
+  options: generatePayloadOptions(maxFileSize, localChargeSearchCertificateId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE)
 }
 ]
-
-const maximumFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: localChargeSearchCertificateId,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE
-  })
-}
