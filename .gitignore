@@ -132,3 +132,7 @@ bin/jest-database-version-control-env.sh
 
 packages/database-version-control/src/migrations/2023.02.21T10.42.51.populate-nation-boundary-table.sql
 packages/database-version-control/src/data-migrations/2023.02.21T10.42.51.populate-nation-boundary-27700-table.sql
+packages/webapp/.history/src/views/land/legal-party-list_20230713131156.html
+
+# Local History files used by Local History vscode extension
+*.history

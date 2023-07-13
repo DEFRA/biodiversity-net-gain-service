@@ -7,6 +7,7 @@ const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
+const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
@@ -325,6 +326,7 @@ let routes = {
   ERROR,
   CHECK_LEGAL_AGREEMENT,
   ADD_LEGAL_AGREEMENT_PARTIES,
+  LEGAL_PARTY_LIST,
   LEGAL_AGREEMENT_START_DATE,
   LEGAL_AGREEMENT_TYPE,
   CHECK_MANAGEMENT_PLAN,
