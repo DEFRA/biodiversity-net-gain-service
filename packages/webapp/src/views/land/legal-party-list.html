@@ -1,0 +1,87 @@
+{% extends 'form-layout.html' %}
+
+{% set noOfLegalParites = partySelectionData.organisations.length %}
+
+{% if noOfLegalParites > 1 %}
+    {% set pageHeading = "You have added " + noOfLegalParites + " legal parties" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLegalParites + " legal party" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+
+            {{ govukSummaryList({
+                rows: [
+                            {
+                                key: {
+                                    text: partySelectionData.organisations[0]['organisation[organisationName]'] + " (" + partySelectionData.organisations[0]['organisation[role]'] + ")",
+                                    classes: "app-summary-list__key--narrow"
+                                },
+                                actions: {
+                                    items: [
+                                        {
+                                            href: routes.ADD_LEGAL_AGREEMENT_PARTIES,
+                                            text: "Change"
+                                        },
+                                        {
+                                            href: routes.ADD_LEGAL_AGREEMENT_PARTIES,
+                                            text: "Remove"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                }) 
+            }}
+
+            {{ govukRadios({
+                idPrefix: "addAnotherLegalParty",
+                name: "addAnotherLegalParty",
+                id: id,
+                fieldset: {
+                    legend: {
+                        text: "Do you need to add another legal party?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must tell us about all parties listed on the " + legalAgreementType + ".",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "add-another-party-yes",
+                        checked: partySelectionData.addAnotherLegalParty === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No",
+                        id: "add-another-party-no",
+                        checked: partySelectionData.addAnotherLegalParty === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
