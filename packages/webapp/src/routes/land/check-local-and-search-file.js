@@ -24,10 +24,17 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE)
     } else if (checkLocalandSearch === 'yes') {
       request.yar.set(constants.redisKeys.LOCAL_AND_SEARCH_FILE_OPTION, 'yes')
-      processRegistrationTask(request, { taskTitle: 'Legal information', title: 'Add local and charge search certificate' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
-      const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) 
-                   || constants.routes.REGISTER_LAND_TASK_LIST;
-      return h.redirect(redirectUrl);
+      const taskInformation = {
+        taskTitle: 'Legal information',
+        title: 'Add local and charge search certificate'
+      }
+      const taskStatus = {
+        status: constants.COMPLETE_REGISTRATION_TASK_STATUS
+      }
+      processRegistrationTask(request, taskInformation, taskStatus)
+      const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
+                          constants.routes.REGISTER_LAND_TASK_LIST
+      return h.redirect(redirectUrl)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

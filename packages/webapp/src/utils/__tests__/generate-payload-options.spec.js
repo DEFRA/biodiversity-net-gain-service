@@ -12,5 +12,10 @@ describe('generatePayloadOptions', () => {
     expect(result.payload.output).toBe('stream')
     expect(result.payload.parse).toBe(false)
     expect(result.payload.allow).toBe('multipart/form-data')
+    console.log = jest.fn()
+    const request = { path: '/test' }
+    const h = {}
+    const err = { output: { statusCode: 500 } }
+    expect(() => result.payload.failAction(request, h, err)).toThrowError()
   })
 })
