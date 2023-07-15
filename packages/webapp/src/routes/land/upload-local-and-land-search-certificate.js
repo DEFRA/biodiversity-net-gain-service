@@ -6,7 +6,6 @@ import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/gen
 import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
 const localChargeSearchCertificateId = '#localChargeSearchCertificate'
-const maxFileSize = (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
@@ -97,6 +96,6 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE,
   handler: handlers.post,
-  options: generatePayloadOptions(maxFileSize, localChargeSearchCertificateId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE)
+  options: generatePayloadOptions(localChargeSearchCertificateId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_AND_LAND_CHARGE)
 }
 ]

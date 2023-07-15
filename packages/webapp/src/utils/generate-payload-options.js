@@ -1,9 +1,10 @@
 import { getMaximumFileSizeExceededView } from './helpers.js'
 
-export function generatePayloadOptions (maxFileSize, href, maximumFileSize, view) {
+export function generatePayloadOptions (href, maximumFileSize, view) {
+  console.log(href, maximumFileSize, view)
   return {
     payload: {
-      maxBytes: (parseInt(maxFileSize) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(maximumFileSize) + 1) * 1024 * 1024,
       multipart: true,
       timeout: false,
       output: 'stream',
