@@ -4,33 +4,32 @@ import { processRegistrationTask, getLegalAgreementDocumentType } from '../../ut
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-        taskTitle: 'Legal information',
-        title: 'Legal party list'
-      }, {
-        inProgressUrl: constants.routes.LEGAL_PARTY_LIST
-      })
+      taskTitle: 'Legal information',
+      title: 'Legal party list'
+    }, {
+      inProgressUrl: constants.routes.LEGAL_PARTY_LIST
+    })
 
-      const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-      const legalAgreementType = getLegalAgreementDocumentType(
-        request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-      return h.view(constants.views.LEGAL_PARTY_LIST, {
-        partySelectionData,
-        legalAgreementType,
-        routes: constants.routes
-      })
+    return h.view(constants.views.LEGAL_PARTY_LIST, {
+      legalAgreementParties,
+      legalAgreementType,
+      routes: constants.routes
+    })
   },
   post: async (request, h) => {
-    const partySelectionData = request.payload
+    const { addAnotherLegalParty } = request.payload
+    // FIXME: This is probably not necessary - remove
+    // request.yar.set(constants.redisKeys.ADD_LEGAL_AGREEMENT_PARTIES, addAnotherLegalParty)
 
-    if (request.payload.addAnotherLegalParty === 'yes') {
-        partySelectionData.addAnotherLegalParty = 'yes'
-    } else {
-        partySelectionData.addAnotherLegalParty = 'no'
+    if (addAnotherLegalParty === 'yes') {
+      return h.redirect(constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
     }
 
-    request.yar.set(constants.redisKeys.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
-      return h.redirect(constants.routes.LEGAL_AGREEMENT_START_DATE)
+    return h.redirect(constants.routes.LEGAL_AGREEMENT_START_DATE)
   }
 }
 
