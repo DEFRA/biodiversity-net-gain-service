@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set noOfLegalParites = partySelectionData.organisations.length %}
+{% set noOfLegalParites = legalAgreementParties.length %}
 
 {% if noOfLegalParites > 1 %}
     {% set pageHeading = "You have added " + noOfLegalParites + " legal parties" %}
@@ -19,29 +19,33 @@
               {{ pageHeading }}
             </h1>
 
-            {{ govukSummaryList({
-                rows: [
-                            {
-                                key: {
-                                    text: partySelectionData.organisations[0]['organisation[organisationName]'] + " (" + partySelectionData.organisations[0]['organisation[role]'] + ")",
-                                    classes: "app-summary-list__key--narrow"
-                                },
-                                actions: {
-                                    items: [
-                                        {
-                                            href: routes.ADD_LEGAL_AGREEMENT_PARTIES,
-                                            text: "Change"
-                                        },
-                                        {
-                                            href: routes.ADD_LEGAL_AGREEMENT_PARTIES,
-                                            text: "Remove"
-                                        }
-                                    ]
+            {% for org in legalAgreementParties %}
+
+                {{ govukSummaryList({
+                    rows: [
+                                {
+                                    key: {
+                                        text: org['organisation[organisationName]'] + " (" + org['organisation[role]'] + ")",
+                                        classes: "govuk-!-font-weight-regular"
+                                    },
+                                    actions: {
+                                        items: [
+                                            {
+                                                href: routes.ADD_LEGAL_AGREEMENT_PARTIES + "?" + "orgId=" + loop.index0,
+                                                text: "Change"
+                                            },
+                                            {
+                                                href: routes.LEGAL_PARTY_REMOVE + "?" + "orgId=" + loop.index0,
+                                                text: "Remove"
+                                            }
+                                        ],
+                                        classes: "govuk-summary-list__actions-list"
+                                    }
                                 }
-                            }
-                        ]
-                }) 
-            }}
+                            ]
+                    }) 
+                }}
+            {% endfor %}
 
             {{ govukRadios({
                 idPrefix: "addAnotherLegalParty",
@@ -64,13 +68,13 @@
                         value: "yes",
                         text: "Yes",
                         id: "add-another-party-yes",
-                        checked: partySelectionData.addAnotherLegalParty === "yes"
+                        checked: addAnotherLegalParty === "yes"
                     },
                     {
                         value: "no",
                         text: "No",
                         id: "add-another-party-no",
-                        checked: partySelectionData.addAnotherLegalParty === "no"
+                        checked: addAnotherLegalParty === "no"
                     }
                 ]
             }) }}
