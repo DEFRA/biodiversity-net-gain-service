@@ -23,26 +23,25 @@
                             value: organisation.organisationName,
                             label: {
                                 text: "Full name or organisation"
-                            }
+                            },
+                            errorMessage: legalAgreementPartiesError.organisationName[0]
                         }) }}
 
                         {% set role = organisation.organisationRole %}
 
                         {{ govukRadios({
                             name: "organisationRole",
+                            id: "organisationRole",
                             fieldset: {
                                 legend: {
                                     text: "Role",
                                     classes: "govuk-fieldset__legend"
                                 }
                             },
-                            attributes: {
-                                id: "organisationRole"
-                            },
                             hint: {
                                 html: "<div class='govuk-hint'>Select one option.</div>"
                             },
-                            errorMessage: roleErrorMessage,
+                            errorMessage: legalAgreementPartiesError.organisationRole[0],
                             items: [
                                 {
                                     id: "localAuthorityRole",
@@ -99,7 +98,7 @@
 
                         <div class="moj-button-action">
                             {{ govukButton({
-                                text: "Continue",
+                                text: "Save and continue",
                                 attributes: {
                                     id: "continue",
                                     "data-testid": "continue"
