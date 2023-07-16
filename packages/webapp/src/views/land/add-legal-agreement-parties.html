@@ -18,24 +18,18 @@
                     </h1>
                     <form method="post">
                         {{ govukInput({
-                            id: "organisation[organisationName]",
-                            name: "organisation[organisationName]",
-                            value: organisation["organisation[organisationName]"],
+                            id: "organisationName",
+                            name: "organisationName",
+                            value: organisation.organisationName,
                             label: {
                                 text: "Full name or organisation"
-                            },
-                            errorMessage: orgErrorMessage,
-                            attributes: {
-                                "data-name": "organisation[organisationName]",
-                                "data-id": "organisation[organisationName]",
-                                "aria-describedby": "organisation[organisationName]"
                             }
                         }) }}
 
-                        {% set role = organisation["organisation[role]"] %}
+                        {% set role = organisation.organisationRole %}
 
                         {{ govukRadios({
-                            name: "organisation[role]",
+                            name: "organisationRole",
                             fieldset: {
                                 legend: {
                                     text: "Role",
@@ -43,7 +37,7 @@
                                 }
                             },
                             attributes: {
-                                id: "organisation[role]"
+                                id: "organisationRole"
                             },
                             hint: {
                                 html: "<div class='govuk-hint'>Select one option.</div>"
@@ -51,60 +45,40 @@
                             errorMessage: roleErrorMessage,
                             items: [
                                 {
-                                    id: "localAuthority[role]",
-                                    name: "organisation[role]",
+                                    id: "localAuthorityRole",
+                                    name: "localAuthorityRole",
                                     value: "Local authority",
                                     text: "Local authority",
                                     checked: role === "Local authority",
-                                    classes: "govuk-input--width-2",
-                                    attributes: {
-                                        "data-name": "organisationError[role]",
-                                        "data-id": "organisation[role]",
-                                        "aria-describedby": "countyCouncil[role]"
-                                    }
+                                    classes: "govuk-input--width-2"
                                 },
                                 {
-                                    id: "developer[role]",
-                                    name: "organisation[role]",
+                                    id: "developerRole",
+                                    name: "developerRole",
                                     value: "Developer",
                                     text: "Developer",
                                     checked: role === "Developer",
-                                    classes: "govuk-input--width-2",
-                                    attributes: {
-                                        "data-name": "organisation[role]",
-                                        "data-id": "organisation[role]",
-                                        "aria-describedby": "developer[role]"
-                                    }
+                                    classes: "govuk-input--width-2"
                                 },
                                 {
-                                    id: "landOwner[role]",
-                                    name: "organisation[role]",
+                                    id: "landOwnerRole",
+                                    name: "landOwnerRole",
                                     value: "Landowner",
                                     text: "Landowner",
                                     checked: role === "Landowner",
-                                    classes: "govuk-input--width-2",
-                                    attributes: {
-                                        "data-name": "organisation[role]",
-                                        "data-id": "organisation[role]",
-                                        "aria-describedby": "landowner[role]"
-                                    }
+                                    classes: "govuk-input--width-2"
                                 },
                                 {
-                                    id: "responsibleBody[role]",
-                                    name: "organisation[role]",
+                                    id: "responsibleBodyRole",
+                                    name: "responsibleBodyRole",
                                     value: "Responsible body",
                                     text: "Responsible body",
                                     checked: role === "Responsible body",
-                                    classes: "govuk-input--width-2",
-                                    attributes: {
-                                        "data-name": "organisation[role]",
-                                        "data-id": "organisation[role]",
-                                        "aria-describedby": "responsible[role]"
-                                    }
+                                    classes: "govuk-input--width-2"
                                 },
                                 {
-                                    id: "other[role]",
-                                    name: "organisation[role]",
+                                    id: "otherRole",
+                                    name: "otherRole",
                                     value: "Other",
                                     text: "Other",
                                     checked: role === "Other",
@@ -115,14 +89,9 @@
                                                     <label class="govuk-label" for="other-party">
                                                         Role
                                                     </label>
-                                                    <input class="govuk-input govuk-!-width-one-third" value="' + organisation.otherPartyName  + '" name="otherPartyName">
+                                                    <input class="govuk-input govuk-!-width-one-third" value="' + organisation.organisationOtherRole  + '" name="organisationOtherRole">
                                                 </div>
                                             </div>'
-                                    },
-                                    attributes: {
-                                        "data-name": "organisation[role]",
-                                        "data-id": "other[role]",
-                                        "aria-describedby": "organisation[role]"
                                     }
                                 }
                             ]
