@@ -3,6 +3,11 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Which legal agreement do you have?" %}
 
 {% block formContent %}

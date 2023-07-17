@@ -4,7 +4,11 @@
 {{ super() }}
 <link href="{{ assetPath }}/stylesheets/pages/email-entry.css" rel="stylesheet" />
 {% endblock %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Enter additional email addresses" %}
 {% set devShowSaveLink = true %}
 {% set emailIndex = emailAddresses.length if emailAddresses else 0 %}

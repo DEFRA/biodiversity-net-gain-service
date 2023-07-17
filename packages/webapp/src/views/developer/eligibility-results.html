@@ -1,5 +1,10 @@
 {% extends 'developer-form-layout.html' %}
 
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% if developerEligibilityResults.yes | length === 2 %}
 {% set pageHeading = "You have everything you need to record off-site biodiversity gain for your development project" %}
 {% else %}

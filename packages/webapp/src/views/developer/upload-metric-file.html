@@ -4,9 +4,12 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Upload the Biodiversity Metric 4.0 file" %}
-{% set devShowSaveLink = true %}
-
 {% block formContent %}
   <div class="govuk-body">
     {% if err %}

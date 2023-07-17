@@ -1,7 +1,11 @@
 {% extends 'form-layout.html' %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Check the land boundary file" %}
 {% block formContent %}
   <div class="govuk-body">

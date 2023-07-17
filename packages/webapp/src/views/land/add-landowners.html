@@ -1,6 +1,11 @@
 {% extends 'form-layout.html' %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 
 {% if role === "Landowner" %}
   {% set pageHeading = "Add all the other registered landowners" %}

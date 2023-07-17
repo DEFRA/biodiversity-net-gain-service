@@ -1,5 +1,10 @@
 {% extends 'form-layout.html' %}
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Choose how to add the biodiversity gain site boundary" %}
 
 {% block formContent %}

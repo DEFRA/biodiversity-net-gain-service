@@ -1,7 +1,11 @@
 {% extends 'developer-form-layout.html' %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Is the biodiversity gain site you're using to record off-site gain for a development project in England?" %}
 {% block formContent %}
     <div class="govuk-body">

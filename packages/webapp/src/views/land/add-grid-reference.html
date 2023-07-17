@@ -1,6 +1,11 @@
 {% extends 'form-layout.html' %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "What is the grid reference?" %}
 
 {% block formContent %}

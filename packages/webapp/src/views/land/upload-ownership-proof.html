@@ -4,6 +4,11 @@
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Upload proof of land ownership" %}
 
 {% block formContent %}

@@ -2,7 +2,11 @@
 
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Upload written consent to use a biodiversity gain site for off-site gain" %}
 
 {% block formContent %}

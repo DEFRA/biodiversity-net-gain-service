@@ -3,6 +3,11 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Add all parties listed on the legal agreement" %}
 
 {% block formContent %}

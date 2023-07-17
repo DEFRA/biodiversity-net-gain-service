@@ -1,6 +1,11 @@
 {% extends 'form-layout.html' %}
 
 {% set showSaveLink = true %}
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "When will the 30 year management and monitoring period start?" %}
 
 {% block formContent %}

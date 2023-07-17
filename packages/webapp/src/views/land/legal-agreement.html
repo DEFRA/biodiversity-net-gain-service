@@ -1,5 +1,9 @@
 {% extends 'form-layout.html' %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "Do you have a legal agreement securing your biodiversity gain site?" %}
 
 {% block formContent %}

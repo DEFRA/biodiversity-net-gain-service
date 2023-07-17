@@ -1,5 +1,9 @@
 {% extends 'developer-form-layout.html' %}
-
+{% if err %}
+  {% set isError = true %}
+{% else %}
+  {% set isError = false %}
+{% endif %}
 {% set pageHeading = "What is your name?" %}
 
 {% block formContent %}

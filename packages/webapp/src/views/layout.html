@@ -57,9 +57,12 @@
     serviceUrl: "/"
   }) }}
 {% endblock %}
-
 {% block pageTitle %}
-  {{ pageHeading }} {{ titleSuffix }}
+  {% if isError === true %}
+    ERROR: {{ pageHeading }} {{ titleSuffix }}
+  {% else %} 
+    {{ pageHeading }} {{ titleSuffix }}
+  {% endif %}
 {% endblock %}
 
 {% block beforeContent %}
