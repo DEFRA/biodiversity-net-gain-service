@@ -6,23 +6,29 @@ import {
 } from '../../utils/helpers.js'
 
 const validateOrganisation = (organisation) => {
-  const legalAgreementPartiesError = {
-    organisationName: [],
-    organisationRole: []
-  }
+  const legalAgreementPartiesError = []
 
   if (organisation.organisationName.trim().length === 0) {
-    legalAgreementPartiesError.organisationName.push({
+    legalAgreementPartiesError.push({
       text: 'Enter the name of the legal party',
       href: '#organisationName'
     })
   }
 
   if (organisation.organisationRole === undefined) {
-    legalAgreementPartiesError.organisationRole.push({
+    legalAgreementPartiesError.push({
       text: 'Select the role',
       href: '#organisationRole'
     })
+  }
+
+  if (legalAgreementPartiesError.length > 0) {
+    const errorConstruct = {
+      text: '',
+      href: ''
+    }
+
+    legalAgreementPartiesError.unshift(errorConstruct)
   }
 
   return legalAgreementPartiesError
@@ -64,12 +70,11 @@ const handlers = {
 
     const legalAgreementPartiesError = validateOrganisation(organisation)
 
-    if (legalAgreementPartiesError.organisationName.length > 0 ||
-      legalAgreementPartiesError.organisationRole.length > 0) {
+    if (legalAgreementPartiesError.length > 0) {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
         organisation,
         legalAgreementType,
-        legalAgreementPartiesError
+        err: legalAgreementPartiesError
       })
     }
 
