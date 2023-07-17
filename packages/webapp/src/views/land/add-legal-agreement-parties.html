@@ -24,7 +24,7 @@
                             label: {
                                 text: "Full name or organisation"
                             },
-                            errorMessage: legalAgreementPartiesError.organisationName[0]
+                            errorMessage: legalAgreementPartiesError[1]
                         }) }}
 
                         {% set role = organisation.organisationRole %}
@@ -41,7 +41,7 @@
                             hint: {
                                 html: "<div class='govuk-hint'>Select one option.</div>"
                             },
-                            errorMessage: legalAgreementPartiesError.organisationRole[0],
+                            errorMessage: legalAgreementPartiesError[2],
                             items: [
                                 {
                                     id: "localAuthorityRole",

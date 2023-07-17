@@ -23,6 +23,17 @@ const handlers = {
     const { orgId } = request.query
     const { legalPartyRemove } = request.payload
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const orgToRemove = legalAgreementParties[orgId]
+
+    if (!legalPartyRemove) {
+      return h.view(constants.views.LEGAL_PARTY_REMOVE, {
+        orgToRemove,
+        err: [{
+          text: 'Select yes if you want to remove legal party',
+          href: '#legalPartyRemove'
+        }]
+      })
+    }
 
     if (legalPartyRemove === 'yes') {
       legalAgreementParties.splice(orgId, 1)

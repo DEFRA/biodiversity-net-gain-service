@@ -22,8 +22,22 @@ const handlers = {
   },
   post: async (request, h) => {
     const { addAnotherLegalParty } = request.payload
-    // FIXME: This is probably not necessary - remove
-    // request.yar.set(constants.redisKeys.ADD_LEGAL_AGREEMENT_PARTIES, addAnotherLegalParty)
+
+    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
+    if (!addAnotherLegalParty) {
+      return h.view(constants.views.LEGAL_PARTY_LIST, {
+        legalAgreementParties,
+        legalAgreementType,
+        routes: constants.routes,
+        err: [{
+          text: 'Select yes if you need to add another legal party',
+          href: '#consent'
+        }]
+      })
+    }
 
     if (addAnotherLegalParty === 'yes') {
       return h.redirect(constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
