@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -23,9 +23,10 @@ const handlers = {
     const { orgId } = request.query
     const { legalPartyRemove } = request.payload
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-    const orgToRemove = legalAgreementParties[orgId]
 
     if (!legalPartyRemove) {
+      const orgToRemove = legalAgreementParties[orgId]
+
       return h.view(constants.views.LEGAL_PARTY_REMOVE, {
         orgToRemove,
         err: [{
