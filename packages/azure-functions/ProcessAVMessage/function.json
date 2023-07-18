@@ -5,7 +5,7 @@
       "type": "serviceBusTrigger",
       "direction": "in",
       "topicName": "defra.trade.filestore.notify",
-      "subscriptionName": "filestore-notify-bng",
+      "subscriptionName": "%AV_SB_SUBSCRIPTION%",
       "connection": "AV_API_SB_CONNECTION_STRING",
       "accessRights": "listen"
     },

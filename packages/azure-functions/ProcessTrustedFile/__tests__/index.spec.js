@@ -165,6 +165,57 @@ describe('Trusted file processing', () => {
       }
     })
   })
+
+  it('Should process file if a prefix was attached to collection name and none set in env vars', done => {
+    jest.isolateModules(async () => {
+      process.env.AV_COLLECTION_POSTFIX = 'tst1'
+      try {
+        const message = {
+          uploadType: 'land-ownership-tst1',
+          location: '123456/test.doc',
+          containerName: 'trusted'
+        }
+        const newProcessTrustedFile = require('../index')
+        // const testConfig = buildConfig(fileExtension, 'land-ownership')
+
+        await newProcessTrustedFile.default(getContext(), message)
+
+        setImmediate(async () => {
+          expect(getContext().bindings.signalRMessages[0].arguments[0].code).toBeUndefined()
+          expect(getContext().bindings.signalRMessages[0].arguments[0].uploadType).toBeUndefined()
+          expect(getContext().bindings.signalRMessages[0].arguments[0].location).toEqual('123456/test.doc')
+          done()
+        })
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
+
+  it('Should fail to process file if a prefix was attached to collection name and none set in env vars', done => {
+    jest.isolateModules(async () => {
+      process.env.AV_COLLECTION_POSTFIX = ''
+      try {
+        const message = {
+          uploadType: 'land-ownership-tst1',
+          location: '12345/test.doc',
+          containerName: 'trusted'
+        }
+        const newProcessTrustedFile = require('../index')
+        // const testConfig = buildConfig(fileExtension, 'land-ownership')
+
+        await newProcessTrustedFile.default(getContext(), message)
+
+        setImmediate(async () => {
+          expect(getContext().bindings.signalRMessages[0].arguments[0].code).toEqual('UNKNOWN-UPLOAD-TYPE')
+          expect(getContext().bindings.signalRMessages[0].arguments[0].uploadType).toEqual('land-ownership-tst1')
+          done()
+        })
+      } catch (e) {
+        done(e)
+      }
+    })
+  })
 })
 
 describe('Processing developer consent', () => {
