@@ -6,32 +6,31 @@ import {
 } from '../../utils/helpers.js'
 
 const validateOrganisation = organisation => {
-  const legalAgreementPartiesError = []
+  let errorFlag = false
+  const errorConstruct = {
+    text: undefined,
+    href: undefined
+  }
+
+  const legalAgreementPartiesError = Array(2).fill(errorConstruct)
 
   if (organisation.organisationName.trim().length === 0) {
-    legalAgreementPartiesError.push({
+    legalAgreementPartiesError[0] = {
       text: 'Enter the name of the legal party',
       href: '#organisationName'
-    })
+    }
+    errorFlag = true
   }
 
   if (organisation.organisationRole === undefined) {
-    legalAgreementPartiesError.push({
+    legalAgreementPartiesError[1] = {
       text: 'Select the role',
       href: '#organisationRole'
-    })
-  }
-
-  if (legalAgreementPartiesError.length > 0) {
-    const errorConstruct = {
-      text: '',
-      href: ''
     }
-
-    legalAgreementPartiesError.unshift(errorConstruct)
+    errorFlag = true
   }
 
-  return legalAgreementPartiesError
+  return { legalAgreementPartiesError, errorFlag }
 }
 
 const handlers = {
@@ -68,17 +67,20 @@ const handlers = {
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    const legalAgreementPartiesError = validateOrganisation(organisation)
+    const { legalAgreementPartiesError, errorFlag } = validateOrganisation(organisation)
 
-    if (legalAgreementPartiesError.length > 0) {
+    if (errorFlag) {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
         organisation,
         legalAgreementType,
-        err: legalAgreementPartiesError
+        err: legalAgreementPartiesError,
+        organisationNameErr: legalAgreementPartiesError[0].text ? legalAgreementPartiesError[0] : undefined,
+        organisationRoleErr: legalAgreementPartiesError[1].text ? legalAgreementPartiesError[1] : undefined
       })
     }
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    let existingLegalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = existingLegalAgreementParties ??= []
 
     if (orgId) {
       legalAgreementParties.splice(orgId, 1, organisation)
