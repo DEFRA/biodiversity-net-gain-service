@@ -12,6 +12,8 @@ const baseConfig = {
   }
 }
 
+const postFix = process.env.AV_COLLECTION_POSTFIX
+
 export default async function (context, message) {
   context.log('Processing', JSON.stringify(message))
   const config = buildConfig(message)
@@ -40,11 +42,12 @@ export default async function (context, message) {
 
 const buildConfig = message => {
   const config = JSON.parse(JSON.stringify(baseConfig))
-  const location = `${message.Key}/${message.Collection}/${message.Name}.${message.Extension}`
+  const collection = postFix ? `${message.Collection.replace('-' + postFix, '')}` : message.Collection
+  const location = `${message.Key}/${collection}/${message.Name}.${message.Extension}`
   config.untrustedBlobStorageConfig.blobName = location
   config.trustedBlobStorageConfig.blobName = location
   config.trustedQueueMessage = {
-    uploadType: message.Collection,
+    uploadType: collection,
     containerName: baseConfig.trustedBlobStorageConfig.containerName,
     location
   }
