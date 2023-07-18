@@ -102,7 +102,7 @@ describe(url, () => {
       await addLegalAgreementParties.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-      expect(resultContext.err[1]).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
+      expect(resultContext.organisationNameErr).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
     })
 
     it('should fail to add legal party to legal agreement without organisation role', async () => {
@@ -119,7 +119,7 @@ describe(url, () => {
       await addLegalAgreementParties.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-      expect(resultContext.err[1]).toEqual({ text: 'Select the role', href: '#organisationRole' })
+      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#organisationRole' })
     })
 
     it('should fail to add legal party to legal agreement without organisation name and organisation role', async () => {
@@ -136,8 +136,8 @@ describe(url, () => {
       await addLegalAgreementParties.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-      expect(resultContext.err[1]).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
-      expect(resultContext.err[2]).toEqual({ text: 'Select the role', href: '#organisationRole' })
+      expect(resultContext.organisationNameErr).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
+      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#organisationRole' })
     })
   })
 })
