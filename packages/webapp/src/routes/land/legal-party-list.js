@@ -13,11 +13,12 @@ const handlers = {
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE } = constants.routes
 
     return h.view(constants.views.LEGAL_PARTY_LIST, {
       legalAgreementParties,
       legalAgreementType,
-      routes: constants.routes
+      routes: { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE }
     })
   },
   post: async (request, h) => {
@@ -34,7 +35,7 @@ const handlers = {
         routes: constants.routes,
         err: [{
           text: 'Select yes if you need to add another legal party',
-          href: '#consent'
+          href: '#addAnotherLegalParty'
         }]
       })
     }
