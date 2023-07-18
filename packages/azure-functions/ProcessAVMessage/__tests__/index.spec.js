@@ -64,6 +64,82 @@ describe('Processing a response from AV scan', () => {
     })
   })
 
+  it('Should process a message with a Success status, as per first test, but also strip out collection postfix if present', done => {
+    jest.isolateModules(async () => {
+      process.env.AV_COLLECTION_POSTFIX = 'tst1'
+      try {
+        const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+        const newProcessAVMessage = require('../index')
+        // Mock downloadStreamIfExists
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+        // Mock uploadsteam
+        blobStorageConnector.uploadStream = jest.fn().mockImplementation(mockUploadStream)
+
+        const mockMessage = {
+          Collection: 'legal-agreement-tst1',
+          Extension: 'doc',
+          Key: '3f71693c-3b1b-448c-827c-0ee181d49929',
+          Name: 'legal-agreement',
+          Service: 'bng',
+          Status: 'Success'
+        }
+
+        // execute function
+        await newProcessAVMessage.default(getContext(), mockMessage)
+
+        // do tests
+        expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
+        expect(getContext().bindings.trustedFileQueue).toStrictEqual(uploadMessage)
+        expect(getContext().bindings.signalRMessages).toBeUndefined()
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+
+  it('Should process a message with a Success status, as per first test, but also not strip out postfix if absent', done => {
+    jest.isolateModules(async () => {
+      process.env.AV_COLLECTION_POSTFIX = ''
+      try {
+        const { blobStorageConnector } = require('@defra/bng-connectors-lib')
+        const newProcessAVMessage = require('../index')
+        // Mock downloadStreamIfExists
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(mockDownloadStreamIfExists)
+        // Mock uploadsteam
+        blobStorageConnector.uploadStream = jest.fn().mockImplementation(mockUploadStream)
+
+        const mockMessage = {
+          Collection: 'legal-agreement-tst1',
+          Extension: 'doc',
+          Key: '3f71693c-3b1b-448c-827c-0ee181d49929',
+          Name: 'legal-agreement',
+          Service: 'bng',
+          Status: 'Success'
+        }
+
+        const mockUploadMessage = {
+          containerName: 'trusted',
+          uploadType: 'legal-agreement-tst1',
+          location: '3f71693c-3b1b-448c-827c-0ee181d49929/legal-agreement-tst1/legal-agreement.doc'
+        }
+
+        // execute function
+        await newProcessAVMessage.default(getContext(), mockMessage)
+
+        // do tests
+        expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        expect(blobStorageConnector.uploadStream).toHaveBeenCalled()
+        expect(getContext().bindings.trustedFileQueue).toStrictEqual(mockUploadMessage)
+        expect(getContext().bindings.signalRMessages).toBeUndefined()
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+
   it('Should process a message with a non Success status, throwing a threat screening error and returning signalr message out', done => {
     jest.isolateModules(async () => {
       try {
