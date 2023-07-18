@@ -3,44 +3,64 @@ import constants from '../../../utils/constants.js'
 const url = constants.routes.LEGAL_PARTY_REMOVE
 
 describe('url', () => {
+  let viewResult
+  let h
+  let redisMap
+  let resultContext
+  let legalPartyRemove
+
+  beforeEach(() => {
+    h = {
+      view: (view, context) => {
+        viewResult = view
+        resultContext = context
+      },
+      redirect: (view, context) => {
+        viewResult = view
+      }
+    }
+
+    redisMap = new Map()
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, [
+      {
+        organisationName: 'org1',
+        organisationRole: 'Developer',
+        organisationOtherRole: 'undefined'
+      },
+      {
+        organisationName: 'org2',
+        organisationRole: 'Landowner',
+        organisationOtherRole: 'undefined'
+      }
+    ])
+
+    legalPartyRemove = require('../../land/legal-party-remove.js')
+  })
+
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+      const response = await submitGetRequest({ url })
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should show correct party to be remove', async () => {
+      const request = {
+        yar: redisMap,
+        query: { orgId: '0' }
+      }
+
+      await legalPartyRemove.default[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.LEGAL_PARTY_REMOVE)
+      expect(resultContext.orgToRemove).toEqual({
+        organisationName: 'org1',
+        organisationRole: 'Developer',
+        organisationOtherRole: 'undefined'
+      })
     })
   })
 
   describe('POST', () => {
-    let viewResult
-    let h
-    let redisMap
-    let resultContext
-
-    beforeEach(() => {
-      h = {
-        view: (view, context) => {
-          viewResult = view
-          resultContext = context
-        },
-        redirect: (view, context) => {
-          viewResult = view
-        }
-      }
-
-      redisMap = new Map()
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, [
-        {
-          organisationName: 'kiran',
-          organisationRole: 'Developer',
-          organisationOtherRole: 'undefined'
-        },
-        {
-          organisationName: 'kiran',
-          organisationRole: 'Landowner',
-          organisationOtherRole: 'undefined'
-        }
-      ])
-    })
-
     it('Should continue journey to LEGAL_PARTY_LIST if yes is chosen and remove 1 legal party', async () => {
       const request = {
         yar: redisMap,
@@ -48,7 +68,6 @@ describe('url', () => {
         query: { orgId: '1' }
       }
 
-      const legalPartyRemove = require('../../land/legal-party-remove.js')
       await legalPartyRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LEGAL_PARTY_LIST)
@@ -62,7 +81,6 @@ describe('url', () => {
         query: { orgId: '1' }
       }
 
-      const legalPartyRemove = require('../../land/legal-party-remove.js')
       await legalPartyRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LEGAL_PARTY_LIST)
@@ -76,7 +94,6 @@ describe('url', () => {
         query: { orgId: '1' }
       }
 
-      const legalPartyRemove = require('../../land/legal-party-remove.js')
       await legalPartyRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LEGAL_PARTY_REMOVE)
