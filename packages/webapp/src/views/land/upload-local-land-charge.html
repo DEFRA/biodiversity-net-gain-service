@@ -1,0 +1,53 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Upload the local land charge search certificate" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          <p>This is a certificate that shows the legal agreement has been registered with the local planning authority.</p>
+          <p>The file should be:</p>
+          
+      <ul class="govuk-list govuk-list--bullet">
+        <li>a DOC, DOCX or PDF</li>
+        <li>no larger than 50MB</li>
+        
+      </ul>
+          {{ govukFileUpload({
+            id: "legalAgreement",
+            name: "legalAgreement",
+            errorMessage: err[0],
+           
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+
+          {{ govukButton({
+            text: "Continue",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+          <p><a href="/land/need-local-charge">I do not have a local land charge search certificate</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

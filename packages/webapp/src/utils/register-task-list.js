@@ -71,7 +71,7 @@ const registerTaskList = {
         {
           title: 'Add local and charge search certificate',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_LOCAL_AND_SEARCH_FILE,
+          completedTaskUrl: constants.routes.CHECK_LOCAL_AND_CHARGE_FILE,
           startTaskUrl: constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE,
           inProgressUrl: '',
           id: 'add-local-charge-search-certificate'

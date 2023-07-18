@@ -108,8 +108,8 @@ describe(url, () => {
           {
             title: 'Add local and charge search certificate',
             status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-local-and-search-file',
-            startTaskUrl: '/land/upload-local-and-land-search-certificate',
+            completedTaskUrl: '/land/check-local-and-charge-file',
+            startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
             id: 'add-local-charge-search-certificate'
           }
@@ -215,8 +215,8 @@ describe(url, () => {
           {
             title: 'Add local and charge search certificate',
             status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-local-and-search-file',
-            startTaskUrl: '/land/upload-local-and-land-search-certificate',
+            completedTaskUrl: '/land/check-local-and-charge-file',
+            startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
             id: 'add-local-charge-search-certificate'
           }

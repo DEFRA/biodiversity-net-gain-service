@@ -1,0 +1,19 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Check the local land charge search certificate file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'checkLocalandCharge' %}
+    {% set name = 'checkLocalandCharge' %}
+    {% set id = 'check-upload-correct-yes' %}
+    {% set downloadUrl = 'download-legal-agreement-file' %}
+    {% include "common/file-upload-check.html" %}
+  </div>
+{% endblock %}
