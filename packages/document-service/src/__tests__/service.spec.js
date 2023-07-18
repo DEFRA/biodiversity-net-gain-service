@@ -78,12 +78,39 @@ describe('The document service', () => {
     it('should make REST API calls when performing successful document security screening', done => {
       jest.isolateModules(async () => {
         axios.create.mockImplementation(config => axios)
-        axios.request
-          .mockReturnValueOnce(putMockReturnValue)
+        axios.request = jest.fn().mockImplementation((data) => {
+          return {
+            putMockReturnValue,
+            data
+          }
+        })
 
-        await screenDocumentForThreats(logger, config, stream)
+        const response = await screenDocumentForThreats(logger, config, stream)
         expect(axios.request).toHaveBeenCalledTimes(1)
-        await expect(axios.request).toHaveNthReturnedWith(1, putMockReturnValue)
+        expect(response.data.url).toEqual('mockBaseUrl/to/path')
+        expect(response.putMockReturnValue).toEqual(putMockReturnValue)
+
+        setImmediate(() => {
+          done()
+        })
+      })
+    })
+    it('should make REST API calls when performing successful document security screening with collection postfix', done => {
+      process.env.AV_COLLECTION_POSTFIX = 'tst1'
+      jest.isolateModules(async () => {
+        axios.create.mockImplementation(config => axios)
+        axios.request = jest.fn().mockImplementation((data) => {
+          return {
+            putMockReturnValue,
+            data
+          }
+        })
+
+        const service = require('../service')
+        const response = await service.screenDocumentForThreats(logger, config, stream)
+        expect(axios.request).toHaveBeenCalledTimes(1)
+        expect(response.data.url).toEqual('mockBaseUrl/to-tst1/path')
+        expect(response.putMockReturnValue).toEqual(putMockReturnValue)
 
         setImmediate(() => {
           done()
