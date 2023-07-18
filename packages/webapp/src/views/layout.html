@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block pageTitle %}
-  {{ pageHeading }} {{ titleSuffix }}
+  {% if err %} Error: {% endif %} {{ pageHeading }} {{ titleSuffix }}
 {% endblock %}
 
 {% block beforeContent %}
