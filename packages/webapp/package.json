@@ -60,7 +60,7 @@
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.158.0",
     "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "nodemon": "^2.0.22",
     "stream-to-promise": "^3.0.0",
