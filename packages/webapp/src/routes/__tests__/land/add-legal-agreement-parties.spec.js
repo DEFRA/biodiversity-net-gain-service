@@ -1,4 +1,4 @@
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
 
 const url = constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
