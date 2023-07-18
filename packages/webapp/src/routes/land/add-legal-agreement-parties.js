@@ -5,7 +5,7 @@ import {
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
-const validateOrganisation = (organisation) => {
+const validateOrganisation = organisation => {
   const legalAgreementPartiesError = []
 
   if (organisation.organisationName.trim().length === 0) {
