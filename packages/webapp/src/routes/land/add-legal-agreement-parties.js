@@ -79,8 +79,7 @@ const handlers = {
       })
     }
 
-    let existingLegalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-    const legalAgreementParties = existingLegalAgreementParties ??= []
+    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) ?? []
 
     if (orgId) {
       legalAgreementParties.splice(orgId, 1, organisation)
