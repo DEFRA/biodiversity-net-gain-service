@@ -20,17 +20,17 @@
                         {% if selectionCount == undefined %}
                             {% set  selectionCount = 1 %}
                         {% endif %}
-                        {% for i in range(0, partySelectionData.selectionCount) %}
+                        {% for i in range(0, selectionCount) %}
                             {% set  organisationValue = '' %}
                             {% set  roleRowIndex = 0 %}
                             {% set  orgErrorMessage = '' %}
                             {% set  roleErrorMessage = '' %}
-                            {% for org in partySelectionData.organisations %}
+                            {% for org in organisations %}
                                 {% if org.index == i %}
                                     {% set  organisationValue = org.value %}
                                 {% endif %}
                             {% endfor %}
-                            {% for role in partySelectionData.roles %}
+                            {% for role in roles %}
                                 {% if role.organisationIndex == i %}
                                     {% set  roleRowIndex = role %}
                                 {% endif %}
@@ -160,7 +160,7 @@
                                         }
                                     ]
                                 }) }}
-                                {% if partySelectionData.selectionCount > 1 %}
+                                {% if selectionCount > 1 %}
                                     <div class="moj-button-action">
                                         {{ govukButton({
                                             text: "Remove",
