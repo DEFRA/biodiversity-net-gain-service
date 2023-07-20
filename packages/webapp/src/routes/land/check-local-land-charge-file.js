@@ -7,26 +7,26 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
-      title: 'Add local and charge search certificate'
+      title: 'Add local land charge search certificate'
     }, {
-      inProgressUrl: constants.routes.CHECK_LOCAL_AND_CHARGE_FILE
+      inProgressUrl: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE
     })
-    return h.view(constants.views.CHECK_LOCAL_AND_CHARGE_FILE, getContext(request))
+    return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, getContext(request))
   },
   post: async (request, h) => {
     const checkLocalandCharge = request.payload.checkLocalandCharge
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.LOCAL_AND_CHARGE_CHECKED, checkLocalandCharge)
+    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalandCharge)
     if (checkLocalandCharge === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.LOCAL_AND_CHARGE_LOCATION)
-      request.yar.set(constants.redisKeys.LOCAL_AND_CHARGE_FILE_OPTION, 'no')
-      return h.redirect(constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE)
+      request.yar.clear(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
+      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
+      return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalandCharge === 'yes') {
-      request.yar.set(constants.redisKeys.LOCAL_AND_CHARGE_FILE_OPTION, 'yes')
+      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
       const taskInformation = {
         taskTitle: 'Legal information',
-        title: 'Add local and charge search certificate'
+        title: 'Add local land charge search certificate'
       }
       const taskStatus = {
         status: constants.COMPLETE_REGISTRATION_TASK_STATUS
@@ -46,13 +46,13 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LOCAL_AND_CHARGE_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.LOCAL_AND_CHARGE_FILE_SIZE)
+  const fileLocation = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
+  const fileSize = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
 
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    selectedOption: request.yar.get(constants.redisKeys.LOCAL_AND_CHARGE_FILE_OPTION),
+    selectedOption: request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION),
     fileSize: humanReadableFileSize,
     fileLocation
   }
@@ -60,13 +60,13 @@ const getContext = request => {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHECK_LOCAL_AND_CHARGE_FILE,
+  path: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
   handler: handlers.get,
   config: {
     pre: [checkApplicantDetails]
   }
 }, {
   method: 'POST',
-  path: constants.routes.CHECK_LOCAL_AND_CHARGE_FILE,
+  path: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
   handler: handlers.post
 }]

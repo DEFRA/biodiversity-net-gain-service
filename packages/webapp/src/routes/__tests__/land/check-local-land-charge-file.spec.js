@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
-const url = constants.routes.CHECK_LOCAL_AND_CHARGE_FILE
+const url = constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE
 jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
@@ -32,7 +32,7 @@ describe(url, () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLocalandCharge = 'no'
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE)
+      expect(response.headers.location).toBe(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
       expect(spy).toHaveBeenCalledTimes(1)
     })
 

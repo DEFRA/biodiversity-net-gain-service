@@ -106,9 +106,9 @@ describe(url, () => {
             id: 'add-legal-agreement'
           },
           {
-            title: 'Add local and charge search certificate',
+            title: 'Add local land charge search certificate',
             status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-local-and-charge-file',
+            completedTaskUrl: '/land/check-local-land-charge-file',
             startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
             id: 'add-local-charge-search-certificate'
@@ -213,9 +213,9 @@ describe(url, () => {
             id: 'add-legal-agreement'
           },
           {
-            title: 'Add local and charge search certificate',
+            title: 'Add local land charge search certificate',
             status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-local-and-charge-file',
+            completedTaskUrl: '/land/check-local-land-charge-file',
             startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
             id: 'add-local-charge-search-certificate'

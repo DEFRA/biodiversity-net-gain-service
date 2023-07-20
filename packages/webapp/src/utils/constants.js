@@ -3,18 +3,18 @@ import developerConstants from './developer-constants.js'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const APPLICATION_REFERENCE = 'application-reference'
-const UPLOAD_LOCAL_AND_LAND_CHARGE = 'land/upload-local-land-charge'
+const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
-const LOCAL_AND_CHARGE_FILE_OPTION = 'local-and-charge-file-option'
+const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const REGISTRATION_SUBMITTED = 'registration-submitted'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
-const CHECK_LOCAL_AND_CHARGE_FILE = 'land/check-local-and-charge-file'
+const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
@@ -33,7 +33,7 @@ const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
-const LOCAL_AND_CHARGE_FILE_SIZE = 'local-and-charge-file-size'
+const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
 const GEOSPATIAL_HECTARES = 'geospatial-hectares'
@@ -43,15 +43,15 @@ const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
 const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
-const LOCAL_AND_CHARGE_CHECKED = 'local-and-charge-checked'
+const LOCAL_LAND_CHARGE_CHECKED = 'local-land-charge-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
-const LOCAL_AND_CHARGE_FILE_TYPE = 'local-and-charge-file-type'
+const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
-const LOCAL_AND_CHARGE_LOCATION = 'local-and-charge-location'
+const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
-const LOCAL_AND_CHARGE_UPLOAD_TYPE = 'local-and-charge'
+const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
 const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
@@ -136,7 +136,7 @@ const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
 const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
-const NEED_LOCAL_CHARGE = 'land/need-local-charge'
+const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
 const REFERER = 'referer'
 const YES = 'yes'
 const EMAIL = 'land/email'
@@ -265,7 +265,7 @@ const redisKeys = {
   GEOSPATIAL_FILE_NAME,
   GEOSPATIAL_FILE_SIZE,
   REPROJECTED_GEOSPATIAL_FILE_SIZE,
-  LOCAL_AND_CHARGE_FILE_SIZE,
+  LOCAL_LAND_CHARGE_FILE_SIZE,
   GEOSPATIAL_FILE_TYPE,
   GEOSPATIAL_HECTARES,
   GEOSPATIAL_GRID_REFERENCE,
@@ -278,17 +278,17 @@ const redisKeys = {
   LAND_BOUNDARY_GRID_REFERENCE,
   LAND_BOUNDARY_HECTARES,
   LEGAL_AGREEMENT_CHECKED,
-  LOCAL_AND_CHARGE_CHECKED,
+  LOCAL_LAND_CHARGE_CHECKED,
   LEGAL_AGREEMENT_LOCATION,
-  LOCAL_AND_CHARGE_LOCATION,
+  LOCAL_LAND_CHARGE_LOCATION,
   LEGAL_AGREEMENT_DOCUMENT_TYPE,
   LEGAL_AGREEMENT_FILE_SIZE,
   LEGAL_AGREEMENT_FILE_TYPE,
-  LOCAL_AND_CHARGE_FILE_TYPE,
+  LOCAL_LAND_CHARGE_FILE_TYPE,
   LEGAL_AGREEMENT_PARTIES_KEY,
   MANAGEMENT_PLAN_KEY,
   LEGAL_AGREEMENT_FILE_OPTION,
-  LOCAL_AND_CHARGE_FILE_OPTION,
+  LOCAL_LAND_CHARGE_FILE_OPTION,
   LEGAL_AGREEMENT_PARTIES,
   MANAGEMENT_PLAN_CHECKED,
   MANAGEMENT_PLAN_LOCATION,
@@ -352,7 +352,7 @@ let routes = {
   CHECK_PROOF_OF_OWNERSHIP,
   CHECK_UPLOAD_METRIC,
   CHECK_GEOSPATIAL_FILE,
-  CHECK_LOCAL_AND_CHARGE_FILE,
+  CHECK_LOCAL_LAND_CHARGE_FILE,
   DOWNLOAD_LEGAL_AGREEMENT,
   DOWNLOAD_MANAGEMENT_PLAN,
   DOWNLOAD_LAND_BOUNDARY,
@@ -368,7 +368,7 @@ let routes = {
   UPLOAD_MANAGEMENT_PLAN,
   UPLOAD_METRIC,
   UPLOAD_LEGAL_AGREEMENT,
-  UPLOAD_LOCAL_AND_LAND_CHARGE,
+  UPLOAD_LOCAL_LAND_CHARGE,
   CHECK_LEGAL_AGREEMENT_DETAILS,
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY_DETAILS,
@@ -390,7 +390,7 @@ let routes = {
   NEED_METRIC,
   NEED_MANAGEMENT_PLAN,
   NEED_LEGAL_AGREEMENT,
-  NEED_LOCAL_CHARGE,
+  NEED_LOCAL_LAND_CHARGE,
   EMAIL,
   CORRECT_EMAIL,
   ELIGIBILITY_CHECK_YOU_CAN_REGISTER,
@@ -441,7 +441,7 @@ const uploadTypes = {
   ...developerConstants.uploadTypes,
   GEOSPATIAL_UPLOAD_TYPE,
   LEGAL_AGREEMENT_UPLOAD_TYPE,
-  LOCAL_AND_CHARGE_UPLOAD_TYPE,
+  LOCAL_LAND_CHARGE_UPLOAD_TYPE,
   MANAGEMENT_PLAN_UPLOAD_TYPE,
   LAND_BOUNDARY_UPLOAD_TYPE,
   METRIC_UPLOAD_TYPE,

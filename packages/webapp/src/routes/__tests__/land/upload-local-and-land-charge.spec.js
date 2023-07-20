@@ -2,7 +2,7 @@ import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
 const LOCAL_SEARCH_FORM_ELEMENT_NAME = 'localSearch'
-const url = constants.routes.UPLOAD_LOCAL_AND_LAND_CHARGE
+const url = constants.routes.UPLOAD_LOCAL_LAND_CHARGE
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/local-charge'
 jest.mock('../../../utils/azure-signalr.js')
@@ -29,7 +29,7 @@ describe('Local Search upload controller tests', () => {
       }
     ]
     const baseConfig = {
-      uploadType: 'local-and-charge',
+      uploadType: 'local-land-charge',
       url,
       formName: LOCAL_SEARCH_FORM_ELEMENT_NAME,
       eventData: mockLocalsearch
@@ -83,7 +83,7 @@ describe('Local Search upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-local-and-charge-file'
+            referer: 'http://localhost:30000/land/check-local-land-charge-file'
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -187,7 +187,7 @@ describe('Local Search upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
           uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-local-and-charge-file'
+            referer: 'http://localhost:30000/land/check-local-land-charge-file'
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -223,7 +223,7 @@ describe('Local Search upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
           uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-local-and-charge-file'
+            referer: 'http://localhost:30000/land/check-local-land-charge-file'
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {
