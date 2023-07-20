@@ -1,15 +1,15 @@
 export const headers = {
   common: [
-    'Watercourse type',
     'Length (km)',
     'Condition',
     'Habitat created in advance (years)',
     'Delay in starting habitat creation (years)',
-    'Watercourse units delivered',
-    'Off-site reference',
     'Extent of encroachment for both banks'
   ],
-  developer: [],
+  developer: [
+    'Watercourse units delivered',
+    'Off-site reference'
+  ],
   landowner: [
     'Strategic significance',
     'Extent of encroachment'

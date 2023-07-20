@@ -10,7 +10,9 @@ export const headers = {
     'Hedge number',
     'Off-site reference'
   ],
-  landowner: []
+  landowner: [
+    'Baseline ref'
+  ]
 }
 
 const e1OffSiteHedgeBaseline = {

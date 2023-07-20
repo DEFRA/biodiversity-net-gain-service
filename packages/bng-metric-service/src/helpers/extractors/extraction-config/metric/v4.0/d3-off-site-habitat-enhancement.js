@@ -1,21 +1,24 @@
 export const headers = {
   common: [
-    'Baseline habitat',
+    
     'Proposed Broad Habitat',
     'Proposed habitat',
     'Area (hectares)',
     'Condition',
     'Habitat enhanced in advance (years)',
-    'Delay in starting habitat enhancement (years)',
-    'Habitat units delivered',
+    'Delay in starting habitat enhancement (years)'
+  ],
+  developer: [
+    'Baseline habitat',
     'Total habitat area',
     'Distinctiveness change',
     'Condition change',
-    'Off-site reference'
+    'Off-site reference',
+    'Habitat units delivered',
   ],
-  developer: [],
   landowner: [
-    'Strategic significance'
+    'Strategic significance',
+    'Baseline ref'
   ]
 }
 

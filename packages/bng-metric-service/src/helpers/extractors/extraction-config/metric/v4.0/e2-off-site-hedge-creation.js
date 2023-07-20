@@ -4,11 +4,12 @@ export const headers = {
     'Length (km)',
     'Condition',
     'Habitat created in advance (years)',
-    'Delay in starting habitat creation (years)',
+    'Delay in starting habitat creation (years)'
+  ],
+  developer: [
     'Hedge units delivered',
     'Off-site reference'
   ],
-  developer: [],
   landowner: [
     'Strategic significance'
   ]

@@ -106,7 +106,8 @@ const uploadFile = async (uploadConfig) => {
       const expectedMessage = {
         uploadType: uploadConfig.uploadType,
         location: blobName,
-        containerName: config.blobConfig.containerName
+        containerName: config.blobConfig.containerName,
+        role: uploadConfig.sessionData.role
       }
 
       const response = await receiveMessages('untrusted-file-queue')

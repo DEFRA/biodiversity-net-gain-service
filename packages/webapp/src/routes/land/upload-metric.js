@@ -10,7 +10,7 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 async function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
-    const validationError = getMetricFileValidationErrors(result[0].metricData.validation)
+    const validationError = await getMetricFileValidationErrors(result[0].metricData.validation)
     if (validationError) {
       await deleteBlobFromContainers(result[0].location)
       return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -80,7 +80,7 @@ const handlers = {
       uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
-      role: (request.yar.get(constants.redisKeys.ROLE_KEY)).toLowerCase()
+      role: (request.yar.get(constants.redisKeys.ROLE_KEY) || 'landowner').toLowerCase()
     })
     return uploadFiles(logger, request, config).then(
       function (result) {
