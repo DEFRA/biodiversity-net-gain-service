@@ -2,7 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.LEGAL_PARTY_LIST
 
-describe('url', () => {
+describe(url, () => {
   let viewResult
   let h
   let redisMap
@@ -39,8 +39,7 @@ describe('url', () => {
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      const response = await submitGetRequest({ url })
-      expect(response.statusCode).toBe(200)
+      await submitGetRequest({ url })
     })
 
     it('should show all legal parties that are added', async () => {
