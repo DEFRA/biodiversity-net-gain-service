@@ -47,30 +47,17 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
-    it(`should render the ${url.substring(1)} view with undefined other party`, async () => {
-      jest.isolateModules(async () => {
-        let viewResult, contextResult
-        const redisMap = new Map()
-        const legalAgreementDetails = require('../../land/add-legal-agreement-parties')
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
-          roles: [
-            {
-              otherPartyName: undefined
-            }
-          ]
-        })
-        const request = {
-          yar: redisMap
-        }
-        const h = {
-          view: (view, context) => {
-            viewResult = view
-            contextResult = context
-          }
-        }
-        await legalAgreementDetails.default[0].handler(request, h)
-        expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-        expect(contextResult.roles[0].otherPartyName).toEqual('')
+    it(`should render the ${url.substring(1)} view with organisation that use wants to change`, async () => {
+      const request = {
+        yar: redisMap,
+        query: { orgId: '0' }
+      }
+      await addLegalAgreementParties.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
+      expect(resultContext.organisation).toEqual({
+        organisationName: 'org1',
+        organisationOtherRole: 'undefined',
+        organisationRole: 'Developer'
       })
     })
 
