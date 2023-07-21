@@ -41,23 +41,21 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
     })
-
-    const { orgId } = request.query
-
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
-    const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
-    if (orgId) {
-      const organisation = legalAgreementParties[orgId]
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-        organisation,
-        legalAgreementType
+    const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    if (partySelectionData) {
+      partySelectionData.roles?.forEach(role => {
+        if (role.otherPartyName === undefined) {
+          role.otherPartyName = ''
+        }
       })
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
     }
 
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-      legalAgreementType
+      roles: [{
+        organisationIndex: 0,
+        otherPartyName: ''
+      }]
     })
   },
   post: async (request, h) => {
