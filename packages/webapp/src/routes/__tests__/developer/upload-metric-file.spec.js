@@ -39,7 +39,7 @@ describe('Metric file upload controller tests', () => {
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       eventData: mockMetric,
       sessionData: {
-        'developer-role-key': 'developer'
+        role: 'developer'
       }
     }
 
@@ -48,13 +48,13 @@ describe('Metric file upload controller tests', () => {
       await clearQueues()
     })
 
-    it.only('should display error if off-site reference is not matching', (done) => {
+    it('should display error if off-site reference is not matching', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
           uploadConfig.hasError = true
-          // uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
           setImmediate(() => {
