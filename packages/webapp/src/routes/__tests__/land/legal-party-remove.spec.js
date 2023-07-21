@@ -2,7 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.LEGAL_PARTY_REMOVE
 
-describe('url', () => {
+describe(url, () => {
   let viewResult
   let h
   let redisMap
