@@ -17,7 +17,7 @@
     "build:css": "bin/build-css.sh",
     "build:js": "bin/build-js.sh",
     "start": "node ./src/index.js",
-    "start:dev": "nodemon ./src/index.js",
+    "start:dev": "nodemon -e js,html ./src/index.js",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "lint": "standard",
     "docker:build": "docker build . -t webapp",
