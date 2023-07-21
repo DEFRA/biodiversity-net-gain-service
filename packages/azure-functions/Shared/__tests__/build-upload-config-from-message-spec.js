@@ -7,7 +7,8 @@ const fileExtension = '.txt'
 
 const message = {
   uploadType,
-  location: `${userId}/${uploadType}/${filename}${fileExtension}`
+  location: `${userId}/${uploadType}/${filename}${fileExtension}`,
+  role: 'test'
 }
 
 describe('Building config from a message', () => {
@@ -23,7 +24,8 @@ describe('Building config from a message', () => {
       signalRMessageConfig: {
         userId,
         target: `Processed ${filename}${fileExtension}`
-      }
+      },
+      role: 'test'
     }
     const config = buildUploadConfigFromMessage(message)
     expect(config).toStrictEqual(expectedConfig)

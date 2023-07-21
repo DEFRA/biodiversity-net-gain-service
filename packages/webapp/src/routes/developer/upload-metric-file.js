@@ -24,6 +24,7 @@ async function processSuccessfulUpload (result, request, h) {
     }, {
       status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
     })
+  logger.info('result[0].metricData', result[0].metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result[0].location)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)

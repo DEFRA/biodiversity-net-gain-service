@@ -9,7 +9,7 @@ export default session => {
         firstName: null,
         lastName: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
         emailAddress: session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE),
-        role: session.yar.get(constants.redisKeys.DEVELOPER_ROLE_KEY)
+        role: session.get(constants.redisKeys.DEVELOPER_ROLE_KEY)
       },
       developmentDetails: {
         projectName: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName,

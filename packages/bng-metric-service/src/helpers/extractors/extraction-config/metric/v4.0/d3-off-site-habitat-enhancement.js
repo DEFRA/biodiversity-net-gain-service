@@ -1,6 +1,5 @@
 export const headers = {
   common: [
-    
     'Proposed Broad Habitat',
     'Proposed habitat',
     'Area (hectares)',
@@ -14,7 +13,7 @@ export const headers = {
     'Distinctiveness change',
     'Condition change',
     'Off-site reference',
-    'Habitat units delivered',
+    'Habitat units delivered'
   ],
   landowner: [
     'Strategic significance',
