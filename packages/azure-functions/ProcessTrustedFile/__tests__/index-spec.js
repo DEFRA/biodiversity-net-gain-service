@@ -38,7 +38,7 @@ describe('Trusted file processing', () => {
   it('should process a pdf upload for a legal agreement upload type. ', done => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'legal-agreement', done)
   })
-  it('should process a pdf upload for a local search upload type. ', done => {
+  it('should process a pdf upload for a local land charge certificate upload type. ', done => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'local-land-charge', done)
   })
   it('should process a pdf upload for a management plan upload type. ', done => {

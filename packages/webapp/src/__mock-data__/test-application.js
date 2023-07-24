@@ -67,6 +67,14 @@ const dataString = `
             "startTaskUrl": "/land/legal-agreement-type",
             "inProgressUrl": "/land/add-legal-agreement-parties",
             "id": "add-legal-agreement"
+          },
+          {
+            "title": "Add local land charge search certificate",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/check-local-land-charge-file",
+            "startTaskUrl": "/land/upload-local-land-charge",
+            "inProgressUrl": "",
+            "id": "add-local-land-charge-search-certificate"
           }
         ]
       },

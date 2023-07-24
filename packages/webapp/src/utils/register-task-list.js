@@ -74,7 +74,7 @@ const registerTaskList = {
           completedTaskUrl: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
           startTaskUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
           inProgressUrl: '',
-          id: 'add-local-charge-search-certificate'
+          id: 'add-local-land-charge-search-certificate'
         }
       ]
     },

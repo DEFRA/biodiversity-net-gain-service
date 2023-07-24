@@ -5,7 +5,7 @@ import { uploadFiles } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 
-const localChargeId = '#localChargeId'
+const localLandChargeId = '#localLandChargeId'
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
@@ -22,7 +22,7 @@ function buildErrorResponse (h, message) {
   return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE, {
     err: [{
       text: message,
-      href: localChargeId
+      href: localLandChargeId
     }]
   })
 }
@@ -37,7 +37,7 @@ function processErrorUpload (err, h) {
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
 
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, localChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+      return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
@@ -77,7 +77,7 @@ const handlers = {
       return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE, {
         err: [{
           text: 'The selected file could not be uploaded -- try again',
-          href: localChargeId
+          href: localLandChargeId
         }]
       })
     })
@@ -96,6 +96,6 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   handler: handlers.post,
-  options: generatePayloadOptions(localChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+  options: generatePayloadOptions(localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
 }
 ]

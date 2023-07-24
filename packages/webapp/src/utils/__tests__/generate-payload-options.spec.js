@@ -3,7 +3,7 @@ import { generatePayloadOptions } from '../generate-payload-options'
 describe('generatePayloadOptions', () => {
   it('should return correct payload options', () => {
     const maxFileSize = 50
-    const href = '#localChargeId'
+    const href = '#localLandChargeId'
     const view = 'land/upload-local-land-charge'
     const result = generatePayloadOptions(href, maxFileSize, view)
     expect(result.payload.maxBytes).toBe((parseInt(maxFileSize) + 1) * 1024 * 1024)

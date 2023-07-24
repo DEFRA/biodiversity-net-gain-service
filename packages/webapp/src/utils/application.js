@@ -38,6 +38,13 @@ const application = session => {
           fileSize: session.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
           fileLocation: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
           fileName: session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION))
+        },
+        {
+          contentMediaType: session.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE),
+          fileType: 'local-land-charge',
+          fileSize: session.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE),
+          fileLocation: session.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION),
+          fileName: session.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION) && path.basename(session.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION))
         }
       ],
       gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
