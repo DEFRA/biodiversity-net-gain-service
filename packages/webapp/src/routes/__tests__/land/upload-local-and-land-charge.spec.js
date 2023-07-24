@@ -45,7 +45,7 @@ describe('Local Land Charge upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/local-land-chargeh.pdf`
+          uploadConfig.filePath = `${mockDataPath}/local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
