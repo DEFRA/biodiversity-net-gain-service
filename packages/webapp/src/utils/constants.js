@@ -501,7 +501,7 @@ export default Object.freeze({
   geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
-  localLandChargeFileExt : LOCAL_LAND_CHARGE_FILE_EXT,
+  localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,
   landBoundaryUploadTypes,

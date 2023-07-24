@@ -61,7 +61,7 @@ const handlers = {
     const config = buildConfig({
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.LOCAL_LAND_CHARGE_UPLOAD_TYPE,
-      fileExt: constants.localLandChargeFileExt ,
+      fileExt: constants.localLandChargeFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
 

@@ -45,7 +45,7 @@ describe('Local Land Charge upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/local-search.pdf`
+          uploadConfig.filePath = `${mockDataPath}/local-land-chargeh.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -62,7 +62,7 @@ describe('Local Land Charge upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/local-search.pdf`
+          uploadConfig.filePath = `${mockDataPath}/local-land-charge.pdf`
           baseConfig.headers = {
             referer: `'http://localhost:30000${url}`
           }
@@ -136,7 +136,7 @@ describe('Local Land Charge upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
-          uploadConfig.filePath = `${mockDataPath}/empty-local-search.pdf`
+          uploadConfig.filePath = `${mockDataPath}/empty-local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -203,7 +203,7 @@ describe('Local Land Charge upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/local-search.pdf`
+          config.filePath = `${mockDataPath}/local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           config.generateHandleEventsError = true
           config.hasError = true
