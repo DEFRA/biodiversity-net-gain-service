@@ -14,15 +14,15 @@ const handlers = {
     return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, getContext(request))
   },
   post: async (request, h) => {
-    const checkLocalandCharge = request.payload.checkLocalandCharge
+    const checkLocalLandCharge = request.payload.checkLocalLandCharge
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalandCharge)
-    if (checkLocalandCharge === 'no') {
+    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalLandCharge)
+    if (checkLocalLandCharge === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
-    } else if (checkLocalandCharge === 'yes') {
+    } else if (checkLocalLandCharge === 'yes') {
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
       const taskInformation = {
         taskTitle: 'Legal information',
@@ -40,7 +40,7 @@ const handlers = {
         text: 'Select yes if this is the correct file',
         href: '#check-upload-correct-yes'
       }]
-      return h.view(constants.views.CHECK_LEGAL_AGREEMENT, context)
+      return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, context)
     }
   }
 }

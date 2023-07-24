@@ -17,6 +17,7 @@ const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
+const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
@@ -184,7 +185,7 @@ const LEGAL_AGREEMENT_FILE_EXT = [
   '.docx',
   '.pdf'
 ]
-const LOCAL_SEARCH_FILE_EXT = [
+const LOCAL_LAND_CHARGE_FILE_EXT = [
   '.doc',
   '.docx',
   '.pdf'
@@ -354,6 +355,7 @@ let routes = {
   CHECK_GEOSPATIAL_FILE,
   CHECK_LOCAL_LAND_CHARGE_FILE,
   DOWNLOAD_LEGAL_AGREEMENT,
+  DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
   DOWNLOAD_MANAGEMENT_PLAN,
   DOWNLOAD_LAND_BOUNDARY,
   DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
@@ -499,7 +501,7 @@ export default Object.freeze({
   geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
-  localSearchFileExt: LOCAL_SEARCH_FILE_EXT,
+  localLandChargeFileExt : LOCAL_LAND_CHARGE_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,
   landBoundaryUploadTypes,

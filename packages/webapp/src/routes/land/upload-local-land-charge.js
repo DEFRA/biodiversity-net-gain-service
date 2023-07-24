@@ -32,7 +32,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.emptyFile:
       return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return buildErrorResponse(h, 'Select a local land search agreement')
+      return buildErrorResponse(h, 'Select a local land charge search certificate file')
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
 
@@ -61,7 +61,7 @@ const handlers = {
     const config = buildConfig({
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.LOCAL_LAND_CHARGE_UPLOAD_TYPE,
-      fileExt: constants.localSearchFileExt,
+      fileExt: constants.localLandChargeFileExt ,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
 

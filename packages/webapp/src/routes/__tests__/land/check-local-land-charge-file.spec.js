@@ -24,13 +24,13 @@ describe(url, () => {
       }
     })
     it('should allow confirmation that the correct local search file has been uploaded', async () => {
-      postOptions.payload.checkLocalandCharge = constants.confirmLegalAgreementOptions.YES
+      postOptions.payload.checkLocalLandCharge = constants.confirmLegalAgreementOptions.YES
       await submitPostRequest(postOptions)
     })
 
     it('should allow an alternative local search file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-      postOptions.payload.checkLocalandCharge = 'no'
+      postOptions.payload.checkLocalLandCharge = 'no'
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
       expect(spy).toHaveBeenCalledTimes(1)

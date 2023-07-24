@@ -1,13 +1,13 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
-const LOCAL_SEARCH_FORM_ELEMENT_NAME = 'localSearch'
+const LOCAL_LAND_CHARGE_FORM_ELEMENT_NAME = 'localLandCharge'
 const url = constants.routes.UPLOAD_LOCAL_LAND_CHARGE
 
-const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/local-charge'
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/local-land-charge'
 jest.mock('../../../utils/azure-signalr.js')
 
-describe('Local Search upload controller tests', () => {
+describe('Local Land Charge upload controller tests', () => {
   beforeAll(async () => {
     await recreateQueues()
   })
@@ -22,7 +22,7 @@ describe('Local Search upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLocalsearch = [
+    const mockLocalLandCharge = [
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {}
@@ -31,8 +31,8 @@ describe('Local Search upload controller tests', () => {
     const baseConfig = {
       uploadType: 'local-land-charge',
       url,
-      formName: LOCAL_SEARCH_FORM_ELEMENT_NAME,
-      eventData: mockLocalsearch
+      formName: LOCAL_LAND_CHARGE_FORM_ELEMENT_NAME,
+      eventData: mockLocalLandCharge
     }
 
     beforeEach(async () => {
@@ -40,7 +40,7 @@ describe('Local Search upload controller tests', () => {
       await clearQueues()
     })
 
-    it('should upload local search document to cloud storage', (done) => {
+    it('should upload local land charge document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -57,7 +57,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should upload local search document to cloud storage with referer', (done) => {
+    it('should upload local land charge document to cloud storage with referer', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -76,7 +76,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should upload local search document less than 50MB', (done) => {
+    it('should upload local land charge document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -112,7 +112,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should not upload local search document larger than the configured maximum', (done) => {
+    it('should not upload local land charge document larger than the configured maximum', (done) => {
       jest.isolateModules(async () => {
         try {
           process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
@@ -148,7 +148,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should not upload unsupported local search', (done) => {
+    it('should not upload unsupported local land charge type', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -165,7 +165,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile local search', (done) => {
+    it('should not upload nofile local land charge', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -181,7 +181,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should  upload local search document 50 MB file', (done) => {
+    it('should  upload local land charge document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -217,7 +217,7 @@ describe('Local Search upload controller tests', () => {
       })
     })
 
-    it('should  upload local search document 49 MB file when coming from a referer', (done) => {
+    it('should  upload local land charge document 49 MB file when coming from a referer', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

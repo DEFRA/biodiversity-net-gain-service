@@ -111,7 +111,7 @@ describe(url, () => {
             completedTaskUrl: '/land/check-local-land-charge-file',
             startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
-            id: 'add-local-charge-search-certificate'
+            id: 'add-local-land-charge-search-certificate'
           }
         ]
       })
@@ -218,7 +218,7 @@ describe(url, () => {
             completedTaskUrl: '/land/check-local-land-charge-file',
             startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
-            id: 'add-local-charge-search-certificate'
+            id: 'add-local-land-charge-search-certificate'
           }
         ]
       })
