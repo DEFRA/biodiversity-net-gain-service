@@ -15,7 +15,6 @@ async function processSuccessfulUpload (result, request, h) {
       await deleteBlobFromContainers(result[0].location)
       return h.view(constants.views.UPLOAD_METRIC, validationError)
     }
-    logger.info('result[0].metricData', result[0].metricData)
     request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
     request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)

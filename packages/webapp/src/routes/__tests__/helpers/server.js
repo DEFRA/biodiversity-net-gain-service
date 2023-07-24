@@ -7,7 +7,6 @@ import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test
 import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
 import onPreHandler from '../../../__mocks__/on-pre-handler.js'
-import { logger } from 'defra-logging-facade'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -112,7 +111,6 @@ const uploadFile = async (uploadConfig) => {
 
       if (uploadConfig.uploadType === constants.uploadTypes.METRIC_UPLOAD_TYPE) {
         expectedMessage.role = uploadConfig.sessionData.role
-        logger.info('uploadConfig', uploadConfig)
       }
 
       const response = await receiveMessages('untrusted-file-queue')

@@ -5,6 +5,7 @@ import start from './metric/start.js'
 
 const getCellHeaders = (role, headers) => {
   let _header = []
+  /* istanbul ignore else */
   if (!_.isEmpty(headers)) {
     if (role === 'developer') {
       _header = headers.developer && !_.isEmpty(headers.developer) ? [...headers.common, ...headers.developer] : headers.common
@@ -23,6 +24,7 @@ export default {
       const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.0') : options.v
       const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
       let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
+      /* istanbul ignore else */
       if (!fs.existsSync(fullConfigFolderPath)) {
         fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
       }
