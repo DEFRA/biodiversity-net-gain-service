@@ -9,8 +9,7 @@ export const headers = {
   ],
   developer: [
     'Off-site reference'
-  ],
-  landowner: []
+  ]
 }
 
 export default {

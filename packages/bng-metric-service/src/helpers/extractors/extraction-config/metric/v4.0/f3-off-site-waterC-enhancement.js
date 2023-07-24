@@ -11,7 +11,6 @@ export const headers = {
     'Extent of encroachment',
     'Extent of encroachment for both banks'
   ],
-  developer: [],
   landowner: [
     'Strategic significance'
   ]

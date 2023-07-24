@@ -4,14 +4,15 @@ import path from 'path'
 import start from './metric/start.js'
 
 const getCellHeaders = (role, headers) => {
-  if (headers) {
-    switch (role) {
-      case 'developer':
-        return headers.developer ? [...headers.common, ...headers.developer] : headers.common
-      default:
-        return headers.landowner ? [...headers.common, ...headers.landowner] : headers.common
+  let _header = []
+  if (!_.isEmpty(headers)) {
+    if (role === 'developer') {
+      _header = headers.developer && !_.isEmpty(headers.developer) ? [...headers.common, ...headers.developer] : headers.common
+    } else {
+      _header = headers.landowner && !_.isEmpty(headers.landowner) ? [...headers.common, ...headers.landowner] : headers.common
     }
   }
+  return _header
 }
 
 export default {
