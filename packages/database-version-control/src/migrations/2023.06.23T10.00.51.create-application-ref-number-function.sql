@@ -1,10 +1,10 @@
 CREATE FUNCTION bng.fn_create_application_ref_number()
-   RETURNS VARCHAR(20) 
+   RETURNS VARCHAR(22) 
    LANGUAGE plpgsql
   AS
 $$
 DECLARE 
-	insert_application_reference VARCHAR(20);
+	insert_application_reference VARCHAR(22);
 	insert_id UUID;
 	insert_date TIMESTAMP;
 BEGIN
@@ -29,7 +29,7 @@ BEGIN
 			WHERE (date_created AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date = (insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date
       		AND date_created <= insert_date
 		) || 
-		(SELECT CONCAT_WS('', '-', upper(substr(md5(random()::text), 0, 5))))
+		(SELECT CONCAT_WS('', '-', 'A', upper(substr(md5(random()::text), 0, 5))))
 	)
 	WHERE application_reference_id = insert_id;
 	
