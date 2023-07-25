@@ -47,16 +47,14 @@ const handlers = {
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
+    let organisation = {}
     if (orgId) {
-      const organisation = legalAgreementParties[orgId]
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-        organisation,
-        legalAgreementType
-      })
+      organisation = legalAgreementParties[orgId]
+    } else {
+      organisation.organisationOtherRole = ''
     }
-
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
+      organisation,
       legalAgreementType
     })
   },
