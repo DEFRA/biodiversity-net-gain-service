@@ -8,4 +8,3 @@ export default {
   validationConfiguration
 }
 
-// extractionConfiguration.getExtractionConfiguration({ role: 'a', v: 'v4.0' })
