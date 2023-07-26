@@ -4,7 +4,7 @@
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
 {% set showSaveLink = true %}
-{% set pageHeading = "Upload a document or image showing the land boundary" %}
+{% set pageHeading = "Upload a document or image showing the biodiversity gain site boundary" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -34,10 +34,10 @@
             }
           }) }}
           <p class="govuk-!-padding-top-3">
-            <a href="/land/need-boundary-file">I do not have a file of the land boundary</a>
+            No file chosen
           </p>
           {{ govukButton({
-            text: "Continue",
+            text: "Upload",
             attributes: {
               id: "continue",
               "data-testid": "continue"

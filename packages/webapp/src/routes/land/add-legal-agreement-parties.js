@@ -1,5 +1,9 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import {
+  checkApplicantDetails,
+  processRegistrationTask,
+  getLegalAgreementDocumentType
+} from '../../utils/helpers.js'
 
 function processEmptyPartySelection (partySelectionData, index, combinedError, startId) {
   const errorConstruct = {
@@ -158,19 +162,26 @@ const handlers = {
       inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
     })
     const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
     if (partySelectionData) {
       partySelectionData.roles?.forEach(role => {
         if (role.otherPartyName === undefined) {
           role.otherPartyName = ''
         }
       })
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
+        partySelectionData,
+        legalAgreementType
+      })
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
       roles: [{
         organisationIndex: 0,
         otherPartyName: ''
-      }]
+      }],
+      legalAgreementType
     })
   },
   post: async (request, h) => {
