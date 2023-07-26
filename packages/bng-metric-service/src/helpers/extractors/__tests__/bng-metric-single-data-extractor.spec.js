@@ -10,13 +10,15 @@ const options = {
   validationConfiguration: bngMetricService.validationConfiguration
 }
 
+const mockFilePath = 'packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm'
+
 describe('BNG data extractor test', () => {
   it('should extract a valid metric v4 for landowner with common metric fields', async () => {
     options.extractionConfiguration = {
       ...options.extractionConfiguration.start,
       ...await bngMetricService.extractionConfiguration.getExtractionConfiguration()
     }
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const readableStreamv4 = fs.createReadStream(mockFilePath)
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
@@ -122,7 +124,7 @@ describe('BNG data extractor test', () => {
       ...options.extractionConfiguration.start,
       ...await bngMetricService.extractionConfiguration.getExtractionConfiguration({ role: 'developer' })
     }
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const readableStreamv4 = fs.createReadStream(mockFilePath)
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
@@ -277,7 +279,7 @@ describe('BNG data extractor test', () => {
   })
 
   it('Should remove a column without error', async () => {
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const readableStreamv4 = fs.createReadStream(mockFilePath)
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const extractionConfiguration = {
       test: {
@@ -316,7 +318,7 @@ describe('BNG data extractor test', () => {
   })
 
   it('Should return data even if all extraction config properties are not provided', async () => {
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const readableStreamv4 = fs.createReadStream(mockFilePath)
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const extractionConfiguration = {
       test: {
@@ -348,5 +350,29 @@ describe('BNG data extractor test', () => {
     } catch (e) {
       expect(e.message).toContain('ENOENT')
     }
+  })
+
+  it('should extract default value if sequence number of column in columnsToBeExtracted is 0', async () => {
+    options.extractionConfiguration = {
+      ...options.extractionConfiguration.start,
+      d1OffSiteHabitatBaseline: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        titleCellAddress: 'D3',
+        startCell: 'D10',
+        endCell: 'O12',
+        cellHeaders: ['Strategic significance'],
+        columnsToBeRemoved: [],
+        columnsToBeExtracted: {
+          'Strategic significance': 0
+        }
+      }
+    }
+    const readableStreamv4 = fs.createReadStream(mockFilePath)
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
+
+    expect(response.d1OffSiteHabitatBaseline.length).toEqual(2)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(1)
+    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
   })
 })

@@ -115,6 +115,7 @@ class BngMetricSingleDataExtractor {
       if (!_.isEmpty(columnsToBeExtracted)) {
         for (const column in columnsToBeExtracted) {
           const position = columnsToBeExtracted[column]
+          /* istanbul ignore else */
           if (position !== 0) {
             row[column] = row[`${column}_${position}`]
           }
