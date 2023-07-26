@@ -21,6 +21,9 @@ export default {
   startCell: 'B11',
   endCell: 'AD260',
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     __EMPTY: 'Hedge units delivered',
     'Condition ': 'Condition',

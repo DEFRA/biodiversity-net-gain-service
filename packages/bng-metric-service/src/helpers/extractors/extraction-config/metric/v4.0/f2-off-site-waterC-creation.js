@@ -22,6 +22,9 @@ export default {
   startCell: 'B11',
   endCell: 'AT258',
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     __EMPTY: 'Watercourse units delivered',
     'Condition ': 'Condition',

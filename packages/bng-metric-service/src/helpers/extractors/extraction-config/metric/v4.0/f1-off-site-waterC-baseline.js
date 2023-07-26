@@ -22,6 +22,9 @@ export default {
   startCell: 'C9',
   endCell: 'AG258',
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     'Condition ': 'Condition'
   }

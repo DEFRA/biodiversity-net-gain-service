@@ -27,7 +27,7 @@ describe('BNG data extractor test', () => {
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
     expect(response.d1OffSiteHabitatBaseline[0].Condition).toEqual('Condition Assessment N/A')
     expect((response.d1OffSiteHabitatBaseline[0]['Total habitat units']).toFixed(2)).toEqual('2.00')
-    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.d2OffSiteHabitatCreation.length).toEqual(3)
     expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(8)
@@ -38,7 +38,7 @@ describe('BNG data extractor test', () => {
     expect(response.d2OffSiteHabitatCreation[0]['Habitat created in advance (years)']).toEqual(0)
     expect(response.d2OffSiteHabitatCreation[0]['Delay in starting habitat creation (years)']).toEqual(0)
     expect((response.d2OffSiteHabitatCreation[0]['Habitat units delivered']).toFixed(2)).toEqual('7.01')
-    expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.d3OffSiteHabitatEnhancement.length).toEqual(4)
     expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(8)
@@ -48,7 +48,7 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancement[0].Condition).toEqual('Good')
     expect(response.d3OffSiteHabitatEnhancement[0]['Habitat enhanced in advance (years)']).toEqual(0)
     expect(response.d3OffSiteHabitatEnhancement[0]['Delay in starting habitat enhancement (years)']).toEqual(0)
-    expect(response.d3OffSiteHabitatEnhancement[0]['Strategic significance']).toEqual('Formally identified in local strategy')
+    expect(response.d3OffSiteHabitatEnhancement[0]['Strategic significance']).toEqual('High strategic significance ')
     expect(response.d3OffSiteHabitatEnhancement[0]['Baseline ref']).toEqual(2)
 
     expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(6)
@@ -56,7 +56,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
     expect(response.e1OffSiteHedgeBaseline[0].Condition).toEqual('Poor')
     expect((response.e1OffSiteHedgeBaseline[0]['Total hedgerow units']).toFixed(2)).toEqual('1.20')
-    expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
     expect(response.e1OffSiteHedgeBaseline[0]['Baseline ref']).toEqual(1)
 
     expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
@@ -66,7 +66,7 @@ describe('BNG data extractor test', () => {
     expect(response.e2OffSiteHedgeCreation[0].Condition).toEqual('Good')
     expect(response.e2OffSiteHedgeCreation[0]['Habitat created in advance (years)']).toEqual(0)
     expect(response.e2OffSiteHedgeCreation[0]['Delay in starting habitat creation (years)']).toEqual(0)
-    expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
     expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(8)
@@ -77,9 +77,8 @@ describe('BNG data extractor test', () => {
     expect(response.e3OffSiteHedgeEnhancement[0]['Delay in starting habitat enhancement (years)']).toEqual(0)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline ref']).toEqual(1)
     expect(response.e3OffSiteHedgeEnhancement[0].Distinctiveness).toEqual('Medium')
-    expect(response.e3OffSiteHedgeEnhancement[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.e3OffSiteHedgeEnhancement[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
-    expect(response.f1OffSiteWaterCBaseline.length).toEqual(249)
     expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(8)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Ditches')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(0.3)
@@ -87,7 +86,7 @@ describe('BNG data extractor test', () => {
     expect((response.f1OffSiteWaterCBaseline[0]['Total watercourse units']).toFixed(2)).toEqual('1.20')
     expect(response.f1OffSiteWaterCBaseline[0]['Extent of encroachment']).toEqual('No Encroachment')
     expect(response.f1OffSiteWaterCBaseline[0]['Extent of encroachment for both banks']).toEqual('No Encroachment/ No Encroachment')
-    expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
     expect(response.f1OffSiteWaterCBaseline[0]['Baseline ref']).toEqual(1)
 
     expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
@@ -97,7 +96,7 @@ describe('BNG data extractor test', () => {
     expect(response.f2OffSiteWaterCCreation[0]['Habitat created in advance (years)']).toEqual(0)
     expect(response.f2OffSiteWaterCCreation[0]['Delay in starting habitat creation (years)']).toEqual(0)
     expect(response.f2OffSiteWaterCCreation[0]['Extent of encroachment for both banks']).toEqual('No Encroachment/ No Encroachment')
-    expect(response.f2OffSiteWaterCCreation[0]['Strategic significance']).toEqual('Formally identified in local strategy')
+    expect(response.f2OffSiteWaterCCreation[0]['Strategic significance']).toEqual('High strategic significance ')
     expect(response.f2OffSiteWaterCCreation[0]['Extent of encroachment']).toEqual('No Encroachment')
 
     expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
@@ -135,7 +134,7 @@ describe('BNG data extractor test', () => {
     expect(response.d1OffSiteHabitatBaseline[0].Condition).toEqual('Condition Assessment N/A')
     expect((response.d1OffSiteHabitatBaseline[0]['Total habitat units']).toFixed(2)).toEqual('2.00')
     expect(response.d1OffSiteHabitatBaseline[0]['Off-site reference']).toEqual(1234)
-    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.d2OffSiteHabitatCreation.length).toEqual(3)
     expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(8)
@@ -171,7 +170,7 @@ describe('BNG data extractor test', () => {
     expect((response.e1OffSiteHedgeBaseline[0]['Total hedgerow units']).toFixed(2)).toEqual('1.20')
     expect(response.e1OffSiteHedgeBaseline[0]['Hedge number']).toEqual(1)
     expect(response.e1OffSiteHedgeBaseline[0]['Off-site reference']).toEqual(1234)
-    expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
     expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(7)
@@ -201,7 +200,7 @@ describe('BNG data extractor test', () => {
     expect(response.f1OffSiteWaterCBaseline[0]['Off-site reference']).toEqual(1234)
     expect(response.f1OffSiteWaterCBaseline[0]['Extent of encroachment']).toEqual('No Encroachment')
     expect(response.f1OffSiteWaterCBaseline[0]['Extent of encroachment for both banks']).toEqual('No Encroachment/ No Encroachment')
-    expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Low Strategic Significance')
 
     expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
     expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(7)

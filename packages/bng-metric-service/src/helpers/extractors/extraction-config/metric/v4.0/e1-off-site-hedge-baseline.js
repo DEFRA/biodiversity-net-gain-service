@@ -22,6 +22,9 @@ const e1OffSiteHedgeBaseline = {
   endCell: 'AB258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     'Condition ': 'Condition'
   }

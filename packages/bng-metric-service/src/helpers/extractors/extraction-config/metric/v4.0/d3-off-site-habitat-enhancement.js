@@ -27,6 +27,9 @@ export default {
   startCell: 'E11',
   endCell: 'AU259',
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     __EMPTY: 'Area (hectares)',
     __EMPTY_3: 'Condition',

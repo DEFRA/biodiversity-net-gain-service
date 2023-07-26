@@ -67,7 +67,7 @@ class BngMetricSingleDataExtractor {
         data = resultData
       } else {
         data = this.#performSubstitution(data, extractionConfiguration)
-        data = this.#removeUnwantedColumns(data, extractionConfiguration)
+        data = this.#prepareDataByColumnsConfig(data, extractionConfiguration)
         data.sheetTitle = sheetTitle
       }
 
@@ -107,16 +107,29 @@ class BngMetricSingleDataExtractor {
     return data
   }
 
-  #removeUnwantedColumns = (data, extractionConfiguration) => {
+  #prepareDataByColumnsConfig = (data, extractionConfiguration) => {
     data.forEach(row => {
-      extractionConfiguration.columnsToBeRemoved.forEach(column => {
+      const { columnsToBeExtracted, columnsToBeRemoved, cellHeaders } = extractionConfiguration
+
+      // Manage duplicate columns name
+      if (!_.isEmpty(columnsToBeExtracted)) {
+        for (const column in columnsToBeExtracted) {
+          const position = columnsToBeExtracted[column]
+          if (position !== 0) {
+            row[column] = row[`${column}_${position}`]
+          }
+        }
+      }
+
+      // Remove unwanted columns
+      columnsToBeRemoved.forEach(column => {
         if (row[column]) {
           delete row[column]
         }
       })
 
       Object.keys(row).forEach(key => {
-        if (!extractionConfiguration.cellHeaders.includes(key)) {
+        if (!cellHeaders.includes(key)) {
           delete row[key]
         }
       })

@@ -22,6 +22,9 @@ export default {
   startCell: 'D10',
   endCell: 'AF257',
   columnsToBeRemoved: [],
+  columnsToBeExtracted: {
+    'Strategic significance': 1
+  },
   substitutions: {
     __EMPTY: 'Broad habitat',
     __EMPTY_1: 'Proposed habitat',
