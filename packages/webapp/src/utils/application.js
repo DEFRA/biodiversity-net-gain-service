@@ -3,7 +3,7 @@ import path from 'path'
 import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = (session) => ({
+const getApplicant = session => ({
   firstName: null,
   lastName: session.get(constants.redisKeys.FULL_NAME),
   role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
@@ -18,18 +18,14 @@ const getFile = (session, fileType, filesize, fileLocation) => ({
   fileName: session.get(fileLocation) && path.basename(session.get(fileLocation))
 })
 
-const getFiles = (session) => {
-  const files = [
-    getFile(session, constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
-    getLandBoundaryFile(session),
-    getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
-    getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
-    getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION),
-    getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
-  ]
-
-  return files
-}
+const getFiles = session => [
+  getFile(session, constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
+  getLandBoundaryFile(session),
+  getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
+  getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
+  getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+  getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
+]
 const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
   session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
 
