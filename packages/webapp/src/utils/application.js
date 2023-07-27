@@ -10,22 +10,22 @@ const getApplicant = (session) => ({
   emailaddress: session.get(constants.redisKeys.EMAIL_VALUE)
 })
 
-const getFile = (session, fileType) => ({
-  contentMediaType: session.get(constants.redisKeys[fileType.toUpperCase() + '_FILE_TYPE']),
-  fileType: fileType,
-  fileSize: session.get(constants.redisKeys[fileType.toUpperCase() + '_FILE_SIZE']),
-  fileLocation: session.get(constants.redisKeys[fileType.toUpperCase() + '_LOCATION']),
-  fileName: session.get(constants.redisKeys[fileType.toUpperCase() + '_LOCATION']) && path.basename(session.get(constants.redisKeys[fileType.toUpperCase() + '_LOCATION']))
+const getFile = (session, fileType, filesize, fileLocation) => ({
+  contentMediaType: session.get(fileType),
+  fileType: fileType.replace('-file-type', ''),
+  fileSize: session.get(filesize),
+  fileLocation: session.get(fileLocation),
+  fileName: session.get(fileLocation) && path.basename(session.get(fileLocation))
 })
 
 const getFiles = (session) => {
   const files = [
-    getFile(session, 'legal-agreement'),
+    getFile(session, constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
     getLandBoundaryFile(session),
-    getFile(session, 'management-plan'),
-    getFile(session, 'metric'),
-    getFile(session, 'land-ownership'),
-    getFile(session, 'local-land-charge')
+    getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
+    getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
+    getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+    getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
   ]
 
   return files
