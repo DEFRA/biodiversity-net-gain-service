@@ -12,7 +12,8 @@ export const headers = {
     'Extent of encroachment for both banks'
   ],
   landowner: [
-    'Strategic significance'
+    'Strategic significance',
+    'Baseline ref'
   ]
 }
 

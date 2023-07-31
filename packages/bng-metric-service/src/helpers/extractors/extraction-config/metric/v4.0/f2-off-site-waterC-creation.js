@@ -12,7 +12,8 @@ export const headers = {
   ],
   landowner: [
     'Strategic significance',
-    'Extent of encroachment'
+    'Extent of encroachment',
+    'Baseline ref'
   ]
 }
 

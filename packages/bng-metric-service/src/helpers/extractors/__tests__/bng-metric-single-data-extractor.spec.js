@@ -20,8 +20,8 @@ describe('BNG data extractor test', () => {
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
-    expect(response.d1OffSiteHabitatBaseline.length).toEqual(5)
-    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(6)
+    expect(response.d1OffSiteHabitatBaseline.length).toEqual(4)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(7)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
@@ -29,7 +29,7 @@ describe('BNG data extractor test', () => {
     expect((response.d1OffSiteHabitatBaseline[0]['Total habitat units']).toFixed(2)).toEqual('2.00')
     expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.d2OffSiteHabitatCreation.length).toEqual(3)
+    expect(response.d2OffSiteHabitatCreation.length).toEqual(2)
     expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(8)
     expect(response.d2OffSiteHabitatCreation[0]['Broad habitat']).toEqual('Grassland')
     expect(response.d2OffSiteHabitatCreation[0]['Proposed habitat']).toEqual('Other neutral grassland')
@@ -40,7 +40,7 @@ describe('BNG data extractor test', () => {
     expect((response.d2OffSiteHabitatCreation[0]['Habitat units delivered']).toFixed(2)).toEqual('7.01')
     expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.d3OffSiteHabitatEnhancement.length).toEqual(4)
+    expect(response.d3OffSiteHabitatEnhancement.length).toEqual(3)
     expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(8)
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed habitat']).toEqual('Lowland raised bog')
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed Broad Habitat']).toEqual('Wetland')
@@ -59,7 +59,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
     expect(response.e1OffSiteHedgeBaseline[0]['Baseline ref']).toEqual(1)
 
-    expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
+    expect(response.e2OffSiteHedgeCreation.length).toEqual(1)
     expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(6)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Native hedgerow with trees')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.3)
@@ -68,7 +68,7 @@ describe('BNG data extractor test', () => {
     expect(response.e2OffSiteHedgeCreation[0]['Delay in starting habitat creation (years)']).toEqual(0)
     expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
+    expect(response.e3OffSiteHedgeEnhancement.length).toEqual(1)
     expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(8)
     expect(response.e3OffSiteHedgeEnhancement[0]['Proposed habitat']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.3)
@@ -79,7 +79,7 @@ describe('BNG data extractor test', () => {
     expect(response.e3OffSiteHedgeEnhancement[0].Distinctiveness).toEqual('Medium')
     expect(response.e3OffSiteHedgeEnhancement[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.f1OffSiteWaterCBaseline.length).toEqual(249)
+    expect(response.f1OffSiteWaterCBaseline.length).toEqual(2)
     expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(8)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Ditches')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(0.3)
@@ -91,7 +91,7 @@ describe('BNG data extractor test', () => {
     expect(response.f1OffSiteWaterCBaseline[0]['Baseline ref']).toEqual(1)
 
     expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
-    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(7)
+    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(8)
     expect(response.f2OffSiteWaterCCreation[0]['Length (km)']).toEqual(0.3)
     expect(response.f2OffSiteWaterCCreation[0].Condition).toEqual('Fairly Good')
     expect(response.f2OffSiteWaterCCreation[0]['Habitat created in advance (years)']).toEqual(0)
@@ -100,8 +100,8 @@ describe('BNG data extractor test', () => {
     expect(response.f2OffSiteWaterCCreation[0]['Strategic significance']).toEqual('Formally identified in local strategy')
     expect(response.f2OffSiteWaterCCreation[0]['Extent of encroachment']).toEqual('No Encroachment')
 
-    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
-    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(11)
+    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(1)
+    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(12)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline habitat']).toEqual('Ditches')
     expect(response.f3OffSiteWaterCEnhancement[0]['Proposed habitat']).toEqual('Ditches')
     expect(response.f3OffSiteWaterCEnhancement[0]['Length (km)']).toEqual(0.3)
@@ -127,7 +127,7 @@ describe('BNG data extractor test', () => {
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
-    expect(response.d1OffSiteHabitatBaseline.length).toEqual(5)
+    expect(response.d1OffSiteHabitatBaseline.length).toEqual(4)
     expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(7)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
@@ -137,7 +137,7 @@ describe('BNG data extractor test', () => {
     expect(response.d1OffSiteHabitatBaseline[0]['Off-site reference']).toEqual(1234)
     expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.d2OffSiteHabitatCreation.length).toEqual(3)
+    expect(response.d2OffSiteHabitatCreation.length).toEqual(2)
     expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(8)
     expect(response.d2OffSiteHabitatCreation[0]['Broad habitat']).toEqual('Grassland')
     expect(response.d2OffSiteHabitatCreation[0]['Proposed habitat']).toEqual('Other neutral grassland')
@@ -148,7 +148,7 @@ describe('BNG data extractor test', () => {
     expect((response.d2OffSiteHabitatCreation[0]['Habitat units delivered']).toFixed(2)).toEqual('7.01')
     expect(response.d2OffSiteHabitatCreation[0]['Off-site reference']).toEqual(1234)
 
-    expect(response.d3OffSiteHabitatEnhancement.length).toEqual(4)
+    expect(response.d3OffSiteHabitatEnhancement.length).toEqual(3)
     expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(12)
     expect(response.d3OffSiteHabitatEnhancement[0]['Baseline habitat']).toEqual('Grassland - Modified grassland')
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed habitat']).toEqual('Lowland raised bog')
@@ -163,7 +163,7 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancement[0]['Condition change']).toEqual('Lower Distinctiveness Habitat - Good')
     expect(response.d3OffSiteHabitatEnhancement[0]['Off-site reference']).toEqual(1234)
 
-    expect(response.e1OffSiteHedgeBaseline.length).toEqual(3)
+    expect(response.e1OffSiteHedgeBaseline.length).toEqual(2)
     expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(7)
     expect(response.e1OffSiteHedgeBaseline[0]['Hedgerow type']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
@@ -173,7 +173,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Off-site reference']).toEqual(1234)
     expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
+    expect(response.e2OffSiteHedgeCreation.length).toEqual(1)
     expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(7)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Native hedgerow with trees')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.3)
@@ -183,7 +183,7 @@ describe('BNG data extractor test', () => {
     expect((response.e2OffSiteHedgeCreation[0]['Hedge units delivered']).toFixed(2)).toEqual('1.77')
     expect(response.e2OffSiteHedgeCreation[0]['Off-site reference']).toEqual(7156)
 
-    expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
+    expect(response.e3OffSiteHedgeEnhancement.length).toEqual(1)
     expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(6)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Native hedgerow - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.3)
@@ -192,7 +192,7 @@ describe('BNG data extractor test', () => {
     expect((response.e3OffSiteHedgeEnhancement[0]['Hedge units delivered']).toFixed(2)).toEqual('2.28')
     expect(response.e3OffSiteHedgeEnhancement[0]['Off-site reference']).toEqual(1234)
 
-    expect(response.f1OffSiteWaterCBaseline.length).toEqual(3)
+    expect(response.f1OffSiteWaterCBaseline.length).toEqual(2)
     expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(8)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Ditches')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(0.3)
@@ -213,7 +213,7 @@ describe('BNG data extractor test', () => {
     expect(response.f2OffSiteWaterCCreation[0]['Off-site reference']).toEqual(7156)
     expect(response.f2OffSiteWaterCCreation[0]['Extent of encroachment for both banks']).toEqual('No Encroachment/ No Encroachment')
 
-    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
+    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(1)
     expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(10)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline habitat']).toEqual('Ditches')
     expect(response.f3OffSiteWaterCEnhancement[0]['Proposed habitat']).toEqual('Ditches')
