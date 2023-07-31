@@ -2,7 +2,12 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import {
+  checkApplicantDetails,
+  getMaximumFileSizeExceededView,
+  processRegistrationTask,
+  getLegalAgreementDocumentType
+} from '../../utils/helpers.js'
 
 const legalAgreementId = '#legalAgreement'
 
@@ -18,10 +23,11 @@ function processSuccessfulUpload (result, request, h) {
   return h.redirect(resultView)
 }
 
-function processErrorUpload (err, h) {
+function processErrorUpload (err, h, legalAgreementType) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        legalAgreementType,
         err: [{
           text: 'The selected file is empty',
           href: legalAgreementId
@@ -29,6 +35,7 @@ function processErrorUpload (err, h) {
       })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        legalAgreementType,
         err: [{
           text: 'Select a legal agreement',
           href: legalAgreementId
@@ -36,6 +43,7 @@ function processErrorUpload (err, h) {
       })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        legalAgreementType,
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
           href: legalAgreementId
@@ -46,6 +54,7 @@ function processErrorUpload (err, h) {
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          legalAgreementType,
           err: [{
             text: 'The selected file could not be uploaded -- try again',
             href: legalAgreementId
@@ -64,7 +73,12 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
     })
-    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT)
+
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
+    return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+      legalAgreementType
+    })
   },
   post: async (request, h) => {
     const config = buildConfig({
@@ -74,16 +88,19 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
 
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)
       },
       function (err) {
-        return processErrorUpload(err, h)
+        return processErrorUpload(err, h, legalAgreementType)
       }
     ).catch(err => {
       console.log(`Problem uploading file ${err}`)
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+        legalAgreementType,
         err: [{
           text: 'The selected file could not be uploaded -- try again',
           href: legalAgreementId
