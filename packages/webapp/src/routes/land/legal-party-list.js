@@ -1,6 +1,25 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { processRegistrationTask, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
 
+const getCustomizedHTML = (item, index) => {
+  return {
+    key: {
+      text: item,
+      classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
+    },
+    actions: {
+      items: [{
+        href: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES + '?' + 'orgId=' + index,
+        text: 'Change'
+      }, {
+        href: constants.routes.LEGAL_PARTY_REMOVE + '?' + 'orgId=' + index,
+        text: 'Remove'
+      }],
+      classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
+    },
+    class: 'govuk-summary-list__row'
+  }
+}
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -10,12 +29,16 @@ const handlers = {
       inProgressUrl: constants.routes.LEGAL_PARTY_LIST
     })
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES))
+    const legalAgreementPartiesWithAction = legalAgreementParties.map((currElement, index) => {
+      return getCustomizedHTML(currElement, index)
+    })
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE } = constants.routes
 
     return h.view(constants.views.LEGAL_PARTY_LIST, {
+      legalAgreementPartiesWithAction,
       legalAgreementParties,
       legalAgreementType,
       routes: { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE }

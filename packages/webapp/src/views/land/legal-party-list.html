@@ -18,35 +18,11 @@
             <h1 class="govuk-heading-l" tabindex="-1">
               {{ pageHeading }}
             </h1>
-
-            {% for org in legalAgreementParties %}
-
                 {{ govukSummaryList({
-                    rows: [
-                                {
-                                    key: {
-                                        text: org.organisationName + " (" + org.organisationRole + ")",
-                                        classes: "govuk-!-font-weight-regular"
-                                    },
-                                    actions: {
-                                        items: [
-                                            {
-                                                href: routes.ADD_LEGAL_AGREEMENT_PARTIES + "?" + "orgId=" + loop.index0,
-                                                text: "Change"
-                                            },
-                                            {
-                                                href: routes.LEGAL_PARTY_REMOVE + "?" + "orgId=" + loop.index0,
-                                                text: "Remove"
-                                            }
-                                        ],
-                                        classes: "govuk-summary-list__actions-list"
-                                    }
-                                }
-                            ]
+                    rows: legalAgreementPartiesWithAction,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
                     }) 
                 }}
-            {% endfor %}
-
             {{ govukRadios({
                 idPrefix: "addAnotherLegalParty",
                 name: "addAnotherLegalParty",
