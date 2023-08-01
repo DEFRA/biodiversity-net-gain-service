@@ -9,10 +9,10 @@ const getCustomizedHTML = (item, index) => {
     },
     actions: {
       items: [{
-        href: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES + '?' + 'orgId=' + index,
+        href: `${constants.routes.ADD_LEGAL_AGREEMENT_PARTIES}?orgId=${index}`,
         text: 'Change'
       }, {
-        href: constants.routes.LEGAL_PARTY_REMOVE + '?' + 'orgId=' + index,
+        href: `${constants.routes.LEGAL_PARTY_REMOVE} ?orgId=${index}`,
         text: 'Remove'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
@@ -30,9 +30,7 @@ const handlers = {
     })
 
     const legalAgreementParties = getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES))
-    const legalAgreementPartiesWithAction = legalAgreementParties.map((currElement, index) => {
-      return getCustomizedHTML(currElement, index)
-    })
+    const legalAgreementPartiesWithAction = legalAgreementParties.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE } = constants.routes
