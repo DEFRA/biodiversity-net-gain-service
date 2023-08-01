@@ -3,7 +3,7 @@ import _ from 'lodash'
 import path from 'path'
 import start from './metric/start.js'
 
-const getCellHeaders = (role, headers) => {
+export const getCellHeaders = (role, headers) => {
   let _header = []
   /* istanbul ignore else */
   if (!_.isEmpty(headers)) {

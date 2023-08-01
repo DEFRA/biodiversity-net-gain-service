@@ -2,6 +2,7 @@ import fs from 'fs'
 import BngMetricSingleDataExtractor from '../bng-metric-single-data-extractor.js'
 import bngMetricService from '../../../service.js'
 import areOffsiteTotalsCorrect from '../validation-config/are-offsite-totals-correct.js'
+import * as configs from '../extraction-config/configuration.js'
 
 const options = {
   extractionConfiguration: {
@@ -349,5 +350,46 @@ describe('BNG data extractor test', () => {
     } catch (e) {
       expect(e.message).toContain('ENOENT')
     }
+  })
+  it('Should return default columns even if nested array for the role is not provided', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const headers = configs.getCellHeaders(null, { common: ['Broad habitat'] })
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: headers,
+        columnsToBeRemoved: [],
+        substitutions: undefined,
+        cells: [{ cell: '!ref' }]
+      }
+    }
+
+    expect(headers).toEqual(['Broad habitat'])
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(Object.keys(response.test[0]).length).toEqual(1)
+    expect(response.test[0].Condition).toBe(undefined)
+  })
+
+  it('Should return default columns if role is provided and nestested array for the role is not there', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const headers = configs.getCellHeaders('developer', { common: ['Broad habitat'] })
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: headers,
+        columnsToBeRemoved: [],
+        substitutions: undefined,
+        cells: [{ cell: '!ref' }]
+      }
+    }
+
+    expect(headers).toEqual(['Broad habitat'])
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(Object.keys(response.test[0]).length).toEqual(1)
+    expect(response.test[0].Condition).toBe(undefined)
   })
 })
