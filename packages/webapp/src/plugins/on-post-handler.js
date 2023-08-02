@@ -27,22 +27,26 @@ const onPostHandler = {
           }
 
           // Add Account details to context if present
-          if (request.auth?.isAuthenticated && request.auth.credentials?.account) {
-            if (!h.request.response.source.context) {
-              h.request.response.source.context = {}
-            }
-            const accountInfo = request.auth.credentials.account.idTokenClaims
-            h.request.response.source.context.auth = {
-              isAuthenticated: true,
-              firstName: accountInfo.firstName,
-              lastName: accountInfo.lastName,
-              email: accountInfo.email,
-              contactId: accountInfo.contactId
-            }
-          }
+          addAccountDetailsToContextIfPresent(request, h)
         }
         return h.continue
       })
+    }
+  }
+}
+
+const addAccountDetailsToContextIfPresent = (request, h) => {
+  if (request.auth?.isAuthenticated && request.auth.credentials?.account) {
+    if (!h.request.response.source.context) {
+      h.request.response.source.context = {}
+    }
+    const accountInfo = request.auth.credentials.account.idTokenClaims
+    h.request.response.source.context.auth = {
+      isAuthenticated: true,
+      firstName: accountInfo.firstName,
+      lastName: accountInfo.lastName,
+      email: accountInfo.email,
+      contactId: accountInfo.contactId
     }
   }
 }
