@@ -7,7 +7,7 @@ RETURNS VARCHAR(20)
 $$
 DECLARE
   insert_application_reference VARCHAR(20);
-	insert_id UUID;
+  insert_id UUID;
   first_random_string VARCHAR(4) := upper(bng.fn_random_string(4));
   second_random_string VARCHAR(5) := upper(bng.fn_random_string(5));
 BEGIN
@@ -49,3 +49,4 @@ EXCEPTION
     RAISE;
 END;
 $$;
+
