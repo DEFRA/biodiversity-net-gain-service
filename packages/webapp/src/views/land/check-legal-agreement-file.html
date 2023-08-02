@@ -2,7 +2,8 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Check the legal agreement file" %}
+{% set showSaveLink = true %}
+{% set pageHeading = "Check the " + legalAgreementType + " file" %}
 
 {% block formContent %}
   <div class="govuk-body">

@@ -1,6 +1,12 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { processRegistrationTask, getNameAndRoles, dateToString, listArray, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import {
+  processRegistrationTask,
+  getNameAndRoles,
+  dateToString,
+  listArray,
+  getLegalAgreementDocumentType
+} from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {

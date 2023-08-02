@@ -3,7 +3,12 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
+<<<<<<< HEAD
 {% set pageHeading = "Upload the legal agreement" %}
+=======
+{% set showSaveLink = true %}
+{% set pageHeading = "Upload the " + legalAgreementType %}
+>>>>>>> origin/master
 
 {% block formContent %}
   <div class="govuk-body">
@@ -19,19 +24,28 @@
               isPageHeading: true
             }
           }) }}
+
+          <div id="legal-agreement-upload-hint">
+            <p>The file should be:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>a DOC, DOCX or PDF</li>
+              <li>no larger than 50MB</li>
+            </ul>
+          </div>
+
           {{ govukFileUpload({
             id: "legalAgreement",
             name: "legalAgreement",
             errorMessage: err[0],
-            hint: {
-              text: "DOC, DOCX or PDF, max size 50MB"
-            },
             label: {
               text: "Choose file",
               classes: "govuk-visually-hidden"
             }
           }) }}
 
+          <p class="govuk-!-padding-top-3">
+            <a href="/land/need-legal-agreement">I do not have a {{legalAgreementType}}</a>
+          </p>
           {{ govukButton({
             text: "Continue",
             attributes: {
