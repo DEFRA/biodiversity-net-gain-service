@@ -204,3 +204,22 @@ if (!calledGTag) {
     }
   }
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  const button = document.querySelector('.govuk-button')
+  const inputFile = document.querySelector('.govuk-file-upload')
+  if (button && inputFile) {
+    const buttonText = button.textContent.trim().toLowerCase()
+    if (buttonText === 'upload' || buttonText === 'continue') {
+      button.setAttribute('aria-live', 'polite')
+      button.addEventListener('click', function () {
+        setTimeout(function () {
+          button.setAttribute('disabled', 'disabled')
+          button.classList.add('govuk-button--disabled')
+          button.setAttribute('aria-disabled', 'true')
+          button.innerHTML = 'Uploading'
+        }, 0)
+      })
+    }
+  }
+})
