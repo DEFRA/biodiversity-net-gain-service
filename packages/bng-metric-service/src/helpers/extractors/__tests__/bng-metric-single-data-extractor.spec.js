@@ -372,7 +372,7 @@ describe('BNG data extractor test', () => {
     expect(response.test[0].Condition).toBe(undefined)
   })
 
-  it('Should return default columns if role is provided and nestested array for the role is not there', async () => {
+  it('Should return default columns if role is provided and nested array for the role is not there', async () => {
     const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const headers = configs.getCellHeaders('developer', { common: ['Broad habitat'] })
