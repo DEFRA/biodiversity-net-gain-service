@@ -12,6 +12,8 @@ const req = {
   }
 }
 
+const gainSiteReference = 'BNGREG-JDSJ3-A4LI9'
+
 describe('Save Application Session', () => {
   it('Should Save a valid request\'s session with email, and generate a reference', done => {
     jest.isolateModules(async () => {
@@ -28,7 +30,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_application_ref_number: 'BNGREG-00000001-A4LI9'
+                fn_create_application_reference: gainSiteReference
               }
             ]
           }
@@ -45,7 +47,7 @@ describe('Save Application Session', () => {
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
-        expect(context.res.body).toEqual('"BNGREG-00000001-A4LI9"')
+        expect(context.res.body).toEqual(`"${gainSiteReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
@@ -58,7 +60,7 @@ describe('Save Application Session', () => {
   it('Should save a valid session with email and reference and send a notification', done => {
     jest.isolateModules(async () => {
       try {
-        req.body['application-reference'] = 'REF001'
+        req.body['application-reference'] = gainSiteReference
         const dbQueries = require('../../Shared/db-queries.js')
         const applicationSessionId = randomUUID()
 
@@ -78,7 +80,7 @@ describe('Save Application Session', () => {
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
-        expect(context.res.body).toEqual('"REF001"')
+        expect(context.res.body).toEqual(`"${gainSiteReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)

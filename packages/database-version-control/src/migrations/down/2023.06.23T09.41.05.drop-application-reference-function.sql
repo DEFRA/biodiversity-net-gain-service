@@ -1,10 +1,10 @@
-CREATE FUNCTION bng.fn_create_application_ref_number()
-   RETURNS VARCHAR(22) 
+CREATE FUNCTION bng.fn_create_application_reference()
+   RETURNS VARCHAR(20) 
    LANGUAGE plpgsql
   AS
 $$
 DECLARE 
-	insert_application_reference VARCHAR(22);
+	insert_application_reference VARCHAR(20);
 	insert_id UUID;
 	insert_date TIMESTAMP;
 BEGIN
@@ -17,19 +17,18 @@ BEGIN
 	-- Do count for ID for that day using locale 'Europe/London'
 	UPDATE bng.application_reference
 	SET application_reference = (
-		SELECT 'BNGREG-' || 
+		SELECT 'REF' || 
+		TO_CHAR((insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London'), 'YYMMDD') ||
 		(
-			SELECT 
-				CASE
-				WHEN LENGTH(count(1)::text) > 8
-				THEN count(1)::text
-				ELSE TO_CHAR(count(1), 'fm00000000')
-				END
+			SELECT CASE
+			WHEN LENGTH(count(1)::text) > 4
+			THEN count(1)::text
+			ELSE TO_CHAR(count(1), 'fm0000')
+			END
 			FROM bng.application_reference 
 			WHERE (date_created AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date = (insert_date AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/London')::date
-      		AND date_created <= insert_date
-		) || 
-		(SELECT CONCAT_WS('', '-', 'A', upper(substr(md5(random()::text), 0, 5))))
+      AND date_created <= insert_date
+		)		
 	)
 	WHERE application_reference_id = insert_id;
 	

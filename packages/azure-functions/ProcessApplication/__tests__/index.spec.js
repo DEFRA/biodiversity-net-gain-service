@@ -45,6 +45,8 @@ const req = {
   }
 }
 
+const gainSiteReference = 'BNGREF-JDSJ3-A4LI9'
+
 describe('Processing an application', () => {
   /*
     Happy paths
@@ -62,7 +64,7 @@ describe('Processing an application', () => {
           return {
             rows: [
               {
-                fn_create_application_ref_number: 'BNGREG-00000001-A4LI9'
+                fn_create_application_reference: gainSiteReference
               }
             ]
           }
@@ -72,7 +74,7 @@ describe('Processing an application', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('BNGREG-00000001-A4LI9')
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual(gainSiteReference)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
@@ -92,13 +94,13 @@ describe('Processing an application', () => {
             rows: []
           }
         })
-        req.body.landownerGainSiteRegistration.gainSiteReference = 'test'
+        req.body.landownerGainSiteRegistration.gainSiteReference = gainSiteReference
         // execute function
         await processApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual('test')
+        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual(gainSiteReference)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
@@ -122,12 +124,12 @@ describe('Processing an application', () => {
             ]
           }
         })
-        req.body.landownerGainSiteRegistration.gainSiteReference = 'test'
+        req.body.landownerGainSiteRegistration.gainSiteReference = gainSiteReference
         // execute function
         await processApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(context.res.body.applicationReference).toEqual('test')
+        expect(context.res.body.applicationReference).toEqual(gainSiteReference)
         expect(context.res.body.message).toEqual('Application reference has already been processed')
         expect(context.bindings.outputSbQueue).toBeFalsy()
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)

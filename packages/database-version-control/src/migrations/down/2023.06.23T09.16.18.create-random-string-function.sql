@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS bng.fn_random_string;
