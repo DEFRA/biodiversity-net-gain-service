@@ -10,7 +10,7 @@ const onPostHandler = {
           if (request.method === 'get') {
             // if getting a view then set headers to stop client caching
             request.response.headers['cache-control'] = 'no-cache, no-store, must-revalidate'
-            processReferer(request)
+            handleReferer(request)
           }
 
           // Add Account details to context if present
@@ -22,7 +22,7 @@ const onPostHandler = {
   }
 }
 
-const processReferer = request => {
+const handleReferer = request => {
   if (request.headers.referer) {
     // If referer was a check route then set the session referer
     // Route then decides whether to redirect to referer or not
