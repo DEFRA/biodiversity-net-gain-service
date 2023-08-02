@@ -104,6 +104,14 @@ describe(url, () => {
             startTaskUrl: '/land/legal-agreement-type',
             inProgressUrl: '',
             id: 'add-legal-agreement'
+          },
+          {
+            title: 'Add local land charge search certificate',
+            status: 'NOT STARTED',
+            completedTaskUrl: '/land/check-local-land-charge-file',
+            startTaskUrl: '/land/upload-local-land-charge',
+            inProgressUrl: '',
+            id: 'add-local-land-charge-search-certificate'
           }
         ]
       })
@@ -203,6 +211,14 @@ describe(url, () => {
             startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
             inProgressUrl: '',
             id: 'add-legal-agreement'
+          },
+          {
+            title: 'Add local land charge search certificate',
+            status: 'NOT STARTED',
+            completedTaskUrl: '/land/check-local-land-charge-file',
+            startTaskUrl: '/land/upload-local-land-charge',
+            inProgressUrl: '',
+            id: 'add-local-land-charge-search-certificate'
           }
         ]
       })

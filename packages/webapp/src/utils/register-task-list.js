@@ -67,6 +67,14 @@ const registerTaskList = {
           startTaskUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
           inProgressUrl: '',
           id: 'add-legal-agreement'
+        },
+        {
+          title: 'Add local land charge search certificate',
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          completedTaskUrl: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
+          startTaskUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
+          inProgressUrl: '',
+          id: 'add-local-land-charge-search-certificate'
         }
       ]
     },
