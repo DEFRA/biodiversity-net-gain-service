@@ -477,6 +477,9 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
+// Checking feature flag environment variable to disable some routes for MVP
+const isRouteDisabled = () => process.env.HAS_ROUTES_DISABLED === 'true'
+
 export {
   validateDate,
   dateClasses,
@@ -513,5 +516,6 @@ export {
   getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails
+  checkDeveloperDetails,
+  isRouteDisabled
 }
