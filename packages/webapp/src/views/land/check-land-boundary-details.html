@@ -19,48 +19,29 @@
                     }
                 }) }}
                 <form method="post">
+                    {% set landBoundaryFileName = undefined if isRouteDisabled() else {
+                        key: {
+                              text: 'File uploaded'
+                          },
+                          value: {
+                              html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
+                          },
+                          actions: {
+                            items: [
+                                {
+                                    href: checkLandBoundaryLink,
+                                    text: 'Change',
+                                    visuallyHiddenText: ' land boundary file',
+                                    attributes: {
+                                        id: "check-land-boundary-file"
+                                    }
+                                }
+                            ]
+                          }
+                    } %}
                     {{ govukSummaryList({
                         rows: [
-                          {
-                            key: {
-                                text: 'File type'
-                            },
-                            value: {
-                                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-                            },
-                            actions: {
-                              items: [
-                                  {
-                                      href: '/land/choose-land-boundary-upload',
-                                      text: 'Change',
-                                      visuallyHiddenText: ' land boundary file',
-                                      attributes: {
-                                          id: "check-land-boundary-file-type"
-                                      }
-                                  }
-                              ]
-                            }
-                          },
-                            {
-                              key: {
-                                  text: 'File uploaded'
-                              },
-                              value: {
-                                  html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
-                              },
-                              actions: {
-                                items: [
-                                    {
-                                        href: checkLandBoundaryLink,
-                                        text: 'Change',
-                                        visuallyHiddenText: ' land boundary file',
-                                        attributes: {
-                                            id: "check-land-boundary-file"
-                                        }
-                                    }
-                                ]
-                              }
-                            },
+                            landBoundaryFileName,
                             {
                               key: {
                                 text: "Boundary on a map"

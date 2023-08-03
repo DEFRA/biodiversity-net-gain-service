@@ -14,29 +14,30 @@
         </h1>
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
+        {% set landBoundaryUploadType = undefined if isRouteDisabled() else {
+          key: {
+              text: "Land boundary file type"
+          },
+          value: {
+            html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
+          },
+          actions: {
+            items: [
+                {
+                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+                    text: "Change",
+                    visuallyHiddenText: " land boundary file",
+                    attributes: {
+                        id: "check-land-boundary-file-type"
+                    }
+                }
+            ]
+          }
+        } %}
         {{ govukSummaryList({
           classes: "govuk-!-margin-bottom-7",
           rows: [
-            {
-              key: {
-                  text: "Land boundary file type"
-              },
-              value: {
-                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-              },
-              actions: {
-                items: [
-                    {
-                        href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-                        text: "Change",
-                        visuallyHiddenText: " land boundary file",
-                        attributes: {
-                            id: "check-land-boundary-file-type"
-                        }
-                    }
-                ]
-              }
-            },
+            landBoundaryUploadType,
             {
               key: {
                 text: "Land boundary file uploaded"
