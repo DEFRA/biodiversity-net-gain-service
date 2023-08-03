@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask, isRouteDisabled } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
@@ -10,7 +10,10 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS
     })
-    return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, geospatialOrLandBoundaryContext(request))
+    return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
+      ...geospatialOrLandBoundaryContext(request),
+      isRouteDisabled
+    })
   },
   post: async (request, h) => {
     processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land boundary details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })

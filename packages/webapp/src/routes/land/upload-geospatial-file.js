@@ -5,7 +5,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, isRouteDisabled, processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
 const uploadGeospatialFileId = '#geospatialLandBoundary'
@@ -70,7 +70,7 @@ const performUpload = async (request, h) => {
     await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION))
     request.yar.clear(constants.redisKeys.LAND_BOUNDARY_LOCATION)
 
-    return h.redirect(constants.routes.CHECK_GEOSPATIAL_FILE)
+    return h.redirect(isRouteDisabled() ? constants.routes.CHECK_LAND_BOUNDARY_DETAILS : constants.routes.CHECK_GEOSPATIAL_FILE)
   } catch (err) {
     const errorContext = getErrorContext(err)
     return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, { ...errorContext, maxFileSize: process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB })
