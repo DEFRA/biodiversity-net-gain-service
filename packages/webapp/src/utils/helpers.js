@@ -4,6 +4,7 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+import { logger } from 'defra-logging-facade'
 
 const isoDateFormat = 'YYYY-MM-DD'
 
@@ -478,7 +479,28 @@ const areDeveloperDetailsPresent = session => (
 )
 
 // Checking feature flag environment variable to disable some routes for MVP
-const isRouteDisabled = () => process.env.HAS_ROUTES_DISABLED === 'true'
+const getDisabledRoutes = () => {
+  const disabledRoutes = process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';')
+
+  const validDisabledRoutes = []
+  // Checking if provided value of DISABLED_ROUTES is exists in constants
+  if (disabledRoutes) {
+    Object.values(constants.routes).forEach(route => {
+      for (const item of disabledRoutes) {
+        if (route === item) validDisabledRoutes.push(item)
+      }
+    })
+  
+    if(validDisabledRoutes.length !== disabledRoutes.length) {
+      const difference = disabledRoutes.filter(x => validDisabledRoutes.indexOf(x) === -1);
+      logger.info(`${new Date().toUTCString()} Some routes in 'DISABLED_ROUTES' doest not exists ${JSON.stringify(difference)}`)
+    }
+  }
+
+  return validDisabledRoutes
+}
+// Checking if requested route is disabled
+const isRouteDisabled = (route) => process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';').includes(route)
 
 export {
   validateDate,
@@ -517,5 +539,6 @@ export {
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,
-  isRouteDisabled
+  isRouteDisabled,
+  getDisabledRoutes
 }

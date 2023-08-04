@@ -28,6 +28,7 @@ warning: other service dependencies will be missing, install and run from root o
 | GOOGLE_TAGMANAGER_ID | Google Tag Manager ID | N |
 | NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
 | MAX_GEOSPATIAL_FILE_UPLOAD_MB | MVP recommendation to change file size limit on geospatial files | Y |
+| DISABLED_ROUTES | Used to enable/disable features and routes in form of string with semicolon | N |
 
 #### Setting the SIGNALR_URL environment variable
 

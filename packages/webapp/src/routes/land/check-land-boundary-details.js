@@ -12,6 +12,7 @@ const handlers = {
     })
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
+      routes: constants.routes,
       isRouteDisabled
     })
   },

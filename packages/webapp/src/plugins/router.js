@@ -1,20 +1,15 @@
 import constants from '../utils/constants.js'
-
-// Disabling some routes from the registration journey for MVP
-const routesToBeExcluded = [
-  '/land/choose-land-boundary-upload',
-  '/land/geospatial-land-boundary',
-  '/land/check-geospatial-file', // NOTE: Need to revise AC of 3402
-  '/land/download-geospatial-land-boundary-file'
-]
+import { getDisabledRoutes, isRouteDisabled } from '../utils/helpers.js'
 
 const router = async () => {
   let routes = [].concat(
     ...await Promise.all(Object.values(constants.routes).map(async route => (await import(`../routes/${route}.js`)).default))
   )
-
-  if (process.env.HAS_ROUTES_DISABLED === 'true') {
-    routes = routes.filter(route => !routesToBeExcluded.includes(route?.path))
+    
+  // Disabling some routes from the registration journey for MVP
+  const disabledRoutes = getDisabledRoutes()
+  if (disabledRoutes.length > 0) {
+    routes = routes.filter(route => !disabledRoutes.includes(route?.path))
   }
 
   return {
