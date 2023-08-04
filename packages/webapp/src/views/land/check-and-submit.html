@@ -14,7 +14,7 @@
         </h1>
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
-        {% set landBoundaryUploadType = undefined if isRouteDisabled() else {
+        {% set landBoundaryUploadTypeElement = undefined if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else {
           key: {
               text: "Land boundary file type"
           },
@@ -37,7 +37,7 @@
         {{ govukSummaryList({
           classes: "govuk-!-margin-bottom-7",
           rows: [
-            landBoundaryUploadType,
+            landBoundaryUploadTypeElement,
             {
               key: {
                 text: "Land boundary file uploaded"

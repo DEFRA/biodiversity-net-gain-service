@@ -42,6 +42,7 @@ warning: other service dependencies will be missing, install and run from root o
 | BACS_SORT_CODE | Natural England Bacs sort code (with no spaces) | Y |
 | BACS_ACCOUNT_NUMBER | Natural England Bacs account number | Y |
 | BACS_SWIFT_CODE | Natural England Bacs SWIFT / BIC code | Y |
+| DISABLED_ROUTES | Used to enable/disable features and routes in form of string with semicolon | N |
 
 #### Setting the SIGNALR_URL environment variable
 

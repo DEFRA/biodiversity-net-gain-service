@@ -19,7 +19,7 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set landBoundaryFileName = undefined if isRouteDisabled() else {
+                    {% set landBoundaryFileNameElement = undefined if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else {
                         key: {
                               text: 'File uploaded'
                           },
@@ -41,7 +41,7 @@
                     } %}
                     {{ govukSummaryList({
                         rows: [
-                            landBoundaryFileName,
+                            landBoundaryFileNameElement,
                             {
                               key: {
                                 text: "Boundary on a map"
@@ -61,7 +61,7 @@
                             actions: {
                                 items: [
                                     {
-                                        href: '/land/add-grid-reference',
+                                        href: routes.ADD_GRID_REFERENCE,
                                         text: 'Change',
                                         visuallyHiddenText: ' grid reference',
                                         classes: hideClass(geospatial),
@@ -82,7 +82,7 @@
                               actions: {
                               items: [
                                   {
-                                      href: '/land/add-hectares',
+                                      href: routes.ADD_HECTARES,
                                       text: 'Change',
                                       visuallyHiddenText: ' area in hectares',
                                       classes: hideClass(geospatial),
