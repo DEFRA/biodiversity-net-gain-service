@@ -490,9 +490,9 @@ const getDisabledRoutes = () => {
         if (route === item) validDisabledRoutes.push(item)
       }
     })
-  
-    if(validDisabledRoutes.length !== disabledRoutes.length) {
-      const difference = disabledRoutes.filter(x => validDisabledRoutes.indexOf(x) === -1);
+
+    if (validDisabledRoutes.length !== disabledRoutes.length) {
+      const difference = disabledRoutes.filter(x => validDisabledRoutes.indexOf(x) === -1)
       logger.info(`${new Date().toUTCString()} Some routes in 'DISABLED_ROUTES' doest not exists ${JSON.stringify(difference)}`)
     }
   }
