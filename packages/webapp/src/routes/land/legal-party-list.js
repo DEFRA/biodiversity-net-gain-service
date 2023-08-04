@@ -12,7 +12,7 @@ const getCustomizedHTML = (item, index) => {
         href: `${constants.routes.ADD_LEGAL_AGREEMENT_PARTIES}?orgId=${index}`,
         text: 'Change'
       }, {
-        href: `${constants.routes.LEGAL_PARTY_REMOVE} ?orgId=${index}`,
+        href: `${constants.routes.LEGAL_PARTY_REMOVE}?orgId=${index}`,
         text: 'Remove'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
