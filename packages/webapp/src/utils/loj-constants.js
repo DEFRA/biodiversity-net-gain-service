@@ -152,7 +152,7 @@ const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 
 export default {
-    redisKeys :{
+    redisKeys: {
         ADD_LEGAL_AGREEMENT_PARTIES,
         APPLICATION_REFERENCE,
         ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
@@ -233,8 +233,8 @@ export default {
         ELIGIBILITY_BIODIVERSITY_METRIC,
         ELIGIBILITY_HMMP,
         REGISTRATION_SAVED_REFERER
-    }, 
-    routes : {
+    },
+    routes: {
         ADD_GRID_REFERENCE,
         ADD_HECTARES,
         ERROR,
@@ -309,8 +309,8 @@ export default {
         CHECK_HABITAT_CREATED,
         CHECK_METRIC_DETAILS,
         COOKIES
-      },
-      uploadTypes: {
+    },
+    uploadTypes: {
         GEOSPATIAL_UPLOAD_TYPE,
         LEGAL_AGREEMENT_UPLOAD_TYPE,
         LOCAL_LAND_CHARGE_UPLOAD_TYPE,
@@ -318,16 +318,16 @@ export default {
         LAND_BOUNDARY_UPLOAD_TYPE,
         METRIC_UPLOAD_TYPE,
         LAND_OWNERSHIP_UPLOAD_TYPE
-      },
-      eligibilityHtml:{
+    },
+    eligibilityHtml: {
         [ELIGIBILITY_BOUNDARY]: '<li>the boundary of the land</li>',
         [ELIGIBILITY_CONSENT]: '<li>consent from the landowner</li>',
         [ELIGIBILITY_OWNERSHIP_PROOF]: '<li>proof of ownership of the land</li>',
         [ELIGIBILITY_BIODIVERSITY_METRIC]: '<li>a completed Biodiversity metric (Secretary of State version) for the land</li>',
         [ELIGIBILITY_HMMP]: '<li>a habitat management and monitoring plan</li>',
         [ELIGIBILITY_LEGAL_AGREEMENT]: '<li>a legal agreement securing the habitat enhancements for 30 years</li>'
-      },
-      setLojReferer: [
+    },
+    setLojReferer: [
         CHECK_AND_SUBMIT,
         CHECK_YOUR_DETAILS,
         CHECK_OWNERSHIP_DETAILS,
@@ -336,9 +336,9 @@ export default {
         CHECK_LAND_BOUNDARY_DETAILS,
         CORRECT_EMAIL,
         CHECK_METRIC_DETAILS,
-      ],
-      clearLojReferer: [
+    ],
+    clearLojReferer: [
         UPLOAD_METRIC,
         REGISTER_LAND_TASK_LIST,
-      ]
-  }
+    ]
+}
