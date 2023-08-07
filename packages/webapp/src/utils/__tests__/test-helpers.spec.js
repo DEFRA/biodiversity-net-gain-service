@@ -10,7 +10,9 @@ import {
   getHumanReadableFileSize,
   emailValidator,
   getErrById,
-  initialCapitalization
+  initialCapitalization,
+  isRouteDisabled,
+  getDisabledRoutes
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -217,6 +219,48 @@ describe('helpers file', () => {
     it('should return undefined if empty error\'s array is provided', () => {
       const mockErrors = []
       expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
+    })
+  })
+
+  describe('getDisabledRoutes', () => {
+    it('should return disabled route\'s array', () => {
+      process.env.DISABLED_ROUTES = '/land/choose-land-boundary-upload;/land/geospatial-land-boundary'
+      const mockDisabledRoutes = getDisabledRoutes()
+      expect(mockDisabledRoutes.length).toBe(2)
+      expect(mockDisabledRoutes).toEqual(['/land/geospatial-land-boundary', '/land/choose-land-boundary-upload'])
+    })
+
+    it('should return an empty route\'s array if env variable is not defined', () => {
+      delete process.env.DISABLED_ROUTES
+      const mockDisabledRoutes = getDisabledRoutes()
+      expect(mockDisabledRoutes.length).toBe(0)
+      expect(mockDisabledRoutes).toEqual([])
+    })
+
+    it('should return a valid route\'s array by comapring with defined routes', () => {
+      process.env.DISABLED_ROUTES = '/land/choose-land-boundary-upload;/test123;/land/invalid-route'
+      const mockDisabledRoutes = getDisabledRoutes()
+      expect(mockDisabledRoutes.length).toBe(1)
+      expect(mockDisabledRoutes).toEqual(['/land/choose-land-boundary-upload'])
+    })
+  })
+
+  describe('isRouteDisabled', () => {
+    it('should return true if given route is disabled', () => {
+      const routeToBeDisabled = '/land/choose-land-boundary-upload'
+      process.env.DISABLED_ROUTES = routeToBeDisabled
+      expect(isRouteDisabled(routeToBeDisabled)).toBeTruthy()
+    })
+
+    it('should return false if given route is not disabled', () => {
+      const routeToBeDisabled = '/land/choose-land-boundary-upload'
+      delete process.env.DISABLED_ROUTES
+      expect(isRouteDisabled(routeToBeDisabled)).not.toBeTruthy()
+    })
+
+    it('should return false if route is undefined', () => {
+      delete process.env.DISABLED_ROUTES
+      expect(isRouteDisabled(undefined)).not.toBeTruthy()
     })
   })
 })
