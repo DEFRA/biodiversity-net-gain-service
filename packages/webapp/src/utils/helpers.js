@@ -473,7 +473,9 @@ const getDisabledRoutes = () => {
   if (disabledRoutes) {
     Object.values(constants.routes).forEach(route => {
       for (const item of disabledRoutes) {
-        if (route === item) validDisabledRoutes.push(item)
+        if (route === item) {
+          validDisabledRoutes.push(item)
+        }
       }
     })
 
@@ -486,7 +488,7 @@ const getDisabledRoutes = () => {
   return validDisabledRoutes
 }
 // Checking if requested route is disabled
-const isRouteDisabled = (route) => process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';').includes(route)
+const isRouteDisabled = route => process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';').includes(route)
 
 export {
   validateDate,
