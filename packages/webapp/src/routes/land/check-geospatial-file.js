@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { checkApplicantDetails, getHumanReadableFileSize, isRouteDisabled, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -33,7 +33,7 @@ const handlers = {
         route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
-        route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
+        route = isRouteDisabled(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY) ? constants.routes.UPLOAD_LAND_BOUNDARY : constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         await deleteBlobFromContainers(geoJsonLandBoundaryLocation)
         await deleteBlobFromContainers(uploadedGeospatialLandBoundaryLocation)
         await deleteBlobFromContainers(reprojectedGeoJsonLandBoundaryLocation)

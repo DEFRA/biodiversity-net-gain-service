@@ -84,7 +84,7 @@
           actions: {
             items: [
                 {
-                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+                    href: routes.UPLOAD_LAND_BOUNDARY if isRouteDisabled(routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY) else routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
                     text: "Change",
                     visuallyHiddenText: " land boundary file",
                     attributes: {
