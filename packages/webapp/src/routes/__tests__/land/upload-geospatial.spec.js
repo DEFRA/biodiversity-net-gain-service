@@ -1,4 +1,4 @@
-import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
