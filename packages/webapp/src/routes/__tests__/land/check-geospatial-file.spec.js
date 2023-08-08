@@ -1,5 +1,6 @@
+import serverOptions from '../../../__mocks__/server-options.js'
 import constants from '../../../utils/constants.js'
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { startServer, submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_GEOSPATIAL_FILE
 
 describe(url, () => {
@@ -28,7 +29,7 @@ describe(url, () => {
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file.js')
           const request = {
             yar: redisMap,
             payload: {
@@ -64,7 +65,7 @@ describe(url, () => {
           let viewResult
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file.js')
           const request = {
             yar: redisMap,
             payload: {
@@ -98,7 +99,7 @@ describe(url, () => {
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
           redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file.js')
           const request = {
             yar: redisMap,
             payload: {
@@ -133,7 +134,7 @@ describe(url, () => {
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
-          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file.js')
           const request = {
             yar: redisMap,
             payload: {
@@ -168,7 +169,7 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const redisMap = new Map()
-          const checkLandBoundary = require('../../land/check-geospatial-file')
+          const checkLandBoundary = require('../../land/check-geospatial-file.js')
           const request = {
             yar: redisMap,
             payload: {
@@ -191,6 +192,29 @@ describe(url, () => {
         } catch (err) {
           done(err)
         }
+      })
+    })
+
+    describe('With disabled routes', () => {
+      let server
+      const ORIGINAL_ENV = process.env
+      afterEach(async () => {
+        try {
+          if (server) {
+            await server.stop()
+          }
+        } finally {
+          process.env = { ...ORIGINAL_ENV }
+        }
+      })
+
+      it('should redirect to check-land-boundary-details if upload-geospatial-file is disabled', async () => {
+        process.env.DISABLED_ROUTES = '/land/upload-geospatial-file'
+        server = await startServer({ ...serverOptions, port: 3001 })
+        postOptions.method = 'POST'
+        postOptions.payload.confirmGeospatialLandBoundary = constants.confirmLandBoundaryOptions.NO
+        const response = await server.inject(postOptions)
+        expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
       })
     })
   })
