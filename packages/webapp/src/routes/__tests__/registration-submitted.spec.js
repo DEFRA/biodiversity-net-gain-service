@@ -5,10 +5,11 @@ const url = constants.routes.REGISTRATION_SUBMITTED
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view with formatted application reference`, async () => {
+    it(`should render the ${url.substring(1)} view with application reference`, async () => {
+      const applicationReference = 'REF2301160004'
       const getHandler = registrationSubmitted[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, 'REF2301160004')
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, applicationReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
@@ -17,7 +18,7 @@ describe(url, () => {
       }
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual('registration-submitted')
-      expect(viewArgs[1].applicationReference).toEqual('REF-230 116 0004')
+      expect(viewArgs[1].applicationReference).toEqual(applicationReference)
     })
   })
 })

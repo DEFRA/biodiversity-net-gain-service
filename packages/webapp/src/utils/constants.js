@@ -4,6 +4,7 @@ import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const APPLICATION_REFERENCE = 'application-reference'
+const APPLICATION_TYPE = 'application-type'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -141,6 +142,14 @@ const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
 const SIGNED_OUT = 'signed-out'
 const COOKIES = 'cookies'
+const CONTACT_ID = 'contact-id'
+const REGISTRATION = 'Registration'
+const ALLOCATION = 'Allocation'
+
+const applicationTypes = {
+  REGISTRATION,
+  ALLOCATION
+}
 
 const confirmFileUploadOptions = {
   NO,
@@ -226,6 +235,7 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   APPLICATION_REFERENCE,
+  APPLICATION_TYPE,
   ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
   REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
   GEOSPATIAL_UPLOAD_LOCATION,
@@ -286,7 +296,8 @@ const redisKeys = {
   LAND_OWNERSHIP_KEY,
   METRIC_UPLOADED_ANSWER,
   REFERER,
-  EMAIL_VALUE
+  EMAIL_VALUE,
+  CONTACT_ID
 }
 
 let routes = {
@@ -416,6 +427,7 @@ const minStartDates = {
 }
 
 export default Object.freeze({
+  applicationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,

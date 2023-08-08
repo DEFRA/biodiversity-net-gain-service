@@ -7,6 +7,7 @@ const ORIGINAL_ENV = process.env
 let context
 
 beforeEach(async () => {
+  process.env = { ...ORIGINAL_ENV }
   jest.resetAllMocks()
   context = new Context()
   await recreateContainers(),
@@ -14,7 +15,7 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-   process.env = { ...ORIGINAL_ENV }
+  process.env = ORIGINAL_ENV
 })
 
 const getContext = () => {

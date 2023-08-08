@@ -126,15 +126,15 @@ const uploadFile = async (uploadConfig) => {
 const submitGetRequest = async (options, expectedResponseCode = 200, sessionData) => {
   await addOnPrehandler(sessionData)
   options.method = 'GET'
-  return submitRequest(options, expectedResponseCode)
+  return submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls: 0 })
 }
 
-const submitPostRequest = async (options, expectedResponseCode = 302) => {
+const submitPostRequest = async (options, expectedResponseCode = 302, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {
   options.method = 'POST'
-  return submitRequest(options, expectedResponseCode)
+  return submitRequest(options, expectedResponseCode, config)
 }
 
-const submitRequest = async (options, expectedResponseCode) => {
+const submitRequest = async (options, expectedResponseCode, config) => {
   // tests can pass in their own auth object
   if (!Object.prototype.hasOwnProperty.call(options, 'auth')) {
     // Add in some default credentials to pass authentication on routes
@@ -151,8 +151,13 @@ const submitRequest = async (options, expectedResponseCode) => {
       }
     }
   }
+
+  // const http = require('../../../utils/http.js')
+  // const spy = jest.spyOn(http, 'postJson')
+
   const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
+  // expect(spy).toHaveBeenCalledTimes(config.expectedNumberOfPostJsonCalls)
   return response
 }
 

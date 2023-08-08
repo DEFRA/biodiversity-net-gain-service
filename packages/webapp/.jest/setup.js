@@ -36,6 +36,13 @@ let server, context
 beforeEach(async () => {
   jest.resetAllMocks()
   if (!process.env.USE_MOCK_SERVER) {
+    // Spy on calls to postJson made by the on-post-handler when persisting journey state
+    // following a successful HTTP POST. The http utility module is required here to prevent
+    // errors when the unit tests for the http module run (there appears to be a conflict when
+    // this file uses a standard import of the http module).
+    jest.mock('../src/utils/http.js')
+    const http = require('../src/utils/http.js')
+    const spy = jest.spyOn(http ,'postJson').mockImplementation(() => {})
     server = await createServer(serverOptions)
     await init(server)
   }
