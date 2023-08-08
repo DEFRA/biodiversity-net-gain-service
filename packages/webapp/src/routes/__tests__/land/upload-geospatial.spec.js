@@ -1,4 +1,4 @@
-import { submitGetRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
@@ -42,11 +42,10 @@ describe(url, () => {
       await clearQueues()
     })
 
-    it('should upload a valid Geopackage to cloud storage and redirect to land/check-land-boundary-details if land/check-geospatial-file is disabled', (done) => {
+    it('should upload a valid Geopackage to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
-          process.env.DISABLED_ROUTES = 'land/check-geospatial-file'
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
@@ -55,31 +54,8 @@ describe(url, () => {
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'
           }
-          await uploadFile(config)
-          expect(spy).toHaveBeenCalledTimes(1)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should upload a valid Geopackage to cloud storage and redirect to land/check-geospatial-file if it is not disabled', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          jest.mock('../../../utils/azure-storage.js')
-          delete process.env.DISABLED_ROUTES
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-          const config = JSON.parse(JSON.stringify(baseConfig))
-          config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
-          config.eventData[0].reprojectedFileSize = 500
-          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-          config.headers = {
-            referer: 'http://localhost:3000/land/check-geospatial-file'
-          }
-          await uploadFile(config)
+          const res = await uploadFile(config)
+          expect(res.headers.location).toBe(constants.routes.CHECK_GEOSPATIAL_FILE)
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
