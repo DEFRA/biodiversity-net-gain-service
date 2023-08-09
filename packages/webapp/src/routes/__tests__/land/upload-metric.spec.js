@@ -1,4 +1,4 @@
-import { submitGetRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
@@ -39,7 +39,10 @@ describe('Metric file upload controller tests', () => {
       uploadType: 'metric-upload',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric
+      eventData: mockMetric,
+      sessionData: {
+        role: 'test'
+      }
     }
 
     beforeEach(async () => {
@@ -253,6 +256,30 @@ describe('Metric file upload controller tests', () => {
           done(err)
         }
       })
+    })
+
+    it('should cause an internal server error response when upload processing fails', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({ uploadType: null }, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          const response = await uploadFile(config)
+          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should handle failAction of upload route', async () => {
+      const expectedStatuCode = 415
+      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
+      expect(res.statusCode).toEqual(expectedStatuCode)
     })
   })
 })

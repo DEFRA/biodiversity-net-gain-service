@@ -446,7 +446,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href) => {
+const getMetricFileValidationErrors = async (metricValidation, href) => {
   const error = {
     err: [
       {
@@ -459,7 +459,7 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
     error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
-  } else if (!metricValidation.areOffsiteTotalsCorrect) {
+  } else if (!await metricValidation.areOffsiteTotalsCorrect) {
     error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
   }
   return error.err[0].text ? error : null

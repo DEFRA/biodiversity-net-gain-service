@@ -37,7 +37,10 @@ describe('Metric file upload controller tests', () => {
       uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric
+      eventData: mockMetric,
+      sessionData: {
+        role: 'developer'
+      }
     }
 
     beforeEach(async () => {
@@ -50,7 +53,6 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
-          uploadConfig.sessionData = {}
           uploadConfig.hasError = true
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
           const res = await uploadFile(uploadConfig)
@@ -69,7 +71,6 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
-          uploadConfig.sessionData = {}
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -86,7 +87,6 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
-          uploadConfig.sessionData = {}
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {

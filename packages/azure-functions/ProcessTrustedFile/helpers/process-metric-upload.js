@@ -12,10 +12,11 @@ export default async function (context, config) {
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
       const documentStream = response.readableStreamBody
+      const { startExtractionConfig, getExtractionConfiguration } = bngMetricService.extractionConfiguration
       const metricExtractionConfig = {
         extractionConfiguration: {
-          start: bngMetricService.extractionConfiguration.startExtractionConfig,
-          ...bngMetricService.extractionConfiguration['v4.0']
+          start: startExtractionConfig,
+          ...await getExtractionConfiguration({ role: config.role })
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }
