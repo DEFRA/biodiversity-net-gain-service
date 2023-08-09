@@ -9,7 +9,7 @@ export default (session, account) => {
         firstName: account.idTokenClaims.firstName,
         lastName: account.idTokenClaims.lastName,
         emailAddress: account.idTokenClaims.email,
-        role: 'Developer',
+        role: session.get(constants.redisKeys.DEVELOPER_ROLE_KEY),
         contactId: account.idTokenClaims.contactId
       },
       developmentDetails: {

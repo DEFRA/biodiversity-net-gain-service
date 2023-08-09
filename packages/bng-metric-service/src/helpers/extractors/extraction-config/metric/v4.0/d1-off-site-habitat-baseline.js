@@ -1,23 +1,27 @@
-const headers = [
-  'Broad habitat',
-  'Habitat type',
-  'Area (hectares)',
-  'Condition',
-  'Total habitat units',
-  'Off-site reference',
-  'Strategic significance'
-]
+export const headers = {
+  common: [
+    'Broad habitat',
+    'Habitat type',
+    'Area (hectares)',
+    'Condition',
+    'Total habitat units',
+    'Strategic significance'
+  ],
+  developer: [
+    'Off-site reference'
+  ],
+  landowner: [
+    'Baseline ref'
+  ]
+}
 
-const d1OffSiteHabitatBaseline = {
+export default {
   sheetName: 'D-1 Off-Site Habitat Baseline',
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AF259',
-  cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
     'Condition ': 'Condition'
   }
 }
-
-export default d1OffSiteHabitatBaseline

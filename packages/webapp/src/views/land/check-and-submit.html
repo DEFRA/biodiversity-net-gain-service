@@ -248,7 +248,7 @@
         }) }}
 
         <!-- Legal agreement -->
-        <h2 class="govuk-heading-l">Legal agreement</h2>
+        <h2 class="govuk-heading-l">Legal information</h2>
         {{ govukSummaryList({
           classes: 'govuk-!-margin-bottom-7',
           rows: [
@@ -316,6 +316,23 @@
                     href: "/land/legal-agreement-start-date",
                     text: "Change",
                     visuallyHiddenText: " start date"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Local land charge search certificate file uploaded"
+              },
+              value: {
+                html: "<span data-testid=\"local-land-charge-file-name-value\">" + application.files[5].fileName + "</span>"
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_LOCAL_LAND_CHARGE_FILE,
+                    text: "Change",
+                    visuallyHiddenText: " local land charge file"
                   }
                 ]
               }
