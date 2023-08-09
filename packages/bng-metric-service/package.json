@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-metric-service",
-  "version": "0.167.0",
+  "version": "0.169.0",
   "private": false,
   "description": "Bio diversity data extractor",
   "type": "module",
@@ -13,9 +13,9 @@
   "author": "Department for Environment, Food and Rural Affairs https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs.",
   "license": "OGL-UK-3.0",
   "dependencies": {
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "lodash": "^4.17.21",
-    "xlsx": "^0.18.5",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+    "xlsx": "^0.18.5"
   },
   "engines": {
     "node": ">=16"
