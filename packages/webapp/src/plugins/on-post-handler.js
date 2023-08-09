@@ -107,10 +107,12 @@ const cacheApplicationTypeIfNeeded = request => {
   let applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
   const journeyType = request.path.split('/')[1]
   if (!applicationType) {
-    if (journeyType === 'land') {
-      applicationType = constants.applicationTypes.REGISTRATION
-    } else if (journeyType === 'developer') {
+    if (journeyType === 'developer') {
       applicationType = constants.applicationTypes.ALLOCATION
+      // Default to the application type for registations as
+      // no other routes accept HTTP POSTS that cause this funcion to be called.
+    } else {
+      applicationType = constants.applicationTypes.REGISTRATION
     }
     request.yar.set(constants.redisKeys.APPLICATION_TYPE, applicationType)
   }
