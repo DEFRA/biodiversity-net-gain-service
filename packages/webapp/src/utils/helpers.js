@@ -240,8 +240,6 @@ const getDeveloperEligibilityResults = session => {
   return developerEligibilityResults
 }
 
-const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
-
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
   const habitatTypeAndCondition = []
   for (const key in metricData) {
@@ -457,7 +455,6 @@ export {
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
-  formatAppRef,
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,

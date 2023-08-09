@@ -4,7 +4,6 @@ import {
   dateToString,
   hideClass,
   getAllLandowners,
-  formatAppRef,
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
@@ -135,11 +134,6 @@ describe('helpers file', () => {
       session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
       const results = getDeveloperEligibilityResults(session)
       expect(results.no.length).toEqual(2)
-    })
-  })
-  describe('formatAppRef', () => {
-    it('Should format REF2301160004 to REF-230 116 0004', () => {
-      expect(formatAppRef('REF2301160004')).toEqual('REF-230 116 0004')
     })
   })
   describe('getHumamReadableFileSize', () => {
