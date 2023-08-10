@@ -21,6 +21,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.DEVELOPER_FULL_NAME, fullName)
+      request.yar.set(constants.redisKeys.DEVELOPER_ROLE_KEY, 'Developer')
       processDeveloperTask(request, { taskTitle: 'Your details', title: 'Add your details' }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_DETAILS_EMAIL)
     }

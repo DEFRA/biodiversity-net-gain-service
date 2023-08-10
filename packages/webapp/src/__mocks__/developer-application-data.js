@@ -82,5 +82,6 @@ export default {
   'developer-consent-file-type': 'developer-upload-consent',
   'developer-consent-answer': 'yes',
   'developer-additional-emails': [{ email: 'test1@example.com', fullName: 'Test1' }],
-  'developer-app-reference': 'TEST-1234'
+  'developer-app-reference': 'TEST-1234',
+  'developer-role-key': 'Developer'
 }

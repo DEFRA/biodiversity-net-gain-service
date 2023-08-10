@@ -13,11 +13,11 @@ const uploadStreamAndQueueMessage = async (logger, config, stream) => {
 
 const addFileDetailsToConfiguration = (config, filename) => {
   config.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
-
   const message = {
     uploadType: config.queueConfig.uploadType,
     location: config.blobConfig.blobName,
-    containerName: config.blobConfig.containerName
+    containerName: config.blobConfig.containerName,
+    role: config.role
   }
 
   config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')

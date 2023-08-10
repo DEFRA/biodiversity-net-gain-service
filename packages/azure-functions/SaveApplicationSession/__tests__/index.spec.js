@@ -13,12 +13,13 @@ const req = {
   }
 }
 
+const gainSiteReference = 'BNGREG-JDSJ3-A4LI9'
+
 describe('Save Application Session', () => {
   it('Should generate a reference and notification when notifications are enabled and a valid request\'s session is saved using a contact ID and application type', done => {
     jest.isolateModules(async () => {
       process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED = 'true'
       try {
-        const applicationReference = 'mock application reference'
         const applicationSessionId = randomUUID()
 
         const expectedNotificationMessage = {
@@ -31,7 +32,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_application_reference: applicationReference
+                fn_create_application_reference: gainSiteReference
               }
             ]
           }
@@ -48,7 +49,7 @@ describe('Save Application Session', () => {
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
-        expect(context.res.body).toEqual(`"${applicationReference}"`)
+        expect(context.res.body).toEqual(`"${gainSiteReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
@@ -61,8 +62,7 @@ describe('Save Application Session', () => {
   it('Should save a valid session with contact ID, application type and reference. A notification should not be sent by default', done => {
     jest.isolateModules(async () => {
       try {
-        const applicationReference = 'mock application reference'
-        req.body['application-reference'] = applicationReference
+        req.body['application-reference'] = gainSiteReference
         const dbQueries = require('../../Shared/db-queries.js')
         const applicationSessionId = randomUUID()
 
@@ -78,7 +78,7 @@ describe('Save Application Session', () => {
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
-        expect(context.res.body).toEqual(`"${applicationReference}"`)
+        expect(context.res.body).toEqual(`"${gainSiteReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toBeUndefined()

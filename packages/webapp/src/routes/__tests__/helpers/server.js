@@ -109,6 +109,10 @@ const uploadFile = async (uploadConfig) => {
         containerName: config.blobConfig.containerName
       }
 
+      if (uploadConfig.uploadType === constants.uploadTypes.METRIC_UPLOAD_TYPE) {
+        expectedMessage.role = uploadConfig.sessionData.role
+      }
+
       const response = await receiveMessages('untrusted-file-queue')
       const receivedMessageItems = response.receivedMessageItems
       expect(receivedMessageItems.length).toBe(1)
