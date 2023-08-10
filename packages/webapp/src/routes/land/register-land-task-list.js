@@ -32,7 +32,7 @@ const handlers = {
       registrationTasks: dataContent,
       registrationCompletedTasks: completedTasks,
       totalSections: totalTasks,
-      canSubmit
+      canSubmit: canSubmit
     })
   }
 }

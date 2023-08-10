@@ -24,8 +24,8 @@ export function generatePayloadOptions (href, maximumFileSize, view) {
 export const maximumFileSizeExceeded = (h, href, maximumFileSize, view) => {
   return getMaximumFileSizeExceededView({
     h,
-    href,
-    maximumFileSize,
-    view
+    href: href,
+    maximumFileSize: maximumFileSize,
+    view: view
   })
 }
