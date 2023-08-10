@@ -174,10 +174,10 @@ const hideClass = hidden => hidden ? 'hidden' : ''
 
 const getNameAndRoles = legalAgreementParties => {
   const partySelectionContent = []
-  legalAgreementParties && Object.values(legalAgreementParties).forEach(organisation => {
-    organisation.organisationRole === 'Other'
-      ? partySelectionContent.push(`${organisation.organisationName} (${organisation.organisationOtherRole})`)
-      : partySelectionContent.push(`${organisation.organisationName} (${organisation.organisationRole})`)
+  legalAgreementParties && legalAgreementParties.organisations.forEach((organisation, index) => {
+    const selectedRole = legalAgreementParties.roles[index]
+    const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
+    partySelectionContent.push(`${organisation.value} (${roleName})`)
   })
   return partySelectionContent
 }
