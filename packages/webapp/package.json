@@ -62,7 +62,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "stream-to-promise": "^3.0.0",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.1",
