@@ -78,7 +78,7 @@ const saveApplicationSession = async request => {
     // Log any failure but allow the journey to continue.
     // When the user signs out an attempt will be made to save the session using async await.
     postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
-      .then(response => {
+      .then(() => {
         request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT)
       })
       .catch(error => {
