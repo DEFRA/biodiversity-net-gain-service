@@ -31,6 +31,8 @@ describe(url, () => {
           const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
 
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
@@ -64,6 +66,8 @@ describe(url, () => {
           const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
 
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             throw new Error('test error')
@@ -113,6 +117,8 @@ describe(url, () => {
           const session = setDeveloperApplicationSession()
           session.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, undefined)
 
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
