@@ -146,7 +146,7 @@ const uploadFile = async (uploadConfig) => {
 const submitGetRequest = async (options, expectedResponseCode = 200, sessionData) => {
   await addOnPrehandler(sessionData)
   options.method = 'GET'
-  return submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls: 0 })
+  return submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT] ? 1 : 0 })
 }
 
 const submitPostRequest = async (options, expectedResponseCode = 302, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {

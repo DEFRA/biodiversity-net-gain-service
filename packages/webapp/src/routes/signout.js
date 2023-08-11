@@ -1,5 +1,6 @@
 import auth from '../utils/auth.js'
 import constants from '../utils/constants.js'
+import { postJson } from '../utils/http.js'
 
 export default [{
   method: 'GET',
@@ -7,6 +8,11 @@ export default [{
   options: {
     handler: async (request, h) => {
       request.cookieAuth.clear()
+      if (request.yar.get(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT)) {
+        // Save unperisted journey data before signing out.
+        // Abandon signing out if the attempt to persist journey data fails.
+        await postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
+      }
       try {
         await auth.logout(request)
       } catch (err) {
