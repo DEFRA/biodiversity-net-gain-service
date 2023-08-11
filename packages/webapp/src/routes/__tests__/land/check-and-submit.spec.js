@@ -39,7 +39,7 @@ describe(url, () => {
 
           // Do some operator specific data checks
           expect(viewArgs[1].application.applicant.role).toEqual('Other: test role')
-          expect(viewArgs[1].application.legalAgreementParties[1].role).toEqual('Other: Test role')
+          expect(viewArgs[1].application.legalAgreementParties[1]).toEqual({ name: 'org2', role: 'Landowner' })
 
           done()
         } catch (err) {
