@@ -155,6 +155,7 @@ const COOKIES = 'cookies'
 const CONTACT_ID = 'contact-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
 
 const applicationTypes = {
   REGISTRATION,
@@ -316,7 +317,8 @@ const redisKeys = {
   METRIC_UPLOADED_ANSWER,
   REFERER,
   EMAIL_VALUE,
-  CONTACT_ID
+  CONTACT_ID,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
 let routes = {

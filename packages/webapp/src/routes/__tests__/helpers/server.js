@@ -55,6 +55,22 @@ const uploadFile = async (uploadConfig) => {
     delete options.headers
   }
 
+  const expectedNumberOfPostJsonCalls =
+    uploadConfig.hasError ||
+    uploadConfig.generateFormDataError ||
+    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
+    uploadConfig.generateMissingCoordinateReferenceSystemError ||
+    uploadConfig.generateInvalidLayerCountError ||
+    uploadConfig.generateInvalidFeatureCountError ||
+    uploadConfig.generateOutsideEnglandError ||
+    uploadConfig.generateInvalidUploadError ||
+    uploadConfig.generateUnexpectedValidationError ||
+    uploadConfig.generateThreatDetectedError ||
+    uploadConfig.generateThreatScreeningFailure ||
+    uploadConfig.generateHandleEventsError
+      ? 0
+      : 1
+
   const { handleEvents } = require('../../../utils/azure-signalr.js')
 
   handleEvents.mockImplementation(async (config, events) => {
@@ -123,7 +139,7 @@ const uploadFile = async (uploadConfig) => {
     }
   })
   if (uploadConfig.sessionData) await addOnPrehandler(uploadConfig.sessionData)
-  const response = await submitRequest(options, expectedResponseCode)
+  const response = await submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls })
   return response
 }
 
@@ -156,12 +172,12 @@ const submitRequest = async (options, expectedResponseCode, config) => {
     }
   }
 
-  // const http = require('../../../utils/http.js')
-  // const spy = jest.spyOn(http, 'postJson')
+  const http = require('../../../utils/http.js')
+  const spy = jest.spyOn(http, 'postJson')
 
   const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
-  // expect(spy).toHaveBeenCalledTimes(config.expectedNumberOfPostJsonCalls)
+  expect(spy).toHaveBeenCalledTimes(config.expectedNumberOfPostJsonCalls)
   return response
 }
 

@@ -19,7 +19,7 @@ describe(url, () => {
     })
 
     it('should redirect to the eligibility england after click on continue', async () => {
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ELIGIBILITY_ENGLAND)
     })
   })

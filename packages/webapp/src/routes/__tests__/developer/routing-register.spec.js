@@ -21,13 +21,13 @@ describe(url, () => {
 
     it('should redirect to the routing result if record gain site selected', async () => {
       postOptions.payload.routingRegisterOption = constants.ROUTING_REGISTER_OPTIONS.RECORD
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ROUTING_RESULT)
     })
 
     it('should redirect to the routing result if register off-site selected', async () => {
       postOptions.payload.routingRegisterOption = constants.ROUTING_REGISTER_OPTIONS.REGISTER
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_ROUTING_SOLD)
     })
 

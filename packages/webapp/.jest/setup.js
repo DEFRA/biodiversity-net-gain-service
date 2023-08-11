@@ -42,7 +42,9 @@ beforeEach(async () => {
     // this file uses a standard import of the http module).
     jest.mock('../src/utils/http.js')
     const http = require('../src/utils/http.js')
-    const spy = jest.spyOn(http ,'postJson').mockImplementation(() => {})
+    const spy = jest.spyOn(http ,'postJson').mockImplementation(() => {
+     return  Promise.resolve({})
+    })
     server = await createServer(serverOptions)
     await init(server)
   }
