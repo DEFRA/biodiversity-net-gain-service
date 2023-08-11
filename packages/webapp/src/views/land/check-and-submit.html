@@ -402,8 +402,18 @@
 
         <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
 
-        <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
-
+        <p class="govuk-body">By submitting your information you agree that:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>it is true, to the best of your knowledge and belief</li>
+          <li>you have got, or will get, all consents, licences or other permissions needed to carry out the enhancement works</li>
+        </ul>
+        <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            <span class="govuk-warning-text__assistive">Warning</span>
+            You may have to pay a fine if you have given false information.
+          </strong>
+        </div>
         {{ govukButton({
           text: "Confirm and submit",
           attributes: {
