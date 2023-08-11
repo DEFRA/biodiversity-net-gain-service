@@ -59,7 +59,6 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
 }
 
 const saveApplicationSession = async request => {
-  console.log('GOT HERE')
   // Use a dynamic import for the http utility module to prevent
   // errors when the unit tests for the http module run (there appears to be a conflict when
   // this file uses a standard import of the http module).
