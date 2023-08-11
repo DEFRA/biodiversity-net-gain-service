@@ -75,7 +75,12 @@ const saveApplicationSession = async request => {
   if (request.yar.get(applicationReferenceRedisKey)) {
     // Persist the session data asynchronously and allow the user to progress without waiting.
     // Log any failure but allow the journey to continue.
-    // When the user signs out an attempt will be made to save the session using async await.
+    // When the user signs out an attempt will be made to save journey data using async await
+    // if required.
+
+    // Ensure unsaved journey data is saved if the user signs out before this asynchronous
+    // attempt to save data completes successfully.
+    request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT, true)
     postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
       .then(() => {
         request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT)
