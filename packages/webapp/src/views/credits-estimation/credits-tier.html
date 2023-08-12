@@ -1,12 +1,23 @@
 {% extends 'layout.html' %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
+{% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
+{% set pageHeading = "Add statutory biodiversity credits units" %}
 {% set hideBackLink = true %}
+
 {% set creditText = "Enter number of credits" %}
 {% set creditHintText = "Enter the credit figure up to two decimal places, like 23.75." %}"
 
 {% block content %}
+  {% if err %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: err
+    }) }}
+  {% endif %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">Add statutory biodiversity credit units</h1> 

@@ -37,10 +37,20 @@ export default [
         }),
         failAction (request, h, err) {
           const errorMessages = {}
-          err.details.forEach(e => (errorMessages[e.context.key] = errorMessage))
+          const errorList = []
+
+          err.details.forEach(e => {
+            errorMessages[e.context.key] = errorMessage
+            errorList.push({
+              ...errorMessage,
+              href: `#${e.context.key}-units`
+            })
+          })
+
           return h.view(constants.views.ESTIMATOR_CREDITS_TIER, {
             inputValues: { ...request.payload },
-            errorMessages
+            errorMessages,
+            err: errorList
           }).takeover()
         }
       }
