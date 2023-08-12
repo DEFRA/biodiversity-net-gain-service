@@ -1,5 +1,9 @@
 import developerConstants from './developer-constants.js'
+<<<<<<< HEAD
 import lojConstants from './loj-constants.js'
+=======
+import creditsConstants from '../credits/constants.js'
+>>>>>>> 2bf42359 (Add Estimator pages)
 
 const DOCUMENT_UPLOAD = 'documentUpload'
 const GEOSPATIAL_DATA = 'geospatialData'
@@ -114,6 +118,7 @@ const redisKeys = {
 }
 
 let routes = {
+  ...creditsConstants.routes,
   ...developerConstants.routes,
   ...lojConstants.routes
 }
