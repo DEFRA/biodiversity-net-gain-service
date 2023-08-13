@@ -1,7 +1,7 @@
 import constants from '../../credits/constants.js'
 
-const toLocaleString = str =>
-  str.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
+const toLocaleString = num =>
+  num.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
 
 const getRow = ({ tier, unitAmount, cost }) => [
   { text: tier.toUpperCase() },
