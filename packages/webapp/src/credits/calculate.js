@@ -5,8 +5,8 @@ export default tierInputAmounts => {
     const unitAmount = Number(v) || 0
 
     return {
-      tier: k,
       unitAmount,
+      tier: k,
       cost: unitAmount * unitPrices[k]
     }
   })

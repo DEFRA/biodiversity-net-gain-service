@@ -48,8 +48,8 @@ export default [
           })
 
           return h.view(constants.views.ESTIMATOR_CREDITS_TIER, {
-            inputValues: { ...request.payload },
             errorMessages,
+            inputValues: { ...request.payload },
             err: errorList
           }).takeover()
         }

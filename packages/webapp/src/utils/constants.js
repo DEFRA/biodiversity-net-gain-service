@@ -24,7 +24,6 @@ const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
-
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const confirmFileUploadOptions = {
@@ -158,8 +157,7 @@ const eligibilityHTML = {
   ...lojConstants.eligibilityHtml
 }
 
-// setReferer contain routes that can be set as a referer for a user
-// to return to from a "check your answers" page
+// setReferer contain routes that can be set as a referer for a user to return to from a "check your answers" page
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer
