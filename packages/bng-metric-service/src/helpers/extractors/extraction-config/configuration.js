@@ -23,15 +23,7 @@ export default {
     try {
       const result = {}
       const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.0') : options.v
-      // const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
-      // let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
-
-      /* istanbul ignore else */
-      // if (!fs.existsSync(fullConfigFolderPath)) {
-      //   fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
-      // }
       const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
-      console.log(`fullConfigFolderPath ${fullConfigFolderPath}`)
       const files = fs.readdirSync(fullConfigFolderPath)
       for (const file of files) {
         const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
