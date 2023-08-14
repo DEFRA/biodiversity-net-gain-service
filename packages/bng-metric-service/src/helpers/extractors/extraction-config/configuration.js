@@ -26,11 +26,14 @@ export default {
       const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
       let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
       /* istanbul ignore else */
-      if (!fs.existsSync(fullConfigFolderPath)) {
+      console.log(`Checking for existence of ${fullConfigFolderPath}`)
+      if (!fs.existsSync(url.pathToFileURL(fullConfigFolderPath))) {
         fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
       }
+      console.log(`Reading ${fullConfigFolderPath}`)
       const files = fs.readdirSync(url.pathToFileURL(fullConfigFolderPath))
       for (const file of files) {
+        console.log(`Importing ${fullConfigFolderPath}/${file}`)
         const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
         const sheetConfig = cnf.default
         const cellHeaders = getCellHeaders(options.role, cnf.headers)
