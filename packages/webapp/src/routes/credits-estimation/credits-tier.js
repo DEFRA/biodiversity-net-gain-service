@@ -56,11 +56,7 @@ export default [
       }
     },
     handler: (request, h) => {
-      const tierUnitAmounts = Object.entries(request.payload).map(([k, v]) =>
-        ({ tier: k, unitAmount: Number(v) || 0 })
-      )
-
-      request.yar.set(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(tierUnitAmounts))
+      request.yar.set(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
       return h.redirect(constants.routes.ESTIMATOR_CREDITS_COST)
     }
   }
