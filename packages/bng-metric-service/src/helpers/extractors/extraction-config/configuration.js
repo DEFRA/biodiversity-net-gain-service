@@ -2,6 +2,7 @@ import fs from 'fs'
 import _ from 'lodash'
 import path from 'path'
 import start from './metric/start.js'
+import url from 'url'
 
 export const getCellHeaders = (role, headers) => {
   let _header = []
@@ -28,7 +29,7 @@ export default {
       if (!fs.existsSync(fullConfigFolderPath)) {
         fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
       }
-      const files = fs.readdirSync(fullConfigFolderPath)
+      const files = fs.readdirSync(url.pathToFileURL(fullConfigFolderPath))
       for (const file of files) {
         const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
         const sheetConfig = cnf.default
