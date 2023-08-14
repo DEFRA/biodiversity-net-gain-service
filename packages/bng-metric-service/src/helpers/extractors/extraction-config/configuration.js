@@ -2,7 +2,7 @@ import fs from 'fs'
 import _ from 'lodash'
 import path from 'path'
 import start from './metric/start.js'
-import url from 'url'
+import dirname from './dirname.cjs'
 
 export const getCellHeaders = (role, headers) => {
   let _header = []
@@ -23,24 +23,17 @@ export default {
     try {
       const result = {}
       const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.0') : options.v
-      const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
-      let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
-      /* istanbul ignore else */
-      console.log(`Checking for existence of ${url.pathToFileURL(fullConfigFolderPath)}`)
+      // const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
+      // let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
 
-      if (!fs.existsSync(url.pathToFileURL(fullConfigFolderPath))) {
-        console.log('HERE')
-        fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
-      }
-      try {
-        fs.accessSync(url.pathToFileURL(fullConfigFolderPath), fs.constants.R_OK)
-        console.log('CAN READ')
-      } catch (err) {
-        console.log('CANNOT READ')
-      }
-      const files = fs.readdirSync(url.pathToFileURL(fullConfigFolderPath))
+      /* istanbul ignore else */
+      // if (!fs.existsSync(fullConfigFolderPath)) {
+      //   fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
+      // }
+      const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
+      console.log(`fullConfigFolderPath ${fullConfigFolderPath}`)
+      const files = fs.readdirSync(fullConfigFolderPath)
       for (const file of files) {
-        console.log(`Importing ${fullConfigFolderPath}/${file}`)
         const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
         const sheetConfig = cnf.default
         const cellHeaders = getCellHeaders(options.role, cnf.headers)
