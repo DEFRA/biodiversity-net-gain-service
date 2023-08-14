@@ -26,11 +26,18 @@ export default {
       const configFolderPath = `bng-metric-service/src/helpers/extractors/extraction-config/metric/${currentMetricVersion}/`
       let fullConfigFolderPath = path.resolve('./', `../${configFolderPath}`)
       /* istanbul ignore else */
-      console.log(`Checking for existence of ${fullConfigFolderPath}`)
+      console.log(`Checking for existence of ${url.pathToFileURL(fullConfigFolderPath)}`)
+
       if (!fs.existsSync(url.pathToFileURL(fullConfigFolderPath))) {
+        console.log('HERE')
         fullConfigFolderPath = path.resolve(`packages/${configFolderPath}`)
       }
-      console.log(`Reading ${fullConfigFolderPath}`)
+      try {
+        fs.accessSync(url.pathToFileURL(fullConfigFolderPath), fs.constants.R_OK)
+        console.log('CAN READ')
+      } catch (err) {
+        console.log('CANNOT READ')
+      }
       const files = fs.readdirSync(url.pathToFileURL(fullConfigFolderPath))
       for (const file of files) {
         console.log(`Importing ${fullConfigFolderPath}/${file}`)
