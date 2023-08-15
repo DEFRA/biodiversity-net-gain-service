@@ -3,10 +3,12 @@ import {
   saveApplicationSession,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
+  getApplicationStatusesByContactIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
-  isPointInEngland
+  isPointInEngland,
+  applicationStatuses
 } from '../db-queries.js'
 
 const expectedDeleteStatement = `
@@ -26,19 +28,41 @@ const expectedInsertStatement = `
   RETURNING application_session_id;
 `
 
+const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
+  SELECT
+    ar.application_reference,
+    ${applicationStatuses.inProgress} AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_session aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2
+  UNION
+  SELECT
+    ar.application_reference,
+    ${applicationStatuses.received} AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_status aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2;
+`
 const expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
-    application_session
+    aps.application_session
   FROM
-    bng.application_session as
+    bng.application_session aps
       INNER JOIN bng.application_reference ar
-        ON as.application_reference = ar.application_reference
+        ON aps.application_reference = ar.application_reference
   WHERE
-    as.application_reference = $1
+    aps.application_reference = $1
     AND ar.contact_id = $2
     AND ar.application_type = $3;
 `
-
 const expectedGetExpiringApplicationSessionsStatement = `
   SELECT
     application_session_id
@@ -79,6 +103,7 @@ describe('Database queries', () => {
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
     expect(getApplicationSessionByReferenceContactIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement)
+    expect(getApplicationStatusesByContactIdAndApplicationType(db)).toEqual(expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement)
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)

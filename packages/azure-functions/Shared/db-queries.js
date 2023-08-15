@@ -1,3 +1,8 @@
+const applicationStatuses = Object.freeze({
+  inProgress: 'IN PROGRESS',
+  received: 'RECEIVED'
+})
+
 const deleteApplicationSessionsAt28DaysStatement = `
   DELETE FROM
     bng.application_session
@@ -20,18 +25,40 @@ const deleteApplicationSessionStatement = `
   WHERE
     application_reference = $1;
 `
-
 const getApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
-    application_session
+    aps.application_session
   FROM
-    bng.application_session as
+    bng.application_session aps
       INNER JOIN bng.application_reference ar
-        ON as.application_reference = ar.application_reference
+        ON aps.application_reference = ar.application_reference
   WHERE
-    as.application_reference = $1
+    aps.application_reference = $1
     AND ar.contact_id = $2
     AND ar.application_type = $3;
+`
+const getApplicationStatusesByContactIdAndApplicationTypeStatement = `
+  SELECT
+    ar.application_reference,
+    ${applicationStatuses.inProgress} AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_session aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2
+  UNION
+  SELECT
+    ar.application_reference,
+    ${applicationStatuses.received} AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_status aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2;
 `
 const getExpiringApplicationSessionsStatement = `
   SELECT
@@ -87,6 +114,8 @@ const getApplicationSessionById = (db, values) => db.query('SELECT application_s
 
 const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values)
 
+const getApplicationStatusesByContactIdAndApplicationType = (db, values) => db.query(getApplicationStatusesByContactIdAndApplicationTypeStatement, values)
+
 const clearApplicationSession = db => db.query(deleteApplicationSessionsAt28DaysStatement)
 
 const getExpiringApplicationSessions = db => db.query(getExpiringApplicationSessionsStatement)
@@ -105,10 +134,12 @@ export {
   deleteApplicationSession,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
+  getApplicationStatusesByContactIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
   isPointInEngland,
   insertApplicationStatus,
-  getApplicationStatus
+  getApplicationStatus,
+  applicationStatuses
 }
