@@ -47,7 +47,7 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
-    it(`should render the ${url.substring(1)} view with organisation that use wants to change`, async () => {
+    it(`should render the ${url.substring(1)} view with organisation that user wants to change`, async () => {
       const request = {
         yar: redisMap,
         query: { orgId: '0' }
