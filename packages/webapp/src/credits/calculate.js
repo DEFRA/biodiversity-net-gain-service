@@ -11,8 +11,7 @@ export default tierInputAmounts => {
     }
   })
 
-  return {
-    tierCosts,
-    total: tierCosts.reduce((acc, cur) => acc + cur.cost, 0)
-  }
+  const total = tierCosts.reduce((acc, cur) => acc + cur.cost, 0)
+
+  return { tierCosts, total }
 }
