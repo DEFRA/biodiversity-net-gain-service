@@ -3,7 +3,7 @@ import path from 'path'
 import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = (session, account) => ({
+const getApplicant = account => ({
   firstName: account.idTokenClaims.firstName,
   lastName: account.idTokenClaims.lastName,
   emailAddress: account.idTokenClaims.email,
