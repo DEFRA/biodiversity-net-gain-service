@@ -67,18 +67,16 @@ describe('Land boundary upload controller tests', () => {
           const request = {
             yar: redisMap
           }
-          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
-            organisations: [{
-              index: 1,
-              value: 'Test'
-            }],
-            roles: [{
-              otherPartyName: 'County Council',
-              organisationIndex: 1,
-              rowIndex: 0,
-              county_council: true
-            }]
-          })
+          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, [{
+            organisationName: 'org1',
+            organisationRole: 'Developer',
+            organisationOtherRole: 'undefined'
+          },
+          {
+            organisationName: 'org2',
+            organisationRole: 'Landowner',
+            organisationOtherRole: 'undefined'
+          }])
           const h = {
             view: (view, context) => {
               viewResult = view
@@ -125,17 +123,16 @@ describe('Land boundary upload controller tests', () => {
       try {
         let viewResult
         const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, {
-          organisations: [{
-            index: 1,
-            value: 'Test'
-          }],
-          roles: [{
-            otherPartyName: 'Other party role',
-            organisationIndex: 1,
-            rowIndex: 0
-          }]
-        })
+        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, [{
+          organisationName: 'org1',
+          organisationRole: 'Developer',
+          organisationOtherRole: 'undefined'
+        },
+        {
+          organisationName: 'org2',
+          organisationRole: 'Landowner',
+          organisationOtherRole: 'undefined'
+        }])
         const request = {
           yar: redisMap
         }
@@ -146,8 +143,8 @@ describe('Land boundary upload controller tests', () => {
         }
         await legalAgreementDetails.default[1].handler(request, h)
         expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-        expect(request.yar.get('legal-agreement-parties').organisations[0].value).toBe('Test')
-        expect(request.yar.get('legal-agreement-parties').roles[0].otherPartyName).toBe('Other party role')
+        expect(request.yar.get('legal-agreement-parties')[0].organisationName).toBe('org1')
+        expect(request.yar.get('legal-agreement-parties')[0].otherPartyName).toBe(undefined)
         done()
       } catch (err) {
         done(err)
