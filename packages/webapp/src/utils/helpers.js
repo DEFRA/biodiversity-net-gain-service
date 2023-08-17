@@ -174,10 +174,10 @@ const hideClass = hidden => hidden ? 'hidden' : ''
 
 const getNameAndRoles = legalAgreementParties => {
   const partySelectionContent = []
-  legalAgreementParties && legalAgreementParties.organisations.forEach((organisation, index) => {
-    const selectedRole = legalAgreementParties.roles[index]
-    const roleName = selectedRole.value !== undefined ? selectedRole.value : selectedRole.otherPartyName
-    partySelectionContent.push(`${organisation.value} (${roleName})`)
+  legalAgreementParties && Object.values(legalAgreementParties).forEach(organisation => {
+    organisation.organisationRole === 'Other'
+      ? partySelectionContent.push(`${organisation.organisationName} (${organisation.organisationOtherRole})`)
+      : partySelectionContent.push(`${organisation.organisationName} (${organisation.organisationRole})`)
   })
   return partySelectionContent
 }
@@ -217,10 +217,10 @@ const getAllLandowners = session => {
 const getLegalAgreementDocumentType = documentType => constants.LEGAL_AGREEMENT_DOCUMENTS.find(item => item.id === documentType)?.text
 
 const getLegalAgreementParties = legalAgreementParties => {
-  return legalAgreementParties && legalAgreementParties.organisations.map((item, i) => {
+  return legalAgreementParties && legalAgreementParties.map(item => {
     return {
-      name: item.value,
-      role: legalAgreementParties.roles[i].other ? `Other: ${legalAgreementParties.roles[i].otherPartyName}` : legalAgreementParties.roles[i].value
+      name: item.organisationName,
+      role: item.organisationRole
     }
   })
 }

@@ -5,152 +5,32 @@ import {
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
-function processEmptyPartySelection (partySelectionData, index, combinedError, startId) {
+const validateOrganisation = organisation => {
+  let errorFlag = false
   const errorConstruct = {
-    text: '',
-    href: ''
+    text: undefined,
+    href: undefined
   }
-  const partyErrorSelection = Object.assign({}, errorConstruct)
-  partyErrorSelection.text = 'Enter the name of the legal party'
-  partyErrorSelection.href = `[${startId}[${index}][organisationName]`
-  partyErrorSelection.index = index
-  partySelectionData.organisationError.push(partyErrorSelection)
 
-  const partyCombinedError = Object.assign({}, errorConstruct)
-  partyCombinedError.text = 'Enter the name of the legal party'
-  partyCombinedError.href = `[${startId}[${index}][organisationName]`
-  combinedError.push(partyCombinedError)
+  const legalAgreementPartiesError = Array(2).fill(errorConstruct)
 
-  partySelectionData.hasError = true
-}
-
-function processSelectedParty (index, request, organisation, partySelectionData) {
-  const organisationValue = {
-    index,
-    value: request.payload[organisation]
-  }
-  partySelectionData.organisations.push(organisationValue)
-}
-
-function processParty (request, organisation, partySelectionData, index, combinedError, startId) {
-  if (request.payload[organisation] === '') {
-    processEmptyPartySelection(partySelectionData, index, combinedError, startId)
-  } else {
-    processSelectedParty(index, request, organisation, partySelectionData)
-  }
-}
-
-function processUndefinedRole (partySelectionData, index, combinedError, startId) {
-  const errorConstruct = {
-    text: '',
-    href: ''
-  }
-  const roleSelectionError = Object.assign({}, errorConstruct)
-  roleSelectionError.text = 'Select the role'
-  roleSelectionError.href = `[${startId}[${index}][role]`
-  roleSelectionError.index = index
-  partySelectionData.roleError.push(roleSelectionError)
-
-  const roleCombinedError = Object.assign({}, errorConstruct)
-  roleCombinedError.text = 'Select the role'
-  roleCombinedError.href = `[${startId}[${index}][role]`
-  combinedError.push(roleCombinedError)
-  partySelectionData.hasError = true
-}
-
-function processDefinedRole (request, organisationRole, index, partySelectionData, combinedError, startId) {
-  const partyRoleError = {
-    text: '',
-    href: ''
-  }
-  const roleDetails = getRoleDetails(request.payload[organisationRole], index)
-  if (roleDetails.other) {
-    let otherParty = request.payload.otherPartyName.constructor === Array ? request.payload.otherPartyName[index] : request.payload.otherPartyName
-    if (otherParty === undefined || otherParty === '') {
-      otherParty = ''
-      const currentError = Object.assign({}, partyRoleError)
-      currentError.text = 'Other type of role cannot be left blank'
-      currentError.href = `[${startId}[${index}][role]`
-      currentError.index = index
-      partySelectionData.roleError.push(currentError)
-
-      const currentCombinedError = Object.assign({}, partyRoleError)
-      currentCombinedError.text = 'Other type of role cannot be left blank'
-      currentCombinedError.href = `[${startId}[${index}][role]`
-      combinedError.push(currentCombinedError)
+  if (organisation.organisationName.trim().length === 0) {
+    legalAgreementPartiesError[0] = {
+      text: 'Enter the name of the legal party',
+      href: '#organisationName'
     }
-    roleDetails.otherPartyName = otherParty
+    errorFlag = true
   }
-  partySelectionData.roles.push(roleDetails)
-}
 
-function checkEmptySelection (organisations, request, startId) {
-  const partySelectionData = {
-    organisationError: [],
-    roleError: [],
-    organisations: [],
-    roles: []
-  }
-  const combinedError = []
-
-  organisations.forEach((organisation, index) => {
-    const organisationRole = Object.keys(request.payload).filter(key => key.indexOf(`${index}`) > 0 && key.indexOf('role') > 0)[0]
-    processParty(request, organisation, partySelectionData, index, combinedError, startId)
-    if (request.payload[organisationRole] === undefined) {
-      processUndefinedRole(partySelectionData, index, combinedError, startId)
-    } else {
-      processDefinedRole(request, organisationRole, index, partySelectionData, combinedError, startId)
+  if (organisation.organisationRole === undefined) {
+    legalAgreementPartiesError[1] = {
+      text: 'Select the role',
+      href: '#organisationRole'
     }
-  })
-  if (combinedError.length > 0) {
-    partySelectionData.err = combinedError
+    errorFlag = true
   }
-  return partySelectionData
-}
 
-function getRoleDetails (roleValue, indexValue) {
-  let roleDetails
-  switch (roleValue) {
-    case 'County Council':
-      roleDetails = {
-        value: 'County Council',
-        organisationIndex: indexValue,
-        rowIndex: 0,
-        county_council: true
-      }
-      break
-    case 'Developer':
-      roleDetails = {
-        value: 'Developer',
-        organisationIndex: indexValue,
-        rowIndex: 1,
-        developer: true
-      }
-      break
-    case 'Landowner':
-      roleDetails = {
-        value: 'Landowner',
-        organisationIndex: indexValue,
-        rowIndex: 2,
-        landowner: true
-      }
-      break
-    case 'Responsible body':
-      roleDetails = {
-        value: 'Responsible body',
-        organisationIndex: indexValue,
-        rowIndex: 3,
-        responsible_body: true
-      }
-      break
-    default :
-      roleDetails = {
-        organisationIndex: indexValue,
-        rowIndex: 4,
-        other: true
-      }
-  }
-  return roleDetails
+  return { legalAgreementPartiesError, errorFlag }
 }
 
 const handlers = {
@@ -161,43 +41,52 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
     })
-    const partySelectionData = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+
+    const { orgId } = request.query
+
+    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
-    if (partySelectionData) {
-      partySelectionData.roles?.forEach(role => {
-        if (role.otherPartyName === undefined) {
-          role.otherPartyName = ''
-        }
-      })
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-        partySelectionData,
-        legalAgreementType
-      })
+    let organisation = {}
+    if (orgId) {
+      organisation = legalAgreementParties[orgId]
+    } else {
+      organisation.organisationOtherRole = ''
     }
     return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
-      roles: [{
-        organisationIndex: 0,
-        otherPartyName: ''
-      }],
+      organisation,
       legalAgreementType
     })
   },
   post: async (request, h) => {
-    const startId = '#organisation'
-    const organisations = Object.keys(request.payload).filter(name => name.includes('organisationName'))
-    const selectionCount = organisations.length
+    const organisation = request.payload
+    const { orgId } = request.query
 
-    const partySelectionData = checkEmptySelection(organisations, request, startId)
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    partySelectionData.selectionCount = selectionCount
-    if (partySelectionData.err) {
-      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, partySelectionData)
-    } else {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, partySelectionData)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_AGREEMENT_START_DATE)
+    const { legalAgreementPartiesError, errorFlag } = validateOrganisation(organisation)
+
+    if (errorFlag) {
+      return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
+        organisation,
+        legalAgreementType,
+        err: legalAgreementPartiesError,
+        organisationNameErr: legalAgreementPartiesError[0].text ? legalAgreementPartiesError[0] : undefined,
+        organisationRoleErr: legalAgreementPartiesError[1].text ? legalAgreementPartiesError[1] : undefined
+      })
     }
+
+    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) ?? []
+
+    if (orgId) {
+      legalAgreementParties.splice(orgId, 1, organisation)
+    } else {
+      legalAgreementParties.push(organisation)
+    }
+
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, legalAgreementParties)
+    return h.redirect(constants.routes.LEGAL_PARTY_LIST)
   }
 }
 export default [{
