@@ -1,5 +1,4 @@
 import constants from '../utils/constants.js'
-// import { postJson } from '../utils/http.js'
 import { logger } from 'defra-logging-facade'
 
 const onPostHandler = {
