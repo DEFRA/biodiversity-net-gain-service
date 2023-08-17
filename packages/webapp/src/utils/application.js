@@ -77,7 +77,7 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
 const application = (session, account) => {
   return {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(session, account),
+      applicant: getApplicant(account),
       files: getFiles(session),
       gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
