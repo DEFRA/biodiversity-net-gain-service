@@ -313,35 +313,18 @@ const dataString = `
   "legal-agreement-file-type": "application/msword",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
-  "legal-agreement-parties": {
-    "organisationError": [],
-    "roleError": [],
-    "organisations": [
-      {
-        "index": 0,
-        "value": "County Council Name"
-      },
-      {
-        "index": 1,
-        "value": "Developer Name"
-      }
-    ],
-    "roles": [
-      {
-        "value": "County Council",
-        "organisationIndex": 0,
-        "rowIndex": 0,
-        "county_council": true
-      },
-      {
-        "value": "Developer",
-        "organisationIndex": 1,
-        "rowIndex": 1,
-        "developer": true
-      }
-    ],
-    "selectionCount": 2
-  },
+  "legal-agreement-parties": [
+    {
+      "organisationName": "org1",
+      "organisationRole": "Developer",
+      "organisationOtherRole": "undefined"
+    },
+    {
+      "organisationName": "org2",
+      "organisationRole": "Landowner",
+      "organisationOtherRole": "undefined"
+    }
+  ],
   "legal-agreement-start-date": "2022-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
