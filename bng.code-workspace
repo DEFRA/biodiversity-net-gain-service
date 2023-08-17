@@ -14,7 +14,11 @@
 		}
 	],
 	"settings": {
-		"debug.internalConsoleOptions": "neverOpen"
+		"debug.internalConsoleOptions": "neverOpen",
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true
+		},
+		"eslint.validate": ["javascript", "html"]
 	},
 	"launch": {
 		"version": "0.2.0",
