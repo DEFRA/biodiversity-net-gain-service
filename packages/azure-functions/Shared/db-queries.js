@@ -37,28 +37,45 @@ const getApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
     AND ar.contact_id = $2
     AND ar.application_type = $3;
 `
-const getApplicationStatusesByContactIdAndApplicationTypeStatement = `
+const getApplicationCountByContactIdStatement = `
   SELECT
-    ar.application_reference,
-    ${applicationStatuses.inProgress} AS application_status
+    contact_id,
+    COUNT(application_reference) AS application_count
   FROM
-    bng.application_reference ar
-      INNER JOIN bng.application_session aps
-        ON ar.application_reference = aps.application_reference
+    bng.application_reference
   WHERE
-    ar.contact_id = $1
-    AND ar.application_type = $2
-  UNION
-  SELECT
+    contact_id = $1
+  GROUP BY
+    contact_id;
+`
+
+const getApplicationStatusesByContactIdAndApplicationTypeStatement = `
+  (SELECT
     ar.application_reference,
-    ${applicationStatuses.received} AS application_status
+    aps.date_modified,
+    '${applicationStatuses.received}' AS application_status
   FROM
     bng.application_reference ar
       INNER JOIN bng.application_status aps
         ON ar.application_reference = aps.application_reference
   WHERE
     ar.contact_id = $1
-    AND ar.application_type = $2;
+    AND ar.application_type = $2::bng.application_type
+  UNION
+  SELECT
+    ar.application_reference,
+    aps.date_modified,
+    '${applicationStatuses.inProgress}' AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_session aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2::bng.application_type)
+  ORDER BY
+    application_status,
+    date_modified DESC;
 `
 const getExpiringApplicationSessionsStatement = `
   SELECT
@@ -110,6 +127,8 @@ const saveApplicationSession = (db, values) => db.query(insertApplicationSession
 
 const deleteApplicationSession = (db, values) => db.query(deleteApplicationSessionStatement, values)
 
+const getApplicationCountByContactId = (db, values) => db.query(getApplicationCountByContactIdStatement, values)
+
 const getApplicationSessionById = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values)
 
 const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values)
@@ -132,6 +151,7 @@ export {
   createApplicationReference,
   saveApplicationSession,
   deleteApplicationSession,
+  getApplicationCountByContactId,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
   getApplicationStatusesByContactIdAndApplicationType,

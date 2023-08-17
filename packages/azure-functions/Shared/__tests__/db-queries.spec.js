@@ -1,6 +1,7 @@
 import {
   createApplicationReference,
   saveApplicationSession,
+  getApplicationCountByContactId,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
   getApplicationStatusesByContactIdAndApplicationType,
@@ -28,29 +29,18 @@ const expectedInsertStatement = `
   RETURNING application_session_id;
 `
 
-const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
+const expectedGetApplicationCountByContactIdStatement = `
   SELECT
-    ar.application_reference,
-    ${applicationStatuses.inProgress} AS application_status
+    contact_id,
+    COUNT(application_reference) AS application_count
   FROM
-    bng.application_reference ar
-      INNER JOIN bng.application_session aps
-        ON ar.application_reference = aps.application_reference
+    bng.application_reference
   WHERE
-    ar.contact_id = $1
-    AND ar.application_type = $2
-  UNION
-  SELECT
-    ar.application_reference,
-    ${applicationStatuses.received} AS application_status
-  FROM
-    bng.application_reference ar
-      INNER JOIN bng.application_status aps
-        ON ar.application_reference = aps.application_reference
-  WHERE
-    ar.contact_id = $1
-    AND ar.application_type = $2;
+    contact_id = $1
+  GROUP BY
+    contact_id;
 `
+
 const expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
     aps.application_session
@@ -80,6 +70,35 @@ const expectedGetExpiringApplicationSessionsStatement = `
     date_modified AT TIME ZONE 'UTC' < NOW() AT TIME ZONE 'UTC' - INTERVAL '21 days'
     AND date_modified > date_of_expiry_notification;
 `
+
+const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
+  (SELECT
+    ar.application_reference,
+    aps.date_modified,
+    '${applicationStatuses.received}' AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_status aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2::bng.application_type
+  UNION
+  SELECT
+    ar.application_reference,
+    aps.date_modified,
+    '${applicationStatuses.inProgress}' AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_session aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2::bng.application_type)
+  ORDER BY
+    application_status,
+    date_modified DESC;
+`
 const expectedRecordExpiringApplicationSessionNotificationStatement = `
   UPDATE
     bng.application_session
@@ -101,6 +120,7 @@ describe('Database queries', () => {
     }
     expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference($1, $2);')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
+    expect(getApplicationCountByContactId(db)).toEqual(expectedGetApplicationCountByContactIdStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
     expect(getApplicationSessionByReferenceContactIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement)
     expect(getApplicationStatusesByContactIdAndApplicationType(db)).toEqual(expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement)
