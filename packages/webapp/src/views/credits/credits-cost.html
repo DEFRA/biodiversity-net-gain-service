@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% set serviceName = "TODO" %}
+{% set pageHeading = "Estimated cost of statutory biodiversity credits" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: "Estimated cost of statutory biodiversity credits",
+        html: "<strong>" + totalCost + " (Excluding VAT)</strong>",
+        classes: "govuk-!-text-align-left",
+        attributes: {
+          style: "background-color: #1d70b8"
+        }        
+      }) }}
+
+      {{ govukTable({
+        firstCellIsHeader: true,
+        head: [
+          {
+            text: "Tier"
+          },
+          {
+            text: "Credit units",
+            format: "numeric"
+          },
+          {
+            text: "Estimated cost",
+            format: "numeric"
+          }
+        ],
+        rows: tierRows
+      }) }}
+
+      <h2 class="govuk-heading-m">Credit prices</h2>
+      <p class="govuk-body">This service provides an estimation.</p>
+      <p class="govuk-body">All credit prices are a guide.</p>
+      <p class="govuk-body">Check <a href="https://www.gov.uk/guidance/statutory-biodiversity-credit-prices" target="_blank" rel="noopener">the price list</a> for more information.</p>
+    </div>
+  </div>
+{% endblock %}
