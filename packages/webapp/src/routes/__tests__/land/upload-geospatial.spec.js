@@ -412,7 +412,7 @@ describe(url, () => {
       it('should redirect to check-geospatial-file if check-geospatial-file is disabled', (done) => {
         jest.isolateModules(async () => {
           try {
-            process.env.DISABLED_ROUTES = '/land/check-geospatial-file'
+            process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
             server = await startServer({ ...serverOptions, port: 3001 })
             const config = JSON.parse(JSON.stringify(baseConfig))
             config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'

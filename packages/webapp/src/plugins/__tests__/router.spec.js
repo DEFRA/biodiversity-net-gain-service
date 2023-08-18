@@ -6,6 +6,8 @@ const ORIGINAL_ENV = process.env
 let server
 
 describe('Routes', () => {
+  const emailEntry = '/developer/email-entry'
+
   afterEach(async () => {
     try {
       if (server) {
@@ -20,23 +22,25 @@ describe('Routes', () => {
     expect(typeof plugin).toBe('function')
   })
 
-  it('should not disable routes if env variable is not defined', async () => {
-    process.env.DISABLED_ROUTES = undefined
+  it('should disabled routes if env variable is defined with N', async () => {
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'N'
     server = await startServer({ ...serverOptions, port: 3001 })
-    const response = await server.inject({
-      method: 'GET',
-      url: '/start'
-    })
-    expect(response.statusCode).toEqual(200)
+
+    await checkIfRouteExists(emailEntry, 404)
   })
 
-  it('should not return disabled routes if env variable is defined', async () => {
-    process.env.DISABLED_ROUTES = '/land/choose-land-boundary-upload;/land/geospatial-land-boundary'
+  it('should not disabled routes if env variable is defined with Y', async () => {
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'Y'
     server = await startServer({ ...serverOptions, port: 3001 })
-    const response = await server.inject({
-      method: 'GET',
-      url: '/land/choose-land-boundary-upload'
-    })
-    expect(response.statusCode).toEqual(404)
+
+    await checkIfRouteExists(emailEntry)
   })
 })
+
+const checkIfRouteExists = async (route, statusCode) => {
+  const response = await server.inject({
+    method: 'GET',
+    url: route
+  })
+  expect(response.statusCode).toEqual(statusCode || 200)
+}

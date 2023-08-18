@@ -1,6 +1,5 @@
-import serverOptions from '../../../__mocks__/server-options.js'
 import constants from '../../../utils/constants.js'
-import { startServer, submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_GEOSPATIAL_FILE
 
 describe(url, () => {
@@ -196,29 +195,6 @@ describe(url, () => {
         } catch (err) {
           done(err)
         }
-      })
-    })
-
-    describe('With disabled routes', () => {
-      let server
-      const ORIGINAL_ENV = process.env
-      afterEach(async () => {
-        try {
-          if (server) {
-            await server.stop()
-          }
-        } finally {
-          process.env = { ...ORIGINAL_ENV }
-        }
-      })
-
-      it('should redirect to check-land-boundary-details if upload-geospatial-file is disabled', async () => {
-        process.env.DISABLED_ROUTES = '/land/upload-geospatial-file'
-        server = await startServer({ ...serverOptions, port: 3001 })
-        postOptions.method = 'POST'
-        postOptions.payload.confirmGeospatialLandBoundary = constants.confirmLandBoundaryOptions.NO
-        const response = await server.inject(postOptions)
-        expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
       })
     })
   })

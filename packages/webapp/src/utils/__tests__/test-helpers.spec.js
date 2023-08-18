@@ -223,43 +223,55 @@ describe('helpers file', () => {
   })
 
   describe('getDisabledRoutes', () => {
-    it('should return disabled route\'s array', () => {
-      process.env.DISABLED_ROUTES = '/land/choose-land-boundary-upload;/land/geospatial-land-boundary'
+    it('should return disabled route\'s array if env variabled having value N', () => {
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'N'
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'N'
       const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(2)
-      expect(mockDisabledRoutes).toEqual(['/land/geospatial-land-boundary', '/land/choose-land-boundary-upload'])
+      expect(mockDisabledRoutes.length).toBe(5)
+      expect(mockDisabledRoutes).toEqual([
+        '/land/check-geospatial-file',
+        '/land/upload-geospatial-file',
+        '/land/geospatial-land-boundary',
+        '/developer/email-entry',
+        '/land/choose-land-boundary-upload'
+      ])
     })
 
-    it('should return an empty route\'s array if env variable is not defined', () => {
-      delete process.env.DISABLED_ROUTES
+    it('should return an empty route\'s array if env variables having value Y', () => {
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'Y'
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'Y'
       const mockDisabledRoutes = getDisabledRoutes()
       expect(mockDisabledRoutes.length).toBe(0)
       expect(mockDisabledRoutes).toEqual([])
     })
 
-    it('should return a valid route\'s array by comapring with defined routes', () => {
-      process.env.DISABLED_ROUTES = '/land/choose-land-boundary-upload;/test123;/land/invalid-route'
+    it('should return an empty route\'s array if env variables are not defined', () => {
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD
       const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(1)
-      expect(mockDisabledRoutes).toEqual(['/land/choose-land-boundary-upload'])
+      expect(mockDisabledRoutes.length).toBe(0)
+      expect(mockDisabledRoutes).toEqual([])
     })
   })
 
   describe('isRouteDisabled', () => {
     it('should return true if given route is disabled', () => {
-      const routeToBeDisabled = '/land/choose-land-boundary-upload'
-      process.env.DISABLED_ROUTES = routeToBeDisabled
+      const routeToBeDisabled = '/land/check-geospatial-file'
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
       expect(isRouteDisabled(routeToBeDisabled)).toBeTruthy()
     })
 
     it('should return false if given route is not disabled', () => {
-      const routeToBeDisabled = '/land/choose-land-boundary-upload'
-      delete process.env.DISABLED_ROUTES
+      const routeToBeDisabled = '/land/check-geospatial-file'
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
       expect(isRouteDisabled(routeToBeDisabled)).not.toBeTruthy()
     })
 
     it('should return false if route is undefined', () => {
-      delete process.env.DISABLED_ROUTES
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
       expect(isRouteDisabled(undefined)).not.toBeTruthy()
     })
   })

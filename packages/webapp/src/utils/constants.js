@@ -178,6 +178,14 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
+const ROUTES_TO_BE_DISABLED = {
+  UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+  CHOOSE_LAND_BOUNDARY_UPLOAD,
+  GEOSPATIAL_LAND_BOUNDARY,
+  CHECK_GEOSPATIAL_FILE,
+  DEVELOPER_EMAIL_ENTRY: developerConstants.routes.DEVELOPER_EMAIL_ENTRY
+}
+
 export default Object.freeze({
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
@@ -210,5 +218,6 @@ export default Object.freeze({
   AZURE_FUNCTION_APP_URL,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
+  ROUTES_TO_BE_DISABLED,
   ...developerConstants.options
 })
