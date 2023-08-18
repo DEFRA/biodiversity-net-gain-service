@@ -13,9 +13,6 @@ export default [
   {
     method: 'GET',
     path: constants.routes.CREDITS_COST,
-    options: {
-      auth: false
-    },
     handler: (request, h) => {
       const creditCosts = request.yar.get(constants.redisKeys.CREDITS_CALCULATION)
 

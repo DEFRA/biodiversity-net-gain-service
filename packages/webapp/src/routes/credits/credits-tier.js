@@ -10,9 +10,6 @@ export default [
   {
     method: 'GET',
     path: constants.routes.CREDITS_TIER,
-    options: {
-      auth: false
-    },
     handler: (request, h) => {
       const previousCostCalculation = request.yar.get(constants.redisKeys.CREDITS_CALCULATION)
       const inputValues = (previousCostCalculation)
@@ -25,7 +22,6 @@ export default [
     method: 'POST',
     path: constants.routes.CREDITS_TIER,
     options: {
-      auth: false,
       validate: {
         payload: Joi.object({
           a1: inputSchema,
