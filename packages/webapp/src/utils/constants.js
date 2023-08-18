@@ -30,6 +30,8 @@ const CONTACT_ID = 'contact-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
+const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 
 const applicationTypes = {
   REGISTRATION,
@@ -126,12 +128,14 @@ const redisKeys = {
   ...lojConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
-  SAVE_APPLICATION_SESSION_ON_SIGNOUT
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT,
+  PRE_AUTHENTICATION_ROUTE
 }
 
 let routes = {
   ...developerConstants.routes,
   ...lojConstants.routes,
+  MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
   SIGNIN_CALLBACK,
   SIGNOUT,
