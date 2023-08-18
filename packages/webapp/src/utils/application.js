@@ -3,7 +3,7 @@ import path from 'path'
 import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = (session, account) => ({
+const getApplicant = account => ({
   firstName: account.idTokenClaims.firstName,
   lastName: account.idTokenClaims.lastName,
   emailAddress: account.idTokenClaims.email,
@@ -77,7 +77,7 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
 const application = (session, account) => {
   return {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(session, account),
+      applicant: getApplicant(account),
       files: getFiles(session),
       gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),

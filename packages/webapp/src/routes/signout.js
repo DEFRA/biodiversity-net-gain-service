@@ -18,6 +18,11 @@ export default [{
       } catch (err) {
         // Occasionally in development if stopping a node process this throws an error when auth cache is wiped
         console.log(err)
+      } finally {
+        // Reset the session to prevent a user from signing out during partial completion of a journey,
+        // signing in using the same browser session and starting or continuing a journey for a different
+        // application. If the session is not reset, data from multiple jouneys is merged in the same session.
+        request.yar.reset()
       }
       return h.redirect(auth.getLogoutUrl().href)
     }
