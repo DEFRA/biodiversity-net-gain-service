@@ -466,29 +466,33 @@ const areDeveloperDetailsPresent = session => (
 
 // Checking feature flag environment variable to disable some routes for MVP
 const getDisabledRoutes = () => {
-  const disabledRoutes = process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';')
+  const disabledRoutes = []
+  const { GEOSPATIAL_LAND_BOUNDARY, CHECK_GEOSPATIAL_FILE, UPLOAD_GEOSPATIAL_LAND_BOUNDARY, DEVELOPER_EMAIL_ENTRY, CHOOSE_LAND_BOUNDARY_UPLOAD } = constants.ROUTES_TO_BE_DISABLED
+  const featureFlags = Object.keys(process.env).filter(key => key.startsWith('ENABLE_ROUTE_SUPPORT_FOR_') && (process.env[key] === 'N' || process.env[key] === 'n'))
 
-  const validDisabledRoutes = []
-  // Checking if provided value of DISABLED_ROUTES is exists in constants
-  if (disabledRoutes) {
-    Object.values(constants.routes).forEach(route => {
-      for (const item of disabledRoutes) {
-        if (route === item) {
-          validDisabledRoutes.push(item)
-        }
+  if (featureFlags.length > 0) {
+    for (const flag of featureFlags) {
+      switch (flag) {
+        case 'ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL':
+          disabledRoutes.push(CHECK_GEOSPATIAL_FILE)
+          disabledRoutes.push(UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+          disabledRoutes.push(GEOSPATIAL_LAND_BOUNDARY)
+          break
+        case 'ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL':
+          disabledRoutes.push(DEVELOPER_EMAIL_ENTRY)
+          break
+        case 'ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD':
+          disabledRoutes.push(CHOOSE_LAND_BOUNDARY_UPLOAD)
+          break
       }
-    })
-
-    if (validDisabledRoutes.length !== disabledRoutes.length) {
-      const difference = disabledRoutes.filter(x => validDisabledRoutes.indexOf(x) === -1)
-      logger.info(`${new Date().toUTCString()} Some routes in 'DISABLED_ROUTES' doest not exists ${JSON.stringify(difference)}`)
     }
   }
 
-  return validDisabledRoutes
+  return (disabledRoutes || []).map(route => `/${route}`)
 }
+
 // Checking if requested route is disabled
-const isRouteDisabled = route => process.env.DISABLED_ROUTES && process.env.DISABLED_ROUTES.split(';').includes(route)
+const isRouteDisabled = route => getDisabledRoutes().includes(route)
 
 export {
   validateDate,

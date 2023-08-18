@@ -33,7 +33,7 @@ const handlers = {
         route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
-        route = isRouteDisabled(constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY) ? constants.routes.UPLOAD_LAND_BOUNDARY : constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
+        route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
         await deleteBlobFromContainers(geoJsonLandBoundaryLocation)
         await deleteBlobFromContainers(uploadedGeospatialLandBoundaryLocation)
         await deleteBlobFromContainers(reprojectedGeoJsonLandBoundaryLocation)
