@@ -9,7 +9,7 @@ const onPostAuthHandler = {
         const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
         if (applicationType === constants.applicationTypes.ALLOCATION && request.path.startsWith('/land')) {
           return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
-        } else if (((applicationType === constants.applicationTypes.REGISTRATION && request.path.startsWith('/developer')))) {
+        } else if ((applicationType === constants.applicationTypes.REGISTRATION && request.path.startsWith('/developer'))) {
           return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
         } else {
           return h.continue
