@@ -34,6 +34,17 @@
             ]
           }
         } %}
+
+        {% set landBoundaryOnAMapElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
+          key: {
+            text: "Land boundary on a map"
+          },
+          classes: hideClass(documentOrImage) + ' defra-js-show hidden',
+          value: {
+            html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
+          }
+        } %}
+
         {{ govukSummaryList({
           classes: "govuk-!-margin-bottom-7",
           rows: [
@@ -55,15 +66,7 @@
                 ]
               }
             },
-            {
-              key: {
-                text: "Land boundary on a map"
-              },
-              classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-              value: {
-                html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
-              }
-            },
+            landBoundaryOnAMapElement,
             {
               key: {
                 text: "Grid reference"

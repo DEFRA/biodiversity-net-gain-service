@@ -19,7 +19,7 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set landBoundaryFileNameElement = undefined if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else {
+                    {% set landBoundaryFileNameElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
                         key: {
                             text: 'File type'
                         },
@@ -29,7 +29,7 @@
                         actions: {
                             items: [
                                 {
-                                    href: '/land/choose-land-boundary-upload',
+                                    href: routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
                                     text: 'Change',
                                     visuallyHiddenText: ' land boundary file',
                                     attributes: {
@@ -39,6 +39,17 @@
                             ]
                         }
                     } %}
+
+                    {% set boundaryOnAMapElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
+                        key: {
+                          text: "Boundary on a map"
+                        },
+                        classes: hideClass(documentOrImage) + ' defra-js-show hidden',
+                        value: {
+                          html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
+                        }
+                    } %}
+
                     {{ govukSummaryList({
                         rows: [
                             landBoundaryFileNameElement,
@@ -62,15 +73,7 @@
                                     ]
                                   }
                             },
-                            {
-                              key: {
-                                text: "Boundary on a map"
-                              },
-                              classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-                              value: {
-                                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
-                              }
-                            },
+                            boundaryOnAMapElement,
                             {
                             key: {
                                 text: 'Grid reference'

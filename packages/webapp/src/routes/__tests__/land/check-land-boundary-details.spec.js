@@ -78,11 +78,11 @@ describe('With disabled routes', () => {
 
   it('should redirect to upload-land-boundary if this route disabled', async () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-    // process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'Y'
     server = await startServer({ ...serverOptions, port: 3001 })
     sessionData[constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE] = 'documentOrImage'
     server.register(onPreHandler(sessionData))
     const response = await server.inject(getOptions)
-    expect(response.payload).toContain('Document or image')
+    expect(response.payload).not.toContain('Document or image')
+    expect(response.payload).not.toContain('Geospatial file')
   })
 })
