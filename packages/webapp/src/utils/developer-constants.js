@@ -25,6 +25,7 @@ const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 const DEVELOPER_APPLICATION_SUBMITTED = 'developer/confirm'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
+const DEVELOPER_CONTINUE_ALLOCATION = 'developer/continue-allocation'
 // ./Routes constants
 
 // RedisKeys constants
@@ -124,7 +125,8 @@ export default {
     DEVELOPER_AGREEMENT_CHECK,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
     DEVELOPER_APPLICATION_SUBMITTED,
-    DEVELOPER_DEVELOPMENT_PROJECTS
+    DEVELOPER_DEVELOPMENT_PROJECTS,
+    DEVELOPER_CONTINUE_ALLOCATION
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,

@@ -25,9 +25,9 @@ describe('Route authentication', () => {
     }
     const response = await submitGetRequest(options)
     expect(response.payload).toContain(`<ul class="login-nav__list">
-    <li class="login-nav__list-item">John Smith |</li>
-    <li class="login-nav__list-item"><a id="link-manage-account" href="/land/register-land-task-list" class="govuk-link login-nav__link govuk-link--no-visited-state">Your registrations</a> |</li>
-    <li class="login-nav__list-item"><a id="link-sign-out" href="/signout" class="govuk-link login-nav__link govuk-link--no-visited-state">Sign out</a></li>
+    <li class="login-nav__list-item">John Smith |</li>`)
+    expect(response.payload).toContain('<li class="login-nav__list-item"><a id="link-manage-account" href="/manage-biodiversity-gains" class="govuk-link login-nav__link govuk-link--no-visited-state">Manage biodiversity gains</a> |</li>')
+    expect(response.payload).toContain(`<li class="login-nav__list-item"><a id="link-sign-out" href="/signout" class="govuk-link login-nav__link govuk-link--no-visited-state">Sign out</a></li>
   </ul>`)
   })
 })

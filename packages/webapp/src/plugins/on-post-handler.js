@@ -53,7 +53,8 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
       lastName: accountInfo.lastName,
       email: accountInfo.email,
       contactId: accountInfo.contactId,
-      accountManagementUrl: process.env.DEFRA_ID_ACCOUNT_MANAGEMENT_URL
+      accountManagementUrl: process.env.DEFRA_ID_ACCOUNT_MANAGEMENT_URL,
+      enableAccountManagementUrl: request.path !== `${constants.routes.MANAGE_BIODIVERSITY_GAINS}`
     }
   }
 }

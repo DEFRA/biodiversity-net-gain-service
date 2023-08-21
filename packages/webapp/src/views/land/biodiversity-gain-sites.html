@@ -1,14 +1,10 @@
 {% extends 'layout.html' %}
 {% set pageHeading = "Biodiversity gain sites" %}
+{% set continueApplicationRouteStem = "/land/continue-registration" %}
+{% set newApplicationText = "Register a new biodiversity gain site" %}
+{% set newApplicationHref = "/land/register-land-task-list" %}
+{% set newApplicationId = "create-registration" %}
+{% set newApplicationTestId = "create-registration" %}
 {% block content %}
-  <div class="govuk-width-container">
-    <div class="govuk-main-wrapper">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-          Under construction
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include "common/applications.html" %}
 {% endblock %}

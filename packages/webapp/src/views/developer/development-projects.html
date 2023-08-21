@@ -1,14 +1,10 @@
 {% extends 'layout.html' %}
 {% set pageHeading = "Development projects" %}
+{% set continueApplicationRouteStem = "/developer/continue-allocation" %}
+{% set newApplicationText = "Record off-site gains for a new development" %}
+{% set newApplicationHref = "/developer/tasklist" %}
+{% set newApplicationId = "create-allocation" %}
+{% set newApplicationTestId = "create-allocation" %}
 {% block content %}
-  <div class="govuk-width-container">
-    <div class="govuk-main-wrapper">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-          <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-          Under construction
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include "common/applications.html" %}
 {% endblock %}
