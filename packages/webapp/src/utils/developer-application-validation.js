@@ -31,7 +31,13 @@ const developerApplicationValidation = Joi.object({
         fileLocation: Joi.string().required(),
         fileName: Joi.string().required()
       })
-    ).required()
+    ).required(),
+    payment: Joi.object({
+      caseType: Joi.string().required(),
+      fee: Joi.number().required(),
+      reference: Joi.string().allow('', null).optional(),
+      type: Joi.string().required()
+    }).required()
   })
 })
 

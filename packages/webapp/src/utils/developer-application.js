@@ -1,5 +1,10 @@
 import constants from './constants.js'
+import savePayment from '../payment/save-payment.js'
 import path from 'path'
+
+const getDeveloperApplicationReference = session => {
+  return session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
+}
 
 // Developer Application object schema must match the expected payload format for the Operator application
 export default session => {
@@ -21,7 +26,7 @@ export default session => {
       confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
       confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
       metricData: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
-      referenceNumber: session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || '', // Need to get one after submitting application
+      referenceNumber: getDeveloperApplicationReference(session), // Need to get one after submitting application
       submittedOn: new Date().toISOString(),
       files: [
         {
@@ -38,7 +43,8 @@ export default session => {
           fileLocation: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
           fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
         }
-      ]
+      ],
+      payment: savePayment(session, 'allocation', getDeveloperApplicationReference(session))
     }
   }
 }

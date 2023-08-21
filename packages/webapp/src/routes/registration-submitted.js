@@ -1,13 +1,17 @@
 import constants from '../utils/constants.js'
 import { formatAppRef } from '../utils/helpers.js'
+import { getPayment } from '../payment/payment-session.js'
 
 const handlers = {
   get: async (request, h) => {
     const applicationReference = formatAppRef(request.yar.get(constants.redisKeys.APPLICATION_REFERENCE))
+    const payment = getPayment(request.yar, 'payment')
+
     // Reset user session as submitted
     request.yar.reset()
     return h.view(constants.views.REGISTRATION_SUBMITTED, {
-      applicationReference
+      applicationReference,
+      payment
     })
   }
 }
