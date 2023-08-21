@@ -501,7 +501,7 @@ const getDisabledRoutes = () => {
     }
   }
 
-  return (disabledRoutes || []).map(route => `/${route}`)
+  return disabledRoutes
 }
 
 // Checking if requested route is disabled
