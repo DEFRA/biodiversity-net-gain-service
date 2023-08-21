@@ -4,6 +4,7 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+import { logger } from 'defra-logging-facade'
 
 const isoDateFormat = 'YYYY-MM-DD'
 
@@ -496,6 +497,9 @@ const getDisabledRoutes = () => {
           break
         case 'ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD':
           disabledRoutes.push(CHOOSE_LAND_BOUNDARY_UPLOAD)
+          break
+        default:
+          logger.log(`${new Date().toUTCString()} Needs to define env variables in WEBAPP_ENV file`)
           break
       }
     }
