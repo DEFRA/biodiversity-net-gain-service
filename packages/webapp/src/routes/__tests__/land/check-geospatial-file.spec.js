@@ -28,7 +28,7 @@ describe(url, () => {
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file.js')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {
@@ -64,7 +64,7 @@ describe(url, () => {
           let viewResult
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file.js')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {
@@ -98,7 +98,7 @@ describe(url, () => {
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
           redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
-          const checkLandBoundary = require('../../land/check-geospatial-file.js')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {
@@ -133,7 +133,7 @@ describe(url, () => {
           const redisMap = new Map()
           redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
-          const checkLandBoundary = require('../../land/check-geospatial-file.js')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {
@@ -168,7 +168,7 @@ describe(url, () => {
         try {
           let viewResult, contextResult
           const redisMap = new Map()
-          const checkLandBoundary = require('../../land/check-geospatial-file.js')
+          const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
             yar: redisMap,
             payload: {

@@ -209,6 +209,16 @@ describe('helpers file', () => {
       expect(mockDisabledRoutes.length).toBe(0)
       expect(mockDisabledRoutes).toEqual([])
     })
+
+    it('should return an empty route\'s array if env variables are invalid', () => {
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
+      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_INVALID = 'N'
+      const mockDisabledRoutes = getDisabledRoutes()
+      expect(mockDisabledRoutes.length).toBe(0)
+      expect(mockDisabledRoutes).toEqual([])
+    })
   })
 
   describe('isRouteDisabled', () => {
