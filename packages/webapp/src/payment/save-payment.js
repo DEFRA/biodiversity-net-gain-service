@@ -7,7 +7,7 @@ const savePayment = (session, caseType, reference) => {
   fee.reference = reference
   fee.type = 'BACS'
 
-  setPayment(session, 'payment', fee)
+  setPayment(session, fee)
 
   return fee
 }

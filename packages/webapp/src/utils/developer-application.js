@@ -1,4 +1,5 @@
 import constants from './constants.js'
+import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
 import path from 'path'
 
@@ -44,7 +45,7 @@ export default session => {
           fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
         }
       ],
-      payment: savePayment(session, 'allocation', getDeveloperApplicationReference(session))
+      payment: savePayment(session, paymentConstants.ALLOCATION, getDeveloperApplicationReference(session))
     }
   }
 }

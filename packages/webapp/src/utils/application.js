@@ -1,4 +1,5 @@
 import constants from './constants.js'
+import paymentConstants from '../payment/constants.js'
 import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLegalAgreementParties } from './helpers.js'
@@ -96,7 +97,7 @@ const application = session => {
       submittedOn: new Date().toISOString(),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
       metricData: session.get(constants.redisKeys.METRIC_DATA),
-      payment: savePayment(session, 'registration', getApplicationReference(session))
+      payment: savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
     }
   }
 }

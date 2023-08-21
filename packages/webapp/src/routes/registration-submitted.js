@@ -5,7 +5,7 @@ import { getPayment } from '../payment/payment-session.js'
 const handlers = {
   get: async (request, h) => {
     const applicationReference = formatAppRef(request.yar.get(constants.redisKeys.APPLICATION_REFERENCE))
-    const payment = getPayment(request.yar, 'payment')
+    const payment = getPayment(request.yar)
 
     // Reset user session as submitted
     request.yar.reset()
