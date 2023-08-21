@@ -36,6 +36,7 @@ warning: other service dependencies will be missing, install and run from root o
 | DEFRA_ID_CLIENT_SECRET | Defra ID Client Secret | Y |
 | DEFRA_ID_CLIENT_ID | Defra ID Client ID | Y |
 | DEFRA_ID_REDIRECT_URI | Defra ID redirect URI | Y |
+| DEFRA_ID_ACCOUNT_MANAGEMENT_URL | Defra ID account management URL | Y |
 | MAX_GEOSPATIAL_FILE_UPLOAD_MB | MVP recommendation to change file size limit on geospatial files | Y |
 
 #### Setting the SIGNALR_URL environment variable

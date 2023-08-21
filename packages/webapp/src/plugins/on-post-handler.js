@@ -52,7 +52,8 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
       firstName: accountInfo.firstName,
       lastName: accountInfo.lastName,
       email: accountInfo.email,
-      contactId: accountInfo.contactId
+      contactId: accountInfo.contactId,
+      accountManagementUrl: process.env.DEFRA_ID_ACCOUNT_MANAGEMENT_URL
     }
   }
 }
