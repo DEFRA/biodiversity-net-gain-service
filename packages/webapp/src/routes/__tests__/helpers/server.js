@@ -6,7 +6,7 @@ import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
 import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
-import onPreHandler from '../../../__mocks__/on-pre-handler.js'
+import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -138,13 +138,13 @@ const uploadFile = async (uploadConfig) => {
       return uploadConfig.eventData
     }
   })
-  if (uploadConfig.sessionData) await addOnPrehandler(uploadConfig.sessionData)
+  if (uploadConfig.sessionData) await addOnPreAuth(uploadConfig.sessionData)
   const response = await submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls })
   return response
 }
 
 const submitGetRequest = async (options, expectedResponseCode = 200, sessionData, config = { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT] ? 1 : 0 }) => {
-  await addOnPrehandler(sessionData)
+  await addOnPreAuth(sessionData)
   options.method = 'GET'
   return submitRequest(options, expectedResponseCode, config)
 }
@@ -181,9 +181,12 @@ const submitRequest = async (options, expectedResponseCode, config) => {
   return response
 }
 
-const addOnPrehandler = async (sessionData) => {
-  // Add session injection prehandler
-  await getServer().register(onPreHandler(sessionData))
+const addOnPreAuth = async (sessionData) => {
+  // Add session injection using on pre auth functionality.
+  // This shoud be done using a pre handler but only one pre handler can be registered
+  // with a Hapi.js server.
+  // Using on pre auth functionaliy is acceptable for testing purposes.
+  await getServer().register(onPreAuth(sessionData))
 }
 
 export { startServer, submitGetRequest, submitPostRequest, uploadFile }

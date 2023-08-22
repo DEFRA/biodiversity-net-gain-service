@@ -11,6 +11,12 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it('should redirect to the developer journey task list if a developer journey is in progress', async () => {
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.ALLOCATION)
+      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
+      expect(response.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
+    })
   })
 
   describe('POST', () => {
