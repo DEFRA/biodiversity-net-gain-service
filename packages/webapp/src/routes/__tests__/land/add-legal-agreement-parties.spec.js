@@ -88,6 +88,22 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.LEGAL_PARTY_LIST)
     })
 
+    it('should edit legal party to legal agreement and redirect to LEGAL_PARTY_LIST page by using orgId', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'org3',
+          organisationOtherRole: 'undefined',
+          organisationRole: 'Role3'
+        },
+        query: { orgId: '0' }
+      }
+
+      await addLegalAgreementParties.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.LEGAL_PARTY_LIST)
+    })
+
     it('should fail to add legal party to legal agreement without organisation name', async () => {
       const request = {
         yar: redisMap,
@@ -119,7 +135,7 @@ describe(url, () => {
       await addLegalAgreementParties.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
-      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#organisationRole' })
+      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#localAuthorityRole' })
     })
 
     it('should fail to add legal party to legal agreement without organisation name and organisation role', async () => {
@@ -137,7 +153,24 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
       expect(resultContext.organisationNameErr).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
-      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#organisationRole' })
+      expect(resultContext.organisationRoleErr).toEqual({ text: 'Select the role', href: '#localAuthorityRole' })
+    })
+
+    it('should fail to add legal party to legal agreement without organisation other role', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'Test',
+          organisationOtherRole: '',
+          organisationRole: 'Other'
+        },
+        query: {}
+      }
+
+      await addLegalAgreementParties.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
+      expect(resultContext.organisationOtherRoleErr).toEqual({ text: 'Enter the role of the legal party', href: '#organisationOtherRole' })
     })
   })
 })
