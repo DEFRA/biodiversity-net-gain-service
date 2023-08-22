@@ -3,9 +3,7 @@ import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
 import path from 'path'
 
-const getDeveloperApplicationReference = session => {
-  return session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
-}
+const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
 
 // Developer Application object schema must match the expected payload format for the Operator application
 export default session => {

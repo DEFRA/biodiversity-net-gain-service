@@ -19,7 +19,6 @@ const handlers = {
           })
         }
       })
-      console.log(dataContent)
       dataContent.completedTasks = completedTasks.length
     }
     return h.view(constants.views.DEVELOPER_TASKLIST, {

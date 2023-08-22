@@ -76,9 +76,7 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
   ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
   : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
-const getApplicationReference = session => {
-  return session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
-}
+const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
 
 const application = session => {
   return {

@@ -1,12 +1,8 @@
 const paymentKey = 'payment'
 
-const getPayment = (session) => {
-  return session?.get(paymentKey)
-}
+const getPayment = session => session?.get(paymentKey)
 
-const setPayment = (session, value) => {
-  session?.set(paymentKey, value)
-}
+const setPayment = (session, value) => session?.set(paymentKey, value)
 
 export {
   getPayment,
