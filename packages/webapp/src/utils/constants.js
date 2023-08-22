@@ -1,6 +1,7 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
+import creditsConstants from '../credits/constants.js'
 
 const DOCUMENT_UPLOAD = 'documentUpload'
 const GEOSPATIAL_DATA = 'geospatialData'
@@ -117,6 +118,7 @@ const redisKeys = {
 }
 
 let routes = {
+  ...creditsConstants.routes,
   ...developerConstants.routes,
   ...lojConstants.routes,
   SIGNIN,
