@@ -165,7 +165,8 @@ const submitRequest = async (options, expectedResponseCode, config) => {
           idTokenClaims: {
             firstName: 'John',
             lastName: 'Smith',
-            email: 'john.smith@test.com'
+            email: 'john.smith@test.com',
+            contactId: 'mock contact id'
           }
         }
       }
