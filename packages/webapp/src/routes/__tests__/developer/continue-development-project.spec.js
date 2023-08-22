@@ -1,12 +1,12 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = `${constants.routes.DEVELOPER_CONTINUE_ALLOCATION}/mock-application-reference`
+const url = `${constants.routes.DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT}/mock-application-reference`
 
 jest.mock('../../../utils/http.js')
 
 describe(url, () => {
   describe('GET', () => {
-    it('should load the allocation and redirect to the development project task list page', done => {
+    it('should load the development project and redirect to the development project task list page', done => {
       jest.isolateModules(async () => {
         try {
           jest.resetAllMocks()
@@ -25,7 +25,7 @@ describe(url, () => {
         }
       })
     })
-    it('should redirect to the development project dashboard if an allocation does not exist', done => {
+    it('should redirect to the development project dashboard if the development project does not exist', done => {
       jest.isolateModules(async () => {
         try {
           jest.resetAllMocks()

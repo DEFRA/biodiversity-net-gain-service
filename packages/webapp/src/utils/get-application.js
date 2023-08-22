@@ -1,7 +1,7 @@
 import constants from './constants.js'
 import { postJson } from './http.js'
 
-const getAllocation = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
+const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
 const getRegistration = async (request, h) => getApplication(request, h, constants.applicationTypes.REGISTRATION)
 
@@ -26,4 +26,4 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-export { getAllocation, getRegistration }
+export { getDevelopmentProject, getRegistration }
