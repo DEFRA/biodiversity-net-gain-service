@@ -2,10 +2,7 @@ import constants from '../../utils/constants.js'
 import { getDevelopmentProject } from '../../utils/get-application.js'
 
 const handlers = {
-  get: async (request, h) => {
-    const config = {}
-    return getDevelopmentProject(request, h, config)
-  }
+  get: async (request, h) => getDevelopmentProject(request, h)
 }
 
 export default [{

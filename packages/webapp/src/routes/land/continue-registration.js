@@ -2,9 +2,7 @@ import constants from '../../utils/constants.js'
 import { getRegistration } from '../../utils/get-application.js'
 
 const handlers = {
-  get: async (request, h) => {
-    return getRegistration(request, h)
-  }
+  get: async (request, h) => getRegistration(request, h)
 }
 
 export default [{
