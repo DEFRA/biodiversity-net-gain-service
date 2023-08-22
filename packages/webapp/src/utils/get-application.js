@@ -1,13 +1,9 @@
 import constants from './constants.js'
 import { postJson } from './http.js'
 
-const getAllocation = async (request, h) => {
-  return getApplication(request, h, constants.applicationTypes.ALLOCATION)
-}
+const getAllocation = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
-const getRegistration = async (request, h, config) => {
-  return getApplication(request, h, constants.applicationTypes.REGISTRATION)
-}
+const getRegistration = async (request, h) => getApplication(request, h, constants.applicationTypes.REGISTRATION)
 
 const getApplication = async (request, h, applicationType) => {
   // Get session for values

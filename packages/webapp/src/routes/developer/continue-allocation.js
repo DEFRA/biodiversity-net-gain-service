@@ -4,7 +4,7 @@ import { getAllocation } from '../../utils/get-application.js'
 const handlers = {
   get: async (request, h) => {
     const config = {}
-    return await getAllocation(request, h, config)
+    return getAllocation(request, h, config)
   }
 }
 

@@ -4,7 +4,7 @@ import { getRegistration } from '../../utils/get-application.js'
 const handlers = {
   get: async (request, h) => {
     const config = {}
-    return await getRegistration(request, h, config)
+    return getRegistration(request, h, config)
   }
 }
 

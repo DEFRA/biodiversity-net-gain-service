@@ -2,13 +2,9 @@ import constants from './constants.js'
 import { getFormattedDate } from './helpers.js'
 import { postJson } from './http.js'
 
-const getContextForAllocations = async request => {
-  return getContext(request, constants.applicationTypes.ALLOCATION)
-}
+const getContextForAllocations = async request => getContext(request, constants.applicationTypes.ALLOCATION)
 
-const getContextForRegistrations = async request => {
-  return getContext(request, constants.applicationTypes.REGISTRATION)
-}
+const getContextForRegistrations = async request => getContext(request, constants.applicationTypes.REGISTRATION)
 
 const getContext = async (request, applicationType) => {
   const contactId = request.auth.credentials.account.idTokenClaims.contactId
