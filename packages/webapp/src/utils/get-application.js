@@ -20,8 +20,9 @@ const getApplication = async (request, h, applicationType) => {
   if (Object.keys(session).length === 0) {
     return h.redirect(applicationType === constants.applicationTypes.REGISTRATION ? constants.routes.BIODIVERSITY_GAIN_SITES : constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS)
   } else {
-    // Restore session to Yar object
+    // Clear data associated with an existing registration or allocation journey.
     request.yar.reset()
+    // Restore session to Yar object.
     request.yar.set(session)
 
     // Redirect to task list
