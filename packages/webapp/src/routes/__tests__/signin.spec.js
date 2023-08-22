@@ -18,4 +18,12 @@ describe('Signin handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual('/start')
   })
+  it('Should render a non protected route without authentication that includes a next param', async () => {
+    const options = {
+      url: `${url}?next=/start`,
+      auth: false
+    }
+    const response = await submitGetRequest(options, 302)
+    expect(response.headers.location).toEqual('signin-url')
+  })
 })
