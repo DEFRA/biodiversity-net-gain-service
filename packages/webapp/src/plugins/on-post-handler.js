@@ -99,12 +99,16 @@ const isApplicationSessionSaveNeeded = request => {
   return request.method === 'post' &&
     request?.response?.statusCode === 302 &&
     // Exclude credits estimation and developing routing
-    !(request.path.startsWith('/credits-estimation')) &&
-    !(request.path.startsWith('/developer/routing-')) &&
+    isRouteIncludedInApplicationSave(request) &&
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.REGISTRATION_SUBMITTED &&
     request?.response?.headers?.location !== constants.routes.DEVELOPER_APPLICATION_SUBMITTED &&
     request?.auth?.isAuthenticated
+}
+
+const isRouteIncludedInApplicationSave = request => {
+  return !(request.path.startsWith('/credits-estimation')) &&
+         !(request.path.startsWith('/developer/routing-'))
 }
 
 const cacheContactIdIfNeeded = request => {
