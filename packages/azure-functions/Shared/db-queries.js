@@ -9,6 +9,7 @@ const insertApplicationSessionStatement = `
     bng.application_session (application_reference, application_session)
   VALUES ($1, $2)
   ON CONFLICT (application_reference) DO UPDATE SET
+    application_session = EXCLUDED.application_session,
     date_of_expiry_notification = EXCLUDED.date_of_expiry_notification,
     date_modified = now() AT TIME ZONE 'utc'
   RETURNING application_session_id;
