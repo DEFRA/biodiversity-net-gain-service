@@ -1,4 +1,4 @@
-import constants from '../../utils/constants.js'
+import constants from '../utils/constants.js'
 
 export default {
   method: 'GET',
