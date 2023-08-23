@@ -46,7 +46,7 @@ const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
-const NEED_METRIC = 'land/need-metric'
+const ALLOCATION_METRIC_NO = 'land/allocation-metric-no'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
@@ -283,7 +283,7 @@ export default {
     CHECK_OWNERSHIP_DETAILS,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
-    NEED_METRIC,
+    ALLOCATION_METRIC_NO,
     NEED_MANAGEMENT_PLAN,
     NEED_LEGAL_AGREEMENT,
     NEED_LOCAL_LAND_CHARGE,
