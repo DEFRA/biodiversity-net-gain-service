@@ -24,6 +24,7 @@ const TEST_SEED_DATA = 'test/seed-data'
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
+const ALLOCATION_METRIC_NO = 'allocation-metric-no'
 
 const confirmFileUploadOptions = {
   NO,
@@ -116,6 +117,7 @@ const redisKeys = {
 }
 
 let routes = {
+  ALLOCATION_METRIC_NO,
   ...creditsConstants.routes,
   ...developerConstants.routes,
   ...lojConstants.routes,
