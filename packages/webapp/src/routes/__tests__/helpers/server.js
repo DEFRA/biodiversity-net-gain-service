@@ -143,7 +143,7 @@ const uploadFile = async (uploadConfig) => {
   return response
 }
 
-const submitGetRequest = async (options, expectedResponseCode = 200, sessionData, config = { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT] ? 1 : 0 }) => {
+const submitGetRequest = async (options, expectedResponseCode = 200, sessionData, config = { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE] ? 1 : 0 }) => {
   await addOnPreAuth(sessionData)
   options.method = 'GET'
   return submitRequest(options, expectedResponseCode, config)

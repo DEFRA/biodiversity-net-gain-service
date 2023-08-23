@@ -1,6 +1,7 @@
 import constants from './constants.js'
 import { postJson } from './http.js'
 import Boom from '@hapi/boom'
+import saveApplicationSessionIfNeeded from './save-application-session-if-needed.js'
 
 const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
@@ -18,8 +19,9 @@ const getApplication = async (request, h, applicationType) => {
     if (Object.keys(session).length === 0) {
       return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
     } else {
-      // Clear data associated with an existing registration or allocation journey.
-      request.yar.reset()
+      // Save data for the current application that hasn't been saved already
+      // and reset the session before continuing.
+      await saveApplicationSessionIfNeeded(request.yar, true)
       // Restore session to Yar object.
       request.yar.set(session)
 

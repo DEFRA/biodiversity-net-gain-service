@@ -58,6 +58,7 @@ const HOME = 'home'
 const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
+const NEW_REGISTRATION = 'land/new-registration'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -263,7 +264,8 @@ export default {
     CHECK_METRIC_DETAILS,
     COOKIES,
     BIODIVERSITY_GAIN_SITES,
-    CONTINUE_REGISTRATION
+    CONTINUE_REGISTRATION,
+    NEW_REGISTRATION
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

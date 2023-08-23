@@ -30,7 +30,7 @@ const SIGNED_OUT = 'signed-out'
 const CONTACT_ID = 'contact-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
-const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 
@@ -129,7 +129,7 @@ const redisKeys = {
   ...lojConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
-  SAVE_APPLICATION_SESSION_ON_SIGNOUT,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE
 }
 
@@ -232,5 +232,6 @@ export default Object.freeze({
   AZURE_FUNCTION_APP_URL,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
-  ...developerConstants.options
+  ...developerConstants.options,
+  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH
 })
