@@ -98,6 +98,8 @@ const saveApplicationSession = async request => {
 const isApplicationSessionSaveNeeded = request => {
   return request.method === 'post' &&
     request?.response?.statusCode === 302 &&
+    // Exclude credits estimation and developing routing
+    !(request.path.startsWith('/credits-estimation')) &&
     !(request.path.startsWith('/developer/routing-')) &&
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.REGISTRATION_SUBMITTED &&
