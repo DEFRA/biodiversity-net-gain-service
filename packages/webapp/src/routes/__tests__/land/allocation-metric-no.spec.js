@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = constants.routes.NEED_METRIC
+const url = constants.routes.ALLOCATION_METRIC_NO
 
 describe(url, () => {
   describe('GET', () => {
