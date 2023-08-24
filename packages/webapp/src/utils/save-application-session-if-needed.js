@@ -1,7 +1,7 @@
 import constants from './constants.js'
 import { postJson } from './http.js'
 
-const saveApplicationSessionIfNeeded = async (session, resetApplicationSessionAfterSave = false) => {
+const saveApplicationSessionIfNeeded = async (session, resetApplicationSessionAfterSave) => {
   // session must be the Hapi.js Yar instance attached to a request.
   if (session.get(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE)) {
     // Save unpersisted journey data
