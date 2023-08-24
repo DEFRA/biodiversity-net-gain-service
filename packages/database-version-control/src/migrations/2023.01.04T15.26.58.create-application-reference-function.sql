@@ -9,10 +9,10 @@ RETURNS VARCHAR(18)
   AS
 $$
 DECLARE
-  insert_application_reference VARCHAR(20);
+  insert_application_reference VARCHAR(18);
   insert_id UUID;
-  first_random_string VARCHAR(4) := upper(bng.fn_random_string(4));
-  second_random_string VARCHAR(5) := upper(bng.fn_random_string(5));
+  first_random_string VARCHAR(5) := upper(bng.fn_random_string(5));
+  second_random_string VARCHAR(4) := upper(bng.fn_random_string(4));
 BEGIN
   -- The revised application reference number format no longer contains a sequential number
   -- based on the number of application reference numbers generated each day. To minimise

@@ -14,10 +14,6 @@ beforeEach(async () => {
   await recreateQueues()
 })
 
-afterEach(async () => {
-  process.env = ORIGINAL_ENV
-})
-
 const getContext = () => {
   return context
 }

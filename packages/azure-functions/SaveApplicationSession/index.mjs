@@ -42,7 +42,7 @@ export default async function (context, req) {
 
     const savedApplicationSessionPrimaryKey = savedApplicationSessionResult.rows[0].application_session_id
 
-    if (process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED) {
+    if (process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED && JSON.parse(process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED)) {
       sendNotification(context, savedApplicationSessionPrimaryKey)
     }
 
