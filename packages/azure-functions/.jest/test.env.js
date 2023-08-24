@@ -8,3 +8,7 @@ process.env.POSTGRES_PASSWORD='postgres'
 process.env.POSTGRES_DATABASE='bng'
 process.env.POSTGRES_PORT='5432'
 process.env.POSTGRES_SSL_MODE=''
+process.env['AzureWebJobs.ClearApplicationSession.Disabled']='true',
+process.env['AzureWebJobs.SendExpiringApplicationSessionNotification.Disabled']='true'
+process.env["AzureWebJobs.SendSavedApplicationSessionNotification.Disabled"]="true",
+process.env["AzureWebJobs.WarnOfExpringApplicationSessions.Disabled"]="true"
