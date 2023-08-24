@@ -3,9 +3,7 @@ import saveApplicationSessionIfNeeded from './save-application-session-if-needed
 
 const newDevelopmentProject = async (request, h) => newApplication(request, h, constants.applicationTypes.ALLOCATION)
 
-const newRegistration = async (request, h) => {
-  return newApplication(request, h, constants.applicationTypes.REGISTRATION)
-}
+const newRegistration = async (request, h) => newApplication(request, h, constants.applicationTypes.REGISTRATION)
 
 const newApplication = async (request, h, applicationType) => {
   await saveApplicationSessionIfNeeded(request.yar, true)
