@@ -6,6 +6,9 @@ const seedData = {
   path: constants.routes.TEST_SEED_DATA,
   handler: async (request, h) => {
     request.yar._store = JSON.parse(applicant.dataString)
+    request.yar.set(constants.redisKeys.CONTACT_ID, request.auth.credentials.account.idTokenClaims.contactId)
+    request.yar.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
+    request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT, true)
     return h.view(constants.views.TEST_SEED_DATA)
   }
 }

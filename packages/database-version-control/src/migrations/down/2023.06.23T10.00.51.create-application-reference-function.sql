@@ -1,1 +1,0 @@
-DROP FUNCTION IF EXISTS bng.fn_create_application_reference(number_of_retries INTEGER);

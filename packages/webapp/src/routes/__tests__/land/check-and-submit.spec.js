@@ -64,6 +64,8 @@ describe(url, () => {
           const session = applicationSession()
           const postHandler = checkAndSubmit[1].handler
 
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
@@ -97,6 +99,8 @@ describe(url, () => {
           const session = applicationSession()
           const postHandler = checkAndSubmit[1].handler
 
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             throw new Error('test error')

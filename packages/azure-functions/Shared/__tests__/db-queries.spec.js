@@ -2,7 +2,7 @@ import {
   createApplicationReference,
   saveApplicationSession,
   getApplicationSessionById,
-  getApplicationSessionByReferenceAndEmail,
+  getApplicationSessionByReferenceContactIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
@@ -18,22 +18,26 @@ const expectedDeleteStatement = `
 
 const expectedInsertStatement = `
   INSERT INTO
-    bng.application_session (application_reference, email, application_session)
-  VALUES ($1, $2, $3)
+    bng.application_session (application_reference, application_session)
+  VALUES ($1, $2)
   ON CONFLICT (application_reference) DO UPDATE SET
-    email = EXCLUDED.email, application_session = EXCLUDED.application_session,
+    application_session = EXCLUDED.application_session,
+    date_of_expiry_notification = EXCLUDED.date_of_expiry_notification,
     date_modified = now() AT TIME ZONE 'utc'
   RETURNING application_session_id;
 `
 
-const expectedGetApplicationSessionByReferenceAndEmailStatement = `
+const expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
     application_session
   FROM
-    bng.application_session
+    bng.application_session as
+      INNER JOIN bng.application_reference ar
+        ON as.application_reference = ar.application_reference
   WHERE
-    application_reference = $1
-    AND email = $2;
+    as.application_reference = $1
+    AND ar.contact_id = $2
+    AND ar.application_type = $3;
 `
 
 const expectedGetExpiringApplicationSessionsStatement = `
@@ -59,7 +63,7 @@ const expectedRecordExpiringApplicationSessionNotificationStatement = `
   SET
     date_of_expiry_notification = NOW() AT TIME ZONE 'UTC'
   WHERE
-    application_session_id = $1
+    application_session_id = $1;
 `
 
 describe('Database queries', () => {
@@ -72,10 +76,10 @@ describe('Database queries', () => {
     const db = {
       query: query => query
     }
-    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference();')
+    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference($1, $2);')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
-    expect(getApplicationSessionByReferenceAndEmail(db)).toEqual(expectedGetApplicationSessionByReferenceAndEmailStatement)
+    expect(getApplicationSessionByReferenceContactIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement)
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)

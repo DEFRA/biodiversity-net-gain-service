@@ -6,7 +6,7 @@ const gainSiteReference = 'TEST-00000001-AKD3'
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view with formatted application reference`, async () => {
+    it(`should render the ${url.substring(1)} view with application reference`, async () => {
       const getHandler = registrationSubmitted[0].handler
       const session = new Session()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, gainSiteReference)

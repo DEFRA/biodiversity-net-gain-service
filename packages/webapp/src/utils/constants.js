@@ -3,6 +3,7 @@ import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsConstants from '../credits/constants.js'
 
+const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
@@ -26,6 +27,15 @@ const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
 const SIGNED_OUT = 'signed-out'
+const CONTACT_ID = 'contact-id'
+const REGISTRATION = 'Registration'
+const ALLOCATION = 'Allocation'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+
+const applicationTypes = {
+  REGISTRATION,
+  ALLOCATION
+}
 
 const confirmFileUploadOptions = {
   NO,
@@ -114,7 +124,10 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
 
 const redisKeys = {
   ...developerConstants.redisKeys,
-  ...lojConstants.redisKeys
+  ...lojConstants.redisKeys,
+  APPLICATION_TYPE,
+  CONTACT_ID,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
 let routes = {
@@ -184,6 +197,7 @@ const minStartDates = {
 }
 
 export default Object.freeze({
+  applicationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,

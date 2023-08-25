@@ -6,7 +6,7 @@ import streamToPromise from 'stream-to-promise'
 import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
 import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
-import onPreHandler from '../../../__mocks__/on-pre-handler.js'
+import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -54,6 +54,22 @@ const uploadFile = async (uploadConfig) => {
   if (uploadConfig.generateFormDataError) {
     delete options.headers
   }
+
+  const expectedNumberOfPostJsonCalls =
+    uploadConfig.hasError ||
+    uploadConfig.generateFormDataError ||
+    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
+    uploadConfig.generateMissingCoordinateReferenceSystemError ||
+    uploadConfig.generateInvalidLayerCountError ||
+    uploadConfig.generateInvalidFeatureCountError ||
+    uploadConfig.generateOutsideEnglandError ||
+    uploadConfig.generateInvalidUploadError ||
+    uploadConfig.generateUnexpectedValidationError ||
+    uploadConfig.generateThreatDetectedError ||
+    uploadConfig.generateThreatScreeningFailure ||
+    uploadConfig.generateHandleEventsError
+      ? 0
+      : 1
 
   const { handleEvents } = require('../../../utils/azure-signalr.js')
 
@@ -122,23 +138,23 @@ const uploadFile = async (uploadConfig) => {
       return uploadConfig.eventData
     }
   })
-  if (uploadConfig.sessionData) await addOnPrehandler(uploadConfig.sessionData)
-  const response = await submitRequest(options, expectedResponseCode)
+  if (uploadConfig.sessionData) await addOnPreAuth(uploadConfig.sessionData)
+  const response = await submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls })
   return response
 }
 
 const submitGetRequest = async (options, expectedResponseCode = 200, sessionData) => {
-  await addOnPrehandler(sessionData)
+  await addOnPreAuth(sessionData)
   options.method = 'GET'
-  return submitRequest(options, expectedResponseCode)
+  return submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT] ? 1 : 0 })
 }
 
-const submitPostRequest = async (options, expectedResponseCode = 302) => {
+const submitPostRequest = async (options, expectedResponseCode = 302, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {
   options.method = 'POST'
-  return submitRequest(options, expectedResponseCode)
+  return submitRequest(options, expectedResponseCode, config)
 }
 
-const submitRequest = async (options, expectedResponseCode) => {
+const submitRequest = async (options, expectedResponseCode, config) => {
   // tests can pass in their own auth object
   if (!Object.prototype.hasOwnProperty.call(options, 'auth')) {
     // Add in some default credentials to pass authentication on routes
@@ -155,14 +171,22 @@ const submitRequest = async (options, expectedResponseCode) => {
       }
     }
   }
+
+  const http = require('../../../utils/http.js')
+  const spy = jest.spyOn(http, 'postJson')
+
   const response = await getServer().inject(options)
   expect(response.statusCode).toBe(expectedResponseCode)
+  expect(spy).toHaveBeenCalledTimes(config.expectedNumberOfPostJsonCalls)
   return response
 }
 
-const addOnPrehandler = async (sessionData) => {
-  // Add session injection prehandler
-  await getServer().register(onPreHandler(sessionData))
+const addOnPreAuth = async (sessionData) => {
+  // Add session injection using on pre auth functionality.
+  // This shoud be done using a pre handler but only one pre handler can be registered
+  // with a Hapi.js server.
+  // Using on pre auth functionaliy is acceptable for testing purposes.
+  await getServer().register(onPreAuth(sessionData))
 }
 
 export { startServer, submitGetRequest, submitPostRequest, uploadFile }

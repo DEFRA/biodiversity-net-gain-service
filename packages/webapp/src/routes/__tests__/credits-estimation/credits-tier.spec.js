@@ -57,7 +57,7 @@ describe(url, () => {
 
     it(`Should redirect to ${constants.views.ESTIMATOR_CREDITS_COST} if good payload provided`, async () => {
       postOptions.payload = goodPayload
-      const res = await submitPostRequest(postOptions, 302)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(constants.routes.ESTIMATOR_CREDITS_COST)
     })
 
