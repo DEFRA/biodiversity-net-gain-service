@@ -26,8 +26,61 @@
     <p class="govuk-body">By law you will then need to submit this to your local planning authority so they can discharge your BNG planning condition.</p>
     <p class="govuk-body">Make a note of your reference number. This will be used by Natural England to identify your submission, if they have any questions about what you've asked to be recorded on the Public Biodiversity Gain Register.</p>
   
-    <h2 class="govuk-heading-m">BACS Details</h2>
-    <p>Payment fee: £{{ payment.fee }}</p>
+    <h2 class="govuk-heading-m">Paying the application fee</h2>
+
+    <p>You will need to pay:</p>
+    <p class="govuk-body-l">£{{ payment.fee }}</p>
+
+    <div class="govuk-inset-text">
+      You must pay the fee within 28 days. We cannot refund any payments made after the 28-day deadline.
+    </div>
+
+    <h2 class="govuk-heading-m">Bank details for Bacs payments</h2>
+
+    <p>You must pay the fee by Bacs using these details:</p>
+
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Your payment reference
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ applicationReference }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Account name
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ bacs.accountName }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Sort code
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ bacs.sortCode }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Account number
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ bacs.accountNumber }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          SWIFT/BIC code
+        </dt>
+        <dd class="govuk-summary-list__value">
+          {{ bacs.swiftCode }}
+        </dd>
+      </div>
+    </dl>
   </div>
 </div>
 {% endblock %}

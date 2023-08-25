@@ -1,6 +1,7 @@
 import constants from '../utils/constants.js'
 import { formatAppRef } from '../utils/helpers.js'
 import { getPayment } from '../payment/payment-session.js'
+import bacs from '../payment/account-details.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -11,7 +12,8 @@ const handlers = {
     request.yar.reset()
     return h.view(constants.views.REGISTRATION_SUBMITTED, {
       applicationReference,
-      payment
+      payment,
+      bacs
     })
   }
 }
