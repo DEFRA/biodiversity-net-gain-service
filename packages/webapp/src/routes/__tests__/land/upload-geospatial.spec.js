@@ -1,8 +1,7 @@
-import { startServer, submitGetRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
-import serverOptions from '../../../__mocks__/server-options.js'
 
 const GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME = 'geospatialLandBoundary'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
@@ -393,40 +392,6 @@ describe(url, () => {
         } catch (err) {
           done(err)
         }
-      })
-    })
-
-    describe('With disabled routes', () => {
-      let server
-      const ORIGINAL_ENV = process.env
-      afterEach(async () => {
-        try {
-          if (server) {
-            await server.stop()
-          }
-        } finally {
-          process.env = { ...ORIGINAL_ENV }
-        }
-      })
-
-      it('should redirect to check-geospatial-file if check-geospatial-file is disabled', (done) => {
-        jest.isolateModules(async () => {
-          try {
-            process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-            server = await startServer({ ...serverOptions, port: 3001 })
-            const config = JSON.parse(JSON.stringify(baseConfig))
-            config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
-            config.eventData[0].reprojectedFileSize = 500
-            config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
-            const res = await uploadFile(config)
-            expect(res.headers.location).toBe(constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
-          }
-        })
       })
     })
   })

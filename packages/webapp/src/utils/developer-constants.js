@@ -17,7 +17,6 @@ const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
 const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
 const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
-const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
 const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
@@ -116,7 +115,6 @@ export default {
     DEVELOPER_ELIGIBILITY_METRIC,
     DEVELOPER_ELIGIBILITY_RESULT,
     DEVELOPER_BNG_NUMBER,
-    DEVELOPER_EMAIL_ENTRY,
     DEVELOPER_CHECK_ANSWERS,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
