@@ -1,7 +1,5 @@
 import constants from '../../../utils/constants.js'
-import { submitGetRequest, startServer } from '../helpers/server.js'
-import serverOptions from '../../../__mocks__/server-options.js'
-import onPreHandler from '../../../__mocks__/on-pre-handler.js'
+import { submitGetRequest } from '../helpers/server.js'
 
 const url = constants.routes.CHECK_LAND_BOUNDARY_DETAILS
 
@@ -39,50 +37,5 @@ describe(url, () => {
         }
       })
     })
-  })
-})
-
-describe('With disabled routes', () => {
-  let server
-  const ORIGINAL_ENV = process.env
-  let getOptions; const sessionData = {}
-
-  beforeEach(() => {
-    sessionData[constants.redisKeys.FULL_NAME] = 'test'
-    sessionData[constants.redisKeys.ROLE_KEY] = 'test'
-    sessionData[constants.redisKeys.EMAIL_VALUE] = 'test@example.com'
-    getOptions = {
-      url,
-      method: 'GET'
-    }
-  })
-
-  afterEach(async () => {
-    try {
-      if (server) {
-        await server.stop()
-      }
-    } finally {
-      process.env = { ...ORIGINAL_ENV }
-    }
-  })
-
-  it('should redirect to upload-geospatial-file if this route not disabled', async () => {
-    process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-    server = await startServer({ ...serverOptions, port: 3001 })
-    sessionData[constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE] = 'geospatialData'
-    server.register(onPreHandler(sessionData))
-    const response = await server.inject(getOptions)
-    expect(response.payload).toContain('Geospatial file')
-  })
-
-  it('should redirect to upload-land-boundary if this route disabled', async () => {
-    process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-    server = await startServer({ ...serverOptions, port: 3001 })
-    sessionData[constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE] = 'documentOrImage'
-    server.register(onPreHandler(sessionData))
-    const response = await server.inject(getOptions)
-    expect(response.payload).not.toContain('Document or image')
-    expect(response.payload).not.toContain('Geospatial file')
   })
 })

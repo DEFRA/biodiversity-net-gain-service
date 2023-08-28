@@ -4,7 +4,6 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-import { logger } from 'defra-logging-facade'
 
 const isoDateFormat = 'YYYY-MM-DD'
 
@@ -464,38 +463,8 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
-// Checking feature flag environment variable to disable some routes for MVP
-const getDisabledRoutes = () => {
-  const disabledRoutes = []
-  const { GEOSPATIAL_LAND_BOUNDARY, CHECK_GEOSPATIAL_FILE, UPLOAD_GEOSPATIAL_LAND_BOUNDARY, DEVELOPER_EMAIL_ENTRY, CHOOSE_LAND_BOUNDARY_UPLOAD } = constants.ROUTES_TO_BE_DISABLED
-  const featureFlags = Object.keys(process.env).filter(key => key.startsWith('ENABLE_ROUTE_SUPPORT_FOR_') && (process.env[key] === 'N' || process.env[key] === 'n'))
-
-  if (featureFlags.length > 0) {
-    for (const flag of featureFlags) {
-      switch (flag) {
-        case 'ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL':
-          disabledRoutes.push(CHECK_GEOSPATIAL_FILE)
-          disabledRoutes.push(UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
-          disabledRoutes.push(GEOSPATIAL_LAND_BOUNDARY)
-          break
-        case 'ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL':
-          disabledRoutes.push(DEVELOPER_EMAIL_ENTRY)
-          break
-        case 'ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD':
-          disabledRoutes.push(CHOOSE_LAND_BOUNDARY_UPLOAD)
-          break
-        default:
-          logger.log(`${new Date().toUTCString()} Needs to define env variables in WEBAPP_ENV file`)
-          break
-      }
-    }
-  }
-
-  return disabledRoutes
-}
-
 // Checking if requested route is disabled
-const isRouteDisabled = route => getDisabledRoutes().includes(route)
+const isRouteDisabled = route => !Object.values(constants.routes).includes(route) || route === undefined
 
 export {
   validateDate,
@@ -533,6 +502,5 @@ export {
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,
-  isRouteDisabled,
-  getDisabledRoutes
+  isRouteDisabled
 }

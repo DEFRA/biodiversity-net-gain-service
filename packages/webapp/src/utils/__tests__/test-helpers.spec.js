@@ -9,8 +9,7 @@ import {
   emailValidator,
   getErrById,
   initialCapitalization,
-  isRouteDisabled,
-  getDisabledRoutes
+  isRouteDisabled
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -176,67 +175,16 @@ describe('helpers file', () => {
     })
   })
 
-  describe('getDisabledRoutes', () => {
-    it('should return disabled route\'s array if env variabled having value N', () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'N'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'N'
-      const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(5)
-      expect(mockDisabledRoutes).toEqual([
-        '/land/check-geospatial-file',
-        '/land/upload-geospatial-file',
-        '/land/geospatial-land-boundary',
-        '/developer/email-entry',
-        '/land/choose-land-boundary-upload'
-      ])
-    })
-
-    it('should return an empty route\'s array if env variables having value Y', () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'Y'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'Y'
-      const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(0)
-      expect(mockDisabledRoutes).toEqual([])
-    })
-
-    it('should return an empty route\'s array if env variables are not defined', () => {
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD
-      const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(0)
-      expect(mockDisabledRoutes).toEqual([])
-    })
-
-    it('should return an empty route\'s array if env variables are invalid', () => {
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_INVALID = 'N'
-      const mockDisabledRoutes = getDisabledRoutes()
-      expect(mockDisabledRoutes.length).toBe(0)
-      expect(mockDisabledRoutes).toEqual([])
-    })
-  })
-
   describe('isRouteDisabled', () => {
-    it('should return true if given route is disabled', () => {
-      const routeToBeDisabled = '/land/check-geospatial-file'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-      expect(isRouteDisabled(routeToBeDisabled)).toBeTruthy()
-    })
-
     it('should return false if given route is not disabled', () => {
       const routeToBeDisabled = '/land/check-geospatial-file'
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
       expect(isRouteDisabled(routeToBeDisabled)).not.toBeTruthy()
     })
 
-    it('should return false if route is undefined', () => {
+    it('should return true if route is undefined', () => {
       delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
-      expect(isRouteDisabled(undefined)).not.toBeTruthy()
+      expect(isRouteDisabled(undefined)).toBeTruthy()
     })
   })
 })

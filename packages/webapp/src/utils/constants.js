@@ -42,6 +42,13 @@ const applicationTypes = {
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
 
+// Disabled routes for MVP
+const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
+const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
+const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
+const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
+const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
+
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
@@ -159,6 +166,32 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
 
+const geospatialRoutes = {
+  CHECK_GEOSPATIAL_FILE,
+  UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+  GEOSPATIAL_LAND_BOUNDARY
+}
+
+const landBoundaryRoutes = {
+  CHOOSE_LAND_BOUNDARY_UPLOAD
+}
+
+const additionalEmailRoutes = {
+  DEVELOPER_EMAIL_ENTRY
+}
+
+if (process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'y') {
+  routes = { ...routes, ...geospatialRoutes }
+}
+
+if (process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD === 'y') {
+  routes = { ...routes, ...landBoundaryRoutes }
+}
+
+if (process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL === 'y') {
+  routes = { ...routes, ...additionalEmailRoutes }
+}
+
 const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',
   noFile: 'Non-file received',
@@ -204,14 +237,6 @@ const minStartDates = {
   LEGAL_AGREEMENT_MIN_START_DATE,
   HABITAT_WORKS_MIN_START_DATE,
   MANAGEMENT_MONITORING_MIN_START_DATE
-}
-
-const ROUTES_TO_BE_DISABLED = {
-  UPLOAD_GEOSPATIAL_LAND_BOUNDARY: routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  CHOOSE_LAND_BOUNDARY_UPLOAD: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-  GEOSPATIAL_LAND_BOUNDARY: routes.GEOSPATIAL_LAND_BOUNDARY,
-  CHECK_GEOSPATIAL_FILE: routes.CHECK_GEOSPATIAL_FILE,
-  DEVELOPER_EMAIL_ENTRY: routes.DEVELOPER_EMAIL_ENTRY
 }
 
 export default Object.freeze({

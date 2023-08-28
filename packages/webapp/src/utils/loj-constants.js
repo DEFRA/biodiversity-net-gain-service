@@ -11,7 +11,6 @@ const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
-const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
@@ -20,11 +19,8 @@ const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
-const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
-const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
 const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
 const OS_API_TOKEN = 'land/os-api-token'
-const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const CHECK_LEGAL_AGREEMENT_DETAILS = 'land/check-legal-agreement-details'
@@ -218,7 +214,6 @@ export default {
     CHECK_LAND_BOUNDARY,
     CHECK_PROOF_OF_OWNERSHIP,
     CHECK_UPLOAD_METRIC,
-    CHECK_GEOSPATIAL_FILE,
     CHECK_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_LEGAL_AGREEMENT,
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
@@ -227,12 +222,9 @@ export default {
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
-    GEOSPATIAL_LAND_BOUNDARY,
-    CHOOSE_LAND_BOUNDARY_UPLOAD,
     OS_API_TOKEN,
     PUBLIC_ROUTES,
     START,
-    UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
     UPLOAD_MANAGEMENT_PLAN,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
