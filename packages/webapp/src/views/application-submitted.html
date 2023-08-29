@@ -33,48 +33,40 @@
 
     <p>You must pay the fee by Bacs using these details:</p>
 
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Your payment reference
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ applicationReference }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Account name
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ bacs.accountName }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Sort code
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ bacs.sortCode }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Account number
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ bacs.accountNumber }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          SWIFT/BIC code
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ bacs.swiftCode }}
-        </dd>
-      </div>
-    </dl>
+    <p>
+      <strong>Your payment reference</strong><br>
+      {{ applicationReference }}
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
+
+    <p>
+      <strong>Account name</strong><br>
+      {{ bacs.accountName }}
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
+
+    <p>
+      <strong>Sort code</strong><br>
+      {{ bacs.sortCode }}
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
+
+    <p>
+      <strong>Account number</strong><br>
+      {{ bacs.accountNumber }}
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
+
+    <p>
+      <strong>Swift/BIC code</strong><br>
+      {{ bacs.swiftCode }}
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
 
     <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
     <p>We will let you know within 6 weeks if:</p>
