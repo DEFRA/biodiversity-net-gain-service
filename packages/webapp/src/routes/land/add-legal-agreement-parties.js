@@ -21,7 +21,7 @@ const validateOrganisation = organisation => {
       text: 'Select the role',
       href: '#localAuthorityRole'
     }
-  } else if (organisation.organisationRole === 'Other' && organisation.organisationOtherRole.length === 0) {
+  } else if (organisation.organisationRole === 'Other' && organisation.organisationOtherRole.trim().length === 0) {
     errors.organisationOtherRoleErr = {
       text: 'Enter the role of the legal party',
       href: '#organisationOtherRole'
