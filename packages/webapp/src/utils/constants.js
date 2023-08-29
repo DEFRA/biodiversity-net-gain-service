@@ -33,6 +33,7 @@ const ALLOCATION = 'Allocation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
 
 const applicationTypes = {
   REGISTRATION,
@@ -130,7 +131,8 @@ const redisKeys = {
   APPLICATION_TYPE,
   CONTACT_ID,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
-  PRE_AUTHENTICATION_ROUTE
+  PRE_AUTHENTICATION_ROUTE,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
 let routes = {
