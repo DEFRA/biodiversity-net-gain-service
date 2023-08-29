@@ -28,6 +28,10 @@ warning: other service dependencies will be missing, install and run from root o
 | GOOGLE_TAGMANAGER_ID | Google Tag Manager ID | N |
 | NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
 | MAX_GEOSPATIAL_FILE_UPLOAD_MB | MVP recommendation to change file size limit on geospatial files | Y |
+| BACS_ACCOUNT_NAME | Natural England Bacs account name | Y |
+| BACS_SORT_CODE | Natural England Bacs sort code | Y |
+| BACS_ACCOUNT_NUMBER | Natural England Bacs account number | Y |
+| BACS_SWIFT_CODE | Natural England Bacs SWIFT / BIC code | Y |
 
 #### Setting the SIGNALR_URL environment variable
 

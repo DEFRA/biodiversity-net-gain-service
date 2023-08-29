@@ -1,31 +1,25 @@
-{% extends 'developer-form-layout.html' %}
+{% extends 'form-layout.html' %}
 
-{% set pageHeading = "You’ve submitted your biodiversity details" %}
+{% set pageHeading = "Application submitted" %}
 {% set hideBackLink = true %}
 
-{% block formContent %}
+{% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
     <div class="govuk-panel govuk-panel--confirmation">
-      <h1 class="govuk-panel__title">
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
         {{ pageHeading }}
       </h1>
       
-      <div class="govuk-panel__body">
-        Your reference number<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
+      <div class="govuk-panel__body govuk-!-font-size-27">
+        Biodiversity net gain (BNG) application reference number<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
       </div>
-      
     </div>
 
-    <p class="govuk-body">Natural England will check the information you have submitted for double counting checks. They will email you to let you know if it has been added to the Public Biodiversity Gain Register.</p>
-    <p class="govuk-body">This can take up to 30 working days.</p>
-    <p class="govuk-body">We have sent a copy of this to the email addresses you gave us.</p>
-    <h2 class="govuk-heading-m">How to discharge your BNG condition</h2>
-    <p class="govuk-body">If your details are registered, you will need to add them to your Biodiversity Net Gain Plan.</p>
-    <p class="govuk-body">By law you will then need to submit this to your local planning authority so they can discharge your BNG planning condition.</p>
-    <p class="govuk-body">Make a note of your reference number. This will be used by Natural England to identify your submission, if they have any questions about what you've asked to be recorded on the Public Biodiversity Gain Register.</p>
-  
+    <p>We will send you a confirmation email.</p>
+    <p>Make a note of your BNG application reference number. We will use it when we contact you.</p>
+
     <h2 class="govuk-heading-m">Paying the application fee</h2>
 
     <p>You will need to pay:</p>
@@ -81,6 +75,17 @@
         </dd>
       </div>
     </dl>
+
+    <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
+    <p>We will let you know within 6 weeks if:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your application has been successful or not</li>
+      <li>we need more information from you</li>
+    </ul>
+
+    <h2 class="govuk-heading-m">Contact us if you need help</h2>
+    <p>Telephone: 0190 050 8628</p>
+    <p>Monday to Friday, 8:30am to 5pm (except public holidays)</p>
   </div>
 </div>
 {% endblock %}
