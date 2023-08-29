@@ -1,7 +1,7 @@
 import constants from '../utils/constants.js'
 import { formatAppRef } from '../utils/helpers.js'
 import { getPayment } from '../payment/payment-session.js'
-import bacs from '../payment/account-details.js'
+import bacs from '../payment/bacs.js'
 import url from 'url'
 
 const getApplicationReference = request => {
