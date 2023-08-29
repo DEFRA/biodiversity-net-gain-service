@@ -84,7 +84,6 @@ const application = session => {
       applicant: getApplicant(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
-      habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
       legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
