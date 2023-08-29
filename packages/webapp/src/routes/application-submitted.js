@@ -8,13 +8,17 @@ const getApplicationReference = request => {
   const session = request.yar
   const path = new url.URL(request.headers.referer).pathname
 
+  let reference = null
+
   if (path === constants.routes.CHECK_AND_SUBMIT) {
-    return session.get(constants.redisKeys.APPLICATION_REFERENCE)
+    reference = session.get(constants.redisKeys.APPLICATION_REFERENCE)
   }
 
   if (path === constants.routes.DEVELOPER_CHECK_ANSWERS) {
-    return session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
+    reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
   }
+
+  return reference
 }
 
 const handlers = {
