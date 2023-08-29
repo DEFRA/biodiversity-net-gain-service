@@ -68,7 +68,6 @@ const REGISTRATION_SAVED = 'land/registration-saved'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
-const REGISTRATION_SUBMITTED = 'registration-submitted'
 const ERROR = 'error'
 const HOME = 'home'
 const COOKIES = 'cookies'
@@ -245,7 +244,6 @@ export default {
     LEGAL_AGREEMENT_START_DATE,
     LEGAL_AGREEMENT_TYPE,
     CHECK_MANAGEMENT_PLAN,
-    REGISTRATION_SUBMITTED,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
     CHECK_PROOF_OF_OWNERSHIP,
