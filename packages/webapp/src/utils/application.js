@@ -1,5 +1,7 @@
 import constants from './constants.js'
+import paymentConstants from '../payment/constants.js'
 import path from 'path'
+import savePayment from '../payment/save-payment.js'
 import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
@@ -74,12 +76,14 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
   ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
   : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
+const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
+
 const application = session => {
   return {
     landownerGainSiteRegistration: {
       applicant: getApplicant(session),
       files: getFiles(session),
-      gainSiteReference: session.get(constants.redisKeys.APPLICATION_REFERENCE) || '',
+      gainSiteReference: getApplicationReference(session),
       habitatWorkStartDate: session.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
@@ -90,7 +94,8 @@ const application = session => {
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
-      metricData: session.get(constants.redisKeys.METRIC_DATA)
+      metricData: session.get(constants.redisKeys.METRIC_DATA),
+      payment: savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
     }
   }
 }
