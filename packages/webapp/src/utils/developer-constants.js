@@ -73,7 +73,7 @@ const clearDeveloperReferer = [
   DEVELOPER_TASKLIST
 ]
 // Other constants
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
 const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
 const DEVELOPER_CONSENT_UPLOAD_TYPE = 'developer-upload-consent'
 const CONSENT_FILE_EXT = [
