@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = constants.routes.DEVELOPER_NEED_METRIC
+const url = constants.routes.NEED_METRIC
 
 describe(url, () => {
   describe('GET', () => {
