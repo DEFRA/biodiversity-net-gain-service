@@ -17,7 +17,7 @@ export const getCellHeaders = (role, headers) => {
   return _header
 }
 
-const prepareExtractionConfig = async (role) => {
+const prepareExtractionConfig = async role => {
   try {
     const result = {}
     const currentMetricVersion = process.env.CURRENT_METRIC_VERSION || 'v4.0'
