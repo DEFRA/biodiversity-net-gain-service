@@ -15,9 +15,9 @@ const auth = {
         password: DEFRA_ID.DEFRA_ID_SESSION_COOKIE_PASSWORD,
         isSecure: COOKIE_IS_SECURE,
         isSameSite: 'Lax',
-        ttl: 60 * 60 * 1000
+        ttl: 60 * 60 * 1000 // access token from defraID has 20 min expiry, so 60min ttl is irrelevant
       },
-      keepAlive: true,
+      keepAlive: false, // BNGP-3530 if ttl is true then the validate function is overwriting the new session-auth cookie with previous
       redirectTo: '/signin',
       appendNext: true,
       validate: async (request, session) => {
@@ -25,10 +25,13 @@ const auth = {
         if (!validateSession(session)) {
           if (session.account) {
             // if we have an account then attempt refresh, if silently fails and will attempt reauthentication
-            await authentication.refresh(session.account, request.cookieAuth, false)
+            const token = await authentication.refresh(session.account, request.cookieAuth, false)
             // if refresh succeeds continue and return isValid
             return {
-              isValid: true
+              isValid: true,
+              credentials: {
+                account: token.account
+              }
             }
           } else {
             // otherwise fail and request re-authentication

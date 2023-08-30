@@ -56,6 +56,7 @@ const refresh = async (account, cookieAuth, forceRefresh = true) => {
   cookieAuth.set({
     account: token.account
   })
+  return token
 }
 
 const logout = async request => msalClientApplication.getTokenCache().removeAccount(request.auth.credentials.account)
