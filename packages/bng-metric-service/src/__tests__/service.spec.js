@@ -12,7 +12,7 @@ describe('BNG data extractor service test', () => {
     const options = {
       extractionConfiguration: {
         start: bngMetricService.extractionConfiguration.startExtractionConfig,
-        ...await bngMetricService.extractionConfiguration.getExtractionConfiguration()
+        ...await bngMetricService.extractionConfiguration.getExtractionConfigForLandowner()
       },
       validationConfiguration: bngMetricService.validationConfiguration
     }

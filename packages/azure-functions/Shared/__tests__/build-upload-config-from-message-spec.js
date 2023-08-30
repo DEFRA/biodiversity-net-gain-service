@@ -24,8 +24,7 @@ describe('Building config from a message', () => {
       signalRMessageConfig: {
         userId,
         target: `Processed ${filename}${fileExtension}`
-      },
-      role: 'test'
+      }
     }
     const config = buildUploadConfigFromMessage(message)
     expect(config).toStrictEqual(expectedConfig)

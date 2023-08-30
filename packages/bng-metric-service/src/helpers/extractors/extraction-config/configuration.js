@@ -17,24 +17,27 @@ export const getCellHeaders = (role, headers) => {
   return _header
 }
 
+const prepareExtractionConfig = async (role) => {
+  try {
+    const result = {}
+    const currentMetricVersion = process.env.CURRENT_METRIC_VERSION || 'v4.0'
+    const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
+    const files = fs.readdirSync(fullConfigFolderPath)
+    for (const file of files) {
+      const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
+      const sheetConfig = cnf.default
+      const cellHeaders = getCellHeaders(role, cnf.headers)
+      sheetConfig.cellHeaders = cellHeaders
+      result[_.camelCase(path.parse(file).name)] = sheetConfig
+    }
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export default {
   startExtractionConfig: start,
-  getExtractionConfiguration: async (options = {}) => {
-    try {
-      const result = {}
-      const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.0') : options.v
-      const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
-      const files = fs.readdirSync(fullConfigFolderPath)
-      for (const file of files) {
-        const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
-        const sheetConfig = cnf.default
-        const cellHeaders = getCellHeaders(options.role, cnf.headers)
-        sheetConfig.cellHeaders = cellHeaders
-        result[_.camelCase(path.parse(file).name)] = sheetConfig
-      }
-      return result
-    } catch (error) {
-      throw new Error(error)
-    }
-  }
+  getExtractionConfigForDeveloper: async () => prepareExtractionConfig('developer'),
+  getExtractionConfigForLandowner: async () => prepareExtractionConfig('landowner')
 }

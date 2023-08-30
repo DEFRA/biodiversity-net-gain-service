@@ -7,5 +7,3 @@ export default {
   extractionConfiguration,
   validationConfiguration
 }
-
-// extractionConfiguration.getExtractionConfiguration({ role: 'a', v: 'v4.0' })
