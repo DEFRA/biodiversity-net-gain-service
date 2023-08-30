@@ -5,7 +5,7 @@ const tolerance = 0.00000001
 const checkEqualsWithTolerance = (total, value1, value2) => Math.abs((value1 + value2) - total) < tolerance
 
 const areOffsiteTotalsCorrect = async workbook => {
-  const sheetConfig = await configuration.getExtractionConfiguration()
+  const sheetConfig = await configuration.getExtractionConfigForLandowner()
 
   return checkEqualsWithTolerance(
     workbook.Sheets[sheetConfig.d1OffSiteHabitatBaseline.sheetName]?.H259?.v,

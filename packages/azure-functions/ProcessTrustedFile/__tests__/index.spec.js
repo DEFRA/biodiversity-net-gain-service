@@ -12,7 +12,7 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const PDF_FILE_EXTENSION = '.pdf'
 const METRIC_FILE_EXTENSION = '.xlsx'
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-upload-metric'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 const CONSENT_AGREEMENT = 'developer-upload-consent'
@@ -215,6 +215,32 @@ describe('Trusted file processing', () => {
         })
       } catch (e) {
         done(e)
+      }
+    })
+  })
+
+  it('Should process a trusted developer metric file', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
+          const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
+          const readableStream = Readable.from(readStream)
+          return {
+            readableStreamBody: readableStream
+          }
+        })
+        await processTrustedFile(context, {
+          uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+          location: 'test',
+          containerName: 'test'
+        })
+        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        await expect(context.bindings.signalRMessages).toBeDefined()
+        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
+        done()
+      } catch (err) {
+        done(err)
       }
     })
   })
@@ -488,7 +514,7 @@ const throwError = testConfig => {
 const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
-      const testConfig = buildConfig(fileExtension, 'developer-upload-metric')
+      const testConfig = buildConfig(fileExtension, 'developer-metric-upload')
 
       await processTrustedFile(getContext(), testConfig.message)
 

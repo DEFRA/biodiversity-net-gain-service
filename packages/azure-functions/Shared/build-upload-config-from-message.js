@@ -17,8 +17,7 @@ const buildUploadConfigFromMessage = message => {
     signalRMessageConfig: {
       userId: fileDirectory.substring(0, fileDirectory.indexOf('/')),
       target: `Processed ${filename}${fileExtension}`
-    },
-    role: message.role
+    }
   })
 }
 

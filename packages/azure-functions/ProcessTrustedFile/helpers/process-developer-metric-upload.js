@@ -13,17 +13,17 @@ export default async function (context, config) {
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
       const documentStream = response.readableStreamBody
-      const { startExtractionConfig, getExtractionConfigForLandowner } = bngMetricService.extractionConfiguration
+      const { startExtractionConfig, getExtractionConfigForDeveloper } = bngMetricService.extractionConfiguration
       const metricExtractionConfig = {
         extractionConfiguration: {
           start: startExtractionConfig,
-          ...await getExtractionConfigForLandowner()
+          ...await getExtractionConfigForDeveloper()
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }
       metricData = await bngMetricService.extractMetricContent(documentStream, metricExtractionConfig)
     } else {
-      throw new Error('Unable to retrieve blob')
+      throw new Error('Unable to retrieve blob for developer metric file')
     }
 
     signalRMessageArguments = [{
