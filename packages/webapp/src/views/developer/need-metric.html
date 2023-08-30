@@ -1,0 +1,21 @@
+{% extends 'form-layout.html' %}
+{% set showSaveLink = true %}
+{% set pageHeading = "You need a completed Biodiversity Metric 4.0" %}
+
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    <p>You need to upload a completed biodiversity metric for the development project you want to record habitats for. It must be the same file a local planning authority reviewed with the development project's Biodiversity Net Gain Statement.</p>
+
+    <p>You can <a href="https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development">find out more about completing a biodiversity metric</a> on GOV.UK.</p>
+        
+    <p>Your file can be an XLSM or XLSX. It must not be larger than 50MB.</p>
+    
+    {% include "common/get-help.html" %}
+
+  </div>
+</div>
+{% endblock %}
