@@ -14,10 +14,9 @@ const auth = {
         path: '/',
         password: DEFRA_ID.DEFRA_ID_SESSION_COOKIE_PASSWORD,
         isSecure: COOKIE_IS_SECURE,
-        isSameSite: 'Lax',
-        ttl: 60 * 60 * 1000 // access token from defraID has 20 min expiry, so 60min ttl is irrelevant
+        isSameSite: 'Lax'
       },
-      keepAlive: false, // BNGP-3530 if ttl is true then the validate function is overwriting the new session-auth cookie with previous
+      keepAlive: false, // BNGP-3530 if keepAlive is true then the validate function is overwriting the new session-auth cookie with previous
       redirectTo: '/signin',
       appendNext: true,
       validate: async (request, session) => {
