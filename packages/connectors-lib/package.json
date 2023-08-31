@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-connectors-lib",
-  "version": "0.187.0",
+  "version": "0.188.0",
   "type": "module",
   "private": false,
   "description": "A library providing connectivity functionality for the Biodiversity Net Gain service",
@@ -27,7 +27,7 @@
     "pg": "^8.10.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.187.0",
+    "@defra/bng-azure-storage-test-utils": "0.188.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
