@@ -1,3 +1,8 @@
+const applicationStatuses = Object.freeze({
+  inProgress: 'IN PROGRESS',
+  received: 'RECEIVED'
+})
+
 const deleteApplicationSessionsAt28DaysStatement = `
   DELETE FROM
     bng.application_session
@@ -21,18 +26,57 @@ const deleteApplicationSessionStatement = `
   WHERE
     application_reference = $1;
 `
-
 const getApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
-    application_session
+    aps.application_session
   FROM
-    bng.application_session as
+    bng.application_session aps
       INNER JOIN bng.application_reference ar
-        ON as.application_reference = ar.application_reference
+        ON aps.application_reference = ar.application_reference
   WHERE
-    as.application_reference = $1
+    aps.application_reference = $1
     AND ar.contact_id = $2
     AND ar.application_type = $3;
+`
+const getApplicationCountByContactIdStatement = `
+  SELECT
+    contact_id,
+    COUNT(application_reference) AS application_count
+  FROM
+    bng.application_reference
+  WHERE
+    contact_id = $1
+  GROUP BY
+    contact_id;
+`
+
+const getApplicationStatusesByContactIdAndApplicationTypeStatement = `
+  (SELECT
+    ar.application_reference,
+    aps.date_modified,
+    '${applicationStatuses.received}' AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_status aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2::bng.application_type
+  UNION
+  SELECT
+    ar.application_reference,
+    aps.date_modified,
+    '${applicationStatuses.inProgress}' AS application_status
+  FROM
+    bng.application_reference ar
+      INNER JOIN bng.application_session aps
+        ON ar.application_reference = aps.application_reference
+  WHERE
+    ar.contact_id = $1
+    AND ar.application_type = $2::bng.application_type)
+  ORDER BY
+    application_status,
+    date_modified DESC;
 `
 const getExpiringApplicationSessionsStatement = `
   SELECT
@@ -84,9 +128,13 @@ const saveApplicationSession = (db, values) => db.query(insertApplicationSession
 
 const deleteApplicationSession = (db, values) => db.query(deleteApplicationSessionStatement, values)
 
+const getApplicationCountByContactId = (db, values) => db.query(getApplicationCountByContactIdStatement, values)
+
 const getApplicationSessionById = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values)
 
 const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values)
+
+const getApplicationStatusesByContactIdAndApplicationType = (db, values) => db.query(getApplicationStatusesByContactIdAndApplicationTypeStatement, values)
 
 const clearApplicationSession = db => db.query(deleteApplicationSessionsAt28DaysStatement)
 
@@ -104,12 +152,15 @@ export {
   createApplicationReference,
   saveApplicationSession,
   deleteApplicationSession,
+  getApplicationCountByContactId,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
+  getApplicationStatusesByContactIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
   isPointInEngland,
   insertApplicationStatus,
-  getApplicationStatus
+  getApplicationStatus,
+  applicationStatuses
 }

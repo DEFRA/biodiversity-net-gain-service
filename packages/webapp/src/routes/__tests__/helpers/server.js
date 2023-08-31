@@ -143,10 +143,10 @@ const uploadFile = async (uploadConfig) => {
   return response
 }
 
-const submitGetRequest = async (options, expectedResponseCode = 200, sessionData) => {
+const submitGetRequest = async (options, expectedResponseCode = 200, sessionData, config = { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE] ? 1 : 0 }) => {
   await addOnPreAuth(sessionData)
   options.method = 'GET'
-  return submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls: sessionData && sessionData[constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT] ? 1 : 0 })
+  return submitRequest(options, expectedResponseCode, config)
 }
 
 const submitPostRequest = async (options, expectedResponseCode = 302, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {
@@ -165,7 +165,8 @@ const submitRequest = async (options, expectedResponseCode, config) => {
           idTokenClaims: {
             firstName: 'John',
             lastName: 'Smith',
-            email: 'john.smith@test.com'
+            email: 'john.smith@test.com',
+            contactId: 'mock contact id'
           }
         }
       }

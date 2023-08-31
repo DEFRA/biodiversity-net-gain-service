@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS bng.ix_application_reference_application_reference;

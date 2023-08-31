@@ -39,7 +39,7 @@ describe('Signout handler', () => {
     })
     const sessionData = {
     }
-    sessionData[`${constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT}`] = true
+    sessionData[`${constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE}`] = true
     const response = await submitGetRequest({ url }, 302, sessionData)
     expect(response.headers.location).toEqual('logout-url')
     expect(auth.logout).toHaveBeenCalledTimes(1)

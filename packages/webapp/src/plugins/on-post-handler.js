@@ -52,7 +52,9 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
       firstName: accountInfo.firstName,
       lastName: accountInfo.lastName,
       email: accountInfo.email,
-      contactId: accountInfo.contactId
+      contactId: accountInfo.contactId,
+      accountManagementUrl: process.env.DEFRA_ID_ACCOUNT_MANAGEMENT_URL,
+      enableAccountManagementUrl: request.path !== `${constants.routes.MANAGE_BIODIVERSITY_GAINS}`
     }
   }
 }
@@ -79,14 +81,14 @@ const saveApplicationSession = async request => {
 
     // Ensure unsaved journey data is saved if the user signs out before this asynchronous
     // attempt to save data completes successfully.
-    request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT, true)
+    request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
     postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
       .then(() => {
-        request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT)
+        request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE)
       })
       .catch(error => {
         logger.error(error)
-        request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT, true)
+        request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
       })
   } else {
     const applicationReference = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
