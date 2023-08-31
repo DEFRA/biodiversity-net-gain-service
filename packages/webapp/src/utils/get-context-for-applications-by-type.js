@@ -13,7 +13,10 @@ const getContext = async (contactId, applicationType) => {
 }
 
 const formatApplication = application => {
-  application.lastUpdated = getFormattedDate(application.lastUpdated)
+  return {
+    ...application,
+    lastUpdated: getFormattedDate(application.lastUpdated)
+  }
 }
 
 const getApplications = async (contactId, applicationType) => {
@@ -21,9 +24,7 @@ const getApplications = async (contactId, applicationType) => {
     contactId,
     applicationType
   })
-
-  applications.map(application => formatApplication(application))
-  return applications
+  return applications.map(application => formatApplication(application))
 }
 
 export { getContextForAllocations, getContextForRegistrations }
