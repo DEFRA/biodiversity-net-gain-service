@@ -122,7 +122,7 @@ describe('BNG data extractor test', () => {
   it('should extract a valid metric v4 for developer with common metric fields', async () => {
     options.extractionConfiguration = {
       ...options.extractionConfiguration.start,
-      ...await bngMetricService.extractionConfiguration.getExtractionConfigForDeveloper({ role: 'developer' })
+      ...await bngMetricService.extractionConfiguration.getExtractionConfigForDeveloper()
     }
     const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
@@ -344,13 +344,6 @@ describe('BNG data extractor test', () => {
     await expect(bngMetricDataExtractor.extractContent(readableStreamv3, {})).rejects.toEqual(new Error('Workbook is not a valid metric'))
   })
 
-  // it('Should throw an error if a valid version is not defined', async () => {
-  //   try {
-  //     await bngMetricService.extractionConfiguration.getExtractionConfiguratio({ v: 'NA' })
-  //   } catch (e) {
-  //     expect(e.message).toContain('ENOENT')
-  //   }
-  // })
   it('Should return default columns even if nested array for the role is not provided', async () => {
     const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
