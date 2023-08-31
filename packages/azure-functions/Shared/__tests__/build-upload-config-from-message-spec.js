@@ -7,8 +7,7 @@ const fileExtension = '.txt'
 
 const message = {
   uploadType,
-  location: `${userId}/${uploadType}/${filename}${fileExtension}`,
-  role: 'test'
+  location: `${userId}/${uploadType}/${filename}${fileExtension}`
 }
 
 describe('Building config from a message', () => {

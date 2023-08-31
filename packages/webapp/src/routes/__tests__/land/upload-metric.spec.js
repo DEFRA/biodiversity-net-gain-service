@@ -40,9 +40,7 @@ describe('Metric file upload controller tests', () => {
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       eventData: mockMetric,
-      sessionData: {
-        role: 'test'
-      }
+      sessionData: {}
     }
 
     beforeEach(async () => {
