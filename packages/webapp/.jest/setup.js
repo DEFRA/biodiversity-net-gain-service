@@ -9,7 +9,9 @@ jest.mock('@azure/msal-node', () => {
           return 'signin-url'
         },
         acquireTokenSilent: () => {
-          return ''
+          return {
+            token: 'test'
+          }
         },
         acquireTokenByCode: () => {
           return {
