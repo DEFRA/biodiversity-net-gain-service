@@ -22,7 +22,7 @@ export default {
   getExtractionConfiguration: async (options = {}) => {
     try {
       const result = {}
-      const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.0') : options.v
+      const currentMetricVersion = _.isEmpty(options.v) ? (process.env.CURRENT_METRIC_VERSION || 'v4.1') : options.v
       const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
       const files = fs.readdirSync(fullConfigFolderPath)
       for (const file of files) {
