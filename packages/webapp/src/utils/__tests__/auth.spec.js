@@ -17,10 +17,10 @@ describe('auth util', () => {
   })
   describe('refresh', () => {
     it('Should return nothing, and hit acquireTokenSilent', async () => {
-      const response = await auth.refresh({}, {
+      const token = await auth.refresh({}, {
         set: () => { }
       })
-      expect(response).toEqual(undefined)
+      expect(token.token).toEqual('test')
     })
   })
   describe('logout', () => {
