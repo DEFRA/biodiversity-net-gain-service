@@ -1,43 +1,27 @@
-import fs from 'fs'
-import _ from 'lodash'
-import path from 'path'
 import start from './metric/start.js'
-import dirname from './dirname.cjs'
 
-export const getCellHeaders = (role, headers) => {
-  let _header = []
-  /* istanbul ignore else */
-  if (!_.isEmpty(headers)) {
-    if (role === 'developer') {
-      _header = headers.developer && !_.isEmpty(headers.developer) ? [...headers.common, ...headers.developer] : headers.common
-    } else {
-      _header = headers.landowner && !_.isEmpty(headers.landowner) ? [...headers.common, ...headers.landowner] : headers.common
-    }
-  }
-  return _header
-}
-
-const prepareExtractionConfig = async role => {
-  try {
-    const result = {}
-    const currentMetricVersion = process.env.CURRENT_METRIC_VERSION || 'v4.0'
-    const fullConfigFolderPath = path.join(dirname, 'metric', currentMetricVersion)
-    const files = fs.readdirSync(fullConfigFolderPath)
-    for (const file of files) {
-      const cnf = await import(path.resolve(`${fullConfigFolderPath}/${file}`))
-      const sheetConfig = cnf.default
-      const cellHeaders = getCellHeaders(role, cnf.headers)
-      sheetConfig.cellHeaders = cellHeaders
-      result[_.camelCase(path.parse(file).name)] = sheetConfig
-    }
-    return result
-  } catch (error) {
-    throw new Error(error)
-  }
-}
+// Metric 4.0
+import d1OffSiteHabitatBaselinev4 from './metric/v4.0/d1-off-site-habitat-baseline.js'
+import d2OffSiteHabitatCreationv4 from './metric/v4.0/d2-off-site-habitat-creation.js'
+import d3OffSiteHabitatEnhancementv4 from './metric/v4.0/d3-off-site-habitat-enhancement.js'
+import e1OffSiteHedgeBaselinev4 from './metric/v4.0/e1-off-site-hedge-baseline.js'
+import e2OffSiteHedgeCreationv4 from './metric/v4.0/e2-off-site-hedge-creation.js'
+import e3OffSiteHedgeEnhancementv4 from './metric/v4.0/e3-off-site-hedge-enhancement.js'
+import f1OffSiteWaterCBaselinev4 from './metric/v4.0/f1-off-site-waterC-baseline.js'
+import f2OffSiteWaterCCreationv4 from './metric/v4.0/f2-off-site-waterC-creation.js'
+import f3OffSiteWaterCEnhancementv4 from './metric/v4.0/f3-off-site-waterC-enhancement.js'
 
 export default {
   startExtractionConfig: start,
-  getExtractionConfigForDeveloper: async () => prepareExtractionConfig('developer'),
-  getExtractionConfigForLandowner: async () => prepareExtractionConfig('landowner')
+  'v4.0': {
+    d1OffSiteHabitatBaseline: d1OffSiteHabitatBaselinev4,
+    d2OffSiteHabitatCreation: d2OffSiteHabitatCreationv4,
+    d3OffSiteHabitatEnhancement: d3OffSiteHabitatEnhancementv4,
+    e1OffSiteHedgeBaseline: e1OffSiteHedgeBaselinev4,
+    e2OffSiteHedgeCreation: e2OffSiteHedgeCreationv4,
+    e3OffSiteHedgeEnhancement: e3OffSiteHedgeEnhancementv4,
+    f1OffSiteWaterCBaseline: f1OffSiteWaterCBaselinev4,
+    f2OffSiteWaterCCreation: f2OffSiteWaterCCreationv4,
+    f3OffSiteWaterCEnhancement: f3OffSiteWaterCEnhancementv4
+  }
 }

@@ -20,7 +20,7 @@
           </span>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          {{ item.amount.toFixed(2) }}
+          {% if item.amount %} {{ item.amount.toFixed(2) }} {% endif %}
         </td>
       </tr>
       {% endfor %}

@@ -1,27 +1,23 @@
-export const headers = {
-  common: [
-    'Baseline habitat',
-    'Proposed habitat',
-    'Length (km)',
-    'Condition',
-    'Habitat enhanced in advance (years)',
-    'Delay in starting habitat enhancement (years)',
-    'Watercourse units delivered',
-    'Off-site reference',
-    'Extent of encroachment',
-    'Extent of encroachment for both banks'
-  ],
-  landowner: [
-    'Strategic significance',
-    'Baseline ref'
-  ]
-}
+const headers = [
+  'Baseline habitat',
+  'Proposed habitat',
+  'Length (km)',
+  'Condition',
+  'Habitat enhanced in advance (years)',
+  'Delay in starting habitat enhancement (years)',
+  'Watercourse units delivered',
+  'Off-site reference',
+  'Extent of encroachment',
+  'Extent of encroachment for both banks',
+  'Strategic significance'
+]
 
-export default {
+const f3OffSiteWaterCEnhancement = {
   sheetName: 'F-3 Off-Site WaterC Enhancement',
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AT258',
+  cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Proposed habitat',
@@ -31,3 +27,5 @@ export default {
     'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)'
   }
 }
+
+export default f3OffSiteWaterCEnhancement

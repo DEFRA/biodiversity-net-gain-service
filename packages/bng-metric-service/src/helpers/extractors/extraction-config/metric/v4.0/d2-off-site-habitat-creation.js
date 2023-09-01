@@ -1,26 +1,21 @@
-export const headers = {
-  common: [
-    'Broad habitat',
-    'Proposed habitat',
-    'Area (hectares)',
-    'Condition',
-    'Habitat created in advance (years)',
-    'Delay in starting habitat creation (years)',
-    'Habitat units delivered'
-  ],
-  developer: [
-    'Off-site reference'
-  ],
-  landowner: [
-    'Strategic significance'
-  ]
-}
+const headers = [
+  'Broad habitat',
+  'Proposed habitat',
+  'Area (hectares)',
+  'Condition',
+  'Habitat created in advance (years)',
+  'Delay in starting habitat creation (years)',
+  'Habitat units delivered',
+  'Off-site reference',
+  'Strategic significance'
+]
 
-export default {
+const d2OffSiteHabitatCreation = {
   sheetName: 'D-2 Off-Site Habitat Creation',
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AF257',
+  cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Broad habitat',
@@ -31,3 +26,5 @@ export default {
     'Habitat created in advance (years) ': 'Habitat created in advance (years)'
   }
 }
+
+export default d2OffSiteHabitatCreation
