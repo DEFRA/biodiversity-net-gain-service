@@ -10,7 +10,7 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 async function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   if (result[0].errorMessage === undefined) {
-    const validationError = await getMetricFileValidationErrors(result[0].metricData.validation)
+    const validationError = getMetricFileValidationErrors(result[0].metricData?.validation)
     if (validationError) {
       await deleteBlobFromContainers(result[0].location)
       return h.view(constants.views.UPLOAD_METRIC, validationError)

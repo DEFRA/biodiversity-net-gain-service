@@ -11,7 +11,7 @@ const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
   String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 
 async function processSuccessfulUpload (result, request, h) {
-  const validationError = await getMetricFileValidationErrors(result[0].metricData.validation)
+  const validationError = getMetricFileValidationErrors(result[0].metricData?.validation)
   if (validationError) {
     await deleteBlobFromContainers(result[0].location)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
