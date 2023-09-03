@@ -37,3 +37,20 @@ $(document).ready(function (event) {
   }
   $('.govuk-body').trigger('DOMSubtreeModified')
 })
+
+document.addEventListener('DOMContentLoaded', function () {
+  let navigationType
+  const navigationEntries = performance.getEntriesByType('navigation')
+  if (navigationEntries.length > 0 && 'type' in navigationEntries[0]) {
+    navigationType = navigationEntries[0].type
+  }
+  if (navigationType === 'back_forward') {
+    // eslint-disable-next-line no-undef
+    requestAnimationFrame(() => {
+      const formElement = document.querySelector('form')
+      if (formElement) {
+        formElement.reset()
+      }
+    })
+  }
+})
