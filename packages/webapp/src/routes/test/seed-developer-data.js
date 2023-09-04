@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import applicant from '../../__mock-data__/test-developer-application.js'
 
-const seedData = {
+const seedDeveloperData = {
   method: 'GET',
   path: constants.routes.TEST_DEVELOPER_SEED_DATA,
   handler: async (request, h) => {
@@ -10,4 +10,4 @@ const seedData = {
   }
 }
 
-export default seedData
+export default seedDeveloperData
