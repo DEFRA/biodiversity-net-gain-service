@@ -19,7 +19,6 @@ const applicationValidation = Joi.object({
       })
     ).required(),
     gainSiteReference: Joi.string().allow(''),
-    habitatWorkStartDate: Joi.date().required(),
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
     legalAgreementParties: Joi.array().items(
