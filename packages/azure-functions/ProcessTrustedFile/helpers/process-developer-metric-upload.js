@@ -3,36 +3,38 @@ import bngMetricService from '@defra/bng-metric-service'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import processMetric from '../../Shared/process-metric.js'
 
-export default async function (context, config) {
-  let signalRMessageArguments, metricData
+export default async (context, config) => {
+  const { extractionConfiguration, validationConfiguration, extractMetricContent } = bngMetricService
+  const { fileConfig, containerName, signalRMessageConfig } = config
+  let signalRMessageArgs, metricData
   try {
     const blobConfig = {
-      blobName: config.fileConfig.fileLocation,
-      containerName: config.containerName
+      blobName: fileConfig.fileLocation,
+      containerName: containerName
     }
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
-      const documentStream = response.readableStreamBody
+      const docStream = response.readableStreamBody
       const metricExtractionConfig = {
         extractionConfiguration: {
-          start: bngMetricService.extractionConfiguration.startExtractionConfig,
-          ...bngMetricService.extractionConfiguration['v4.0']
+          start: extractionConfiguration.startExtractionConfig,
+          ...extractionConfiguration['v4.0']
         },
-        validationConfiguration: bngMetricService.validationConfiguration
+        validationConfiguration: validationConfiguration
       }
-      metricData = await bngMetricService.extractMetricContent(documentStream, metricExtractionConfig)
+      metricData = await extractMetricContent(docStream, metricExtractionConfig)
     } else {
       throw new Error('Unable to retrieve blob for developer metric file')
     }
 
-    signalRMessageArguments = [{
-      location: config.fileConfig.fileLocation,
+    signalRMessageArgs = [{
+      location: fileConfig.fileLocation,
       metricData: processMetric(metricData)
     }]
   } catch (err) {
     context.log.error(err)
-    signalRMessageArguments = [{ errorCode: err.code }]
+    signalRMessageArgs = [{ errorCode: err.code }]
   } finally {
-    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
+    context.bindings.signalRMessages = [buildSignalRMessage(signalRMessageConfig, signalRMessageArgs)]
   }
 }
