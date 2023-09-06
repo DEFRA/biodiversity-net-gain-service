@@ -263,7 +263,7 @@ const getDeveloperEligibilityResults = session => {
 
 const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
 
-const formatSortCode = sortCode => `${sortCode.substr(0, 2)} ${sortCode.substr(2, 2)} ${sortCode.substr(4, 2)}`
+const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 7)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
   const habitatTypeAndCondition = []
