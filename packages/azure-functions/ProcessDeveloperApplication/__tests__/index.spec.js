@@ -149,7 +149,13 @@ const req = {
           fileLocation: null,
           fileName: null
         }
-      ]
+      ],
+      payment: {
+        caseType: 'allocation',
+        fee: 59,
+        reference: '',
+        type: 'BACS'
+      }
     }
   }
 }
