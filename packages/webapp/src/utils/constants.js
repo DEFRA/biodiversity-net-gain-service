@@ -22,6 +22,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
 const APPLICATION_SUBMITTED = 'application-submitted'
+const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 
 const confirmFileUploadOptions = {
@@ -123,7 +124,8 @@ let routes = {
 
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
-  TEST_SEED_DATA
+  TEST_SEED_DATA,
+  TEST_DEVELOPER_SEED_DATA
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {

@@ -37,7 +37,6 @@ const NAME = 'land/name'
 const ROLE = 'land/role'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
-const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const CHECK_MANAGEMENT_MONITORING_DETAILS = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
@@ -276,7 +275,6 @@ export default {
     ROLE,
     CHECK_YOUR_DETAILS,
     REGISTER_LAND_TASK_LIST,
-    HABITAT_WORKS_START_DATE,
     MANAGEMENT_MONITORING_START_DATE,
     CHECK_MANAGEMENT_MONITORING_DETAILS,
     REGISTERED_LANDOWNER,
