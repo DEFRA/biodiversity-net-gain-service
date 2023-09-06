@@ -217,7 +217,7 @@ const getAllLandowners = session => {
 const getLegalAgreementDocumentType = documentType => constants.LEGAL_AGREEMENT_DOCUMENTS.find(item => item.id === documentType)?.text
 
 const getLegalAgreementParties = legalAgreementParties => {
-  return legalAgreementParties && legalAgreementParties.map(item => {
+  return legalAgreementParties?.map(item => {
     return {
       name: item.organisationName,
       role: item.organisationRole
@@ -296,7 +296,7 @@ const combineHabitats = habitatTypeAndCondition => {
   const combinedHabitats = {}
   const combinedHabitatTypeAndCondition = []
   habitatTypeAndCondition.forEach(item => {
-    if (!Object.prototype.hasOwnProperty.call(combinedHabitats, item.type)) {
+    if (!Object.hasOwn(combinedHabitats, item.type)) {
       combinedHabitats[item.type] = item
     } else {
       // concatenate the habitat items arrays
