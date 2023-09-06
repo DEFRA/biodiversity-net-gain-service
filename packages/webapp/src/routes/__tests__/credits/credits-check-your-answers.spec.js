@@ -1,7 +1,6 @@
 import constants from '../../../credits/constants.js'
-
 import { submitGetRequest } from '../helpers/server.js'
-const url = constants.routes.ESTIMATOR_CREDITS_CHECK_YOUR_ANSWERS
+const url = constants.routes.CREDITS_CHECK_YOUR_ANSWERS
 
 describe(url, () => {
   describe('GET', () => {

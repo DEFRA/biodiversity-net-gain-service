@@ -1,7 +1,7 @@
-import constants from '../../../credits/constants.js'
 
+import constants from '../../../credits/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-const url = constants.routes.ESTIMATOR_CREDITS_TERM_AND_CONDITIONS
+const url = constants.routes.CREDITS_TERM_AND_CONDITIONS
 
 describe(url, () => {
   describe('GET', () => {
@@ -20,7 +20,7 @@ describe(url, () => {
     it('Should continue journey to consent being ticked', async () => {
       postOptions.payload.termsAndConditions = 'true'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.ESTIMATOR_CREDITS_CHECK_YOUR_ANSWERS)
+      expect(res.headers.location).toEqual(constants.routes.CREDITS_CHECK_YOUR_ANSWERS)
     })
     it('Should stop journey if consent not ticked', async () => {
       postOptions.payload.termsAndConditions = undefined
