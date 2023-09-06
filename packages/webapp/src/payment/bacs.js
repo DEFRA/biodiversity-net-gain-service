@@ -3,9 +3,9 @@ import { BACS_ACCOUNT_NAME, BACS_SORT_CODE, BACS_ACCOUNT_NUMBER, BACS_SWIFT_CODE
 
 const bacs = {
   accountName: BACS_ACCOUNT_NAME,
-  sortCode: BACS_SORT_CODE,
+  sortCode: formatSortCode(BACS_SORT_CODE),
   accountNumber: BACS_ACCOUNT_NUMBER,
-  swiftCode: formatSortCode(BACS_SWIFT_CODE)
+  swiftCode: BACS_SWIFT_CODE
 }
 
 export default bacs

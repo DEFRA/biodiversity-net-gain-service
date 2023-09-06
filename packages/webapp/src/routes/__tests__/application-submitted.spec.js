@@ -21,6 +21,20 @@ describe(url, () => {
       expect(viewArgs[0]).toEqual('application-submitted')
       expect(viewArgs[1].applicationReference).toEqual(returnReference)
     })
+    it(`should render the ${url.substring(1)} view with formatted sort code`, async () => {
+      const getHandler = applicationSubmitted[0].handler
+      const session = new Session()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, 'REF2301160004')
+      let viewArgs = ''
+      const h = {
+        view: (...args) => {
+          viewArgs = args
+        }
+      }
+      await getHandler({ headers: { referer: 'http://localhost/land/check-and-submit' }, yar: session }, h)
+      expect(viewArgs[0]).toEqual('application-submitted')
+      expect(viewArgs[1].bacs.sortCode).toEqual('12 34 56')
+    })
     it(`should render the ${url.substring(1)} view with formatted developer reference`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
