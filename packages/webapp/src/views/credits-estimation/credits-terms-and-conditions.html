@@ -1,0 +1,47 @@
+{% extends 'form-layout.html' %}
+
+{% set serviceName = "Purchase statutory biodiversity credits" %}
+{% set pageHeading = "Terms and Conditions for the purchase of Statutory Biodiversity Credits" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+                <h2 class="govuk-heading-m">Introduction</h2>
+                <p class="govuk-body">The statutory biodiversity credit scheme is run by Natural England on behalf of the Department for Environment, Food and Rural Affairs (Defra) as part of the Environment Act 2021.</p>
+                <p class="govuk-body">The scheme enables developers or landowners to purchase credits if they are unable to meet their BNG (Biodiversity Net Gain) obligation. This could be either through on-site, off-site on other landholdings, or by purchasing biodiversity units.</p>
+                <p class="govuk-body">The credits will go towards achieving their BNG obligation.</p>
+                
+                <h2 class="govuk-heading-m">Not transferable</h2>
+                <p class="govuk-body">The issued Statutory Biodiversity Credits may not be sold, transferred or moved to any third party (whether a person, company or other organisation).</p>
+                
+                <h2 class="govuk-heading-m">Liability</h2>
+                <p class="govuk-body">It is your responsibility to ensure you have purchased the correct number, and tier, of Statutory Biodiversity Credits to meet your BNG obligation.</p>
+                <p class="govuk-body">Full terms and conditions can be found in <a href="#">guidance</a>.</p>  
+
+                {{ govukCheckboxes({
+                  name: "termsAndConditions",
+                  class: "govuk-grid-column-two-thirds",
+                  errorMessage: err[0],
+                  items: [
+                    {
+                      value: "true",
+                      html: "I confirm I have read the terms and conditions."
+                    }
+                  ]
+                }) }}
+              {{ govukButton({
+                text: "Save and Continue",
+                attributes: {
+                  id: "continue",
+                  "data-testid": "continue"
+                }
+              }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
