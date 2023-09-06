@@ -6,6 +6,6 @@ export const REDIS_PASSWORD = process.env.REDIS_PASSWORD || ''
 export const SESSION_COOKIE_PASSWORD = process.env.SESSION_COOKIE_PASSWORD || 'the-password-must-be-at-least-32-characters-long'
 export const KEEP_ALIVE_TIMEOUT_MS = process.env.KEEP_ALIVE_TIMEOUT_MS || undefined
 export const BACS_ACCOUNT_NAME = process.env.BACS_ACCOUNT_NAME || 'Natural England'
-export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '12 34 56'
+export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'
 export const BACS_ACCOUNT_NUMBER = process.env.BACS_ACCOUNT_NUMBER || '12345678'
 export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'

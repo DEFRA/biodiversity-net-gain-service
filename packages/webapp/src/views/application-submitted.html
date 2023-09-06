@@ -23,7 +23,7 @@
     <h2 class="govuk-heading-m">Paying the application fee</h2>
 
     <p>You need to pay:</p>
-    <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}</p>
+    <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}.00</p>
 
     <div class="govuk-inset-text">
       You must pay the fee within 28 days. We cannot refund any payments made after the 28-day deadline.
@@ -33,40 +33,48 @@
 
     <p>You must pay the fee by Bacs using these details:</p>
 
-    <p data-testid="payment-reference-value">
-      <strong>Your payment reference</strong><br>
-      <span data-testid="payment-reference-value">{{ applicationReference }}</span>
-    </p>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
-
-    <p>
-      <strong>Account name</strong><br >
-      <span data-testid="account-name-value">{{ bacs.accountName }}</span>
-    </p>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
-
-    <p>
-      <strong>Sort code</strong><br>
-      <span data-testid="sort-code-value">{{ bacs.sortCode }}</span>
-    </p>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
-
-    <p>
-      <strong>Account number</strong><br>
-      <span data-testid="account-number-value">{{ bacs.accountNumber }}</span>
-    </p>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
-
-    <p>
-      <strong>Swift/BIC code</strong><br>
-      <span data-testid="swift-bic-code-value">{{ bacs.swiftCode }}</span>
-    </p>
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break govuk-section-break--visible">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Your payment reference
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="payment-reference-value">
+          {{ applicationReference }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Account name
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="account-name-value">
+          {{ bacs.accountName }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Sort code
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="sort-code-value">
+          {{ bacs.sortCode }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Account number
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="account-number-value">
+          {{ bacs.accountNumber }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          SWIFT/BIC code
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="swift-bic-code-value">
+          {{ bacs.swiftCode }}
+        </dd>
+      </div>
+    </dl>
 
     <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
     <p>We will let you know within 6 weeks if:</p>

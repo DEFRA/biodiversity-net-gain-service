@@ -263,6 +263,8 @@ const getDeveloperEligibilityResults = session => {
 
 const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
 
+const formatSortCode = sortCode => `${sortCode.substr(0, 2)} ${sortCode.substr(2, 2)} ${sortCode.substr(4, 2)}`
+
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
   const habitatTypeAndCondition = []
   for (const key in metricData) {
@@ -494,6 +496,7 @@ export {
   checked,
   getEligibilityResults,
   formatAppRef,
+  formatSortCode,
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,
