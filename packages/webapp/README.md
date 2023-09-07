@@ -44,7 +44,6 @@ warning: other service dependencies will be missing, install and run from root o
 | BACS_SWIFT_CODE | Natural England Bacs SWIFT / BIC code | Y |
 | DISABLED_ROUTES | Used to enable/disable features and routes in form of string with semicolon | N |
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
-| ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD | Feature flag for land boundary upload in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 
 #### Setting the SIGNALR_URL environment variable

@@ -12,8 +12,8 @@ const handlers = {
     })
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
-      routes: constants.routes,
-      isRouteDisabled
+      isGeosptialDisabled: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y',
+      routes: constants.routes
     })
   },
   post: async (request, h) => {

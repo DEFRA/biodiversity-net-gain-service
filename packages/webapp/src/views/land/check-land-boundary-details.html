@@ -19,7 +19,7 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set landBoundaryFileNameElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
+                    {% set landBoundaryFileNameElement = {
                         key: {
                             text: 'File type'
                         },
@@ -29,7 +29,7 @@
                         actions: {
                             items: [
                                 {
-                                    href: routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+                                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
                                     text: 'Change',
                                     visuallyHiddenText: ' land boundary file',
                                     attributes: {
@@ -38,9 +38,9 @@
                                 }
                             ]
                         }
-                    } %}
+                    } if isGeosptialDisabled else undefined %}
 
-                    {% set boundaryOnAMapElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
+                    {% set boundaryOnAMapElement = {
                         key: {
                           text: "Boundary on a map"
                         },
@@ -48,7 +48,7 @@
                         value: {
                           html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
                         }
-                    } %}
+                    } if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
 
                     {{ govukSummaryList({
                         rows: [

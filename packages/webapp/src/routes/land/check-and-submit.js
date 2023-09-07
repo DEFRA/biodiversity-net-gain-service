@@ -44,8 +44,7 @@ const getContext = request => {
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
       getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
     legalAgreementParties: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
-    ...geospatialOrLandBoundaryContext(request),
-    isRouteDisabled
+    ...geospatialOrLandBoundaryContext(request)
   }
 }
 
