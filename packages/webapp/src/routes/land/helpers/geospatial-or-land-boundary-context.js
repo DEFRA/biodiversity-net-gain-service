@@ -1,5 +1,5 @@
 import constants from '../../../utils/constants.js'
-import { hideClass, isRouteDisabled } from '../../../utils/helpers.js'
+import { hideClass } from '../../../utils/helpers.js'
 import path from 'path'
 
 const geospatialOrLandBoundaryContext = request => {
@@ -8,7 +8,7 @@ const geospatialOrLandBoundaryContext = request => {
     geospatial: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData',
     documentOrImage: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'documentOrImage'
   }
-  if (context.geospatial && !isRouteDisabled(constants.routes.CHECK_GEOSPATIAL_FILE)) {
+  if (context.geospatial && process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y') {
     return {
       ...context,
       mapConfig: request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG),

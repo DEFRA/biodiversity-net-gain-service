@@ -10,8 +10,7 @@ import {
   getAllLandowners,
   getLegalAgreementDocumentType,
   getNameAndRoles,
-  checkApplicantDetails,
-  isRouteDisabled
+  checkApplicantDetails
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
@@ -46,8 +45,7 @@ const getContext = request => {
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
       getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
     legalAgreementParties: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
-    ...geospatialOrLandBoundaryContext(request),
-    isRouteDisabled
+    ...geospatialOrLandBoundaryContext(request)
   }
 }
 

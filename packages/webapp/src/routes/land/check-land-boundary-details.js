@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask, isRouteDisabled } from '../../utils/helpers.js'
+import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
@@ -12,8 +12,8 @@ const handlers = {
     })
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
-      routes: constants.routes,
-      isRouteDisabled
+      isGeosptialDisabled: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y',
+      routes: constants.routes
     })
   },
   post: async (request, h) => {

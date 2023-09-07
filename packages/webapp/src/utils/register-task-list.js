@@ -22,7 +22,7 @@ const registerTaskList = {
           title: 'Add land boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-          startTaskUrl: constants.routes.UPLOAD_LAND_BOUNDARY,
+          startTaskUrl: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' ? constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD : constants.routes.UPLOAD_LAND_BOUNDARY,
           inProgressUrl: '',
           id: 'add-land-boundary'
         },

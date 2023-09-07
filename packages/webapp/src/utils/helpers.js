@@ -477,9 +477,6 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
-// Checking if requested route is disabled
-const isRouteDisabled = route => !Object.values(constants.routes).includes(route) || route === undefined
-
 export {
   validateDate,
   dateClasses,
@@ -516,6 +513,5 @@ export {
   getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails,
-  isRouteDisabled
+  checkDeveloperDetails
 }

@@ -74,7 +74,7 @@
 
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
-        {% set landBoundaryUploadTypeElement = undefined if isRouteDisabled(routes.CHOOSE_LAND_BOUNDARY_UPLOAD) else {
+        {% set landBoundaryUploadTypeElement = {
           key: {
               text: "Land boundary file type"
           },
@@ -84,7 +84,7 @@
           actions: {
             items: [
                 {
-                    href: routes.UPLOAD_LAND_BOUNDARY if isRouteDisabled(routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY) else routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_LAND_BOUNDARY,
                     text: "Change",
                     visuallyHiddenText: " land boundary file",
                     attributes: {
@@ -93,9 +93,9 @@
                 }
             ]
           }
-        } %}
+        } if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
 
-        {% set landBoundaryOnAMapElement = undefined if isRouteDisabled(routes.CHECK_GEOSPATIAL_FILE) else {
+        {% set landBoundaryOnAMapElement = {
           key: {
             text: "Land boundary on a map"
           },
@@ -103,7 +103,7 @@
           value: {
             html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
           }
-        } %}
+        } if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
 
         {{ govukSummaryList({
           classes: "govuk-!-margin-bottom-7",

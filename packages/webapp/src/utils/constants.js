@@ -1,6 +1,7 @@
 import developerConstants from './developer-constants.js'
 import lojConstants from './loj-constants.js'
 import creditsConstants from '../credits/constants.js'
+import disabledRoutesContants from './disabled-routes-constants.js'
 
 const DOCUMENT_UPLOAD = 'documentUpload'
 const GEOSPATIAL_DATA = 'geospatialData'
@@ -22,13 +23,6 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
-
-// Disabled routes for MVP
-const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
-const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
-const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
-const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
-const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
 
 const confirmFileUploadOptions = {
   NO,
@@ -135,31 +129,7 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
 
-const geospatialRoutes = {
-  CHECK_GEOSPATIAL_FILE,
-  UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  GEOSPATIAL_LAND_BOUNDARY
-}
-
-const landBoundaryRoutes = {
-  CHOOSE_LAND_BOUNDARY_UPLOAD
-}
-
-const additionalEmailRoutes = {
-  DEVELOPER_EMAIL_ENTRY
-}
-
-if (process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'y') {
-  routes = { ...routes, ...geospatialRoutes }
-}
-
-if (process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD === 'y') {
-  routes = { ...routes, ...landBoundaryRoutes }
-}
-
-if (process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL === 'y') {
-  routes = { ...routes, ...additionalEmailRoutes }
-}
+routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',

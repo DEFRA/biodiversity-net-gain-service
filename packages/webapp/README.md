@@ -29,7 +29,6 @@ warning: other service dependencies will be missing, install and run from root o
 | NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
 | MAX_GEOSPATIAL_FILE_UPLOAD_MB | MVP recommendation to change file size limit on geospatial files | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
-| ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD | Feature flag for land boundary upload in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 
 #### Setting the SIGNALR_URL environment variable

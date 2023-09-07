@@ -10,8 +10,7 @@ import {
   getHumanReadableFileSize,
   emailValidator,
   getErrById,
-  initialCapitalization,
-  isRouteDisabled
+  initialCapitalization
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -218,19 +217,6 @@ describe('helpers file', () => {
     it('should return undefined if empty error\'s array is provided', () => {
       const mockErrors = []
       expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
-    })
-  })
-
-  describe('isRouteDisabled', () => {
-    it('should return false if given route is not disabled', () => {
-      const routeToBeDisabled = '/land/check-geospatial-file'
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-      expect(isRouteDisabled(routeToBeDisabled)).not.toBeTruthy()
-    })
-
-    it('should return true if route is undefined', () => {
-      delete process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL
-      expect(isRouteDisabled(undefined)).toBeTruthy()
     })
   })
 })

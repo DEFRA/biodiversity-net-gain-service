@@ -46,9 +46,37 @@ describe(url, () => {
       await clearQueues()
     })
 
-    it('should upload a valid Geopackage to cloud storage', (done) => {
+    it('should upload a valid Geopackage to cloud storage and redirect to check land boundary details if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL is disabled', (done) => {
       jest.isolateModules(async () => {
         try {
+          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
+
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const config = JSON.parse(JSON.stringify(baseConfig))
+          config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
+          config.eventData[0].reprojectedFileSize = 500
+          config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
+          config.headers = {
+            referer: 'http://localhost:3000/land/check-land-boundary-details'
+          }
+          const res = await uploadFile(config)
+          expect(res.headers.location).toBe(constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
+          expect(spy).toHaveBeenCalledTimes(1)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should upload a valid Geopackage to cloud storage and redirect to check geospatial file if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL is enabled', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
+
           jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))

@@ -21,7 +21,6 @@ const views = {
             autoescape: true,
             watch: false
           })
-
           return next()
         }
       }
@@ -39,7 +38,8 @@ const views = {
       assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
-      applicationVersion: version
+      applicationVersion: version,
+      ENV: process.env
     }
   }
 }
