@@ -39,7 +39,8 @@ const views = {
       pageTitle: `${serviceName} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
       applicationVersion: version,
-      ENV: process.env
+      ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
+      ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL: process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
     }
   }
 }
