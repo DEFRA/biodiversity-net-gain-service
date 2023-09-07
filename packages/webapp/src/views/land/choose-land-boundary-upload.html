@@ -15,7 +15,7 @@
             text: "GeoJSON, GeoPackage or Shapefile"
           },
           checked: checked(landBoundaryUploadType, "geospatialData")
-        } if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else  undefined %}
+        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else  undefined %}
 
         {{ govukRadios({
           idPrefix: "landBoundaryUploadType",

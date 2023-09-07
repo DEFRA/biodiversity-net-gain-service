@@ -29,7 +29,7 @@
                         actions: {
                             items: [
                                 {
-                                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+                                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
                                     text: 'Change',
                                     visuallyHiddenText: ' land boundary file',
                                     attributes: {
@@ -48,7 +48,7 @@
                         value: {
                           html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
                         }
-                    } if ENV.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+                    } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
 
                     {{ govukSummaryList({
                         rows: [
