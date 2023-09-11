@@ -327,6 +327,21 @@ const validateName = (fullName, hrefId) => {
   }
   return error.err ? error : null
 }
+const validateResponsibleBody = (responsibleBody, hrefId) => {
+  const error = {}
+  if (!responsibleBody) {
+    error.err = [{
+      text: 'Enter the name of the responsible body',
+      href: hrefId
+    }]
+  } else if (responsibleBody.length < 2) {
+    error.err = [{
+      text: 'Responsible body must be 2 characters or more',
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
 
 const validateBNGNumber = (bngNumber, hrefId) => {
   const error = {}
@@ -499,6 +514,7 @@ export {
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,
+  validateResponsibleBody,
   formatDateBefore,
   getMinDateCheckError,
   validateName,

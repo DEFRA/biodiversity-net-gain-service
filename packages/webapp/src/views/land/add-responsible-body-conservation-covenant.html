@@ -1,0 +1,38 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Add a responsible body listed on the conservation covenant?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        {{ govukInput({
+          id: "responsibleBody",
+          name: "responsibleBody",
+          errorMessage: err[0],
+          label: {
+            text: "Responsible body"
+          },
+          autocomplete: "responsibleBody",
+          spellcheck: false,
+          value: responsibleBody
+        }) }}
+
+        {{ govukButton({
+          text: "Save and Continue",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

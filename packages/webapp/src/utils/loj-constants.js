@@ -7,8 +7,12 @@ const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_PARTY_REMOVE = 'land/legal-party-remove'
+const REMOVE_RESPONSIBLE_BODY = 'land/remove-responsible-body'
+
 const LEGAL_PARTY_LIST = 'land/legal-party-list'
+const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
+const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
@@ -34,6 +38,7 @@ const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const NAME = 'land/name'
+const ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT = 'land/add-responsible-body-conservation-covenant'
 const ROLE = 'land/role'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
@@ -97,6 +102,7 @@ const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
+const LEGAL_AGREEMENT_RESPONSIBLE_BODIES = 'legal-agreement-reponsible-bodies'
 const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
 const MANAGEMENT_PLAN_KEY = 'management-plan-key'
 const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
@@ -157,6 +163,7 @@ export default {
     ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
     REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
     LEGAL_PARTY_REMOVE,
+    REMOVE_RESPONSIBLE_BODY,
     GEOSPATIAL_UPLOAD_LOCATION,
     GEOSPATIAL_MAP_CONFIG,
     GEOSPATIAL_UPLOAD_TYPE,
@@ -188,6 +195,7 @@ export default {
     LEGAL_AGREEMENT_FILE_OPTION,
     LOCAL_LAND_CHARGE_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
+    LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     MANAGEMENT_PLAN_CHECKED,
     MANAGEMENT_PLAN_LOCATION,
     MANAGEMENT_PLAN_FILE_SIZE,
@@ -240,8 +248,11 @@ export default {
     CHECK_LEGAL_AGREEMENT,
     ADD_LEGAL_AGREEMENT_PARTIES,
     LEGAL_PARTY_LIST,
+    CHECK_RESPONSIBLE_BODIES,
     LEGAL_PARTY_REMOVE,
+    REMOVE_RESPONSIBLE_BODY,
     LEGAL_AGREEMENT_START_DATE,
+    NEED_ADD_ALL_RESPONSIBLE_BODIES,
     LEGAL_AGREEMENT_TYPE,
     CHECK_MANAGEMENT_PLAN,
     REGISTRATION_SUBMITTED,
@@ -274,6 +285,7 @@ export default {
     UPLOAD_LAND_OWNERSHIP,
     HOME,
     NAME,
+    ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
     ROLE,
     CHECK_YOUR_DETAILS,
     REGISTER_LAND_TASK_LIST,
