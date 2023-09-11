@@ -65,7 +65,7 @@ describe(url, () => {
       postOptions.payload = badPayload
       const res = await submitPostRequest(postOptions, 200)
       expect(res.result).toContain('There is a problem')
-      expect(res.result).toContain('Enter the credit unit from the metric. The credit unit must be entered up to 2 decimal places, like 23.75.')
+      expect(res.result).toContain('Enter the number of credits from the Metric up to 2 decimal places, like 23.75.')
     })
   })
 })
