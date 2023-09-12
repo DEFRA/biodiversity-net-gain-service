@@ -6,9 +6,8 @@ import url from 'url'
 
 const getApplicationReference = request => {
   const session = request.yar
-  const path = new url.URL(request.headers.referer).pathname
-
   let reference = null
+  const path = request.headers.referer ? new url.URL(request.headers.referer).pathname : null
 
   if (path === constants.routes.CHECK_AND_SUBMIT) {
     reference = session.get(constants.redisKeys.APPLICATION_REFERENCE)
@@ -17,14 +16,12 @@ const getApplicationReference = request => {
   if (path === constants.routes.DEVELOPER_CHECK_ANSWERS) {
     reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
   }
-
   return reference
 }
 
 const handlers = {
   get: async (request, h) => {
-    const applicationReference = formatAppRef(getApplicationReference(request))
-
+    const applicationReference = getApplicationReference(request) ? formatAppRef(getApplicationReference(request)) : null
     const payment = getPayment(request.yar)
 
     // Reset user session as submitted
