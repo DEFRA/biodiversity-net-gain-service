@@ -49,6 +49,20 @@ describe(url, () => {
       expect(viewArgs[0]).toEqual('application-submitted')
       expect(viewArgs[1].applicationReference).toEqual(gainSiteReference)
     })
+    it(`should render the ${url.substring(1)} view with no reference`, async () => {
+      const getHandler = applicationSubmitted[0].handler
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, '')
+      let viewArgs = ''
+      const h = {
+        view: (...args) => {
+          viewArgs = args
+        }
+      }
+      await getHandler({ headers: { referer: '' }, yar: session }, h)
+      expect(viewArgs[0]).toEqual('application-submitted')
+      expect(viewArgs[1].applicationReference).toEqual(null)
+    })
     it('should render payment fee details', async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
