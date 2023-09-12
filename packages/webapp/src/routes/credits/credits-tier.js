@@ -2,7 +2,7 @@ import constants from '../../credits/constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
-const defaultErrorMessage = { text: 'To Update' }
+const defaultErrorMessage = { text: 'Enter the number of credits from the Metric up to 2 decimal places, like 23.75.' }
 const customErrorMessage = { text: 'Enter at least one credit from the Metric up to 2 decimal places, like 23.75.' }
 const inputSchema = Joi.string().regex(/^[0-9]*(\.\d{1,2})?$/).allow('')
 

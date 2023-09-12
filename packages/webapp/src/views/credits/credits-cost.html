@@ -2,15 +2,15 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
 
-{% set serviceName = "TODO" %}
+{% set serviceName = "Purchase statutory biodiversity credits" %}
 {% set pageHeading = "Estimated cost of statutory biodiversity credits" %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukPanel({
-        titleText: "Estimated cost of statutory biodiversity credits",
-        html: "<strong>" + totalCost + " (Excluding VAT)</strong>",
+        titleText: pageHeading,
+        html: "<strong>" + totalCost + " (excluding VAT)</strong>",
         classes: "govuk-!-text-align-left",
         attributes: {
           style: "background-color: #1d70b8"
@@ -24,7 +24,7 @@
             text: "Tier"
           },
           {
-            text: "Credit units",
+            text: "Credits",
             format: "numeric"
           },
           {
@@ -39,6 +39,11 @@
       <p class="govuk-body">This service provides an estimation.</p>
       <p class="govuk-body">All credit prices are a guide.</p>
       <p class="govuk-body">Check <a href="https://www.gov.uk/guidance/statutory-biodiversity-credit-prices" target="_blank" rel="noopener">the price list</a> for more information.</p>
+
+      {{ govukButton({
+        text: "Save and Continue",
+        href: "/"
+      }) }}
     </div>
   </div>
 {% endblock %}
