@@ -41,7 +41,10 @@ export default [
           const errorList = []
 
           if (err.details.some(e => e.type === 'any.custom')) {
-            errorList.push({ ...customErrorMessage })
+            errorList.push({
+              ...customErrorMessage,
+              href: '#myerr'
+            })
           } else {
             err.details.forEach(e => {
               errorMessages[e.context.key] = defaultErrorMessage
