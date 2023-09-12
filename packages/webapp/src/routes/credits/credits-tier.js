@@ -2,8 +2,8 @@ import constants from '../../credits/constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
-const defaultErrorMessage = { text: 'Enter the credit unit from the metric. The credit unit must be entered up to 2 decimal places, like 23.75.' }
-const customErrorMessage = { text: 'Enter at least one credit unit from the metric.' }
+const defaultErrorMessage = { text: 'To Update' }
+const customErrorMessage = { text: 'Enter at least one credit from the Metric up to 2 decimal places, like 23.75.' }
 const inputSchema = Joi.string().regex(/^[0-9]*(\.\d{1,2})?$/).allow('')
 
 export default [
@@ -41,9 +41,11 @@ export default [
           const errorList = []
 
           if (err.details.some(e => e.type === 'any.custom')) {
+            const errorId = 'custom-err'
+            errorMessages[errorId] = customErrorMessage
             errorList.push({
               ...customErrorMessage,
-              href: '#myerr'
+              href: `#${errorId}`
             })
           } else {
             err.details.forEach(e => {

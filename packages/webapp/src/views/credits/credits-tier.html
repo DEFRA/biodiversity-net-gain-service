@@ -9,7 +9,9 @@
 {% set hideBackLink = true %}
 
 {% set creditText = "Enter number of credits" %}
-{% set creditHintText = "Enter the credit figure up to two decimal places, like 23.75." %}"
+{% set creditHintText = "Enter the credit figure up to two decimal places, like 23.75." %}
+
+{% set customErr = errorMessages['custom-err'] %}
 
 {% block content %}
   {% if err %}
@@ -25,9 +27,11 @@
       <p class="govuk-body">The information you require to get an estimate from this service can be found in the 'unit shortfall summary' tab, from the results menu, in the Metric.</p>
       <p class="govuk-body">Enter the credit figure from the Metric into the relevant tier box below.</p>
       <p class="govuk-body">You can choose more than one tier.</p>
-      <p class="govuk-hint">{{ creditHintText }}</p>            
-      <form method="POST" autocomplete="off" novalidate="novalidate">        
-        <div class="govuk-grid-row">          
+      <p class="govuk-hint">{{ creditHintText }}</p>  
+
+      <form method="POST" autocomplete="off" novalidate="novalidate">
+      <div class="govuk-form-group {{ 'govuk-form-group--error' if customErr }}">  
+        <div class="govuk-grid-row">                    
           <div class="govuk-grid-column-one-third">
             <span class="govuk-caption-m">Area</span>
             <h2 class="govuk-heading-l">Tier A</h2>
@@ -41,86 +45,90 @@
             <h2 class="govuk-heading-l">Tier W</h2>                            
           </div>          
         </div>
-        <div class="govuk-form-group--error">
+  
+        {% if customErr %}
         {{ govukErrorMessage({
-          text: "Enter at least one credit unit from the metric.",
-          id: "myerr"
+          text: customErr.text,
+          id: "custom-err"
         }) }}
-        <div class="govuk-grid-row">  
+        {% endif %}
+      
+        <div class="govuk-grid-row">            
           <div class="govuk-grid-column-one-third">
-              {{ govukInput({
-                id: "a1-units",
-                name: "a1",  
-                value: inputValues.a1,
-                classes: "govuk-input--width-5",
-                label: {
-                  text: "A1",
-                  classes: "govuk-!-font-weight-bold"
-                },
-                hint: {
-                  text: creditText
-                },
-                errorMessage: errorMessages.a1
-              }) }}
-              {{ govukInput({
-                id: "a2-units",
-                name: "a2",  
-                value: inputValues.a2,
-                classes: "govuk-input--width-5",
-                label: {
-                  text: "A2",
-                  classes: "govuk-!-font-weight-bold"
-                },
-                hint: {
-                  text: creditText
-                },
-                errorMessage: errorMessages.a2
-              }) }}
-              {{ govukInput({
-                id: "a3-units",
-                name: "a3",  
-                value: inputValues.a3,
-                classes: "govuk-input--width-5",
-                label: {
-                  text: "A3",
-                  classes: "govuk-!-font-weight-bold"
-                },
-                hint: {
-                  text: creditText
-                },
-                errorMessage: errorMessages.a3
-              }) }}
-              {{ govukInput({
-                id: "a4-units",
-                name: "a4",  
-                value: inputValues.a4,
-                classes: "govuk-input--width-5",
-                label: {
-                  text: "A4",
-                  classes: "govuk-!-font-weight-bold"
-                },
-                hint: {
-                  text: creditText
-                },
-                errorMessage: errorMessages.a4
-              }) }}
-              {{ govukInput({
-                id: "a5-units",
-                name: "a5",  
-                value: inputValues.a5,
-                classes: "govuk-input--width-5",
-                label: {
-                  text: "A5",
-                  classes: "govuk-!-font-weight-bold"
-                },
-                hint: {
-                  text: creditText
-                },
-                errorMessage: errorMessages.a5
-              }) }}
-            </div>
-
+            {{ govukInput({
+              id: "a1-units",
+              name: "a1",  
+              value: inputValues.a1,
+              classes: "govuk-input--width-5",
+              label: {
+                text: "A1",
+                classes: "govuk-!-font-weight-bold"
+              },
+              hint: {
+                text: creditText
+              },
+              errorMessage: errorMessages.a1
+            }) }}
+            {{ govukInput({
+              id: "a2-units",
+              name: "a2",  
+              value: inputValues.a2,
+              classes: "govuk-input--width-5",
+              label: {
+                text: "A2",
+                classes: "govuk-!-font-weight-bold"
+              },
+              hint: {
+                text: creditText
+              },
+              errorMessage: errorMessages.a2
+            }) }}
+            {{ govukInput({
+              id: "a3-units",
+              name: "a3",  
+              value: inputValues.a3,
+              classes: "govuk-input--width-5",
+              label: {
+                text: "A3",
+                classes: "govuk-!-font-weight-bold"
+              },
+              hint: {
+                text: creditText
+              },
+              errorMessage: errorMessages.a3
+            }) }}
+            {{ govukInput({
+              id: "a4-units",
+              name: "a4",  
+              value: inputValues.a4,
+              classes: "govuk-input--width-5",
+              label: {
+                text: "A4",
+                classes: "govuk-!-font-weight-bold"
+              },
+              hint: {
+                text: creditText
+              },
+              errorMessage: errorMessages.a4
+            }) }}
+            {{ govukInput({
+              id: "a5-units",
+              name: "a5",  
+              value: inputValues.a5,
+              classes: "govuk-input--width-5",
+              label: {
+                text: "A5",
+                classes: "govuk-!-font-weight-bold"
+              },
+              hint: {
+                text: creditText
+              },
+              errorMessage: errorMessages.a5
+            }) }}
+          </div>            
+            
           <div class="govuk-grid-column-one-third">
+            <div class="{{ 'govuk-form-group--error' if customErr }}">  
             {{ govukInput({
               id: "h-units",
               name: "h",
@@ -135,8 +143,12 @@
               },
               errorMessage: errorMessages.h
             }) }}
+            </div>
           </div>
+        
+        
           <div class="govuk-grid-column-one-third">
+            <div class="{{ 'govuk-form-group--error' if customErr }}">  
             {{ govukInput({
               id: "w-units",
               name: "w",
@@ -151,12 +163,13 @@
               },
               errorMessage: errorMessages.w
             }) }}
-          </div>
-        </div>          
+            </div>
+          </div>     
         </div>
+      </div>
         {{ govukButton({
           text: "Continue"        
-        }) }}
+        }) }}        
       </form>    
     </div>
   </div>
