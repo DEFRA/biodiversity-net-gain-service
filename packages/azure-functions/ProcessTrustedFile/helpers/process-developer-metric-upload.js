@@ -10,7 +10,7 @@ export default async (context, config) => {
   try {
     const blobConfig = {
       blobName: fileConfig.fileLocation,
-      containerName: containerName
+      containerName
     }
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
@@ -20,7 +20,7 @@ export default async (context, config) => {
           start: extractionConfiguration.startExtractionConfig,
           ...extractionConfiguration['v4.0']
         },
-        validationConfiguration: validationConfiguration
+        validationConfiguration
       }
       metricData = await extractMetricContent(docStream, metricExtractionConfig)
     } else {
