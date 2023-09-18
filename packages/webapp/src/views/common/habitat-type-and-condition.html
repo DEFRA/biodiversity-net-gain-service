@@ -1,3 +1,9 @@
+{% macro renderRowTotal(total, testId) %}
+  <td class="govuk-table__cell govuk-table__cell--numeric" data-testid={{ testId }}>
+    {{ total.toFixed(2) }}
+  </td>
+{% endmacro %}
+
 <div class="app-table-responsive">
   <table class="govuk-table">
     <caption class="govuk-visually-hidden">Baseline {{ habitat.type }} types, condition and {% if habitat.type === 'Habitat' %}area{% else %}length{% endif %}</caption>
@@ -29,9 +35,17 @@
         <th scope="row" class="govuk-table__cell">
           Total
         </th>
-        <td class="govuk-table__cell govuk-table__cell--numeric" data-testid={{ habitat.dataTestId }}>
-          {{ habitat.total.toFixed(2) }}
-        </td>
+        {% if habitat.type === "Habitat" %}
+          {{ renderRowTotal(habitat.total, "habitatTotal") }}
+        {% endif %}
+
+        {% if habitat.type === "Hedgerow" %}
+          {{ renderRowTotal(habitat.total, "hedgeTotal") }}
+        {% endif %}
+
+        {% if habitat.type === "River" %}
+          {{ renderRowTotal(habitat.total, "riverTotal") }}
+        {% endif %}
       </tr>
     </tbody>
   </table>

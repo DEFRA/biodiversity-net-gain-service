@@ -8,22 +8,19 @@ const defaults = {
     unitKey: 'Area (hectares)',
     unit: 'Area (ha)',
     header: 'Broad habitat',
-    description: habitatType,
-    dataTestId: 'habitatTotal'
+    description: habitatType
   },
   hedgerow: {
     type: 'Hedgerow',
     unitKey: lengthKm,
     unit: lengthKm,
-    description: 'Hedgerow type',
-    dataTestId: 'hedgeTotal'
+    description: 'Hedgerow type'
   },
   river: {
     type: 'River',
     unitKey: lengthKm,
     unit: lengthKm,
-    description: 'Watercourse type',
-    dataTestId: 'riverTotal'
+    description: 'Watercourse type'
   }
 }
 
