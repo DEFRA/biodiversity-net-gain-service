@@ -116,36 +116,6 @@ describe(url, () => {
         }
       })
     })
-    it('Date must be equal or later than habitat works start date', done => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult, contextResult
-          const managementMonitoringStartDate = require('../../land/management-monitoring-start-date')
-          const request = {
-            yar: {
-              get: () => new Date('2022-12-02').toISOString()
-            },
-            payload: {
-              'managementMonitoringStartDate-day': '01',
-              'managementMonitoringStartDate-month': '12',
-              'managementMonitoringStartDate-year': '2022'
-            }
-          }
-          const h = {
-            view: (view, context) => {
-              viewResult = view
-              contextResult = context
-            }
-          }
-          await managementMonitoringStartDate.default[1].handler(request, h)
-          expect(viewResult).toEqual('land/management-monitoring-start-date')
-          expect(contextResult.err[0].text).toEqual('Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin')
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('Ensure page uses referrer if is set on post', done => {
       jest.isolateModules(async () => {
         try {

@@ -19,7 +19,6 @@ const applicationValidation = Joi.object({
       })
     ).required(),
     gainSiteReference: Joi.string().allow(''),
-    habitatWorkStartDate: Joi.date().required(),
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
     legalAgreementParties: Joi.array().items(
@@ -55,7 +54,13 @@ const applicationValidation = Joi.object({
       then: Joi.valid('true'),
       otherwise: Joi.valid('true', 'false')
     }).default('false'),
-    metricData: Joi.object().allow(null)
+    metricData: Joi.object().allow(null),
+    payment: Joi.object({
+      caseType: Joi.string().required(),
+      fee: Joi.number().required(),
+      reference: Joi.string().allow('', null).optional(),
+      type: Joi.string().required()
+    })
   })
 })
 

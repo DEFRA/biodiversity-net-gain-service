@@ -30,16 +30,16 @@
     "docker:azure:build": "docker-compose -f docker/services.build.azure.yml build && docker-compose -f docker/services.build.azure.yml push"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.21.5",
-    "@babel/preset-env": "^7.22.7",
-    "babel-jest": "^29.5.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.22.11",
+    "@babel/preset-env": "^7.22.20",
+    "babel-jest": "^29.6.3",
     "detect-secrets": "^1.0.6",
     "eslint": "^8.44.0",
     "eslint-plugin-html": "^7.1.0",
-    "eslint-plugin-jest": "^27.2.2",
-    "jest": "^29.5.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "jest": "^29.6.4",
     "lerna": "^6.6.1",
-    "markdownlint-cli": "^0.34.0",
+    "markdownlint-cli": "^0.35.0",
     "standard": "^17.0.0"
   },
   "standard": {

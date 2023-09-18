@@ -32,6 +32,7 @@ export default async function (context, req) {
         'Registration'
       ])
       req.body.landownerGainSiteRegistration.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
+      req.body.landownerGainSiteRegistration.payment.reference = applicationReference.rows[0].fn_create_application_reference
     } else {
       // Check if application has been submitted and throw error if true
       const status = await getApplicationStatus(db, [req.body.landownerGainSiteRegistration.gainSiteReference])

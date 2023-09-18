@@ -35,7 +35,6 @@ const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
-const HABITAT_WORKS_START_DATE = 'land/habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
 const CHECK_MANAGEMENT_MONITORING_DETAILS = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
@@ -52,7 +51,6 @@ const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
-const REGISTRATION_SUBMITTED = 'registration-submitted'
 const ERROR = 'error'
 const HOME = 'home'
 const COOKIES = 'cookies'
@@ -216,7 +214,6 @@ export default {
     LEGAL_AGREEMENT_START_DATE,
     LEGAL_AGREEMENT_TYPE,
     CHECK_MANAGEMENT_PLAN,
-    REGISTRATION_SUBMITTED,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
     CHECK_PROOF_OF_OWNERSHIP,
@@ -246,7 +243,6 @@ export default {
     UPLOAD_LAND_OWNERSHIP,
     HOME,
     REGISTER_LAND_TASK_LIST,
-    HABITAT_WORKS_START_DATE,
     MANAGEMENT_MONITORING_START_DATE,
     CHECK_MANAGEMENT_MONITORING_DETAILS,
     REGISTERED_LANDOWNER,

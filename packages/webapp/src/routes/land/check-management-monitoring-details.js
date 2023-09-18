@@ -26,7 +26,6 @@ const handlers = {
 const getContext = request => {
   return {
     managementFileName: getManagementFileName(request),
-    habitatWorkStartDate: getFormattedDate(request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY)),
     managementMonitoringStartDate: getFormattedDate(request.yar.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY))
   }
 }

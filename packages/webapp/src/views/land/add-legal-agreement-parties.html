@@ -75,14 +75,16 @@
                                     checked: role === "Other",
                                     classes: "govuk-input--width-2",
                                     conditional: {
-                                        html: '<div id="other-role">
-                                                <div class="govuk-form-group">
-                                                    <label class="govuk-label" for="other-party">
-                                                        Role
-                                                    </label>
-                                                    <input class="govuk-input govuk-!-width-one-third" value="' + organisation.organisationOtherRole  + '" name="organisationOtherRole">
-                                                </div>
-                                            </div>'
+                                        html: govukInput({
+                                            label: {
+                                              text: "Role"
+                                            },
+                                            id: "organisationOtherRole",
+                                            name: "organisationOtherRole",
+                                            value: organisation.organisationOtherRole,
+                                            classes: "govuk-input govuk-!-width-one-third",
+                                            errorMessage: organisationOtherRoleErr
+                                        })
                                     }
                                 }
                             ]

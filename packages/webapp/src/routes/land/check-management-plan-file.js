@@ -22,7 +22,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.MANAGEMENT_PLAN_LOCATION)
       return h.redirect(constants.routes.UPLOAD_MANAGEMENT_PLAN)
     } else if (checkManagementPlan === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_WORKS_START_DATE)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.MANAGEMENT_MONITORING_START_DATE)
     } else {
       return h.view(constants.views.CHECK_MANAGEMENT_PLAN, {
         ...getContext(request),

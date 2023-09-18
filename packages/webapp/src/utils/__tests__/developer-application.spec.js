@@ -27,7 +27,7 @@ describe('developer-application', () => {
     session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
 
     const app = developerApplication(session, applicant)
-    expect(app.developerAllocation.gainSiteReference).toEqual('')
+    expect(app.developerAllocation.referenceNumber).toEqual('')
     expect(app.developerAllocation.additionalEmailAddresses).toEqual([])
   })
 })

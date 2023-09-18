@@ -10,8 +10,8 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukPanel({
-        titleText: "Estimated cost of statutory biodiversity credits",
-        html: "<strong>" + totalCost + " (Excluding VAT)</strong>",
+        titleText: pageHeading,
+        html: "<strong>" + totalCost + " (excluding VAT)</strong>",
         classes: "govuk-!-text-align-left",
         attributes: {
           style: "background-color: #1d70b8"
@@ -25,7 +25,7 @@
             text: "Tier"
           },
           {
-            text: "Credit units",
+            text: "Credits",
             format: "numeric"
           },
           {

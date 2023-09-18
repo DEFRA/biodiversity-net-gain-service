@@ -3,33 +3,31 @@ import {
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
+import isEmpty from 'lodash/isEmpty.js'
 
 const validateOrganisation = organisation => {
-  let errorFlag = false
-  const errorConstruct = {
-    text: undefined,
-    href: undefined
-  }
-
-  const legalAgreementPartiesError = Array(2).fill(errorConstruct)
+  const errors = {}
 
   if (organisation.organisationName.trim().length === 0) {
-    legalAgreementPartiesError[0] = {
+    errors.organisationNameErr = {
       text: 'Enter the name of the legal party',
       href: '#organisationName'
     }
-    errorFlag = true
   }
 
   if (organisation.organisationRole === undefined) {
-    legalAgreementPartiesError[1] = {
+    errors.organisationRoleErr = {
       text: 'Select the role',
-      href: '#organisationRole'
+      href: '#localAuthorityRole'
     }
-    errorFlag = true
+  } else if (organisation.organisationRole === 'Other' && organisation.organisationOtherRole.trim().length === 0) {
+    errors.organisationOtherRoleErr = {
+      text: 'Enter the role of the legal party',
+      href: '#organisationOtherRole'
+    }
   }
 
-  return { legalAgreementPartiesError, errorFlag }
+  return errors
 }
 
 const handlers = {
@@ -64,15 +62,16 @@ const handlers = {
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    const { legalAgreementPartiesError, errorFlag } = validateOrganisation(organisation)
+    const legalAgreementPartiesError = validateOrganisation(organisation)
 
-    if (errorFlag) {
+    if (!isEmpty(legalAgreementPartiesError)) {
       return h.view(constants.views.ADD_LEGAL_AGREEMENT_PARTIES, {
         organisation,
         legalAgreementType,
-        err: legalAgreementPartiesError,
-        organisationNameErr: legalAgreementPartiesError[0].text ? legalAgreementPartiesError[0] : undefined,
-        organisationRoleErr: legalAgreementPartiesError[1].text ? legalAgreementPartiesError[1] : undefined
+        err: Object.values(legalAgreementPartiesError),
+        organisationNameErr: legalAgreementPartiesError?.organisationNameErr,
+        organisationRoleErr: legalAgreementPartiesError?.organisationRoleErr,
+        organisationOtherRoleErr: legalAgreementPartiesError?.organisationOtherRoleErr
       })
     }
 

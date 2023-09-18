@@ -20,7 +20,6 @@ describe('auth plugin', () => {
     expect(typeof plugin.register).toEqual('function')
   })
   it('Should validate a valid session account', async () => {
-    // for some reason the es6 module mock won't count method calls so need to use a spy
     const spyOn = jest.spyOn(auth, 'refresh')
     const response = await strategyOptions.validate({}, {
       account: {
@@ -34,24 +33,17 @@ describe('auth plugin', () => {
     expect(spyOn).toHaveBeenCalledTimes(0)
   })
   it('Should invalidate an invalid session account', async () => {
-    // for some reason the es6 module mock won't count method calls so need to use a spy
     const spyOn = jest.spyOn(auth, 'refresh')
     const response = await strategyOptions.validate({}, {})
     expect(response.isValid).toEqual(false)
     expect(spyOn).toHaveBeenCalledTimes(0)
   })
-  it('Should invalidate an expired account', async () => {
-    // Mocking an ES6 module, pain
-    jest.mock('../../utils/auth.js', () => ({
-      __esModule: true,
-      default: {
-        refresh: jest.fn().mockImplementation(() => {
-          return true
-        })
+  it('Should validate an expired account via valid refresh', async () => {
+    auth.refresh = jest.fn().mockImplementation(async () => {
+      return {
+        account: 'test'
       }
-    }))
-    // for some reason the es6 module mock won't count method calls so need to use a spy
-    const spyOn = jest.spyOn(auth, 'refresh')
+    })
     const response = await strategyOptions.validate({
       cookieAuth: {
         set: () => {}
@@ -65,6 +57,6 @@ describe('auth plugin', () => {
       }
     })
     expect(response.isValid).toEqual(true)
-    expect(spyOn).toHaveBeenCalledTimes(1)
+    expect(auth.refresh).toHaveBeenCalledTimes(1)
   })
 })

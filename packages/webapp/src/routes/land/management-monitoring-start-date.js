@@ -2,7 +2,6 @@ import constants from '../../utils/constants.js'
 import {
   dateClasses,
   getMinDateCheckError,
-  isDate1LessThanDate2,
   processRegistrationTask,
   validateAndParseISOString,
   validateDate
@@ -31,14 +30,7 @@ const handlers = {
     if (!context.err) {
       context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.MANAGEMENT_MONITORING_MIN_START_DATE)
     }
-    const habitatWorksStartDate = request.yar.get(constants.redisKeys.HABITAT_WORKS_START_DATE_KEY)
-    if (!context.err && isDate1LessThanDate2(dateAsISOString, habitatWorksStartDate)) {
-      context.err = [{
-        text: 'Start date of the 30 year management and monitoring period must be the same as or after the date the habitat enhancement works begin',
-        href: `#${ID}-day`,
-        dateError: true
-      }]
-    }
+
     if (context.err) {
       return h.view(constants.views.MANAGEMENT_MONITORING_START_DATE, {
         day,

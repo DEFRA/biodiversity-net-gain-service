@@ -305,7 +305,6 @@ const dataString = `
   "management-plan-file-size": 0.01,
   "management-plan-file-type": "application/msword",
   "management-plan-checked": "yes",
-  "habitat-works-start-date": "2022-01-01T00:00:00.000Z",
   "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
   "legal-agreement-location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",

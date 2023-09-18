@@ -22,3 +22,7 @@ export const DEFRA_ID = {
   DEFRA_ID_CLIENT_ID: process.env.DEFRA_ID_CLIENT_ID,
   DEFRA_ID_REDIRECT_URI: process.env.DEFRA_ID_REDIRECT_URI || 'http://localhost:3000/signin/callback'
 }
+export const BACS_ACCOUNT_NAME = process.env.BACS_ACCOUNT_NAME || 'Natural England'
+export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'
+export const BACS_ACCOUNT_NUMBER = process.env.BACS_ACCOUNT_NUMBER || '12345678'
+export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'

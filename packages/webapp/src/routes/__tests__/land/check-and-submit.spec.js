@@ -86,7 +86,7 @@ describe(url, () => {
 
           await postHandler({ yar: session, auth }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.REGISTRATION_SUBMITTED])
+          expect(redirectArgs).toEqual([constants.routes.APPLICATION_SUBMITTED])
           done()
         } catch (err) {
           done(err)

@@ -123,7 +123,29 @@ describe(url, () => {
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
-    it('should go back to detail if referred', async () => {
+    it('should go to upload legal agreement if legal agreement type is changed', async () => {
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+      const request = {
+        yar: redisMap,
+        payload: {
+          legalAgreementType: '759150000'
+        }
+      }
+      const legalAgreementDetails = require('../../land/legal-agreement-type')
+      await legalAgreementDetails.default[1].handler(request, h)
+
+      postOptions.payload.legalAgreementType = '759150001'
+      await submitPostRequest(postOptions, 302)
+      expect(viewResult).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+    })
+
+    it('should go back to detail if referred if legal agreement type is not changed', async () => {
       let viewResult
       const h = {
         redirect: (view, context) => {
@@ -131,19 +153,20 @@ describe(url, () => {
         }
       }
       redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
       const request = {
         yar: redisMap,
         info: {
           referer: 'http://localhost:3000/land/check-legal-agreement-details'
         },
         payload: {
-          legalAgreementType: 'Any document'
+          legalAgreementType: '759150000'
         }
       }
       const legalAgreementDetails = require('../../land/legal-agreement-type')
       await legalAgreementDetails.default[1].handler(request, h)
 
-      postOptions.payload.legalAgreementType = 'Planning obligation (section 106 agreement)'
+      postOptions.payload.legalAgreementType = '759150000'
       await submitPostRequest(postOptions, 302)
       expect(viewResult).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })

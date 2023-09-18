@@ -40,7 +40,13 @@ const req = {
         fileSize: null,
         fileLocation: null,
         fileName: null
-      }]
+      }],
+      payment: {
+        caseType: 'registration',
+        fee: 639,
+        reference: '',
+        type: 'BACS'
+      }
     }
   }
 }

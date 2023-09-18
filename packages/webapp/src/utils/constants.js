@@ -39,6 +39,8 @@ const applicationTypes = {
   REGISTRATION,
   ALLOCATION
 }
+const APPLICATION_SUBMITTED = 'application-submitted'
+const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
 
 const confirmFileUploadOptions = {
   NO,
@@ -143,12 +145,14 @@ let routes = {
   SIGNIN,
   SIGNIN_CALLBACK,
   SIGNOUT,
-  SIGNED_OUT
+  SIGNED_OUT,
+  APPLICATION_SUBMITTED
 }
 
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
-  TEST_SEED_DATA
+  TEST_SEED_DATA,
+  TEST_DEVELOPER_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {

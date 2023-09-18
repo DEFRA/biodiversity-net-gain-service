@@ -22,7 +22,7 @@ const developerApplicationValidation = Joi.object({
     confirmDevelopmentDetails: Joi.string().valid('yes'),
     confirmOffsiteGainDetails: Joi.string().valid('yes'),
     metricData: Joi.object().allow(null),
-    gainSiteReference: Joi.string().allow(''),
+    referenceNumber: Joi.string().allow(''),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
       Joi.object({
@@ -32,7 +32,13 @@ const developerApplicationValidation = Joi.object({
         fileLocation: Joi.string().required(),
         fileName: Joi.string().required()
       })
-    ).required()
+    ).required(),
+    payment: Joi.object({
+      caseType: Joi.string().required(),
+      fee: Joi.number().required(),
+      reference: Joi.string().allow('', null).optional(),
+      type: Joi.string().required()
+    }).required()
   })
 })
 

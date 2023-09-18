@@ -227,6 +227,27 @@ const getLegalAgreementParties = legalAgreementParties => {
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
 
+const getEligibilityResults = session => {
+  const eligibilityResults = {
+    yes: [],
+    no: [],
+    'not sure': []
+  }
+  session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY)].push(constants.redisKeys.ELIGIBILITY_BOUNDARY)
+  session.get(constants.redisKeys.ELIGIBILITY_CONSENT) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_CONSENT)].push(constants.redisKeys.ELIGIBILITY_CONSENT)
+  session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)].push(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)
+  session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)].push(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)
+  session.get(constants.redisKeys.ELIGIBILITY_HMMP) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_HMMP)].push(constants.redisKeys.ELIGIBILITY_HMMP)
+  session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
+    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
+  return eligibilityResults
+}
+
 const getDeveloperEligibilityResults = session => {
   const developerEligibilityResults = {
     yes: [],
@@ -239,6 +260,10 @@ const getDeveloperEligibilityResults = session => {
   developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
   return developerEligibilityResults
 }
+
+const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
+
+const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
   const habitatTypeAndCondition = []
@@ -455,6 +480,9 @@ export {
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
+  getEligibilityResults,
+  formatAppRef,
+  formatSortCode,
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,

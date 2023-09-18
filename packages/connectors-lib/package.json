@@ -22,7 +22,7 @@
   "dependencies": {
     "@azure/service-bus": "^7.9.0",
     "@azure/storage-blob": "^12.14.0",
-    "@azure/storage-queue": "^12.13.0",
+    "@azure/storage-queue": "^12.14.0",
     "@microsoft/signalr": "^6.0.16",
     "pg": "^8.10.0"
   },
