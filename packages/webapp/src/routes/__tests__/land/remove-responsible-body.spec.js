@@ -21,7 +21,12 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, ['test1', 'test2'])
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+      responsibleBodyName: 'test1'
+    },
+    {
+      responsibleBodyName: 'test2'
+    }])
 
     responsibleBodyRemove = require('../../land/remove-responsible-body.js')
   })
