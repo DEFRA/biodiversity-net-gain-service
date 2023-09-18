@@ -23,7 +23,6 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
-const DEVELOPER_APPLICATION_SUBMITTED = 'developer/confirm'
 // ./Routes constants
 
 // RedisKeys constants
@@ -121,8 +120,7 @@ export default {
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
-    DEVELOPER_DOWNLOAD_CONSENT_FILE,
-    DEVELOPER_APPLICATION_SUBMITTED
+    DEVELOPER_DOWNLOAD_CONSENT_FILE
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,

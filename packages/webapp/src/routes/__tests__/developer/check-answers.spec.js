@@ -44,7 +44,7 @@ describe(url, () => {
 
           await postHandler({ yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.DEVELOPER_APPLICATION_SUBMITTED])
+          expect(redirectArgs).toEqual([constants.routes.APPLICATION_SUBMITTED])
           done()
         } catch (err) {
           done(err)
@@ -123,7 +123,7 @@ describe(url, () => {
 
           await postHandler({ yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/developer/confirm')
+          expect(redirectArgs[0]).toEqual('/application-submitted')
           done()
         } catch (err) {
           done(err)

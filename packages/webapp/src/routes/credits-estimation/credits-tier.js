@@ -2,7 +2,7 @@ import constants from '../../credits/constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
-const errorMessage = { text: 'Enter the credit unit from the metric. The credit unit must be entered up to 2 decimal places, like 23.75.' }
+const errorMessage = { text: 'Enter the number of credits from the Metric up to 2 decimal places, like 23.75.' }
 const inputSchema = Joi.string().regex(/^[0-9]*(\.\d{1,2})?$/).allow('')
 
 export default [
