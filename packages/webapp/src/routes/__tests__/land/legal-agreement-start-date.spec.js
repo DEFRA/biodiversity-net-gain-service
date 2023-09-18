@@ -1,7 +1,7 @@
 import Session from '../../../__mocks__/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../utils/constants'
-import legalAgreementStartDate from '../../land/legal-agreement-start-date'
+import constants from '../../../utils/constants.js'
+import legalAgreementStartDate from '../../land/legal-agreement-start-date.js'
 
 const url = constants.routes.LEGAL_AGREEMENT_START_DATE
 
@@ -20,7 +20,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
         let viewResult, contextResult
-        const legalAgreementDetails = require('../../land/legal-agreement-start-date')
+        const legalAgreementDetails = require('../../land/legal-agreement-start-date.js')
         const request = {
           yar: redisMap
         }

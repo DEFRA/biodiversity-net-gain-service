@@ -1,0 +1,94 @@
+{% extends 'form-layout.html' %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Does the legal agreement have an end date?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    
+    {# Create the conditional HTML content as a Nunjucks variable #}
+    {% set conditionalContent %}
+        <div class="govuk-grid-row" id="date-input-section">
+            <div class="govuk-grid-column-two-thirds">
+                {{ govukDateInput({
+                    id: 'legalAgreementEndDate', 
+                    namePrefix: 'legalAgreementEndDate',
+                    errorMessage: err[0],
+                    fieldset: {
+                      legend: {
+                        text: "Enter end date",
+                        isPageHeading: false
+                      }
+                    },
+                    hint: {
+                      text: "For example, 15 3 2022"
+                    },
+                    items: [
+                      {
+                        classes: dateClasses(err[0].dayError, err[0].dateError, "govuk-input--width-2"),
+                        name: "day",
+                        value: day
+                      },
+                      {
+                        classes: dateClasses(err[0].monthError, err[0].dateError, "govuk-input--width-2"),
+                        name: "month",
+                        value: month
+                      },
+                      {
+                        classes: dateClasses(err[0].yearError, err[0].dateError, "govuk-input--width-4"),
+                        name: "year",
+                        value: year
+                      }
+                    ]
+                  }) }}
+            </div>
+        </div>
+    {% endset %}
+    
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          {{ govukRadios({
+              idPrefix: "legalAgreementEndDateOption",
+              name: "legalAgreementEndDateOption",
+              id: "legalAgreementEndDateOption",
+              fieldset: {
+                  legend: {
+                      text: pageHeading,
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--l"
+                
+                  }
+              },
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "legal-agreement-enddate-yes",
+                      checked: legalAgreementEndDateOption === "yes",
+                      conditional: {
+                          html: conditionalContent
+                      }
+                  },
+                  {
+                      value: "no",
+                      text: "No",
+                      id: "legal-agreement-enddate-no",
+                      checked: legalAgreementEndDateOption === "no"
+                  }
+              ]
+          }) }}
+          
+          {{ govukButton({
+              text: "Save and continue",
+              attributes: {
+                  id: "continue",
+                  "data-testid": "continue"
+              }
+          }) }}
+      </div>
+    </div>
+</div>
+{% endblock %}

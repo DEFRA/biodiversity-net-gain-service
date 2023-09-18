@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Add a responsible body listed on the conservation covenant?" %}
+{% set pageHeading = "Add a landowner or leaseholder listed on the conservation covenant" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -14,19 +14,20 @@
         </h1>
 
         {{ govukInput({
-          id: "responsibleBodyName",
-          name: "responsibleBodyName",
-          errorMessage: err[0],
+          id: "organisationName",
+          name: "organisationName",
+          errorMessage: organisationNameError,
           label: {
-            text: "Responsible body"
+            text: "Organisation name"
           },
-          autocomplete: "responsibleBodyName",
+          autocomplete: "organisationName",
           spellcheck: false,
-          value: responsibleBody.responsibleBodyName
+          value: organisation.organisationName
         }) }}
+    
 
         {{ govukButton({
-          text: "Save and Continue",
+          text: "Save and continue",
           attributes: {
             id: "continue",
             "data-testid": "continue"

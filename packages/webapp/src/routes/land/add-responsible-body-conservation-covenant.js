@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType, validateResponsibleBody } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput } from '../../utils/helpers.js'
 
 const ID = '#responsibleBody'
 
@@ -13,20 +13,19 @@ const handlers = {
     })
     const { id } = request.query
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
-    let responsibleBody = ''
-    if (id) { responsibleBody = legalAgreementResponsibleBodies[id] }
-    const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
+    let responsibleBody = {
+      responsibleBodyName: ''
+    }
+    if (id) { responsibleBody = legalAgreementResponsibleBodies[id] }
     return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, {
-      responsibleBody,
-      legalAgreementType
+      responsibleBody
     })
   },
   post: async (request, h) => {
-    const responsibleBody = request.payload.responsibleBody
+    const responsibleBody = request.payload
     const { id } = request.query
-    const error = validateResponsibleBody(responsibleBody, ID)
+    const error = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, null, 'responsible body')
     if (error) {
       return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, {
         responsibleBody,

@@ -18,7 +18,7 @@ const parsePayload = (payload, ID) => {
   }
 }
 
-const validateDate = (payload, ID, desc) => {
+const validateDate = (payload, ID, desc, fieldType = 'Start date') => {
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
@@ -30,25 +30,25 @@ const validateDate = (payload, ID, desc) => {
     }]
   } else if (!day) {
     context.err = [{
-      text: 'Start date must include a day',
+      text: `${fieldType} must include a day`,
       href: `#${ID}-day`,
       dayError: true
     }]
   } else if (!month) {
     context.err = [{
-      text: 'Start date must include a month',
+      text: `${fieldType} must include a month`,
       href: `#${ID}-month`,
       monthError: true
     }]
   } else if (!year) {
     context.err = [{
-      text: 'Start date must include a year',
+      text: `${fieldType}  must include a year`,
       href: `#${ID}-year`,
       yearError: true
     }]
   } else if (!date.isValid()) {
     context.err = [{
-      text: 'Start date must be a real date',
+      text: `${fieldType}  must be a real date`,
       href: `#${ID}-day`,
       dateError: true
     }]
@@ -63,10 +63,10 @@ const validateDate = (payload, ID, desc) => {
   }
 }
 
-const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
+const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
   if (isDate1LessThanDate2(dateAsISOString, minDateISOString)) {
     return [{
-      text: `Start date must be after ${formatDateBefore(minDateISOString)}`,
+      text: `${fieldType} must be after ${formatDateBefore(minDateISOString)}`,
       href: `#${ID}-day`,
       dateError: true
     }]
@@ -327,19 +327,30 @@ const validateName = (fullName, hrefId) => {
   }
   return error.err ? error : null
 }
-const validateResponsibleBody = (responsibleBody, hrefId) => {
+
+const validateTextInput = (text, hrefId, fieldType = 'input', minLength = null, maxLength = null, target = null) => {
   const error = {}
-  if (!responsibleBody) {
+  const fieldTypeLower = fieldType.toLowerCase()
+
+  if (!text) {
     error.err = [{
-      text: 'Enter the name of the responsible body',
+      text: `Enter the ${fieldTypeLower} of the ${target}`,
       href: hrefId
     }]
-  } else if (responsibleBody.length < 2) {
-    error.err = [{
-      text: 'Responsible body must be 2 characters or more',
-      href: hrefId
-    }]
+  } else {
+    if (minLength !== null && text.length < minLength) {
+      error.err = [{
+        text: `${fieldType} must be ${minLength} characters or more`,
+        href: hrefId
+      }]
+    } else if (maxLength !== null && text.length > maxLength) {
+      error.err = [{
+        text: `${fieldType} must be ${maxLength} characters or fewer`,
+        href: hrefId
+      }]
+    }
   }
+
   return error.err ? error : null
 }
 
@@ -514,7 +525,7 @@ export {
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,
-  validateResponsibleBody,
+  validateTextInput,
   formatDateBefore,
   getMinDateCheckError,
   validateName,

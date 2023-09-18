@@ -22,7 +22,12 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, ['test1', 'test2'])
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+      responsibleBodyName: 'test1'
+    },
+    {
+      responsibleBodyName: 'test2'
+    }])
 
     addConcovResponsibleParties = require('../../land/add-responsible-body-conservation-covenant.js')
   })
@@ -40,7 +45,7 @@ describe(url, () => {
       }
       await addConcovResponsibleParties.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
-      expect(resultContext.responsibleBody).toEqual('test1')
+      expect(resultContext.responsibleBody.responsibleBodyName).toEqual('test1')
     })
 
     it(`should render the ${url.substring(1)} view without responsibleBody`, async () => {
@@ -54,11 +59,11 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('should add responsibleBody to legal agreement and redirect to CONCOV_RESPONSIBLE_LIST page', async () => {
+    it('should add responsibleBody to legal agreement and redirect to CHECK_RESPONSIBLE_BODIES page', async () => {
       const request = {
         yar: redisMap,
         payload: {
-          responsibleBody: 'test1'
+          responsibleBodyName: 'test1'
         },
         query: {}
       }
@@ -72,7 +77,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          responsibleBody: 'test1'
+          responsibleBodyName: 'test1'
         },
         query: { id: '0' }
       }

@@ -21,14 +21,18 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, ['test1', 'test2'])
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+      responsibleBodyName: 'test1'
+    },
+    {
+      responsibleBodyName: 'test2'
+    }])
     responsibleBodiesList = require('../../land/check-responsible-bodies.js')
   })
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      const response = await submitGetRequest({ url })
-      console.log(response)
+      await submitGetRequest({ url })
     })
 
     it('should show all responsible bodies that are added', async () => {
@@ -44,7 +48,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT if yes is chosen', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if yes is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherResponsibleBody: 'yes' }
@@ -52,10 +56,10 @@ describe(url, () => {
 
       await responsibleBodiesList.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     })
 
-    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if no is chosen', async () => {
+    it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT if no is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherResponsibleBody: 'no' }

@@ -13,11 +13,11 @@ const handlers = {
     const { id } = request.query
 
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
-    let legalPartyBodyToRemove
-    if (id) { legalPartyBodyToRemove = legalAgreementResponsibleBodies[id] }
+    let legalPartyBodyToRemoveText
+    if (id) { legalPartyBodyToRemoveText = legalAgreementResponsibleBodies[id].responsibleBodyName }
 
     return h.view(constants.views.REMOVE_RESPONSIBLE_BODY, {
-      legalPartyBodyToRemove
+      legalPartyBodyToRemoveText
     })
   },
   post: async (request, h) => {
@@ -26,10 +26,10 @@ const handlers = {
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
 
     if (!legalPartyBodyToRemove) {
-      const idToRemove = legalAgreementResponsibleBodies[id]
+      const legalPartyBodyToRemoveText = legalAgreementResponsibleBodies[id].responsibleBodyName
 
       return h.view(constants.views.REMOVE_RESPONSIBLE_BODY, {
-        idToRemove,
+        legalPartyBodyToRemoveText,
         err: [{
           text: 'Select yes if you want to remove responsible body',
           href: '#legalPartyBodyToRemove'
@@ -41,6 +41,7 @@ const handlers = {
       legalAgreementResponsibleBodies.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
     }
+    if (legalAgreementResponsibleBodies.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) }
     return h.redirect(constants.routes.CHECK_RESPONSIBLE_BODIES)
   }
 }

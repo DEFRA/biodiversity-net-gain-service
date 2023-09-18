@@ -40,7 +40,7 @@ describe(url, () => {
       await responsibleBodyRemove.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.REMOVE_RESPONSIBLE_BODY)
-      expect(resultContext.legalPartyBodyToRemove).toEqual(
+      expect(resultContext.legalPartyBodyToRemoveText).toEqual(
         'test1'
       )
     })
@@ -85,6 +85,22 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.REMOVE_RESPONSIBLE_BODY)
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove responsible body', href: '#legalPartyBodyToRemove' })
+    })
+    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if no is chosen', async () => {
+      let request = {
+        yar: redisMap,
+        payload: { legalPartyBodyToRemove: 'yes' },
+        query: { id: '0' }
+      }
+      await responsibleBodyRemove.default[1].handler(request, h)
+      request = {
+        yar: redisMap,
+        payload: { legalPartyBodyToRemove: 'yes' },
+        query: { id: '0' }
+      }
+      await responsibleBodyRemove.default[1].handler(request, h)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(0)
     })
   })
 })

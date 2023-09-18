@@ -4,7 +4,7 @@ import { processRegistrationTask, getLegalAgreementDocumentType } from '../../ut
 const getCustomizedHTML = (item, index) => {
   return {
     key: {
-      text: item,
+      text: item.responsibleBodyName,
       classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
     },
     actions: {
@@ -30,13 +30,13 @@ const handlers = {
     })
 
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
-    console.log(legalAgreementResponsibleBodies)
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, REMOVE_RESPONSIBLE_BODY } = constants.routes
 
     return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
+      backLink: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
       legalAgreementResponsibleBodiesWithAction,
       legalAgreementResponsibleBodies,
       legalAgreementType,
@@ -47,12 +47,15 @@ const handlers = {
     const { addAnotherResponsibleBody } = request.payload
 
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     if (!addAnotherResponsibleBody) {
       return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
+        backLink: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
         legalAgreementResponsibleBodies,
+        legalAgreementResponsibleBodiesWithAction,
         legalAgreementType,
         routes: constants.routes,
         err: [{
@@ -63,7 +66,7 @@ const handlers = {
     }
 
     if (addAnotherResponsibleBody === 'yes') {
-      return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
 
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)

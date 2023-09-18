@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Are you sure you want to remove " + legalPartyBodyToRemoveText+ " as a responsible body?" %}
+{% set pageHeading = "Are you sure you want to remove " + landownerToRemoveText+ " as a landowner or leaseholder?" %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -11,8 +11,8 @@
         <div class="govuk-grid-column-two-thirds">
 
             {{ govukRadios({
-                idPrefix: "legalPartyBodyToRemove",
-                name: "legalPartyBodyToRemove",
+                idPrefix: "landownerToRemove",
+                name: "landownerToRemove",
                 errorMessage: err[0],
                 fieldset: {
                     legend: {
@@ -25,14 +25,14 @@
                     {
                         value: "yes",
                         text: "Yes",
-                        id: "remove-legal-party-body-yes",
-                        checked: legalPartyBodyToRemove === "yes"
+                        id: "remove-landowner-yes",
+                        checked: landownerToRemove === "yes"
                     },
                     {
                         value: "no",
                         text: "No",
-                        id: "remove-legal-party-body-no",
-                        checked: legalPartyBodyToRemove === "no"
+                        id: "remove-landowner-no",
+                        checked: landownerToRemove === "no"
                     }
                 ]
             }) }}

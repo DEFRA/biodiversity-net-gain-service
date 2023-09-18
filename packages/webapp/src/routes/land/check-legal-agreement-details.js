@@ -18,6 +18,7 @@ const handlers = {
       inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
     })
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
+      backLink: constants.routes.LEGAL_AGREEMENT_END_DATE,
       dateToString,
       listArray,
       ...getContext(request)

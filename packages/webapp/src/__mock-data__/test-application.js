@@ -340,9 +340,24 @@ const dataString = `
     }
   ],
   "legal-agreement-reponsible-bodies":[
-    "test1","test2"
+    {
+      "responsibleBodyName": "test1"
+    },
+    {
+      "responsibleBodyName": "test2"
+    }
   ],
+  "legal-agreement-landowner-conservation-convents": [{
+    "organisationName": "org1",
+    "type": "organisation"
+  }, {
+    "firstName": "Crishn",
+    "middleNames": "",
+    "lastName": "P",
+    "type": "individual"
+  }],
   "legal-agreement-start-date": "2022-01-01T00:00:00.000Z",
+  "legal-agreement-end-date": "2023-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",

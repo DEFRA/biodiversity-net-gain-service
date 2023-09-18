@@ -8,11 +8,15 @@ const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_PARTY_REMOVE = 'land/legal-party-remove'
 const REMOVE_RESPONSIBLE_BODY = 'land/remove-responsible-body'
-
+const REMOVE_LANDOWNER = 'land/remove-landowner'
 const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
+const CHECK_LANDOWNERS = 'land/check-landowners'
+const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
+const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
+const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
@@ -38,6 +42,8 @@ const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const NAME = 'land/name'
+const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = 'land/add-landowner-individual-conservation-covenant'
+const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-organisation-conservation-covenant'
 const ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT = 'land/add-responsible-body-conservation-covenant'
 const ROLE = 'land/role'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
@@ -116,9 +122,11 @@ const LAND_OWNERSHIP_FILE_TYPE = 'land-ownership-file-type'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
+const LEGAL_AGREEMENT_END_DATE_KEY = 'legal-agreement-end-date'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
+const LEGAL_AGREEMENT_END_DATE_OPTION = 'legal-agreement-end-date-option'
 const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
 const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
@@ -134,6 +142,7 @@ const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
+const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS = 'legal-agreement-landowner-conservation-convents'
 const ROLE_KEY = 'role'
 const ROLE_OTHER = 'role-other'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
@@ -164,6 +173,7 @@ export default {
     REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
     LEGAL_PARTY_REMOVE,
     REMOVE_RESPONSIBLE_BODY,
+    REMOVE_LANDOWNER,
     GEOSPATIAL_UPLOAD_LOCATION,
     GEOSPATIAL_MAP_CONFIG,
     GEOSPATIAL_UPLOAD_TYPE,
@@ -210,6 +220,7 @@ export default {
     METRIC_FILE_SIZE,
     METRIC_DATA,
     FULL_NAME,
+    LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS,
     ROLE_KEY,
     NAME_KEY,
     ROLE_OTHER,
@@ -218,12 +229,14 @@ export default {
     LANDOWNERS,
     LANDOWNER_CONSENT_KEY,
     LEGAL_AGREEMENT_START_DATE_KEY,
+    LEGAL_AGREEMENT_END_DATE_KEY,
     METRIC_FILE_CHECKED,
     MANAGEMENT_MONITORING_START_DATE_KEY,
     LEGAL_AGREEMENT_ORGANISATION_NAMES,
     LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
     LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
     LEGAL_AGREEMENT_START_DAY,
+    LEGAL_AGREEMENT_END_DATE_OPTION,
     LEGAL_AGREEMENT_START_MONTH,
     LEGAL_AGREEMENT_START_YEAR,
     REGISTRATION_TASK_DETAILS,
@@ -249,10 +262,15 @@ export default {
     ADD_LEGAL_AGREEMENT_PARTIES,
     LEGAL_PARTY_LIST,
     CHECK_RESPONSIBLE_BODIES,
+    CHECK_LANDOWNERS,
+    LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
     LEGAL_PARTY_REMOVE,
     REMOVE_RESPONSIBLE_BODY,
+    REMOVE_LANDOWNER,
     LEGAL_AGREEMENT_START_DATE,
+    LEGAL_AGREEMENT_END_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
+    NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,
     CHECK_MANAGEMENT_PLAN,
     REGISTRATION_SUBMITTED,
@@ -286,6 +304,8 @@ export default {
     HOME,
     NAME,
     ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
+    ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
+    ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     ROLE,
     CHECK_YOUR_DETAILS,
     REGISTER_LAND_TASK_LIST,

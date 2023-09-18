@@ -30,9 +30,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const ID = 'legalAgreementStartDate'
-    const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'start date of the legal agreement')
+    const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'start date of the legal agreement', 'Start date')
     if (!context.err) {
-      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.LEGAL_AGREEMENT_MIN_START_DATE)
+      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.LEGAL_AGREEMENT_MIN_START_DATE, 'Start date')
     }
 
     if (context.err) {
