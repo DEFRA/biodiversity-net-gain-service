@@ -330,7 +330,7 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
-const validateTextInput = (text, hrefId, fieldType = 'input', minLength = null, maxLength = null, target = null) => {
+const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
   const error = {}
   const fieldTypeLower = fieldType.toLowerCase()
 
@@ -339,18 +339,11 @@ const validateTextInput = (text, hrefId, fieldType = 'input', minLength = null, 
       text: `Enter the ${fieldTypeLower} of the ${target}`,
       href: hrefId
     }]
-  } else {
-    if (minLength !== null && text.length < minLength) {
-      error.err = [{
-        text: `${fieldType} must be ${minLength} characters or more`,
-        href: hrefId
-      }]
-    } else if (maxLength !== null && text.length > maxLength) {
-      error.err = [{
-        text: `${fieldType} must be ${maxLength} characters or fewer`,
-        href: hrefId
-      }]
-    }
+  } else if (maxLength !== null && text.length > maxLength) {
+    error.err = [{
+      text: `${fieldType} must be ${maxLength} characters or fewer`,
+      href: hrefId
+    }]
   }
 
   return error.err ? error : null

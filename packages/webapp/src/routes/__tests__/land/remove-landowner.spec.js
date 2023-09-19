@@ -39,7 +39,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should show correct landowner to be remove', async () => {
+    it('should show correct landowner to be remove organization', async () => {
       const request = {
         yar: redisMap,
         query: { id: '0' }
@@ -47,15 +47,27 @@ describe(url, () => {
 
       await landownerRemove.default[0].handler(request, h)
 
-      console.log(resultContext)
       expect(resultContext.landownerToRemoveText).toEqual(
         'org1'
+      )
+    })
+    it('should show correct landowner to be remove individual', async () => {
+      const request = {
+        yar: redisMap,
+        query: { id: '1' }
+      }
+
+      await landownerRemove.default[0].handler(request, h)
+
+      console.log(resultContext)
+      expect(resultContext.landownerToRemoveText).toEqual(
+        'Crishn P'
       )
     })
   })
 
   describe('POST', () => {
-    it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner', async () => {
+    it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner individual', async () => {
       const request = {
         yar: redisMap,
         payload: { landownerToRemove: 'yes' },
@@ -67,7 +79,18 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
       expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(1)
     })
+    it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner organization', async () => {
+      const request = {
+        yar: redisMap,
+        payload: { landownerToRemove: 'yes' },
+        query: { id: '0' }
+      }
 
+      await landownerRemove.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(1)
+    })
     it('Should continue journey to CHECK_LANDOWNERS if no is chosen', async () => {
       const request = {
         yar: redisMap,

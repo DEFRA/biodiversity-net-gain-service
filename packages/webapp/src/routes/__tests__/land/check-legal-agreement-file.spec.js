@@ -2,6 +2,7 @@ import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_LEGAL_AGREEMENT
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
@@ -23,6 +24,7 @@ describe(url, () => {
         payload: {}
       }
     })
+
     it('should allow confirmation that the correct legal agreement file has been uploaded', async () => {
       postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.YES
       await submitPostRequest(postOptions)
@@ -36,6 +38,26 @@ describe(url, () => {
       expect(spy).toHaveBeenCalledTimes(1)
     })
 
+    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if yes is chosen and legalAgreementType=conservation covenant', async () => {
+      let viewResult
+      const redisMap = new Map()
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
+      const request = {
+        yar: redisMap,
+        payload: {
+          checkLegalAgreement: 'yes'
+        }
+      }
+      const legalAgreementFile = require('../../land/check-legal-agreement-file.js')
+      await legalAgreementFile.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+    })
     it('should detect an invalid response from user', async () => {
       await submitPostRequest(postOptions, 200)
     })

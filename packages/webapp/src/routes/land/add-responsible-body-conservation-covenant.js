@@ -25,7 +25,7 @@ const handlers = {
   post: async (request, h) => {
     const responsibleBody = request.payload
     const { id } = request.query
-    const error = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, null, 'responsible body')
+    const error = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, 'responsible body')
     if (error) {
       return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, {
         responsibleBody,

@@ -8,6 +8,7 @@ import {
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'conservation covenant'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -29,7 +30,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      if (legalAgreementType === 'conservation covenant') { return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) } else {
+      if (legalAgreementType === LEGAL_AGREEMENT_TYPE_CONSERVATION) { return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) } else {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
       }
     } else {

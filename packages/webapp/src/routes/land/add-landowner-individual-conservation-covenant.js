@@ -6,11 +6,11 @@ const firstNameID = '#firstName'
 const lastNameID = '#lastName'
 const validateIndividual = individual => {
   const errors = {}
-  const firstNameError = validateTextInput(individual.firstName, firstNameID, 'First name', null, 50, 'landowner or leaseholder')
+  const firstNameError = validateTextInput(individual.firstName, firstNameID, 'First name', 50, 'landowner or leaseholder')
   if (firstNameError) {
     errors.firstNameError = firstNameError.err[0]
   }
-  const lastNameError = validateTextInput(individual.lastName, lastNameID, 'Last name', null, 50, 'landowner or leaseholder')
+  const lastNameError = validateTextInput(individual.lastName, lastNameID, 'Last name', 50, 'landowner or leaseholder')
   if (lastNameError) {
     errors.lastNameError = lastNameError.err[0]
   }
