@@ -42,13 +42,13 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date') => {
     }]
   } else if (!year) {
     context.err = [{
-      text: `${fieldType}  must include a year`,
+      text: `${fieldType} must include a year`,
       href: `#${ID}-year`,
       yearError: true
     }]
   } else if (!date.isValid()) {
     context.err = [{
-      text: `${fieldType}  must be a real date`,
+      text: `${fieldType} must be a real date`,
       href: `#${ID}-day`,
       dateError: true
     }]
