@@ -52,7 +52,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to CHECK_RESPONSIBLE_BODIES if yes is chosen and remove 1 responsible body', async () => {
+    it('Should continue journey to CHECK_RESPONSIBLE_BODIES if yes is chosen and remove  responsible body', async () => {
       const request = {
         yar: redisMap,
         payload: { legalPartyBodyToRemove: 'yes' },
