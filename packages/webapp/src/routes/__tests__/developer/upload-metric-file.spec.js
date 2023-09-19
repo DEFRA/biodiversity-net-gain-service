@@ -35,13 +35,11 @@ describe('Metric file upload controller tests', () => {
       }
     ]
     const baseConfig = {
-      uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
+      uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       eventData: mockMetric,
-      sessionData: {
-        role: 'developer'
-      }
+      sessionData: {}
     }
 
     beforeEach(async () => {

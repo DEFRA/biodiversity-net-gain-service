@@ -5,8 +5,7 @@ const buildConfig = inputConfig => {
   const config = {
     uploadType: inputConfig.uploadType,
     fileExt: inputConfig.fileExt,
-    maxFileSize: inputConfig.maxFileSize,
-    role: inputConfig.role
+    maxFileSize: inputConfig.maxFileSize
   }
   buildBlobConfig(inputConfig.sessionId, config)
   buildQueueConfig(config)

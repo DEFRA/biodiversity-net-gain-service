@@ -217,7 +217,7 @@ const getAllLandowners = session => {
 const getLegalAgreementDocumentType = documentType => constants.LEGAL_AGREEMENT_DOCUMENTS.find(item => item.id === documentType)?.text
 
 const getLegalAgreementParties = legalAgreementParties => {
-  return legalAgreementParties && legalAgreementParties.map(item => {
+  return legalAgreementParties?.map(item => {
     return {
       name: item.organisationName,
       role: item.organisationRole
@@ -298,7 +298,7 @@ const combineHabitats = habitatTypeAndCondition => {
   const combinedHabitats = {}
   const combinedHabitatTypeAndCondition = []
   habitatTypeAndCondition.forEach(item => {
-    if (!Object.prototype.hasOwnProperty.call(combinedHabitats, item.type)) {
+    if (!Object.hasOwn(combinedHabitats, item.type)) {
       combinedHabitats[item.type] = item
     } else {
       // concatenate the habitat items arrays
@@ -434,7 +434,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = async (metricValidation, href) => {
+const getMetricFileValidationErrors = (metricValidation, href) => {
   const error = {
     err: [
       {
@@ -447,7 +447,7 @@ const getMetricFileValidationErrors = async (metricValidation, href) => {
     error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
-  } else if (!await metricValidation.areOffsiteTotalsCorrect) {
+  } else if (!metricValidation.areOffsiteTotalsCorrect) {
     error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
   }
   return error.err[0].text ? error : null

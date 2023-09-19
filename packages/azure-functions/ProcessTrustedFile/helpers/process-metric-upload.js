@@ -1,6 +1,7 @@
 import buildSignalRMessage from '../../Shared/build-signalr-message.js'
 import bngMetricService from '@defra/bng-metric-service'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
+import processMetric from '../../Shared/process-metric.js'
 
 export default async function (context, config) {
   let signalRMessageArguments, metricData
@@ -12,11 +13,10 @@ export default async function (context, config) {
     const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
     if (response) {
       const documentStream = response.readableStreamBody
-      const { startExtractionConfig, getExtractionConfiguration } = bngMetricService.extractionConfiguration
       const metricExtractionConfig = {
         extractionConfiguration: {
-          start: startExtractionConfig,
-          ...await getExtractionConfiguration({ role: config.role })
+          start: bngMetricService.extractionConfiguration.startExtractionConfig,
+          ...bngMetricService.extractionConfiguration['v4.0']
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }
@@ -36,17 +36,3 @@ export default async function (context, config) {
     context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
   }
 }
-
-const processMetric = metricData => ({
-  startPage: metricData.start,
-  d1: metricData.d1OffSiteHabitatBaseline,
-  d2: metricData.d2OffSiteHabitatCreation,
-  d3: metricData.d3OffSiteHabitatEnhancement,
-  e1: metricData.e1OffSiteHedgeBaseline,
-  e2: metricData.e2OffSiteHedgeCreation,
-  e3: metricData.e3OffSiteHedgeEnhancement,
-  f1: metricData.f1OffSiteWaterCBaseline,
-  f2: metricData.f2OffSiteWaterCCreation,
-  f3: metricData.f3OffSiteWaterCEnhancement,
-  validation: metricData.validation
-})

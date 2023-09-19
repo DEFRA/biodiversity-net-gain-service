@@ -1,31 +1,25 @@
-export const headers = {
-  common: [
-    'Proposed Broad Habitat',
-    'Proposed habitat',
-    'Area (hectares)',
-    'Condition',
-    'Habitat enhanced in advance (years)',
-    'Delay in starting habitat enhancement (years)'
-  ],
-  developer: [
-    'Baseline habitat',
-    'Total habitat area',
-    'Distinctiveness change',
-    'Condition change',
-    'Off-site reference',
-    'Habitat units delivered'
-  ],
-  landowner: [
-    'Strategic significance',
-    'Baseline ref'
-  ]
-}
+const headers = [
+  'Baseline habitat',
+  'Proposed Broad Habitat',
+  'Proposed habitat',
+  'Area (hectares)',
+  'Condition',
+  'Habitat enhanced in advance (years)',
+  'Delay in starting habitat enhancement (years)',
+  'Habitat units delivered',
+  'Total habitat area',
+  'Distinctiveness change',
+  'Condition change',
+  'Off-site reference',
+  'Strategic significance'
+]
 
-export default {
+const d3OffSiteHabitatEnhancement = {
   sheetName: 'D-3 Off-Site Habitat Enhancment',
   titleCellAddress: 'E3',
   startCell: 'E11',
   endCell: 'AU259',
+  cellHeaders: headers,
   columnsToBeRemoved: [],
   substitutions: {
     __EMPTY: 'Area (hectares)',
@@ -36,3 +30,5 @@ export default {
     ' Distinctiveness change': 'Distinctiveness change'
   }
 }
+
+export default d3OffSiteHabitatEnhancement

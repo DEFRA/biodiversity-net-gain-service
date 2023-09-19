@@ -1,19 +1,12 @@
-export const headers = {
-  common: [
-    'Hedgerow type',
-    'Length (km)',
-    'Condition',
-    'Total hedgerow units',
-    'Strategic significance'
-  ],
-  developer: [
-    'Hedge number',
-    'Off-site reference'
-  ],
-  landowner: [
-    'Baseline ref'
-  ]
-}
+const headers = [
+  'Hedgerow type',
+  'Length (km)',
+  'Condition',
+  'Total hedgerow units',
+  'Off-site reference',
+  'Hedge number',
+  'Strategic significance'
+]
 
 const e1OffSiteHedgeBaseline = {
   sheetName: 'E-1 Off-Site Hedge Baseline',
