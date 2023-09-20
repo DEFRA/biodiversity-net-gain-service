@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
   checkApplicantDetails,
-  dateClasses,
   processRegistrationTask
 } from '../../utils/helpers.js'
 
@@ -14,9 +13,7 @@ const handlers = {
       inProgressUrl: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT
     })
 
-    return h.view(constants.views.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT, {
-      dateClasses
-    })
+    return h.view(constants.views.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
   },
   post: async (request, h) => {
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)

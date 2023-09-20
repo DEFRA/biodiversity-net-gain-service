@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
   checkApplicantDetails,
-  dateClasses,
   processRegistrationTask
 } from '../../utils/helpers.js'
 
@@ -14,9 +13,7 @@ const handlers = {
       inProgressUrl: constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES
     })
 
-    return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES, {
-      dateClasses
-    })
+    return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES)
   },
   post: async (request, h) => {
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
