@@ -24,12 +24,14 @@ const TEST_SEED_DATA = 'test/seed-data'
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
 const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
 
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
   YES
 }
+
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
@@ -79,7 +81,7 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150001',
     type: 'conservationCovenant',
-    text: 'Conservation covenant',
+    text: LEGAL_AGREEMENT_TYPE_CONSERVATION,
     htmlId: 'conservation-covenant'
   },
   {
@@ -203,6 +205,7 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,
