@@ -8,11 +8,13 @@ export default async function (context, _timer) {
     context.bindings.expiringApplicationSessionNotificationQueue = []
     context.log('Getting application sessions that require warning of expiry')
     const result = await getExpiringApplicationSessions(db)
-    for (const row of result?.rows) {
-      context.bindings.expiringApplicationSessionNotificationQueue.push({
-        id: row.application_session_id,
-        notificationType: 'email'
-      })
+    if (result) {
+      for (const row of result.rows) {
+        context.bindings.expiringApplicationSessionNotificationQueue.push({
+          id: row.application_session_id,
+          notificationType: 'email'
+        })
+      }
     }
   } finally {
     await db?.end()
