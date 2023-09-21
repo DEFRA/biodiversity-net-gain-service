@@ -12,19 +12,22 @@ import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT } from './utils/config.js'
 
 const createServer = async options => {
   // Create the hapi server
-  options = Object.assign({
-    port: SERVER_PORT,
-    routes: {
-      validate: {
-        options: {
-          abortEarly: false
-        }
+  options = {
+    ...{
+      port: SERVER_PORT,
+      routes: {
+        validate: {
+          options: {
+            abortEarly: false
+          }
+        },
+        cors: true,
+        security: true
       },
-      cors: true,
-      security: true
+      cache
     },
-    cache
-  }, options)
+    ...options
+  }
 
   return new Hapi.Server(options)
 }

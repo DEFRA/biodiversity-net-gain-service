@@ -170,7 +170,7 @@ const clearReferer = [
   ...developerConstants.clearDeveloperReferer
 ]
 
-const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
+const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
 
 for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`

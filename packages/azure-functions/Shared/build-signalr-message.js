@@ -1,5 +1,5 @@
 const buildSignalRMessage = (signalRMessageConfig, signalRMessageArguments) => {
-  const signalRMessage = Object.assign({}, signalRMessageConfig)
+  const signalRMessage = { ...signalRMessageConfig }
   signalRMessage.arguments = signalRMessageArguments
   return signalRMessage
 }
