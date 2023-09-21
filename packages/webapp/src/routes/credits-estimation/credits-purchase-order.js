@@ -42,17 +42,17 @@ export default [
         request.yar.set(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
 
         return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
-        purchaseOrderNumber,
-        willPOInUse,
-        checked
+          purchaseOrderNumber,
+          willPOInUse,
+          checked
         })
       } else {
         request.yar.clear(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
 
         return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
-        purchaseOrderNumber: null,
-        willPOInUse,
-        checked
+          purchaseOrderNumber: null,
+          willPOInUse,
+          checked
         })
       }
     }
