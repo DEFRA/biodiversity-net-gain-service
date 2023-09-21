@@ -3,6 +3,7 @@ const START = 'start'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
+const UPLOAD_HABITAT_PLAN = 'land/upload-habitat-plan'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
@@ -11,6 +12,7 @@ const REMOVE_RESPONSIBLE_BODY = 'land/remove-responsible-body'
 const REMOVE_LANDOWNER = 'land/remove-landowner'
 const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
+const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
@@ -21,8 +23,10 @@ const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
+const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
+const DOWNLOAD_HABITAT_PLAN_FILE = 'land/download-habitat-plan-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
@@ -85,6 +89,7 @@ const COOKIES = 'cookies'
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
+const HABITAT_PLAN_FILE_OPTION = 'habitat-plan-file-option'
 const METRIC_UPLOAD_KEY = 'metric-upload-key'
 const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
 const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
@@ -94,17 +99,21 @@ const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
+const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
 const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
 const GEOSPATIAL_HECTARES = 'geospatial-hectares'
 const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LOCAL_LAND_CHARGE_CHECKED = 'local-land-charge-checked'
+const HABITAT_PLAN_CHECKED = 'habitat-plan-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
+const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
+const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_RESPONSIBLE_BODIES = 'legal-agreement-reponsible-bodies'
@@ -159,6 +168,7 @@ const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
+const HABITAT_PLAN_UPLOAD_TYPE = 'habitat-plan'
 const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
@@ -180,6 +190,7 @@ export default {
     GEOSPATIAL_FILE_SIZE,
     REPROJECTED_GEOSPATIAL_FILE_SIZE,
     LOCAL_LAND_CHARGE_FILE_SIZE,
+    HABITAT_PLAN_FILE_SIZE,
     GEOSPATIAL_FILE_TYPE,
     GEOSPATIAL_HECTARES,
     GEOSPATIAL_GRID_REFERENCE,
@@ -193,16 +204,20 @@ export default {
     LAND_BOUNDARY_HECTARES,
     LEGAL_AGREEMENT_CHECKED,
     LOCAL_LAND_CHARGE_CHECKED,
+    HABITAT_PLAN_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
     LOCAL_LAND_CHARGE_LOCATION,
+    HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
     LEGAL_AGREEMENT_FILE_SIZE,
     LEGAL_AGREEMENT_FILE_TYPE,
     LOCAL_LAND_CHARGE_FILE_TYPE,
+    HABITAT_PLAN_FILE_TYPE,
     LEGAL_AGREEMENT_PARTIES_KEY,
     MANAGEMENT_PLAN_KEY,
     LEGAL_AGREEMENT_FILE_OPTION,
     LOCAL_LAND_CHARGE_FILE_OPTION,
+    HABITAT_PLAN_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     MANAGEMENT_PLAN_CHECKED,
@@ -261,6 +276,7 @@ export default {
     ADD_LEGAL_AGREEMENT_PARTIES,
     LEGAL_PARTY_LIST,
     CHECK_RESPONSIBLE_BODIES,
+    HABITAT_PLAN_LEGAL_AGREEMENT,
     CHECK_LANDOWNERS,
     LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
     LEGAL_PARTY_REMOVE,
@@ -278,8 +294,10 @@ export default {
     CHECK_UPLOAD_METRIC,
     CHECK_GEOSPATIAL_FILE,
     CHECK_LOCAL_LAND_CHARGE_FILE,
+    CHECK_HABITAT_PLAN_FILE,
     DOWNLOAD_LEGAL_AGREEMENT,
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
+    DOWNLOAD_HABITAT_PLAN_FILE,
     DOWNLOAD_MANAGEMENT_PLAN,
     DOWNLOAD_LAND_BOUNDARY,
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
@@ -295,6 +313,7 @@ export default {
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
+    UPLOAD_HABITAT_PLAN,
     CHECK_LEGAL_AGREEMENT_DETAILS,
     UPLOAD_LAND_BOUNDARY,
     CHECK_LAND_BOUNDARY_DETAILS,
@@ -342,6 +361,7 @@ export default {
     GEOSPATIAL_UPLOAD_TYPE,
     LEGAL_AGREEMENT_UPLOAD_TYPE,
     LOCAL_LAND_CHARGE_UPLOAD_TYPE,
+    HABITAT_PLAN_UPLOAD_TYPE,
     MANAGEMENT_PLAN_UPLOAD_TYPE,
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,

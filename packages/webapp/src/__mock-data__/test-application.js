@@ -361,6 +361,9 @@ const dataString = `
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
+  "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
+  "habitat-plan-file-size": 0.01,
+  "habitat-plan-file-type": "application/msword",
   "application-reference": ""
 }`
 

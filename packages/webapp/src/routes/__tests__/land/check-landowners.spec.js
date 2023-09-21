@@ -51,7 +51,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to LEGAL_AGREEMENT_END_DATE if yes is chosen', async () => {
+    it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if yes is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherLandowner: 'yes' }
@@ -59,7 +59,7 @@ describe(url, () => {
 
       await landownersList.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_END_DATE)
+      expect(viewResult).toEqual(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     })
 
     it('Should continue journey to LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION if no is chosen', async () => {

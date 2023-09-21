@@ -88,7 +88,7 @@ const handlers = {
     }
 
     if (addAnotherLandowner === 'yes') {
-      return h.redirect(constants.routes.LEGAL_AGREEMENT_END_DATE)
+      return h.redirect(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     }
 
     return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)

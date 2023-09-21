@@ -12,7 +12,7 @@ const applicationValidation = Joi.object({
     files: Joi.array().items(
       Joi.object({
         contentMediaType: Joi.string().required(),
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
         fileSize: Joi.number().required(),
         fileLocation: Joi.string().required(),
         fileName: Joi.string().required()
