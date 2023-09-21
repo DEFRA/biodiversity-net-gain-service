@@ -38,24 +38,22 @@ export default [
           checked,
           ...error
         })
+      } else if (willPOInUse === 'yes') {
+        request.yar.set(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
+
+        return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
+        purchaseOrderNumber,
+        willPOInUse,
+        checked
+        })
       } else {
-        if (willPOInUse === 'yes') {
-          request.yar.set(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
+        request.yar.clear(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
 
-          return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
-            purchaseOrderNumber,
-            willPOInUse,
-            checked
-          })
-        } else {
-          request.yar.clear(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
-
-          return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
-            purchaseOrderNumber: null,
-            willPOInUse,
-            checked
-          })
-        }
+        return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
+        purchaseOrderNumber: null,
+        willPOInUse,
+        checked
+        })
       }
     }
   }
