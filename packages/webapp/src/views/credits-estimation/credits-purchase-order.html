@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
+{% set pageHeading = "Will you be using a purchase order?" %}
+
+{% block content %}
+    <div class="govuk-body">
+        {% if err %}
+            {{ govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: err
+            }) }}
+        {% endif %}
+        <form method="POST" autocomplete="off" novalidate="novalidate">  
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    {{ govukRadios({
+                        idPrefix: prefix,
+                        name: "willPOInUse",
+                        id: id,
+                        fieldset: {
+                            legend: {
+                                text: pageHeading,
+                                classes: "govuk-fieldset__legend--xl"
+                            }
+                        },
+                        hint: {
+                            text: "Select one option.",
+                            classes: "govuk-hint app-text-colour wrap-text"
+                        },
+                        errorMessage: err[0],
+                        items: [
+                            {
+                                value: "yes",
+                                text: "Yes",
+                                id: "willPOInUseYes",
+                                checked: checked(willPOInUse, "yes"),
+                                conditional: {
+                                    html: govukInput({
+                                        label: {
+                                        text: "Enter a purchase order number"
+                                        },
+                                        id: "purchaseOrderNumber",
+                                        name: "purchaseOrderNumber",
+                                        value: purchaseOrderNumber,
+                                        classes: "govuk-input govuk-!-width-one-third",
+                                        errorMessage: err[1]
+                                    })
+                                }
+                            },
+                            {
+                                value: "no",
+                                text: "No",
+                                id: "willPOInUseNo",
+                                checked: checked(willPOInUse, "no")
+                            }
+                        ]
+                    }) }}
+
+                    {{ govukButton({
+                        text: 'Save and continue',
+                        attributes: {
+                            id: "saveAndContinue",
+                            "data-testid": "saveAndContinue"
+                        }
+                    }) }}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
