@@ -27,7 +27,7 @@ const handlers = {
     }
 
     if (isHabitatIncludeLegalAgreement === 'yes') {
-      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      return h.redirect(constants.routes.ENHANCEMENT_WORKS_START_DATE)
     }
 
     return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)

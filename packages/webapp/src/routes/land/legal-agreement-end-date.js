@@ -2,7 +2,6 @@ import constants from '../../utils/constants.js'
 import {
   checkApplicantDetails,
   dateClasses,
-  getMinDateCheckError,
   processRegistrationTask,
   validateAndParseISOString,
   validateDate
@@ -30,9 +29,7 @@ const handlers = {
     const ID = 'legalAgreementEndDate'
     const { legalAgreementEndDateOption } = request.payload
     const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'end date of the legal agreement', 'End date')
-    if (!context.err) {
-      context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.LEGAL_AGREEMENT_MIN_START_DATE, 'End date')
-    }
+
     if (!legalAgreementEndDateOption) {
       return h.view(constants.views.LEGAL_AGREEMENT_END_DATE, {
         day,

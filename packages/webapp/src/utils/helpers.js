@@ -18,7 +18,7 @@ const parsePayload = (payload, ID) => {
   }
 }
 
-const validateDate = (payload, ID, desc, fieldType = 'Start date') => {
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
@@ -52,6 +52,16 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date') => {
       href: `#${ID}-day`,
       dateError: true
     }]
+  } else if (checkFuture === true) {
+    const currentDateInBritish = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/London' }))
+    const currentMomentInBritish = moment(currentDateInBritish)
+    if (date.isAfter(currentMomentInBritish)) {
+      context.err = [{
+        text: `${fieldType} cannot be in the future`,
+        href: `#${ID}-day`,
+        dateError: true
+      }]
+    }
   }
   const dateAsISOString = !context.err && date.toISOString()
   return {

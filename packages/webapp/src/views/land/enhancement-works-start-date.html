@@ -1,7 +1,7 @@
 {% extends 'form-layout.html' %}
 
 {% set showSaveLink = true %}
-{% set pageHeading = "Does the legal agreement have an end date?" %}
+{% set pageHeading = "Have the habitat enhancement works started yet?" %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -14,17 +14,17 @@
         <div class="govuk-grid-row" id="date-input-section">
             <div class="govuk-grid-column-two-thirds">
                 {{ govukDateInput({
-                    id: 'legalAgreementEndDate', 
-                    namePrefix: 'legalAgreementEndDate',
+                    id: 'enhancementWorkStartDate', 
+                    namePrefix: 'enhancementWorkStartDate',
                     errorMessage: err[0],
                     fieldset: {
                       legend: {
-                        text: "Enter end date",
+                        text: "Enter start date",
                         isPageHeading: false
                       }
                     },
                     hint: {
-                      text: "For example, 15 3 2052"
+                      text: "For example, 15 3 2023"
                     },
                     items: [
                       {
@@ -51,9 +51,9 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           {{ govukRadios({
-              idPrefix: "legalAgreementEndDateOption",
-              name: "legalAgreementEndDateOption",
-              id: "legalAgreementEndDateOption",
+              idPrefix: "enhancementWorkStartDateOption",
+              name: "enhancementWorkStartDateOption",
+              id: "enhancementWorkStartDateOption",
               fieldset: {
                   legend: {
                       text: pageHeading,
@@ -66,8 +66,8 @@
                   {
                       value: "yes",
                       text: "Yes",
-                      id: "legal-agreement-enddate-yes",
-                      checked: legalAgreementEndDateOption === "yes",
+                      id: "enhancement-work-startdate-yes",
+                      checked: enhancementWorkStartDateOption === "yes",
                       conditional: {
                           html: conditionalContent
                       }
@@ -75,8 +75,8 @@
                   {
                       value: "no",
                       text: "No",
-                      id: "legal-agreement-enddate-no",
-                      checked: legalAgreementEndDateOption === "no"
+                      id: "enhancement-work-startdate-no",
+                      checked: enhancementWorkStartDateOption === "no"
                   }
               ]
           }) }}

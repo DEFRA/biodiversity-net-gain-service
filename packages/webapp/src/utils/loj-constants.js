@@ -17,6 +17,7 @@ const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
+const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
@@ -131,10 +132,12 @@ const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE_KEY = 'legal-agreement-end-date'
+const ENHANCEMENT_WORKS_START_DATE_KEY = 'enhancement-works-start-date'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
 const LEGAL_AGREEMENT_END_DATE_OPTION = 'legal-agreement-end-date-option'
+const ENHANCEMENT_WORKS_START_DATE_OPTION = 'enhancement-works-start-date-option'
 const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
 const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
@@ -244,6 +247,8 @@ export default {
     LANDOWNER_CONSENT_KEY,
     LEGAL_AGREEMENT_START_DATE_KEY,
     LEGAL_AGREEMENT_END_DATE_KEY,
+    ENHANCEMENT_WORKS_START_DATE_OPTION,
+    ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
     MANAGEMENT_MONITORING_START_DATE_KEY,
     LEGAL_AGREEMENT_ORGANISATION_NAMES,
@@ -284,6 +289,7 @@ export default {
     REMOVE_LANDOWNER,
     LEGAL_AGREEMENT_START_DATE,
     LEGAL_AGREEMENT_END_DATE,
+    ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,

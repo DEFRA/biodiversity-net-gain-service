@@ -24,9 +24,8 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
     } else if (checkHabitatPlan === 'yes') {
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
-
       const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
-                          constants.routes.LEGAL_AGREEMENT_START_DATE
+                          constants.routes.ENHANCEMENT_WORKS_START_DATE
       return h.redirect(redirectUrl)
     } else {
       context.err = [{
