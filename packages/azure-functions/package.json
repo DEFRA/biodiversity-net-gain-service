@@ -19,7 +19,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "^3.3.0",
-    "@azure/storage-blob": "^12.14.0",
+    "@azure/storage-blob": "^12.16.0",
     "@defra/bng-connectors-lib": "0.206.0",
     "@defra/bng-document-service": "0.206.0",
     "@defra/bng-errors-lib": "0.206.0",
