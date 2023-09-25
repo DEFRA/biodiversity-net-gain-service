@@ -102,8 +102,7 @@ const isApplicationSessionSaveNeeded = request => {
     // Exclude credits estimation and developing routing
     isRouteIncludedInApplicationSave(request) &&
     // Do not save application session data when an application has just been submitted.
-    request?.response?.headers?.location !== constants.routes.REGISTRATION_SUBMITTED &&
-    request?.response?.headers?.location !== constants.routes.DEVELOPER_APPLICATION_SUBMITTED &&
+    request?.response?.headers?.location !== constants.routes.APPLICATION_SUBMITTED &&
     request?.auth?.isAuthenticated
 }
 

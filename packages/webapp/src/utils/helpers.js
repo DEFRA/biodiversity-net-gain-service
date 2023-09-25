@@ -261,8 +261,6 @@ const getDeveloperEligibilityResults = session => {
   return developerEligibilityResults
 }
 
-const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
-
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
@@ -481,7 +479,6 @@ export {
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
-  formatAppRef,
   formatSortCode,
   habitatTypeAndConditionMapper,
   combineHabitats,

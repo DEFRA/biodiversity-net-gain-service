@@ -26,7 +26,7 @@ export default (session, account) => {
       confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
       confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
       metricData: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
-      referenceNumber: getDeveloperApplicationReference(session), // Need to get one after submitting application
+      gainSiteReference: getDeveloperApplicationReference(session), // Need to get one after submitting application
       submittedOn: new Date().toISOString(),
       files: [
         {
