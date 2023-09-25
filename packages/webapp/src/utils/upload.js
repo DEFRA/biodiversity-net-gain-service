@@ -55,7 +55,7 @@ const handlePart = (logger, part, config, uploadResult) => {
   if (!part.filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
-  } else if (config.fileValidationConfig && config.fileValidationConfig.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
+  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
   } else if (fileSize * 100 === 0) {

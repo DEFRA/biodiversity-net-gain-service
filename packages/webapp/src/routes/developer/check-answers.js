@@ -31,7 +31,7 @@ const handlers = {
 }
 
 const getAdditionalEmailAddressArray = additionalEmailAddresses =>
-  additionalEmailAddresses && additionalEmailAddresses.map(item => ({
+  additionalEmailAddresses?.map(item => ({
     key: {
       text: 'Email'
     },

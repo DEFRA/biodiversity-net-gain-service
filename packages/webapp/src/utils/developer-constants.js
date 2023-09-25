@@ -26,6 +26,7 @@ const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
+const DEVELOPER_NEED_METRIC = 'developer/need-metric'
 // ./Routes constants
 
 // RedisKeys constants
@@ -126,7 +127,8 @@ export default {
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
-    DEVELOPER_NEW_DEVELOPMENT_PROJECT
+    DEVELOPER_NEW_DEVELOPMENT_PROJECT,
+    DEVELOPER_NEED_METRIC
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
