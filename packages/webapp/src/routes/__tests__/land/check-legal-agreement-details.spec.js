@@ -70,7 +70,7 @@ describe('Land boundary upload controller tests', () => {
         }
       })
     })
-    it(`should render the ${url.substring(1)} view with some missing data`, done => {
+    it(`should render the ${url.substring(1)} view with some of the missing data`, done => {
       jest.isolateModules(async () => {
         try {
           let viewResult, contextResult
