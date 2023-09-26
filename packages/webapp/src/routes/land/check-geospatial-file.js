@@ -1,12 +1,12 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Land information',
-      title: 'Add land boundary details'
+      title: 'Add biodiversity gain site boundary details'
     }, {
       inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
     })
@@ -56,10 +56,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_GEOSPATIAL_FILE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_GEOSPATIAL_FILE,

@@ -16,7 +16,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar))
+    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }
@@ -25,13 +25,13 @@ const handlers = {
     delete value.developerAllocation.confirmOffsiteGainDetails
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.referenceNumber)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
 
 const getAdditionalEmailAddressArray = additionalEmailAddresses =>
-  additionalEmailAddresses && additionalEmailAddresses.map(item => ({
+  additionalEmailAddresses?.map(item => ({
     key: {
       text: 'Email'
     },
@@ -50,7 +50,7 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
   }))
 
 const getContext = request => {
-  const applicationData = developerApplication(request.yar)
+  const applicationData = developerApplication(request.yar, request.auth.credentials.account)
   const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
   const developmentDetails = applicationData.developerAllocation.developmentDetails
   const files = applicationData.developerAllocation.files

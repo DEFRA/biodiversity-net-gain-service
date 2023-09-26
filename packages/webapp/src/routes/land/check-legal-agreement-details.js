@@ -6,7 +6,6 @@ import {
   getDateString,
   listArray,
   getLegalAgreementDocumentType,
-  checkApplicantDetails,
   getLandowners
 } from '../../utils/helpers.js'
 
@@ -47,10 +46,7 @@ const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,

@@ -6,11 +6,8 @@ const url = constants.routes.LANDOWNER_CONSENT
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
-    })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      const res = await submitGetRequest({ url })
+      expect(res.payload).toContain('I confirm that I, <strong>John Smith</strong> , am authorised to act on behalf of the landowners.')
     })
   })
   describe('POST', () => {
@@ -31,6 +28,7 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Agree to the landowner consent declaration to continue')
+      expect(res.payload).toContain('I confirm that I, <strong>John Smith</strong> , am authorised to act on behalf of the landowners.')
     })
   })
 })

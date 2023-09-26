@@ -16,10 +16,6 @@ describe('Metric file upload controller tests', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
   })
 
   describe('POST', () => {
@@ -53,7 +49,7 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
@@ -65,7 +61,7 @@ describe('Metric file upload controller tests', () => {
           done(err)
         }
       })
-    })
+    }, 300000)
 
     it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {

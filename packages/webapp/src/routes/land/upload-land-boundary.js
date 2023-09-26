@@ -3,7 +3,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
-import { checkApplicantDetails, processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -75,7 +75,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Land information',
-      title: 'Add land boundary details'
+      title: 'Add biodiversity gain site boundary details'
     }, {
       inProgressUrl: constants.routes.UPLOAD_LAND_BOUNDARY
     })
@@ -110,10 +110,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_LAND_BOUNDARY,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 },
 {
   method: 'POST',

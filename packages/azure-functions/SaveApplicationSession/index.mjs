@@ -3,8 +3,8 @@ import { getDBConnection } from '@defra/bng-utils-lib'
 
 // Ensure these stay up to date with webapp constants file.
 const redisKeys = {
-  applicationReference: 'application-reference',
-  emailaddress: 'email-value'
+  contactId: 'contact-id',
+  applicationType: 'application-type'
 }
 
 export default async function (context, req) {
@@ -12,14 +12,24 @@ export default async function (context, req) {
   let db
   try {
     const applicationSession = req.body
-    if (!applicationSession[redisKeys.emailaddress]) {
-      throw new Error('Email missing from request')
+    if (!applicationSession[redisKeys.contactId]) {
+      throw new Error('Contact ID missing from request')
+    } else if (!applicationSession[redisKeys.applicationType]) {
+      throw new Error('Application type missing from request')
     }
+
     db = await getDBConnection()
+
+    // Ensure the application reference keys stay up to date with webapp constants file.
+    redisKeys.applicationReference =
+      applicationSession[redisKeys.applicationType] === 'Registration' ? 'application-reference' : 'developer-app-reference'
 
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
-      const result = await createApplicationReference(db)
+      const result = await createApplicationReference(db, [
+        applicationSession[redisKeys.contactId],
+        applicationSession[redisKeys.applicationType]
+      ])
       applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
     }
 
@@ -27,12 +37,14 @@ export default async function (context, req) {
     const savedApplicationSessionResult =
       await saveApplicationSession(db, [
         applicationSession[redisKeys.applicationReference],
-        applicationSession[redisKeys.emailaddress].toLowerCase(),
         JSON.stringify(applicationSession)
       ])
 
     const savedApplicationSessionPrimaryKey = savedApplicationSessionResult.rows[0].application_session_id
-    sendNotification(context, savedApplicationSessionPrimaryKey)
+
+    if (process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED && JSON.parse(process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED)) {
+      sendNotification(context, savedApplicationSessionPrimaryKey)
+    }
 
     // Return application reference
     context.res = {

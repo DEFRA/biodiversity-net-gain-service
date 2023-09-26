@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  checkApplicantDetails,
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
@@ -91,10 +90,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES,

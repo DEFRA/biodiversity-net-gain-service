@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.199.0",
+  "version": "0.212.0",
   "private": true,
   "type": "module",
   "description": "",
@@ -30,13 +30,15 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.199.0",
-    "@defra/bng-document-service": "0.199.0",
-    "@defra/bng-errors-lib": "0.199.0",
-    "@defra/bng-utils-lib": "0.199.0",
+    "@azure/msal-node": "^1.17.3",
+    "@defra/bng-connectors-lib": "0.212.0",
+    "@defra/bng-document-service": "0.212.0",
+    "@defra/bng-errors-lib": "0.212.0",
+    "@defra/bng-utils-lib": "0.212.0",
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
-    "@hapi/catbox-redis": "^7.0.1",
+    "@hapi/catbox-redis": "^7.0.2",
+    "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "21.3.2",
     "@hapi/inert": "7.1.0",
     "@hapi/vision": "7.0.1",
@@ -46,7 +48,7 @@
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "email-validator": "^2.0.4",
-    "govuk-frontend": "4.6.0",
+    "govuk-frontend": "4.7.0",
     "hapi-pino": "12.1.0",
     "joi": "^17.10.0",
     "jquery": "^3.7.1",
@@ -59,14 +61,14 @@
     "sass": "^1.62.1"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.199.0",
+    "@defra/bng-azure-storage-test-utils": "0.212.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "nodemon": "^2.0.22",
     "stream-to-promise": "^3.0.0",
     "style-loader": "^3.3.3",
-    "webpack": "^5.88.1",
+    "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
   }
 }

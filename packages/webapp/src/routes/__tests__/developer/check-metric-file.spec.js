@@ -1,5 +1,5 @@
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
 const url = '/developer/check-metric-file'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
@@ -24,6 +24,13 @@ describe(url, () => {
       await checkMetricFile.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC)
       expect(contextResult.filename).toEqual('metric-file.xlsx')
+    })
+
+    it('should redirect to the landowner journey task list if a landowner journey is in progress', async () => {
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
+      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
+      expect(response.headers.location).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
 
     it(`should render the ${url.substring(1)} without file info`, async () => {

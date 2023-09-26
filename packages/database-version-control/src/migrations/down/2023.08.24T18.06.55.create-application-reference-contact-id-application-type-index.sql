@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS bng.ix_application_reference_contact_id_application_type;

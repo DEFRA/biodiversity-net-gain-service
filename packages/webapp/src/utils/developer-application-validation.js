@@ -3,10 +3,11 @@ import Joi from 'joi'
 const developerApplicationValidation = Joi.object({
   developerAllocation: Joi.object({
     applicant: Joi.object({
-      firstName: Joi.string().allow(null),
+      firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       emailAddress: Joi.string().required(),
-      role: Joi.string().valid('Developer').required()
+      role: Joi.string().valid('Developer').required(),
+      contactId: Joi.string().required()
     }),
     developmentDetails: Joi.object({
       projectName: Joi.string().required(),
@@ -21,7 +22,7 @@ const developerApplicationValidation = Joi.object({
     confirmDevelopmentDetails: Joi.string().valid('yes'),
     confirmOffsiteGainDetails: Joi.string().valid('yes'),
     metricData: Joi.object().allow(null),
-    referenceNumber: Joi.string().allow(''),
+    gainSiteReference: Joi.string().allow(''),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
       Joi.object({
