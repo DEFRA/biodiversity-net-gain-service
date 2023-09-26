@@ -7,10 +7,6 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
   })
   describe('POST', () => {
     let postOptions
@@ -39,6 +35,9 @@ describe(url, () => {
     it('should allow a selection to upload a land boundary using a geospatial file', async () => {
       postOptions.payload.landBoundaryUploadType = constants.landBoundaryUploadTypes.GEOSPATIAL_DATA
       const response = await submitPostRequest(postOptions)
+      // Reset mocks before submitting a GET request so that the number of calls to postJson is
+      // tested correctly.
+      jest.resetAllMocks()
       // Perform a GET request using the existing session cookie to provide test coverage for the case
       // where an existing upload type is selected.
       const cookie = response.headers['set-cookie'][0].split(';')[0]

@@ -6,6 +6,7 @@ $govuk-global-styles: true;
 
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
+@import "./patterns/login-nav";
 
 //OL Mapping
 .map {
@@ -160,21 +161,6 @@ $govuk-global-styles: true;
   vertical-align: top;
 }
 
-// Save and return
-
-.app-save__wrapper {
-  min-height: 40px;
-  position: relative;
-}
-
-.app-save {
-  margin-top: govuk-spacing(2);
-  position: absolute;
-  right: 0;
-  top: 3px;
-  text-align: right;
-}
-
 // Secondary text colour
 .app-secondary-text-colour {
   color: #505a5f;
@@ -182,4 +168,37 @@ $govuk-global-styles: true;
 
 .wrap-text{
   overflow-wrap: anywhere;
+}
+
+// Dashboard styling
+.app-divider {
+  background-color: $govuk-border-colour;
+  border: 0;
+  height: 1px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.inset-dashboard {
+  border-left-color: #d53880;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.dashboard-panel {
+  background: #f3f2f1;
+  padding: 10px 25px 15px;
+  flex-basis: 40%;
+  flex-grow: 2;
+
+  @media (max-width: 40.0625em) {
+    flex-basis: 100%;
+    padding: 10px 15px;
+  }
 }

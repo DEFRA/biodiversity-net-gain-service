@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import registerTaskList from '../../utils/register-task-list.js'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -9,6 +8,7 @@ const handlers = {
     let dataContent = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
     if (!dataContent) {
       dataContent = JSON.parse(JSON.stringify(registerTaskList))
+      totalTasks = registerTaskList.taskList.flatMap(task => task.tasks).length
     } else {
       dataContent.taskList.forEach(task => {
         if (task.tasks.length === 1) {
@@ -40,8 +40,5 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.REGISTER_LAND_TASK_LIST,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }]

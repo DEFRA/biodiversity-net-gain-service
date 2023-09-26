@@ -2,6 +2,7 @@ import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/serv
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
+
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.DEVELOPER_UPLOAD_METRIC
 
@@ -64,12 +65,22 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should upload metric file to cloud storage', (done) => {
+    it('should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails. ', (done) => {
       jest.isolateModules(async () => {
         try {
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
+          const http = require('../../../utils/http.js')
+          // Ensure the call to persist journey data fails.
+          http.postJson = jest.fn().mockImplementation(() => {
+            return Promise.reject(new Error('Error'))
+          })
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+          uploadConfig.sessionData[`${constants.redisKeys.CONTACT_ID}`] = 'mock contact ID'
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
+          uploadConfig.sessionData[`${constants.redisKeys.DEVELOPER_APP_REFERENCE}`] = 'mock developer app reference'
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()

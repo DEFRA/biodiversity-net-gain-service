@@ -38,7 +38,11 @@
     "SAVED_APPLICATION_SESSION_TEMPLATE_ID": "",
     "EXPIRING_APPLICATION_SESSION_TEMPLATE_ID": "",
     "CONTINUE_REGISTRATION_URL": "",
-    "PROCESS_UNTRUSTED_ATTEMPTS": 5
+    "PROCESS_UNTRUSTED_ATTEMPTS": 5,
+    "AzureWebJobs.ClearApplicationSession.Disabled": "true",
+    "AzureWebJobs.SendExpiringApplicationSessionNotification.Disabled": "true",
+    "AzureWebJobs.SendSavedApplicationSessionNotification.Disabled": "true",
+    "AzureWebJobs.WarnOfExpringApplicationSessions.Disabled": "true"
   },
   "ConnectionStrings": {}
 }

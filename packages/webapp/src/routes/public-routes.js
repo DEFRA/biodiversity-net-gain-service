@@ -5,6 +5,9 @@ const publicRoutes = [{
   path: '/robots.txt',
   handler: {
     file: `${dirname}/public/static/robots.txt`
+  },
+  options: {
+    auth: false
   }
 }, {
   method: 'GET',
@@ -19,6 +22,9 @@ const publicRoutes = [{
         `${dirname}/node_modules/jquery/dist`
       ]
     }
+  },
+  options: {
+    auth: false
   }
 }, {
   method: 'GET',
@@ -30,6 +36,9 @@ const publicRoutes = [{
         `${dirname}/node_modules/@ministryofjustice/frontend/moj/assets`
       ]
     }
+  },
+  options: {
+    auth: false
   }
 }
 ]

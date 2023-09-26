@@ -9,20 +9,19 @@ import {
   hideClass,
   getAllLandowners,
   getLegalAgreementDocumentType,
-  getNameAndRoles,
-  checkApplicantDetails
+  getNameAndRoles
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CHECK_AND_SUBMIT, {
-      application: application(request.yar).landownerGainSiteRegistration,
+      application: application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration,
       ...getContext(request)
     })
   },
   post: async (request, h) => {
-    const { value, error } = applicationValidation.validate(application(request.yar))
+    const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }
@@ -52,10 +51,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_AND_SUBMIT,

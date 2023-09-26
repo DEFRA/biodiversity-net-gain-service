@@ -3,7 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const localLandChargeId = '#localLandChargeId'
 function processSuccessfulUpload (result, request, h) {
@@ -87,10 +87,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 },
 {
   method: 'POST',

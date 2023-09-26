@@ -4,8 +4,6 @@ import {
   dateToString,
   hideClass,
   getAllLandowners,
-  getEligibilityResults,
-  formatAppRef,
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
@@ -103,45 +101,6 @@ describe('helpers file', () => {
       expect(list).toEqual([])
     })
   })
-  describe('getEligibilityResults', () => {
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'yes')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(6)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'yes')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(4)
-      expect(results.no.length).toEqual(2)
-      expect(results['not sure'].length).toEqual(0)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.ELIGIBILITY_BOUNDARY, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_CONSENT, 'yes')
-      session.set(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC, 'no')
-      session.set(constants.redisKeys.ELIGIBILITY_HMMP, 'not sure')
-      session.set(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT, 'not sure')
-      const results = getEligibilityResults(session)
-      expect(results.yes.length).toEqual(2)
-      expect(results.no.length).toEqual(2)
-      expect(results['not sure'].length).toEqual(2)
-    })
-  })
 
   describe('getDeveloperEligibilityResults', () => {
     it('should organise eligibility results correctly', () => {
@@ -175,11 +134,6 @@ describe('helpers file', () => {
       session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
       const results = getDeveloperEligibilityResults(session)
       expect(results.no.length).toEqual(2)
-    })
-  })
-  describe('formatAppRef', () => {
-    it('Should format REF2301160004 to REF-230 116 0004', () => {
-      expect(formatAppRef('REF2301160004')).toEqual('REF-230 116 0004')
     })
   })
   describe('getHumamReadableFileSize', () => {

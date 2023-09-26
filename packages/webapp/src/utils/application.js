@@ -5,11 +5,11 @@ import savePayment from '../payment/save-payment.js'
 import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = session => ({
-  firstName: null,
-  lastName: session.get(constants.redisKeys.FULL_NAME),
-  role: session.get(constants.redisKeys.ROLE_KEY) === 'Other' ? `Other: ${session.get(constants.redisKeys.ROLE_OTHER)}` : session.get(constants.redisKeys.ROLE_KEY),
-  emailaddress: session.get(constants.redisKeys.EMAIL_VALUE)
+const getApplicant = account => ({
+  firstName: account.idTokenClaims.firstName,
+  lastName: account.idTokenClaims.lastName,
+  emailAddress: account.idTokenClaims.email,
+  contactId: account.idTokenClaims.contactId
 })
 
 const getFile = (session, fileType, filesize, fileLocation) => ({
@@ -78,10 +78,10 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
 
-const application = session => {
+const application = (session, account) => {
   return {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(session),
+      applicant: getApplicant(account),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),

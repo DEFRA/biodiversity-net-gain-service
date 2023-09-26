@@ -27,7 +27,10 @@ export default async function (context, req) {
     // Generate gain site reference if not already present
     db = await getDBConnection()
     if (!req.body.landownerGainSiteRegistration.gainSiteReference) {
-      const applicationReference = await createApplicationReference(db)
+      const applicationReference = await createApplicationReference(db, [
+        req.body.landownerGainSiteRegistration.applicant.contactId,
+        'Registration'
+      ])
       req.body.landownerGainSiteRegistration.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
       req.body.landownerGainSiteRegistration.payment.reference = applicationReference.rows[0].fn_create_application_reference
     } else {

@@ -10,10 +10,6 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
   })
   describe('POST', () => {
     let postOptions
@@ -24,6 +20,8 @@ describe(url, () => {
       }
     })
     it('should continue journey if valid grid reference is entered inside of England', async () => {
+      jest.resetAllMocks()
+      jest.mock('../../../utils/http.js')
       const http = require('../../../utils/http.js')
       http.postJson = jest.fn().mockImplementation(() => {
         return {
@@ -31,9 +29,11 @@ describe(url, () => {
         }
       })
       postOptions.payload.gridReference = 'SL123456'
-      await submitPostRequest(postOptions)
+      await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 2 })
     })
     it('should fail journey if valid grid reference outside of England is entered', async () => {
+      jest.resetAllMocks()
+      jest.mock('../../../utils/http.js')
       const http = require('../../../utils/http.js')
       http.postJson = jest.fn().mockImplementation(() => {
         return {
@@ -41,7 +41,7 @@ describe(url, () => {
         }
       })
       postOptions.payload.gridReference = 'SL123456'
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 200, { expectedNumberOfPostJsonCalls: 1 })
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Grid reference must be in England')
     })
@@ -72,6 +72,8 @@ describe(url, () => {
     it('Ensure page uses referer if is set on post and hectares is present', done => {
       jest.isolateModules(async () => {
         try {
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {
@@ -108,6 +110,8 @@ describe(url, () => {
     it('Ensure page doesn\'t use referer if is set on post and grid reference is missing', done => {
       jest.isolateModules(async () => {
         try {
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
           const http = require('../../../utils/http.js')
           http.postJson = jest.fn().mockImplementation(() => {
             return {

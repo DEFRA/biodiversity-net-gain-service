@@ -1,5 +1,4 @@
 import constants from '../utils/constants.js'
-import { formatAppRef } from '../utils/helpers.js'
 import { getPayment } from '../payment/payment-session.js'
 import bacs from '../payment/bacs.js'
 import url from 'url'
@@ -23,7 +22,7 @@ const getApplicationReference = request => {
 
 const handlers = {
   get: async (request, h) => {
-    const applicationReference = formatAppRef(getApplicationReference(request))
+    const applicationReference = getApplicationReference(request)
 
     const payment = getPayment(request.yar)
 

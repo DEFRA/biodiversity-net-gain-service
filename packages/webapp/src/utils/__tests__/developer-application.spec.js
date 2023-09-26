@@ -1,6 +1,7 @@
 import setDeveloperApplicationSession from '../../__mocks__/developer-application-session'
 import developerApplication from '../developer-application'
 import constants from '../constants.js'
+import applicant from '../../__mocks__/applicant'
 
 describe('developer-application', () => {
   it('Should set the metric file has been uploaded', () => {
@@ -14,7 +15,7 @@ describe('developer-application', () => {
         email: 'test@example.com'
       }
     ])
-    const app = developerApplication(session)
+    const app = developerApplication(session, applicant)
     expect(app.developerAllocation.files[0].fileType).toEqual('developer-upload-metric')
     expect(app.developerAllocation.files[0].fileSize).toEqual(5131037)
     expect(app.developerAllocation.additionalEmailAddresses).toEqual([{ fullName: 'Test User', email: 'test@example.com' }])
@@ -25,8 +26,8 @@ describe('developer-application', () => {
     session.clear(constants.redisKeys.APPLICATION_REFERENCE)
     session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
 
-    const app = developerApplication(session)
-    expect(app.developerAllocation.referenceNumber).toEqual('')
+    const app = developerApplication(session, applicant)
+    expect(app.developerAllocation.gainSiteReference).toEqual('')
     expect(app.developerAllocation.additionalEmailAddresses).toEqual([])
   })
 })

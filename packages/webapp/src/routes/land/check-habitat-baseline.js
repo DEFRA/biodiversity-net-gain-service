@@ -1,11 +1,11 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, checked, habitatTypeAndConditionMapper, checkApplicantDetails } from '../../utils/helpers.js'
+import { processRegistrationTask, checked, habitatTypeAndConditionMapper } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Habitat information',
-      title: 'Upload Biodiversity Metric'
+      title: 'Add habitat baseline, creation and enhancements'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_HABITAT_BASELINE
@@ -23,10 +23,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_HABITAT_BASELINE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_HABITAT_BASELINE,

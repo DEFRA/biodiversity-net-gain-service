@@ -33,8 +33,6 @@ const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
-const NAME = 'land/name'
-const ROLE = 'land/role'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
@@ -50,26 +48,15 @@ const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
-const EMAIL = 'land/email'
-const CORRECT_EMAIL = 'land/correct-email'
-const ELIGIBILITY_CHECK_YOU_CAN_REGISTER = 'land/check-you-can-register'
-const ELIGIBILITY_SITE_IN_ENGLAND = 'land/site-in-england'
-const ELIGIBILITY_CANNOT_CONTINUE = 'land/cannot-continue'
-const ELIGIBILITY_CONSENT = 'land/consent'
-const ELIGIBILITY_LEGAL_AGREEMENT = 'land/legal-agreement'
-const ELIGIBILITY_OWNERSHIP_PROOF = 'land/ownership-proof'
-const ELIGIBILITY_BOUNDARY = 'land/boundary'
-const ELIGIBILITY_BIODIVERSITY_METRIC = 'land/biodiversity-metric'
-const ELIGIBILITY_HMMP = 'land/habitat-management-plan'
-const ELIGIBILITY_RESULTS = 'land/results'
-const CONTINUE_SAVED_REGISTRATION = 'land/continue-saved-registration'
-const REGISTRATION_SAVED = 'land/registration-saved'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 const ERROR = 'error'
 const HOME = 'home'
 const COOKIES = 'cookies'
+const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
+const CONTINUE_REGISTRATION = 'land/continue-registration'
+const NEW_REGISTRATION = 'land/new-registration'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -127,8 +114,6 @@ const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
-const ROLE_KEY = 'role'
-const ROLE_OTHER = 'role-other'
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
@@ -137,10 +122,7 @@ const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const LAND_OWNERSHIP_KEY = 'land-ownership-key'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERER = 'referer'
-const CONFIRM_EMAIL = 'yes'
 const EMAIL_VALUE = 'email-value'
-const REGISTRATION_SAVED_REFERER = 'registration-saved-referer'
-
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
@@ -201,9 +183,7 @@ export default {
     METRIC_FILE_SIZE,
     METRIC_DATA,
     FULL_NAME,
-    ROLE_KEY,
     NAME_KEY,
-    ROLE_OTHER,
     HABITAT_WORKS_START_DATE_KEY,
     REGISTERED_LANDOWNER_ONLY,
     LANDOWNERS,
@@ -221,16 +201,7 @@ export default {
     LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,
-    EMAIL_VALUE,
-    CONFIRM_EMAIL,
-    ELIGIBILITY_SITE_IN_ENGLAND,
-    ELIGIBILITY_CONSENT,
-    ELIGIBILITY_LEGAL_AGREEMENT,
-    ELIGIBILITY_OWNERSHIP_PROOF,
-    ELIGIBILITY_BOUNDARY,
-    ELIGIBILITY_BIODIVERSITY_METRIC,
-    ELIGIBILITY_HMMP,
-    REGISTRATION_SAVED_REFERER
+    EMAIL_VALUE
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -271,9 +242,6 @@ export default {
     CHECK_LAND_BOUNDARY_DETAILS,
     UPLOAD_LAND_OWNERSHIP,
     HOME,
-    NAME,
-    ROLE,
-    CHECK_YOUR_DETAILS,
     REGISTER_LAND_TASK_LIST,
     MANAGEMENT_MONITORING_START_DATE,
     CHECK_MANAGEMENT_MONITORING_DETAILS,
@@ -287,24 +255,13 @@ export default {
     NEED_MANAGEMENT_PLAN,
     NEED_LEGAL_AGREEMENT,
     NEED_LOCAL_LAND_CHARGE,
-    EMAIL,
-    CORRECT_EMAIL,
-    ELIGIBILITY_CHECK_YOU_CAN_REGISTER,
-    ELIGIBILITY_SITE_IN_ENGLAND,
-    ELIGIBILITY_CANNOT_CONTINUE,
-    ELIGIBILITY_CONSENT,
-    ELIGIBILITY_LEGAL_AGREEMENT,
-    ELIGIBILITY_OWNERSHIP_PROOF,
-    ELIGIBILITY_BOUNDARY,
-    ELIGIBILITY_BIODIVERSITY_METRIC,
-    ELIGIBILITY_HMMP,
-    ELIGIBILITY_RESULTS,
-    CONTINUE_SAVED_REGISTRATION,
-    REGISTRATION_SAVED,
     CHECK_HABITAT_BASELINE,
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
-    COOKIES
+    COOKIES,
+    BIODIVERSITY_GAIN_SITES,
+    CONTINUE_REGISTRATION,
+    NEW_REGISTRATION
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
@@ -315,14 +272,6 @@ export default {
     METRIC_UPLOAD_TYPE,
     LAND_OWNERSHIP_UPLOAD_TYPE
   },
-  eligibilityHtml: {
-    [ELIGIBILITY_BOUNDARY]: '<li>the boundary of the land</li>',
-    [ELIGIBILITY_CONSENT]: '<li>consent from the landowner</li>',
-    [ELIGIBILITY_OWNERSHIP_PROOF]: '<li>proof of ownership of the land</li>',
-    [ELIGIBILITY_BIODIVERSITY_METRIC]: '<li>a completed Biodiversity metric (Secretary of State version) for the land</li>',
-    [ELIGIBILITY_HMMP]: '<li>a habitat management and monitoring plan</li>',
-    [ELIGIBILITY_LEGAL_AGREEMENT]: '<li>a legal agreement securing the habitat enhancements for 30 years</li>'
-  },
   setLojReferer: [
     CHECK_AND_SUBMIT,
     CHECK_YOUR_DETAILS,
@@ -330,7 +279,6 @@ export default {
     CHECK_LEGAL_AGREEMENT_DETAILS,
     CHECK_MANAGEMENT_MONITORING_DETAILS,
     CHECK_LAND_BOUNDARY_DETAILS,
-    CORRECT_EMAIL,
     CHECK_METRIC_DETAILS
   ],
   clearLojReferer: [

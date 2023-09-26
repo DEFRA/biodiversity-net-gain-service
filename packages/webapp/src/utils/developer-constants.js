@@ -23,6 +23,9 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
+const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
+const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
+const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
 const DEVELOPER_NEED_METRIC = 'developer/need-metric'
 // ./Routes constants
 
@@ -122,6 +125,9 @@ export default {
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
+    DEVELOPER_DEVELOPMENT_PROJECTS,
+    DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
+    DEVELOPER_NEW_DEVELOPMENT_PROJECT,
     DEVELOPER_NEED_METRIC
   },
   redisKeys: {

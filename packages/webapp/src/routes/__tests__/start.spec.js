@@ -1,5 +1,6 @@
 import { submitGetRequest } from './helpers/server.js'
-const url = '/start'
+import constants from '../../utils/constants.js'
+const url = constants.routes.START
 
 describe(url, () => {
   describe('GET', () => {

@@ -5,8 +5,7 @@ import {
   getNameAndRoles,
   dateToString,
   listArray,
-  getLegalAgreementDocumentType,
-  checkApplicantDetails
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -43,10 +42,7 @@ const getLegalAgreementFileName = fileLocation => fileLocation ? path.parse(file
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,

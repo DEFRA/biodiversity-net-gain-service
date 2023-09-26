@@ -6,14 +6,15 @@ import path from 'path'
 const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
 
 // Developer Application object schema must match the expected payload format for the Operator application
-export default session => {
+export default (session, account) => {
   return {
     developerAllocation: {
       applicant: {
-        firstName: null,
-        lastName: session.get(constants.redisKeys.DEVELOPER_FULL_NAME),
-        emailAddress: session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE),
-        role: session.get(constants.redisKeys.DEVELOPER_ROLE_KEY)
+        firstName: account.idTokenClaims.firstName,
+        lastName: account.idTokenClaims.lastName,
+        emailAddress: account.idTokenClaims.email,
+        role: session.get(constants.redisKeys.DEVELOPER_ROLE_KEY),
+        contactId: account.idTokenClaims.contactId
       },
       developmentDetails: {
         projectName: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName,
@@ -25,7 +26,7 @@ export default session => {
       confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
       confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
       metricData: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA),
-      referenceNumber: getDeveloperApplicationReference(session), // Need to get one after submitting application
+      gainSiteReference: getDeveloperApplicationReference(session), // Need to get one after submitting application
       submittedOn: new Date().toISOString(),
       files: [
         {

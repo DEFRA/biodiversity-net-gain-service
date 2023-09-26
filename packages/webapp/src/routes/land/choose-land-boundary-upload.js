@@ -1,12 +1,12 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, checked, processRegistrationTask } from '../../utils/helpers.js'
+import { checked, processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
     processRegistrationTask(request, {
       taskTitle: 'Land information',
-      title: 'Add land boundary details'
+      title: 'Add biodiversity gain site boundary details'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD
@@ -53,10 +53,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,

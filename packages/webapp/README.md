@@ -27,6 +27,16 @@ warning: other service dependencies will be missing, install and run from root o
 | MAX_METRIC_UPLOAD_MB | Maximum size of a biodiversity metric file upload (in megabytes) |
 | GOOGLE_TAGMANAGER_ID | Google Tag Manager ID | N |
 | NODE_ENV | sets whether environment is development, test or production, assumed production by default if undefined | N |
+| SERVICE_HOME_URL | Sets the full url of service home page | N |
+| DEFRA_ID_SESSION_COOKIE_PASSWORD | 32 character minimum password for session auth cookie | Y |
+| DEFRA_ID_POLICY_ID | Defra ID policy ID | Y |
+| DEFRA_ID_SERVICE_ID | Defra ID Service ID | Y |
+| DEFRA_ID_INSTANCE | Defra ID instance ID | Y |
+| DEFRA_ID_DOMAIN | Defra ID Domain | Y |
+| DEFRA_ID_CLIENT_SECRET | Defra ID Client Secret | Y |
+| DEFRA_ID_CLIENT_ID | Defra ID Client ID | Y |
+| DEFRA_ID_REDIRECT_URI | Defra ID redirect URI | Y |
+| DEFRA_ID_ACCOUNT_MANAGEMENT_URL | Defra ID account management URL | Y |
 | MAX_GEOSPATIAL_FILE_UPLOAD_MB | MVP recommendation to change file size limit on geospatial files | Y |
 | BACS_ACCOUNT_NAME | Natural England Bacs account name | Y |
 | BACS_SORT_CODE | Natural England Bacs sort code (with no spaces) | Y |
