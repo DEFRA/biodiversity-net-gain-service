@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
 const firstNameID = '#firstName'
@@ -25,6 +25,9 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT
     })
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
     const { id } = request.query
     let individual = {
       firstName: '',
@@ -36,6 +39,7 @@ const handlers = {
       individual = landownerIndividuals[id]
     }
     return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
+      legalAgreementType,
       individual
     })
   },
@@ -43,12 +47,13 @@ const handlers = {
     const individual = request.payload
     individual.type = 'individual'
     const { id } = request.query
-
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const individualError = validateIndividual(individual)
     if (!isEmpty(individualError)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
         individual,
-
+        legalAgreementType,
         err: Object.values(individualError),
         firstNameError: individualError?.firstNameError,
         lastNameError: individualError?.lastNameError

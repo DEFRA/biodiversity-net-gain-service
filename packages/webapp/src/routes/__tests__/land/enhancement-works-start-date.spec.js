@@ -229,7 +229,6 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = month
       postOptions.payload['enhancementWorkStartDate-year'] = year
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      console.log(postOptions)
       const response = await submitPostRequest(postOptions, 200)
       expect(response.statusCode).toBe(200)
       expect(response.payload).toContain('There is a problem')

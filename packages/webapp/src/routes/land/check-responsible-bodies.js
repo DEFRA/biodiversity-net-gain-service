@@ -36,7 +36,6 @@ const handlers = {
     const { ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, REMOVE_RESPONSIBLE_BODY } = constants.routes
 
     return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
-      backLink: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
       legalAgreementResponsibleBodiesWithAction,
       legalAgreementResponsibleBodies,
       legalAgreementType,
@@ -53,7 +52,6 @@ const handlers = {
 
     if (!addAnotherResponsibleBody) {
       return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
-        backLink: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
         legalAgreementResponsibleBodies,
         legalAgreementResponsibleBodiesWithAction,
         legalAgreementType,
@@ -66,7 +64,7 @@ const handlers = {
     }
 
     if (addAnotherResponsibleBody === 'yes') {
-      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
 
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)

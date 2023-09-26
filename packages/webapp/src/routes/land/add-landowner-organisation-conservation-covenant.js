@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
 const organisationNameID = '#organisationName'
@@ -22,6 +22,9 @@ const handlers = {
       inProgressUrl: constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT
     })
     const { id } = request.query
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
     let organisation = {
       organisationName: ''
     }
@@ -30,6 +33,7 @@ const handlers = {
       organisation = landownerOrganisations[id]
     }
     return h.view(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT, {
+      legalAgreementType,
       organisation
     })
   },
@@ -37,11 +41,13 @@ const handlers = {
     const organisation = request.payload
     organisation.type = 'organisation'
     const { id } = request.query
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const organisationError = validateOrganisation(organisation)
     if (!isEmpty(organisationError)) {
       return h.view(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT, {
         organisation,
-
+        legalAgreementType,
         err: Object.values(organisationError),
         organisationNameError: organisationError?.organisationNameError
 

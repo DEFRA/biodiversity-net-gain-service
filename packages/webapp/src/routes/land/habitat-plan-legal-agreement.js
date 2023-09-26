@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -27,9 +28,14 @@ const handlers = {
     }
 
     if (isHabitatIncludeLegalAgreement === 'yes') {
-      return h.redirect(constants.routes.ENHANCEMENT_WORKS_START_DATE)
+      request.yar.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'Yes')
+      const habitatPlanLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
+      await deleteBlobFromContainers(habitatPlanLocation)
+      request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
+      request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ENHANCEMENT_WORKS_START_DATE)
     }
-
+    request.yar.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'No')
     return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
   }
 }

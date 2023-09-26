@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Add a landowner or leaseholder listed on the conservation covenan" %}
+{% set pageHeading = "Add a landowner or leaseholder listed on the " + legalAgreementType %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -47,7 +47,7 @@
         }) }}
 
         {{ govukButton({
-          text: "Continue",
+          text: "Save and continue",
           attributes: {
             id: "continue",
             "data-testid": "continue"

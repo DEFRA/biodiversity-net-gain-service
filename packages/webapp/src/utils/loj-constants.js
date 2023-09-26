@@ -66,6 +66,7 @@ const NEED_METRIC = 'land/need-metric'
 const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
+const NEED_HABITAT_PLAN = 'land/need-habitat-plan'
 const EMAIL = 'land/email'
 const CORRECT_EMAIL = 'land/correct-email'
 const ELIGIBILITY_CHECK_YOU_CAN_REGISTER = 'land/check-you-can-register'
@@ -101,6 +102,7 @@ const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
+const HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO = 'habitat-plan-seperate-document-yes-no'
 const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
 const GEOSPATIAL_HECTARES = 'geospatial-hectares'
@@ -194,6 +196,7 @@ export default {
     REPROJECTED_GEOSPATIAL_FILE_SIZE,
     LOCAL_LAND_CHARGE_FILE_SIZE,
     HABITAT_PLAN_FILE_SIZE,
+    HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO,
     GEOSPATIAL_FILE_TYPE,
     GEOSPATIAL_HECTARES,
     GEOSPATIAL_GRID_REFERENCE,
@@ -344,6 +347,7 @@ export default {
     NEED_MANAGEMENT_PLAN,
     NEED_LEGAL_AGREEMENT,
     NEED_LOCAL_LAND_CHARGE,
+    NEED_HABITAT_PLAN,
     EMAIL,
     CORRECT_EMAIL,
     ELIGIBILITY_CHECK_YOU_CAN_REGISTER,

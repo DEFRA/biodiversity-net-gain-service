@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
   checkApplicantDetails,
-  processRegistrationTask
+  processRegistrationTask, getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -12,8 +12,10 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES
     })
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+    return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES, { legalAgreementType })
   },
   post: async (request, h) => {
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)

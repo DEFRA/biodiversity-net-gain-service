@@ -191,6 +191,36 @@ const getNameAndRoles = legalAgreementParties => {
   })
   return partySelectionContent
 }
+const getDateString = (dateValue, type) => {
+  let status = 'Not started yet'
+  if (type === 'end date') {
+    status = 'No end date'
+  }
+  const returnDateValue = dateValue ? dateToString(dateValue) : status
+  return returnDateValue
+}
+const getResponsibleBodies = responsibleBodies => {
+  const responsibleBodiesParsed = JSON.parse(JSON.stringify(responsibleBodies)) || []
+  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join(',')
+  return responsibleBodiesOutput
+}
+
+const getLandowners = landOwners => {
+  const organisationNames = []
+  const individualNames = []
+
+  landOwners.forEach(item => {
+    if (item.type === 'organisation') {
+      organisationNames.push(item.organisationName)
+    } else if (item.type === 'individual') {
+      const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
+      individualNames.push(nameParts.join(' '))
+    }
+  })
+
+  const result = [...organisationNames, ...individualNames].join(', ')
+  return result
+}
 const validateEmail = (emailAddress, ID) => {
   const error = {}
   if (!emailAddress) {
@@ -520,6 +550,8 @@ export {
   validateEmail,
   getNameAndRoles,
   getAllLandowners,
+  getResponsibleBodies,
+  getLandowners,
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
@@ -536,6 +568,7 @@ export {
   getMinDateCheckError,
   validateName,
   emailValidator,
+  getDateString,
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
