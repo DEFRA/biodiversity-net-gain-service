@@ -2,7 +2,6 @@ import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import path from 'path'
 import savePayment from '../payment/save-payment.js'
-import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
 const getApplicant = account => ({
@@ -87,7 +86,6 @@ const application = (session, account) => {
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
-      legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
       otherLandowners: otherLandowners(session) || [],

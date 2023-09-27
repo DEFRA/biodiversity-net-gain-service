@@ -21,12 +21,6 @@ const applicationValidation = Joi.object({
     gainSiteReference: Joi.string().allow(''),
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
-    legalAgreementParties: Joi.array().items(
-      Joi.object({
-        name: Joi.string().required(),
-        role: Joi.string().required()
-      })
-    ).required(),
     legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)).required(),
     legalAgreementStartDate: Joi.date().required(),
     otherLandowners: Joi.array().items(
