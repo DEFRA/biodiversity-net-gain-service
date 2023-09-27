@@ -3,7 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const uploadHabitatPlanId = '#uploadHabitatPlanId'
 function processSuccessfulUpload (result, request, h) {

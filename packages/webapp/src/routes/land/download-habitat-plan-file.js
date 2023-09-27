@@ -2,7 +2,6 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const downloadHabitatPlanFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)

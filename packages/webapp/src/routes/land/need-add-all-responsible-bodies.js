@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  checkApplicantDetails,
   processRegistrationTask, getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 

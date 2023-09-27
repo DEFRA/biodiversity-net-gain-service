@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  checkApplicantDetails,
   dateClasses,
   processRegistrationTask,
   validateAndParseISOString,
