@@ -1,6 +1,7 @@
 import applicationSession from '../../__mocks__/application-session'
 import application from '../application'
 import constants from '../../utils/constants.js'
+import applicant from '../../__mocks__/applicant'
 
 describe('application', () => {
   it('Should set the geojson file if a WGS84 geospatial file has been uploaded', () => {
@@ -15,7 +16,7 @@ describe('application', () => {
     session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, '0.051')
     session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
     session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session)
+    const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[1].fileType).toEqual('geojson')
     expect(app.landownerGainSiteRegistration.files[1].fileSize).toEqual('0.051')
     expect(app.landownerGainSiteRegistration.files[1].fileName).toEqual('file.geojson')
@@ -32,7 +33,7 @@ describe('application', () => {
     session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
     session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
     session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session)
+    const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[1].fileType).toEqual('geojson')
     expect(app.landownerGainSiteRegistration.files[1].fileSize).toEqual('0.05')
     expect(app.landownerGainSiteRegistration.files[1].fileName).toEqual('file.geojson')
@@ -41,7 +42,7 @@ describe('application', () => {
   })
   it('Should set the land boundary file if no geospatial file has been uploaded', () => {
     const session = applicationSession()
-    const app = application(session)
+    const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[1].fileType).toEqual('land-boundary')
     expect(app.landownerGainSiteRegistration.files[1].fileSize).toEqual('0.01')
     expect(app.landownerGainSiteRegistration.files[1].fileName).toEqual('legal-agreement.doc')

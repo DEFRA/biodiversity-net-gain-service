@@ -43,11 +43,7 @@ describe(url, () => {
       const response = await submitGetRequest({ url })
       expect(response.statusCode).toBe(200)
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
-    it(`should render the ${url.substring(1)} view with organisation that user wants to change`, async () => {
+    it(`should render the ${url.substring(1)} view with organisation that use wants to change`, async () => {
       const request = {
         yar: redisMap,
         query: { orgId: '0' }

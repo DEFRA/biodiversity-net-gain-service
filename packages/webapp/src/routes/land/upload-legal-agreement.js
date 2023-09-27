@@ -3,7 +3,6 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import {
-  checkApplicantDetails,
   getMaximumFileSizeExceededView,
   processRegistrationTask,
   getLegalAgreementDocumentType
@@ -113,10 +112,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_LEGAL_AGREEMENT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 },
 {
   method: 'POST',

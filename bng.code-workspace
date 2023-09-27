@@ -43,8 +43,10 @@
         "name": "Jest Current File",
         "program": "${workspaceFolder}/node_modules/.bin/jest",
         "args": [
-		  "--runInBand",
-		  "--silent=false",
+					"--runInBand",
+          "--testTimeout",
+          "999999",
+          "--silent=false",
           "--config",
           "${workspaceFolder}/package.json",
           "${fileBasenameNoExtension}"

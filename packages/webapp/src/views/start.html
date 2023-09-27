@@ -2,6 +2,7 @@
 
 {% set pageHeading = "Register land as a biodiversity gain site" %}
 {% set hideBackLink = true %}
+{% set hideSigninNav = true %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -30,13 +31,11 @@
      
       {{ govukButton({
         text: "Start now",
-        href: "/land/check-you-can-register",
+        href: "/land/register-land-task-list",
         classes: "govuk-!-margin-top-2",
         isStartButton: true
       }) }}
 
-      <h2 id="return-to-application" class="govuk-heading-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">Return to a saved registration</h2>
-      <p><a href="/land/continue-saved-registration">Continue with a registration</a></p>
     </div>
   </div>
 {% endblock %}

@@ -9,10 +9,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it(`should render the ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       const getHandler = checkHabitatBaseline[0].handler
@@ -27,10 +24,6 @@ describe(url, () => {
       expect(viewArgs[0]).toEqual(constants.views.CHECK_HABITAT_BASELINE)
       expect(viewArgs[1].habitatTypeAndCondition.length).toEqual(3)
       expect(viewArgs[1].habitatTypeAndCondition).toEqual(JSON.parse('[{"type":"Habitat","unitKey":"Area (hectares)","unit":"Area (ha)","header":"Broad habitat","description":"Habitat type","total":20.001,"items":[{"header":"Cropland","description":"Arable field margins tussocky","condition":"Condition Assessment N/A","amount":20.001}],"dataTestId":"habitatTotal"},{"type":"Hedgerow","unitKey":"Length (km)","unit":"Length (km)","description":"Hedgerow type","total":40,"items":[{"description":"Native Species-rich native hedgerow with trees - associated with bank or ditch","condition":"Poor","amount":20},{"description":"Native hedgerow with trees - associated with bank or ditch","condition":"Poor","amount":20}],"dataTestId":"hedgeTotal"},{"type":"River","unitKey":"Length (km)","unit":"Length (km)","description":"Watercourse type","total":40,"items":[{"description":"Other Rivers and Streams","condition":"Fairly Poor","amount":20},{"description":"Priority Habitat","condition":"Poor","amount":20}],"dataTestId":"riverTotal"}]'))
-    })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
     })
   })
   describe('POST', () => {

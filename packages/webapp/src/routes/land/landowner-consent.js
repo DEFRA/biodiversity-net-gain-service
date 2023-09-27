@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -9,12 +9,12 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.LANDOWNER_CONSENT
     })
-    const name = request.yar.get(constants.redisKeys.FULL_NAME)
+    const name = getName(request.auth.credentials.account)
     return h.view(constants.views.LANDOWNER_CONSENT, { name })
   },
   post: async (request, h) => {
     const consent = request.payload.landownerConsent
-    const name = request.yar.get(constants.redisKeys.FULL_NAME)
+    const name = getName(request.auth.credentials.account)
     if (!consent) {
       return h.view(constants.views.LANDOWNER_CONSENT, {
         name,
@@ -30,13 +30,12 @@ const handlers = {
   }
 }
 
+const getName = account => `${account.idTokenClaims.firstName} ${account.idTokenClaims.lastName}`
+
 export default [{
   method: 'GET',
   path: constants.routes.LANDOWNER_CONSENT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.LANDOWNER_CONSENT,

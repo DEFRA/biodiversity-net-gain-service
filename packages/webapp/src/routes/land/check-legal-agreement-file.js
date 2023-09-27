@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import {
-  checkApplicantDetails,
   getHumanReadableFileSize,
   processRegistrationTask,
   getLegalAgreementDocumentType
@@ -61,10 +60,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,

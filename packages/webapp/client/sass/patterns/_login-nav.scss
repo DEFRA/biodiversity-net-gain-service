@@ -1,0 +1,63 @@
+.login-nav {
+  @include govuk-clearfix;
+  @include govuk-font($size: 16);
+  @include govuk-text-colour;
+  margin-top: govuk-spacing(3);
+  margin-bottom: govuk-spacing(2);
+  border-bottom: 1px solid #bfc1c3;
+}
+
+.login-nav__org-name{
+  @include govuk-font($size: 16);
+  float: left;
+  display: block;
+}
+
+.login-nav__list {
+  @include govuk-clearfix;
+  margin: 0;
+  padding: 0;
+  margin-bottom: govuk-spacing(2);
+  list-style-type: none;
+  float: right;
+}
+
+.login-nav__list-item {
+    position: relative;
+    margin-bottom: govuk-spacing(1);
+    padding-right: govuk-spacing(1);
+    padding-left: 0;
+    float: left;
+  }
+
+  #profile .profile, #account .account {
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .login-nav__link {
+    margin-right: govuk-spacing(1);
+  }
+
+  .login-nav__details {
+    @include govuk-clearfix;
+    @include govuk-font($size: 16);
+    @include govuk-text-colour;
+    margin: 0;
+    padding-bottom: govuk-spacing(2);
+    float: left;
+  }
+
+/*** Small viewports ***/
+@media all and (max-width: 40.0625em) {
+  .login-nav__details,
+  .login-nav__list,
+  .login-nav__org-name {
+    float: none;
+  }
+
+  .login-nav__org-name{
+    margin-bottom: 5px;
+  }
+
+}

@@ -301,8 +301,6 @@ const getDeveloperEligibilityResults = session => {
   return developerEligibilityResults
 }
 
-const formatAppRef = appRef => `${appRef.substr(0, 3)}-${appRef.substr(3, 3)} ${appRef.substr(6, 3)} ${appRef.substr(9, appRef.length)}`
-
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
@@ -470,20 +468,6 @@ const emailValidator = (email, id) => {
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
-const areApplicantDetailsPresent = session => (
-  session.get(constants.redisKeys.FULL_NAME) &&
-  session.get(constants.redisKeys.ROLE_KEY) &&
-  session.get(constants.redisKeys.EMAIL_VALUE)
-)
-
-// Route pre lifecycle method, redirects to Start if applicant details are not present
-const checkApplicantDetails = (request, h) => {
-  if (!areApplicantDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
-  }
-  return h.continue
-}
-
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
@@ -556,7 +540,6 @@ export {
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
-  formatAppRef,
   formatSortCode,
   habitatTypeAndConditionMapper,
   combineHabitats,
@@ -572,7 +555,6 @@ export {
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
-  checkApplicantDetails,
   getMaximumFileSizeExceededView,
   getHumanReadableFileSize,
   processDeveloperTask,

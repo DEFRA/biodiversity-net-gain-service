@@ -2,7 +2,6 @@ import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
-import { checkApplicantDetails } from '../../utils/helpers.js'
 
 const downloadLocalLandChargeFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
@@ -18,8 +17,5 @@ const downloadLocalLandChargeFile = async (request, h) => {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
-  handler: downloadLocalLandChargeFile,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: downloadLocalLandChargeFile
 }

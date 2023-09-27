@@ -1,7 +1,9 @@
 import developerConstants from './developer-constants.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsConstants from '../credits/constants.js'
 
+const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
 const GEOSPATIAL_DATA = 'geospatialData'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
@@ -21,9 +23,24 @@ const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
+const SIGNIN = 'signin'
+const SIGNIN_CALLBACK = 'signin/callback'
+const SIGNOUT = 'signout'
+const SIGNED_OUT = 'signed-out'
+const CONTACT_ID = 'contact-id'
+const REGISTRATION = 'Registration'
+const ALLOCATION = 'Allocation'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
+const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
+const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+
+const applicationTypes = {
+  REGISTRATION,
+  ALLOCATION
+}
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
-const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'http://localhost:7071/api'
 const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
 
 const confirmFileUploadOptions = {
@@ -114,13 +131,23 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
 
 const redisKeys = {
   ...developerConstants.redisKeys,
-  ...lojConstants.redisKeys
+  ...lojConstants.redisKeys,
+  APPLICATION_TYPE,
+  CONTACT_ID,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
+  PRE_AUTHENTICATION_ROUTE,
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
 let routes = {
   ...creditsConstants.routes,
   ...developerConstants.routes,
   ...lojConstants.routes,
+  MANAGE_BIODIVERSITY_GAINS,
+  SIGNIN,
+  SIGNIN_CALLBACK,
+  SIGNOUT,
+  SIGNED_OUT,
   APPLICATION_SUBMITTED
 }
 
@@ -130,7 +157,7 @@ const testRoutes = {
   TEST_DEVELOPER_SEED_DATA
 }
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+if (NODE_ENV === 'development' || NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
 
@@ -156,11 +183,8 @@ const uploadTypes = {
   ...lojConstants.uploadTypes
 }
 
-const eligibilityHTML = {
-  ...lojConstants.eligibilityHtml
-}
-
-// setReferer contain routes that can be set as a referer for a user to return to from a "check your answers" page
+// setReferer contain routes that can be set as a referer for a user
+// to return to from a "check your answers" page
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer
@@ -172,7 +196,7 @@ const clearReferer = [
   ...developerConstants.clearDeveloperReferer
 ]
 
-const views = Object.assign({ INTERNAL_SERVER_ERROR: '500' }, routes)
+const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
 
 for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`
@@ -185,6 +209,7 @@ const minStartDates = {
 }
 
 export default Object.freeze({
+  applicationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -210,12 +235,12 @@ export default Object.freeze({
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
-  eligibilityHTML,
   CONFIRM_DEVELOPMENT_DETAILS,
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
-  ...developerConstants.options
+  ...developerConstants.options,
+  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH
 })

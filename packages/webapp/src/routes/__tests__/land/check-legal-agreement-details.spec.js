@@ -8,6 +8,9 @@ describe('Land boundary upload controller tests', () => {
   let redisMap
   beforeEach(() => {
     redisMap = new Map()
+    // Set the contact ID and application type to increase test coverage.
+    redisMap.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
     redisMap.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'Yes')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
@@ -34,10 +37,7 @@ describe('Land boundary upload controller tests', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {

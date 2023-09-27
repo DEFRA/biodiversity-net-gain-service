@@ -25,7 +25,7 @@ const screenDocumentForThreats = async (logger, config, stream) => {
     maxBodyLength: Infinity
   }
 
-  const putOptions = Object.assign({ method: 'PUT', data: formData }, options)
+  const putOptions = { ...{ method: 'PUT', data: formData }, ...options }
 
   try {
     logger.log(`Sending ${fileDetails.key} for screening`)

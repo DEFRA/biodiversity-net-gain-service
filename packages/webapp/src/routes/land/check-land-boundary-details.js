@@ -1,19 +1,24 @@
 import constants from '../../utils/constants.js'
-import { checkApplicantDetails, processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Land information',
-      title: 'Add land boundary details'
+      title: 'Add biodiversity gain site boundary details'
     }, {
       inProgressUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS
     })
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, geospatialOrLandBoundaryContext(request))
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land boundary details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add biodiversity gain site boundary details'
+    }, {
+      status: constants.COMPLETE_REGISTRATION_TASK_STATUS
+    })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
@@ -21,10 +26,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
