@@ -17,10 +17,10 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if yes is chosen', async () => {
+    it('Should continue journey to ENHANCEMENT_WORKS_START_DATE if yes is chosen', async () => {
       postOptions.payload.isHabitatIncludeLegalAgreement = 'yes'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(res.headers.location).toEqual(constants.routes.ENHANCEMENT_WORKS_START_DATE)
     })
 
     it('Should continue journey to UPLOAD_HABITAT_PLAN if no is chosen', async () => {

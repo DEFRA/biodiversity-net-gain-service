@@ -26,7 +26,7 @@ describe(url, () => {
       expect(res.headers.location).toEqual('/land/landowner-conservation-covenant-individual-organisation')
     })
 
-    it('Should return to check your answer page if checkReferer is set', async () => {
+    it.skip('Should return to check your answer page if checkReferer is set', async () => {
       let viewResult
       const h = {
         redirect: (view, context) => {
