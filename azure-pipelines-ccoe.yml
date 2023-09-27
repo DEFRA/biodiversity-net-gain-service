@@ -17,7 +17,7 @@ steps:
   env:
     GOOGLE_TAGMANAGER_ID: ${GOOGLE_TAGMANAGER_ID}
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '20.x'
   displayName: 'Install Node.js'
 
 - script: |

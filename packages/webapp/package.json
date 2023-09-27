@@ -7,6 +7,9 @@
   "main": "src/index.js",
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
+  "engines": {
+    "node": "20.x.x"
+  },
   "scripts": {
     "postinstall": "npm run build",
     "local:install": "bin/init-webapp-env-if-needed.sh",

@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
+  "engines": {
+    "node": "20.x.x"
+  },
   "scripts": {
     "local:install": "bin/init-local-settings-if-needed.sh",
     "lint": "standard",
