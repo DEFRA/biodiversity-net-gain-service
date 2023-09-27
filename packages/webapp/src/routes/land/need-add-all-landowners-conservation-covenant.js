@@ -24,10 +24,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,

@@ -53,10 +53,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_HABITAT_PLAN_FILE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.CHECK_HABITAT_PLAN_FILE,

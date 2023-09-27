@@ -86,10 +86,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UPLOAD_HABITAT_PLAN,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 },
 {
   method: 'POST',

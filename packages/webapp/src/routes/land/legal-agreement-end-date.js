@@ -66,10 +66,7 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.LEGAL_AGREEMENT_END_DATE,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.LEGAL_AGREEMENT_END_DATE,

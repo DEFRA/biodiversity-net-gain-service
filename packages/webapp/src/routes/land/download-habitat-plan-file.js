@@ -18,8 +18,5 @@ const downloadHabitatPlanFile = async (request, h) => {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_HABITAT_PLAN_FILE,
-  handler: downloadHabitatPlanFile,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: downloadHabitatPlanFile
 }
