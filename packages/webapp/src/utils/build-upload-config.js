@@ -1,4 +1,4 @@
-import { uploadStreamAndQueueMessage } from './azure-storage.js'
+import { uploadStreamAndAwaitScan } from './azure-storage.js'
 import { handleEvents } from './azure-signalr.js'
 
 const buildConfig = inputConfig => {
@@ -18,7 +18,7 @@ const buildConfig = inputConfig => {
 const buildBlobConfig = (sessionId, config) => {
   config.blobConfig = {
     blobName: `${sessionId}/${config.uploadType}/`,
-    containerName: 'untrusted'
+    containerName: 'customer-uploads'
   }
 }
 
@@ -31,7 +31,7 @@ const buildQueueConfig = config => {
 
 const buildFunctionConfig = config => {
   config.functionConfig = {
-    uploadFunction: uploadStreamAndQueueMessage,
+    uploadFunction: uploadStreamAndAwaitScan,
     handleEventsFunction: handleEvents
   }
 }

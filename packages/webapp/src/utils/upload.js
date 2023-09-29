@@ -1,7 +1,40 @@
 import path from 'path'
 import { uploadDocument } from '@defra/bng-document-service'
+import { uploadStreamAndAwaitScan } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
+
+const uploadFile = async (logger, request, config) => {
+  // Use multiparty to get file stream
+  const uploadResult = await new Promise((resolve, reject) => {
+    const form = new multiparty.Form()
+    form.on('part', async function (part) {
+      try {
+        const uploadResult = {}
+        // Send this part of the multipart request for processing
+        await handlePart(logger, part, config, uploadResult)
+        resolve(uploadResult)
+      } catch (err) {
+        reject(err)
+      }
+    })
+    form.on('error', function (err) {
+      reject(err)
+    })
+    form.on('close', async function () {
+      // Do nothing as we need to await the upload of the file
+    })
+    form.parse(request.raw.req)
+  })
+
+  if (uploadResult.errorMessage) {
+    throw new Error(uploadResult.errorMessage)
+  }
+
+  // Do we need to post process the file?
+
+  return uploadResult
+}
 
 const uploadFiles = async (logger, request, config) => {
   const events = []
@@ -48,7 +81,7 @@ const createUploadConfiguration = config => {
   return uploadConfig
 }
 
-const handlePart = (logger, part, config, uploadResult) => {
+const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   // Delay throwing errors until the form is closed.
@@ -74,8 +107,10 @@ const handlePart = (logger, part, config, uploadResult) => {
       uploadResult.fileType = part.headers['content-type']
     }
     const uploadConfig = createUploadConfiguration(config)
-    uploadDocument(logger, uploadConfig, part)
+    const result = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
+    uploadResult.tags = result.tags
+    uploadResult.blobConfig = result.blobConfig
   }
 }
 
-export { uploadFiles }
+export { uploadFile, uploadFiles }

@@ -1,7 +1,7 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import {
   getMaximumFileSizeExceededView,
   processRegistrationTask,
@@ -11,15 +11,12 @@ import {
 const legalAgreementId = '#legalAgreement'
 
 function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LEGAL_AGREEMENT
-  }
-  return h.redirect(resultView)
+  const blobName = result.blobConfig.blobName
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, blobName)
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received legal agreement data for ${blobName.substring(blobName.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
 }
 
 function processErrorUpload (err, h, legalAgreementType) {
@@ -88,15 +85,10 @@ const handlers = {
     })
 
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h, legalAgreementType)
-      }
-    ).catch(err => {
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
       console.log(`Problem uploading file ${err}`)
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
         legalAgreementType,
@@ -105,7 +97,25 @@ const handlers = {
           href: legalAgreementId
         }]
       })
-    })
+    }
+
+    // return uploadFiles(logger, request, config).then(
+    //   function (result) {
+    //     return processSuccessfulUpload(result, request, h)
+    //   },
+    //   function (err) {
+    //     return processErrorUpload(err, h, legalAgreementType)
+    //   }
+    // ).catch(err => {
+    //   console.log(`Problem uploading file ${err}`)
+    //   return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+    //     legalAgreementType,
+    //     err: [{
+    //       text: 'The selected file could not be uploaded -- try again',
+    //       href: legalAgreementId
+    //     }]
+    //   })
+    // })
   }
 }
 

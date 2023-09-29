@@ -1,14 +1,29 @@
 import { blobStorageConnector, storageQueueConnector } from '@defra/bng-connectors-lib'
 
-const uploadStreamAndQueueMessage = async (logger, config, stream) => {
+const uploadStreamAndAwaitScan = async (logger, config, stream) => {
   addFileDetailsToConfiguration(config, stream.filename)
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
-  // TO DO - Current Azure functions download blobs from Azure manually as streams rather than
-  // relying on the contents of a storage queue message to enable Azure to provide blobs as function
-  // inputs (see https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob-input)
-  //  As such use of Azure storage queues could be replaced with Azure service bus queues.
-  await storageQueueConnector.sendMessage(config.queueConfig)
-  logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded and message has been queued`)
+  logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded`)
+
+  const tags = await new Promise(async(resolve) => {
+    console.time()
+    let blobTags
+    const timeout = (ms) => {
+      console.log(`Waiting ${ms}ms`)
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+  
+    do {
+      await timeout(500)
+      blobTags = await blobStorageConnector.getBlobTags(config.blobConfig)
+    } while (Object.keys(blobTags.tags).length === 0)
+
+    console.timeEnd()
+    resolve(blobTags.tags)
+  })
+  // todo delete
+  console.log(tags)
+  return { tags, blobConfig: config.blobConfig }
 }
 
 const addFileDetailsToConfiguration = (config, filename) => {
@@ -23,16 +38,20 @@ const addFileDetailsToConfiguration = (config, filename) => {
 }
 
 const deleteBlobFromContainers = async blobName => {
-  await Promise.all([
-    blobStorageConnector.deleteBlobIfExists({
-      containerName: 'trusted',
-      blobName
-    }),
-    blobStorageConnector.deleteBlobIfExists({
-      containerName: 'untrusted',
-      blobName
-    })
-  ])
+  // await Promise.all([
+  //   blobStorageConnector.deleteBlobIfExists({
+  //     containerName: 'trusted',
+  //     blobName
+  //   }),
+  //   blobStorageConnector.deleteBlobIfExists({
+  //     containerName: 'untrusted',
+  //     blobName
+  //   })
+  // ])
+  await blobStorageConnector.deleteBlobIfExists({
+    containerName: 'customer-uploads',
+    blobName
+  })
 }
 
-export { uploadStreamAndQueueMessage, deleteBlobFromContainers }
+export { uploadStreamAndAwaitScan, deleteBlobFromContainers }
