@@ -19,57 +19,61 @@
                     }
                 }) }}
                 <form method="post">
+                    {% set landBoundaryFileNameElement = {
+                        key: {
+                            text: 'File type'
+                        },
+                        value: {
+                            html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+                                    text: 'Change',
+                                    visuallyHiddenText: ' land boundary file',
+                                    attributes: {
+                                        id: "check-land-boundary-file-type"
+                                    }
+                                }
+                            ]
+                        }
+                    } if isGeosptialDisabled else undefined %}
+
+                    {% set boundaryOnAMapElement = {
+                        key: {
+                          text: "Boundary on a map"
+                        },
+                        classes: hideClass(documentOrImage) + ' defra-js-show hidden',
+                        value: {
+                          html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
+                        }
+                    } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+
                     {{ govukSummaryList({
                         rows: [
-                          {
-                            key: {
-                                text: 'File type'
-                            },
-                            value: {
-                                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-                            },
-                            actions: {
-                              items: [
-                                  {
-                                      href: '/land/choose-land-boundary-upload',
-                                      text: 'Change',
-                                      visuallyHiddenText: ' land boundary file',
-                                      attributes: {
-                                          id: "check-land-boundary-file-type"
-                                      }
-                                  }
-                              ]
-                            }
-                          },
+                            landBoundaryFileNameElement,
                             {
-                              key: {
-                                  text: 'File uploaded'
-                              },
-                              value: {
-                                  html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
-                              },
-                              actions: {
-                                items: [
-                                    {
-                                        href: checkLandBoundaryLink,
-                                        text: 'Change',
-                                        visuallyHiddenText: ' land boundary file',
-                                        attributes: {
-                                            id: "check-land-boundary-file"
+                                key: {
+                                      text: 'File uploaded'
+                                  },
+                                  value: {
+                                      html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
+                                  },
+                                  actions: {
+                                    items: [
+                                        {
+                                            href: checkLandBoundaryLink,
+                                            text: 'Change',
+                                            visuallyHiddenText: ' land boundary file',
+                                            attributes: {
+                                                id: "check-land-boundary-file"
+                                            }
                                         }
-                                    }
-                                ]
-                              }
+                                    ]
+                                  }
                             },
-                            {
-                              key: {
-                                text: "Boundary on a map"
-                              },
-                              classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-                              value: {
-                                html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
-                              }
-                            },
+                            boundaryOnAMapElement,
                             {
                             key: {
                                 text: 'Grid reference'
@@ -80,7 +84,7 @@
                             actions: {
                                 items: [
                                     {
-                                        href: '/land/add-grid-reference',
+                                        href: routes.ADD_GRID_REFERENCE,
                                         text: 'Change',
                                         visuallyHiddenText: ' grid reference',
                                         classes: hideClass(geospatial),
@@ -101,7 +105,7 @@
                               actions: {
                               items: [
                                   {
-                                      href: '/land/add-hectares',
+                                      href: routes.ADD_HECTARES,
                                       text: 'Change',
                                       visuallyHiddenText: ' area in hectares',
                                       classes: hideClass(geospatial),

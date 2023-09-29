@@ -10,7 +10,11 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS
     })
-    return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, geospatialOrLandBoundaryContext(request))
+    return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
+      ...geospatialOrLandBoundaryContext(request),
+      isGeosptialDisabled: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y',
+      routes: constants.routes
+    })
   },
   post: async (request, h) => {
     processRegistrationTask(request, {

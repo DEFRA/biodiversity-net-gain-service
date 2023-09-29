@@ -8,6 +8,15 @@
     {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
+        {% set optionElement = {
+          value: "geospatialData",
+          text: "Upload geospatial file",
+          hint: {
+            text: "GeoJSON, GeoPackage or Shapefile"
+          },
+          checked: checked(landBoundaryUploadType, "geospatialData")
+        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else  undefined %}
+
         {{ govukRadios({
           idPrefix: "landBoundaryUploadType",
           name: "landBoundaryUploadType",
@@ -20,14 +29,7 @@
             }
           },
           items: [
-            {
-              value: "geospatialData",
-              text: "Upload geospatial file",
-              hint: {
-                text: "GeoJSON, GeoPackage or Shapefile"
-              },
-              checked: checked(landBoundaryUploadType, "geospatialData")
-            },
+            optionElement,
             {
               value: "documentOrImage",
               text: "Upload document or image",

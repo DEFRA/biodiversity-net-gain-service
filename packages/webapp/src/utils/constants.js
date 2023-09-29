@@ -2,6 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsConstants from '../credits/constants.js'
+import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -158,6 +159,8 @@ const testRoutes = {
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
+
+routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',

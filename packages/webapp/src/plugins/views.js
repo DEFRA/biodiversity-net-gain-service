@@ -21,7 +21,6 @@ const views = {
             autoescape: true,
             watch: false
           })
-
           return next()
         }
       }
@@ -39,7 +38,9 @@ const views = {
       assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
-      applicationVersion: version
+      applicationVersion: version,
+      ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
+      ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL: process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL
     }
   }
 }

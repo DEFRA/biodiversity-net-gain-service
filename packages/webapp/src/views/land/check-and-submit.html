@@ -14,29 +14,41 @@
         </h1>
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
+        {% set landBoundaryUploadTypeElement = {
+          key: {
+              text: "Land boundary file type"
+          },
+          value: {
+            html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
+          },
+          actions: {
+            items: [
+                {
+                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_LAND_BOUNDARY,
+                    text: "Change",
+                    visuallyHiddenText: " land boundary file",
+                    attributes: {
+                        id: "check-land-boundary-file-type"
+                    }
+                }
+            ]
+          }
+        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+
+        {% set landBoundaryOnAMapElement = {
+          key: {
+            text: "Land boundary on a map"
+          },
+          classes: hideClass(documentOrImage) + ' defra-js-show hidden',
+          value: {
+            html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
+          }
+        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+
         {{ govukSummaryList({
           classes: "govuk-!-margin-bottom-7",
           rows: [
-            {
-              key: {
-                  text: "Land boundary file type"
-              },
-              value: {
-                html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-              },
-              actions: {
-                items: [
-                    {
-                        href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
-                        text: "Change",
-                        visuallyHiddenText: " land boundary file",
-                        attributes: {
-                            id: "check-land-boundary-file-type"
-                        }
-                    }
-                ]
-              }
-            },
+            landBoundaryUploadTypeElement,
             {
               key: {
                 text: "Land boundary file uploaded"
@@ -54,15 +66,7 @@
                 ]
               }
             },
-            {
-              key: {
-                text: "Land boundary on a map"
-              },
-              classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-              value: {
-                html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
-              }
-            },
+            landBoundaryOnAMapElement,
             {
               key: {
                 text: "Grid reference"

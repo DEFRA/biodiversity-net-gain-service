@@ -17,3 +17,5 @@ process.env.DEFRA_ID_CLIENT_SECRET = 'clientSecret'
 process.env.DEFRA_ID_CLIENT_ID = 'clientId'
 process.env.DEFRA_ID_REDIRECT_URI = 'redirectUrl'
 process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB=1
+process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL='Y'
+process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL='Y'
