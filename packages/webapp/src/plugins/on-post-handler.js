@@ -47,7 +47,11 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
       h.request.response.source.context = {}
     }
     const accountInfo = request.auth.credentials.account.idTokenClaims
+    const currentOrganisation = accountInfo.relationships.find(r => r.startsWith(accountInfo.currentRelationshipId)).split(':')[2]
+    const representing = currentOrganisation || `Myself (${accountInfo.firstName} ${accountInfo.lastName})`
+
     h.request.response.source.context.auth = {
+      representing,
       isAuthenticated: true,
       firstName: accountInfo.firstName,
       lastName: accountInfo.lastName,

@@ -36,6 +36,21 @@ const getAuthenticationUrl = () => {
   return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
 }
 
+const getAuthenticationUrl2 = () => {
+  const authCodeUrlParameters = {
+    scopes: ['openid', 'offline_access', authConfig.clientId],
+    extraQueryParameters: {
+      serviceId: DEFRA_ID.DEFRA_ID_SERVICE_ID,
+      forceReselection: true
+    },
+    redirectUri: authConfig.redirectUri
+  }
+
+  console.log(msalClientApplication.getAuthCodeUrl(authCodeUrlParameters))
+
+  return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
+}
+
 const authenticate = async (code, cookieAuth) => {
   const { redirectUri } = authConfig
   const token = await msalClientApplication.acquireTokenByCode({
@@ -69,6 +84,7 @@ const getLogoutUrl = () => {
 
 export default {
   getAuthenticationUrl,
+  getAuthenticationUrl2,
   authenticate,
   refresh,
   logout,

@@ -9,6 +9,7 @@
           <ul class="govuk-list">
             <li><b>{{ auth.firstName }} {{ auth.lastName }}</b></li>
             <li>{{ auth.email }}</li>
+            <li>Representing: {{ auth.representing }}</li>
           </ul>
           <p class="govuk-body">
             <a href="{{ auth.accountManagementUrl | safe }}">Update Defra account details</a>

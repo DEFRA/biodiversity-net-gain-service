@@ -25,6 +25,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
 const SIGNIN = 'signin'
+const SIGNIN_ALT = 'signin-alt'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
 const SIGNED_OUT = 'signed-out'
@@ -144,6 +145,7 @@ let routes = {
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
+  SIGNIN_ALT,
   SIGNIN_CALLBACK,
   SIGNOUT,
   SIGNED_OUT,
