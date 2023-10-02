@@ -116,7 +116,6 @@
       "<rootDir>/packages/bng-metric-service/jest.config.cjs",
       "<rootDir>/packages/connectors-lib/jest.config.cjs",
       "<rootDir>/packages/database-version-control/jest.config.js",
-      "<rootDir>/packages/document-service/jest.config.cjs",
       "<rootDir>/packages/errors-lib/package.json",
       "<rootDir>/packages/geoprocessing-service/jest.config.cjs",
       "<rootDir>/packages/utils-lib/jest.config.cjs",

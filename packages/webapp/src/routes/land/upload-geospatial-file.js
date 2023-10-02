@@ -4,7 +4,7 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
@@ -28,14 +28,15 @@ const performUpload = async (request, h) => {
     sessionId: request.yar.id,
     uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
     fileExt: constants.geospatialLandBoundaryFileExt,
-    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) * 1024 * 1024
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) * 1024 * 1024,
+    postProcess: true
   })
 
   config.fileValidationConfig.maximumDecimalPlaces = 4
-  config.signalRConfig.eventProcessingFunction = processGeospatialLandBoundaryEvent
+  // config.signalRConfig.eventProcessingFunction = processGeospatialLandBoundaryEvent
 
   try {
-    const geospatialData = await uploadFiles(logger, request, config)
+    const geospatialData = await uploadFile(logger, request, config)
     const uploadedFileLocation = `${geospatialData[0].location.substring(0, geospatialData[0].location.lastIndexOf('/'))}/${geospatialData.filename}`
     const geoJsonFilename = geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
@@ -185,7 +186,7 @@ export default [{
       output: 'stream',
       parse: false,
       failAction: (request, h, err) => {
-        logger.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [

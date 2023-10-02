@@ -111,7 +111,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumManagementPlanFileSizeExceeded(h).takeover()
         } else {

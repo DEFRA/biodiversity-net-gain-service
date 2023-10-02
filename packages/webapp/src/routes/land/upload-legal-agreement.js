@@ -11,7 +11,7 @@ import {
 const legalAgreementId = '#legalAgreement'
 
 const processSuccessfulUpload = (result, request, h) => {
-  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
   return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
@@ -95,7 +95,7 @@ const handlers = {
       const result = await uploadFile(logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      console.log(`Problem uploading file ${err}`)
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h, legalAgreementType)
     }
   }
@@ -119,7 +119,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {

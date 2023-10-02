@@ -2,15 +2,8 @@ import { uploadStreamAndAwaitScan } from './azure-storage.js'
 import { handleEvents } from './azure-signalr.js'
 
 const buildConfig = inputConfig => {
-  const config = {
-    uploadType: inputConfig.uploadType,
-    fileExt: inputConfig.fileExt,
-    maxFileSize: inputConfig.maxFileSize
-  }
+  const config = JSON.parse(JSON.stringify(inputConfig))
   buildBlobConfig(inputConfig.sessionId, config)
-  // buildQueueConfig(config)
-  // buildFunctionConfig(config)
-  // buildSignalRConfig(inputConfig.sessionId, config)
   buildFileValidationConfig(config)
   return config
 }
