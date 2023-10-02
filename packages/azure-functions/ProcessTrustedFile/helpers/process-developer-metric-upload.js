@@ -26,5 +26,5 @@ export default async (context, config) => {
   } catch (err) {
     context.log.error(err)
     throw err
-  } 
+  }
 }

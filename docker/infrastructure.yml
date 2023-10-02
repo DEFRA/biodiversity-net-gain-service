@@ -36,28 +36,28 @@ services:
   ##############################################################################################################
   # Geoserver on port 8080
   ##############################################################################################################
-  geoserver:
-    image: oscarfonts/geoserver
-    environment:
-      # Set UID/GID for container to match host, unix user defaults to 1000 but set env vars UID or GID to use your own
-      - CUSTOM_UID=${UID:-1000}
-      - CUSTOM_GID=${GID:-1000}
-    volumes:
-      - ./volumes/geoserver:/var/local/geoserver
-    ports:
-      - "8080:8080"
+  # geoserver:
+  #   image: oscarfonts/geoserver
+  #   environment:
+  #     # Set UID/GID for container to match host, unix user defaults to 1000 but set env vars UID or GID to use your own
+  #     - CUSTOM_UID=${UID:-1000}
+  #     - CUSTOM_GID=${GID:-1000}
+  #   volumes:
+  #     - ./volumes/geoserver:/var/local/geoserver
+  #   ports:
+  #     - "8080:8080"
 
   ##############################################################################################################
   # Azure Functions Core Tools on port 8072
   # Azure SignalR emulator on port 8888
   ##############################################################################################################
-  azure_services:
-    build:
-      context: ..
-      dockerfile: docker/azure-services/Dockerfile
-    ports:
-      - "8082:7071"
-      - "8888:8888"
+  # azure_services:
+  #   build:
+  #     context: ..
+  #     dockerfile: docker/azure-services/Dockerfile
+  #   ports:
+  #     - "8082:7071"
+  #     - "8888:8888"
   ##############################################################################################################
   # Azurite blob service emulator on port 10000
   # Azurite queue service emulator on port 10001

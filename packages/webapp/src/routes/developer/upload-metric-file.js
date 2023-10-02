@@ -4,6 +4,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -22,8 +23,8 @@ const processSuccessfulUpload = async (result, request, h) => {
       taskTitle: 'Biodiversity 4.0 Metric calculations',
       title: 'Upload Metric 4.0 file'
     }, {
-    status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
-  })
+      status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
+    })
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)

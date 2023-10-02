@@ -3,6 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, processDeveloperTask } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
 

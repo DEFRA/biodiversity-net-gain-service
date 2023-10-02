@@ -4,30 +4,31 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
 async function processSuccessfulUpload (result, request, h) {
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
 
-    // Clear out any geospatial data and files
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_NAME)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
-    request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
-    request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+  // Clear out any geospatial data and files
+  request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_NAME)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
+  request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
+  request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
 
-    return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+  return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
 }
 
 function processErrorUpload (err, h) {

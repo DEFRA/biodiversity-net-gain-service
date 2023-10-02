@@ -11,10 +11,15 @@ export default async function (context, req) {
     }
     context.log('Processed', JSON.stringify(req.body))
   } catch (err) {
-    context.log.error(err) 
+    // If the processing function cannot be loaded message replay should not be attempted.
+    context.log.error(`Unable to load processing function for upload type ${JSON.stringify(req.body)}.uploadType - ${err.message}`)
+    context.log.error(err)
     context.res = {
       status: 400,
-      body: err
+      body: {
+        code: 'UNKNOWN-UPLOAD-TYPE',
+        uploadType: req.body.uploadType
+      }
     }
   }
 }

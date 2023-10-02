@@ -4,6 +4,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const localLandChargeId = '#localLandChargeId'
 function processSuccessfulUpload (result, request, h) {

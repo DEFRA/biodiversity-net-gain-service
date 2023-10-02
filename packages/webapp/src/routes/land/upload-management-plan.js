@@ -3,6 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 

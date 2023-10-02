@@ -73,6 +73,7 @@ export default async function (context, config) {
       })
       result.reprojectedFileSize = reprojectedGeospatialUploadSizeInBytes
     }
+    return result
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {
       result = {
@@ -89,7 +90,6 @@ export default async function (context, config) {
       containerName: CONTAINER_NAME,
       blobName: config.fileConfig.fileLocation
     })
-  } finally {
     return result
   }
 }

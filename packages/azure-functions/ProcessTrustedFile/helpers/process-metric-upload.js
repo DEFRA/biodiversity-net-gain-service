@@ -5,7 +5,6 @@ import processMetric from '../../Shared/process-metric.js'
 export default async function (context, config) {
   let metricData
   try {
-
     const response = await blobStorageConnector.downloadStreamIfExists(context, config)
     if (response) {
       const documentStream = response.readableStreamBody
@@ -29,5 +28,5 @@ export default async function (context, config) {
     return {
       errorMessage: err.message
     }
-  } 
+  }
 }

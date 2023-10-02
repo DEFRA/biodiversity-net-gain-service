@@ -7,6 +7,7 @@ import {
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const legalAgreementId = '#legalAgreement'
 

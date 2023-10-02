@@ -1,4 +1,4 @@
-import { blobStorageConnector, storageQueueConnector } from '@defra/bng-connectors-lib'
+import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from './constants.js'
 import { performance } from 'perf_hooks'
 
@@ -7,7 +7,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
   logger.log(`${new Date().toUTCString()} ${filename} has been uploaded`)
 
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const start = performance.now()
     let blobTags
     const timeout = (ms) => {
@@ -17,7 +17,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
     // After testing on Azure infrastructure apply a sensible lead time wait.
     // await timeout(4000)
     const wait = 1000
-    let maxAttempts = 20, attempts = 0
+    const maxAttempts = 20; let attempts = 0
     do {
       await timeout(wait)
       blobTags = await blobStorageConnector.getBlobTags(config.blobConfig)

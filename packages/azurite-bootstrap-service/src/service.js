@@ -4,8 +4,8 @@ import { logger } from 'defra-logging-facade'
 const blobServiceClient = getBlobServiceClient()
 const queueServiceClient = getQueueServiceClient()
 
-const containers = ['trusted', 'untrusted', 'customer-uploads']
-const queues = ['signalr-test-queue', 'trusted-file-queue', 'untrusted-file-queue', 'application-queue'];
+const containers = ['customer-uploads']
+const queues = [];
 (
   async () => {
     for await (const container of containers) {
