@@ -26,6 +26,8 @@ export default async function (context, config) {
     }
   } catch (err) {
     context.log.error(err)
-    throw err
+    return {
+      errorMessage: err.message
+    }
   } 
 }

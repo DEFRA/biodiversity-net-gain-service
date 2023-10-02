@@ -5,7 +5,7 @@ import { logger } from 'defra-logging-facade'
 // A route to retrieve a geospatial land boundary from Azure blob storage for display on a map.
 const downloadLandBoundary = async request => {
   const config = {
-    containerName: 'trusted',
+    containerName: 'customer-uploads',
     blobName: request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
   }
 

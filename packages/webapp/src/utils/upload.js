@@ -3,6 +3,7 @@ import { uploadStreamAndAwaitScan } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
 import { postJson } from './http.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const uploadFile = async (logger, request, config) => {
   // Use multiparty to get file stream
@@ -31,7 +32,7 @@ const uploadFile = async (logger, request, config) => {
     throw new Error(uploadResult.errorMessage)
   }
 
-  // Do we need to post process the file?
+  // Send file for post Processing
   if (uploadResult.config.postProcess) {
     try {
       uploadResult.postProcess = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processtrustedfile`, {
@@ -41,9 +42,8 @@ const uploadFile = async (logger, request, config) => {
       })
     } catch (err) {
       logger.log(`${new Date().toUTCString()} File failed post processing: ${uploadResult.config.blobConfig.blobName}`)
-      throw new Error(err)
+      throw new ThreatScreeningError(err)
     }
-    
   }
 
   return uploadResult

@@ -37,8 +37,10 @@ const performUpload = async (request, h) => {
 
   try {
     const geospatialData = await uploadFile(logger, request, config)
-    const uploadedFileLocation = `${geospatialData[0].location.substring(0, geospatialData[0].location.lastIndexOf('/'))}/${geospatialData.filename}`
-    const geoJsonFilename = geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)
+    processGeospatialLandBoundaryEvent(geospatialData.postProcess)
+
+    const uploadedFileLocation = `${geospatialData.postProcess.location.substring(0, geospatialData.postProcess.location.lastIndexOf('/'))}/${geospatialData.filename}`
+    const geoJsonFilename = geospatialData.postProcess.location.substring(geospatialData.postProcess.location.lastIndexOf('/') + 1)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
 
     if (!geospatialData.filename.endsWith('.geojson')) {
@@ -47,21 +49,21 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
     }
 
-    if (geospatialData[0].reprojectedLocation) {
+    if (geospatialData.postProcess.reprojectedLocation) {
       // A geospatial upload using the WGS84 Coordinate Reference System has been uploaded.
       // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System
       // and its size so that they can be part of the application submission.
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].reprojectedLocation)
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData[0].reprojectedFileSize)
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.reprojectedLocation)
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData.postProcess.reprojectedFileSize)
     }
 
-    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData.postProcess.mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData[0].mapConfig.hectares.toFixed(2))
-    request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData[0].mapConfig.gridRef)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData.postProcess.mapConfig.hectares.toFixed(2))
+    request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData.postProcess.mapConfig.gridRef)
 
     // Clear out any land boundary data
     request.yar.clear(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
@@ -143,9 +145,8 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ThreatScreeningError) {
-    const status = err.threatScreeningDetails.Status
     error.err = [{
-      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
+      text: 'File malware scan failed',
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {

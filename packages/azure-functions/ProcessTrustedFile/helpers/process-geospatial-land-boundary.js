@@ -1,8 +1,7 @@
-import buildSignalRMessage from '../../Shared/build-signalr-message.js'
+import path from 'path'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import { processLandBoundary } from '@defra/bng-geoprocessing-service'
-import path from 'path'
 
 const GEOJSON_FILE_EXTENSION = '.geojson'
 const OSGB36_SRS_AUTHORITY_CODE = '27700'
@@ -44,7 +43,7 @@ export default async function (context, config) {
     delete landBoundaryConfig.outputLocation
   }
 
-  let signalRMessageArguments
+  let result
   try {
     const mapConfig = await processLandBoundary(context.log, landBoundaryConfig)
 
@@ -60,30 +59,30 @@ export default async function (context, config) {
       await moveBlob(tmpReprojectedGeoJsonBlobName, reprojectedGeoJsonBlobName)
     }
 
-    signalRMessageArguments = [{
+    result = {
       location: geoJsonBlobName,
       mapConfig
-    }]
+    }
 
     if (mapConfig.epsg !== OSGB36_SRS_AUTHORITY_CODE) {
-      signalRMessageArguments[0].reprojectedLocation = reprojectedGeoJsonBlobName
+      result.reprojectedLocation = reprojectedGeoJsonBlobName
 
       const reprojectedGeospatialUploadSizeInBytes = await blobStorageConnector.getBlobSizeInBytes({
         containerName: CONTAINER_NAME,
         blobName: reprojectedGeoJsonBlobName
       })
-      signalRMessageArguments[0].reprojectedFileSize = reprojectedGeospatialUploadSizeInBytes
+      result.reprojectedFileSize = reprojectedGeospatialUploadSizeInBytes
     }
   } catch (err) {
     if (err instanceof CoordinateSystemValidationError) {
-      signalRMessageArguments = [{
+      result = {
         authorityKey: err.authorityKey,
         errorCode: err.code
-      }]
+      }
     } else if (err instanceof ValidationError) {
-      signalRMessageArguments = [{ errorCode: err.code }]
+      result = { errorCode: err.code }
     } else {
-      signalRMessageArguments = [{ errorMessage: err.message }]
+      result = { errorMessage: err.message }
     }
     // Delete customer-upload files as no longer of use
     await blobStorageConnector.deleteBlobIfExists({
@@ -91,7 +90,7 @@ export default async function (context, config) {
       blobName: config.fileConfig.fileLocation
     })
   } finally {
-    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
+    return result
   }
 }
 

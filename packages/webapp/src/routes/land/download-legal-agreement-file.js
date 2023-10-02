@@ -7,7 +7,7 @@ const downloadLegalAgreementFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
   const config = {
     blobName,
-    containerName: 'trusted'
+    containerName: constants.BLOB_STORAGE_CONTAINER
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)

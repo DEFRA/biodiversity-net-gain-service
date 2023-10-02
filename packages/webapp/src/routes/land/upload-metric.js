@@ -4,6 +4,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -46,7 +47,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.toLowerCase().indexOf('Malware scanning result') > -1) {
+      if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_METRIC, {
           err: [{
             text: 'File malware scan failed',
