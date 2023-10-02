@@ -20,7 +20,9 @@ export default async (context, config) => {
     } else {
       throw new Error('Unable to retrieve blob for developer metric file')
     }
-    return processMetric(metricData)
+    return {
+      metricData: processMetric(metricData)
+    }
   } catch (err) {
     context.log.error(err)
     throw err

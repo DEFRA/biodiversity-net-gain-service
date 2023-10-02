@@ -2,19 +2,16 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
 async function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
 
     // Clear out any geospatial data and files
     request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
@@ -29,8 +26,8 @@ async function processSuccessfulUpload (result, request, h) {
     request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
     request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
     request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-  }
-  return resultView
+
+    return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
 }
 
 function processErrorUpload (err, h) {
@@ -88,22 +85,13 @@ const handlers = {
       fileExt: constants.landBoundaryFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      logger.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: LAND_BOUNDARY_ID
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 

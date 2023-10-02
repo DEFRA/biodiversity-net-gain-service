@@ -39,7 +39,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
 
 const deleteBlobFromContainers = async blobName => {
   await blobStorageConnector.deleteBlobIfExists({
-    containerName: 'customer-uploads',
+    containerName: constants.BLOB_STORAGE_CONTAINER,
     blobName
   })
 }
