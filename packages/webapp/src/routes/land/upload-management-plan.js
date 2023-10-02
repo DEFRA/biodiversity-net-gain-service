@@ -81,15 +81,21 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumManagementPlanFileSizeExceeded(h)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_MANAGEMENT_PLAN, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
+          err: [{
+            text: 'File malware scan failed',
+            href: MANAGEMENT_PLAN_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
             href: MANAGEMENT_PLAN_ID
           }]
         })
       }
-      throw err
   }
 }
 

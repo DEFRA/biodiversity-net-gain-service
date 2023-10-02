@@ -56,15 +56,21 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LAND_BOUNDARY, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+          err: [{
+            text: 'File malware scan failed',
+            href: LAND_BOUNDARY_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
             href: LAND_BOUNDARY_ID
           }]
         })
       }
-      throw err
   }
 }
 

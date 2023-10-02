@@ -1,7 +1,7 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
@@ -39,10 +39,11 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
-      if (err.message.indexOf('timed out') > 0) {
+      if (err instanceof ThreatScreeningError) {
+        return buildErrorResponse(h, 'File malware scan failed')
+      } else {
         return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
       }
-      throw err
   }
 }
 
@@ -65,22 +66,13 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
 
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: localLandChargeId
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h, legalAgreementType)
+    }
   }
 }
 

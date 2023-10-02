@@ -44,15 +44,21 @@ function processErrorUpload (err, h) {
         }]
       })
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LAND_OWNERSHIP, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
+          err: [{
+            text: 'File malware scan failed',
+            href: LAND_OWNERSHIP_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
             href: LAND_OWNERSHIP_ID
           }]
         })
       }
-      throw err
   }
 }
 

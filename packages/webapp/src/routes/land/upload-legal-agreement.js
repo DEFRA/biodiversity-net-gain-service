@@ -46,24 +46,21 @@ const processErrorUpload = (err, h, legalAgreementType) => {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.toLowerCase().indexOf('timed out') > -1) {
+      if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-          legalAgreementType,
-          err: [{
-            text: 'The selected file could not be uploaded -- try again',
-            href: legalAgreementId
-          }]
-        })
-      } else if (err.message.toLowerCase().indexOf('Malware scanning result') > -1) {
-        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-          legalAgreementType,
           err: [{
             text: 'File malware scan failed',
             href: legalAgreementId
           }]
         })
+      } else {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: 'The selected file could not be uploaded -- try again',
+            href: legalAgreementId
+          }]
+        })
       }
-      throw err
   }
 }
 
