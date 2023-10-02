@@ -49,10 +49,6 @@ const uploadFile = async (logger, request, config) => {
   return uploadResult
 }
 
-const uploadFiles = async (logger, request, config) => {
-
-}
-
 const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
@@ -92,4 +88,4 @@ const handlePart = async (logger, part, config, uploadResult) => {
   }
 }
 
-export { uploadFile, uploadFiles }
+export { uploadFile }

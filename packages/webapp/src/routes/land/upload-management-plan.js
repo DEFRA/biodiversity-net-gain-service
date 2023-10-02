@@ -1,7 +1,7 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
@@ -24,38 +24,25 @@ const handlers = {
       fileExt: constants.managementPlanFileExt,
       uploadType: constants.uploadTypes.MANAGEMENT_PLAN_UPLOAD_TYPE
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: MANAGEMENT_PLAN_ID
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 
-function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received management plan data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_MANAGEMENT_PLAN
-  }
-  return h.redirect(resultView)
+const processSuccessfulUpload = (result, request, h) => {
+  request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received management plan data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.CHECK_MANAGEMENT_PLAN)
 }
 
-function processErrorUpload (err, h) {
+const processErrorUpload = (err, h) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {

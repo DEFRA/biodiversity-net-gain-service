@@ -7,15 +7,11 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 
 const localLandChargeId = '#localLandChargeId'
 function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received legal and search data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE
-  }
-  return h.redirect(resultView)
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE)
 }
 
 function buildErrorResponse (h, message) {
@@ -71,7 +67,7 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, legalAgreementType)
+      return processErrorUpload(err, h)
     }
   }
 }
