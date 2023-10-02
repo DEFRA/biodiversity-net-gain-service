@@ -84,11 +84,12 @@ const createUploadConfiguration = config => {
 const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
+  const filename = part.filename
   // Delay throwing errors until the form is closed.
-  if (!part.filename) {
+  if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
-  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
+  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
   } else if (fileSize * 100 === 0) {
@@ -98,18 +99,24 @@ const handlePart = async (logger, part, config, uploadResult) => {
     uploadResult.errorMessage = constants.uploadErrors.maximumFileSizeExceeded
     part.resume()
   } else {
-    logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
+    logger.log(`${new Date().toUTCString()} Uploading ${filename}`)
     uploadResult.fileSize = fileSizeInBytes
-    if (part.filename) {
-      uploadResult.filename = part.filename
+    if (filename) {
+      uploadResult.filename = filename
     }
     if (part.headers['content-type']) {
       uploadResult.fileType = part.headers['content-type']
     }
-    const uploadConfig = createUploadConfiguration(config)
-    const result = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
-    uploadResult.tags = result.tags
-    uploadResult.blobConfig = result.blobConfig
+    const uploadConfig = JSON.parse(JSON.stringify(config))
+    config.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
+    const tags = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
+    uploadResult.tags = tags
+    uploadResult.blobConfig = config.blobConfig
+
+    // React to file scanning result
+    if (tags['Malware Scanning scan result'] !== 'No threats found') {
+      uploadResult.errorMessage = `Malware scanning result: ${JSON.stringify(tags)}`
+    }
   }
 }
 

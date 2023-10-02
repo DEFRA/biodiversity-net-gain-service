@@ -1,53 +1,43 @@
 import { blobStorageConnector, storageQueueConnector } from '@defra/bng-connectors-lib'
+import constants from './constants.js'
+import { performance } from 'perf_hooks'
 
 const uploadStreamAndAwaitScan = async (logger, config, stream) => {
-  addFileDetailsToConfiguration(config, stream.filename)
+  const { filename } = stream
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
-  logger.log(`${new Date().toUTCString()} ${stream.filename} has been uploaded`)
+  logger.log(`${new Date().toUTCString()} ${filename} has been uploaded`)
 
-  const tags = await new Promise(async(resolve) => {
-    console.time()
+  return new Promise(async(resolve, reject) => {
+    const start = performance.now()
     let blobTags
     const timeout = (ms) => {
-      console.log(`Waiting ${ms}ms`)
       return new Promise(resolve => setTimeout(resolve, ms))
     }
-  
+    // Give Microsoft Defender 4s lead time
+    // After testing on Azure infrastructure apply a sensible lead time wait.
+    // await timeout(4000)
+    const wait = 1000
+    let maxAttempts = 10, attempts = 0
     do {
-      await timeout(500)
+      await timeout(wait)
       blobTags = await blobStorageConnector.getBlobTags(config.blobConfig)
-    } while (Object.keys(blobTags.tags).length === 0)
+      attempts++
+    } while (Object.keys(blobTags.tags).length === 0 && attempts < maxAttempts)
 
-    console.timeEnd()
-    resolve(blobTags.tags)
+    const end = performance.now()
+
+    if (Object.keys(blobTags.tags).length === 0) {
+      logger.log(`${new Date().toUTCString()} ${filename} No malware scan response after ${Math.round(end - start)}ms`)
+      reject(new Error(constants.uploadErrors.noFileScanResponse))
+    } else {
+      logger.log(`${new Date().toUTCString()} ${filename} malware scan response after ${Math.round(end - start)}ms`)
+      logger.log(`${new Date().toUTCString()} ${filename} malware scan results: ${JSON.stringify(blobTags.tags)}`)
+      resolve(blobTags.tags)
+    }
   })
-  // todo delete
-  console.log(tags)
-  return { tags, blobConfig: config.blobConfig }
-}
-
-const addFileDetailsToConfiguration = (config, filename) => {
-  config.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
-  const message = {
-    uploadType: config.queueConfig.uploadType,
-    location: config.blobConfig.blobName,
-    containerName: config.blobConfig.containerName
-  }
-
-  config.queueConfig.message = Buffer.from(JSON.stringify(message)).toString('base64')
 }
 
 const deleteBlobFromContainers = async blobName => {
-  // await Promise.all([
-  //   blobStorageConnector.deleteBlobIfExists({
-  //     containerName: 'trusted',
-  //     blobName
-  //   }),
-  //   blobStorageConnector.deleteBlobIfExists({
-  //     containerName: 'untrusted',
-  //     blobName
-  //   })
-  // ])
   await blobStorageConnector.deleteBlobIfExists({
     containerName: 'customer-uploads',
     blobName

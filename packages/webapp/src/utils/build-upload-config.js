@@ -8,9 +8,9 @@ const buildConfig = inputConfig => {
     maxFileSize: inputConfig.maxFileSize
   }
   buildBlobConfig(inputConfig.sessionId, config)
-  buildQueueConfig(config)
-  buildFunctionConfig(config)
-  buildSignalRConfig(inputConfig.sessionId, config)
+  // buildQueueConfig(config)
+  // buildFunctionConfig(config)
+  // buildSignalRConfig(inputConfig.sessionId, config)
   buildFileValidationConfig(config)
   return config
 }

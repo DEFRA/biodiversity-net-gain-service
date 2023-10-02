@@ -10,16 +10,14 @@ import {
 
 const legalAgreementId = '#legalAgreement'
 
-function processSuccessfulUpload (result, request, h) {
-  const blobName = result.blobConfig.blobName
-  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, blobName)
+const processSuccessfulUpload = (result, request, h) => {
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result.blobConfig.blobName)
   request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
-  logger.log(`${new Date().toUTCString()} Received legal agreement data for ${blobName.substring(blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT)
 }
 
-function processErrorUpload (err, h, legalAgreementType) {
+const processErrorUpload = (err, h, legalAgreementType) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
@@ -48,11 +46,19 @@ function processErrorUpload (err, h, legalAgreementType) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+      if (err.message.toLowerCase().indexOf('timed out') > -1) {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           legalAgreementType,
           err: [{
             text: 'The selected file could not be uploaded -- try again',
+            href: legalAgreementId
+          }]
+        })
+      } else if (err.message.toLowerCase().indexOf('Malware scanning result') > -1) {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          legalAgreementType,
+          err: [{
+            text: 'File malware scan failed',
             href: legalAgreementId
           }]
         })
@@ -90,32 +96,8 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-        legalAgreementType,
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: legalAgreementId
-        }]
-      })
+      return processErrorUpload(err, h, legalAgreementType)
     }
-
-    // return uploadFiles(logger, request, config).then(
-    //   function (result) {
-    //     return processSuccessfulUpload(result, request, h)
-    //   },
-    //   function (err) {
-    //     return processErrorUpload(err, h, legalAgreementType)
-    //   }
-    // ).catch(err => {
-    //   console.log(`Problem uploading file ${err}`)
-    //   return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-    //     legalAgreementType,
-    //     err: [{
-    //       text: 'The selected file could not be uploaded -- try again',
-    //       href: legalAgreementId
-    //     }]
-    //   })
-    // })
   }
 }
 
