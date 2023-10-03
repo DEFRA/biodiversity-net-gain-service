@@ -24,7 +24,7 @@ describe(url, () => {
       url,
       formName: UPLOAD_CONSENT_FORM_ELEMENT_NAME,
       eventData: mockDevConsentData,
-      containerName: 'untrusted'
+      containerName: 'customer-uploads'
     }
 
     beforeEach(async () => {
