@@ -4,7 +4,7 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete } from '@defra/bng-azure-storage-test-utils'
-import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes, MalwareDetectedError } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
 import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 
@@ -103,9 +103,7 @@ const uploadFile = async (uploadConfig) => {
       const errorMessage = 'Unexpected valdation error'
       throw new ValidationError('UNEXPECTED-ERROR-CODE', errorMessage)
     } else if (uploadConfig.generateThreatDetectedError) {
-      throw new ThreatScreeningError({
-        Status: constants.threatScreeningStatusValues.QUARANTINED
-      })
+      throw new MalwareDetectedError(constants.uploadErrors.threatDetected)
     } else if (uploadConfig.generateThreatScreeningFailure) {
       throw new ThreatScreeningError({
         Status: constants.threatScreeningStatusValues.FAILED_TO_VIRUS_SCAN

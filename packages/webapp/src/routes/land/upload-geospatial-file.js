@@ -1,5 +1,5 @@
 import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
-import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, MalwareDetectedError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
@@ -157,6 +157,11 @@ const getErrorContext = err => {
   } else if (err instanceof ValidationError) {
     error.err = [{
       text: getValidationErrorText(err),
+      href: uploadGeospatialFileId
+    }]
+  } else if (err instanceof MalwareDetectedError) {
+    error.err = [{
+      text: constants.uploadErrors.threatDetected,
       href: uploadGeospatialFileId
     }]
   } else {
