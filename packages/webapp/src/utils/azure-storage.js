@@ -1,8 +1,9 @@
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from './constants.js'
 import { performance } from 'perf_hooks'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
-const uploadStreamAndAwaitScan = async (logger, config, stream) => {
+const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20) => {
   const { filename } = stream
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
   logger.log(`${new Date().toUTCString()} ${filename} has been uploaded`)
@@ -27,7 +28,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
   // After testing on Azure infrastructure apply a sensible lead time wait.
   // await timeout(4000)
   const wait = 1000
-  const maxAttempts = 20; let attempts = 0
+  let attempts = 0
   do {
     await timeout(wait)
     blobTags = await blobStorageConnector.getBlobTags(config.blobConfig)
@@ -38,7 +39,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
 
   if (Object.keys(blobTags.tags).length === 0) {
     logger.log(`${new Date().toUTCString()} ${filename} No malware scan response after ${Math.round(end - start)}ms`)
-    throw new Error(constants.uploadErrors.noFileScanResponse)
+    throw new ThreatScreeningError(constants.uploadErrors.noFileScanResponse)
   } else {
     logger.log(`${new Date().toUTCString()} ${filename} malware scan response after ${Math.round(end - start)}ms`)
     logger.log(`${new Date().toUTCString()} ${filename} malware scan results: ${JSON.stringify(blobTags.tags)}`)
