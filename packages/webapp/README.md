@@ -19,7 +19,6 @@ warning: other service dependencies will be missing, install and run from root o
 | ORDNANCE_SURVEY_API_KEY | Key used to access Ordnance Survey APIs | Y |
 | ORDNANCE_SURVEY_API_SECRET | Secret used to access Ordnance Survey APIs | Y |
 | MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) | Y |
-| SIGNALR_URL | Microsoft Azure SignalR connection URL (see the note below) | Y |  
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
 | AZURE_FUNCTION_APP_URL | API URL for funtion app | Y |

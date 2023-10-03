@@ -1,16 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 const LEGAL_AGREEMENT_FORM_ELEMENT_NAME = 'legalAgreement'
 const url = constants.routes.UPLOAD_LEGAL_AGREEMENT
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Legal agreement upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -33,7 +29,6 @@ describe('Legal agreement upload controller tests', () => {
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload legal agreement document to cloud storage', (done) => {
@@ -186,24 +181,6 @@ describe('Legal agreement upload controller tests', () => {
             referer: 'http://localhost:30000/land/check-legal-agreement-details'
           }
           await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should cause an internal server error response when notification processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/legal-agreement.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          await uploadFile(config)
           setImmediate(() => {
             done()
           })
