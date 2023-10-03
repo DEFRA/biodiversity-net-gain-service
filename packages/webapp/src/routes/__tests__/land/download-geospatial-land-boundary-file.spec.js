@@ -4,7 +4,6 @@ import constants from '../../../utils/constants.js'
 import application from '../../../__mock-data__/test-application.js'
 const url = constants.routes.DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')
 
 describe(url, () => {
