@@ -33,7 +33,6 @@ const performUpload = async (request, h) => {
   })
 
   config.fileValidationConfig.maximumDecimalPlaces = 4
-  // config.signalRConfig.eventProcessingFunction = processGeospatialLandBoundaryEvent
 
   try {
     const geospatialData = await uploadFile(logger, request, config)
@@ -145,8 +144,9 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ThreatScreeningError) {
+    const status = err.threatScreeningDetails.Status
     error.err = [{
-      text: 'File malware scan failed',
+      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {

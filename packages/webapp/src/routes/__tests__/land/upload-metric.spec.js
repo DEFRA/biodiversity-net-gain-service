@@ -15,9 +15,8 @@ describe('Metric file upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockMetric = [
+    const mockMetric =
       {
-        location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
           validation: {
             isVersion4OrLater: true,
@@ -26,12 +25,12 @@ describe('Metric file upload controller tests', () => {
           }
         }
       }
-    ]
+
     const baseConfig = {
       uploadType: 'metric-upload',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric,
+      postProcess: mockMetric,
       sessionData: {}
     }
 
@@ -180,7 +179,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -205,7 +204,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -230,7 +229,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false

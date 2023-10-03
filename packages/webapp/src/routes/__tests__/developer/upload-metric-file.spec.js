@@ -1,18 +1,13 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.DEVELOPER_UPLOAD_METRIC
-
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Metric file upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -20,31 +15,29 @@ describe('Metric file upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockMetric = [
-      {
-        location: 'mockUserId/mockUploadType/mockFilename',
-        metricData: {
-          d1: [{ 'Off-site reference': 'AZ12208461' }],
-          e1: [],
-          validation: {
-            isVersion4OrLater: true,
-            isOffsiteDataPresent: true,
-            areOffsiteTotalsCorrect: true
-          }
+    const mockMetric =
+    {
+      metricData: {
+        d1: [{ 'Off-site reference': 'AZ12208461' }],
+        e1: [],
+        validation: {
+          isVersion4OrLater: true,
+          isOffsiteDataPresent: true,
+          areOffsiteTotalsCorrect: true
         }
       }
-    ]
+    }
+
     const baseConfig = {
       uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric,
+      postProcess: mockMetric,
       sessionData: {}
     }
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should display error if off-site reference is not matching', (done) => {
@@ -189,24 +182,6 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when upload processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({ uploadType: null }, baseConfig)
-          config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
     it('should return validation error message if not v4 metric', (done) => {
       jest.isolateModules(async () => {
         try {
@@ -215,7 +190,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -240,7 +215,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -265,7 +240,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
