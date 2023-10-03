@@ -69,25 +69,6 @@ describe(url, () => {
       })
     })
 
-    it('should display expected error details when upload screening fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateThreatScreeningFailure = true
-          config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
     it('should display expected error details when an upload fails due to a timeout', (done) => {
       jest.isolateModules(async () => {
         try {

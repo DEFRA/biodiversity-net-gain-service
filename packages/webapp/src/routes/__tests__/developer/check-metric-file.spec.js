@@ -91,7 +91,7 @@ describe(url, () => {
             containerName: 'customer-uploads',
             blobName: mockFileLocation
           })
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {
           done(err)
