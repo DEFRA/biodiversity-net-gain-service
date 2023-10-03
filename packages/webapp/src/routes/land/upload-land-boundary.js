@@ -4,7 +4,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -61,6 +61,13 @@ function processErrorUpload (err, h) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
             text: 'File malware scan failed',
+            href: LAND_BOUNDARY_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+          err: [{
+            text: 'File malware detected',
             href: LAND_BOUNDARY_ID
           }]
         })

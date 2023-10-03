@@ -13,9 +13,9 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
   }
 
   // If we are using local azurite blob store then we need to ignore scan results and mock
-  if (process.env.AZURE_BLOB_SERVICE_URL.indexOf('azurite') > -1 ||
-    process.env.AZURE_BLOB_SERVICE_URL.indexOf('localhost') > -1 ||
-    process.env.AZURE_BLOB_SERVICE_URL.indexOf('127.0.0.1') > -1) {
+  if (process.env.AZURE_BLOB_SERVICE_URL?.indexOf('azurite') > -1 ||
+    process.env.AZURE_BLOB_SERVICE_URL?.indexOf('localhost') > -1 ||
+    process.env.AZURE_BLOB_SERVICE_URL?.indexOf('127.0.0.1') > -1) {
     logger.log(`${new Date().toUTCString()} Malware scanning is mocked for Azurite usage`)
     return {
       'Malware Scanning scan result': 'No threats found',

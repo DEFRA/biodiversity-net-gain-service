@@ -3,7 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, processDeveloperTask } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
 
@@ -49,6 +49,13 @@ const processErrorUpload = (err, h) => {
         return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
           err: [{
             text: 'File malware scan failed',
+            href: DEVELOPER_WRITTEN_CONSENT_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
+          err: [{
+            text: 'File malware detected',
             href: DEVELOPER_WRITTEN_CONSENT_ID
           }]
         })

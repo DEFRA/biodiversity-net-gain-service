@@ -3,7 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const MANAGEMENT_PLAN_ID = '#managementPlan'
 
@@ -73,6 +73,13 @@ const processErrorUpload = (err, h) => {
         return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
           err: [{
             text: 'File malware scan failed',
+            href: MANAGEMENT_PLAN_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
+          err: [{
+            text: 'File malware detected',
             href: MANAGEMENT_PLAN_ID
           }]
         })

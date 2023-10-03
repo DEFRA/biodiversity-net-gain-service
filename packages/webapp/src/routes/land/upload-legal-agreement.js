@@ -7,7 +7,7 @@ import {
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const legalAgreementId = '#legalAgreement'
 
@@ -51,6 +51,13 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
             text: 'File malware scan failed',
+            href: legalAgreementId
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: 'File malware detected',
             href: legalAgreementId
           }]
         })

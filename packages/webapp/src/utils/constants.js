@@ -171,6 +171,7 @@ const uploadErrors = {
   threatDetected: 'The selected file contains a virus',
   unsupportedFileExt: 'Unsupported file extension',
   noFileScanResponse: 'Timed out awaiting anti virus scan result'
+
 }
 
 const threatScreeningStatusValues = {

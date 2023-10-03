@@ -3,6 +3,7 @@ import { uploadStreamAndAwaitScan } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
+import { fileMalwareCheck } from './file-malware-check.js'
 
 const uploadFile = async (logger, request, config) => {
   // Use multiparty to get file stream
@@ -30,6 +31,9 @@ const uploadFile = async (logger, request, config) => {
   if (uploadResult.errorMessage) {
     throw new Error(uploadResult.errorMessage)
   }
+
+  // Check tags returned for Malware scanning here
+  fileMalwareCheck(uploadResult.tags)
 
   // Send file for post Processing
   if (uploadResult.config.postProcess) {
@@ -75,11 +79,6 @@ const handlePart = async (logger, part, config, uploadResult) => {
     const tags = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
     uploadResult.tags = tags
     uploadResult.config = uploadConfig
-
-    // React to file scanning result
-    if (tags['Malware Scanning scan result'] !== 'No threats found') {
-      uploadResult.errorMessage = `Malware scanning result: ${JSON.stringify(tags)}`
-    }
   }
 }
 

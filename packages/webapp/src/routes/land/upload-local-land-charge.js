@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const localLandChargeId = '#localLandChargeId'
 function processSuccessfulUpload (result, request, h) {
@@ -38,6 +38,8 @@ function processErrorUpload (err, h) {
     default:
       if (err instanceof ThreatScreeningError) {
         return buildErrorResponse(h, 'File malware scan failed')
+      } else if (err instanceof MalwareDetectedError) {
+        return buildErrorResponse(h, 'File malware detected')
       } else {
         return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
       }

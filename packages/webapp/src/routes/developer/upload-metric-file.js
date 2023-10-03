@@ -4,7 +4,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -73,14 +73,21 @@ const processErrorUpload = (err, h) => {
       return maximumFileSizeExceeded(h)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.UPLOAD_METRIC, {
+        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: 'File malware scan failed',
             href: UPLOAD_METRIC_ID
           }]
         })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+          err: [{
+            text: 'File malware detected',
+            href: UPLOAD_METRIC_ID
+          }]
+        })
       } else {
-        return h.redirect(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
             href: UPLOAD_METRIC_ID

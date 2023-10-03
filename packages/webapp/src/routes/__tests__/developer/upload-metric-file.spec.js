@@ -263,9 +263,10 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({ uploadType: null }, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateUploadTimeoutError = true
-          // config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.result).toBe('')
+          config.hasError = true
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file could not be uploaded -- try again')
           setImmediate(() => {
             done()
           })
