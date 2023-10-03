@@ -11,6 +11,18 @@ const uploadStreamAndAwaitScan = async (logger, config, stream) => {
   const timeout = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
+
+  // If we are using local azurite blob store then we need to ignore scan results and mock
+  if (process.env.AZURE_BLOB_SERVICE_URL.indexOf('azurite') > -1 ||
+    process.env.AZURE_BLOB_SERVICE_URL.indexOf('localhost') > -1 ||
+    process.env.AZURE_BLOB_SERVICE_URL.indexOf('127.0.0.1') > -1) {
+    logger.log(`${new Date().toUTCString()} Malware scanning is mocked for Azurite usage`)
+    return {
+      'Malware Scanning scan result': 'No threats found',
+      'Malware Notes': 'Mocked scan result for Azurite blob storage'
+    }
+  }
+
   // Give Microsoft Defender 4s lead time
   // After testing on Azure infrastructure apply a sensible lead time wait.
   // await timeout(4000)
