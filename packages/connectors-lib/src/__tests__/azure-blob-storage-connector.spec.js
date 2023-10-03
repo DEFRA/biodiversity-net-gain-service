@@ -101,31 +101,31 @@ describe('The Azure blob storage connector', () => {
     expect(JSON.parse(sourceBuffer.toString())).toStrictEqual(mockData)
     expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
   })
-  // commenting out as no longer have untrusted/trusted containers
-  // it('should allow a blob to be moved', async () => {
-  //   const copyConfig = {
-  //     source: {
-  //       containerName: config.containerName,
-  //       blobName: config.blobName
-  //     },
-  //     target: {
-  //       containerName: 'customer-uploads',
-  //       blobName: config.blobName
-  //     }
-  //   }
 
-  //   const mockData = { mock: 'data' }
+  it('should allow a blob to be moved', async () => {
+    const copyConfig = {
+      source: {
+        containerName: config.containerName,
+        blobName: config.blobName
+      },
+      target: {
+        containerName: config.containerName,
+        blobName: `${config.blobName}-new`
+      }
+    }
 
-  //   await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
-  //   await blobStorageConnector.moveBlob(copyConfig)
-  //   await expect(blobExists(copyConfig.source.containerName, copyConfig.source.blobName)).resolves.toStrictEqual(false)
-  //   await expect(blobExists(copyConfig.target.containerName, copyConfig.target.blobName)).resolves.toStrictEqual(true)
-  //   const sourceBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.source)
-  //   const targetBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.target)
-  //   expect(sourceBuffer).toBeUndefined()
-  //   expect(targetBuffer).toBeDefined()
-  //   expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
-  // })
+    const mockData = { mock: 'data' }
+
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    await blobStorageConnector.moveBlob(copyConfig)
+    await expect(blobExists(copyConfig.source.containerName, copyConfig.source.blobName)).resolves.toStrictEqual(false)
+    await expect(blobExists(copyConfig.target.containerName, copyConfig.target.blobName)).resolves.toStrictEqual(true)
+    const sourceBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.source)
+    const targetBuffer = await blobStorageConnector.downloadToBufferIfExists(logger, copyConfig.target)
+    expect(sourceBuffer).toBeUndefined()
+    expect(targetBuffer).toBeDefined()
+    expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
+  })
   it('should not attempt to delete a blob with a null container name', async () => {
     const config = {
       containerName: null,
@@ -153,5 +153,11 @@ describe('The Azure blob storage connector', () => {
       blobName: undefined
     }
     await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
+  it('Should get tags for a blob', async () => {
+    const mockData = { mock: 'data' }
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    const res = await blobStorageConnector.getBlobTags(config)
+    expect(res.tags).toEqual({})
   })
 })
