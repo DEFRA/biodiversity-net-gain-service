@@ -307,11 +307,23 @@ const dataString = `
   "management-plan-checked": "yes",
   "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
-  "legal-agreement-location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
-  "legal-agreement-file-size": 0.01,
-  "legal-agreement-file-type": "application/msword",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
+  "legal-agreement-files": [
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
+      "fileSize": 0.01,
+      "fileType": "application/msword", 
+      "id": "1"
+
+    },
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement1.pdf",
+      "fileSize": 0.01,
+      "fileType": "application/pdf", 
+      "id": "2"
+    }
+  ],
   "legal-agreement-parties": [
     {
       "organisationName": "org1",

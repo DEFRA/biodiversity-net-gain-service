@@ -4,7 +4,7 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-
+import path from 'path'
 const isoDateFormat = 'YYYY-MM-DD'
 
 const parsePayload = (payload, ID) => {
@@ -263,6 +263,36 @@ const getLegalAgreementParties = legalAgreementParties => {
       role: item.organisationRole
     }
   })
+}
+const generateUniqueId = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 7)
+}
+const getDesiredFilenameFromRedisLocation = (location) => {
+  if (location === null) {
+    return ''
+  }
+  const filename = path.parse(location).base
+  const regex = /-([^-.]+)\.[^.]+$/
+  const match = filename.match(regex)
+  const identifier = match ? match[1] : null
+
+  if (identifier) {
+    // Replacing the matched identifier with an empty string.
+    return filename.replace(`-${identifier}`, '')
+  }
+
+  return filename
+}
+const getIdfromFileName = (filename) => {
+  const regex = /-([^-.]+)\.[^.]+$/
+  const match = filename.match(regex)
+  return match ? match[1] : null
+}
+const generateUniqueFilename = (filename) => {
+  const extension = filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2)
+  const baseName = filename.substr(0, filename.lastIndexOf('.'))
+
+  return `${baseName}-${generateUniqueId()}.${extension}`
 }
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
@@ -536,11 +566,13 @@ export {
   getAllLandowners,
   getResponsibleBodies,
   getLandowners,
+  generateUniqueFilename,
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
   formatSortCode,
+  getIdfromFileName,
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,
@@ -556,6 +588,7 @@ export {
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
+  getDesiredFilenameFromRedisLocation,
   getHumanReadableFileSize,
   processDeveloperTask,
   getDeveloperTasks,

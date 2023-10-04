@@ -20,7 +20,7 @@ const getFile = (session, fileType, filesize, fileLocation) => ({
 })
 
 const getFiles = session => [
-  getFile(session, constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
+  ...getLegalAgreementFiles(session),
   getLandBoundaryFile(session),
   getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
   getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
@@ -31,6 +31,16 @@ const getFiles = session => [
 const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
   session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
 
+const getLegalAgreementFiles = session => {
+  const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
+  return legalAgreementFiles.map(file => ({
+    contentMediaType: file.fileType,
+    fileType: constants.uploadTypes.LEGAL_AGREEMENT_UPLOAD_TYPE,
+    fileSize: file.fileSize,
+    fileLocation: file.location,
+    fileName: path.basename(file.location)
+  }))
+}
 const getLandBoundaryFile = session => {
   if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
     const { fileSize, fileLocation, fileName } = getGeospatialFileAttributes(session)

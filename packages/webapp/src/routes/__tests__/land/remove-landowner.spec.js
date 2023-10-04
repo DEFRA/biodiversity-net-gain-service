@@ -59,7 +59,6 @@ describe(url, () => {
 
       await landownerRemove.default[0].handler(request, h)
 
-      console.log(resultContext)
       expect(resultContext.landownerToRemoveText).toEqual(
         'Crishn P'
       )

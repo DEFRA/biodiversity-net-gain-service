@@ -5,10 +5,12 @@ const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
 const UPLOAD_HABITAT_PLAN = 'land/upload-habitat-plan'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
+const CHECK_LEGAL_AGREEMENT_FILES = 'land/check-you-added-all-legal-files'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
 const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
 const LEGAL_PARTY_REMOVE = 'land/legal-party-remove'
 const REMOVE_RESPONSIBLE_BODY = 'land/remove-responsible-body'
+const REMOVE_LEGAL_AGREEMENT_FILE = 'land/remove-legal-agreement-file'
 const REMOVE_LANDOWNER = 'land/remove-landowner'
 const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
@@ -19,6 +21,7 @@ const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
+const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
 const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
 const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
@@ -103,6 +106,7 @@ const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
+const LEGAL_AGREEMENT_FILES = 'legal-agreement-files'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
@@ -197,6 +201,7 @@ export default {
     LOCAL_LAND_CHARGE_CHECKED,
     HABITAT_PLAN_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
+    LEGAL_AGREEMENT_FILES,
     LOCAL_LAND_CHARGE_LOCATION,
     HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
@@ -255,6 +260,7 @@ export default {
     ADD_HECTARES,
     ERROR,
     CHECK_LEGAL_AGREEMENT,
+    CHECK_LEGAL_AGREEMENT_FILES,
     ADD_LEGAL_AGREEMENT_PARTIES,
     LEGAL_PARTY_LIST,
     CHECK_RESPONSIBLE_BODIES,
@@ -263,11 +269,13 @@ export default {
     LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
     LEGAL_PARTY_REMOVE,
     REMOVE_RESPONSIBLE_BODY,
+    REMOVE_LEGAL_AGREEMENT_FILE,
     REMOVE_LANDOWNER,
     LEGAL_AGREEMENT_START_DATE,
     LEGAL_AGREEMENT_END_DATE,
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
+    NEED_ADD_ALL_LEGAL_FILES,
     NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,
     CHECK_MANAGEMENT_PLAN,

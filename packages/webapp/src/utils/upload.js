@@ -2,18 +2,22 @@ import path from 'path'
 import { uploadDocument } from '@defra/bng-document-service'
 import multiparty from 'multiparty'
 import constants from './constants.js'
-
-const uploadFiles = async (logger, request, config) => {
+import { generateUniqueFilename } from './helpers.js'
+const uploadFiles = async (logger, request, config, mode = 'single') => {
   const events = []
   // Return a promise for processing the multipart request.
   // This code is inspired by https://stackoverflow.com/questions/50522383/promisifying-multiparty
   return new Promise((resolve, reject) => {
     const form = new multiparty.Form()
-    const uploadResult = {}
+    const uploadResults = []
     form.on('part', function (part) {
       try {
         // Send this part of the multipart request for processing
-        handlePart(logger, part, config, uploadResult)
+        if (mode === 'multiple') {
+          const uniqueBlobName = generateUniqueFilename(part.filename)
+          part.filename = uniqueBlobName
+        }
+        handlePart(logger, part, config, uploadResults)
         events.push(`Processed ${part.filename}`)
       } catch (err) {
         reject(err)
@@ -23,16 +27,24 @@ const uploadFiles = async (logger, request, config) => {
       reject(err)
     })
     form.on('close', async function () {
-      if (uploadResult.errorMessage) {
-        reject(new Error(uploadResult.errorMessage))
-      } else {
-        try {
-          // Resolve the promise when all parts of the upload have been processed.
-          const eventData = await config.functionConfig.handleEventsFunction(config, events)
-          resolve(Object.assign(uploadResult, eventData))
-        } catch (err) {
-          reject(err)
+      for (const uploadResult of uploadResults) {
+        if (uploadResult.errorMessage) {
+          reject(new Error(uploadResult.errorMessage))
+          return
         }
+      }
+
+      try {
+        // Resolve the promise when all parts of the upload have been processed.
+        const eventData = await config.functionConfig.handleEventsFunction(config, events)
+        const result = uploadResults.map(result => Object.assign(result, eventData))
+        if (mode === 'multiple') {
+          resolve(result)
+        } else {
+          resolve(result[0])
+        }
+      } catch (err) {
+        reject(err)
       }
     })
     form.parse(request.raw.req)
@@ -48,10 +60,15 @@ const createUploadConfiguration = config => {
   return uploadConfig
 }
 
-const handlePart = (logger, part, config, uploadResult) => {
+const handlePart = (logger, part, config, uploadResults) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
-  // Delay throwing errors until the form is closed.
+
+  const uploadResult = {
+    fileSize: fileSizeInBytes,
+    filename: part.filename || null,
+    fileType: part.headers['content-type'] ? part.headers['content-type'] : null
+  }
   if (!part.filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
@@ -66,16 +83,10 @@ const handlePart = (logger, part, config, uploadResult) => {
     part.resume()
   } else {
     logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
-    uploadResult.fileSize = fileSizeInBytes
-    if (part.filename) {
-      uploadResult.filename = part.filename
-    }
-    if (part.headers['content-type']) {
-      uploadResult.fileType = part.headers['content-type']
-    }
     const uploadConfig = createUploadConfiguration(config)
     uploadDocument(logger, uploadConfig, part)
   }
+  uploadResults.push(uploadResult)
 }
 
 export { uploadFiles }
