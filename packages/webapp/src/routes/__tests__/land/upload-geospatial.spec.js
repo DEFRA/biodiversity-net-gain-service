@@ -118,7 +118,7 @@ describe(url, () => {
         }
       })
     })
- 
+
     it('should handle an error response when upload notification processing fails for an unexpected reason', (done) => {
       jest.isolateModules(async () => {
         try {
