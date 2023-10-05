@@ -292,7 +292,7 @@ describe(url, () => {
           config.hasError = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
+          expect(response.payload).toContain('File malware scan failed')
           setImmediate(() => {
             done()
           })
