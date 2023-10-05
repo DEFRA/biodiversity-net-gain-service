@@ -1,9 +1,9 @@
 import constants from '../../utils/constants.js'
-import path from 'path'
 import {
   getHumanReadableFileSize,
   processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  getDesiredFilenameFromRedisLocation
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -19,18 +19,18 @@ const handlers = {
   },
   post: async (request, h) => {
     const checkLegalAgreement = request.payload.checkLegalAgreement
-    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_CHECKED, checkLegalAgreement)
     if (checkLegalAgreement === 'no') {
+      const { id } = request.query
+      const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
       await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
+      const updatedLegalAgreementFiles = legalAgreementFiles.filter(item => item.id !== id)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) { return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) } else {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
-      }
+      return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
@@ -42,14 +42,25 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE)
-  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+  const { id } = request.query
+  let legalAgreementFile
+  let fileLocation = ''
+  let filenameText = ''
+  let fileSize = null
+  let humanReadableFileSize = ''
+  const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
   const legalAgreementType = getLegalAgreementDocumentType(
     request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+  if (id) {
+    legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
+    fileLocation = legalAgreementFile.location
+    filenameText = getDesiredFilenameFromRedisLocation(fileLocation)
+    fileSize = legalAgreementFile.fileSize
+    humanReadableFileSize = getHumanReadableFileSize(fileSize)
+  }
 
   return {
-    filename: fileLocation === null ? '' : path.parse(fileLocation).base,
+    filename: filenameText,
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
     fileSize: humanReadableFileSize,
     legalAgreementType,

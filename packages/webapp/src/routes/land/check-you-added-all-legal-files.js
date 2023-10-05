@@ -13,7 +13,7 @@ const fileType = 'legal agreement'
 const getCustomizedHTML = (item, index) => {
   const humanReadableFileSize = getHumanReadableFileSize(item.fileSize)
   const desiredFilename = getDesiredFilenameFromRedisLocation(item.location)
-  const linkText = desiredFilename + ' ' + humanReadableFileSize
+  const linkText = desiredFilename + ', ' + humanReadableFileSize
   const linkHref = `download-legal-agreement-file?id=${item.id}`
   return {
 

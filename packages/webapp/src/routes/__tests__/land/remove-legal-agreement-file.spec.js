@@ -61,7 +61,6 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    /*
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_FILES if yes is chosen and remove legal agreement file', async () => {
       const request = {
         yar: redisMap,
@@ -101,7 +100,7 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove legal-agreement-qwww.doc as a legal agreement file', href: '#legalAgreementFileToRemove' })
     })
-    */
+
     it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES all removed', async () => {
       let request = {
         yar: redisMap,

@@ -1,7 +1,6 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import * as azureStorage from '../../../utils/azure-storage.js'
-const url = constants.routes.CHECK_LEGAL_AGREEMENT
+const url = constants.routes.CHECK_LEGAL_AGREEMENT_FILES
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 jest.mock('../../../utils/azure-storage.js')
 
@@ -72,11 +71,9 @@ describe(url, () => {
     })
 
     it('should allow another legal agreement file to be uploaded ', async () => {
-      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
-      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if yes is chosen and legalAgreementType=conservation covenant', async () => {
@@ -95,7 +92,7 @@ describe(url, () => {
           checkLegalAgreement: 'yes'
         }
       }
-      const legalAgreementFile = require('../../land/check-legal-agreement-file.js')
+      const legalAgreementFile = require('../../land/check-you-added-all-legal-files.js')
       await legalAgreementFile.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
     })

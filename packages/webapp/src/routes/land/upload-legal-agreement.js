@@ -17,15 +17,16 @@ function processSuccessfulUpload (results, request, h) {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
   for (const result of results) {
     if (result.errorMessage === undefined) {
+      const id = getIdfromFileName(result.filename)
       legalAgreementFiles.push({
         location: result[0].location,
         fileSize: result.fileSize,
         fileType: result.fileType,
-        id: getIdfromFileName(result.filename)
+        id
       })
       // Log the details
       logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-      resultView = constants.routes.CHECK_LEGAL_AGREEMENT_FILES
+      resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
     }
   }
   if (legalAgreementFiles.length > 0) {
