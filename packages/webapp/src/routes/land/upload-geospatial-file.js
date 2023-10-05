@@ -144,9 +144,8 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ThreatScreeningError) {
-    const status = err.threatScreeningDetails.Status
     error.err = [{
-      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
+      text: 'File malware scan failed',
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
