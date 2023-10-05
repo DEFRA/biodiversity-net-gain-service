@@ -64,7 +64,8 @@ const getContext = request => {
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
     fileSize: humanReadableFileSize,
     legalAgreementType,
-    fileLocation
+    fileLocation,
+    fileId: id
   }
 }
 
