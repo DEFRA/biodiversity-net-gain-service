@@ -14,15 +14,6 @@ const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
-// const mockDataPath = 'packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/mock-data.xlsx'
-// const mockDownloadStreamIfExists = async (config, context) => {
-//   const readStream = fs.createReadStream(mockDataPath)
-//   const readableStream = Readable.from(readStream)
-//   return {
-//     readableStreamBody: readableStream
-//   }
-// }
-
 describe('Trusted file processing', () => {
   it('should process a known WGS84 geospatial upload type in a compressed file.', done => {
     performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, '4326', done)
