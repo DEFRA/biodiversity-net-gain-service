@@ -1,4 +1,5 @@
 import moment from 'moment'
+import crypto from 'crypto'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
@@ -265,7 +266,7 @@ const getLegalAgreementParties = legalAgreementParties => {
   })
 }
 const generateUniqueId = () => {
-  return Date.now().toString(36) + Math.random().toString(36).substring(2, 7)
+  return crypto.randomBytes(16).toString('hex')
 }
 const getDesiredFilenameFromRedisLocation = (location) => {
   if (location === null) {
