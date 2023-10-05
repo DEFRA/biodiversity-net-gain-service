@@ -60,21 +60,21 @@ function processErrorUpload (err, h) {
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
-            text: 'File malware scan failed',
+            text: constants.uploadErrors.malwareScanFailed,
             href: LAND_BOUNDARY_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
-            text: 'File malware detected',
+            text: constants.uploadErrors.threatDetected,
             href: LAND_BOUNDARY_ID
           }]
         })
       } else {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.uploadFailure,
             href: LAND_BOUNDARY_ID
           }]
         })

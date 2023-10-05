@@ -48,21 +48,21 @@ const processErrorUpload = (err, h) => {
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
           err: [{
-            text: 'File malware scan failed',
+            text: constants.uploadErrors.malwareScanFailed,
             href: DEVELOPER_WRITTEN_CONSENT_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
           err: [{
-            text: 'File malware detected',
+            text: constants.uploadErrors.threatDetected,
             href: DEVELOPER_WRITTEN_CONSENT_ID
           }]
         })
       } else {
         return h.view(constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.uploadFailure,
             href: DEVELOPER_WRITTEN_CONSENT_ID
           }]
         })

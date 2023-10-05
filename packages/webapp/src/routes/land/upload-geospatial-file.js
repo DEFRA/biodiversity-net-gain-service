@@ -126,12 +126,10 @@ const processErrorMessage = (errorMessage, error) => {
       }]
       break
     default:
-      if (errorMessage.indexOf('timed out') > 0) {
-        error.err = [{
-          text: constants.uploadErrors.uploadFailure,
-          href: uploadGeospatialFileId
-        }]
-      }
+      error.err = [{
+        text: constants.uploadErrors.uploadFailure,
+        href: uploadGeospatialFileId
+      }]
       break
   }
 }
@@ -145,7 +143,7 @@ const getErrorContext = err => {
     }]
   } else if (err instanceof ThreatScreeningError) {
     error.err = [{
-      text: 'File malware scan failed',
+      text: constants.uploadErrors.malwareScanFailed,
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {

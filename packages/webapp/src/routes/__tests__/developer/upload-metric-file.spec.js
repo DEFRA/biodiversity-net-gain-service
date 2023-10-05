@@ -266,7 +266,7 @@ describe('Metric file upload controller tests', () => {
           config.hasError = true
           const res = await uploadFile(config)
           expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('The selected file could not be uploaded -- try again')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })

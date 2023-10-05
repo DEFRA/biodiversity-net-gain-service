@@ -37,11 +37,11 @@ function processErrorUpload (err, h) {
       return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
       if (err instanceof ThreatScreeningError) {
-        return buildErrorResponse(h, 'File malware scan failed')
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
       } else if (err instanceof MalwareDetectedError) {
-        return buildErrorResponse(h, 'File malware detected')
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
       } else {
-        return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
 }

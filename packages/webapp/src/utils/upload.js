@@ -68,12 +68,9 @@ const handlePart = async (logger, part, config, uploadResult) => {
   } else {
     logger.log(`${new Date().toUTCString()} Uploading ${filename}`)
     uploadResult.fileSize = fileSizeInBytes
-    if (filename) {
-      uploadResult.filename = filename
-    }
-    if (part.headers['content-type']) {
-      uploadResult.fileType = part.headers['content-type']
-    }
+    uploadResult.filename = filename
+    uploadResult.fileType = part.headers['content-type']
+
     const uploadConfig = JSON.parse(JSON.stringify(config))
     uploadConfig.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
     const tags = await uploadStreamAndAwaitScan(logger, uploadConfig, part)

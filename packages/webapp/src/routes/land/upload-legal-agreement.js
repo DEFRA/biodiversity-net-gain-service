@@ -50,21 +50,21 @@ const processErrorUpload = (err, h, legalAgreementType) => {
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
-            text: 'File malware scan failed',
+            text: constants.uploadErrors.malwareScanFailed,
             href: legalAgreementId
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
-            text: 'File malware detected',
+            text: constants.uploadErrors.threatDetected,
             href: legalAgreementId
           }]
         })
       } else {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.uploadFailure,
             href: legalAgreementId
           }]
         })

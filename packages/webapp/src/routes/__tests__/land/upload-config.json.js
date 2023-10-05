@@ -1,6 +1,5 @@
 import constants from '../../../utils/constants'
-const uploadTestConfig = [
-  {
+const uploadTestConfig = [{
     uploadType: 'land-ownership',
     url: constants.routes.UPLOAD_LAND_OWNERSHIP,
     hasError: true,
@@ -45,6 +44,7 @@ const uploadTestConfig = [
     url: constants.routes.DEVELOPER_UPLOAD_METRIC,
     hasError: true,
     filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.0.xlsm'
-  }]
+  }
+]
 
 export { uploadTestConfig }

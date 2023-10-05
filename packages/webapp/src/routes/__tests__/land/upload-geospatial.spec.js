@@ -100,13 +100,16 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error when file upload processing fails', (done) => {
+    it('should handle an error when file upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.generateFormDataError = true
-          await uploadFile(config)
+          config.hasError = true
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })
@@ -115,14 +118,17 @@ describe(url, () => {
         }
       })
     })
-
-    it('should cause an internal server error response when upload notification processing fails for an unexpected reason', (done) => {
+ 
+    it('should handle an error response when upload notification processing fails for an unexpected reason', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.generateHandleEventsError = true
-          await uploadFile(config)
+          config.hasError = true
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })
@@ -292,7 +298,7 @@ describe(url, () => {
           config.hasError = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain('File malware scan failed')
+          expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
           setImmediate(() => {
             done()
           })

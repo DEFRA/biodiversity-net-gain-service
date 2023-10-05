@@ -72,21 +72,21 @@ const processErrorUpload = (err, h) => {
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
           err: [{
-            text: 'File malware scan failed',
+            text: constants.uploadErrors.malwareScanFailed,
             href: MANAGEMENT_PLAN_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
           err: [{
-            text: 'File malware detected',
+            text: constants.uploadErrors.threatDetected,
             href: MANAGEMENT_PLAN_ID
           }]
         })
       } else {
         return h.view(constants.views.UPLOAD_MANAGEMENT_PLAN, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.uploadFailure,
             href: MANAGEMENT_PLAN_ID
           }]
         })
