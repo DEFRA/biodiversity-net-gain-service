@@ -47,4 +47,4 @@ const uploadTestConfig = [
     filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.0.xlsm'
   }]
 
-  export { uploadTestConfig }
+export { uploadTestConfig }

@@ -1,8 +1,8 @@
 import { uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
+import { uploadTestConfig } from './upload-config.json.js'
 const azureStorage = require('../../../utils/azure-storage.js')
 jest.mock('../../../utils/azure-storage.js')
-import { uploadTestConfig } from './upload-config.json.js'
 
 describe('Upload controller tests with azure storage mocked', () => {
   describe('POST', () => {
