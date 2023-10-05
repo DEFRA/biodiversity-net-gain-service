@@ -53,7 +53,6 @@ describe(url, () => {
       await legalAgreementFilesList.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_FILES)
-      console.log(resultContext)
       expect(resultContext.filesListWithAction.length).toEqual(2)
     })
   })

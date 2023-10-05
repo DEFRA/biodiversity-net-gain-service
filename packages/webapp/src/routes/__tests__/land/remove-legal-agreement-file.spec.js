@@ -54,7 +54,6 @@ describe(url, () => {
       await legalAgreementFileRemove.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.REMOVE_LEGAL_AGREEMENT_FILE)
-      console.log(resultContext)
       expect(resultContext.filenameText).toEqual(
         'legal-agreement-qwww.doc'
       )
