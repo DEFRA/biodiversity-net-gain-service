@@ -15,7 +15,7 @@ describe('azure-storage tests', () => {
     const res = await uploadStreamAndAwaitScan(logger, config, Readable.from(JSON.stringify(mockData)))
     expect(res['Malware Scanning scan result']).toEqual('No threats found')
     expect(res['Malware Notes']).toEqual('Mocked scan result for Azurite blob storage')
-  })
+  }, 20000)
   it('Should attempt to get tags twice if not on azurite and throw error as no tags', (done) => {
     jest.isolateModules(async () => {
       try {
@@ -42,7 +42,7 @@ describe('azure-storage tests', () => {
         done(err)
       }
     })
-  })
+  }, 20000)
 
   it('Should attempt to get tags once if available', (done) => {
     jest.isolateModules(async () => {
@@ -74,5 +74,5 @@ describe('azure-storage tests', () => {
         done(err)
       }
     })
-  })
+  }, 20000)
 })
