@@ -6,6 +6,7 @@ import {
   getDateString,
   listArray,
   getLegalAgreementDocumentType,
+  getDesiredFilenameFromRedisLocation,
   getLandowners
 } from '../../utils/helpers.js'
 
@@ -31,7 +32,7 @@ const handlers = {
 const getContext = request => {
   return {
     legalAgreementType: getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
-    legalAgreementFileName: getFileName(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LOCATION)),
+    legalAgreementFileNames: getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)),
     responsibleBodies: getResponsibleBodies(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
     landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)),
     habitatPlanSeperateDocumentYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO),
@@ -42,6 +43,12 @@ const getContext = request => {
 }
 
 const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
+
+const getLegalAgreementFileNames = (legalAgreementFiles) => {
+  if (!legalAgreementFiles) return ''
+  const filenames = legalAgreementFiles.map(file => getDesiredFilenameFromRedisLocation(file.location))
+  return filenames.join(', ')
+}
 
 export default [{
   method: 'GET',

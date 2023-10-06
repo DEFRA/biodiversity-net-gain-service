@@ -13,7 +13,21 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
     redisMap.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'Yes')
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+      {
+        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
+        fileSize: 0.01,
+        fileType: 'application/msword',
+        id: '1'
+
+      },
+      {
+        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement1.pdf',
+        fileSize: 0.01,
+        fileType: 'application/pdf',
+        id: '2'
+      }
+    ])
     redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
@@ -54,10 +68,11 @@ describe('Land boundary upload controller tests', () => {
               contextResult = context
             }
           }
+
           await legalAgreementDetails.default[0].handler(request, h)
           expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
           expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
-          expect(contextResult.legalAgreementFileName).toEqual('legal-agreement.pdf')
+          expect(contextResult.legalAgreementFileNames).toEqual('legal.doc, legal.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1,test2')
           expect(contextResult.landowners).toEqual('org1, Crishn P')
           expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('Yes')
@@ -75,7 +90,7 @@ describe('Land boundary upload controller tests', () => {
         try {
           let viewResult, contextResult
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
-          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, undefined)
+          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
           const request = {
             yar: redisMap
           }
@@ -91,7 +106,7 @@ describe('Land boundary upload controller tests', () => {
           }
           await legalAgreementDetails.default[0].handler(request, h)
           expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
-          expect(contextResult.legalAgreementFileName).toEqual('')
+          expect(contextResult.legalAgreementFileNames).toEqual('')
           expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('No')
           expect(contextResult.HabitatPlanFileName).toEqual('')
           expect(contextResult.HabitatWorksStartDate).toEqual('Not started yet')
