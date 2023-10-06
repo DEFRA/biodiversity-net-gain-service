@@ -24,9 +24,8 @@ const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20
     }
   }
 
-  // Give Microsoft Defender 4s lead time
-  // After testing on Azure infrastructure apply a sensible lead time wait.
-  // await timeout(4000)
+  // Give Microsoft Defender 4s lead time - Generally file scans take 4 to 8 seconds to complete
+  await timeout(4000)
   const wait = 1000
   let attempts = 0
   do {
