@@ -6,7 +6,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
-      title: 'Habitat Legal Agreement'
+      title: 'Add legal agreement details'
     }, {
       inProgressUrl: constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT
     })
@@ -21,7 +21,7 @@ const handlers = {
 
         routes: constants.routes,
         err: [{
-          text: 'Select yes if the habitat management and monitoring plan',
+          text: 'Select yes if the habitat management and monitoring plan is included in the legal agreement',
           href: '#isHabitatIncludeLegalAgreement'
         }]
       })

@@ -17,7 +17,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
-      title: 'Add landowner organisation details'
+      title: 'Add legal agreement details'
     }, {
       inProgressUrl: constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT
     })

@@ -8,12 +8,14 @@ import {
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
+
   get: async (request, h) => {
+    const { id } = request.query
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
       title: 'Add legal agreement details'
     }, {
-      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT
+      inProgressUrl: `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
     })
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT, getContext(request))
   },
@@ -49,6 +51,7 @@ const getContext = request => {
   let fileSize = null
   let humanReadableFileSize = ''
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+
   const legalAgreementType = getLegalAgreementDocumentType(
     request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
   if (id) {

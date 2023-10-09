@@ -10,7 +10,7 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
-      title: 'Add legal agreement end date'
+      title: 'Add legal agreement details'
     }, {
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_END_DATE
     })

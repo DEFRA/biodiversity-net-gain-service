@@ -6,8 +6,8 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
-      title: 'Add habitat management and monitoring details'
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
     }, {
       inProgressUrl: constants.routes.CHECK_MANAGEMENT_PLAN
     })

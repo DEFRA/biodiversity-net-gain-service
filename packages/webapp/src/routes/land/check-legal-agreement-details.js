@@ -47,7 +47,7 @@ const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
   if (!legalAgreementFiles) return ''
   const filenames = legalAgreementFiles.map(file => getDesiredFilenameFromRedisLocation(file.location))
-  return filenames.join(', ')
+  return filenames.join('<br>')
 }
 
 export default [{
