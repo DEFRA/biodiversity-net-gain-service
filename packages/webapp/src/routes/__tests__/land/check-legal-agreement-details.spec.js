@@ -72,7 +72,7 @@ describe('Land boundary upload controller tests', () => {
           await legalAgreementDetails.default[0].handler(request, h)
           expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
           expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
-          expect(contextResult.legalAgreementFileNames).toEqual('legal.doc, legal.pdf')
+          expect(contextResult.legalAgreementFileNames).toEqual('legal.doc<br>legal.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1,test2')
           expect(contextResult.landowners).toEqual('org1, Crishn P')
           expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('Yes')
