@@ -20,16 +20,15 @@
                     }
                 }) }}
                 <form method="post">
-                    {{ govukSummaryList({
-                        rows: [
-                            {
-                                key: {
-                                    text: 'Type of legal agreement'
-                                },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value' data-testid='legal-agreement-type-value'>" + legalAgreementType + "</dd>"
-                                },
-                                actions: {
+                    {% set rows= [
+                        {
+                            key: {
+                                text: 'Type of legal agreement'
+                            },
+                            value: {
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value' data-testid='legal-agreement-type-value'>" + legalAgreementType + "</dd>"
+                            },
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/legal-agreement-type',
@@ -40,15 +39,15 @@
                                     }
                                 ]
                             }
-                            },
-                            {
-                                key: {
+                        },
+                        {
+                            key: {
                                 text: legalAgreementType +' file uploaded'
                             },
-                                value: {
+                            value: {
                                 html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-file-value' data-testid='legal-agreement-file-name-value'>" + legalAgreementFileNames + "</dd>"
                             },
-                                actions: {
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/check-you-added-all-legal-files',
@@ -59,15 +58,15 @@
                                     }
                                 ]
                             }
-                            },
-                            {
-                                key: {
+                        },
+                        {
+                            key: {
                                 text: 'Responsible body'
                             },
-                                value: {
+                            value: {
                                 html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-responsible-bodies-value' data-testid='legal-agreement-responsible-bodies-value'>" + responsibleBodies + "</dd>"
                             },
-                                actions: {
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/check-responsible-bodies',
@@ -78,16 +77,15 @@
                                     }
                                 ]
                             }
-                            }
-                            ,
-                            {
-                                key: {
+                        },
+                        {
+                            key: {
                                 text: 'Landowner'
                             },
-                                value: {
+                            value: {
                                 html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-landowner-value' data-testid='legal-agreement-landowner-value'>" + landowners + "</dd>"
                             },
-                                actions: {
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/check-landowners',
@@ -98,15 +96,15 @@
                                     }
                                 ]
                             }
+                        },
+                        {
+                            key: {
+                                text: 'Habitat management and monitoring plan included in legal agreement'
                             },
-                            {
-                                key: {
-                                    text: 'Habitat management and monitoring plan included in legal agreement'
-                                },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-habitatplan-type-value' data-testid='legal-agreement-habitatplan-type-value'>" + habitatPlanSeperateDocumentYesNo + "</dd>"
-                                },
-                                actions: {
+                            value: {
+                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-habitatplan-type-value' data-testid='legal-agreement-habitatplan-type-value'>" + habitatPlanSeperateDocumentYesNo + "</dd>"
+                            },
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/habitat-plan-legal-agreement',
@@ -117,15 +115,18 @@
                                     }
                                 ]
                             }
-                            },
-                            {
-                                key: {
+                        }
+                    ] %}
+                    
+                    {% if habitatPlanSeperateDocumentYesNo == 'No' %}
+                        {% set rows = (rows.push({
+                            key: {
                                 text: 'Habitat management and monitoring plan uploaded'
                             },
-                                value: {
+                            value: {
                                 html: "<dd class='govuk-summary-list__value' id='add-habitat-plan-file-value' data-testid='habitat-plan-file-name-value'>" + HabitatPlanFileName + "</dd>"
                             },
-                                actions: {
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/check-habitat-plan-file',
@@ -136,15 +137,18 @@
                                     }
                                 ]
                             }
-                            },
-                            {
-                                key: {
+                        }), rows) %}
+                    {% endif %}
+                    
+                    {% set rows = (rows.push(
+                        {
+                            key: {
                                 text: 'Habitat enhancement works start date'
                             },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-habitat-works-start-date-value' data-testid='habitat-works-start-date-value'>" +  HabitatWorksStartDate + "</dd>"
-                                },
-                                actions: {
+                            value: {
+                                html: "<dd class='govuk-summary-list__value' id='add-habitat-works-start-date-value' data-testid='habitat-works-start-date-value'>" +  HabitatWorksStartDate + "</dd>"
+                            },
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/enhancement-works-start-date',
@@ -156,15 +160,15 @@
                                     }
                                 ]
                             }
-                            },
-                            {
-                                key: {
+                        },
+                        {
+                            key: {
                                 text: 'Legal agreement end date'
                             },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-habitat-works-end-date-value' data-testid='habitat-works-end-date-value'>" +  HabitatWorksEndDate + "</dd>"
-                                },
-                                actions: {
+                            value: {
+                                html: "<dd class='govuk-summary-list__value' id='add-habitat-works-end-date-value' data-testid='habitat-works-end-date-value'>" +  HabitatWorksEndDate + "</dd>"
+                            },
+                            actions: {
                                 items: [
                                     {
                                         href: '/land/legal-agreement-end-date',
@@ -176,8 +180,11 @@
                                     }
                                 ]
                             }
-                            }
-                        ]
+                        }
+                    ), rows) %}
+                    
+                    {{ govukSummaryList({
+                        rows: rows 
                     }) }}
                     {{ govukButton({
                         text: 'Save and continue',
