@@ -1,4 +1,5 @@
 export default {
+  'application-reference': '',
   'developer-fullname': 'Test User',
   'developer-email-value': 'test@example.com',
   'developer-metric-data': {
