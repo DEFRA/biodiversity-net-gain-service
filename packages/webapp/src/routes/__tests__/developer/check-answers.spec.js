@@ -23,6 +23,11 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view `, async () => {
       const session = new Session()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      await submitGetRequest({ url }, 302, { ...developerApplicationData, 'application-reference': null })
+    })
+    it(`should render the ${url.substring(1)} view `, async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
