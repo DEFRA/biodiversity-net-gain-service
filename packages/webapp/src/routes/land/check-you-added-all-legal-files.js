@@ -13,12 +13,11 @@ const fileType = 'legal agreement'
 const getCustomizedHTML = (item, index) => {
   const humanReadableFileSize = getHumanReadableFileSize(item.fileSize)
   const desiredFilename = getDesiredFilenameFromRedisLocation(item.location)
-  const linkText = desiredFilename + ', ' + humanReadableFileSize
-  const linkHref = `download-legal-agreement-file?id=${item.id}`
+  const fileText = desiredFilename + ', ' + humanReadableFileSize
   return {
 
     key: {
-      html: `<a href="${linkHref}" class="govuk-link">${linkText}</a>`,
+      html: fileText,
 
       classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
     },

@@ -9,10 +9,13 @@
     {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">
-          {{ pageHeading }}
-        </h1>
-
+        {{ govukFieldset({
+          legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l ",
+              isPageHeading: true
+          }
+      }) }}
         {{ govukInput({
           id: "organisationName",
           name: "organisationName",
