@@ -1,10 +1,18 @@
 import constants from '../../utils/constants.js'
 import {
+  processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
+      inProgressUrl: constants.routes.ADD_LANDOWNER_ORGANISATION
+    })
+
     const { id } = request.query
 
     const legalAgreementType = getLegalAgreementDocumentType(

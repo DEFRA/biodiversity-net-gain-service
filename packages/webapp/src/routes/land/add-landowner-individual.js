@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
+  processRegistrationTask,
   getLegalAgreementDocumentType,
   validateFirstLastName
 } from '../../utils/helpers.js'
@@ -7,6 +8,13 @@ import isEmpty from 'lodash/isEmpty.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
+      inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL
+    })
+
     const { id } = request.query
 
     const legalAgreementType = getLegalAgreementDocumentType(

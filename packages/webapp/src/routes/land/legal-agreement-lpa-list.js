@@ -1,12 +1,16 @@
 import constants from '../../utils/constants.js'
-import { getLegalAgreementDocumentType, buildFullName } from '../../utils/helpers.js'
+import {
+  processRegistrationTask,
+  getLegalAgreementDocumentType,
+  buildFullName
+} from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   const value = (item.type === 'individual')
     ? buildFullName(item)
     : item.value
 
-  const changeLink = (item.type === 'individual') ? constants.routes.LEGAL_AGREEMENT_CONCOV_LANDOWNER_INDIVIDUAL : constants.routes.LEGAL_AGREEMENT_CONCOV_LANDOWNER_ORG
+  const changeLink = (item.type === 'individual') ? constants.routes.ADD_LANDOWNER_INDIVIDUAL : constants.routes.ADD_LANDOWNER_ORGANISATION
 
   return {
     key: {
@@ -28,6 +32,13 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Legal information',
+      title: 'Add legal agreement details'
+    }, {
+      inProgressUrl: constants.routes.LEGAL_AGREEMENT_LPA_LIST
+    })
+
     const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
