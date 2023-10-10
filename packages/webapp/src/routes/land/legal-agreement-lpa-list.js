@@ -40,8 +40,10 @@ const handlers = {
     })
 
     const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
+
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
+
     const legalAgreementLpaListWithAction = lpaListItems.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()

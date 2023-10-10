@@ -22,7 +22,11 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, [
-      'org1', 'org2', 'org3', 'org4'
+      {
+        type: 'individual',
+        value: { firstName: 'Tom', lastName: 'Smith' }
+      },
+      { type: 'organisation', value: 'ABC Org' }
     ])
 
     legalAgreementLpaList = require('../../land/legal-agreement-lpa-list.js')
@@ -41,7 +45,7 @@ describe(url, () => {
       await legalAgreementLpaList.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LEGAL_AGREEMENT_LPA_LIST)
-      expect(resultContext.lpaList.length).toEqual(4)
+      expect(resultContext.lpaList.length).toEqual(2)
     })
   })
 
