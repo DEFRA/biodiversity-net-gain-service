@@ -62,6 +62,14 @@ const dataString = `
             "startTaskUrl": "/land/upload-local-land-charge",
             "inProgressUrl": "",
             "id": "add-local-land-charge-search-certificate"
+          },
+          {
+            "title": "Consent to register the biodiversity gain site",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/landowner-permission-check",
+            "startTaskUrl": "/land/landowner-consent",
+            "inProgressUrl": "",
+            "id": "landowner-consent"
           }
         ]
       },
@@ -328,6 +336,9 @@ const dataString = `
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
+  "landowner-permission-location": "800376c7-8652-4906-8848-70a774578dfe/landowner-permission/consent.doc",
+  "landowner-permission-upload-file-size": 0.01,
+  "landowner-permission-upload-file-type": "application/msword",
   "application-reference": ""
 }`
 

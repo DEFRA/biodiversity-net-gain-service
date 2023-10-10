@@ -62,6 +62,14 @@ const registerTaskList = {
           startTaskUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
           inProgressUrl: '',
           id: 'add-local-land-charge-search-certificate'
+        },
+        {
+          title: 'Consent to register the biodiversity gain site',
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
+          startTaskUrl: constants.routes.LANDOWNER_CONSENT,
+          inProgressUrl: '',
+          id: 'landowner-consent'
         }
       ]
     },

@@ -14,6 +14,7 @@ const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
+const DOWNLOAD_LANDOWNER_CONSENT_FILE = 'land/download-landowner-consent-file'
 const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
@@ -47,6 +48,9 @@ const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
+const LANDOWNER_CONSENT_NO = 'land/landowner-consent-no'
+const LANDOWNER_PERMISSION_UPLOAD = 'land/landowner-permission-upload'
+const LANDOWNER_PERMISSION_CHECK = 'land/landowner-permission-check'
 const ERROR = 'error'
 const HOME = 'home'
 const COOKIES = 'cookies'
@@ -126,6 +130,13 @@ const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const LANDOWNER_PERMISSION_UPLOAD_TYPE = 'landowner-permission'
+
+const LANDOWNER_PERMISSION_UPLOAD_LOCATION = 'landowner-permission-location'
+const LANDOWNER_PERMISSION_UPLOAD_FILE_TYPE = 'landowner-permission-file-type'
+const LANDOWNER_PERMISSION_UPLOAD_FILE_SIZE = 'landowner-permission-file-size'
+const LANDOWNER_PERMISSION_UPLOAD_FILE_NAME = 'landowner-permission-file-name'
+const LANDOWNER_PERMISSION_CHECK_KEY = 'landowner-permission-check-key'
 
 export default {
   redisKeys: {
@@ -197,7 +208,13 @@ export default {
     LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,
-    EMAIL_VALUE
+    EMAIL_VALUE,
+    LANDOWNER_PERMISSION_UPLOAD_LOCATION,
+    LANDOWNER_PERMISSION_UPLOAD_FILE_SIZE,
+    LANDOWNER_PERMISSION_UPLOAD_TYPE,
+    LANDOWNER_PERMISSION_UPLOAD_FILE_TYPE,
+    LANDOWNER_PERMISSION_UPLOAD_FILE_NAME,
+    LANDOWNER_PERMISSION_CHECK_KEY
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -217,6 +234,7 @@ export default {
     CHECK_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_LEGAL_AGREEMENT,
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
+    DOWNLOAD_LANDOWNER_CONSENT_FILE,
     DOWNLOAD_MANAGEMENT_PLAN,
     DOWNLOAD_LAND_BOUNDARY,
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
@@ -253,7 +271,10 @@ export default {
     COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
-    NEW_REGISTRATION
+    NEW_REGISTRATION,
+    LANDOWNER_CONSENT_NO,
+    LANDOWNER_PERMISSION_UPLOAD,
+    LANDOWNER_PERMISSION_CHECK
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
@@ -262,7 +283,8 @@ export default {
     MANAGEMENT_PLAN_UPLOAD_TYPE,
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,
-    LAND_OWNERSHIP_UPLOAD_TYPE
+    LAND_OWNERSHIP_UPLOAD_TYPE,
+    LANDOWNER_PERMISSION_UPLOAD_TYPE
   },
   setLojReferer: [
     CHECK_AND_SUBMIT,
