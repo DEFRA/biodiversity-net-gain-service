@@ -45,11 +45,6 @@ warning: other service dependencies will be missing, install and run from root o
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 
-#### Setting the SIGNALR_URL environment variable
-
-This environment variable **MUST** be set to the URL used to access the **SignalRNegotiate** API endpoint provided by the [azure-functions](../azure-functions/)
-package **minus** the **/negotiate** path element. For example, if the API endpoint is **<http://localhost:7071/api/negotiate>** the environment variable **must** be set to **<http://localhost:7071/api>**. When connecting to the [containerised SignalR emulator](../../docs/containerisation.md#cloud-service-containers) the API endpoint **must** be set to **<http://localhost:8082/api/>**.
-
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.
 
 ### Azurite specific environment variables

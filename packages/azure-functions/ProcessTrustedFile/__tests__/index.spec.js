@@ -199,13 +199,6 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
         containerName: 'customer-uploads'
       }
     },
-    expectedSignalRMessage: {
-      userId,
-      target: `Processed ${filename}`,
-      arguments: [{
-        location: outputFileLocation
-      }]
-    },
     expectedRes: {
       status: 200,
       body: {
@@ -223,12 +216,10 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
   switch (uploadType) {
     case DEVELOPER_METRIC_UPLOAD_TYPE:
       config.metricData = metricData
-      config.expectedSignalRMessage.arguments[0].metricData = metricData
       break
 
     default:
       config.mapConfig = mapConfig
-      config.expectedSignalRMessage.arguments[0].mapConfig = mapConfig
       break
   }
 

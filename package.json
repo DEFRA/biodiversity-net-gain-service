@@ -88,8 +88,6 @@
       "<rootDir>/**/src/**/*.cjs",
       "<rootDir>/**/*.mjs",
       "<rootDir>/**/ProcessTrustedFile/**/*.js",
-      "<rootDir>/**/ProcessUntrustedFile/**/*.js",
-      "<rootDir>/**/SignalRNegotiate/**/*.js",
       "<rootDir>/**/Shared/**/*.js",
       "!<rootDir>/**/__tests__/**",
       "!<rootDir>/**/__mocks__/**"
