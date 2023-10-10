@@ -3,6 +3,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import developerApplicationData from '../../../__mocks__/developer-application-data.js'
 import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
+import Session from '../../../__mocks__/session.js'
 
 const checkAnswers = require('../../../routes/developer/check-answers.js').default
 const url = constants.routes.DEVELOPER_CHECK_ANSWERS
@@ -18,6 +19,17 @@ describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
+    })
+    it(`should render the ${url.substring(1)} view `, async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      await submitGetRequest({ url }, 302, { ...developerApplicationData, 'application-reference': null })
+    })
+    it(`should render the ${url.substring(1)} view `, async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, '')
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
     })
     it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})

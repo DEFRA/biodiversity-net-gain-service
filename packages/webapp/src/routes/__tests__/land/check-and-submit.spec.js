@@ -2,6 +2,7 @@ import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 import applicant from '../../../__mocks__/applicant.js'
+import { submitGetRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
 
@@ -54,6 +55,12 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+    it(`should render the ${url.substring(1)} view `, async () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
     })
   })
 
