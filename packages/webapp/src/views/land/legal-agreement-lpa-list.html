@@ -1,0 +1,67 @@
+{% extends 'form-layout.html' %}
+
+{% set noOfLocalPlanningAuthorities = lpaList.length %}
+
+{% if noOfLegalParites > 1 %}
+    {% set pageHeading = "You have added " + noOfLocalPlanningAuthorities + " local planning authorities" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLocalPlanningAuthorities + " local planning authority" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+                {{ govukSummaryList({
+                    rows: legalAgreementLpaListWithAction,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+                    }) 
+                }}
+            {{ govukRadios({
+                idPrefix: "allLpa",
+                name: "allLpa",
+                id: "allLpa",
+                fieldset: {
+                    legend: {
+                        text: "Have you added all local planning authorities?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must tell us about all local planning authorities on the " + legalAgreementType + ".",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "all-lpa-yes",
+                        checked: allLpa === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, add another local planning authority",
+                        id: "all-lpa-no",
+                        checked: allLpa === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

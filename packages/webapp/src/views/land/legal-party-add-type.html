@@ -1,0 +1,46 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Is the landowner or leaseholder listed on the " + legalAgreementType + " an individual or organisation?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+
+            {{ govukRadios({
+                idPrefix: "legalAgreementAddType",
+                name: "legalAgreementAddType",
+                id: "legalAgreementAddType",
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "individual",
+                        text: "An individual",
+                        id: "individual",
+                        checked: legalAgreementAddType === "individual"
+                    },
+                    {
+                        value: "organisation",
+                        text: "An organisation",
+                        id: "organisation",
+                        checked: legalAgreementAddType === "organisation"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
