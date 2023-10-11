@@ -101,7 +101,7 @@ describe(url, () => {
             title: 'Consent to register the biodiversity gain site',
             status: 'NOT STARTED',
             completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
-            startTaskUrl: '/land/landowner-consent',
+            startTaskUrl: '/land/consent-to-register',
             inProgressUrl: '',
             id: 'landowner-consent'
           }
@@ -203,7 +203,7 @@ describe(url, () => {
             title: 'Consent to register the biodiversity gain site',
             status: 'NOT STARTED',
             completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
-            startTaskUrl: '/land/landowner-consent',
+            startTaskUrl: '/land/consent-to-register',
             inProgressUrl: '',
             id: 'landowner-consent'
           }
