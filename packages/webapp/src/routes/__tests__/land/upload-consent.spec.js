@@ -1,6 +1,6 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-import constants from '../../../utils/constants'
+import constants from '../../../utils/constants.js'
 const LANDOWNER_WRITTEN_CONSENT_FORM_ELEMENT_NAME = 'landownerWrittenConsent'
 const url = constants.routes.LANDOWNER_PERMISSION_UPLOAD
 

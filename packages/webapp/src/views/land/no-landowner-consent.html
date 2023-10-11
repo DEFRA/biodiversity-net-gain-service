@@ -1,0 +1,29 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "You need written consent from the landowner or leaseholder" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          
+          <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+          </h1>
+    
+          <p>You can <a href="https://bng-prototype.herokuapp.com/register-application/v19/landowner-consent-no#">download the 'Authorise an agent' form</a>. You can then upload it after it's been completed by the landowner or leaseholder.</p>
+          <p>Or you can upload a document that includes:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>a written statement confirming the landowner or leaseholder's consent for you to act on their behalf</li>
+            <li>the landowner or leaseholder's name and signature</li>
+            <li>the date consent was given</li>
+          </ul>
+
+          <p>Your file can be a DOC, DOCX or PDF. It must not be larger than 50MB.</p>
+
+          {% include "common/get-help.html" %}
+
+        </div>
+      </div>
+    </div>
+{% endblock %}

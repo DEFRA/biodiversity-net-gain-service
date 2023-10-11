@@ -1,0 +1,64 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Upload written consent to register a biodiversity gain site " %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+
+           <div>
+            <p>This needs to include:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>a written statement confirming the landowner or leaseholder's consent for you to act on their behalf</li>
+              <li>the landowner or leaseholder's name and signature</li>
+              <li>the date consent was given</li>
+            </ul>
+          </div>
+
+          <div id="landowner-permission-upload-hint">
+            <p>The file should be:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>a DOC, DOCX or PDF</li>
+              <li>no larger than 50MB</li>
+            </ul>
+          </div>
+
+          {{ govukFileUpload({
+            id: "landownerWrittenConsent",
+            name: "landownerWrittenConsent",
+            errorMessage: err[0],
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+
+          <p class="govuk-!-padding-top-3">
+            <a href="/land/no-landowner-consent">I do not have written consent</a>
+          </p>
+          {{ govukButton({
+            text: "Upload",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

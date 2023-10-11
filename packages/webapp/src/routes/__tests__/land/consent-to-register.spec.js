@@ -21,7 +21,7 @@ describe(url, () => {
 
     redisMap = new Map()
 
-    landownerConsent = require('../../land/landowner-consent.js')
+    landownerConsent = require('../../land/consent-to-register.js')
   })
 
   describe('GET', () => {
