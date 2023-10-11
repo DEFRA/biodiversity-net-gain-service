@@ -35,10 +35,6 @@ describe(url, () => {
       await landownerConsent.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.LANDOWNER_CONSENT)
     })
-    it('should redirect to Start page if no data applicant data is available in session', async () => {
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
   })
   describe('POST', () => {
     let postOptions

@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import {
-  checkApplicantDetails,
   processRegistrationTask,
   getHumanReadableFileSize
 } from '../../utils/helpers.js'
@@ -63,10 +62,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.LANDOWNER_PERMISSION_CHECK,
-  handler: handlers.get,
-  config: {
-    pre: [checkApplicantDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.LANDOWNER_PERMISSION_CHECK,
