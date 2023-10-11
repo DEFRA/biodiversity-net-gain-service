@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.LANDOWNER_CONSENT
 
 describe(url, () => {

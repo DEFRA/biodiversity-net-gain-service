@@ -78,12 +78,12 @@ const handlers = {
     })
 
     return uploadFiles(logger, request, config).then(
-        function (result) {
-          return processSuccessfulUpload(result, request, h)
-        },
-        function (err) {
-          return processErrorUpload(err, h)
-        }
+      function (result) {
+        return processSuccessfulUpload(result, request, h)
+      },
+      function (err) {
+        return processErrorUpload(err, h)
+      }
     ).catch(err => {
       console.log(`Problem uploading file ${err}`)
       return h.view(constants.views.LANDOWNER_PERMISSION_UPLOAD, {
@@ -101,10 +101,10 @@ export default [{
   path: constants.routes.LANDOWNER_PERMISSION_UPLOAD,
   handler: handlers.get
 },
-  {
-    method: 'POST',
-    path: constants.routes.LANDOWNER_PERMISSION_UPLOAD,
-    handler: handlers.post,
-    options: generatePayloadOptions(landownerPermissionUploadId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.LANDOWNER_PERMISSION_UPLOAD)
-  }
+{
+  method: 'POST',
+  path: constants.routes.LANDOWNER_PERMISSION_UPLOAD,
+  handler: handlers.post,
+  options: generatePayloadOptions(landownerPermissionUploadId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.LANDOWNER_PERMISSION_UPLOAD)
+}
 ]
