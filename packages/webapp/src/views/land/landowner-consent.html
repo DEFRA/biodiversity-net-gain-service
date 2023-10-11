@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Landowner consent declaration" %}
+{% set pageHeading = "Consent to register the biodiversity gain site" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -9,32 +9,41 @@
     {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-          {{ govukCheckboxes({
+          <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+          </h1>
+
+          {{ govukRadios({
+            idPrefix: "landownerConsent",
             name: "landownerConsent",
             fieldset: {
               legend: {
-                text: "Landowner consent declaration",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
+                text: "Confirm which of the 2 statements applies to you:",
+                isPageHeading: false,
+                classes: "moj-add-another__title"
               }
             },
             errorMessage: err[0],
             items: [
               {
-                value: "true",
-                html: "I confirm that I, <strong>" + name + "</strong> , am authorised to act on behalf of the landowners."
+                value: "yes",
+                text: "I confirm that I am the landowner or leaseholder",
+                id: "landowner-yes",
+                checked: consent === "yes"
+              },
+              {
+                value: "no",
+                text: "I have the written consent of the landowner or leaseholder to act on their behalf",
+                id: "landowner-no-consent-yes",
+                checked: consent === "no"
               }
             ]
           }) }}
-        <div class="govuk-warning-text">
-          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-          <strong class="govuk-warning-text__text">
-            <span class="govuk-warning-text__assistive">Warning</span>
-            You could be prosecuted or have to pay a fine if you are not authorised to act on behalf of the landowner.
-          </strong>
-        </div>
+
+          <p><a href="/land/landowner-consent-no">I do not have written consent</a></p>
+
         {{ govukButton({
-          text: "Continue",
+          text: "Save and continue",
           attributes: {
             id: "continue",
             "data-testid": "continue"

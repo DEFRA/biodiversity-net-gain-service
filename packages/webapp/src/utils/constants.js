@@ -58,6 +58,11 @@ const LEGAL_AGREEMENT_FILE_EXT = [
   '.docx',
   '.pdf'
 ]
+const LANDOWNER_PERMISSION_FILE_EXT = [
+  '.doc',
+  '.docx',
+  '.pdf'
+]
 const LOCAL_LAND_CHARGE_FILE_EXT = [
   '.doc',
   '.docx',
@@ -213,12 +218,14 @@ export default Object.freeze({
   applicationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
+  checkLandownerPermissionOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
   geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
+  landownerPermissionFileExt: LANDOWNER_PERMISSION_FILE_EXT,
   localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,

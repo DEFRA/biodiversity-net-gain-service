@@ -17,7 +17,7 @@ const registerTaskList = {
           title: 'Add biodiversity gain site boundary details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-          startTaskUrl: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' ? constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD : constants.routes.UPLOAD_LAND_BOUNDARY,
+          startTaskUrl: constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
           inProgressUrl: '',
           id: 'add-land-boundary'
         }
@@ -62,6 +62,14 @@ const registerTaskList = {
           startTaskUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
           inProgressUrl: '',
           id: 'add-local-land-charge-search-certificate'
+        },
+        {
+          title: 'Consent to register the biodiversity gain site',
+          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+          completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
+          startTaskUrl: constants.routes.LANDOWNER_CONSENT,
+          inProgressUrl: '',
+          id: 'landowner-consent'
         }
       ]
     },
