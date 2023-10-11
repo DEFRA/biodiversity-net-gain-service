@@ -35,6 +35,10 @@ describe('Trusted file processing', () => {
     performValidGeospatialLandBoundaryProcessingTest(ZIP_FILE_EXTENSION, '27700', done)
   })
 
+  it('should process a pdf upload for a landowner permission upload type. ', done => {
+    performValidProcessingTest(PDF_FILE_EXTENSION, 'landowner-permission', done)
+  })
+
   it('should process a pdf upload for a legal agreement upload type. ', done => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'legal-agreement', done)
   })
@@ -67,6 +71,10 @@ describe('Trusted file processing', () => {
 
   it('should process a known land ownership file.', done => {
     performValidLandOwnershipDocumentProcessingTest(PDF_FILE_EXTENSION, done)
+  })
+
+  it('should process a known landowner permission file.', done => {
+    performValidLandownerPermissionDocumentProcessingTest(PDF_FILE_EXTENSION, done)
   })
 
   it('should process a known metric file.', done => {
@@ -390,6 +398,23 @@ const performValidGeospatialLandBoundaryProcessingTest = (fileExtension, epsg, d
       setImmediate(async () => {
         expect(context.bindings.signalRMessages).toStrictEqual([testConfig.expectedSignalRMessage])
         expect(spy).toHaveBeenCalledTimes(expectedNumberOfMoveBlobCalls)
+        done()
+      })
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performValidLandownerPermissionDocumentProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, 'landowner-permission')
+
+      await processTrustedFile(getContext(), testConfig.message)
+
+      setImmediate(async () => {
+        expect(getContext().bindings.signalRMessages[0].target).toEqual(testConfig.expectedSignalRMessage.target)
         done()
       })
     } catch (e) {

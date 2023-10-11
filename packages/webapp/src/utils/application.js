@@ -26,6 +26,7 @@ const getFiles = session => [
   getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
   getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
   getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+  getFile(session, constants.redisKeys.LANDOWNER_PERMISSION_UPLOAD_FILE_TYPE, constants.redisKeys.LANDOWNER_PERMISSION_UPLOAD_FILE_SIZE, constants.redisKeys.LANDOWNER_PERMISSION_UPLOAD_LOCATION),
   getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
 ]
 const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&

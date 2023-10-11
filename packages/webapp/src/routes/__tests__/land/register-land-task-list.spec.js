@@ -285,8 +285,15 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-local-land-charge',
                 inProgressUrl: '',
                 id: 'add-local-land-charge-search-certificate'
-              }
-            ]
+              },
+            {
+            title: 'Consent to register the biodiversity gain site',
+            status: 'NOT STARTED',
+            completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
+            startTaskUrl: '/land/landowner-consent',
+            inProgressUrl: '',
+            id: 'landowner-consent'
+          }]
           })
           done()
         } catch (err) {
@@ -383,6 +390,14 @@ describe(url, () => {
             startTaskUrl: '/land/upload-local-land-charge',
             inProgressUrl: '',
             id: 'add-local-land-charge-search-certificate'
+          },
+          {
+            title: 'Consent to register the biodiversity gain site',
+            status: 'NOT STARTED',
+            completedTaskUrl: constants.routes.LANDOWNER_CONSENT,
+            startTaskUrl: '/land/landowner-consent',
+            inProgressUrl: '',
+            id: 'landowner-consent'
           }
         ]
       })
