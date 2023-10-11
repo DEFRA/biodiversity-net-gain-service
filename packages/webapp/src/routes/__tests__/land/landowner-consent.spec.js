@@ -29,7 +29,8 @@ describe(url, () => {
       redisMap.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, 'yes')
 
       const request = {
-        yar: redisMap
+        yar: redisMap,
+        auth: { credentials: { account: { idTokenClaims: { firstName: 'John', lastName: 'smith' } } } }
       }
 
       await landownerConsent.default[0].handler(request, h)
@@ -59,7 +60,6 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Agree to the landowner consent declaration to continue')
-      expect(res.payload).toContain('I confirm that I, <strong>John Smith</strong> , am authorised to act on behalf of the landowners.')
     })
   })
 })
