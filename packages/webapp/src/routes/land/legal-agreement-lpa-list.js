@@ -74,7 +74,7 @@ const handlers = {
     }
 
     if (allLpa === 'yes') {
-      return h.redirect(constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
     }
 
     if (allLpa === 'no') {
