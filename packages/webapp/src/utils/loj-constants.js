@@ -69,6 +69,12 @@ const NEED_HABITAT_PLAN = 'land/need-habitat-plan'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
+const LEGAL_PARTY_ADD_START = 'land/legal-party-add-start'
+const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
+const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
+const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
+const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
+const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
 const ERROR = 'error'
 const HOME = 'home'
 const COOKIES = 'cookies'
@@ -163,6 +169,7 @@ const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const ALL_LPA = 'all-lpa'
 
 export default {
   redisKeys: {
@@ -249,7 +256,13 @@ export default {
     LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,
-    EMAIL_VALUE
+    EMAIL_VALUE,
+    LEGAL_PARTY_ADD_TYPE,
+    ADD_LANDOWNER_ORGANISATION,
+    ADD_LANDOWNER_INDIVIDUAL,
+    LEGAL_AGREEMENT_LPA_LIST,
+    LEGAL_AGREEMENT_LPA_REMOVE,
+    ALL_LPA
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -325,7 +338,13 @@ export default {
     COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
-    NEW_REGISTRATION
+    NEW_REGISTRATION,
+    LEGAL_PARTY_ADD_START,
+    LEGAL_PARTY_ADD_TYPE,
+    ADD_LANDOWNER_ORGANISATION,
+    ADD_LANDOWNER_INDIVIDUAL,
+    LEGAL_AGREEMENT_LPA_LIST,
+    LEGAL_AGREEMENT_LPA_REMOVE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

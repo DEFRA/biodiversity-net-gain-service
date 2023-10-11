@@ -399,6 +399,22 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
+const validateFirstLastName = (name, text, hrefId) => {
+  const error = {}
+  if (!name) {
+    error.err = [{
+      text: `Enter the ${text} of the landowner or leaseholder`,
+      href: hrefId
+    }]
+  } else if (name.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
   const error = {}
   const fieldTypeLower = fieldType.toLowerCase()
@@ -553,6 +569,12 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
+const buildFullName = (item) => {
+  return item.value.middleName
+    ? item.value.firstName.concat(' ', item.value.middleName, ' ' + item.value.lastName)
+    : item.value.firstName.concat(' ' + item.value.lastName)
+}
+
 export {
   validateDate,
   dateClasses,
@@ -583,6 +605,7 @@ export {
   formatDateBefore,
   getMinDateCheckError,
   validateName,
+  validateFirstLastName,
   emailValidator,
   getDateString,
   getDeveloperEligibilityResults,
@@ -595,5 +618,6 @@ export {
   getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails
+  checkDeveloperDetails,
+  buildFullName
 }
