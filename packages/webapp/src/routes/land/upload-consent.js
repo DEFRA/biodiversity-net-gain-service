@@ -46,7 +46,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h, landownerPermissionUploadId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.LANDOWNER_PERMISSION_UPLOAD)
     default:
-      if (err.message.indexOf('timed out') > 0) {
+      if (err.message.indexOf('timed out') > -1) {
         return h.redirect(constants.views.LANDOWNER_PERMISSION_UPLOAD, {
           err: [{
             text: 'The selected file could not be uploaded -- try again',
