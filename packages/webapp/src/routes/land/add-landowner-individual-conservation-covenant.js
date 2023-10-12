@@ -38,7 +38,7 @@ const handlers = {
     if (id) {
       individual = landownerIndividuals[id]
     }
-    return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
+    return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
       legalAgreementType,
       individual
     })
