@@ -70,6 +70,7 @@ const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
 const LEGAL_PARTY_ADD_START = 'land/legal-party-add-start'
+const NEED_ADD_ALL_PLANNING_AUTHORITIES = 'land/need-add-all-planning-authorities'
 const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
 const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
 const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
@@ -340,6 +341,7 @@ export default {
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
     LEGAL_PARTY_ADD_START,
+    NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
     ADD_LANDOWNER_INDIVIDUAL,
