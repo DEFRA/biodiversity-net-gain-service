@@ -15,9 +15,9 @@ const authMock = (auth) => {
       idTokenClaims: {
         exp: Math.trunc(tomorrow.getTime() / 1000),
         email: 'johnsmith@email.com',
-        contactId: contactId,
+        contactId,
         firstName: 'John',
-        lastName: `Smith - ${contactId}`,
+        lastName: `Smith - ${contactId}`
       }
     }
 
