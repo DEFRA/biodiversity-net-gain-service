@@ -18,7 +18,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.LEGAL_PARTY_ADD_TYPE)
+    return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
   }
 }
 

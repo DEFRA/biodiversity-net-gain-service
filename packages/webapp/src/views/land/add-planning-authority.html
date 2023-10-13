@@ -1,0 +1,42 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Add a local planning authority listed on the planning obligation " + legalAgreementType %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        {{ govukInput({
+          id: "localPlanningAuthority",
+          name: "localPlanningAuthority",
+          errorMessage: localPlanningAuthorityNameErr,
+          label: {
+            text: "Local planning authority"
+          },
+          hint: {
+            text: "Start typing, then select a local planning authority"
+          },
+          autocomplete: "localPlanningAuthority",
+          spellcheck: false,
+          value: localPlanningAuthority
+        }) }}
+    
+
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
