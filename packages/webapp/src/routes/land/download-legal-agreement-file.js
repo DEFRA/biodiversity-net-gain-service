@@ -1,7 +1,7 @@
+import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 import { logger } from 'defra-logging-facade'
-import { getDesiredFilenameFromRedisLocation } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const { id } = request.query
@@ -13,7 +13,7 @@ const handlers = {
       containerName: 'trusted'
     }
     const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
-    const downloadFilename = getDesiredFilenameFromRedisLocation(blobName)
+    const downloadFilename = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base
     return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + downloadFilename)
   }
 }

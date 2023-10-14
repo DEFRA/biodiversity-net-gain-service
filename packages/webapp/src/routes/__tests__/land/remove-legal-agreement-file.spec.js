@@ -23,7 +23,7 @@ describe(url, () => {
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
       {
-        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-qwww-3232442.doc',
+        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
         fileSize: 0.01,
         fileType: 'application/msword',
         id: '1'
@@ -55,7 +55,7 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.REMOVE_LEGAL_AGREEMENT_FILE)
       expect(resultContext.filenameText).toEqual(
-        'legal-agreement-qwww.doc'
+        'legal-agreement.doc'
       )
     })
   })
@@ -98,7 +98,7 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.REMOVE_LEGAL_AGREEMENT_FILE)
 
-      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove legal-agreement-qwww.doc as a legal agreement file', href: '#legalAgreementFileToRemove' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove legal-agreement.doc as a legal agreement file', href: '#legalAgreementFileToRemove' })
     })
 
     it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES all removed', async () => {

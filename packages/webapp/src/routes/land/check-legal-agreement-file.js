@@ -1,9 +1,9 @@
+import path from 'path'
 import constants from '../../utils/constants.js'
 import {
   getHumanReadableFileSize,
   processRegistrationTask,
-  getLegalAgreementDocumentType,
-  getDesiredFilenameFromRedisLocation
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -48,7 +48,7 @@ const getContext = request => {
   const { id } = request.query
   let legalAgreementFile
   let fileLocation = ''
-  let filenameText = ''
+  let filename = ''
   let fileSize = null
   let humanReadableFileSize = ''
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
@@ -58,13 +58,13 @@ const getContext = request => {
   if (id) {
     legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
     fileLocation = legalAgreementFile.location
-    filenameText = getDesiredFilenameFromRedisLocation(fileLocation)
+    filename = fileLocation === null ? '' : path.parse(fileLocation).base
     fileSize = legalAgreementFile.fileSize
     humanReadableFileSize = getHumanReadableFileSize(fileSize)
   }
 
   return {
-    filename: filenameText,
+    filename,
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),
     fileSize: humanReadableFileSize,
     legalAgreementType,

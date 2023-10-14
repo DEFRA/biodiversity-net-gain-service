@@ -6,28 +6,27 @@ import {
 
   processRegistrationTask,
   getLegalAgreementDocumentType,
-  getIdfromFileName
+  generateUniqueId
 } from '../../utils/helpers.js'
 
 const legalAgreementId = '#legalAgreement'
 
-function processSuccessfulUpload (results, request, h) {
+function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
 
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
-  for (const result of results) {
-    if (result.errorMessage === undefined) {
-      const id = getIdfromFileName(result.filename)
-      legalAgreementFiles.push({
-        location: result[0].location,
-        fileSize: result.fileSize,
-        fileType: result.fileType,
-        id
-      })
-      // Log the details
-      logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-      resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
-    }
+
+  if (result.errorMessage === undefined) {
+    const id = generateUniqueId()
+    legalAgreementFiles.push({
+      location: result[0].location,
+      fileSize: result.fileSize,
+      fileType: result.fileType,
+      id
+    })
+    // Log the details
+    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
   }
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
@@ -102,7 +101,7 @@ const handlers = {
 
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    return uploadFiles(logger, request, config, 'multiple').then(
+    return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)
       },

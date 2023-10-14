@@ -4,7 +4,6 @@ import { processRegistrationTask, getLegalAgreementDocumentType } from '../../ut
 const getCustomizedHTML = (item, index) => {
   if (item.type === 'individual') {
     const textToDisplay = `${item.firstName} ${item.middleNames ? item.middleNames + ' ' : ''}${item.lastName}`
-
     return {
       key: {
         text: textToDisplay,
@@ -53,16 +52,16 @@ const handlers = {
       inProgressUrl: constants.routes.CHECK_LANDOWNERS
     })
 
-    const landOwnerConservationConvents = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
-    const landOwnerConservationConventsWithAction = landOwnerConservationConvents.map((currElement, index) => getCustomizedHTML(currElement, index))
+    const landOwnerConservationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landOwnerConservationConvenantsWithAction = landOwnerConservationConvenants.map((currElement, index) => getCustomizedHTML(currElement, index))
 
     const { ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, REMOVE_LANDOWNER } = constants.routes
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.CHECK_LANDOWNERS, {
-      landOwnerConservationConventsWithAction,
-      landOwnerConservationConvents,
+      landOwnerConservationConvenantsWithAction,
+      landOwnerConservationConvenants,
       legalAgreementType,
       routes: { ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, REMOVE_LANDOWNER }
     })
@@ -71,13 +70,13 @@ const handlers = {
     const { addAnotherLandowner } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const landOwnerConservationConvents = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
+    const landOwnerConservationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (!addAnotherLandowner) {
-      const landOwnerConservationConventsWithAction = landOwnerConservationConvents.map((currElement, index) => getCustomizedHTML(currElement, index))
+      const landOwnerConservationConvenantsWithAction = landOwnerConservationConvenants.map((currElement, index) => getCustomizedHTML(currElement, index))
 
       return h.view(constants.views.CHECK_LANDOWNERS, {
-        landOwnerConservationConvents,
-        landOwnerConservationConventsWithAction,
+        landOwnerConservationConvenants,
+        landOwnerConservationConvenantsWithAction,
         legalAgreementType,
         routes: constants.routes,
         err: [{

@@ -21,7 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
     }, {
@@ -39,7 +39,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should show correct landowner to be remove organization', async () => {
+    it('should show correct organisation landowner to be removed.', async () => {
       const request = {
         yar: redisMap,
         query: { id: '0' }
@@ -51,7 +51,7 @@ describe(url, () => {
         'org1'
       )
     })
-    it('should show correct landowner to be remove individual', async () => {
+    it('should show correct individual landowner to be removed.', async () => {
       const request = {
         yar: redisMap,
         query: { id: '1' }
@@ -76,7 +76,7 @@ describe(url, () => {
       await landownerRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(1)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(1)
     })
     it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner organization', async () => {
       const request = {
@@ -88,7 +88,7 @@ describe(url, () => {
       await landownerRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(1)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(1)
     })
     it('Should continue journey to CHECK_LANDOWNERS if no is chosen', async () => {
       const request = {
@@ -100,7 +100,7 @@ describe(url, () => {
       await landownerRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(2)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(2)
     })
 
     it('Should fail journey if no answer', async () => {
@@ -131,7 +131,7 @@ describe(url, () => {
       }
       await landownerRemove.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(0)
+      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(0)
     })
   })
 })

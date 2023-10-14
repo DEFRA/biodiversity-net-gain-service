@@ -36,7 +36,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should show correct party to be remove', async () => {
+    it('should show correct party to be removed', async () => {
       const request = {
         yar: redisMap,
         query: { id: '0' }

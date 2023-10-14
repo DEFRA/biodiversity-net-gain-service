@@ -12,7 +12,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
     redisMap.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
-    redisMap.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'Yes')
+    redisMap.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
@@ -31,7 +31,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
     }, {
@@ -94,7 +94,7 @@ describe('Land boundary upload controller tests', () => {
           const request = {
             yar: redisMap
           }
-          redisMap.set(constants.redisKeys.HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO, 'No')
+          redisMap.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
           redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, undefined)
           redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
           redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, null)

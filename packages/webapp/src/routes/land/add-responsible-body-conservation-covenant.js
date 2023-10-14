@@ -9,7 +9,7 @@ const handlers = {
       taskTitle: 'Legal information',
       title: 'Add legal agreement details'
     }, {
-      inProgressUrl: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT
+      inProgressUrl: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
     })
     const { id } = request.query
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
@@ -19,7 +19,7 @@ const handlers = {
       responsibleBodyName: ''
     }
     if (id) { responsibleBody = legalAgreementResponsibleBodies[id] }
-    return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, {
+    return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, {
       legalAgreementType,
       responsibleBody
     })
@@ -31,7 +31,7 @@ const handlers = {
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const error = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, 'responsible body')
     if (error) {
-      return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, {
+      return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, {
         responsibleBody,
         legalAgreementType,
         ...error
@@ -49,10 +49,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
+  path: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
+  path: constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
   handler: handlers.post
 }]

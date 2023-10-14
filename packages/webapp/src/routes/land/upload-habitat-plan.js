@@ -37,7 +37,7 @@ function processErrorUpload (err, h) {
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
 
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, uploadHabitatPlanId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+      return maximumFileSizeExceeded(h, uploadHabitatPlanId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_HABITAT_PLAN)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')

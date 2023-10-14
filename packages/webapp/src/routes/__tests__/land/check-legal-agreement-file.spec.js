@@ -1,5 +1,5 @@
 import constants from '../../../utils/constants.js'
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_LEGAL_AGREEMENT
 jest.mock('../../../utils/azure-storage.js')
@@ -25,7 +25,7 @@ describe(url, () => {
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
       {
-        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-qwww-3232442.doc',
+        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-qwww.doc',
         fileSize: 0.01,
         fileType: 'application/msword',
         id: '1'
@@ -81,6 +81,15 @@ describe(url, () => {
       await legalAgreementFileCheck.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.routes.UPLOAD_LEGAL_AGREEMENT)
       expect(spy).toHaveBeenCalledTimes(1)
+    })
+    it('should detect an invalid response from user', async () => {
+      const postOptions = {
+        url,
+        payload: {}
+      }
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.payload).toContain('There is a problem')
+      expect(response.payload).toContain('Select yes if this is the correct file')
     })
   })
 })

@@ -59,7 +59,7 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     })
 
-    it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT if no is chosen', async () => {
+    it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT if no is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherResponsibleBody: 'no' }
@@ -67,7 +67,7 @@ describe(url, () => {
 
       await responsibleBodiesList.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      expect(viewResult).toEqual(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
     })
 
     it('Should fail journey if no answer', async () => {

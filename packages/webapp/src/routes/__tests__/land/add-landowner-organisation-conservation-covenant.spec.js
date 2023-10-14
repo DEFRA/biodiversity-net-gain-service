@@ -22,7 +22,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1'
     }, {
       organisationName: 'org2'

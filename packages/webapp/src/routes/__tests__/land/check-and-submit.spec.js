@@ -47,9 +47,6 @@ describe(url, () => {
           // Do some operator specific data checks
           expect(viewArgs[1].application.applicant.emailAddress).toEqual('john.smith@test.com')
           expect(viewArgs[1].application.applicant.contactId).toEqual('1234567890')
-          // expect(viewArgs[1].application.applicant.role).toEqual('Other: test role')
-          // expect(viewArgs[1].application.legalAgreementParties[1]).toEqual({ name: 'org2', role: 'Landowner' })
-
           done()
         } catch (err) {
           done(err)

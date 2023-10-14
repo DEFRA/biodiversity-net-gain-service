@@ -47,7 +47,7 @@ const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = 'land/add-landowner-individual-conservation-covenant'
 const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-organisation-conservation-covenant'
-const ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT = 'land/add-responsible-body-conservation-covenant'
+const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
@@ -96,7 +96,7 @@ const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
-const HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO = 'habitat-plan-seperate-document-yes-no'
+const HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO = 'habitat-plan-legal-agreement-document-included-yes-no'
 const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
 const GEOSPATIAL_HECTARES = 'geospatial-hectares'
@@ -150,7 +150,7 @@ const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
-const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS = 'legal-agreement-landowner-conservation-convents'
+const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
 
 const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
 const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
@@ -188,7 +188,7 @@ export default {
     REPROJECTED_GEOSPATIAL_FILE_SIZE,
     LOCAL_LAND_CHARGE_FILE_SIZE,
     HABITAT_PLAN_FILE_SIZE,
-    HABITAT_PLAN_SEPERATE_DOCUMENT_YES_NO,
+    HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO,
     GEOSPATIAL_FILE_TYPE,
     GEOSPATIAL_HECTARES,
     GEOSPATIAL_GRID_REFERENCE,
@@ -233,7 +233,7 @@ export default {
     METRIC_FILE_SIZE,
     METRIC_DATA,
     FULL_NAME,
-    LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS,
+    LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
     NAME_KEY,
     HABITAT_WORKS_START_DATE_KEY,
     REGISTERED_LANDOWNER_ONLY,
@@ -315,7 +315,7 @@ export default {
     CHECK_LAND_BOUNDARY_DETAILS,
     UPLOAD_LAND_OWNERSHIP,
     HOME,
-    ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT,
+    ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
     ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,

@@ -1,5 +1,6 @@
+import path from 'path'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getDesiredFilenameFromRedisLocation } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -15,8 +16,7 @@ const handlers = {
     if (id) {
       const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
       const legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
-      const blobName = legalAgreementFile.location
-      filenameText = getDesiredFilenameFromRedisLocation(blobName)
+      filenameText = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base
     }
     return h.view(constants.views.REMOVE_LEGAL_AGREEMENT_FILE, {
       filenameText
@@ -25,10 +25,14 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
     const { legalAgreementFileToRemove } = request.payload
-    const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
-    const legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
-    const blobName = legalAgreementFile.location
-    const filenameText = getDesiredFilenameFromRedisLocation(blobName)
+    let filenameText
+    let legalAgreementFiles
+    let legalAgreementFile
+    if (id) {
+      legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
+      filenameText = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base
+    }
     if (!legalAgreementFileToRemove) {
       return h.view(constants.views.REMOVE_LEGAL_AGREEMENT_FILE, {
         filenameText,
@@ -40,7 +44,7 @@ const handlers = {
     }
     let updatedLegalAgreementFiles
     if (legalAgreementFileToRemove === 'yes') {
-      await deleteBlobFromContainers(blobName)
+      await deleteBlobFromContainers(legalAgreementFile.location)
       updatedLegalAgreementFiles = legalAgreementFiles.filter(item => item.id !== id)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
       if (updatedLegalAgreementFiles.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES) }

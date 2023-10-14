@@ -25,24 +25,5 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual('/land/landowner-conservation-covenant-individual-organisation')
     })
-
-    it.skip('Should return to check your answer page if checkReferer is set', async () => {
-      let viewResult
-      const h = {
-        redirect: (view, context) => {
-          viewResult = view
-        }
-      }
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_YOUR_DETAILS)
-      const request = {
-        yar: redisMap,
-        payload: {
-        }
-      }
-      const legalAgreementDetails = require('../../land/need-add-all-landowners-conservation-covenant.js')
-      await legalAgreementDetails.default[1].handler(request, h)
-      expect(viewResult).toBe(constants.routes.CHECK_YOUR_DETAILS)
-    })
   })
 })
