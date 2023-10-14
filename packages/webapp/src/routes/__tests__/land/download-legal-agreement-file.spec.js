@@ -29,7 +29,7 @@ describe(url, () => {
 
       },
       {
-        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-3232442.pdf',
+        location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.pdf',
         fileSize: 0.01,
         fileType: 'application/pdf',
         id: '2'
