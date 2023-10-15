@@ -12,12 +12,12 @@ const handlers = {
 
     const { id } = request.query
 
-    const landownerConversationConvents = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
+    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     let landownerToRemove
     let landownerToRemoveText
 
     if (id) {
-      landownerToRemove = landownerConversationConvents[id]
+      landownerToRemove = landownerConversationConvenants[id]
       if (landownerToRemove.type === 'individual') {
         landownerToRemoveText = `${landownerToRemove.firstName} ${landownerToRemove.middleNames ? landownerToRemove.middleNames + ' ' : ''}${landownerToRemove.lastName}`
       } else {
@@ -33,9 +33,9 @@ const handlers = {
     const { id } = request.query
     const { landownerToRemove } = request.payload
     let landownerToRemoveText
-    const landownerConversationConvents = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
+    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (!landownerToRemove) {
-      const idToRemove = landownerConversationConvents[id]
+      const idToRemove = landownerConversationConvenants[id]
       if (idToRemove.type === 'individual') {
         landownerToRemoveText = `${idToRemove.firstName} ${idToRemove.middleNames ? idToRemove.middleNames + ' ' : ''}${idToRemove.lastName}`
       } else {
@@ -51,10 +51,10 @@ const handlers = {
     }
 
     if (landownerToRemove === 'yes') {
-      landownerConversationConvents.splice(id, 1)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, landownerConversationConvents)
+      landownerConversationConvenants.splice(id, 1)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerConversationConvenants)
     }
-    if (landownerConversationConvents.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT) }
+    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT) }
     return h.redirect(constants.routes.CHECK_LANDOWNERS)
   }
 }

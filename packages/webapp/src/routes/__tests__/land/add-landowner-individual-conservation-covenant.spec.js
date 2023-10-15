@@ -22,7 +22,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       firstName: 'John',
       middleNames: 'F',
       lastName: 'Ken',
@@ -132,7 +132,7 @@ describe(url, () => {
       expect(resultContext.err[0]).toEqual({ text: 'Enter the last name of the landowner or leaseholder', href: '#lastName' })
     })
 
-    it('should fail to add landowner to legal agreement without landowner first name length > 50', async () => {
+    it('should fail to add landowner to legal agreement with landowner first name length > 50', async () => {
       const request = {
         yar: redisMap,
         payload: {
@@ -149,7 +149,7 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'First name must be 50 characters or fewer', href: '#firstName' })
     })
-    it('should fail to add landowner to legal agreement without landowner first name length > 50', async () => {
+    it('should fail to add landowner to legal agreement with landowner first name length > 50', async () => {
       const request = {
         yar: redisMap,
         payload: {

@@ -9,7 +9,7 @@ const getCustomizedHTML = (item, index) => {
     },
     actions: {
       items: [{
-        href: `${constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT}?id=${index}`,
+        href: `${constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT}?id=${index}`,
         text: 'Change'
       }, {
         href: `${constants.routes.REMOVE_RESPONSIBLE_BODY}?id=${index}`,
@@ -33,13 +33,13 @@ const handlers = {
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const { ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, REMOVE_RESPONSIBLE_BODY } = constants.routes
+    const { ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, REMOVE_RESPONSIBLE_BODY } = constants.routes
 
     return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
       legalAgreementResponsibleBodiesWithAction,
       legalAgreementResponsibleBodies,
       legalAgreementType,
-      routes: { ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT, REMOVE_RESPONSIBLE_BODY }
+      routes: { ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, REMOVE_RESPONSIBLE_BODY }
     })
   },
   post: async (request, h) => {
@@ -67,7 +67,7 @@ const handlers = {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
 
-    return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+    return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }
 }
 

@@ -1,10 +1,10 @@
+import path from 'path'
 import constants from '../../utils/constants.js'
 
 import {
   getHumanReadableFileSize,
   processRegistrationTask,
-  getLegalAgreementDocumentType,
-  getDesiredFilenameFromRedisLocation
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const radioText = 'Have you added all legal agreement files?'
@@ -12,8 +12,8 @@ const radioHint = 'You must provide all legal agreement documents. This includes
 const fileType = 'legal agreement'
 const getCustomizedHTML = (item, index) => {
   const humanReadableFileSize = getHumanReadableFileSize(item.fileSize)
-  const desiredFilename = getDesiredFilenameFromRedisLocation(item.location)
-  const fileText = desiredFilename + ', ' + humanReadableFileSize
+  const filename = item.location === null ? '' : path.parse(item.location).base
+  const fileText = filename + ', ' + humanReadableFileSize
   return {
 
     key: {

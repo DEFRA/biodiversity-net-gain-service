@@ -344,7 +344,7 @@ const dataString = `
       "responsibleBodyName": "test2"
     }
   ],
-  "legal-agreement-landowner-conservation-convents": [{
+  "legal-agreement-landowner-conservation-convenants": [{
     "organisationName": "org1",
     "type": "organisation"
   }, {

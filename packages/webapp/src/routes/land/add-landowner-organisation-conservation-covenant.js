@@ -28,7 +28,7 @@ const handlers = {
     let organisation = {
       organisationName: ''
     }
-    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
+    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
       organisation = landownerOrganisations[id]
     }
@@ -53,7 +53,7 @@ const handlers = {
 
       })
     }
-    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS) ?? []
+    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
 
     if (id) {
       landownerOrganisations.splice(id, 1, organisation)
@@ -61,7 +61,7 @@ const handlers = {
       landownerOrganisations.push(organisation)
     }
 
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, landownerOrganisations)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
 

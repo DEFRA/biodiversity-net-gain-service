@@ -1,7 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
-const url = constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT
+const url = constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
 
 describe(url, () => {
   let viewResult
@@ -44,7 +44,7 @@ describe(url, () => {
         query: { id: '0' }
       }
       await addConcovResponsibleParties.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
       expect(resultContext.responsibleBody.responsibleBodyName).toEqual('test1')
     })
 
@@ -54,7 +54,7 @@ describe(url, () => {
         query: {}
       }
       await addConcovResponsibleParties.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
     })
   })
 
@@ -98,7 +98,7 @@ describe(url, () => {
 
       await addConcovResponsibleParties.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
 
       expect(resultContext.err[0]).toEqual({ text: 'Enter the name of the responsible body', href: '#responsibleBody' })
     })

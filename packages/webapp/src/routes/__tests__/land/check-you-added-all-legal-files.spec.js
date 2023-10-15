@@ -98,6 +98,9 @@ describe(url, () => {
     })
     it('should detect an invalid response from user', async () => {
       await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.payload).toContain('There is a problem')
+      expect(response.payload).toContain('Select yes if you have added all legal agreement files')
     })
   })
 })

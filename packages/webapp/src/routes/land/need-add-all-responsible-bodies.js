@@ -17,7 +17,7 @@ const handlers = {
     return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES, { legalAgreementType })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_CONVENT)
+    return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }
 }
 export default [{

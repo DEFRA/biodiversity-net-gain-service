@@ -21,7 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
     }, {
@@ -46,7 +46,7 @@ describe(url, () => {
       await landownersList.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.CHECK_LANDOWNERS)
-      expect(resultContext.landOwnerConservationConvents.length).toEqual(2)
+      expect(resultContext.landOwnerConservationConvenants.length).toEqual(2)
     })
   })
 

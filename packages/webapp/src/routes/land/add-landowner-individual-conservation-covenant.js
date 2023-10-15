@@ -34,7 +34,7 @@ const handlers = {
       middleNames: '',
       lastName: ''
     }
-    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS)
+    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
       individual = landownerIndividuals[id]
     }
@@ -60,7 +60,7 @@ const handlers = {
 
       })
     }
-    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS) ?? []
+    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
 
     if (id) {
       landownerIndividuals.splice(id, 1, individual)
@@ -68,7 +68,7 @@ const handlers = {
       landownerIndividuals.push(individual)
     }
 
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS, landownerIndividuals)
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
 
