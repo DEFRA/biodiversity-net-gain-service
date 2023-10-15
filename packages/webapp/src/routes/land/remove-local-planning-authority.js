@@ -13,7 +13,7 @@ const handlers = {
     const { id } = request.query
 
     const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
-    const planningAuthToRemove = planningAuthorityList[id]
+    const planningAuthToRemove = id && planningAuthorityList[id]
 
     return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
       planningAuthToRemove
@@ -25,13 +25,13 @@ const handlers = {
     const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
 
     if (!planningAuthToRemove) {
-      const orgToRemove = planningAuthorityList[id]
+      const localAuthorityNameToRemove = planningAuthorityList[id]
 
       return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
-        orgToRemove,
+        localAuthorityNameToRemove,
         err: [{
-          text: 'Select yes if you want to remove legal party',
-          href: '#legalPartyRemove'
+          text: `Select yes if you want to remove ${localAuthorityNameToRemove} as a local planning authority`,
+          href: '#planningAuthToRemove'
         }]
       })
     }

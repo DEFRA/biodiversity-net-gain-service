@@ -1,8 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
-  getLegalAgreementDocumentType,
-  buildFullName
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
@@ -61,8 +60,8 @@ const handlers = {
         legalAgreementType,
         routes: constants.routes,
         err: [{
-          text: 'Select yes if you have added all landowners or leaseholders',
-          href: '#allLpa'
+          text: 'Select yes if you have added all local planning authorities',
+          href: '#addAnotherLocalPlanningAuthority'
         }]
       })
     }

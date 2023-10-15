@@ -21,7 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['pa1', 'pa2'])
+    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
   })
@@ -34,12 +34,12 @@ describe(url, () => {
     it('should render the organisation view with organisation data to change', async () => {
       const request = {
         yar: redisMap,
-        query: { id: '1' }
+        query: { id: '0' }
       }
 
       await addPlanningAuthority.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
-      expect(resultContext.organisationName).toEqual('pa1')
+      expect(resultContext.localPlanningAuthority).toEqual('Planning Authority 1')
     })
   })
   describe('POST', () => {
@@ -51,7 +51,7 @@ describe(url, () => {
       }
     })
     it('Should continue journey if org name is provided', async () => {
-      postOptions.payload.organisationName = 'pa1'
+      postOptions.payload = { localPlanningAuthority: 'Planning Authority 1' }
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
     })

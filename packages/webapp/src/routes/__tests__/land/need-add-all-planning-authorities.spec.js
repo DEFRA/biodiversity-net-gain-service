@@ -20,7 +20,7 @@ describe(url, () => {
 
     it('Should continue journey to legal party add type', async () => {
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.LEGAL_PARTY_ADD_TYPE)
+      expect(res.headers.location).toEqual(constants.routes.ADD_PLANNING_AUTHORITY)
     })
   })
 })
