@@ -41,6 +41,9 @@ const handlers = {
       inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_FILES
     })
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+    if (legalAgreementFiles.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+    }
     const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
     const selectedOption = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
     const legalAgreementType = getLegalAgreementDocumentType(

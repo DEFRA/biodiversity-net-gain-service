@@ -13,6 +13,9 @@ const handlers = {
     const { id } = request.query
 
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    if (legalAgreementResponsibleBodies.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+    }
     let legalPartyBodyToRemoveText
     if (id) { legalPartyBodyToRemoveText = legalAgreementResponsibleBodies[id].responsibleBodyName }
 

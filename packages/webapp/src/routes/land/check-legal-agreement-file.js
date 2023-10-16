@@ -17,6 +17,10 @@ const handlers = {
     }, {
       inProgressUrl: `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
     })
+    const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+    if (legalAgreementFiles.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+    }
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT, getContext(request))
   },
   post: async (request, h) => {
@@ -44,7 +48,7 @@ const handlers = {
   }
 }
 
-const getContext = request => {
+const getContext = (request) => {
   const { id } = request.query
   let legalAgreementFile
   let fileLocation = ''
@@ -52,7 +56,6 @@ const getContext = request => {
   let fileSize = null
   let humanReadableFileSize = ''
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
-
   const legalAgreementType = getLegalAgreementDocumentType(
     request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
   if (id) {
