@@ -13,24 +13,27 @@ const legalAgreementId = '#legalAgreement'
 
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
+  const location = result[0]?.location ?? null
 
   if (result.errorMessage === undefined) {
-    const id = generateUniqueId()
-    legalAgreementFiles.push({
-      location: result[0].location,
-      fileSize: result.fileSize,
-      fileType: result.fileType,
-      id
-    })
-    // Log the details
-    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
+    let id = legalAgreementFiles.find(file => file.location === location)?.id
+    if (!id) {
+      id = generateUniqueId()
+      legalAgreementFiles.push({
+        location,
+        fileSize: result.fileSize,
+        fileType: result.fileType,
+        id
+      })
+    }
+    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
     resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
   }
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
+
   return h.redirect(resultView)
 }
 
