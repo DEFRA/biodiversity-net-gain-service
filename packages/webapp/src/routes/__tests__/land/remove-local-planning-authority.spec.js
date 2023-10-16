@@ -85,22 +85,5 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove Planning Authority 1 as a local planning authority', href: '#planningAuthToRemove' })
     })
-
-    // it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if no is chosen', async () => {
-    //   let request = {
-    //     yar: redisMap,
-    //     payload: { planningAuthToRemove: 'yes' },
-    //     query: { id: '0' }
-    //   }
-    //   await localPlanningAuthorityRemove.default[1].handler(request, h)
-    //   request = {
-    //     yar: redisMap,
-    //     payload: { planningAuthToRemove: 'yes' },
-    //     query: { id: '0' }
-    //   }
-    //   await localPlanningAuthorityRemove.default[1].handler(request, h)
-    //   expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
-    //   expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENTS).length).toEqual(0)
-    // })
   })
 })

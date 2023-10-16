@@ -63,7 +63,7 @@ describe(url, () => {
 
       await localPlanningAuthorities.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.ADD_PLANNING_AUTHORITY)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     })
 
     it('Should fail journey if no answer', async () => {

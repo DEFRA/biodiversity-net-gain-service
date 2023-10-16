@@ -67,7 +67,7 @@ const handlers = {
     }
 
     if (addAnotherplanningAuthority === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_PLANNING_AUTHORITY)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
 
     if (addAnotherplanningAuthority === 'no') {
