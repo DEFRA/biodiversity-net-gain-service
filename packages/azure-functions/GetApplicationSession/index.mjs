@@ -16,7 +16,7 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Get the application session from database
-    const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType], context)
+    const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType])
 
     // Check if we have an application session to return
     if (applicationSession.rows[0]) {
@@ -39,6 +39,6 @@ export default async function (context, req) {
       body: JSON.stringify(err)
     }
   } finally {
-    await db?.end(context)
+    await db?.end()
   }
 }

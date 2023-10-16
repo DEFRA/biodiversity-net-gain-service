@@ -14,10 +14,10 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Does the user have any applications regardless of application type?
-    const applicationCountResult = await getApplicationCountByContactId(db, [contactId], context)
+    const applicationCountResult = await getApplicationCountByContactId(db, [contactId])
 
     if (applicationCountResult?.rows[0]?.application_count) {
-      const applicationStatusJson = await getApplicationData(db, contactId, applicationType, context)
+      const applicationStatusJson = await getApplicationData(db, contactId, applicationType)
       context.res = {
         status: 200,
         body: applicationStatusJson
@@ -36,13 +36,13 @@ export default async function (context, req) {
       body: JSON.stringify(err)
     }
   } finally {
-    await db?.end(context)
+    await db?.end()
   }
 }
 
-const getApplicationData = async (db, contactId, applicationType, context) => {
+const getApplicationData = async (db, contactId, applicationType) => {
   const applicationData = []
-  const applicationStatusesResult = await getApplicationStatusesByContactIdAndApplicationType(db, [contactId, applicationType], context)
+  const applicationStatusesResult = await getApplicationStatusesByContactIdAndApplicationType(db, [contactId, applicationType])
 
   for (const row of applicationStatusesResult.rows) {
     applicationData.push({

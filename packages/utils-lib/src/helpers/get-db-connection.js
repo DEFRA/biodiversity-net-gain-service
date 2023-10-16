@@ -12,7 +12,7 @@ const getDBConnection = async (context) => {
     context?.log('Getting database token')
     dbConfig.password = (await credential.getToken('https://ossrdbms-aad.database.windows.net')).token
   }
-  return new postgresConnector.Db(dbConfig)
+  return new postgresConnector.Db(dbConfig, context)
 }
 
 export default getDBConnection

@@ -122,31 +122,31 @@ const getApplicationStatusStatement = `
   LIMIT 1;
 `
 
-const createApplicationReference = (db, values, context) => db.query('SELECT bng.fn_create_application_reference($1, $2);', values, context)
+const createApplicationReference = (db, values) => db.query('SELECT bng.fn_create_application_reference($1, $2);', values)
 
-const saveApplicationSession = (db, values, context) => db.query(insertApplicationSessionStatement, values, context)
+const saveApplicationSession = (db, values) => db.query(insertApplicationSessionStatement, values)
 
-const deleteApplicationSession = (db, values, context) => db.query(deleteApplicationSessionStatement, values, context)
+const deleteApplicationSession = (db, values) => db.query(deleteApplicationSessionStatement, values)
 
-const getApplicationCountByContactId = (db, values, context) => db.query(getApplicationCountByContactIdStatement, values, context)
+const getApplicationCountByContactId = (db, values) => db.query(getApplicationCountByContactIdStatement, values)
 
-const getApplicationSessionById = (db, values, context) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values, context)
+const getApplicationSessionById = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values)
 
-const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values, context) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values, context)
+const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values)
 
-const getApplicationStatusesByContactIdAndApplicationType = (db, values, context) => db.query(getApplicationStatusesByContactIdAndApplicationTypeStatement, values, context)
+const getApplicationStatusesByContactIdAndApplicationType = (db, values) => db.query(getApplicationStatusesByContactIdAndApplicationTypeStatement, values)
 
-const clearApplicationSession = (db, context) => db.query(deleteApplicationSessionsAt28DaysStatement, [], context)
+const clearApplicationSession = db => db.query(deleteApplicationSessionsAt28DaysStatement)
 
-const getExpiringApplicationSessions = (db, context) => db.query(getExpiringApplicationSessionsStatement, [], context)
+const getExpiringApplicationSessions = db => db.query(getExpiringApplicationSessionsStatement)
 
-const recordExpiringApplicationSessionNotification = (db, values, context) => db.query(recordExpiringApplicationSessionNotificationStatement, values, context)
+const recordExpiringApplicationSessionNotification = (db, values) => db.query(recordExpiringApplicationSessionNotificationStatement, values)
 
-const isPointInEngland = (db, values, context) => db.query('select bng.fn_is_point_in_england_27700($1, $2)', values, context)
+const isPointInEngland = (db, values) => db.query('select bng.fn_is_point_in_england_27700($1, $2)', values)
 
-const insertApplicationStatus = (db, values, context) => db.query(insertApplicationStatusStatement, values, context)
+const insertApplicationStatus = (db, values) => db.query(insertApplicationStatusStatement, values)
 
-const getApplicationStatus = (db, values, context) => db.query(getApplicationStatusStatement, values, context)
+const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
 export {
   createApplicationReference,

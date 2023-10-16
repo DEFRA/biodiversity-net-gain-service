@@ -5,9 +5,6 @@
   "private": false,
   "description": "A library of utilities for the Biodiversity Net Gain Service",
   "main": "src/utils.js",
-  "scripts": {
-    "test": "echo \\\"Error: run tests from root\\\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/DEFRA/biodiversity-net-gain-service.git",
@@ -17,7 +14,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "^3.3.1",
-    "@defra/bng-connectors-lib": "0.220.4",
+    "@defra/bng-connectors-lib": "0.220.6",
     "axios": "^1.5.1"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"

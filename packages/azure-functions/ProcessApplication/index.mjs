@@ -35,7 +35,7 @@ export default async function (context, req) {
       req.body.landownerGainSiteRegistration.payment.reference = applicationReference.rows[0].fn_create_application_reference
     } else {
       // Check if application has been submitted and throw error if true
-      const status = await getApplicationStatus(db, [req.body.landownerGainSiteRegistration.gainSiteReference], context)
+      const status = await getApplicationStatus(db, [req.body.landownerGainSiteRegistration.gainSiteReference])
       if (status.rows.length > 0 && status.rows[0].application_status === applicationStatuses.submitted) {
         context.log(`Duplicate submission detected ${req.body.landownerGainSiteRegistration.gainSiteReference}`)
         throw new DuplicateApplicationReferenceError(
@@ -44,10 +44,10 @@ export default async function (context, req) {
         )
       }
       // Clear out saved application (reference was generated from saving)
-      await deleteApplicationSession(db, [req.body.landownerGainSiteRegistration.gainSiteReference], context)
+      await deleteApplicationSession(db, [req.body.landownerGainSiteRegistration.gainSiteReference])
     }
     // Set status of application to submitted
-    await insertApplicationStatus(db, [req.body.landownerGainSiteRegistration.gainSiteReference, applicationStatuses.submitted], context)
+    await insertApplicationStatus(db, [req.body.landownerGainSiteRegistration.gainSiteReference, applicationStatuses.submitted])
 
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
@@ -63,6 +63,6 @@ export default async function (context, req) {
       body: err
     }
   } finally {
-    await db?.end(context)
+    await db?.end()
   }
 }

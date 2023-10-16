@@ -29,7 +29,7 @@ export default async function (context, req) {
       const result = await createApplicationReference(db, [
         applicationSession[redisKeys.contactId],
         applicationSession[redisKeys.applicationType]
-      ], context)
+      ])
       applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
     }
 
@@ -38,7 +38,7 @@ export default async function (context, req) {
       await saveApplicationSession(db, [
         applicationSession[redisKeys.applicationReference],
         JSON.stringify(applicationSession)
-      ], context)
+      ])
 
     const savedApplicationSessionPrimaryKey = savedApplicationSessionResult.rows[0].application_session_id
 
@@ -59,7 +59,7 @@ export default async function (context, req) {
       body: JSON.stringify(err)
     }
   } finally {
-    await db?.end(context)
+    await db?.end()
   }
 }
 
