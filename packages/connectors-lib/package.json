@@ -23,11 +23,11 @@
     "@azure/service-bus": "^7.9.0",
     "@azure/storage-blob": "^12.16.0",
     "@azure/storage-queue": "^12.14.0",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.220.3",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+    "@defra/bng-azure-storage-test-utils": "0.220.3"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }
