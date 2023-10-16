@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.220.6",
+  "version": "0.220.8",
   "private": true,
   "type": "module",
   "description": "",
@@ -33,8 +33,8 @@
     "@azure/msal-node": "^1.17.3",
     "@defra/bng-connectors-lib": "0.220.4",
     "@defra/bng-document-service": "0.213.0",
-    "@defra/bng-errors-lib": "0.220.6",
-    "@defra/bng-utils-lib": "0.220.6",
+    "@defra/bng-errors-lib": "0.220.8",
+    "@defra/bng-utils-lib": "0.220.8",
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.2",
@@ -61,7 +61,7 @@
     "sass": "^1.69.1"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.220.6",
+    "@defra/bng-azure-storage-test-utils": "0.220.8",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
