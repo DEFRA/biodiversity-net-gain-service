@@ -11,7 +11,7 @@ export default async function (context, req) {
       throw new Error('Contact ID or application type is missing')
     }
 
-    db = await getDBConnection()
+    db = await getDBConnection(context)
 
     // Does the user have any applications regardless of application type?
     const applicationCountResult = await getApplicationCountByContactId(db, [contactId])

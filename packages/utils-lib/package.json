@@ -18,8 +18,7 @@
   "dependencies": {
     "@azure/identity": "^3.3.1",
     "@defra/bng-connectors-lib": "0.220.4",
-    "axios": "^1.5.1",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
+    "axios": "^1.5.1"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }

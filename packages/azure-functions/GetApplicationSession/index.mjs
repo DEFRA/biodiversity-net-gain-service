@@ -13,7 +13,7 @@ export default async function (context, req) {
       throw new Error('Contact ID, application type or application reference is missing')
     }
 
-    db = await getDBConnection()
+    db = await getDBConnection(context)
 
     // Get the application session from database
     const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType])

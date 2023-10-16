@@ -1,16 +1,16 @@
 import pg from 'pg'
-import { logger } from 'defra-logging-facade'
 
 let pool
 
 class Db {
-  constructor (config) {
+  constructor (config, context) {
+    this.context = context
     this.init(config)
   }
 
   init (config) {
-    logger.info('init')
-    logger.info(pool)
+    this.context?.log('init')
+    this.context?.log(pool)
     if (!pool || pool.ending) {
       pool = new pg.Pool(config)
     }
@@ -18,15 +18,15 @@ class Db {
 
   query (query, vars) {
     this.init()
-    logger.info('query')
-    logger.info(query, vars)
+    this.context?.log('query')
+    this.context?.log(query, vars)
     return pool.query(query, vars)
   }
 
   // end must always be called after queries have been completed to ensure clean shutdown of pool and clients
   async end () {
-    logger.info('end')
-    logger.info(pool)
+    this.context?.log('end')
+    this.context?.log(pool)
     if (pool && !pool.ending) {
       await pool.end()
     }

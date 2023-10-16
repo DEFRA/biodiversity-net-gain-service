@@ -17,7 +17,7 @@ export default async function (context, message) {
 const recordApplicationSessionExpiryNotification = async applicationSessionId => {
   let db
   try {
-    db = await getDBConnection()
+    db = await getDBConnection(context)
     await recordExpiringApplicationSessionNotification(db, [applicationSessionId])
   } finally {
     await db?.end()
