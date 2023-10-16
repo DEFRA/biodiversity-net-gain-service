@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-azurite-bootstrap-service",
-  "version": "0.220.5",
+  "version": "0.220.6",
   "type": "module",
   "private": true,
   "description": "Azurite bootstrap service for Biodiversity Net Gain",
