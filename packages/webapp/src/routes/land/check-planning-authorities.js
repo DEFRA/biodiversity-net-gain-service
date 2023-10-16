@@ -34,6 +34,9 @@ const handlers = {
 
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
 
+    if (lpaList && lpaList.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
+    }
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
 

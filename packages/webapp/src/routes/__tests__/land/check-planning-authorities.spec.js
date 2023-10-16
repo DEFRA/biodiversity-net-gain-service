@@ -41,6 +41,16 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CHECK_PLANNING_AUTHORITIES)
       expect(resultContext.lpaList.length).toEqual(2)
     })
+
+    it('should redirect to NEED_ADD_ALL_PLANNING_AUTHORITIES when planning authority list is empty', async () => {
+      const request = {
+        yar: redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, [])
+      }
+
+      await localPlanningAuthorities.default[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
+    })
   })
 
   describe('POST', () => {
@@ -52,7 +62,7 @@ describe(url, () => {
 
       await localPlanningAuthorities.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.ADD_PLANNING_AUTHORITY)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     })
 
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {
@@ -63,7 +73,7 @@ describe(url, () => {
 
       await localPlanningAuthorities.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.ADD_PLANNING_AUTHORITY)
     })
 
     it('Should fail journey if no answer', async () => {
