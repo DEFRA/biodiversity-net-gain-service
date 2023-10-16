@@ -117,7 +117,7 @@ describe(url, () => {
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove landowner or leaseholder', href: '#legalPartyBodyToRemove' })
     })
 
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if no is chosen', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners are removed', async () => {
       let request = {
         yar: redisMap,
         payload: { landownerToRemove: 'yes' },
