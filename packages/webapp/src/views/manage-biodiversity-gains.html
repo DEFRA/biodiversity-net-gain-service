@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% set hideBackLink = true %}
 {% set pageHeading = "Manage biodiversity gains" %}
 {% block content %}
   <div class="govuk-width-container">
@@ -25,6 +26,7 @@
                 <li>continue a saved registration</li>
               </ul>
             </div>
+            {% if enableDev  %}
             <div class="dashboard-panel">
               <h2 class="govuk-heading-m govuk-!-padding-top-4">
                 <a href="/developer/development-projects">Development projects</a>
@@ -35,6 +37,7 @@
                 <li>continue a saved record</li>
               </ul>
             </div>
+             {% endif %}
           </div>
         </div>
       </div>
