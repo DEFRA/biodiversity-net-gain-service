@@ -30,6 +30,9 @@ const handlers = {
     })
 
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    if (legalAgreementResponsibleBodies.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+    }
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()

@@ -11,41 +11,11 @@
     
     {# Create the conditional HTML content as a Nunjucks variable #}
     {% set conditionalContent %}
-        <div class="govuk-grid-row" id="date-input-section">
-            <div class="govuk-grid-column-two-thirds">
-                {{ govukDateInput({
-                    id: 'enhancementWorkStartDate', 
-                    namePrefix: 'enhancementWorkStartDate',
-                    errorMessage: err[0],
-                    fieldset: {
-                      legend: {
-                        text: "Enter start date",
-                        isPageHeading: false
-                      }
-                    },
-                    hint: {
-                      text: "For example, 15 3 2023"
-                    },
-                    items: [
-                      {
-                        classes: dateClasses(err[0].dayError, err[0].dateError, "govuk-input--width-2"),
-                        name: "day",
-                        value: day
-                      },
-                      {
-                        classes: dateClasses(err[0].monthError, err[0].dateError, "govuk-input--width-2"),
-                        name: "month",
-                        value: month
-                      },
-                      {
-                        classes: dateClasses(err[0].yearError, err[0].dateError, "govuk-input--width-4"),
-                        name: "year",
-                        value: year
-                      }
-                    ]
-                  }) }}
-            </div>
-        </div>
+    {% set id = 'enhancementWorkStartDate' %}
+    {% set subHeading = 'Enter start date' %}
+    {% set dateHint = 'For example, 15 3 2023' %}
+    {% include "common/date-hmmp-input.html" %}
+     
     {% endset %}
     
     <div class="govuk-grid-row">

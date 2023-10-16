@@ -15,6 +15,9 @@ const handlers = {
     let filenameText
     if (id) {
       const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      if (legalAgreementFiles.length === 0) {
+        return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+      }
       const legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
       filenameText = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base
     }

@@ -91,7 +91,7 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove responsible body', href: '#legalPartyBodyToRemove' })
     })
-    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if no is chosen', async () => {
+    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if all responsible bodies are removed', async () => {
       let request = {
         yar: redisMap,
         payload: { legalPartyBodyToRemove: 'yes' },

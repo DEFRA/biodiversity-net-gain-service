@@ -13,6 +13,9 @@ const handlers = {
     const { id } = request.query
 
     const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    if (landownerConversationConvenants.length === 0) {
+      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+    }
     let landownerToRemove
     let landownerToRemoveText
 

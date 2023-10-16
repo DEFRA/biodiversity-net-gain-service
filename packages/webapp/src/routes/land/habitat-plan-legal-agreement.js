@@ -10,12 +10,11 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT
     })
-
-    return h.view(constants.views.HABITAT_PLAN_LEGAL_AGREEMENT)
+    const isHabitatIncludeLegalAgreement = request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
+    return h.view(constants.views.HABITAT_PLAN_LEGAL_AGREEMENT, { isHabitatIncludeLegalAgreement })
   },
   post: async (request, h) => {
     const { isHabitatIncludeLegalAgreement } = request.payload
-
     if (!isHabitatIncludeLegalAgreement) {
       return h.view(constants.views.HABITAT_PLAN_LEGAL_AGREEMENT, {
 
@@ -27,8 +26,8 @@ const handlers = {
       })
     }
 
-    if (isHabitatIncludeLegalAgreement === 'yes') {
-      request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
+    if (isHabitatIncludeLegalAgreement === 'Yes') {
+      request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, isHabitatIncludeLegalAgreement)
       const habitatPlanLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
       await deleteBlobFromContainers(habitatPlanLocation)
       request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
