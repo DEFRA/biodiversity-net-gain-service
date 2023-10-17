@@ -46,6 +46,7 @@ describe('Land boundary upload controller tests', () => {
     {
       responsibleBodyName: 'test2'
     }])
+    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
   })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -79,6 +80,7 @@ describe('Land boundary upload controller tests', () => {
           expect(contextResult.HabitatPlanFileName).toEqual('habitat-plan.pdf')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2020')
+          expect(contextResult.localPlanningAuthorities).toEqual('Planning Authority 1')
           done()
         } catch (err) {
           done(err)

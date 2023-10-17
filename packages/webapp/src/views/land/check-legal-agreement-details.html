@@ -80,6 +80,25 @@
                         },
                         {
                             key: {
+                                text: 'Local planning authority'
+                            },
+                            value: {
+                                html: "<dd class='govuk-summary-list__value' id='add-local-planning-authority-value' data-testid='legal-agreement-responsible-bodies-value'>" + localPlanningAuthorities + "</dd>"
+                            },
+                            actions: {
+                                items: [
+                                    {
+                                        href: '/land/check-planning-authorities',
+                                        text: 'Change',
+                                        attributes: {
+                                            id: "add-local-planning-authorities"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            key: {
                                 text: 'Landowner'
                             },
                             value: {

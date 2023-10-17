@@ -222,6 +222,12 @@ const getLandowners = landOwners => {
   const result = [...organisationNames, ...individualNames].join(', ')
   return result
 }
+
+const getLocalPlanningAuthority = lpas => {
+  if (!lpas) return ''
+  return lpas.join('<br>')
+}
+
 const validateEmail = (emailAddress, ID) => {
   const error = {}
   if (!emailAddress) {
@@ -591,5 +597,6 @@ export {
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,
-  buildFullName
+  buildFullName,
+  getLocalPlanningAuthority
 }
