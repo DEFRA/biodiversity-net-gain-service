@@ -19,11 +19,6 @@ const getRedirectUrl = async (account, preAuthenticationRoute) => {
     } else {
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
     }
-    // if (applications?.length === 1 && applications?.applicationStatus === 'IN PROGRESS') {
-    //   redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
-    // } else {
-    //   redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
-    // }
   }
 
   return redirectUrl
