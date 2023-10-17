@@ -5,17 +5,25 @@ import { postJson } from '../../utils/http.js'
 const getRedirectUrl = async (account, preAuthenticationRoute) => {
   let redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
   const applicationType = getApplicationType(preAuthenticationRoute)
-
   if (applicationType) {
     const applications = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplications`, {
       contactId: account.idTokenClaims.contactId,
       applicationType
     })
     if (applications?.length > 0) {
-      redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
+      if (applications?.length === 1 && applications?.applicationStatus === 'IN PROGRESS') {
+        redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
+      } else {
+        redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
+      }
     } else {
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
     }
+    // if (applications?.length === 1 && applications?.applicationStatus === 'IN PROGRESS') {
+    //   redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
+    // } else {
+    //   redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
+    // }
   }
 
   return redirectUrl
