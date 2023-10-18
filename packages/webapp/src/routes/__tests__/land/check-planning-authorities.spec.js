@@ -68,7 +68,7 @@ describe(url, () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherplanningAuthority: 'no' }
+        payload: { addAnotherPlanningAuthority: 'no' }
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)

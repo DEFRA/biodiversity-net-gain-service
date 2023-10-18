@@ -51,13 +51,13 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { addAnotherplanningAuthority } = request.payload
+    const { addAnotherPlanningAuthority } = request.payload
 
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    if (!addAnotherplanningAuthority) {
+    if (!addAnotherPlanningAuthority) {
       return h.view(constants.views.CHECK_PLANNING_AUTHORITIES, {
         lpaList,
         legalAgreementType,
@@ -69,11 +69,11 @@ const handlers = {
       })
     }
 
-    if (addAnotherplanningAuthority === 'yes') {
+    if (addAnotherPlanningAuthority === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
 
-    if (addAnotherplanningAuthority === 'no') {
+    if (addAnotherPlanningAuthority === 'no') {
       return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
     }
   }
