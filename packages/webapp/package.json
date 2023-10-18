@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@azure/msal-node": "^1.17.3",
-    "@defra/bng-connectors-lib": "0.220.4",
+    "@defra/bng-connectors-lib": "0.220.10",
     "@defra/bng-document-service": "0.213.0",
     "@defra/bng-errors-lib": "0.220.10",
     "@defra/bng-utils-lib": "0.220.10",
