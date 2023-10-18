@@ -5,7 +5,10 @@ const blobServiceClient = getBlobServiceClient()
 const queueServiceClient = getQueueServiceClient()
 
 const containers = ['customer-uploads']
-const queues = [];
+const queues = [
+  'saved-application-session-notification-queue',
+  'expiring-application-session-notification-queue'
+];
 (
   async () => {
     for await (const container of containers) {
