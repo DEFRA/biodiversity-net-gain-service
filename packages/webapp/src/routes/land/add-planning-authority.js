@@ -31,6 +31,8 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    const { id } = request.query
+
     const { localPlanningAuthority } = request.payload
 
     if (!localPlanningAuthority) {
@@ -46,7 +48,12 @@ const handlers = {
     }
 
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
-    lpaList.push(localPlanningAuthority)
+
+    if (id) {
+      lpaList.splice(id, 1, localPlanningAuthority)
+    } else {
+      lpaList.push(localPlanningAuthority)
+    }
 
     request.yar.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, lpaList)
     return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)

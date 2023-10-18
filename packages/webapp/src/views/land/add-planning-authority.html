@@ -13,7 +13,7 @@
           {{ pageHeading }}
         </h1>
 
-        {{ govukInput({
+        {{ govukSelect({
           id: "localPlanningAuthority",
           name: "localPlanningAuthority",
           errorMessage: localPlanningAuthorityNameErr,
@@ -24,11 +24,19 @@
             text: "Start typing, then select a local planning authority"
           },
           autocomplete: "localPlanningAuthority",
-          spellcheck: false,
-          value: localPlanningAuthority
+          items: [
+            {value: localPlanningAuthority, text: localPlanningAuthority},
+            {value: "Bath and North East Somerset", text: "Bath and North East Somerset"},
+            {value: "Bedford Borough Council", text: "Bedford Borough Council"},
+            {value: "Blackpool Council", text: "Blackpool Council"},
+            {value: "Bournemouth, Christchurch Council", text: "Bournemouth, Christchurch Council"},
+            {value: "Poole Council", text: "Poole Council"},
+            {value: "Bracknell Forest Borough Council", text: "Bracknell Forest Borough Council"},
+            {value: "Brighton and Hove City Council", text: "Brighton and Hove City Council"},
+            {value: "Bristol City Council", text: "Bristol City Council"}
+          ]
         }) }}
     
-
         {{ govukButton({
           text: "Save and continue",
           attributes: {
