@@ -22,9 +22,17 @@ const handlers = {
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      return request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner'
-        ? h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTERED_LANDOWNER)
-        : h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LANDOWNERS)
+      let ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+      ownershipProofs = [
+        ...ownershipProofs,
+        {
+          'location': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+          'fileSize': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
+          'fileType': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE),
+        }
+      ]
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_LIST)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

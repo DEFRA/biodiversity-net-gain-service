@@ -83,6 +83,9 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
+const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
+const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -171,6 +174,7 @@ const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const ALL_LPA = 'all-lpa'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
+const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 
 export default {
   redisKeys: {
@@ -267,7 +271,8 @@ export default {
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
-    ALL_LPA
+    ALL_LPA,
+    LAND_OWNERSHIP_PROOFS
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -353,7 +358,9 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
-    LEGAL_AGREEMENT_LPA_REMOVE
+    LEGAL_AGREEMENT_LPA_REMOVE,
+    LAND_OWNERSHIP_LIST,
+    LAND_OWNERSHIP_REMOVE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
