@@ -45,6 +45,15 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CHECK_RESPONSIBLE_BODIES)
       expect(resultContext.legalAgreementResponsibleBodies.length).toEqual(2)
     })
+    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if all responsible bodies removed', async () => {
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [])
+      const request = {
+        yar: redisMap,
+        query: { id: '0' }
+      }
+      await responsibleBodiesList.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+    })
   })
 
   describe('POST', () => {
