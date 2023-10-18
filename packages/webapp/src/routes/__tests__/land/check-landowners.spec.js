@@ -48,6 +48,15 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CHECK_LANDOWNERS)
       expect(resultContext.landOwnerConservationConvenants.length).toEqual(2)
     })
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners removed', async () => {
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
+      const request = {
+        yar: redisMap,
+        query: { id: '0' }
+      }
+      await landownersList.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+    })
   })
 
   describe('POST', () => {
