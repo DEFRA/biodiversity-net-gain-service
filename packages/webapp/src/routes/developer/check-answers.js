@@ -11,9 +11,11 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
-      ...getContext(request)
-    })
+    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+      ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
+        ...getContext(request)
+      })
+      : h.redirect(constants.routes.START)
   },
   post: async (request, h) => {
     const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))

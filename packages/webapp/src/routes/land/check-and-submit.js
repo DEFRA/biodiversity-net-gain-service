@@ -15,10 +15,12 @@ import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-bounda
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.CHECK_AND_SUBMIT, {
-      application: application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration,
-      ...getContext(request)
-    })
+    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+      ? h.view(constants.views.CHECK_AND_SUBMIT, {
+        application: application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration,
+        ...getContext(request)
+      })
+      : h.redirect(constants.routes.START)
   },
   post: async (request, h) => {
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
