@@ -1,5 +1,5 @@
 {% extends 'form-layout.html' %}
-
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 {% set pageHeading = "Check your answers before submitting your information" %}
 
 {% block formContent %}
@@ -14,6 +14,7 @@
         </h1>
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
+        
         {% set landBoundaryUploadTypeElement = {
           key: {
               text: "Land boundary file type"
@@ -116,7 +117,7 @@
                 text: "Proof of land ownership file uploaded"
               },
               value: {
-                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + application.files[4].fileName + "</span>"
+                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + getFileNameByType(application.files, 'land-ownership') + "</span>"
               },
               actions: {
                 items: [
@@ -177,7 +178,7 @@
                 text: "Biodiversity Metric file uploaded"
               },
               value: {
-                html: "<span data-testid=\"metric-file-name-value\">" + application.files[3].fileName + "</span>"
+                html: "<span data-testid=\"metric-file-name-value\">" + getFileNameByType(application.files, 'metric') + "</span>"
               },
               actions: {
                 items: [
@@ -202,7 +203,7 @@
                 text: "Habitat management and monitoring plan uploaded"
               },
               value: {
-                html: "<span data-testid=\"habitat-plan-file-name-value\">" + application.files[2].fileName + "</span>"
+                html: "<span data-testid=\"habitat-plan-file-name-value\">" + getFileNameByType(application.files, 'management-plan') + "</span>"
               },
               actions: {
                 items: [
@@ -234,98 +235,108 @@
           ]
         }) }}
 
+       
         <!-- Legal agreement -->
         <h2 class="govuk-heading-l">Legal information</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Type of legal agreement"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-type-value\">" + legalAgreementType + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/legal-agreement-type",
-                    text: "Change",
-                    visuallyHiddenText: " type of legal agreement"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Legal agreement file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-file-name-value\">" + application.files[0].fileName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_LEGAL_AGREEMENT,
-                    text: "Change",
-                    visuallyHiddenText: " legal agreement file"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Parties involved"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-parties-value\">" + listArray(legalAgreementParties) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/add-legal-agreement-parties",
-                    text: "Change",
-                    visuallyHiddenText: " parties involved"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Start date"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-start-date-value\">" +  dateToString(application.legalAgreementStartDate) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/legal-agreement-start-date",
-                    text: "Change",
-                    visuallyHiddenText: " start date"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Local land charge search certificate file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"local-land-charge-file-name-value\">" + application.files[5].fileName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_LOCAL_LAND_CHARGE_FILE,
-                    text: "Change",
-                    visuallyHiddenText: " local land charge file"
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
+        {% set rowList = [] %} 
+                    {% set habitatPlanSeperateDocument = habitatPlanSeperateDocumentYesNo == 'No' %}
+                    {% 
+                        set rowList = [
+                        {
+                            'text': 'Type of legal agreement',
+                            'value': legalAgreementType,
+                            'valueDataTestId': 'legal-agreement-type-value',
+                            'valueId': 'add-legal-agreement-type-value',
+                            'href': '/land/legal-agreement-type',
+                            'visuallyHiddenText':  ' type of legal agreement',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': legalAgreementType +' file uploaded',
+                            'value': legalAgreementFileNames,
+                            'valueDataTestId': 'legal-agreement-file-name-value',
+                            'valueId': 'add-legal-agreement-file-value',
+                            'href': '/land/check-you-added-all-legal-files',
+                            'visuallyHiddenText':  ' legal agreement file',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': 'Responsible body',
+                            'value': responsibleBodies,
+                            'valueDataTestId': 'legal-agreement-responsible-bodies-value',
+                            'valueId': 'add-legal-agreement-responsible-bodies-value',
+                            'href': '/land/check-responsible-bodies',
+                            'visuallyHiddenText':  ' responsible body',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': 'Landowner',
+                            'value': landowners,
+                            'valueDataTestId': 'legal-agreement-landowner-value',
+                            'valueId': 'add-legal-agreement-landowner-value',
+                            'href': '/land/check-landowners',
+                            'visuallyHiddenText':  ' landowner',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': 'Habitat management and monitoring plan included in legal agreement',
+                            'value': habitatPlanSeperateDocumentYesNo,
+                            'valueDataTestId': 'legal-agreement-habitatplan-type-value',
+                            'valueId': 'add-legal-agreement-habitatplan-type-value',
+                            'href': '/land/habitat-plan-legal-agreement',
+                            'visuallyHiddenText':  ' habitat management plan',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': 'Habitat management and monitoring plan uploaded',
+                            'value': getFileNameByType(application.files, 'habitat-plan'),
+                            'valueDataTestId': 'habitat-plan-file-name-value',
+                            'valueId': 'add-habitat-plan-file-value',
+                            'href': '/land/check-habitat-plan-file',
+                            'visuallyHiddenText':  ' habitat management plan file name',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':habitatPlanSeperateDocument
+                        },
+                        {
+                            'text': 'Habitat enhancement works start date',
+                            'value': HabitatWorksStartDate,
+                            'valueDataTestId': 'habitat-works-start-date-value',
+                            'valueId': 'add-habitat-works-start-date-value',
+                            'href': '/land/enhancement-works-start-date',
+                            'visuallyHiddenText':  ' enhancement works start date',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                            'text': 'Legal agreement end date',
+                            'value': HabitatWorksEndDate,
+                            'valueDataTestId': 'habitat-works-end-date-value',
+                            'valueId': 'add-habitat-works-end-date-value',
+                            'href': '/land/legal-agreement-end-date',
+                            'visuallyHiddenText':  ' legal agreement end date',
+                            'classes': 'govuk-!-margin-bottom-7',
+                            'show':true
+                        },
+                        {
+                          'text': 'Local land charge search certificate file uploaded',
+                          'value': getFileNameByType(application.files, 'local-land-charge'),
+                          'valueDataTestId': 'local-land-charge-file-name-value',
+                          'valueId': 'add-local-land-charge-file-name-value',
+                          'href': routes.CHECK_LOCAL_LAND_CHARGE_FILE,
+                          'visuallyHiddenText':  ' local land charge file',
+                          'classes': 'govuk-!-margin-bottom-7',
+                          'show':true
+                      }
+                        
+                    ] %}           
+                    {{ generateSummaryList({
+                        rows: rowList
+                    }) }}
 
         <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
 

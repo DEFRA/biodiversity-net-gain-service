@@ -1,5 +1,5 @@
-import constants from '../../utils/constants.js'
 import path from 'path'
+import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
   getResponsibleBodies,

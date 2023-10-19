@@ -11,42 +11,77 @@ const auth = {
     account: applicant
   }
 }
-
+const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {
           const session = applicationSession()
+          let viewResult, contextResult
           const getHandler = checkAndSubmit[0].handler
+          session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
+          session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+          session.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+            {
+              location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
+              fileSize: 0.01,
+              fileType: 'application/msword',
+              id: '1'
 
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
             },
-            redirect: (...args) => {
-              redirectArgs = args
+            {
+              location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement1.pdf',
+              fileSize: 0.01,
+              fileType: 'application/pdf',
+              id: '2'
+            }
+          ])
+          session.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
+          session.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+            organisationName: 'org1',
+            type: 'organisation'
+          }, {
+            firstName: 'Crishn',
+            middleNames: '',
+            lastName: 'P',
+            type: 'individual'
+          }])
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+            responsibleBodyName: 'test1'
+          },
+          {
+            responsibleBodyName: 'test2'
+          }])
+          // let viewArgs = ''
+          // let redirectArgs = ''
+          const h = {
+            view: (view, context) => {
+              viewResult = view
+              contextResult = context
             }
           }
 
           await getHandler({ yar: session, auth }, h)
-          expect(viewArgs[0]).toEqual(constants.views.CHECK_AND_SUBMIT)
-          // Refactoring: could produce a Joi schema to validate returned data
-          expect(viewArgs[1].application).not.toBeUndefined()
-          expect(typeof viewArgs[1].boolToYesNo).toEqual('function')
-          expect(viewArgs[1].changeLandownersHref).toEqual(constants.routes.ADD_LANDOWNERS)
-          expect(typeof viewArgs[1].dateToString).toEqual('function')
-          expect(typeof viewArgs[1].hideClass).toEqual('function')
-          expect(viewArgs[1].hideConsent).toEqual(false)
-          expect(typeof viewArgs[1].listArray).toEqual('function')
-          expect(viewArgs[1].routes).not.toBeUndefined()
-          expect(redirectArgs).toEqual('')
+          expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
+          expect(contextResult.application).not.toBeUndefined()
+          expect(typeof contextResult.boolToYesNo).toEqual('function')
+          expect(typeof contextResult.dateToString).toEqual('function')
+          expect(typeof contextResult.hideClass).toEqual('function')
+          expect(contextResult.hideConsent).toEqual(false)
+          expect(contextResult.routes).not.toBeUndefined()
+          expect(contextResult.changeLandownersHref).toEqual(constants.routes.ADD_LANDOWNERS)
+          expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
+          expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
+          expect(contextResult.responsibleBodies).toEqual('test1,test2')
+          expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
+          expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2024')
+          expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('Yes')
 
-          // Do some operator specific data checks
-          expect(viewArgs[1].application.applicant.emailAddress).toEqual('john.smith@test.com')
-          expect(viewArgs[1].application.applicant.contactId).toEqual('1234567890')
           done()
         } catch (err) {
           done(err)
