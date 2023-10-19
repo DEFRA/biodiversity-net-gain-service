@@ -13,8 +13,8 @@ const handlers = {
 
     const { id } = request.query
 
-    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
-    const ownershipProofToRemove = landOwnershipProofs && landOwnershipProofs[id]
+    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+    const ownershipProofToRemove = landOwnershipProofs[id]
 
     return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
       ownershipProofToRemove
