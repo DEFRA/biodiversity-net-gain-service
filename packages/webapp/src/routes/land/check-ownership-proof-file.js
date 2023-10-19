@@ -26,9 +26,9 @@ const handlers = {
       ownershipProofs = [
         ...ownershipProofs,
         {
-          'location': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
-          'fileSize': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
-          'fileType': request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE),
+          location: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
+          fileSize: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
+          fileType: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE)
         }
       ]
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)

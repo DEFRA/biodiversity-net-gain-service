@@ -1,20 +1,20 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-// import { processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    // processRegistrationTask(request, {
-    //   taskTitle: 'Legal information',
-    //   title: 'Legal party remove'
-    // }, {
-    //   inProgressUrl: constants.routes.LAND_OWNERSHIP_REMOVE
-    // })
+    processRegistrationTask(request, {
+      taskTitle: 'Land information',
+      title: 'Add land ownership details'
+    }, {
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_REMOVE
+    })
 
     const { id } = request.query
 
-    const landOwnerships = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
-    const ownershipProofToRemove = landOwnerships[id]
+    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+    const ownershipProofToRemove = landOwnershipProofs && landOwnershipProofs[id]
 
     return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
       ownershipProofToRemove
@@ -22,12 +22,12 @@ const handlers = {
   },
   post: async (request, h) => {
     const { id } = request.query
-    const { ownershipProofRemove } = request.payload
-    const landOwnerships = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+    let { ownershipProofToRemove } = request.payload
+    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
 
-    if (!ownershipProofRemove) {
-      const ownershipProofToRemove = landOwnerships[id]
-      const filename = path.basename(landOwnerships[id]?.location) || ""
+    if (!ownershipProofToRemove) {
+      ownershipProofToRemove = landOwnershipProofs[id]
+      const filename = path.basename(landOwnershipProofs[id]?.location)
       return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
         ownershipProofToRemove,
         err: [{
@@ -37,11 +37,11 @@ const handlers = {
       })
     }
 
-    if (ownershipProofRemove === 'yes') {
-      landOwnerships.splice(id, 1)
-      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, landOwnerships)
+    if (landOwnershipProofs.length > 0 && ownershipProofToRemove === 'yes') {
+      landOwnershipProofs.splice(id, 1)
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, landOwnershipProofs)
     }
-    return h.redirect(landOwnerships.length > 0 ? constants.routes.LAND_OWNERSHIP_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
+    return h.redirect(landOwnershipProofs.length > 0 ? constants.routes.LAND_OWNERSHIP_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
   }
 }
 
