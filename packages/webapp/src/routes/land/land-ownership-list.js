@@ -12,7 +12,7 @@ const getCustomizedHTML = (item, index) => {
       items: [{
         href: `${constants.routes.LAND_OWNERSHIP_REMOVE}?id=${index}`,
         text: 'Remove',
-        visuallyHiddenText: 'Remove '+ path.basename(item.location) + ' from the list'
+        visuallyHiddenText: 'Remove ' + path.basename(item.location) + ' from the list'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
     },
@@ -28,21 +28,21 @@ const handlers = {
       inProgressUrl: constants.routes.LAND_OWNERSHIP_LIST
     })
 
-    const landOwnerships = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
-    const landOwnershipsList = landOwnerships.map((currElement, index) => getCustomizedHTML(currElement, index))
-    
+    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+    const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index))
+
     return h.view(constants.views.LAND_OWNERSHIP_LIST, {
       landOwnershipsList,
-      landOwnerships
+      landOwnershipProofs
     })
   },
   post: async (request, h) => {
     const { addAnotherOwnershipProof } = request.payload
-    const landOwnerships = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
-    
+    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+
     if (!addAnotherOwnershipProof) {
       return h.view(constants.views.LAND_OWNERSHIP_LIST, {
-        landOwnerships,
+        landOwnershipProofs,
         routes: constants.routes,
         err: [{
           text: 'Select yes if you have added all proof of land ownership files',
