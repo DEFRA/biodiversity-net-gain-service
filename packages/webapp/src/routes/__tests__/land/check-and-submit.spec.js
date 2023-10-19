@@ -93,6 +93,38 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
+    it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      const { handler } = checkAndSubmit.find(route => route.method === 'GET')
+      const h = { redirect: jest.fn() }
+      await handler({ yar: session }, h)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.START)
+    })
+    it(`should render the ${url.substring(1)} view with some edge cases`, done => {
+      jest.isolateModules(async () => {
+        try {
+          const session = applicationSession()
+          let viewResult, contextResult
+          const checkAndSubmitview = require('../../../routes/land/check-and-submit.js')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [])
+          session.set(constants.redisKeys.LANDOWNERS, [])
+          const h = {
+            view: (view, context) => {
+              viewResult = view
+              contextResult = context
+            }
+          }
+          await checkAndSubmitview.default[0].handler({ yar: session, auth }, h)
+          expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
+          expect(contextResult.legalAgreementFileNames).toEqual('')
+          expect(contextResult.hideConsent).toBeTruthy()
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 
   describe('POST', () => {
@@ -151,6 +183,17 @@ describe(url, () => {
         }
       })
     })
+    it('should handle postJson failure gracefully', async () => {
+      const errorMock = new Error('Failed postJson call')
+      const http = require('../../../utils/http.js')
+      http.postJson.mockRejectedValueOnce(errorMock)
+
+      const session = applicationSession()
+      const { handler } = checkAndSubmit.find(route => route.method === 'POST')
+
+      await expect(handler({ yar: session, auth })).rejects.toEqual(errorMock)
+    })
+
     it('Should throw an error page if validation fails for application', done => {
       jest.isolateModules(async () => {
         try {
