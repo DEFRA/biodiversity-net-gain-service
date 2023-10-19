@@ -18,87 +18,8 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set rowList = [] %} 
-                    {% set habitatPlanSeperateDocument = habitatPlanSeperateDocumentYesNo == 'No' %}
-                    {% 
-                        set rowList = [
-                        {
-                            'text': 'Type of legal agreement',
-                            'value': legalAgreementType,
-                            'valueDataTestId': 'legal-agreement-type-value',
-                            'valueId': 'add-legal-agreement-type-value',
-                            'href': '/land/legal-agreement-type',
-                            'visuallyHiddenText':  ' type of legal agreement',
-                            'show':true
-                        },
-                        {
-                            'text': legalAgreementType +' file uploaded',
-                            'value': legalAgreementFileNames,
-                            'valueDataTestId': 'legal-agreement-file-name-value',
-                            'valueId': 'add-legal-agreement-file-value',
-                            'href': '/land/check-you-added-all-legal-files',
-                            'visuallyHiddenText':  ' legal agreement file',
-                            'show':true
-                        },
-                        {
-                            'text': 'Responsible body',
-                            'value': responsibleBodies,
-                            'valueDataTestId': 'legal-agreement-responsible-bodies-value',
-                            'valueId': 'add-legal-agreement-responsible-bodies-value',
-                            'href': '/land/check-responsible-bodies',
-                            'visuallyHiddenText':  ' responsible body',
-                            'show':true
-                        },
-                        {
-                            'text': 'Landowner',
-                            'value': landowners,
-                            'valueDataTestId': 'legal-agreement-landowner-value',
-                            'valueId': 'add-legal-agreement-landowner-value',
-                            'href': '/land/check-landowners',
-                            'visuallyHiddenText':  ' landowner',
-                            'show':true
-                        },
-                        {
-                            'text': 'Habitat management and monitoring plan included in legal agreement',
-                            'value': habitatPlanSeperateDocumentYesNo,
-                            'valueDataTestId': 'legal-agreement-habitatplan-type-value',
-                            'valueId': 'add-legal-agreement-habitatplan-type-value',
-                            'href': '/land/habitat-plan-legal-agreement',
-                            'visuallyHiddenText':  ' habitat management plan',
-                            'show':true
-                        },
-                        {
-                            'text': 'Habitat management and monitoring plan uploaded',
-                            'value': HabitatPlanFileName,
-                            'valueDataTestId': 'habitat-plan-file-name-value',
-                            'valueId': 'add-habitat-plan-file-value',
-                            'href': '/land/check-habitat-plan-file',
-                            'visuallyHiddenText':  ' habitat management plan file name',
-                            'show':habitatPlanSeperateDocument
-                        },
-                        {
-                            'text': 'Habitat enhancement works start date',
-                            'value': HabitatWorksStartDate,
-                            'valueDataTestId': 'habitat-works-start-date-value',
-                            'valueId': 'add-habitat-works-start-date-value',
-                            'href': '/land/enhancement-works-start-date',
-                            'visuallyHiddenText':  ' enhancement works start date',
-                            'show':true
-                        },
-                        {
-                            'text': 'Legal agreement end date',
-                            'value': HabitatWorksEndDate,
-                            'valueDataTestId': 'habitat-works-end-date-value',
-                            'valueId': 'add-habitat-works-end-date-value',
-                            'href': '/land/legal-agreement-end-date',
-                            'visuallyHiddenText':  ' legal agreement end date',
-                            'show':true
-                        }
-                        
-                    ] %}           
-                    {{ generateSummaryList({
-                        rows: rowList
-                    }) }}
+                     {% set showLocalAndLand = false %}
+        {% include "common/legal-agreement-summary.html" %}
                     
                     {{ govukButton({
                         text: 'Save and continue',

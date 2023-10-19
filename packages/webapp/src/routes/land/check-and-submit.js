@@ -37,7 +37,6 @@ const handlers = {
 
 const getContext = request => {
   const applicationDetails = application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration
-
   return {
     listArray,
     boolToYesNo,
@@ -55,6 +54,8 @@ const getContext = request => {
     landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
     habitatPlanSeperateDocumentYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
     getFileNameByType,
+    HabitatPlanFileName: getFileNameByType(applicationDetails.files, 'habitat-plan'),
+    localAndChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
 
