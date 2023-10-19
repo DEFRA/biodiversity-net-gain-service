@@ -19,7 +19,7 @@ describe(url, () => {
         try {
           const session = applicationSession()
           let viewResult, contextResult
-          const getHandler = checkAndSubmit[0].handler
+          const checkAndSubmitview = require('../../../routes/land/check-and-submit.js')
           session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
           session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
@@ -57,16 +57,14 @@ describe(url, () => {
           {
             responsibleBodyName: 'test2'
           }])
-          // let viewArgs = ''
-          // let redirectArgs = ''
+
           const h = {
             view: (view, context) => {
               viewResult = view
               contextResult = context
             }
           }
-
-          await getHandler({ yar: session, auth }, h)
+          await checkAndSubmitview.default[0].handler({ yar: session, auth }, h)
           expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
           expect(contextResult.application).not.toBeUndefined()
           expect(typeof contextResult.boolToYesNo).toEqual('function')
@@ -88,6 +86,7 @@ describe(url, () => {
         }
       })
     })
+
     it(`should render the ${url.substring(1)} view `, async () => {
       const session = applicationSession()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)

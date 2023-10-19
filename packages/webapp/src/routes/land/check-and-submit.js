@@ -43,8 +43,8 @@ const getContext = request => {
     dateToString,
     hideClass,
     application: applicationDetails,
-    hideConsent: (request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner' && request.yar.get(constants.redisKeys.LANDOWNERS)?.length === 0),
-    changeLandownersHref: request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner' ? constants.routes.REGISTERED_LANDOWNER : constants.routes.ADD_LANDOWNERS,
+    hideConsent: (request.yar.get(constants.redisKeys.LANDOWNERS)?.length === 0),
+    changeLandownersHref: constants.routes.ADD_LANDOWNERS,
     routes: constants.routes,
     landownerNames: getAllLandowners(request.yar),
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
