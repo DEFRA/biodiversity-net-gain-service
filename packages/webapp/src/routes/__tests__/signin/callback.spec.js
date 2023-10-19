@@ -138,7 +138,7 @@ describe('Signin callback handler', () => {
       }
     })
   })
-  it('Should redirect to the allocations dashboard when an authenticated allocation user has one or more associated applications', done => {
+  it('Should redirect to the allocations tasklist when an authenticated allocation user has one or more associated applications', done => {
     jest.isolateModules(async () => {
       try {
         jest.resetAllMocks()
@@ -166,7 +166,7 @@ describe('Signin callback handler', () => {
         }
         const getHandler = callback[0].handler
         await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS)
+        expect(redirectArgs[0]).toEqual(constants.routes.DEVELOPER_TASKLIST)
         expect(auth.authenticate).toHaveBeenCalledTimes(1)
         done()
       } catch (err) {
@@ -174,7 +174,7 @@ describe('Signin callback handler', () => {
       }
     })
   })
-  it('Should redirect to the registrations dashboard when an authenticated registration user has one or more associated applications', done => {
+  it('Should redirect to the registrations tasklist when an authenticated registration user has one or more associated applications', done => {
     jest.isolateModules(async () => {
       try {
         jest.resetAllMocks()
@@ -202,7 +202,7 @@ describe('Signin callback handler', () => {
         }
         const getHandler = callback[0].handler
         await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.BIODIVERSITY_GAIN_SITES)
+        expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
         expect(auth.authenticate).toHaveBeenCalledTimes(1)
         done()
       } catch (err) {
