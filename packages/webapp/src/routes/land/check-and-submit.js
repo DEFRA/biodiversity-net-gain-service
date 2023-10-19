@@ -63,8 +63,7 @@ const getContext = request => {
   }
 }
 const getFileNameByType = (files, desiredType) => {
-  const file = files.find(file => file.fileType === desiredType)
-  return file ? file.fileName : 'File not found'
+  return files.find(file => file.fileType === desiredType)
 }
 
 const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
