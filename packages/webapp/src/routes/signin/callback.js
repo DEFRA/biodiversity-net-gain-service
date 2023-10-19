@@ -11,13 +11,12 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
       contactId: account.idTokenClaims.contactId,
       applicationType
     })
-    if (applications?.length > 0) {
-      if (applications?.length === 1 && applications[0]?.applicationStatus === 'IN PROGRESS') {
-        await getApplicationSession(request, applications[0]?.applicationReference, account.idTokenClaims.contactId, applicationType)
-        redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
-      } else {
-        redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
-      }
+
+    if (applications?.length === 1 && applications[0]?.applicationStatus === 'IN PROGRESS') {
+      await getApplicationSession(request, applications[0]?.applicationReference, account.idTokenClaims.contactId, applicationType)
+      redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
+    } else if (applications?.length > 0 && applications?.length !== 1) {
+      redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
     } else {
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
     }
