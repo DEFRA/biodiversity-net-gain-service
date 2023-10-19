@@ -10,6 +10,7 @@ const inDev = env === 'dev' || env === 'development'
 export default {
   entry: {
     core: './client/js/core.js',
+    accessibleAutoComplete: './client/js/accessible-autocomplete.min',
     addLandowners: './client/js/pages/land/add-landowners.js',
     addLegalAgreementParties: './client/js/pages/land/add-legal-agreement-parties.js',
     checkAndSubmit: './client/js/pages/land/check-and-submit.js',

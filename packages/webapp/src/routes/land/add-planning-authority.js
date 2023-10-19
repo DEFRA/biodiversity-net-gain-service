@@ -33,6 +33,8 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
 
+    console.log('request.payload--->', request.payload)
+
     const { localPlanningAuthority } = request.payload
 
     if (!localPlanningAuthority) {
