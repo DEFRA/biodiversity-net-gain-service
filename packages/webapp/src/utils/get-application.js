@@ -33,4 +33,17 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-export { getDevelopmentProject, getRegistration }
+const getApplicationSession = async (request, applicationReference, contactId, applicationType) => {
+  const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
+    applicationReference,
+    contactId,
+    applicationType
+  })
+  if (Object.keys(session).length === 0) {
+    return Boom.badRequest(`${applicationType} with reference ${applicationReference} does not exist`)
+  } else {
+    request.yar.set(session)
+  }
+}
+
+export { getDevelopmentProject, getRegistration, getApplicationSession }

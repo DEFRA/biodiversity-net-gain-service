@@ -1,6 +1,6 @@
-import { Boom } from '@hapi/boom'
 import auth from '../../utils/auth.js'
 import constants from '../../utils/constants.js'
+import { getApplicationSession } from '../../utils/get-application.js'
 import { postJson } from '../../utils/http.js'
 
 const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
@@ -36,19 +36,6 @@ const getApplicationType = preAuthenticationRoute => {
     }
   }
   return applicationType
-}
-
-const getApplicationSession = async (request, applicationReference, contactId, applicationType) => {
-  const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
-    applicationReference,
-    contactId,
-    applicationType
-  })
-  if (Object.keys(session).length === 0) {
-    return Boom.badRequest(`${applicationType} with reference ${applicationReference} does not exist`)
-  } else {
-    request.yar.set(session)
-  }
 }
 
 export default [{
