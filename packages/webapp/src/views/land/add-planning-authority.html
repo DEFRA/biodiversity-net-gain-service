@@ -15,10 +15,10 @@
 
         <form method="post" >
           <div class="govuk-form-group">
-          <label class="govuk-label" for="localPlanningAuthority"> Local planning authority </label>
-          <p class="govuk-hint">Start typing, then select a local planning authority.</p>
+            <label class="govuk-label" for="localPlanningAuthority"> Local planning authority </label>
+            <p class="govuk-hint">Start typing, then select a local planning authority.</p>
 
-            <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="lpa-autocomplete">
+            <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
               <option value=' '>Select a local planning authority</option>
               <option value='Bath and North East Somerset'>Bath and North East Somerset Council</option>
               <option value='Bedford Borough Council'>Bedford Borough Council</option>
@@ -177,7 +177,7 @@
               <option value='Wychavon District Council'>Wychavon District Council</option>
               <option value='Wyre Borough Council'>Wyre Borough Council</option>
             </select> 
-
+          </div>
           {{ govukButton({
             text: "Save and continue",
             attributes: {
@@ -185,7 +185,6 @@
               "data-testid": "continue"
             }
           }) }}
-          </div>
         </form>
       </div>
     </div>
@@ -193,19 +192,5 @@
 {% endblock %}
 
 {% block pageScripts %}
-<script src="{{ assetPath }}/js/accessibleAutoComplete.js"></script>
-<script type="text/javascript">
-  window.onload = function() {
-    accessibleAutocomplete.enhanceSelectElement({
-      defaultValue: '',
-      selectElement: document.querySelector('#localPlanningAuthority'),
-      onConfirm: () => {
-        const countryCode = $("#localPlanningAuthority > option").filter(function() {
-          return this.text == $("#localPlanningAuthority").val()
-        }).val();
-        $("#localPlanningAuthority").val(localPlanningAuthority);
-      }
-    })
-  }
-</script>
+  <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
 {% endblock %}
