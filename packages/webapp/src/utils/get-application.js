@@ -39,11 +39,7 @@ const getApplicationSession = async (request, applicationReference, contactId, a
     contactId,
     applicationType
   })
-  if (Object.keys(session).length === 0) {
-    return Boom.badRequest(`${applicationType} with reference ${applicationReference} does not exist`)
-  } else {
-    request.yar.set(session)
-  }
+  request.yar.set(session)
 }
 
 export { getDevelopmentProject, getRegistration, getApplicationSession }

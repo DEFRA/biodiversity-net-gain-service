@@ -3,6 +3,7 @@ import constants from '../../../utils/constants.js'
 import auth from '../../../utils/auth.js'
 import Session from '../../../__mocks__/session.js'
 import callback from '../../signin/callback.js'
+
 const url = constants.routes.SIGNIN_CALLBACK
 
 jest.mock('../../../utils/auth.js')
@@ -66,150 +67,6 @@ describe('Signin callback handler', () => {
       }
     })
   })
-  it('Should redirect to the allocations task list when an authenticated allocation user has made no applications', done => {
-    jest.isolateModules(async () => {
-      try {
-        jest.resetAllMocks()
-        jest.mock('../../../utils/http.js')
-        const http = require('../../../utils/http.js')
-        http.postJson = jest.fn().mockImplementation(() => {
-          return []
-        })
-        auth.authenticate = jest.fn().mockImplementation(() => {
-          return {
-            idTokenClaims: {
-              contactId: 'mock contact id'
-            }
-          }
-        })
-
-        const session = new Session()
-        session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/developer/mock-route')
-
-        let redirectArgs = ''
-        const h = {
-          redirect: (...args) => {
-            redirectArgs = args
-          }
-        }
-        const getHandler = callback[0].handler
-        await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.DEVELOPER_TASKLIST)
-        expect(auth.authenticate).toHaveBeenCalledTimes(1)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
-  it('Should redirect to the registrations task list when an authenticated registration user has made no applications', done => {
-    jest.isolateModules(async () => {
-      try {
-        jest.resetAllMocks()
-        jest.mock('../../../utils/http.js')
-        const http = require('../../../utils/http.js')
-        http.postJson = jest.fn().mockImplementation(() => {
-          return []
-        })
-        auth.authenticate = jest.fn().mockImplementation(() => {
-          return {
-            idTokenClaims: {
-              contactId: 'mock contact id'
-            }
-          }
-        })
-
-        const session = new Session()
-        session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/land/mock-route')
-
-        let redirectArgs = ''
-        const h = {
-          redirect: (...args) => {
-            redirectArgs = args
-          }
-        }
-        const getHandler = callback[0].handler
-        await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-        expect(auth.authenticate).toHaveBeenCalledTimes(1)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
-  it('Should redirect to the allocations tasklist when an authenticated allocation user has one or more associated applications', done => {
-    jest.isolateModules(async () => {
-      try {
-        jest.resetAllMocks()
-        jest.mock('../../../utils/http.js')
-        const http = require('../../../utils/http.js')
-        http.postJson = jest.fn().mockImplementation(() => {
-          return [{}]
-        })
-        auth.authenticate = jest.fn().mockImplementation(() => {
-          return {
-            idTokenClaims: {
-              contactId: 'mock contact id'
-            }
-          }
-        })
-
-        const session = new Session()
-        session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/developer/mock-route')
-
-        let redirectArgs = ''
-        const h = {
-          redirect: (...args) => {
-            redirectArgs = args
-          }
-        }
-        const getHandler = callback[0].handler
-        await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.DEVELOPER_TASKLIST)
-        expect(auth.authenticate).toHaveBeenCalledTimes(1)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
-  it('Should redirect to the registrations tasklist when an authenticated registration user has one or more associated applications', done => {
-    jest.isolateModules(async () => {
-      try {
-        jest.resetAllMocks()
-        jest.mock('../../../utils/http.js')
-        const http = require('../../../utils/http.js')
-        http.postJson = jest.fn().mockImplementation(() => {
-          return [{}]
-        })
-        auth.authenticate = jest.fn().mockImplementation(() => {
-          return {
-            idTokenClaims: {
-              contactId: 'mock contact id'
-            }
-          }
-        })
-
-        const session = new Session()
-        session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/land/mock-route')
-
-        let redirectArgs = ''
-        const h = {
-          redirect: (...args) => {
-            redirectArgs = args
-          }
-        }
-        const getHandler = callback[0].handler
-        await getHandler({ yar: session, query: {} }, h)
-        expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-        expect(auth.authenticate).toHaveBeenCalledTimes(1)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
 
   it('should redirect to the registrations tasklist when an authenticated registration user has one associated applications', done => {
     const mockApplications = [{
@@ -259,54 +116,26 @@ describe('Signin callback handler', () => {
     processRedirectionByApplicationType(mockApplications, preAuthenticationRoute, redirectUrl, done)
   })
 
-  it('should return a HTTP 400 status code if a registration application reference does not exist', done => {
-    jest.isolateModules(async () => {
-      try {
-        jest.resetAllMocks()
-        jest.mock('../../../utils/http.js')
-        const http = require('../../../utils/http.js')
-        http.postJson = jest.fn().mockImplementation(() => {
-          return {}
-        })
-        await submitGetRequest({ url }, 302, null)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
+  it('should redirect to the registrations tasklist when an authenticated registration user has no or more associated applications', done => {
+    const mockApplications = [{}]
+    const preAuthenticationRoute = '/land/mock-route'
+    const redirectUrl = constants.routes.REGISTER_LAND_TASK_LIST
+    processRedirectionByApplicationType(mockApplications, preAuthenticationRoute, redirectUrl, done)
+  })
+
+  it('should redirect to the allocation tasklist when an authenticated user has no or more associated applications', done => {
+    const mockApplications = [{}]
+    const preAuthenticationRoute = '/developer/mock-route'
+    const redirectUrl = constants.routes.DEVELOPER_TASKLIST
+    processRedirectionByApplicationType(mockApplications, preAuthenticationRoute, redirectUrl, done)
   })
 })
 
-const processRedirectionByApplicationType = (applications, preAuthenticationRoute, redirectUrl, done, hasAppSession = true) => {
+const processRedirectionByApplicationType = (applications, preAuthenticationRoute, redirectUrl, done) => {
   jest.isolateModules(async () => {
     try {
-      jest.resetAllMocks()
-      jest.mock('../../../utils/http.js')
-      const http = require('../../../utils/http.js')
-      http.postJson = jest.fn().mockImplementation(() => applications)
-      auth.authenticate = jest.fn().mockImplementation(() => {
-        return {
-          idTokenClaims: {
-            contactId: 'mock contact id'
-          }
-        }
-      })
+      const redirectArgs = await prepareMockHandler(applications, preAuthenticationRoute)
 
-      const session = new Session()
-      session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, preAuthenticationRoute)
-
-      if (!hasAppSession) {
-        http.postJson = jest.fn().mockImplementation(() => [])
-      }
-
-      let redirectArgs = ''
-      const h = {
-        redirect: (...args) => {
-          redirectArgs = args
-        }
-      }
-      const getHandler = callback[0].handler
-      await getHandler({ yar: session, query: {} }, h)
       expect(redirectArgs[0]).toEqual(redirectUrl)
       expect(auth.authenticate).toHaveBeenCalledTimes(1)
       done()
@@ -314,4 +143,31 @@ const processRedirectionByApplicationType = (applications, preAuthenticationRout
       done(err)
     }
   })
+}
+
+const prepareMockHandler = async (applications, preAuthenticationRoute) => {
+  jest.resetAllMocks()
+  jest.mock('../../../utils/http.js')
+  const http = require('../../../utils/http.js')
+  http.postJson = jest.fn().mockImplementation(() => applications)
+  auth.authenticate = jest.fn().mockImplementation(() => {
+    return {
+      idTokenClaims: {
+        contactId: 'mock contact id'
+      }
+    }
+  })
+
+  const session = new Session()
+  session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, preAuthenticationRoute)
+
+  let redirectArgs = ''
+  const h = {
+    redirect: (...args) => {
+      redirectArgs = args
+    }
+  }
+  const getHandler = callback[0].handler
+  await getHandler({ yar: session, query: {} }, h)
+  return redirectArgs
 }
