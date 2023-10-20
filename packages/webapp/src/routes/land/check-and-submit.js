@@ -66,7 +66,7 @@ const getFileNameByType = (files, desiredType) => {
   return files.find(file => file.fileType === desiredType)
 }
 
-const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
+const getFileName = fileLocation => path.parse(fileLocation).base
 
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
   const filenames = legalAgreementFiles
