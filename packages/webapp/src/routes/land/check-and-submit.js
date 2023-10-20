@@ -69,7 +69,6 @@ const getFileNameByType = (files, desiredType) => {
 const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
   const filenames = legalAgreementFiles
     .filter(file => file.fileType === 'legal-agreement' && file.fileName)
     .map(file => getFileName(file.fileName))
