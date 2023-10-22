@@ -1,3 +1,4 @@
+/* global $ */
 import accessibleAutocomplete from 'accessible-autocomplete'
 window.onload = function () {
   accessibleAutocomplete.enhanceSelectElement({
@@ -6,10 +7,10 @@ window.onload = function () {
     classes: 'govuk-!-width-two-thirds',
     defaultValue: '',
     onConfirm: () => {
-      const localPlanningAuthority = $("#localPlanningAuthority > option").filter(function() {
-        return this.text == $("#localPlanningAuthority").val()
-      }).val();
-      $("#localPlanningAuthority").val(localPlanningAuthority);
+      const localPlanningAuthority = $('#localPlanningAuthority > option').filter(function () {
+        return this.text === $('#localPlanningAuthority').val()
+      }).val()
+      $('#localPlanningAuthority').val(localPlanningAuthority)
     }
   })
 }
