@@ -54,6 +54,15 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_FILES)
       expect(resultContext.filesListWithAction.length).toEqual(2)
     })
+    it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES if all files removed', async () => {
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [])
+      const request = {
+        yar: redisMap,
+        query: { id: '1' }
+      }
+      await legalAgreementFilesList.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+    })
   })
 
   describe('POST', () => {

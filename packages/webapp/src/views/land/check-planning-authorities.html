@@ -24,9 +24,9 @@
                     }) 
                 }}
             {{ govukRadios({
-                idPrefix: "addAnotherplanningAuthority",
-                name: "addAnotherplanningAuthority",
-                id: "addAnotherplanningAuthority",
+                idPrefix: "addAnotherPlanningAuthority",
+                name: "addAnotherPlanningAuthority",
+                id: "addAnotherPlanningAuthority",
                 fieldset: {
                     legend: {
                         text: "Have you added all local planning authorities?",
@@ -44,13 +44,13 @@
                         value: "yes",
                         text: "Yes",
                         id: "add-another-local-planning-authority-yes",
-                        checked: addAnotherplanningAuthority === "yes"
+                        checked: addAnotherPlanningAuthority === "yes"
                     },
                     {
                         value: "no",
                         text: "No",
                         id: "add-another-local-planning-authority-no",
-                        checked: addAnotherplanningAuthority === "no"
+                        checked: addAnotherPlanningAuthority === "no"
                     }
                 ]
             }) }}

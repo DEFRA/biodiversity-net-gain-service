@@ -50,11 +50,26 @@ describe(url, () => {
         payload: {}
       }
     })
+
     it('Should continue journey if org name is provided', async () => {
       postOptions.payload = { localPlanningAuthority: 'Planning Authority 1' }
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
     })
+
+    it('should edit planning authority and redirect to CHECK_PLANNING_AUTHORITIES page by using id', async () => {
+      const request = {
+        yar: redisMap,
+        payload: { localPlanningAuthority: 'Planning Authority 3' },
+        query: { id: '0' }
+      }
+
+      await addPlanningAuthority.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
+      expect(redisMap.get('planning-authority-list').length).toEqual(2)
+    })
+
     it('Should fail journey if no org name is provided', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')

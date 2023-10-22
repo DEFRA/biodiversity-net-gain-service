@@ -31,7 +31,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should show all landowners that are added', async () => {
+    it('should show all local planning authorities that are added', async () => {
       const request = {
         yar: redisMap
       }
@@ -57,7 +57,7 @@ describe(url, () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherplanningAuthority: 'yes' }
+        payload: { addAnotherPlanningAuthority: 'yes' }
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)
@@ -68,7 +68,7 @@ describe(url, () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherplanningAuthority: 'no' }
+        payload: { addAnotherPlanningAuthority: 'no' }
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)
