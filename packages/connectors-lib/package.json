@@ -20,11 +20,11 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/service-bus": "^7.9.0",
+    "@azure/service-bus": "^7.9.2",
     "@azure/storage-blob": "^12.16.0",
-    "@azure/storage-queue": "^12.14.0",
+    "@azure/storage-queue": "^12.15.0",
     "@microsoft/signalr": "^6.0.16",
-    "pg": "^8.10.0"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.225.0",
