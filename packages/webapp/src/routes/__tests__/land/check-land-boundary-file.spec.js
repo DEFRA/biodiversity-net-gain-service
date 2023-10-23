@@ -2,7 +2,6 @@ import Session from '../../../__mocks__/session.js'
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import checkLandBoundaryFile from '../../land/check-land-boundary-file.js'
-import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_LAND_BOUNDARY
 jest.mock('../../../utils/azure-storage.js')
 
