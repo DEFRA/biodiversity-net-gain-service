@@ -1,18 +1,17 @@
 import constants from '../../utils/constants.js'
-import path from 'path'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
     key: {
-      text: path.basename(item.location),
+      text: item,
       classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
     },
     actions: {
       items: [{
         href: `${constants.routes.LAND_OWNERSHIP_REMOVE}?id=${index}`,
         text: 'Remove',
-        visuallyHiddenText: 'Remove ' + path.basename(item.location) + ' from the list'
+        visuallyHiddenText: 'Remove ' + item + ' from the list'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
     },

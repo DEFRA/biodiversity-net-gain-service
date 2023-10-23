@@ -22,16 +22,8 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
-      {
-        location: 'mock-location-1',
-        fileSize: 2499,
-        fileType: 'pdf'
-      },
-      {
-        location: 'mock-location-2',
-        fileSize: 1499,
-        fileType: 'doc'
-      }
+      'mock-file-1',
+      'mock-file-2'
     ])
 
     landOwnershipRemove = require('../../land/land-ownership-remove.js')
@@ -39,7 +31,19 @@ describe(url, () => {
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+      await submitGetRequest({ url: `${url}?id=0` })
+    })
+
+    it('should redirect to land ownership list page if there are no data', async () => {
+      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      const request = {
+        yar: redisMap,
+        query: { id: 'NA' }
+      }
+
+      await landOwnershipRemove.default[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_LIST)
     })
 
     it('should show correct land ownership proofs to be remove', async () => {
@@ -51,11 +55,7 @@ describe(url, () => {
       await landOwnershipRemove.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_REMOVE)
-      expect(resultContext.ownershipProofToRemove).toEqual({
-        location: 'mock-location-1',
-        fileSize: 2499,
-        fileType: 'pdf'
-      })
+      expect(resultContext.ownershipProofToRemove).toEqual('mock-file-1')
     })
   })
 
@@ -110,7 +110,7 @@ describe(url, () => {
       await landOwnershipRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_REMOVE)
-      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove mock-location-2 as proof of land ownership', href: '#remove-op-yes' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove mock-file-2 as proof of land ownership', href: '#remove-op-yes' })
     })
   })
 })

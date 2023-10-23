@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
+import _ from 'lodash'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -17,19 +18,19 @@ const handlers = {
     const checkLandOwnership = request.payload.checkLandOwnership
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
+    let ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+
     if (checkLandOwnership === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
+      _.remove(ownershipProofs, (item) => item === path.basename(context.fileLocation))
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      let ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+      const fileLocation = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) || ''
       ownershipProofs = [
         ...ownershipProofs,
-        {
-          location: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION),
-          fileSize: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE),
-          fileType: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE)
-        }
+        path.basename(fileLocation)
       ]
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_LIST)

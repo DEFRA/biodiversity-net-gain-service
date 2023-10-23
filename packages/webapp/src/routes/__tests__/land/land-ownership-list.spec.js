@@ -22,16 +22,8 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
-      {
-        location: 'mock-location-1',
-        fileSize: 2499,
-        fileType: 'pdf'
-      },
-      {
-        location: 'mock-location-2',
-        fileSize: 1499,
-        fileType: 'doc'
-      }
+      'mock-file-1',
+      'mock-file-2'
     ])
 
     landOwnershipProofs = require('../../land/land-ownership-list.js')
@@ -51,6 +43,18 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_LIST)
       expect(resultContext.landOwnershipProofs.length).toEqual(2)
+    })
+
+    it(`should render the ${url.substring(1)} view without list`, async () => {
+      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      const request = {
+        yar: redisMap
+      }
+
+      await landOwnershipProofs.default[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_LIST)
+      expect(resultContext.landOwnershipProofs).toBeUndefined()
     })
   })
 

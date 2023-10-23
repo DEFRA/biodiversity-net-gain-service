@@ -48,6 +48,7 @@ const getContext = request => {
     changeLandownersHref: constants.routes.ADD_LANDOWNERS,
     routes: constants.routes,
     landownerNames: getAllLandowners(request.yar),
+    landOwnershipFileNames: request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || [],
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
     getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
     legalAgreementFileNames: getLegalAgreementFileNamesForCheckandSubmit(applicationDetails.files),

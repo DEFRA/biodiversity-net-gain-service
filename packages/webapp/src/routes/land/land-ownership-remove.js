@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import path from 'path'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
@@ -16,6 +15,10 @@ const handlers = {
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
     const ownershipProofToRemove = landOwnershipProofs[id]
 
+    if (!ownershipProofToRemove) {
+      return h.redirect(constants.routes.LAND_OWNERSHIP_LIST)
+    }
+
     return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
       ownershipProofToRemove
     })
@@ -27,11 +30,10 @@ const handlers = {
 
     if (!ownershipProofToRemove) {
       ownershipProofToRemove = landOwnershipProofs[id]
-      const filename = path.basename(landOwnershipProofs[id]?.location)
       return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
         ownershipProofToRemove,
         err: [{
-          text: `Select yes if you want to remove ${filename} as proof of land ownership`,
+          text: `Select yes if you want to remove ${landOwnershipProofs[id]} as proof of land ownership`,
           href: '#remove-op-yes'
         }]
       })

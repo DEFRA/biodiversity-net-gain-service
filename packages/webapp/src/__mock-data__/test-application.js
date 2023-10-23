@@ -8,7 +8,7 @@ const dataString = `
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-ownership-details",
+            "completedTaskUrl": "/land/land-ownership-list",
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"
@@ -394,6 +394,11 @@ const dataString = `
   "habitat-plan-file-size": 0.01,
   "habitat-plan-file-type": "application/msword",
   "application-reference": ""
+  "application-reference": "",
+  "land-ownership-proofs": [
+    "file-1.pdf",
+    "file-2.doc"
+  ]
 }`
 
 export default {
