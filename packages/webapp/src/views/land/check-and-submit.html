@@ -122,12 +122,12 @@
                 text: "Proof of land ownership file uploaded"
               },
               value: {
-                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + getFileNameByType(application.files, 'land-ownership') + "</span>"
+                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + listArray(landOwnershipFileNames) + "</span>"
               },
               actions: {
                 items: [
                   {
-                    href: routes.CHECK_PROOF_OF_OWNERSHIP,
+                    href: routes.LAND_OWNERSHIP_LIST,
                     text: "Change",
                     visuallyHiddenText: " land boundary file"
                   }

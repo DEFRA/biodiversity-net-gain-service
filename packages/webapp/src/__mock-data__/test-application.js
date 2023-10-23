@@ -21,7 +21,7 @@ const dataString = `
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-ownership-details",
+            "completedTaskUrl": "/land/land-ownership-list",
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"
@@ -410,7 +410,11 @@ const dataString = `
   "written-authorisation-file-type": "application/pdf",
   "written-authorisation-checked": "yes",
   "landowner-type": "individual",
-  "defraAccountDetailsConfirmed": "true"
+  "defraAccountDetailsConfirmed": "true",
+  "land-ownership-proofs": [
+    "file-1.pdf",
+    "file-2.doc"
+  ]
 }`
 
 export default {

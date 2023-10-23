@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Are you sure you want to remove " + ownershipProofToRemove.organisationName + " as proof of land ownership?" %}
+{% set pageHeading = "Are you sure you want to remove " + ownershipProofToRemove + " as proof of land ownership?" %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -11,8 +11,8 @@
         <div class="govuk-grid-column-two-thirds">
 
             {{ govukRadios({
-                idPrefix: "ownershipProofRemove",
-                name: "ownershipProofRemove",
+                idPrefix: "ownershipProofToRemove",
+                name: "ownershipProofToRemove",
                 errorMessage: err[0],
                 fieldset: {
                     legend: {

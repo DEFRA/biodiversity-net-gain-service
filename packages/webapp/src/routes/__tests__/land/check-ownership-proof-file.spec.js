@@ -3,6 +3,8 @@ import constants from '../../../utils/constants.js'
 import checkOwnershipProofFile from '../../../routes/land/check-ownership-proof-file'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
+import { getServer } from '../../../../.jest/setup.js'
+import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 const url = constants.routes.CHECK_PROOF_OF_OWNERSHIP
 jest.mock('../../../utils/azure-storage.js')
 
@@ -32,6 +34,7 @@ describe(url, () => {
     })
     it('should allow confirmation that the correct land ownership file has been uploaded', async () => {
       postOptions.payload.checkLandOwnership = 'yes'
+      await getServer().register(onPreAuth(['mock/file-1.doc']))
       await submitPostRequest(postOptions)
     })
 
