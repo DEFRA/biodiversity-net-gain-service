@@ -78,7 +78,7 @@ describe('Signin callback handler', () => {
     processRedirectionByApplicationType(mockApplications, preAuthenticationRoute, redirectUrl, done)
   })
 
-  it('should redirect to the registrations tasklist when an authenticated registration user has more than one associated applications', done => {
+  it('should redirect to the biodiversity gain sites when an authenticated registration user has more than one associated applications', done => {
     const mockApplications = [{
       applicationStatus: 'IN PROGRESS',
       applicationReference: 'mock-ref-1'
