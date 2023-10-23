@@ -33,11 +33,10 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
 
-    console.log('request.payload--->', request.payload)
-
     const { localPlanningAuthority } = request.payload
+    const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
-    if (!localPlanningAuthority) {
+    if (!selectedLpa) {
       const localPlanningAuthorityNameErr = [{
         text: 'Enter a local planning authority',
         href: 'localPlanningAuthority'
@@ -52,9 +51,9 @@ const handlers = {
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
 
     if (id) {
-      lpaList.splice(id, 1, localPlanningAuthority)
+      lpaList.splice(id, 1, selectedLpa)
     } else {
-      lpaList.push(localPlanningAuthority)
+      lpaList.push(selectedLpa)
     }
 
     request.yar.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, lpaList)
