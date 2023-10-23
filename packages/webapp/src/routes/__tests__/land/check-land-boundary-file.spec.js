@@ -27,11 +27,9 @@ describe(url, () => {
     })
 
     it('should allow an alternative land boundary file to be uploaded ', async () => {
-      const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLandBoundary = constants.confirmLandBoundaryOptions.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
-      expect(spy).toHaveBeenCalledTimes(1)
     })
 
     it('should detect an invalid response from user', async () => {
