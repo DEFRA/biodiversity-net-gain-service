@@ -78,7 +78,7 @@ describe(url, () => {
           expect(contextResult.responsibleBodies).toEqual('test1,test2')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2024')
-          expect(contextResult.habitatPlanIncludeLegalAgreementYesNo).toEqual('Yes')
+          expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')
 
           done()
         } catch (err) {
