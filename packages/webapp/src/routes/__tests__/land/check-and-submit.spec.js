@@ -11,7 +11,6 @@ const auth = {
     account: applicant
   }
 }
-const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, done => {

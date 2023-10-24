@@ -31,10 +31,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
-<<<<<<< HEAD
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
-=======
->>>>>>> origin/feat/legal-agreement-base-branch
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
