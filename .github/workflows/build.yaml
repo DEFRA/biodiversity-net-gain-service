@@ -19,7 +19,7 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - name: Install dependencies and local symlink dependencies
         run: npm i
       - name: Run markdown linting check
@@ -60,7 +60,7 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v1
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - name: Install dependencies
         run: npm ci
       - name: Extract branch name

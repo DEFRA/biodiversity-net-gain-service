@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "description": "",
+  "engines": {
+    "node": "18.x.x"
+  },
   "main": "src/index.js",
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
