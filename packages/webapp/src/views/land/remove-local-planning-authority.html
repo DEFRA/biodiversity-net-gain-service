@@ -1,0 +1,49 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Are you sure you want to remove " + planningAuthToRemove + " as a local planning authority?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukRadios({
+                idPrefix: "planningAuthToRemove",
+                name: "planningAuthToRemove",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "planning-auth-to-remove-yes",
+                        checked: planningAuthToRemove === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No",
+                        id: "planning-auth-to-remove-no",
+                        checked: planningAuthToRemove === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

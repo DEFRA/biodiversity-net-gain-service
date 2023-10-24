@@ -67,8 +67,10 @@ const handlers = {
     if (checkLegalAgreement === 'no') {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
-      if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) { return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) } else {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_PARTY_ADD_START)
+      if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) {
+        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+      } else {
+        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       }
     } else {
       const err = [{

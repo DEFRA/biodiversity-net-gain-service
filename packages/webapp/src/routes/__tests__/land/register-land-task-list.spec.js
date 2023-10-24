@@ -387,5 +387,113 @@ describe(url, () => {
         ]
       })
     })
+    it('should render view with Add land ownership details task in progress after associated functionality is accessed', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('upload-ownership-proof', 'IN PROGRESS', 'Add land ownership details')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add biodiversity gain site boundary details task in progress after associated functionality is accessed when ENV ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = null', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('upload-land-boundary', 'IN PROGRESS', 'Add biodiversity gain site boundary details')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add biodiversity gain site boundary details task in progress after associated functionality is accessed when ENV ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = Y', done => {
+      jest.isolateModules(async () => {
+        try {
+          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
+          await checkExpectedTaskStatus('upload-land-boundary', 'IN PROGRESS', 'Add biodiversity gain site boundary details')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add habitat baseline, creation and enhancements task in progress after associated functionality is accessed', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('upload-metric', 'IN PROGRESS', 'Add habitat baseline, creation and enhancements')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add habitat management and monitoring details task in progress after associated functionality is accessed', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('upload-management-plan', 'IN PROGRESS', 'Add habitat management and monitoring details')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add legal agreement details task in progress after associated functionality is accessed', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('legal-agreement-type', 'IN PROGRESS', 'Add legal agreement details')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should render view with Add local land charge search certificate task in progress after associated functionality is accessed', done => {
+      jest.isolateModules(async () => {
+        try {
+          await checkExpectedTaskStatus('upload-local-land-charge', 'IN PROGRESS', 'Add local land charge search certificate')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 })
+
+const checkExpectedTaskStatus = async (routeName, expectedStatus, expectedTaskTitle) => {
+  let viewResult, contextResult
+  const h = {
+    view: (view, context) => {
+      viewResult = view
+      contextResult = context
+    }
+  }
+  const redisMap = new Map()
+  const request = {
+    yar: redisMap
+  }
+
+  const route = require(`../../../routes/land/${routeName}`)
+  const registerTaskList = require('../../../routes/land/register-land-task-list')
+  await route.default[0].handler(request, h)
+  await registerTaskList.default[0].handler(request, h)
+  const inProgressTasks = contextResult.registrationTasks.taskList.flatMap(item => item.tasks).filter(task => task.status === expectedStatus)
+  expect(viewResult).toEqual(constants.views.REGISTER_LAND_TASK_LIST)
+  expect(inProgressTasks.length).toBe(1)
+  expect(inProgressTasks[0].title).toBe(expectedTaskTitle)
+}

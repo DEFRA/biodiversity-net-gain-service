@@ -5,11 +5,15 @@ import {
   getDateString,
   listArray,
   getLegalAgreementDocumentType,
+<<<<<<< HEAD
   getLandowners,
   hideClass,
   getLegalAgreementFileNames,
   getLocalPlanningAuthorities,
   getFileName
+=======
+  getLandowners
+>>>>>>> origin/feat/legal-agreement-base-branch
 } from '../../utils/helpers.js'
 
 const handlers = {
