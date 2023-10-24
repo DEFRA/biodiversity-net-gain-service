@@ -8,7 +8,6 @@ describe('Land boundary upload controller tests', () => {
   let redisMap
   beforeEach(() => {
     redisMap = new Map()
-    // Set the contact ID and application type to increase test coverage.
     redisMap.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
     redisMap.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
