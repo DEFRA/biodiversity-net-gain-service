@@ -1,4 +1,3 @@
-import path from 'path'
 import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
@@ -6,7 +5,11 @@ import {
   getDateString,
   listArray,
   getLegalAgreementDocumentType,
-  getLandowners
+  getLandowners,
+  hideClass,
+  getLegalAgreementFileNames,
+  getLocalPlanningAuthorities,
+  getFileName
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -34,19 +37,13 @@ const getContext = request => {
     legalAgreementFileNames: getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)),
     responsibleBodies: getResponsibleBodies(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
     landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
-    habitatPlanSeperateDocumentYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
+    habitatPlanIncludedLegalAgreementYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
     HabitatPlanFileName: getFileName(request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)),
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
-    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date')
+    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
+    localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
+    hideClass
   }
-}
-
-const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
-
-const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
-  const filenames = legalAgreementFiles.map(file => getFileName(file.location))
-  return filenames.join('<br>')
 }
 
 export default [{

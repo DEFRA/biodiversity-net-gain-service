@@ -22,8 +22,9 @@ describe(url, () => {
           const checkAndSubmitview = require('../../../routes/land/check-and-submit.js')
           session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
           session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
-          session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+          session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
           session.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
+          session.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
           session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
             {
               location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
@@ -39,7 +40,6 @@ describe(url, () => {
               id: '2'
             }
           ])
-          session.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
           session.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
@@ -73,12 +73,13 @@ describe(url, () => {
           expect(contextResult.hideConsent).toEqual(false)
           expect(contextResult.routes).not.toBeUndefined()
           expect(contextResult.changeLandownersHref).toEqual(constants.routes.ADD_LANDOWNERS)
-          expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
+          expect(contextResult.legalAgreementType).toEqual('Conservation covenant')
+          expect(contextResult.localPlanningAuthorities).toEqual('Planning Authority 1')
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1,test2')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2024')
-          expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('Yes')
+          expect(contextResult.habitatPlanIncludeLegalAgreementYesNo).toEqual('Yes')
 
           done()
         } catch (err) {
@@ -101,12 +102,12 @@ describe(url, () => {
       await handler({ yar: session }, h)
       expect(h.redirect).toHaveBeenCalledWith(constants.routes.START)
     })
-    it(`should render the ${url.substring(1)} view with some edge cases`, done => {
+    it(`should render the ${url.substring(1)} view with hideConsent true and no legal agreement files uploaded`, done => {
       jest.isolateModules(async () => {
         try {
           const session = applicationSession()
           let viewResult, contextResult
-          const checkAndSubmitview = require('../../../routes/land/check-and-submit.js')
+          const checkAndSubmitView = require('../../../routes/land/check-and-submit.js')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, null)
           session.set(constants.redisKeys.LANDOWNERS, [])
           const h = {
@@ -115,7 +116,7 @@ describe(url, () => {
               contextResult = context
             }
           }
-          await checkAndSubmitview.default[0].handler({ yar: session, auth }, h)
+          await checkAndSubmitView.default[0].handler({ yar: session, auth }, h)
           expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
           expect(contextResult.legalAgreementFileNames).toEqual('')
           expect(contextResult.hideConsent).toBeTruthy()

@@ -1,7 +1,9 @@
 {% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 {% set rowList = [] %} 
-{% set habitatPlanSeperateDocument = habitatPlanSeperateDocumentYesNo == 'No' %}
-
+{% set habitatPlanIncludedLegalAgreement = habitatPlanIncludedLegalAgreementYesNo == 'No' %}
+{% set isLegalAgreementTypeS106Type = legalAgreementType == 'Planning obligation (section 106 agreement)' %}
+{% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
+{% set classHidden = hideClass(true) %} 
 {% 
     set rowList = [
     {
@@ -12,6 +14,7 @@
         'href': '/land/legal-agreement-type',
         'visuallyHiddenText':  ' type of legal agreement',
         'classes': 'govuk-!-margin-bottom-7',
+        'actionClasses': classHidden,
         'show':true
     },
     {
@@ -32,7 +35,17 @@
         'href': '/land/check-responsible-bodies',
         'visuallyHiddenText':  ' responsible body',
         'classes': 'govuk-!-margin-bottom-7',
-        'show':true
+        'show':isLegalAgreementTypeConservationType
+    },
+    {
+        'text': 'Local planning authority',
+        'value': localPlanningAuthorities,
+        'valueDataTestId': 'local-planning-authorities',
+        'valueId': 'add-local-planning-authorities',
+        'href': '/land/check-planning-authorities',
+        'visuallyHiddenText':  ' local planning authority',
+        'classes': 'govuk-!-margin-bottom-7',
+        'show':isLegalAgreementTypeS106Type
     },
     {
         'text': 'Landowner',
@@ -46,7 +59,7 @@
     },
     {
         'text': 'Habitat management and monitoring plan included in legal agreement',
-        'value': habitatPlanSeperateDocumentYesNo,
+        'value': habitatPlanIncludedLegalAgreementYesNo,
         'valueDataTestId': 'legal-agreement-habitatplan-type-value',
         'valueId': 'add-legal-agreement-habitatplan-type-value',
         'href': '/land/habitat-plan-legal-agreement',
@@ -62,7 +75,7 @@
         'href': '/land/check-habitat-plan-file',
         'visuallyHiddenText':  ' habitat management plan file name',
         'classes': 'govuk-!-margin-bottom-7',
-        'show':habitatPlanSeperateDocument
+        'show':habitatPlanIncludedLegalAgreement
     },
     {
         'text': 'Habitat enhancement works start date',
@@ -86,13 +99,13 @@
     },
     {
       'text': 'Local land charge search certificate file uploaded',
-      'value': localAndChargeFileName,
+      'value': localLandChargeFileName,
       'valueDataTestId': 'local-land-charge-file-name-value',
       'valueId': 'add-local-land-charge-file-name-value',
       'href': routes.CHECK_LOCAL_LAND_CHARGE_FILE,
       'visuallyHiddenText':  ' local land charge file',
       'classes': 'govuk-!-margin-bottom-7',
-      'show':showLocalAndLand
+      'show':showLocalLandCharge
   }
     
 ] %}           

@@ -1,4 +1,4 @@
-import path from 'path'
+
 import constants from '../../utils/constants.js'
 import application from '../../utils/application.js'
 import applicationValidation from '../../utils/application-validation.js'
@@ -12,7 +12,9 @@ import {
   getLegalAgreementDocumentType,
   getResponsibleBodies,
   getLandowners,
-  getDateString
+  getDateString,
+  getFileName,
+  getLocalPlanningAuthorities
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 
@@ -49,32 +51,30 @@ const getContext = request => {
     landownerNames: getAllLandowners(request.yar),
     legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
     getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
-    legalAgreementFileNames: getLegalAgreementFileNames(applicationDetails.files),
+    legalAgreementFileNames: getLegalAgreementFileNamesForCheckandSubmit(applicationDetails.files),
     responsibleBodies: getResponsibleBodies(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
     landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
-    habitatPlanSeperateDocumentYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
+    habitatPlanIncludedLegalAgreementYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
     getFileNameByType,
     HabitatPlanFileName: getFileNameByType(applicationDetails.files, 'habitat-plan'),
-    localAndChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
+    localLandChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
-
+    localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request)
   }
+}
+const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
+  const filenames = legalAgreementFiles
+    .filter(file => file.fileType === 'legal-agreement' && file.fileName)
+    .map(file => getFileName(file.fileName))
+  return filenames.join('<br>')
 }
 const getFileNameByType = (files, desiredType) => {
   const file = files.find(file => file.fileType === desiredType)
   return file.fileName
 }
 
-const getFileName = fileLocation => path.parse(fileLocation).base
-
-const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  const filenames = legalAgreementFiles
-    .filter(file => file.fileType === 'legal-agreement' && file.fileName)
-    .map(file => getFileName(file.fileName))
-  return filenames.join('<br>')
-}
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
