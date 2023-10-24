@@ -1,0 +1,67 @@
+{% extends 'form-layout.html' %}
+
+{% set noOfLegalResponsibleBodies = legalAgreementResponsibleBodies.length %}
+
+{% if noOfLegalResponsibleBodies > 1 %}
+    {% set pageHeading = "You have added " + noOfLegalResponsibleBodies + " responsible bodies" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLegalResponsibleBodies + " responsible body" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+                {{ govukSummaryList({
+                    rows: legalAgreementResponsibleBodiesWithAction,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+                    }) 
+                }}
+            {{ govukRadios({
+                idPrefix: "addAnotherResponsibleBody",
+                name: "addAnotherResponsibleBody",
+                id: "addAnotherResponsibleBody",
+                fieldset: {
+                    legend: {
+                        text: "Have you added all responsible bodies?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must tell us about all responsible bodies listed on the " + legalAgreementType + ".",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "add-another-responsible-body-yes",
+                        checked: addAnotherResponsibleBody === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, add another responsible body",
+                        id: "add-another-responsible-body-no",
+                        checked: addAnotherResponsibleBody === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "Check the habitat management and monitoring plan file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'checkHabitatPlan' %}
+    {% set name = 'checkHabitatPlan' %}
+    {% set id = 'check-upload-correct-yes' %}
+    {% set downloadUrl = 'download-habitat-plan-file' %}
+    {% include "common/file-upload-check.html" %}
+  </div>
+{% endblock %}

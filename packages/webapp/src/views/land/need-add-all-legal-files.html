@@ -1,0 +1,23 @@
+{% extends 'form-layout.html' %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "You need to add all " + legalAgreementType + " files" %}
+{% block formContent %}
+  <div class="govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+          <p>This includes original versions if the legal agreement has been amended.</p>
+          {{ govukButton({
+            text: 'Add legal agreement files',
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

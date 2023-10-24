@@ -1,0 +1,67 @@
+{% extends 'form-layout.html' %}
+
+{% set noOfLandowners = landOwnerConservationConvenants.length %}
+
+{% if noOfLandowners > 1 %}
+    {% set pageHeading = "You have added " + noOfLandowners + " landowners or leaseholders" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLandowners + " landowner or leaseholder" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+                {{ govukSummaryList({
+                    rows: landOwnerConservationConvenantsWithAction,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+                    }) 
+                }}
+            {{ govukRadios({
+                idPrefix: "addAnotherLandowner",
+                name: "addAnotherLandowner",
+                id: "addAnotherLandowner",
+                fieldset: {
+                    legend: {
+                        text: "Have you added all landowners or leaseholders?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must tell us about all landowners or leaseholders listed on the " + legalAgreementType + ".",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "add-another-landowner-yes",
+                        checked: addAnotherLandowner === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, add another landowner or leaseholder",
+                        id: "add-another-landowner-no",
+                        checked: addAnotherLandowner === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

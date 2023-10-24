@@ -1,0 +1,50 @@
+{% extends 'form-layout.html' %}
+
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            
+               
+            {{ govukRadios({
+                idPrefix: "landownerType",
+                name: "landownerType",
+                id: "landownerType",
+                fieldset: {
+                    legend: {
+                        text: "Is the landowner or leaseholder listed on the " ~ legalAgreementType ~ " an individual or organisation?",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "individual",
+                        text: "An individual",
+                        id: "an-individual",
+                        checked: landownerType === "yes"
+                    },
+                    {
+                        value: "organization",
+                        text: "An organization",
+                        id: "an-organization",
+                        checked: landownerType === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

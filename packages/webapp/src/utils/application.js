@@ -2,7 +2,6 @@ import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import path from 'path'
 import savePayment from '../payment/save-payment.js'
-import { getLegalAgreementParties } from './helpers.js'
 
 // Application object schema must match the expected payload format for the Operator application
 const getApplicant = account => ({
@@ -21,16 +20,27 @@ const getFile = (session, fileType, filesize, fileLocation) => ({
 })
 
 const getFiles = session => [
-  getFile(session, constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, constants.redisKeys.LEGAL_AGREEMENT_LOCATION),
+  ...getLegalAgreementFiles(session),
   getLandBoundaryFile(session),
   getFile(session, constants.redisKeys.MANAGEMENT_PLAN_FILE_TYPE, constants.redisKeys.MANAGEMENT_PLAN_FILE_SIZE, constants.redisKeys.MANAGEMENT_PLAN_LOCATION),
   getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION),
   getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION),
-  getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
+  getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION),
+  getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION)
 ]
 const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
   session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
 
+const getLegalAgreementFiles = session => {
+  const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
+  return legalAgreementFiles.map(file => ({
+    contentMediaType: file.fileType,
+    fileType: constants.uploadTypes.LEGAL_AGREEMENT_UPLOAD_TYPE,
+    fileSize: file.fileSize,
+    fileLocation: file.location,
+    fileName: path.basename(file.location)
+  }))
+}
 const getLandBoundaryFile = session => {
   if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
     const { fileSize, fileLocation, fileName } = getGeospatialFileAttributes(session)
@@ -86,7 +96,6 @@ const application = (session, account) => {
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
-      legalAgreementParties: session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) && getLegalAgreementParties(session.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       legalAgreementStartDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY),
       otherLandowners: otherLandowners(session) || [],

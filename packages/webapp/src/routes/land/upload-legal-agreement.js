@@ -3,22 +3,37 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import {
-  getMaximumFileSizeExceededView,
+
   processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  generateUniqueId
 } from '../../utils/helpers.js'
 
 const legalAgreementId = '#legalAgreement'
 
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LEGAL_AGREEMENT
+  const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
+  const location = result[0]?.location ?? null
+
+  if (result.errorMessage === undefined) {
+    let id = legalAgreementFiles.find(file => file.location === location)?.id
+    if (!id) {
+      id = generateUniqueId()
+      legalAgreementFiles.push({
+        location,
+        fileSize: result.fileSize,
+        fileType: result.fileType,
+        id
+      })
+    }
+    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+    resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
   }
+  if (legalAgreementFiles.length > 0) {
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
+  }
+
   return h.redirect(resultView)
 }
 
@@ -49,7 +64,7 @@ function processErrorUpload (err, h, legalAgreementType) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
+      return maximumFileSizeExceeded(h, legalAgreementType)
     default:
       if (err.message.indexOf('timed out') > 0) {
         return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
@@ -128,8 +143,9 @@ export default [{
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
         console.log('File upload too large', request.path)
+        const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h).takeover()
+          return maximumFileSizeExceeded(h, legalAgreementType).takeover()
         } else {
           throw err
         }
@@ -139,11 +155,14 @@ export default [{
 }
 ]
 
-const maximumFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: legalAgreementId,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.UPLOAD_LEGAL_AGREEMENT
+const maximumFileSizeExceeded = (h, legalAgreementType) => {
+  return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+    legalAgreementType,
+    err: [
+      {
+        text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+        href: legalAgreementId
+      }
+    ]
   })
 }

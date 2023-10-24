@@ -12,7 +12,7 @@ const applicationValidation = Joi.object({
     files: Joi.array().items(
       Joi.object({
         contentMediaType: Joi.string().required(),
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
         fileSize: Joi.number().required(),
         fileLocation: Joi.string().required(),
         fileName: Joi.string().required()
@@ -21,12 +21,6 @@ const applicationValidation = Joi.object({
     gainSiteReference: Joi.string().allow(''),
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
-    legalAgreementParties: Joi.array().items(
-      Joi.object({
-        name: Joi.string().required(),
-        role: Joi.string().required()
-      })
-    ).required(),
     legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)).required(),
     legalAgreementStartDate: Joi.date().required(),
     otherLandowners: Joi.array().items(

@@ -24,7 +24,7 @@
             name: "legalAgreementType",
             id: "legalAgreementType",
             hint: {
-                html: "<div class='govuk-hint'>You need a legal agreement to secure the habitat improvements and <br>management of them for at least 30 years.
+                html: "<div class='govuk-hint'>You need a legal agreement to secure the habitat works and <br>management of the biodiversity gain site for at least 30 years.
                         </div>"
             },
             errorMessage: err[0],
@@ -40,23 +40,18 @@
                 text: types[0].text,
                 id: types[0].htmlId,
                 checked: (documentType === types[0].id)
-              },
-              {
-                divider: "or"
-              },
-              {
-                value: types[3].id,
-                text: types[3].text,
-                id: types[3].htmlId,
-                checked: (documentType === types[3].id)
               }
             ]
         }) }}
+        <p class="govuk-!-padding-top-3">
+          <a href="/land/need-legal-agreement">I do not have a legal agreement</a>
+        </p>
+       
         {{ govukButton({
             text: 'Continue',
             attributes: {
                 id: "continue",
-                "data-testid": "continue"
+                "data-testid": "Save and continue"
             }
         }) }}
     </div>

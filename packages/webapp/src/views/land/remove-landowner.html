@@ -1,0 +1,49 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Are you sure you want to remove " + landownerToRemoveText+ " as a landowner or leaseholder?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukRadios({
+                idPrefix: "landownerToRemove",
+                name: "landownerToRemove",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "remove-landowner-yes",
+                        checked: landownerToRemove === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No",
+                        id: "remove-landowner-no",
+                        checked: landownerToRemove === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
