@@ -2,6 +2,7 @@ import Joi from 'joi'
 import constants from './constants.js'
 
 const applicationValidation = Joi.object({
+
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
       firstName: Joi.string().required(),
@@ -9,20 +10,37 @@ const applicationValidation = Joi.object({
       emailAddress: Joi.string().email().required(),
       contactId: Joi.string().required()
     }),
+    habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(
       Joi.object({
-        contentMediaType: Joi.string().required(),
         fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
-        fileSize: Joi.number().required(),
-        fileLocation: Joi.string().required(),
-        fileName: Joi.string().required()
+        contentMediaType: Joi.when('optional', {
+          is: true,
+          then: Joi.string().allow(null),
+          otherwise: Joi.string().required()
+        }),
+        fileSize: Joi.when('optional', {
+          is: true,
+          then: Joi.number().allow(null),
+          otherwise: Joi.number().required()
+        }),
+        fileLocation: Joi.when('optional', {
+          is: true,
+          then: Joi.string().allow(null),
+          otherwise: Joi.string().required()
+        }),
+        fileName: Joi.when('optional', {
+          is: true,
+          then: Joi.string().allow(null),
+          otherwise: Joi.string().required()
+        }),
+        optional: Joi.boolean()
       })
     ).required(),
     gainSiteReference: Joi.string().allow(''),
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
     legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)).required(),
-    legalAgreementStartDate: Joi.date().required(),
     otherLandowners: Joi.array().items(
       Joi.object({
         name: Joi.string()
