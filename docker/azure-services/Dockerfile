@@ -8,7 +8,7 @@ RUN apt-get update -y && apt-get install -y lsb-release apt-utils gpg && apt-get
     # Install Nodesource package signing key and the Node.js 16 LTS repository.
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor > nodesource.gpg && \
     install -o root -g root -m 644 nodesource.gpg /etc/apt/trusted.gpg.d/ && rm nodesource.gpg && \
-    sh -c 'echo "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -s -c) main" > /etc/apt/sources.list.d/nodesource.list' && \
+    sh -c 'echo "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_18.x $(lsb_release -s -c) main" > /etc/apt/sources.list.d/nodesource.list' && \
     # Install the current versions of Azure Functions Core Tools and Node.js 16 LTS.
     apt-get update -y && apt-get install azure-functions-core-tools nodejs -y
 # Add a non-privileged user.
