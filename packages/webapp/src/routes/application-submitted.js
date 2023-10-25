@@ -1,5 +1,4 @@
 import constants from '../utils/constants.js'
-import { formatAppRef } from '../utils/helpers.js'
 import { getPayment } from '../payment/payment-session.js'
 import bacs from '../payment/bacs.js'
 import url from 'url'
@@ -21,7 +20,7 @@ const getApplicationReference = request => {
 
 const handlers = {
   get: async (request, h) => {
-    const applicationReference = getApplicationReference(request) ? formatAppRef(getApplicationReference(request)) : null
+    const applicationReference = getApplicationReference(request) ? getApplicationReference(request) : null
     const payment = getPayment(request.yar)
 
     // Reset user session as submitted
