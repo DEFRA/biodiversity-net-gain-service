@@ -30,6 +30,20 @@ describe('application-validation', () => {
       expect(error).not.toBeUndefined()
       expect(value).not.toBeUndefined()
     })
+    it('Should success validation if LEGAL_AGREEMENT_DOCUMENT_TYPE 759150000 for S106 flow', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
+    })
+    it('Should success validation if LEGAL_AGREEMENT_DOCUMENT_TYPE 759150001 for concov flow', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
+    })
     it('Should fail validation if a .required() field is missing', () => {
       const session = applicationSession()
       const applicantCopy = JSON.parse(JSON.stringify(applicant))

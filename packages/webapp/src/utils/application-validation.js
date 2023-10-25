@@ -1,6 +1,38 @@
 import Joi from 'joi'
 import constants from './constants.js'
 
+const landownerSchema = Joi.object({
+  type: Joi.string().valid('organisation', 'individual').required(),
+  organisationName: Joi.when('type', {
+    is: 'organisation',
+    then: Joi.string().required(),
+    otherwise: Joi.forbidden()
+  }),
+  firstName: Joi.when('type', {
+    is: 'individual',
+    then: Joi.string().required(),
+    otherwise: Joi.forbidden()
+  }),
+  middleNames: Joi.when('type', {
+    is: 'individual',
+    then: Joi.string().allow('').optional(),
+    otherwise: Joi.forbidden()
+  }),
+  lastName: Joi.when('type', {
+    is: 'individual',
+    then: Joi.string().required(),
+    otherwise: Joi.forbidden()
+  })
+}).required()
+
+const responsibleBodySchema = Joi.object({
+  responsibleBodyName: Joi.string().required()
+}).required()
+
+const legalAgreementPlanningAuthoritySchema = Joi.object({
+  localPlanningAuthorityName: Joi.string().required()
+}).required()
+
 const applicationValidation = Joi.object({
 
   landownerGainSiteRegistration: Joi.object({
@@ -34,7 +66,7 @@ const applicationValidation = Joi.object({
           then: Joi.string().allow(null),
           otherwise: Joi.string().required()
         }),
-        optional: Joi.boolean()
+        optional: Joi.boolean().required()
       })
     ).required(),
     gainSiteReference: Joi.string().allow(''),
@@ -54,6 +86,21 @@ const applicationValidation = Joi.object({
         })
       ).min(1)
     }).default([]),
+    legalAgreementResponsibleBodies: Joi.array().items(responsibleBodySchema)
+      .when('legalAgreementType', {
+        is: Joi.string().not('759150000'), // When legalAgreementType is NOT '759150000'
+        then: Joi.array().min(1), // Array must have at least one item
+        otherwise: Joi.forbidden() // Otherwise, it shouldn't be present
+      }),
+    legalAgreementPlanningAuthorities: Joi.array().items(legalAgreementPlanningAuthoritySchema)
+      .when('legalAgreementType', {
+        is: Joi.string().valid('759150000'), // When legalAgreementType is  '759150000'
+        then: Joi.array().min(1), // Array must have at least one item
+        otherwise: Joi.forbidden() // Otherwise, it shouldn't be present
+      }),
+    legalAgreementLandowners: Joi.array().items(landownerSchema).min(1).required(),
+    enhancementWorkStartDate: Joi.date().allow(null),
+    legalAgreementEndDate: Joi.date().allow(null),
     managementMonitoringStartDate: Joi.date().when('habitatWorkStartDate', {
       // managementMonitoringStartDate must be greater or equal to habitatWorkStartDate
       is: Joi.date().required(),
