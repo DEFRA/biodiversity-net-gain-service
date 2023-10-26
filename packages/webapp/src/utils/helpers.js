@@ -1,4 +1,5 @@
 import moment from 'moment'
+import path from 'path'
 import crypto from 'crypto'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
@@ -85,7 +86,17 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType =
     return undefined
   }
 }
+const getLegalAgreementFileNames = (legalAgreementFiles) => {
+  if (!legalAgreementFiles) return ''
+  const filenames = legalAgreementFiles.map(file => getFileName(file.location))
+  return filenames.join('<br>')
+}
 
+const getLocalPlanningAuthorities = lpas => {
+  if (!lpas) return ''
+  return lpas.join('<br>')
+}
+const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 const isDate1LessThanDate2 = (isoString1, isoString2) => {
@@ -577,6 +588,9 @@ export {
   validateTextInput,
   formatDateBefore,
   getMinDateCheckError,
+  getLegalAgreementFileNames,
+  getLocalPlanningAuthorities,
+  getFileName,
   validateName,
   validateFirstLastName,
   emailValidator,

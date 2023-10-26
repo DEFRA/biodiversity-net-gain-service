@@ -8,7 +8,6 @@ describe('Land boundary upload controller tests', () => {
   let redisMap
   beforeEach(() => {
     redisMap = new Map()
-    // Set the contact ID and application type to increase test coverage.
     redisMap.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
     redisMap.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
@@ -31,6 +30,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, mockDataPath)
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
+    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
@@ -75,10 +75,11 @@ describe('Land boundary upload controller tests', () => {
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1,test2')
           expect(contextResult.landowners).toEqual('org1, Crishn P')
-          expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('Yes')
+          expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')
           expect(contextResult.HabitatPlanFileName).toEqual('habitat-plan.pdf')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2020')
+          expect(contextResult.localPlanningAuthorities).toEqual('Planning Authority 1')
           done()
         } catch (err) {
           done(err)
@@ -107,7 +108,7 @@ describe('Land boundary upload controller tests', () => {
           await legalAgreementDetails.default[0].handler(request, h)
           expect(viewResult).toEqual(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
           expect(contextResult.legalAgreementFileNames).toEqual('')
-          expect(contextResult.habitatPlanSeperateDocumentYesNo).toEqual('No')
+          expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('No')
           expect(contextResult.HabitatPlanFileName).toEqual('')
           expect(contextResult.HabitatWorksStartDate).toEqual('Not started yet')
           expect(contextResult.HabitatWorksEndDate).toEqual('No end date')

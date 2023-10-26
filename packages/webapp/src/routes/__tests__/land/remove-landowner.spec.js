@@ -87,7 +87,7 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
       expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(1)
     })
-    it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner organization', async () => {
+    it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner organisation', async () => {
       const request = {
         yar: redisMap,
         payload: { landownerToRemove: 'yes' },
@@ -125,7 +125,7 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove landowner or leaseholder', href: '#legalPartyBodyToRemove' })
     })
-    it('Should fail journey if no answer for organization', async () => {
+    it('Should fail journey if no answer for organisation', async () => {
       const request = {
         yar: redisMap,
         payload: { },
