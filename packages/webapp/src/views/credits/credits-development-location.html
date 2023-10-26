@@ -1,0 +1,95 @@
+{% extends 'credits-form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Confirm the development details" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'confirmDevDetails' %}
+        {% set name = 'confirmDevDetails' %}
+        {% set id = 'dev-details-checked-yes' %}
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+              legend: {
+                  text: pageHeading,
+                  classes: "govuk-fieldset__legend--l govuk-heading-l",
+                  isPageHeading: true
+              }
+          }) }}
+          <p>These details have been taken from the Secretary of State Metric file your local planning authority reviewed.</p>
+          {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: "Project name"
+                },
+                value: {
+                  text: startPage['projectName']
+                }
+              },
+              {
+                key: {
+                  text: "Planning authority"
+                },
+                value: {
+                  text: startPage['planningAuthority']
+                }
+              },
+              {
+                key: {
+                  text: "Planning reference"
+                },
+                value: {
+                  text: startPage['planningApplicationReference']
+                }
+              }
+            ]
+          }) 
+      }}
+          {{ govukRadios({
+              idPrefix: prefix,
+              name: name,
+              id: id,
+              classes: "govuk-radios--inline",
+              fieldset: {
+                  legend: {
+                      text: "Are these details correct?",
+                      classes: "govuk-fieldset__legend--m"
+                  }
+              },
+              errorMessage: err[0],
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "dev-details-checked-yes"
+                  },
+                  {
+                      value: "no",
+                      text: "No",
+                      id: "dev-details-checked-no"
+                  }
+              ]
+          }) }}
+  
+          {{ govukButton({ 
+            text: 'Save and Continue',
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+           }) }}
+      </div>
+  </div>
+  
+</div>
+</div>
+</div>
+{% endblock %}

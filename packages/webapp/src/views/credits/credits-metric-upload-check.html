@@ -1,0 +1,19 @@
+{% extends 'credits-form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check your Secretary of State Metric file" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'checkUploadMetric' %}
+        {% set name = 'checkUploadMetric' %}
+        {% set id = 'check-upload-correct-yes' %}
+        {% set downloadUrl = 'download-metric-file' %}
+        {% set checkUploadCorrectYesText = 'Yes, this is the Secretary of State Metric file my local planning authority reviewed' %}
+        {% set checkUploadCorrectNoText = 'No, upload a different file' %}
+        {% include "common/file-upload-check.html" %}
+    </div>
+{% endblock %}
