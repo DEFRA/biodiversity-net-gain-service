@@ -4,11 +4,9 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../credits/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
+import creditConstants from '../../credits/credit-constants.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
-
-const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 
 async function processSuccessfulUpload (result, request, h) {
   const validationError = getMetricFileValidationErrors(result[0].metricData?.validation)
@@ -20,7 +18,7 @@ async function processSuccessfulUpload (result, request, h) {
   // TASKLIST ACTIVITY : Need to create and call following function in future
   // processCreditsTask(request,
   //   {
-  //     taskTitle: 'Biodiversity 4.0 Metric calculations',
+  //     taskTitle: 'Purchase statutory biodiversity credits',
   //     title: 'Upload Metric 4.0 file'
   //   }, {
   //     status: constants.IN_PROGRESS_CREDITS_TASK_STATUS
@@ -32,18 +30,6 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.CREDITS_METRIC_DATA, result[0].metricData)
   request.yar.set(constants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-  if (Array.isArray(result[0].metricData?.d1) && filterByBGN(result[0].metricData?.d1, request).length === 0 &&
-  Array.isArray(result[0].metricData?.e1) && filterByBGN(result[0].metricData?.e1, request).length === 0) {
-    const error = {
-      err: [
-        {
-          text: 'The uploaded metric does not contain the off-site reference entered.'
-        }
-      ]
-    }
-    await deleteBlobFromContainers(result[0].location)
-    return h.view(constants.views.CREDITS_UPLOAD_METRIC, error)
-  }
   return h.redirect(constants.routes.CREDITS_CHECK_UPLOAD_METRIC)
 }
 
@@ -93,7 +79,7 @@ const handlers = {
       sessionId: request.yar.id,
       fileExt: constants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
-      uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE
+      uploadType: creditConstants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE
     })
 
     return uploadFiles(logger, request, uploadConfig).then(

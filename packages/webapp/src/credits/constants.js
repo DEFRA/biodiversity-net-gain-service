@@ -14,6 +14,7 @@ export default {
   CREDITS_ESTIMATION_PATH,
   routes,
   views,
+  ...creditConstants.uploadTypes,
   redisKeys: {
     ...creditConstants.redisKeys,
     ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
