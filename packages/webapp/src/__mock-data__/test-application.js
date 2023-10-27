@@ -3,6 +3,19 @@ const dataString = `
   "registrationTaskDetails": {
     "taskList": [
       {
+        "taskTitle": "Applicant information",
+        "tasks": [
+          {
+            "title": "Add details about the person applying",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/applicant-details-is-agent",
+            "startTaskUrl": "/land/applicant-details-is-agent",
+            "inProgressUrl": "/land/add-landowners",
+            "id": "applicant-details-is-agent"
+          }
+        ]
+      },
+      {
         "taskTitle": "Land information",
         "tasks": [
           {
