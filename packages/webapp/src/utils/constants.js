@@ -141,8 +141,6 @@ const redisKeys = {
 }
 
 let routes = {
-  ...creditsConstants.routes,
-  ...developerConstants.routes,
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
