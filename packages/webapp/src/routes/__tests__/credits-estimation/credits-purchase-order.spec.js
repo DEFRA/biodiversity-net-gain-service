@@ -4,7 +4,7 @@ const url = constants.routes.ESTIMATOR_CREDITS_PURCHASE_ORDER
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER} view`, async () => {
+    it(`should render the ${url} view`, async () => {
       await submitGetRequest({ url })
     })
   })
@@ -20,10 +20,9 @@ describe(url, () => {
 
     it('should store option value if any option is selected', async () => {
       postOptions.payload = { willPOInUse: 'yes', purchaseOrderNumber: 'TST123' }
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
 
-      // Note: Need to change the location once next page will be available
-      expect(res.headers.location).toBeUndefined()
+      expect(res.headers.location).toBe(constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG)
     })
 
     it('should display an error if no one option is selected', async () => {
@@ -40,10 +39,9 @@ describe(url, () => {
 
     it('should navigate to next page if option `No` is selected', async () => {
       postOptions.payload = { willPOInUse: 'no', purchaseOrderNumber: undefined }
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 0 })
 
-      // Note: Need to change the location once next page will be available
-      expect(res.headers.location).toBeUndefined()
+      expect(res.headers.location).toBe(constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG)
     })
   })
 })
