@@ -127,7 +127,16 @@ const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 
+const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
+const REGISTRATION_APPLICANT_TYPE = 'registration-applicant-type'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'orgaanisation'
+
 export default {
+  applicantTypes: {
+    INDIVIDUAL,
+    ORGANISATION
+  },
   redisKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,
@@ -197,7 +206,8 @@ export default {
     LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,
-    EMAIL_VALUE
+    EMAIL_VALUE,
+    REGISTRATION_APPLICANT_TYPE
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -253,7 +263,8 @@ export default {
     COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
-    NEW_REGISTRATION
+    NEW_REGISTRATION,
+    APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

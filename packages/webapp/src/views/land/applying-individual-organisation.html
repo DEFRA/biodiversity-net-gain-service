@@ -1,0 +1,39 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Are you applying as an individual or as part of an organisation?" %}
+{% set applicantType = "applicantType" %}
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {{ govukRadios({
+      id: applicantType,
+      name: applicantType,
+      fieldset: {
+        legend: {
+          text: pageHeading,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      errorMessage: err[0],
+      items: [
+        {
+          value: "individual",
+          text: "An individual landowner or leaseholder"
+        },
+        {
+          value: "organisation",
+          text: "An organisation - I am an employee or representative"
+        }
+      ]
+    }) }}
+
+    {{ govukButton({
+      text: "Save and continue"
+    }) }}
+  </div>      
+{% endblock %}

@@ -207,7 +207,12 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
+const applicantTypes = {
+  ...lojConstants.applicantTypes
+}
+
 export default Object.freeze({
+  applicantTypes,
   applicationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
