@@ -5,11 +5,11 @@ const creditEstimateRoutes = {
   ESTIMATOR_CREDITS_TIER: '/credits-estimation/credits-tier'
 }
 
-const mainCreditRoutes = {
-  // TODO: Add main credit routes here
+const creditPurchaseRoutes = {
+  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-estimation/credits-individual-or-organisation'
 }
 
-const routes = { ...creditEstimateRoutes, ...mainCreditRoutes }
+const routes = { ...creditEstimateRoutes, ...creditPurchaseRoutes }
 
 const views = Object.fromEntries(
   Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
@@ -18,7 +18,7 @@ const views = Object.fromEntries(
 export default {
   CREDITS_ESTIMATION_PATH,
   creditEstimateRoutes,
-  mainCreditRoutes,
+  mainCreditRoutes: creditPurchaseRoutes,
   views,
   redisKeys: {
     ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
