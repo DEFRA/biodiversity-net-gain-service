@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-
   dateClasses,
   processRegistrationTask,
   validateAndParseISOString,
@@ -57,11 +56,11 @@ const handlers = {
     } else {
       request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
     }
-
     request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_AGREEMENT_END_DATE)
   }
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.ENHANCEMENT_WORKS_START_DATE,

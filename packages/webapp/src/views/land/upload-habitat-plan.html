@@ -1,9 +1,6 @@
 {% extends 'multipart-form-layout.html' %}
-
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "Upload the habitat management and monitoring plan" %}
 
 {% block formContent %}
@@ -21,23 +18,19 @@
             }
           }) }}
           <p>The file should be:</p>
-          
       <ul class="govuk-list govuk-list--bullet">
         <li>a DOC, DOCX or PDF</li>
         <li>no larger than 50MB</li>
-        
       </ul>
           {{ govukFileUpload({
             id: "localLandChargeCertificate.",
             name: "localLandChargeCertificate",
-            errorMessage: err[0],
-           
+            errorMessage: err[0], 
             label: {
               text: "Choose file",
               classes: "govuk-visually-hidden"
             }
           }) }}
-
           {{ govukButton({
             text: "Upload",
             attributes: {

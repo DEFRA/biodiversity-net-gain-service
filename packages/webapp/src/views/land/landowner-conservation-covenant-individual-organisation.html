@@ -1,15 +1,12 @@
 {% extends 'form-layout.html' %}
 
-
 {% block formContent %}
 <div class="govuk-body">
     {% if err %}
         {% include "errorbanner.html" %}
     {% endif %}
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            
-               
+        <div class="govuk-grid-column-two-thirds">            
             {{ govukRadios({
                 idPrefix: "landownerType",
                 name: "landownerType",

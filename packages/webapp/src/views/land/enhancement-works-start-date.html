@@ -1,21 +1,17 @@
 {% extends 'form-layout.html' %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "Have the habitat enhancement works started yet?" %}
 
 {% block formContent %}
 <div class="govuk-body">
     {% if err %}
       {% include "errorbanner.html" %}
-    {% endif %}
-    
+    {% endif %}   
     {# Create the conditional HTML content as a Nunjucks variable #}
     {% set conditionalContent %}
     {% set id = 'enhancementWorkStartDate' %}
     {% set subHeading = 'Enter start date' %}
     {% set dateHint = 'For example, 15 3 2023' %}
     {% include "common/date-hmmp-input.html" %}
-     
     {% endset %}
     
     <div class="govuk-grid-row">

@@ -9,9 +9,7 @@ const getCustomizedHTML = (item, index) => {
   const value = (item.type === 'individual')
     ? buildFullName(item)
     : item.value
-
   const changeLink = (item.type === 'individual') ? constants.routes.ADD_LANDOWNER_INDIVIDUAL : constants.routes.ADD_LANDOWNER_ORGANISATION
-
   return {
     key: {
       text: value,
@@ -38,16 +36,13 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_LPA_LIST
     })
-
     const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
-
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
 
     const legalAgreementLpaListWithAction = lpaListItems.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.LEGAL_AGREEMENT_LPA_LIST, {
       lpaList,
       legalAgreementLpaListWithAction,
@@ -56,11 +51,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const { allLpa } = request.payload
-
     const legalAgreementLpaList = request.yar.get(constants.redisKeys.ALL_LPA)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     if (!allLpa) {
       return h.view(constants.views.LEGAL_AGREEMENT_LPA_LIST, {
         legalAgreementLpaList,
@@ -72,11 +65,9 @@ const handlers = {
         }]
       })
     }
-
     if (allLpa === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
     }
-
     if (allLpa === 'no') {
       return h.redirect(constants.routes.LEGAL_PARTY_ADD_TYPE)
     }

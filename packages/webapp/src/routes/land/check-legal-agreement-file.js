@@ -8,7 +8,6 @@ import {
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
-
   get: async (request, h) => {
     const { id } = request.query
     processRegistrationTask(request, {
@@ -65,7 +64,6 @@ const getContext = (request) => {
     fileSize = legalAgreementFile.fileSize
     humanReadableFileSize = getHumanReadableFileSize(fileSize)
   }
-
   return {
     filename,
     selectedOption: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION),

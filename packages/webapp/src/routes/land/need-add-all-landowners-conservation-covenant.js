@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
@@ -21,6 +20,7 @@ const handlers = {
     return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
   }
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,

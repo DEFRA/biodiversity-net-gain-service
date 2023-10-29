@@ -1,7 +1,5 @@
 {% extends 'form-layout.html' %}
-
 {% set noOfLocalPlanningAuthorities = lpaList.length %}
-
 {% if noOfLegalParites > 1 %}
     {% set pageHeading = "You have added " + noOfLocalPlanningAuthorities + " local planning authorities" %}
 {% else %}

@@ -1,6 +1,5 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
-
 import {
   getHumanReadableFileSize,
   processRegistrationTask,
@@ -15,7 +14,6 @@ const getCustomizedHTML = (item, index) => {
   const filename = item.location === null ? '' : path.parse(item.location).base
   const fileText = filename + ', ' + humanReadableFileSize
   return {
-
     key: {
       html: fileText,
 

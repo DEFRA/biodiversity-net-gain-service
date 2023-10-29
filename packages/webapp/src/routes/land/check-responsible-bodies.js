@@ -37,7 +37,6 @@ const handlers = {
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, REMOVE_RESPONSIBLE_BODY } = constants.routes
-
     return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
       legalAgreementResponsibleBodiesWithAction,
       legalAgreementResponsibleBodies,
@@ -47,7 +46,6 @@ const handlers = {
   },
   post: async (request, h) => {
     const { addAnotherResponsibleBody } = request.payload
-
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
@@ -65,11 +63,9 @@ const handlers = {
         }]
       })
     }
-
     if (addAnotherResponsibleBody === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
-
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }
 }

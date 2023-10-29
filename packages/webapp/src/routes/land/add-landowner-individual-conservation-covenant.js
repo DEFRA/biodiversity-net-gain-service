@@ -14,7 +14,6 @@ const validateIndividual = individual => {
   if (lastNameError) {
     errors.lastNameError = lastNameError.err[0]
   }
-
   return errors
 }
 const handlers = {
@@ -57,21 +56,17 @@ const handlers = {
         err: Object.values(individualError),
         firstNameError: individualError?.firstNameError,
         lastNameError: individualError?.lastNameError
-
       })
     }
     const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
-
     if (id) {
       landownerIndividuals.splice(id, 1, individual)
     } else {
       landownerIndividuals.push(individual)
     }
-
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
-
 }
 
 export default [{

@@ -57,7 +57,6 @@ const handlers = {
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, null)
     }
-
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_OPTION, legalAgreementEndDateOption)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
   }

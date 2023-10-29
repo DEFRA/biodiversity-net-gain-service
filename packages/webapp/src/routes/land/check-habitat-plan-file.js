@@ -41,7 +41,6 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
   const fileSize = request.yar.get(constants.redisKeys.HABITAT_PLAN_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
-
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     selectedOption: request.yar.get(constants.redisKeys.HABITAT_PLAN_FILE_OPTION),

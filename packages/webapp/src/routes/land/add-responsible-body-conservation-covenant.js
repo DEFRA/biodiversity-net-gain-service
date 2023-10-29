@@ -2,7 +2,6 @@ import constants from '../../utils/constants.js'
 import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const ID = '#responsibleBody'
-
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {

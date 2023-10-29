@@ -18,7 +18,6 @@ const handlers = {
     })
     const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
       day,
@@ -33,7 +32,6 @@ const handlers = {
     if (!context.err) {
       context.err = getMinDateCheckError(dateAsISOString, ID, constants.minStartDates.LEGAL_AGREEMENT_MIN_START_DATE, 'Start date')
     }
-
     if (context.err) {
       return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
         day,
@@ -48,6 +46,7 @@ const handlers = {
     }
   }
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.LEGAL_AGREEMENT_START_DATE,

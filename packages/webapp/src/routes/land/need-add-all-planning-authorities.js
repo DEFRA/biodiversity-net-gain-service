@@ -9,10 +9,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES
     })
-
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.NEED_ADD_ALL_PLANNING_AUTHORITIES, {
       legalAgreementType
     })

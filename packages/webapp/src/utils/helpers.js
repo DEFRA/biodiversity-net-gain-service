@@ -220,7 +220,6 @@ const getResponsibleBodies = responsibleBodies => {
 const getLandowners = landOwners => {
   const organisationNames = []
   const individualNames = []
-
   landOwners.forEach(item => {
     if (item.type === 'organisation') {
       organisationNames.push(item.organisationName)

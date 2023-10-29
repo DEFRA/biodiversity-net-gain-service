@@ -26,7 +26,6 @@ function buildErrorResponse (h, message) {
     }]
   })
 }
-
 function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
@@ -45,7 +44,6 @@ function processErrorUpload (err, h) {
       throw err
   }
 }
-
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {

@@ -9,12 +9,9 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY
     })
-
     const { id } = request.query
-
     const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
     const planningAuthToRemove = id && planningAuthorityList[id]
-
     return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
       planningAuthToRemove
     })
@@ -26,7 +23,6 @@ const handlers = {
 
     if (!planningAuthToRemove) {
       const localAuthorityNameToRemove = planningAuthorityList[id]
-
       return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
         localAuthorityNameToRemove,
         err: [{
@@ -35,7 +31,6 @@ const handlers = {
         }]
       })
     }
-
     if (planningAuthToRemove === 'yes') {
       planningAuthorityList.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, planningAuthorityList)
