@@ -18,7 +18,7 @@
   "dependencies": {
     "@azure/identity": "^3.3.2",
     "@defra/bng-connectors-lib": "0.231.0",
-    "axios": "^1.5.1"
+    "axios": "^1.6.0"
   },
   "gitHead": "c9754436d12d2e124d9a5733dd440cb0bfdd9098"
 }
