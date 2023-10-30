@@ -1,8 +1,13 @@
+const baselineRef = 'Baseline ref'
+const totalUnits = 'Total watercourse units'
+
 const headers = [
+  baselineRef,
+  totalUnits,
   'Watercourse type',
   'Length (km)',
+  'Length enhanced',
   'Condition',
-  'Total watercourse units',
   'Off-site reference',
   'Extent of encroachment',
   'Extent of encroachment for both banks',
@@ -16,6 +21,7 @@ const f1OffSiteWaterCBaseline = {
   endCell: 'AG258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
     'Condition ': 'Condition'
   }
