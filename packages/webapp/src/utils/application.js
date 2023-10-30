@@ -11,6 +11,63 @@ const getApplicant = account => ({
   contactId: account.idTokenClaims.contactId
 })
 
+const getHabitats = session => {
+  const metricData = session.get(constants.redisKeys.METRIC_DATA)
+  const baselineIdentifiers = ['d1', 'e1', 'f1']
+  const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
+
+  const getState = (identifier) =>
+    identifier.startsWith('d')
+      ? 'Habitat'
+      : identifier.startsWith('e')
+        ? 'Hedge'
+        : identifier.startsWith('f')
+          ? 'Watercourse'
+          : ''
+
+  const getModule = (identifier) =>
+    identifier.endsWith('2')
+      ? 'Created'
+      : identifier.endsWith('3')
+        ? 'Enhanced'
+        : ''
+
+  const baseline = baselineIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
+      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Hedgerow type'],
+      baselineReference: String(details['Baseline ref']),
+      condition: details.Condition,
+      area: {
+        beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
+        afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
+      },
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
+    }))
+  )
+
+  const proposed = proposedIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
+      proposedHabitatId: '', // Leave blank for now until metric 4.1 when this property is extracted
+      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Proposed habitat'],
+      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      module: getModule(identifier),
+      state: getState(identifier),
+      condition: details.Condition,
+      strategicSignificance: details['Strategic significance'],
+      advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
+      delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
+      area: details['Length (km)'] ?? details['Area (hectares)'],
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+      ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
+      ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
+    }))
+  )
+
+  console.log({ baseline, proposed })
+
+  return { baseline, proposed }
+}
+
 const getFile = (session, fileType, filesize, fileLocation, optional) => ({
   contentMediaType: session.get(fileType),
   fileType: fileType.replace('-file-type', ''),
@@ -107,6 +164,7 @@ const application = (session, account) => {
   return {
     landownerGainSiteRegistration: {
       applicant: getApplicant(account),
+      habitats: getHabitats(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),
@@ -122,7 +180,6 @@ const application = (session, account) => {
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
-      metricData: session.get(constants.redisKeys.METRIC_DATA),
       payment: savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
     }
   }
