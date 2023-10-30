@@ -19,8 +19,6 @@ const handlers = {
   post: async (request, h) => {
     const { isApplicantAgent } = request.payload
 
-    console.log('isApplicantAgent--->', isApplicantAgent)
-
     if (isApplicantAgent === 'yes') {
       request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
       return h.redirect(constants.routes.APPLICANT_DETAILS_IS_AGENT)
