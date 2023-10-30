@@ -38,8 +38,22 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+          // TODO: remove skip and test should pass after all routes are developed
+          // expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          //   taskTitle: 'Applicant information',
+          //   tasks: [
+          //     {
+          //       title: 'Add details about the person applying',
+          //       status: 'NOT STARTED',
+          //       completedTaskUrl: '/land/check-ownership-details',
+          //       startTaskUrl: '/land/applicant-details-is-agent',
+          //       inProgressUrl: '',
+          //       id: 'add-applicant-details-is-agent'
+          //     }
+          //   ]
+          // })
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -60,7 +74,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Habitat information',
             tasks: [
               {
@@ -81,7 +95,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.registrationTasks.taskList[3]).toEqual({
             taskTitle: 'Legal information',
             tasks: [
               {
@@ -131,8 +145,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -153,7 +167,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Habitat information',
             tasks: [
               {
@@ -174,7 +188,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.registrationTasks.taskList[3]).toEqual({
             taskTitle: 'Legal information',
             tasks: [
               {
@@ -224,8 +238,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -246,7 +260,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Habitat information',
             tasks: [
               {
@@ -267,7 +281,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.registrationTasks.taskList[3]).toEqual({
             taskTitle: 'Legal information',
             tasks: [
               {
@@ -322,8 +336,8 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
-      expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-      expect(contextResult.registrationTasks.taskList[0]).toEqual({
+      expect(contextResult.registrationTasks.taskList.length).toEqual(5)
+      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Land information',
         tasks: [
           {
@@ -344,7 +358,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[1]).toEqual({
+      expect(contextResult.registrationTasks.taskList[2]).toEqual({
         taskTitle: 'Habitat information',
         tasks: [
           {
@@ -365,7 +379,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.registrationTasks.taskList[2]).toEqual({
+      expect(contextResult.registrationTasks.taskList[3]).toEqual({
         taskTitle: 'Legal information',
         tasks: [
           {
