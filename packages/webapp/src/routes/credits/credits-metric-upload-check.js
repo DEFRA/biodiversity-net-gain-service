@@ -18,14 +18,6 @@ const handlers = {
       request.yar.clear(constants.redisKeys.CREDITS_METRIC_LOCATION)
       return h.redirect(constants.routes.CREDITS_UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
-    // TASKLIST ACTIVITY : Need to create and call following function in future
-    // processCreditsTask(request,
-    //     {
-    //       taskTitle: 'Purchase statutory biodiversity credits',
-    //       title: 'Upload Metric 4.0 file'
-    //     }, {
-    //       status: constants.COMPLETE_CREDITS_TASK_STATUS
-    //     })
       return h.redirect(constants.routes.CREDITS_CONFIRM_DEV_DETAILS)
     }
     return h.view(constants.views.CREDITS_CHECK_UPLOAD_METRIC, {
