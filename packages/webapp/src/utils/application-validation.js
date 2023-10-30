@@ -34,13 +34,47 @@ const legalAgreementPlanningAuthoritySchema = Joi.object({
 }).required()
 
 const applicationValidation = Joi.object({
-
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       emailAddress: Joi.string().email().required(),
       contactId: Joi.string().required()
+    }),
+    habitats: Joi.object({
+      baseline: Joi.array().items(
+        Joi.object({
+          habitatType: Joi.string().required(),
+          baselineReference: Joi.string().required(),
+          condition: Joi.string().required(),
+          area: Joi.object({
+            beforeEnhancement: Joi.number().required(),
+            afterEnhancement: Joi.number().required()
+          }).required(),
+          measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
+        })
+      ),
+      proposed: Joi.array().items(
+        Joi.object({
+          proposedHabitatId: Joi.string().allow(''), // For now allow empty string until Metric 4.1
+          baselineReference: Joi.when('module', {
+            is: 'Enhanced',
+            then: Joi.string().required(),
+            otherwise: Joi.string().allow('')
+          }),
+          module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
+          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
+          habitatType: Joi.string().required(),
+          condition: Joi.string().required(),
+          strategicSignificance: Joi.string().required(),
+          advanceCreation: Joi.number().integer().min(0).max(30).required(),
+          delayedCreation: Joi.number().integer().min(0).max(30).required(),
+          encroachmentExtent: Joi.string(),
+          encroachmentExtentBothBanks: Joi.string(),
+          area: Joi.number().required(),
+          measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
+        })
+      )
     }),
     habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(

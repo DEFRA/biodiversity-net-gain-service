@@ -63,8 +63,6 @@ const getHabitats = session => {
     }))
   )
 
-  console.log({ baseline, proposed })
-
   return { baseline, proposed }
 }
 
