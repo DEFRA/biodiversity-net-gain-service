@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-
 {% set pageHeading = "Add a responsible body listed on the " + legalAgreementType %}
 
 {% block formContent %}
@@ -12,7 +11,6 @@
         <h1 class="govuk-heading-l">
           {{ pageHeading }}
         </h1>
-
         {{ govukInput({
           id: "responsibleBodyName",
           name: "responsibleBodyName",
@@ -24,7 +22,6 @@
           spellcheck: false,
           value: responsibleBody.responsibleBodyName
         }) }}
-
         {{ govukButton({
           text: "Save and continue",
           attributes: {

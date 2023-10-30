@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-
 {% set pageHeading = "Add a landowner or leaseholder listed on the " + legalAgreementType %}
 
 {% block formContent %}
@@ -8,6 +7,5 @@
       {% include "errorbanner.html" %}
     {% endif %}
     {% include "common/add-legal-agreement-landowner-individual.html" %}
-    
   </div>
 {% endblock %}

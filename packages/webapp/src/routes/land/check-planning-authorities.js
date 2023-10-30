@@ -31,19 +31,15 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_PLANNING_AUTHORITIES
     })
-
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
-
     if (lpaList && lpaList.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
     }
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
-
     const lpaListWithAction = lpaListItems.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.CHECK_PLANNING_AUTHORITIES, {
       lpaList,
       lpaListWithAction,
@@ -52,11 +48,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const { addAnotherPlanningAuthority } = request.payload
-
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     if (!addAnotherPlanningAuthority) {
       return h.view(constants.views.CHECK_PLANNING_AUTHORITIES, {
         lpaList,
@@ -68,11 +62,9 @@ const handlers = {
         }]
       })
     }
-
     if (addAnotherPlanningAuthority === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
-
     if (addAnotherPlanningAuthority === 'no') {
       return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
     }

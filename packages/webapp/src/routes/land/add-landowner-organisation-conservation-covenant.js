@@ -3,14 +3,12 @@ import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentTy
 import isEmpty from 'lodash/isEmpty.js'
 
 const organisationNameID = '#organisationName'
-
 const validateOrganisation = organisation => {
   const errors = {}
   const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', null, 'landowner or leaseholder')
   if (organisationNameError) {
     errors.organisationNameError = organisationNameError.err[0]
   }
-
   return errors
 }
 const handlers = {
@@ -24,7 +22,6 @@ const handlers = {
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     let organisation = {
       organisationName: ''
     }
@@ -39,7 +36,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const organisation = request.payload
-    organisation.type = 'organisation'
+    organisation.type = constants.landownerTypes.ORGANISATION
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
@@ -50,21 +47,17 @@ const handlers = {
         legalAgreementType,
         err: Object.values(organisationError),
         organisationNameError: organisationError?.organisationNameError
-
       })
     }
     const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
-
     if (id) {
       landownerOrganisations.splice(id, 1, organisation)
     } else {
       landownerOrganisations.push(organisation)
     }
-
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
-
 }
 
 export default [{

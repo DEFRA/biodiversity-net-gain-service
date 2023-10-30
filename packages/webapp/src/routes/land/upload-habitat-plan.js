@@ -63,7 +63,6 @@ const handlers = {
       fileExt: constants.localLandChargeFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)

@@ -28,8 +28,7 @@ const handlers = {
         }]
       })
     }
-
-    if (landownerType === 'individual') {
+    if (landownerType === constants.landownerTypes.INDIVIDUAL) {
       return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
     } else {
       return h.redirect(constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)

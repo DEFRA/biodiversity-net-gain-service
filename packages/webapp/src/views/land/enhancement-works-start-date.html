@@ -1,6 +1,4 @@
 {% extends 'form-layout.html' %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "Have the habitat enhancement works started yet?" %}
 
 {% block formContent %}
@@ -8,16 +6,13 @@
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
-    
     {# Create the conditional HTML content as a Nunjucks variable #}
     {% set conditionalContent %}
     {% set id = 'enhancementWorkStartDate' %}
     {% set subHeading = 'Enter start date' %}
     {% set dateHint = 'For example, 15 3 2023' %}
     {% include "common/date-hmmp-input.html" %}
-     
     {% endset %}
-    
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           {{ govukRadios({
@@ -29,7 +24,6 @@
                       text: pageHeading,
                       isPageHeading: true,
                       classes: "govuk-fieldset__legend--l"
-                
                   }
               },
               items: [
@@ -50,7 +44,6 @@
                   }
               ]
           }) }}
-          
           {{ govukButton({
               text: "Save and continue",
               attributes: {

@@ -1,7 +1,5 @@
 {% extends 'form-layout.html' %}
-
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
 {% set pageHeading = "Which legal agreement do you have?" %}
 
 {% block formContent %}
@@ -46,7 +44,6 @@
         <p class="govuk-!-padding-top-3">
           <a href="/land/need-legal-agreement">I do not have a legal agreement</a>
         </p>
-       
         {{ govukButton({
             text: 'Continue',
             attributes: {

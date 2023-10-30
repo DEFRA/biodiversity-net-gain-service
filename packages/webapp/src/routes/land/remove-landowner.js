@@ -9,16 +9,13 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.REMOVE_LANDOWNER
     })
-
     const { id } = request.query
-
     const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landownerConversationConvenants.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
     let landownerToRemove
     let landownerToRemoveText
-
     if (id) {
       landownerToRemove = landownerConversationConvenants[id]
       if (landownerToRemove.type === 'individual') {
@@ -27,7 +24,6 @@ const handlers = {
         landownerToRemoveText = landownerToRemove.organisationName
       }
     }
-
     return h.view(constants.views.REMOVE_LANDOWNER, {
       landownerToRemoveText
     })
@@ -52,7 +48,6 @@ const handlers = {
         }]
       })
     }
-
     if (landownerToRemove === 'yes') {
       landownerConversationConvenants.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerConversationConvenants)

@@ -1,13 +1,10 @@
 {% extends 'form-layout.html' %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "You need to add all responsible bodies listed on the " + legalAgreementType %}
+
 {% block formContent %}
   <div class="govuk-width-container">
-    
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-         
           <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
           <p>You can add as many responsible bodies as you need to.</p>
           {{ govukButton({

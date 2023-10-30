@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-
 {% set pageHeading = "Are you sure you want to remove " + planningAuthToRemove + " as a local planning authority?" %}
 
 {% block formContent %}
@@ -9,7 +8,6 @@
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-
             {{ govukRadios({
                 idPrefix: "planningAuthToRemove",
                 name: "planningAuthToRemove",

@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
-  if (item.type === 'individual') {
+  if (item.type === constants.landownerTypes.INDIVIDUAL) {
     const textToDisplay = `${item.firstName} ${item.middleNames ? item.middleNames + ' ' : ''}${item.lastName}`
     return {
       key: {

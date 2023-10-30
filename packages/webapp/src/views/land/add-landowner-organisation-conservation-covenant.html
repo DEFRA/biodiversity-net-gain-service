@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-
 {% set pageHeading = "Add a landowner or leaseholder listed on the " + legalAgreementType %}
 
 {% block formContent %}
@@ -27,8 +26,6 @@
           spellcheck: false,
           value: organisation.organisationName
         }) }}
-    
-
         {{ govukButton({
           text: "Save and continue",
           attributes: {

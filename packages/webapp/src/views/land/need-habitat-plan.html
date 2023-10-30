@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-{% set showSaveLink = true %}
 {% set pageHeading = "You need a habitat management and monitoring plan" %}
 
 {% block formContent %}
@@ -9,12 +8,8 @@
       {{ pageHeading }}
     </h1>
     <p>You need to upload a habitat management and monitoring plan for the biodiversity gain site.</p>
-    
-
-    <p>Your file can be a DOC, DOCX or PDF. It must not be larger than 50MB.</p>
-        
+    <p>Your file can be a DOC, DOCX or PDF. It must not be larger than 50MB.</p>     
     {% include "common/get-help.html" %}
-
   </div>
 </div>
 {% endblock %}

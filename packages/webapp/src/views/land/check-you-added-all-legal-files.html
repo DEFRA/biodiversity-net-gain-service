@@ -1,17 +1,11 @@
 {% extends 'form-layout.html' %}
-
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set showSaveLink = true %}
-
 {% set noOfLegalAgreementFiles = filesListWithAction.length %}
-
 {% if noOfLegalAgreementFiles > 1 %}
     {% set pageHeading = "You have added " + noOfLegalAgreementFiles + " legal agreement files" %}
 {% else %}
     {% set pageHeading = "You have added " + noOfLegalAgreementFiles + " legal agreement file" %}
 {% endif %}
-
 
 {% block formContent %}
   <div class="govuk-body">

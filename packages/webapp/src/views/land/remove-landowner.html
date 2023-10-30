@@ -1,6 +1,5 @@
 {% extends 'form-layout.html' %}
-
-{% set pageHeading = "Are you sure you want to remove " + landownerToRemoveText+ " as a landowner or leaseholder?" %}
+{% set pageHeading = "Are you sure you want to remove " + landownerToRemoveText + " as a landowner or leaseholder?" %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -9,7 +8,6 @@
     {% endif %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-
             {{ govukRadios({
                 idPrefix: "landownerToRemove",
                 name: "landownerToRemove",

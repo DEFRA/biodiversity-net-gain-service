@@ -1,7 +1,5 @@
 {% extends 'form-layout.html' %}
-
 {% set noOfLegalResponsibleBodies = legalAgreementResponsibleBodies.length %}
-
 {% if noOfLegalResponsibleBodies > 1 %}
     {% set pageHeading = "You have added " + noOfLegalResponsibleBodies + " responsible bodies" %}
 {% else %}

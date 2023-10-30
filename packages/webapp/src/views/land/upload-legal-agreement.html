@@ -1,9 +1,6 @@
 {% extends 'multipart-form-layout.html' %}
-
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "Upload the " + legalAgreementType %}
 
 {% block formContent %}
@@ -20,7 +17,6 @@
               isPageHeading: true
             }
           }) }}
-
           <div id="legal-agreement-upload-hint">
             <p>The file should be:</p>
             <ul class="govuk-list govuk-list--bullet">
@@ -28,7 +24,6 @@
               <li>no larger than 50MB</li>
             </ul>
           </div>
-
           {{ govukFileUpload({
             id: "legalAgreement",
             name: "legalAgreement",
@@ -38,7 +33,6 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-
           <p class="govuk-!-padding-top-3">
             <a href="/land/need-legal-agreement">I do not have a {{legalAgreementType}}</a>
           </p>

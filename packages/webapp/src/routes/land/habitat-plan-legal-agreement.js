@@ -25,7 +25,6 @@ const handlers = {
         }]
       })
     }
-
     if (isHabitatIncludeLegalAgreement === 'Yes') {
       request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, isHabitatIncludeLegalAgreement)
       const habitatPlanLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)

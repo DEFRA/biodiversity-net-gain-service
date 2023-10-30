@@ -15,10 +15,8 @@ const getCustomizedHTML = (item, index) => {
   const filename = item.location === null ? '' : path.parse(item.location).base
   const fileText = filename + ', ' + humanReadableFileSize
   return {
-
     key: {
       html: fileText,
-
       classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
     },
     actions: {
@@ -48,7 +46,6 @@ const handlers = {
     const selectedOption = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_FILES, {
       filesListWithAction,
       selectedOption,

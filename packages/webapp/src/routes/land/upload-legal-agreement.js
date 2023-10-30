@@ -3,19 +3,16 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import {
-
   processRegistrationTask,
   getLegalAgreementDocumentType,
   generateUniqueId
 } from '../../utils/helpers.js'
 
 const legalAgreementId = '#legalAgreement'
-
 function processSuccessfulUpload (result, request, h) {
   let resultView = constants.views.INTERNAL_SERVER_ERROR
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
   const location = result[0]?.location ?? null
-
   if (result.errorMessage === undefined) {
     let id = legalAgreementFiles.find(file => file.location === location)?.id
     if (!id) {
@@ -33,7 +30,6 @@ function processSuccessfulUpload (result, request, h) {
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
-
   return h.redirect(resultView)
 }
 
@@ -87,9 +83,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
     })
-
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
       legalAgreementType
     })
@@ -101,9 +95,7 @@ const handlers = {
       fileExt: constants.legalAgreementFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
     return uploadFiles(logger, request, config).then(
       function (result) {
         return processSuccessfulUpload(result, request, h)

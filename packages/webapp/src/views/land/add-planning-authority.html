@@ -1,5 +1,4 @@
 {% extends 'form-layout.html' %}
-
 {% set pageHeading = "Add a local planning authority listed on the " + legalAgreementType %}
 
 {% block formContent %}
@@ -12,12 +11,10 @@
         <h1 class="govuk-heading-l">
           {{ pageHeading }}
         </h1>
-
         <form method="post" >
           <div class="govuk-form-group">
             <label class="govuk-label" for="localPlanningAuthority"> Local planning authority </label>
             <p class="govuk-hint">Start typing, then select a local planning authority.</p>
-
             <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
               <option value=' '>Select a local planning authority</option>
               <option value='Bath and North East Somerset'>Bath and North East Somerset Council</option>
@@ -190,7 +187,6 @@
     </div>
   </div>
 {% endblock %}
-
 {% block pageScripts %}
   <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
 {% endblock %}

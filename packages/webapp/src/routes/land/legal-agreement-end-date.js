@@ -28,7 +28,6 @@ const handlers = {
     const ID = 'legalAgreementEndDate'
     const { legalAgreementEndDateOption } = request.payload
     const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'end date of the legal agreement', 'End date')
-
     if (!legalAgreementEndDateOption) {
       return h.view(constants.views.LEGAL_AGREEMENT_END_DATE, {
         day,
@@ -57,11 +56,11 @@ const handlers = {
     } else {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, null)
     }
-
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_OPTION, legalAgreementEndDateOption)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
   }
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.LEGAL_AGREEMENT_END_DATE,

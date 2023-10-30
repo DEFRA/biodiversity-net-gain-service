@@ -21,7 +21,6 @@ const handlers = {
         if (isLegalAgreementTypeChanged) {
           return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
         }
-
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
       } else {
         return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)

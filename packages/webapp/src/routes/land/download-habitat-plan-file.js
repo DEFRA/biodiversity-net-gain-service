@@ -9,7 +9,6 @@ const downloadHabitatPlanFile = async (request, h) => {
     blobName,
     containerName: 'trusted'
   }
-
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
   return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))
 }

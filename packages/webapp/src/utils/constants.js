@@ -31,6 +31,8 @@ const SIGNED_OUT = 'signed-out'
 const CONTACT_ID = 'contact-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -39,6 +41,10 @@ const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION
+}
+const landownerTypes = {
+  INDIVIDUAL,
+  ORGANISATION
 }
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
@@ -211,6 +217,7 @@ const minStartDates = {
 
 export default Object.freeze({
   applicationTypes,
+  landownerTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
