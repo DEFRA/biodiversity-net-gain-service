@@ -21,9 +21,11 @@ const handlers = {
 
     if (isApplicantAgent === 'yes') {
       request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
+      // TODO: change redirect route when next route dev work is complete
       return h.redirect(constants.routes.APPLICANT_DETAILS_IS_AGENT)
     } else if (isApplicantAgent === 'no') {
       request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
+      // TODO: change redirect route when next route dev work is complete
       return h.redirect(constants.routes.APPLICANT_DETAILS_IS_AGENT)
     } else {
       return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
