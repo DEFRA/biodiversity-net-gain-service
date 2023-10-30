@@ -1,0 +1,9 @@
+{% extends 'form-layout.html' %}
+
+{% set showSaveLink = true %}
+{% set pageHeading = "You need to add all landowners or leaseholders listed on the " %}
+{% set buttonText = "Add landowners or leaseholders" %}
+
+{% block formContent %}
+  {% include "common/add-all-lpas.html" %}
+{% endblock %}

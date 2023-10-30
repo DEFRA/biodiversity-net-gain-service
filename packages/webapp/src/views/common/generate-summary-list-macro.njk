@@ -1,0 +1,64 @@
+{# 
+    Macro: generateSummaryList
+    Purpose:
+    This macro creates a summary list component using the GOV.UK Design System's `summary-list` component. The component displays key-value pairs in a table format and provides an optional "Change" link for each row.
+
+    Parameters:
+    - summary: A dictionary containing the configuration and data for the summary list. The key attribute is `rows` which contains an array of individual row configurations.
+
+    Row Configuration:
+    Each row configuration can have the following attributes:
+    - text: The key or label of the row (left column).
+    - value: The value of the key (right column).
+    - valueDataTestId: Data test id for testing the value.
+    - id: id for testing the value.
+    - href: URL for the "Change" action.
+    - visuallyHiddenText: Visually hidden text for the "Change" action for screen readers.
+    - actionClasses: Classes applied to the "Change" action.
+    - classes: Additional classes applied to the row.
+    - error: Boolean flag to indicate if there's an error related to the row.
+    - show: Boolean flag to determine if the row should be displayed.
+
+#}
+{% macro generateSummaryList(summary) %}
+    {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+    {% set rows= []%}
+    {% for item in summary.rows %}
+        {# Default classes for each row, can be overridden #}
+        {% set classes = item.classes | default('govuk-!-margin-bottom-7') %}
+        
+        {# Handle error message class if error flag is set #}
+        {% set errorHtmlAttribute = '' %}
+        {% if item.error %}
+            {% set errorHtmlAttribute = 'class="govuk-error-message"' %}
+        {% endif %}
+
+        {# Only process rows which are flagged for display #}
+        {% if item.show == true %}
+            {# Construct each row and append to rows array #}
+            {% set rows = (rows.push({
+                key: {
+                    text: item.text
+                },
+                value: {
+                    html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
+                },
+                actions: {
+                    items: [
+                        {
+                            href: item.href,
+                            text: 'Change',
+                            visuallyHiddenText: item.visuallyHiddenText,
+                            classes: item.actionClasses
+                        }
+                    ]
+                },
+                classes: classes
+            }), rows) %}
+        {% endif %}
+    {% endfor %}
+
+    {{ govukSummaryList({
+        rows: rows 
+    }) }}
+{% endmacro %}

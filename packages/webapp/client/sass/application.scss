@@ -7,6 +7,7 @@ $govuk-global-styles: true;
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
 @import "./patterns/login-nav";
+@import "node_modules/accessible-autocomplete/dist/accessible-autocomplete.min";
 
 //OL Mapping
 .map {

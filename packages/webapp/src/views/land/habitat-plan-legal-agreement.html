@@ -1,0 +1,51 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Is the habitat management and monitoring plan included in the legal agreement?" %}
+
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          
+            {{ govukRadios({
+                idPrefix: "isHabitatIncludeLegalAgreement",
+                name: "isHabitatIncludeLegalAgreement",
+                id: "isHabitatIncludeLegalAgreement",
+                fieldset: {
+                    legend: {
+                        text: pageHeading,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "Yes",
+                        text: "Yes",
+                        id: "add-document-no",
+                        checked: isHabitatIncludeLegalAgreement === "Yes"
+                    },
+                    {
+                        value: "No",
+                        text: "No, it’s a separate document",
+                        id: "add-document-yes",
+                        checked: isHabitatIncludeLegalAgreement === "No"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
