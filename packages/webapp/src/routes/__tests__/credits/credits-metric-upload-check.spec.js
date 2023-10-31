@@ -61,11 +61,11 @@ describe(url, () => {
           let viewResult
           const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
           redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadMetric = 'no'
+          postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.NO
           const request = {
             yar: redisMap,
             payload: {
-              checkUploadMetric: 'no'
+              checkUploadMetric: constants.creditsCheckUploadMetric.NO
             }
           }
           const h = {
@@ -98,11 +98,11 @@ describe(url, () => {
           let viewResult
           const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
           redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadMetric = 'yes'
+          postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.YES
           const request = {
             yar: redisMap,
             payload: {
-              checkUploadMetric: 'yes'
+              checkUploadMetric: constants.creditsCheckUploadMetric.YES
             }
           }
           const h = {

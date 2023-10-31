@@ -214,7 +214,8 @@ const threatScreeningStatusValues = {
 
 const uploadTypes = {
   ...developerConstants.uploadTypes,
-  ...lojConstants.uploadTypes
+  ...lojConstants.uploadTypes,
+  ...creditsConstants.uploadTypes
 }
 
 // setReferer contain routes that can be set as a referer for a user
