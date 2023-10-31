@@ -131,6 +131,7 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-orga
 const REGISTRATION_APPLICANT_TYPE = 'registration-applicant-type'
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'orgaanisation'
+const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 
 export default {
   applicantTypes: {
@@ -264,7 +265,8 @@ export default {
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
-    APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
+    APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+    CHECK_DEFRA_ACCOUNT_DETAILS
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
