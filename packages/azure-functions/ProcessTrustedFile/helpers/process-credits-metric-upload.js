@@ -1,3 +1,3 @@
-import prepareUploadMetric from "../../Shared/prepare-upload-metric.js"
+import prepareUploadMetric from '../../Shared/prepare-upload-metric.js'
 
-export default async (context, config) => await prepareUploadMetric(context, config) 
+export default async (context, config) => await prepareUploadMetric(context, config)
