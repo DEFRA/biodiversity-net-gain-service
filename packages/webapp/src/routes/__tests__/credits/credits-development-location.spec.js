@@ -44,13 +44,13 @@ describe(url, () => {
       }
     })
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
-      postOptions.payload.confirmDevDetails = 'yes'
+      postOptions.payload.confirmDevDetails = constants.creditsCheckDetails.YES
       await submitPostRequest(postOptions)
     })
 
     it('should allow an alternative metric file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-      postOptions.payload.confirmDevDetails = 'no'
+      postOptions.payload.confirmDevDetails = constants.creditsCheckDetails.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.CREDITS_UPLOAD_METRIC)
       expect(spy).toHaveBeenCalledTimes(1)
@@ -68,7 +68,7 @@ describe(url, () => {
           session.set(constants.redisKeys.CREDITS_METRIC_DATA, mockMetricData.startPage)
           session.set('filename', constants.redisKeys.CREDITS_METRIC_LOCATION)
           const payload = {
-            confirmDevDetails: 'yes'
+            confirmDevDetails: constants.creditsCheckDetails.YES
           }
           let viewArgs = ''
           let redirectArgs = ''

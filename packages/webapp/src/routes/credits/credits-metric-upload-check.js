@@ -13,11 +13,11 @@ const handlers = {
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.CREDITS_METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
-    if (checkUploadMetric === 'no') {
+    if (checkUploadMetric === constants.creditsCheckUploadMetric.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(constants.redisKeys.CREDITS_METRIC_LOCATION)
       return h.redirect(constants.routes.CREDITS_UPLOAD_METRIC)
-    } else if (checkUploadMetric === 'yes') {
+    } else if (checkUploadMetric === constants.creditsCheckUploadMetric.YES) {
       return h.redirect(constants.routes.CREDITS_CONFIRM_DEV_DETAILS)
     }
     return h.view(constants.views.CREDITS_CHECK_UPLOAD_METRIC, {

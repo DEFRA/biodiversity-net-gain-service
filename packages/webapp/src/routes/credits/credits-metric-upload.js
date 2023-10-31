@@ -2,10 +2,8 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../credits/constants.js'
-import mainConstants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
-import creditConstants from '../../credits/credit-constants.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -78,9 +76,9 @@ const handlers = {
     // Get upload config object from common code
     const uploadConfig = buildConfig({
       sessionId: request.yar.id,
-      fileExt: mainConstants.metricFileExt,
+      fileExt: constants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
-      uploadType: creditConstants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE
+      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE
     })
 
     return uploadFiles(logger, request, uploadConfig).then(
