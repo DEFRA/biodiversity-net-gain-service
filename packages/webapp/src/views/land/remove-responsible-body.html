@@ -1,0 +1,48 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Are you sure you want to remove " + legalPartyBodyToRemoveText + " as a responsible body?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukRadios({
+                idPrefix: "legalPartyBodyToRemove",
+                name: "legalPartyBodyToRemove",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "remove-legal-party-body-yes",
+                        checked: legalPartyBodyToRemove === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No",
+                        id: "remove-legal-party-body-no",
+                        checked: legalPartyBodyToRemove === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

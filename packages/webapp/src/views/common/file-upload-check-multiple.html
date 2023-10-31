@@ -1,0 +1,56 @@
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+        {{ govukFieldset({
+            legend: {
+                text: pageHeading,
+                classes: "govuk-fieldset__legend--l",
+                isPageHeading: true
+            }
+        }) }}
+      
+        {{ govukSummaryList({
+            rows: filesListWithAction,
+            classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+            }) 
+        }}
+        {{ govukRadios({
+            idPrefix: prefix,
+            name: name,
+            id: id,
+            fieldset: {
+                legend: {
+                    text: radioText,
+                    classes: "govuk-fieldset__legend--m"
+                }
+            },
+            hint: {
+                text: radioHint,
+                classes: "govuk-hint app-text-colour wrap-text"
+            },
+            errorMessage: err[0],
+            items: [
+                {
+                    value: "yes",
+                    text: checkUploadCorrectYesText or 'Yes',
+                    id: "check-upload-correct-yes",
+                    checked: yesSelection
+                },
+                { 
+                    value: "no",
+                    text: 'No, add another '+ fileType +' file',
+                    id: "check-upload-correct-no",
+                    checked: noSelection
+                }
+            ]
+        }) }}
+
+        {{ govukButton({
+            text: 'Save and continue',
+            attributes: {
+                id: "continue",
+                "data-testid": "continue"
+            }
+        }) }}
+    </div>
+</div>

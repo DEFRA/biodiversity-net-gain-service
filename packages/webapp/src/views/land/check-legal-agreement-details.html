@@ -1,8 +1,5 @@
 {% extends 'form-layout.html' %}
-
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set showSaveLink = true %}
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 {% set pageHeading = "Check the legal agreement details" %}
 
 {% block formContent %}
@@ -20,89 +17,11 @@
                     }
                 }) }}
                 <form method="post">
-                    {{ govukSummaryList({
-                        rows: [
-                            {
-                                key: {
-                                    text: 'Type of legal agreement'
-                                },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-type-value' data-testid='legal-agreement-type-value'>" + legalAgreementType + "</dd>"
-                                },
-                                actions: {
-                                items: [
-                                    {
-                                        href: '/land/legal-agreement-type',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "add-legal-agreement-type"
-                                        }
-                                    }
-                                ]
-                            }
-                            },
-                            {
-                                key: {
-                                text: 'Legal agreement file uploaded'
-                            },
-                                value: {
-                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-file-value' data-testid='legal-agreement-file-name-value'>" + legalAgreementFileName + "</dd>"
-                            },
-                                actions: {
-                                items: [
-                                    {
-                                        href: '/land/check-legal-agreement-file',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "add-legal-agreement-file"
-                                        }
-                                    }
-                                ]
-                            }
-                            },
-                            {
-                                key: {
-                                text: 'Parties involved'
-                            },
-                                value: {
-                                html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-parties-value' data-testid='legal-agreement-parties-value'>" + listArray(partyNameAndRole) + "</dd>"
-                            },
-                                actions: {
-                                items: [
-                                    {
-                                        href: '/land/add-legal-agreement-parties',
-                                        text: 'Change',
-                                        attributes: {
-                                            id: "add-legal-agreement-parties"
-                                        }
-                                    }
-                                ]
-                            }
-                            },
-                            {
-                                key: {
-                                text: 'Start date'
-                            },
-                                value: {
-                                    html: "<dd class='govuk-summary-list__value' id='add-legal-agreement-start-date-value' data-testid='legal-agreement-start-date-value'>" +  dateToString(legalAgreementStartDate) + "</dd>"
-                                },
-                                actions: {
-                                items: [
-                                    {
-                                        href: '/land/legal-agreement-start-date',
-                                        text: 'Change',
-                                        visuallyHiddenText: 'name',
-                                        attributes: {
-                                            id: "add-legal-agreement-start-date"
-                                        }
-                                    }
-                                ]
-                            }
-                            }
-                        ]
-                    }) }}
+                     {% set showLocalLandCharge = false %}
+        {% include "common/legal-agreement-summary.html" %}
+                    
                     {{ govukButton({
-                        text: 'Accept and submit',
+                        text: 'Save and continue',
                         attributes: {
                             id: "accept",
                             "data-testid": "continue"

@@ -41,6 +41,9 @@ describe('Trusted file processing', () => {
   it('should process a pdf upload for a local search upload type. ', done => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'local-land-charge', done)
   })
+  it('should process a pdf upload for a habitat plan type. ', done => {
+    performValidProcessingTest(PDF_FILE_EXTENSION, 'habitat-plan', done)
+  })
   it('should process a pdf upload for a management plan upload type. ', done => {
     performValidProcessingTest(PDF_FILE_EXTENSION, 'management-plan', done)
   })
