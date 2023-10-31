@@ -2,6 +2,7 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../credits/constants.js'
+import mainConstants from '../../utils/constants.js'
 import { uploadFiles } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import creditConstants from '../../credits/credit-constants.js'
@@ -12,7 +13,7 @@ async function processSuccessfulUpload (result, request, h) {
   const validationError = getMetricFileValidationErrors(result[0].metricData?.validation)
   if (validationError) {
     await deleteBlobFromContainers(result[0].location)
-    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
+    return h.view(constants.views.CREDITS_UPLOAD_METRIC, validationError)
   }
 
   // TASKLIST ACTIVITY : Need to create and call following function in future
@@ -77,7 +78,7 @@ const handlers = {
     // Get upload config object from common code
     const uploadConfig = buildConfig({
       sessionId: request.yar.id,
-      fileExt: constants.metricFileExt,
+      fileExt: mainConstants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
       uploadType: creditConstants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE
     })
