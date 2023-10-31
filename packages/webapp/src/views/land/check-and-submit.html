@@ -1,5 +1,5 @@
 {% extends 'form-layout.html' %}
-
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 {% set pageHeading = "Check your answers before submitting your information" %}
 
 {% block formContent %}
@@ -14,6 +14,7 @@
         </h1>
         <!--Land boundary-->
         <h2 class="govuk-heading-l">Land boundary</h2>
+        
         {% set landBoundaryUploadTypeElement = {
           key: {
               text: "Land boundary file type"
@@ -116,7 +117,7 @@
                 text: "Proof of land ownership file uploaded"
               },
               value: {
-                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + application.files[4].fileName + "</span>"
+                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + getFileNameByType(application.files, 'land-ownership') + "</span>"
               },
               actions: {
                 items: [
@@ -177,7 +178,7 @@
                 text: "Biodiversity Metric file uploaded"
               },
               value: {
-                html: "<span data-testid=\"metric-file-name-value\">" + application.files[3].fileName + "</span>"
+                html: "<span data-testid=\"metric-file-name-value\">" + getFileNameByType(application.files, 'metric') + "</span>"
               },
               actions: {
                 items: [
@@ -202,7 +203,7 @@
                 text: "Habitat management and monitoring plan uploaded"
               },
               value: {
-                html: "<span data-testid=\"habitat-plan-file-name-value\">" + application.files[2].fileName + "</span>"
+                html: "<span data-testid=\"habitat-plan-file-name-value\">" + getFileNameByType(application.files, 'management-plan') + "</span>"
               },
               actions: {
                 items: [
@@ -234,98 +235,11 @@
           ]
         }) }}
 
+       
         <!-- Legal agreement -->
         <h2 class="govuk-heading-l">Legal information</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Type of legal agreement"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-type-value\">" + legalAgreementType + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/legal-agreement-type",
-                    text: "Change",
-                    visuallyHiddenText: " type of legal agreement"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Legal agreement file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-file-name-value\">" + application.files[0].fileName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_LEGAL_AGREEMENT,
-                    text: "Change",
-                    visuallyHiddenText: " legal agreement file"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Parties involved"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-parties-value\">" + listArray(legalAgreementParties) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/add-legal-agreement-parties",
-                    text: "Change",
-                    visuallyHiddenText: " parties involved"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Start date"
-              },
-              value: {
-                html: "<span data-testid=\"legal-agreement-start-date-value\">" +  dateToString(application.legalAgreementStartDate) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/land/legal-agreement-start-date",
-                    text: "Change",
-                    visuallyHiddenText: " start date"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Local land charge search certificate file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"local-land-charge-file-name-value\">" + application.files[5].fileName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_LOCAL_LAND_CHARGE_FILE,
-                    text: "Change",
-                    visuallyHiddenText: " local land charge file"
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
+        {% set showLocalLandCharge = true %}
+        {% include "common/legal-agreement-summary.html" %}
 
         <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
 

@@ -31,6 +31,8 @@ const SIGNED_OUT = 'signed-out'
 const CONTACT_ID = 'contact-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -41,14 +43,20 @@ const applicationTypes = {
   REGISTRATION,
   ALLOCATION
 }
+const landownerTypes = {
+  INDIVIDUAL,
+  ORGANISATION
+}
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
 
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
   YES
 }
+
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
@@ -98,7 +106,7 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150001',
     type: 'conservationCovenant',
-    text: 'Conservation covenant',
+    text: LEGAL_AGREEMENT_TYPE_CONSERVATION,
     htmlId: 'conservation-covenant'
   },
   {
@@ -140,8 +148,6 @@ const redisKeys = {
 }
 
 let routes = {
-  ...creditsConstants.routes,
-  ...developerConstants.routes,
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
@@ -214,6 +220,7 @@ const minStartDates = {
 
 export default Object.freeze({
   applicationTypes,
+  landownerTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -234,6 +241,7 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,

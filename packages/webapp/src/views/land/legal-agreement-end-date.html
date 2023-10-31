@@ -1,0 +1,59 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Does the legal agreement have an end date?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {# Create the conditional HTML content as a Nunjucks variable #}
+    {% set conditionalContent %}
+    {% set id = 'legalAgreementEndDate' %}
+    {% set subHeading = 'Enter end date' %}
+    {% set dateHint = 'For example, 15 3 2052' %}
+    {% include "common/date-hmmp-input.html" %} 
+    {% endset %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          {{ govukRadios({
+              idPrefix: "legalAgreementEndDateOption",
+              name: "legalAgreementEndDateOption",
+              id: "legalAgreementEndDateOption",
+              fieldset: {
+                  legend: {
+                      text: pageHeading,
+                      isPageHeading: true,
+                      classes: "govuk-fieldset__legend--l"
+                
+                  }
+              },
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "legal-agreement-enddate-yes",
+                      checked: legalAgreementEndDateOption === "yes",
+                      conditional: {
+                          html: conditionalContent
+                      }
+                  },
+                  {
+                      value: "no",
+                      text: "No",
+                      id: "legal-agreement-enddate-no",
+                      checked: legalAgreementEndDateOption === "no"
+                  }
+              ]
+          }) }}
+          
+          {{ govukButton({
+              text: "Save and continue",
+              attributes: {
+                  id: "continue",
+                  "data-testid": "continue"
+              }
+          }) }}
+      </div>
+    </div>
+</div>
+{% endblock %}

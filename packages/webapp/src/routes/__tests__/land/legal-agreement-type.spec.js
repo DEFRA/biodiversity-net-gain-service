@@ -114,13 +114,13 @@ describe(url, () => {
     it('should allow the choice of conservation covenant legal agreement', async () => {
       postOptions.payload.legalAgreementType = '759150001'
       const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      expect(response.request.response.headers.location).toBe(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
     })
 
     it('should allow the choice of Planning obligation (section 106 agreement) legal agreement', async () => {
       postOptions.payload.legalAgreementType = '759150000'
       const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      expect(response.request.response.headers.location).toBe(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
     })
 
     it('should go to upload legal agreement if legal agreement type is changed', async () => {
@@ -142,7 +142,7 @@ describe(url, () => {
 
       postOptions.payload.legalAgreementType = '759150001'
       await submitPostRequest(postOptions, 302)
-      expect(viewResult).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      expect(viewResult).toBe(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
     })
 
     it('should go back to detail if referred if legal agreement type is not changed', async () => {

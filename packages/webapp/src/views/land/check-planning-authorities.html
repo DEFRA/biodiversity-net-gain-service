@@ -1,0 +1,65 @@
+{% extends 'form-layout.html' %}
+{% set noOfLegalParties  = lpaList.length %}
+{% if noOfLegalParties > 1 %}
+    {% set pageHeading = "You have added " + noOfLegalParties + " local planning authorities" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLegalParties + " local planning authority" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+                {{ govukSummaryList({
+                    rows: lpaListWithAction,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+                    }) 
+                }}
+            {{ govukRadios({
+                idPrefix: "addAnotherPlanningAuthority",
+                name: "addAnotherPlanningAuthority",
+                id: "addAnotherPlanningAuthority",
+                fieldset: {
+                    legend: {
+                        text: "Have you added all local planning authorities?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must tell us about all local planning authorities on the " + legalAgreementType + ".",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "add-another-local-planning-authority-yes",
+                        checked: addAnotherPlanningAuthority === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No",
+                        id: "add-another-local-planning-authority-no",
+                        checked: addAnotherPlanningAuthority === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

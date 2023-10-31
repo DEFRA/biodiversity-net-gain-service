@@ -44,6 +44,11 @@ const uploadTestConfig = [{
   url: constants.routes.DEVELOPER_UPLOAD_METRIC,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.0.xlsm'
+}, {
+  uploadType: constants.uploadTypes.HABITAT_PLAN_UPLOAD_TYPE,
+  url: constants.routes.UPLOAD_HABITAT_PLAN,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/habitat-plan/habitat-plan.pdf'
 }
 ]
 
