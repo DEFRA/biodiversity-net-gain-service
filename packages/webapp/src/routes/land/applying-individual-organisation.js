@@ -7,17 +7,17 @@ const handlers = {
     return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, getContext(request))
   },
   post: async (request, h) => {
-    const applicantType = request.payload.applicantType
-    if (applicantType) {
-      request.yar.set(constants.redisKeys.REGISTRATION_APPLICANT_TYPE, applicantType)
+    const landownerType = request.payload.landownerType
+    if (landownerType) {
+      request.yar.set(constants.redisKeys.LANDOWNER_TYPE, landownerType)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
       const { currentOrganisation } = auth.getAuthenticationContext(request.auth.credentials.account)
-      if ((applicantType === constants.applicantTypes.INDIVIDUAL && !currentOrganisation) ||
-          (applicantType === constants.applicantTypes.ORGANISATION && currentOrganisation)) {
+      if ((landownerType === constants.landownerTypes.INDIVIDUAL && !currentOrganisation) ||
+          (landownerType === constants.landownerTypes.ORGANISATION && currentOrganisation)) {
         return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
-      } else if (applicantType === constants.applicantTypes.INDIVIDUAL) {
+      } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {
         return getErrorView(h, request, `You are signed in representing ${currentOrganisation}. Sign in representing yourself`)
       } else {
         return getErrorView(h, request, 'You are signed in representing yourself. Sign in representing the correct organisation')
@@ -30,7 +30,7 @@ const handlers = {
 
 const getContext = request => {
   return {
-    applicantType: request.yar.get(constants.redisKeys.REGISTRATION_APPLICANT_TYPE)
+    landownerType: request.yar.get(constants.redisKeys.LANDOWNER_TYPE)
   }
 }
 
@@ -38,7 +38,7 @@ const getErrorView = (h, request, errorMessage) => {
   return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, {
     err: [{
       text: errorMessage,
-      href: '#applicantType'
+      href: '#landownerType'
     }],
     ...getContext(request)
   })

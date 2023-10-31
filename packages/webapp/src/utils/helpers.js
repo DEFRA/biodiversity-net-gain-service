@@ -1,10 +1,11 @@
 import moment from 'moment'
+import path from 'path'
+import crypto from 'crypto'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-
 const isoDateFormat = 'YYYY-MM-DD'
 
 const parsePayload = (payload, ID) => {
@@ -18,7 +19,7 @@ const parsePayload = (payload, ID) => {
   }
 }
 
-const validateDate = (payload, ID, desc) => {
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
@@ -30,28 +31,39 @@ const validateDate = (payload, ID, desc) => {
     }]
   } else if (!day) {
     context.err = [{
-      text: 'Start date must include a day',
+      text: `${fieldType} must include a day`,
       href: `#${ID}-day`,
       dayError: true
     }]
   } else if (!month) {
     context.err = [{
-      text: 'Start date must include a month',
+      text: `${fieldType} must include a month`,
       href: `#${ID}-month`,
       monthError: true
     }]
   } else if (!year) {
     context.err = [{
-      text: 'Start date must include a year',
+      text: `${fieldType} must include a year`,
       href: `#${ID}-year`,
       yearError: true
     }]
   } else if (!date.isValid()) {
     context.err = [{
-      text: 'Start date must be a real date',
+      text: `${fieldType} must be a real date`,
       href: `#${ID}-day`,
       dateError: true
     }]
+  } else if (checkFuture === true) {
+    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
+    const format = 'DD/MM/YYYY, HH:mm:ss'
+    const currentMomentInBritish = moment(dateString, format)
+    if (date.isAfter(currentMomentInBritish)) {
+      context.err = [{
+        text: `${fieldType} cannot be in the future`,
+        href: `#${ID}-day`,
+        dateError: true
+      }]
+    }
   }
   const dateAsISOString = !context.err && date.toISOString()
   return {
@@ -63,10 +75,10 @@ const validateDate = (payload, ID, desc) => {
   }
 }
 
-const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
+const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
   if (isDate1LessThanDate2(dateAsISOString, minDateISOString)) {
     return [{
-      text: `Start date must be after ${formatDateBefore(minDateISOString)}`,
+      text: `${fieldType} must be after ${formatDateBefore(minDateISOString)}`,
       href: `#${ID}-day`,
       dateError: true
     }]
@@ -74,7 +86,17 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
     return undefined
   }
 }
+const getLegalAgreementFileNames = (legalAgreementFiles) => {
+  if (!legalAgreementFiles) return ''
+  const filenames = legalAgreementFiles.map(file => getFileName(file.location))
+  return filenames.join('<br>')
+}
 
+const getLocalPlanningAuthorities = lpas => {
+  if (!lpas) return ''
+  return lpas.join('<br>')
+}
+const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 const isDate1LessThanDate2 = (isoString1, isoString2) => {
@@ -181,6 +203,36 @@ const getNameAndRoles = legalAgreementParties => {
   })
   return partySelectionContent
 }
+const getDateString = (dateValue, type) => {
+  let status = 'Not started yet'
+  if (type === 'end date') {
+    status = 'No end date'
+  }
+  const returnDateValue = dateValue ? dateToString(dateValue) : status
+  return returnDateValue
+}
+const getResponsibleBodies = responsibleBodies => {
+  const responsibleBodiesParsed = JSON.parse(JSON.stringify(responsibleBodies)) || []
+  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join(',')
+  return responsibleBodiesOutput
+}
+
+const getLandowners = landOwners => {
+  const organisationNames = []
+  const individualNames = []
+
+  landOwners.forEach(item => {
+    if (item.type === 'organisation') {
+      organisationNames.push(item.organisationName)
+    } else if (item.type === 'individual') {
+      const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
+      individualNames.push(nameParts.join(' '))
+    }
+  })
+
+  const result = [...organisationNames, ...individualNames].join(', ')
+  return result
+}
 const validateEmail = (emailAddress, ID) => {
   const error = {}
   if (!emailAddress) {
@@ -224,6 +276,10 @@ const getLegalAgreementParties = legalAgreementParties => {
     }
   })
 }
+const generateUniqueId = () => {
+  return crypto.randomBytes(16).toString('hex')
+}
+
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
 
@@ -325,6 +381,41 @@ const validateName = (fullName, hrefId) => {
       href: hrefId
     }]
   }
+  return error.err ? error : null
+}
+
+const validateFirstLastName = (name, text, hrefId) => {
+  const error = {}
+  if (!name) {
+    error.err = [{
+      text: `Enter the ${text} of the landowner or leaseholder`,
+      href: hrefId
+    }]
+  } else if (name.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
+const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
+  const error = {}
+  const fieldTypeLower = fieldType.toLowerCase()
+
+  if (!text) {
+    error.err = [{
+      text: `Enter the ${fieldTypeLower} of the ${target}`,
+      href: hrefId
+    }]
+  } else if (maxLength !== null && text.length > maxLength) {
+    error.err = [{
+      text: `${fieldType} must be ${maxLength} characters or fewer`,
+      href: hrefId
+    }]
+  }
+
   return error.err ? error : null
 }
 
@@ -463,6 +554,12 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
+const buildFullName = (item) => {
+  return item.value.middleName
+    ? item.value.firstName.concat(' ', item.value.middleName, ' ' + item.value.lastName)
+    : item.value.firstName.concat(' ' + item.value.lastName)
+}
+
 export {
   validateDate,
   dateClasses,
@@ -475,20 +572,29 @@ export {
   validateEmail,
   getNameAndRoles,
   getAllLandowners,
+  getResponsibleBodies,
+  getLandowners,
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
   formatSortCode,
+  generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,
+  validateTextInput,
   formatDateBefore,
   getMinDateCheckError,
+  getLegalAgreementFileNames,
+  getLocalPlanningAuthorities,
+  getFileName,
   validateName,
+  validateFirstLastName,
   emailValidator,
+  getDateString,
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
@@ -498,5 +604,6 @@ export {
   getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails
+  checkDeveloperDetails,
+  buildFullName
 }

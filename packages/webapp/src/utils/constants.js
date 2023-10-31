@@ -42,12 +42,14 @@ const applicationTypes = {
 }
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
 
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
   YES
 }
+
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
@@ -97,7 +99,7 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150001',
     type: 'conservationCovenant',
-    text: 'Conservation covenant',
+    text: LEGAL_AGREEMENT_TYPE_CONSERVATION,
     htmlId: 'conservation-covenant'
   },
   {
@@ -207,13 +209,13 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
-const applicantTypes = {
-  ...lojConstants.applicantTypes
+const landownerTypes = {
+  ...lojConstants.landownerTypes
 }
 
 export default Object.freeze({
-  applicantTypes,
   applicationTypes,
+  landownerTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -234,6 +236,7 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,

@@ -1,0 +1,35 @@
+<div class="govuk-grid-row" id="date-input-section">
+    <div class="govuk-grid-column-two-thirds">
+        {{ govukDateInput({
+            id: id, 
+            namePrefix: id,
+            errorMessage: err[0],
+            fieldset: {
+              legend: {
+                text: subHeading,
+                isPageHeading: false
+              }
+            },
+            hint: {
+              text: dateHint
+            },
+            items: [
+              {
+                classes: dateClasses(err[0].dayError, err[0].dateError, "govuk-input--width-2"),
+                name: "day",
+                value: day
+              },
+              {
+                classes: dateClasses(err[0].monthError, err[0].dateError, "govuk-input--width-2"),
+                name: "month",
+                value: month
+              },
+              {
+                classes: dateClasses(err[0].yearError, err[0].dateError, "govuk-input--width-4"),
+                name: "year",
+                value: year
+              }
+            ]
+          }) }}
+    </div>
+</div>

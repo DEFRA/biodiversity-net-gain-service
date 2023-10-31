@@ -3,15 +3,15 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Are you applying as an individual or as part of an organisation?" %}
-{% set applicantType = "applicantType" %}
+{% set landownerType = "landownerType" %}
 {% block formContent %}
   <div class="govuk-body">
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
     {{ govukRadios({
-      id: applicantType,
-      name: applicantType,
+      id: landownerType,
+      name: landownerType,
       fieldset: {
         legend: {
           text: pageHeading,
