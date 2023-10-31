@@ -1,0 +1,21 @@
+{% extends 'form-layout.html' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set noOfLegalAgreementFiles = filesListWithAction.length %}
+{% if noOfLegalAgreementFiles > 1 %}
+    {% set pageHeading = "You have added " + noOfLegalAgreementFiles + " legal agreement files" %}
+{% else %}
+    {% set pageHeading = "You have added " + noOfLegalAgreementFiles + " legal agreement file" %}
+{% endif %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'checkLegalAgreement' %}
+    {% set name = 'checkLegalAgreement' %}
+    {% set id = 'check-upload-correct-yes' %}
+    {% set downloadUrl = 'download-legal-agreement-file' %}
+    {% include "common/file-upload-check-multiple.html" %}
+  </div>
+{% endblock %}

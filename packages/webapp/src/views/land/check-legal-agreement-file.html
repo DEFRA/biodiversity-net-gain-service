@@ -1,8 +1,5 @@
 {% extends 'form-layout.html' %}
-
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set showSaveLink = true %}
 {% set pageHeading = "Check the " + legalAgreementType + " file" %}
 
 {% block formContent %}
@@ -13,7 +10,7 @@
     {% set idPrefix = 'checkLegalAgreement' %}
     {% set name = 'checkLegalAgreement' %}
     {% set id = 'check-upload-correct-yes' %}
-    {% set downloadUrl = 'download-legal-agreement-file' %}
+    {% set downloadUrl = 'download-legal-agreement-file?id=' + fileId %}
     {% include "common/file-upload-check.html" %}
   </div>
 {% endblock %}

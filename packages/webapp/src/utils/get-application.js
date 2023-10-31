@@ -33,4 +33,13 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-export { getDevelopmentProject, getRegistration }
+const getApplicationSession = async (request, applicationReference, contactId, applicationType) => {
+  const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
+    applicationReference,
+    contactId,
+    applicationType
+  })
+  request.yar.set(session)
+}
+
+export { getDevelopmentProject, getRegistration, getApplicationSession }

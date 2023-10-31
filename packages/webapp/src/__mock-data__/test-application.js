@@ -307,11 +307,23 @@ const dataString = `
   "management-plan-checked": "yes",
   "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
-  "legal-agreement-location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
-  "legal-agreement-file-size": 0.01,
-  "legal-agreement-file-type": "application/msword",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
+  "legal-agreement-files": [
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
+      "fileSize": 0.01,
+      "fileType": "application/msword", 
+      "id": "1"
+
+    },
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement1.pdf",
+      "fileSize": 0.01,
+      "fileType": "application/pdf", 
+      "id": "2"
+    }
+  ],
   "legal-agreement-parties": [
     {
       "organisationName": "org1",
@@ -324,10 +336,33 @@ const dataString = `
       "organisationOtherRole": "undefined"
     }
   ],
-  "legal-agreement-start-date": "2022-01-01T00:00:00.000Z",
+  "legal-agreement-reponsible-bodies":[
+    {
+      "responsibleBodyName": "test1"
+    },
+    {
+      "responsibleBodyName": "test2"
+    }
+  ],
+  "planning-authority-list":["Planning Authority 1", "Planning Authority 2"],
+  "legal-agreement-landowner-conservation-convenants": [{
+    "organisationName": "org1",
+    "type": "organisation"
+  }, {
+    "firstName": "Crishn",
+    "middleNames": "",
+    "lastName": "P",
+    "type": "individual"
+  }],
+  "habitat-plan-legal-agreement-document-included-yes-no": "No",
+  "enhancement-works-start-date": "2022-01-01T00:00:00.000Z",
+  "legal-agreement-end-date": "2023-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
+  "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
+  "habitat-plan-file-size": 0.01,
+  "habitat-plan-file-type": "application/msword",
   "application-reference": ""
 }`
 

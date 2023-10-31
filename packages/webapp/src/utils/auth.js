@@ -1,4 +1,4 @@
-import msal from '@azure/msal-node'
+import { ConfidentialClientApplication, LogLevel } from '@azure/msal-node'
 import { DEFRA_ID, IS_PRODUCTION, SERVICE_HOME_URL } from './config.js'
 import constants from './constants.js'
 
@@ -11,7 +11,7 @@ const authConfig = {
   validateAuthority: false
 }
 
-const msalClientApplication = new msal.ConfidentialClientApplication({
+const msalClientApplication = new ConfidentialClientApplication({
   auth: authConfig,
   system: {
     loggerOptions: {
@@ -19,7 +19,7 @@ const msalClientApplication = new msal.ConfidentialClientApplication({
         console.log(message)
       },
       piiLoggingEnabled: false,
-      logLevel: IS_PRODUCTION ? msal.LogLevel.Error : msal.LogLevel.Info
+      logLevel: IS_PRODUCTION ? LogLevel.Error : LogLevel.Info
     }
   }
 })

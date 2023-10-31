@@ -88,6 +88,7 @@ const handlers = {
       taskTitle: 'Land information',
       title: 'Add biodiversity gain site boundary details'
     }, {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_LAND_BOUNDARY
     })
     return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
