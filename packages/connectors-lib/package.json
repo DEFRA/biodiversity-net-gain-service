@@ -29,5 +29,5 @@
     "@defra/bng-azure-storage-test-utils": "0.234.5",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
-  "gitHead": "0746019e13c6e6c3047bf668151cd3322534113b"
+  "gitHead": "8942d602f7a865539557a342900cf71899c5e78d"
 }
