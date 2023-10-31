@@ -231,7 +231,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
-          expect(spy).toHaveBeenCalledTimes(0)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
