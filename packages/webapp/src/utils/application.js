@@ -24,8 +24,6 @@ const getHabitats = session => {
         return 'Hedge'
       case 'f':
         return 'Watercourse'
-      default:
-        return ''
     }
   }
 
@@ -35,8 +33,6 @@ const getHabitats = session => {
         return 'Created'
       case '3':
         return 'Enhanced'
-      default:
-        return ''
     }
   }
 

@@ -211,6 +211,25 @@ describe('BNG data extractor test', () => {
     expect(response.test[0]['Broad habitat']).toBe(undefined)
   })
 
+  it('Should remove unwanted rows that only have data for the headers detailed in template', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const baselineRef = 'Baseline ref'
+    const habitatType = 'Habitat type'
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: [baselineRef, habitatType],
+        columnsToBeRemoved: [],
+        rowsToBeRemovedTemplate: [[baselineRef], [habitatType]]
+      }
+    }
+
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(response.test.length).toEqual(4)
+  })
+
   it('Should rejects with an error if a stream error occurs', async () => {
     const { PassThrough } = require('stream')
     jest.mock('../bng-metric-single-data-extractor.js')
