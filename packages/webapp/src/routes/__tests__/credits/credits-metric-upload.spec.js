@@ -1,9 +1,7 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
-// import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 import constants from '../../../credits/constants.js'
-import creditConstants from '../../../credits/credit-constants.js'
 
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.CREDITS_UPLOAD_METRIC
@@ -37,7 +35,7 @@ describe('Metric file upload controller tests', () => {
       }
     ]
     const baseConfig = {
-      uploadType: creditConstants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
+      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       eventData: mockMetric,
