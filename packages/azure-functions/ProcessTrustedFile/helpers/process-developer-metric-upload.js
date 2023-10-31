@@ -1,6 +1,4 @@
-import bngMetricService from '@defra/bng-metric-service'
-import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import processMetric from '../../Shared/process-metric.js'
+import prepareUploadMetric from '../../Shared/prepare-upload-metric.js'
 
 export default async (context, config) => {
   const { extractionConfiguration, validationConfiguration, extractMetricContent } = bngMetricService
