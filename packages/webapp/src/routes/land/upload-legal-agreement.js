@@ -13,7 +13,7 @@ const legalAgreementId = '#legalAgreement'
 
 const processSuccessfulUpload = (result, request, h) => {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
-  const location = result[0]?.location ?? null
+  const location = result.config.blobConfig.blobName
   let id = legalAgreementFiles.find(file => file.location === location)?.id
   if (!id) {
     id = generateUniqueId()

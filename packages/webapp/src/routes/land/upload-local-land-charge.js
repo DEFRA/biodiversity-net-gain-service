@@ -32,7 +32,6 @@ function processErrorUpload (err, h) {
       return buildErrorResponse(h, 'Select a local land charge search certificate file')
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
-
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
