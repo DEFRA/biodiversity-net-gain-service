@@ -16,21 +16,29 @@ const getHabitats = session => {
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
-  const getState = (identifier) =>
-    identifier.startsWith('d')
-      ? 'Habitat'
-      : identifier.startsWith('e')
-        ? 'Hedge'
-        : identifier.startsWith('f')
-          ? 'Watercourse'
-          : ''
+  const getState = (identifier) => {
+    switch (identifier.charAt(0)) {
+      case 'd':
+        return 'Habitat'
+      case 'e':
+        return 'Hedge'
+      case 'f':
+        return 'Watercourse'
+      default:
+        return ''
+    }
+  }
 
-  const getModule = (identifier) =>
-    identifier.endsWith('2')
-      ? 'Created'
-      : identifier.endsWith('3')
-        ? 'Enhanced'
-        : ''
+  const getModule = (identifier) => {
+    switch (identifier.charAt(identifier.length - 1)) {
+      case '2':
+        return 'Created'
+      case '3':
+        return 'Enhanced'
+      default:
+        return ''
+    }
+  }
 
   const baseline = baselineIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
