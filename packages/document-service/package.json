@@ -18,7 +18,7 @@
   "dependencies": {
     "@defra/bng-errors-lib": "0.233.0",
     "@defra/bng-utils-lib": "0.233.0",
-    "axios": "^1.5.1"
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.233.0"
