@@ -16,6 +16,7 @@ const e2OffSiteHedgeCreation = {
   endCell: 'AD260',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Hedge units delivered',
     'Condition ': 'Condition',

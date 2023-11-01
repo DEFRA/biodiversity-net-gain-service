@@ -174,7 +174,7 @@ const uploadErrors = {
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
-  threatDetected: 'File malware detected',
+  threatDetected: 'The selected file contains a virus',
   malwareScanFailed: 'File malware scan failed',
   unsupportedFileExt: 'Unsupported file extension',
   noFileScanResponse: 'Timed out awaiting anti virus scan result'

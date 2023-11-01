@@ -17,6 +17,7 @@ const d2OffSiteHabitatCreation = {
   endCell: 'AF257',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Broad habitat',
     __EMPTY_1: 'Proposed habitat',

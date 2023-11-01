@@ -5,11 +5,68 @@ import savePayment from '../payment/save-payment.js'
 
 // Application object schema must match the expected payload format for the Operator application
 const getApplicant = account => ({
-  firstName: account.idTokenClaims.firstName,
-  lastName: account.idTokenClaims.lastName,
-  emailAddress: account.idTokenClaims.email,
-  contactId: account.idTokenClaims.contactId
+  id: account.idTokenClaims.contactId,
+  role: 'Individual'
 })
+
+const getHabitats = session => {
+  const metricData = session.get(constants.redisKeys.METRIC_DATA)
+  const baselineIdentifiers = ['d1', 'e1', 'f1']
+  const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
+
+  const getState = (identifier) => {
+    switch (identifier.charAt(0)) {
+      case 'd':
+        return 'Habitat'
+      case 'e':
+        return 'Hedge'
+      case 'f':
+        return 'Watercourse'
+    }
+  }
+
+  const getModule = (identifier) => {
+    switch (identifier.charAt(identifier.length - 1)) {
+      case '2':
+        return 'Created'
+      case '3':
+        return 'Enhanced'
+    }
+  }
+
+  const baseline = baselineIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
+      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Hedgerow type'],
+      baselineReference: String(details['Baseline ref']),
+      condition: details.Condition,
+      area: {
+        beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
+        afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
+      },
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
+    }))
+  )
+
+  const proposed = proposedIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
+      proposedHabitatId: '', // Leave blank for now until metric 4.1 when this property is extracted
+      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Proposed habitat'],
+      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      module: getModule(identifier),
+      state: getState(identifier),
+      condition: details.Condition,
+      strategicSignificance: details['Strategic significance'],
+      advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
+      delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
+      area: details['Length (km)'] ?? details['Area (hectares)'],
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+      ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
+      ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
+    }))
+  )
+
+  return { baseline, proposed }
+}
 
 const getFile = (session, fileType, filesize, fileLocation, optional) => ({
   contentMediaType: session.get(fileType),
@@ -102,11 +159,20 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
 
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
   return {
     landownerGainSiteRegistration: {
       applicant: getApplicant(account),
+      habitats: getHabitats(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),
@@ -122,8 +188,7 @@ const application = (session, account) => {
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
-      metricData: session.get(constants.redisKeys.METRIC_DATA),
-      payment: savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+      payment: getPayment(session)
     }
   }
 }
