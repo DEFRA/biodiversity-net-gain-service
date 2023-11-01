@@ -1,17 +1,13 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const LAND_BOUNDARY_FORM_ELEMENT_NAME = 'landBoundary'
 const url = constants.routes.UPLOAD_LAND_BOUNDARY
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Land boundary upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -34,7 +30,6 @@ describe('Land boundary upload controller tests', () => {
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload land boundary document to cloud storage', (done) => {
@@ -165,23 +160,6 @@ describe('Land boundary upload controller tests', () => {
             referer: 'http://localhost:30000/land/check-land-boundary-details'
           }
           await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should cause an internal server error response when upload processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/legal-agreement.pdf`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          await uploadFile(config)
           setImmediate(() => {
             done()
           })

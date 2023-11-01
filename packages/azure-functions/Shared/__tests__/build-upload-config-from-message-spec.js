@@ -19,10 +19,6 @@ describe('Building config from a message', () => {
         fileExtension,
         fileDirectory: message.location.substring(0, message.location.lastIndexOf('/')),
         filename
-      },
-      signalRMessageConfig: {
-        userId,
-        target: `Processed ${filename}${fileExtension}`
       }
     }
     const config = buildUploadConfigFromMessage(message)

@@ -1,5 +1,5 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 
@@ -7,13 +7,7 @@ const GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME = 'geospatialLandBoundary'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries'
 const url = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
 
-jest.mock('../../../utils/azure-signalr.js')
-
 describe(url, () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
-
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -21,7 +15,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    const mockLandBoundary = [
+    const mockLandBoundary =
       {
         location: 'mockUserId/mockUploadType/mockFilename',
         mapConfig: {
@@ -29,29 +23,26 @@ describe(url, () => {
           gridRef: 'ST123456'
         }
       }
-    ]
+
     const baseConfig = {
       uploadType: 'geospatial-land-boundary',
       url,
       formName: GEOSPATIAL_LAND_BOUNDARY_FORM_ELEMENT_NAME,
-      eventData: mockLandBoundary
+      postProcess: mockLandBoundary
     }
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload a valid Geopackage to cloud storage and redirect to check land boundary details if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL is disabled', (done) => {
       jest.isolateModules(async () => {
         try {
           process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
-
-          jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))
-          config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
-          config.eventData[0].reprojectedFileSize = 500
+          config.postProcess.reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
+          config.postProcess.reprojectedFileSize = 500
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'
@@ -76,8 +67,8 @@ describe(url, () => {
           jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = JSON.parse(JSON.stringify(baseConfig))
-          config.eventData[0].reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
-          config.eventData[0].reprojectedFileSize = 500
+          config.postProcess.reprojectedLocation = 'mockUserId/mockUploadType/reprojectedToOsgb36/mockFilename'
+          config.postProcess.reprojectedFileSize = 500
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.headers = {
             referer: 'http://localhost:3000/land/check-land-boundary-details'
@@ -109,13 +100,16 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error when file upload processing fails', (done) => {
+    it('should handle an error when file upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.generateFormDataError = true
-          await uploadFile(config)
+          config.hasError = true
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })
@@ -125,13 +119,16 @@ describe(url, () => {
       })
     })
 
-    it('should cause an internal server error response when upload notification processing fails for an unexpected reason', (done) => {
+    it('should handle an error response when upload notification processing fails for an unexpected reason', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = JSON.parse(JSON.stringify(baseConfig))
           config.filePath = `${mockDataPath}/geopackage-land-boundary-4326.gpkg`
           config.generateHandleEventsError = true
-          await uploadFile(config)
+          config.hasError = true
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })
@@ -301,7 +298,7 @@ describe(url, () => {
           config.hasError = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
+          expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
           setImmediate(() => {
             done()
           })

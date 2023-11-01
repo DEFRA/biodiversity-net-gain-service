@@ -1,39 +1,37 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
   generateUniqueId
 } from '../../utils/helpers.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const legalAgreementId = '#legalAgreement'
-function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
+
+const processSuccessfulUpload = (result, request, h) => {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
-  const location = result[0]?.location ?? null
-  if (result.errorMessage === undefined) {
-    let id = legalAgreementFiles.find(file => file.location === location)?.id
-    if (!id) {
-      id = generateUniqueId()
-      legalAgreementFiles.push({
-        location,
-        fileSize: result.fileSize,
-        fileType: result.fileType,
-        id
-      })
-    }
-    logger.log(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
-    resultView = `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
+  const location = result.config.blobConfig.blobName
+  let id = legalAgreementFiles.find(file => file.location === location)?.id
+  if (!id) {
+    id = generateUniqueId()
+    legalAgreementFiles.push({
+      location,
+      fileSize: result.fileSize,
+      fileType: result.fileType,
+      id
+    })
   }
+  logger.log(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
-  return h.redirect(resultView)
+  return h.redirect(`${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`)
 }
 
-function processErrorUpload (err, h, legalAgreementType) {
+const processErrorUpload = (err, h, legalAgreementType) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
@@ -62,16 +60,28 @@ function processErrorUpload (err, h, legalAgreementType) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h, legalAgreementType)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-          legalAgreementType,
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.malwareScanFailed,
+            href: legalAgreementId
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: constants.uploadErrors.threatDetected,
+            href: legalAgreementId
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
+          err: [{
+            text: constants.uploadErrors.uploadFailure,
             href: legalAgreementId
           }]
         })
       }
-      throw err
   }
 }
 
@@ -96,23 +106,13 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h, legalAgreementType)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-        legalAgreementType,
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: legalAgreementId
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h, legalAgreementType)
+    }
   }
 }
 
@@ -134,7 +134,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h, legalAgreementType).takeover()
