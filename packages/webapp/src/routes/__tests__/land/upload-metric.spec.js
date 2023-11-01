@@ -1,17 +1,13 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.UPLOAD_METRIC
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Metric file upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -19,9 +15,8 @@ describe('Metric file upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockMetric = [
+    const mockMetric =
       {
-        location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
           validation: {
             isVersion4OrLater: true,
@@ -30,18 +25,17 @@ describe('Metric file upload controller tests', () => {
           }
         }
       }
-    ]
+
     const baseConfig = {
       uploadType: 'metric-upload',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric,
+      postProcess: mockMetric,
       sessionData: {}
     }
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload metric file to cloud storage', (done) => {
@@ -185,7 +179,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -210,7 +204,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -235,7 +229,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isVersion4OrLater: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
@@ -260,7 +254,7 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })

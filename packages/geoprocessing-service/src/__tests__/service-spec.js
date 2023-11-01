@@ -14,7 +14,7 @@ const ZIP_FILE_EXTENSION = '.zip'
 const blobPathRoot = 'mock-session-id/landBoundary'
 const reprojectedToOsgb36 = 'reprojectedToOsgb36'
 const reprojectedBlobPathRoot = `${blobPathRoot}/${reprojectedToOsgb36}`
-const containerName = 'trusted'
+const containerName = 'customer-uploads'
 const mockDataPath = 'packages/geoprocessing-service/src/__mock-data__/uploads/geospatial-land-boundaries'
 const invalidFileUploadErrorMessage = 'The uploaded land boundary must use a valid GeoJSON, Geopackage or Shape file'
 

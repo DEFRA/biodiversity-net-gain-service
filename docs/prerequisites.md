@@ -21,7 +21,6 @@
     * postgis
     * postgis_topology
     * uuid-ossp
-* Microsoft Azure SignalR hub
 * **Node.js** Microsoft Azure function app
 * Access to the [Ordnance Survey Maps API](https://osdatahub.os.uk/docs/wmts/overview).
 

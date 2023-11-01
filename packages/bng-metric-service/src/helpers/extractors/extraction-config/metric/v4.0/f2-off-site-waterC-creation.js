@@ -15,9 +15,10 @@ const f2OffSiteWaterCCreation = {
   sheetName: 'F-2 Off-Site WaterC\' Creation',
   titleCellAddress: 'B3',
   startCell: 'B11',
-  endCell: 'AT258',
+  endCell: 'AT260',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Watercourse units delivered',
     'Condition ': 'Condition',

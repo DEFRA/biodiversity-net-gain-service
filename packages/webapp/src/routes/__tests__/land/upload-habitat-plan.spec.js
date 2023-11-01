@@ -1,16 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
 const HABITAT_PLAN_FORM_ELEMENT_NAME = 'habitatPlan'
 const url = constants.routes.UPLOAD_HABITAT_PLAN
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/habitat-plan'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Habitat Plan upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -18,50 +14,25 @@ describe('Habitat Plan upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockHabitatPlan = [
-      {
-        location: 'mockUserId/mockUploadType/mockFilename',
-        mapConfig: {}
-      }
-    ]
     const baseConfig = {
       uploadType: 'habitat-plan',
       url,
-      formName: HABITAT_PLAN_FORM_ELEMENT_NAME,
-      eventData: mockHabitatPlan
+      formName: HABITAT_PLAN_FORM_ELEMENT_NAME
     }
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload habitat plan document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/habitat-plan.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should upload habitat plan document to cloud storage with referer', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/habitat-plan.pdf`
-          baseConfig.headers = {
-            referer: `'http://localhost:30000${url}`
+          uploadConfig.headers = {
+            referer: `http://localhost:3000${url}`
           }
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/habitat-plan.pdf`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -77,10 +48,6 @@ describe('Habitat Plan upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
-          uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-habitat-plan-file'
-          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -97,7 +64,6 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -133,7 +99,6 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-habitat-plan.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -150,7 +115,6 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -161,11 +125,10 @@ describe('Habitat Plan upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile habitat plan', (done) => {
+    it('should not upload no file habitat plan', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          baseConfig.referer = `'http://localhost:30000${url}`
           uploadConfig.hasError = true
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -177,7 +140,7 @@ describe('Habitat Plan upload controller tests', () => {
       })
     })
 
-    it('should  upload  habitat plan document 50 MB file', (done) => {
+    it('should upload habitat plan document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -195,25 +158,7 @@ describe('Habitat Plan upload controller tests', () => {
       })
     })
 
-    it('should cause an internal server error response when notification processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/habitat-plan.pdf`
-          baseConfig.referer = `'http://localhost:30000${url}`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          await uploadFile(config)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should  upload habitat plan document 49 MB file when coming from a referer', (done) => {
+    it('should upload habitat plan document 49 MB file when coming from a referer', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

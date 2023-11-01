@@ -81,10 +81,10 @@ describe(url, () => {
           await checkConsentFile.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD)
           expect(spy).toHaveBeenCalledWith({
-            containerName: 'untrusted',
+            containerName: 'customer-uploads',
             blobName: mockFileLocation
           })
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {
           done(err)
