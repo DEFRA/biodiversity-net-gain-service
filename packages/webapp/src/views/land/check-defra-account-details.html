@@ -4,10 +4,45 @@
 
 {% set pageHeading = "Check your Defra account details are up to date" %}
 {% block formContent %}
-  <div class="govuk-body">
-    {% if err %}
-      {% include "errorbanner.html" %}
-    {% endif %}
-    Under construction
-  </div>      
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+      <p>We will use the information in your Defra account to identify you and to contact you about this application.</p>
+      {% if applicationSpecificGuidance %}
+        <p>
+          {% if organisation %}<b>{{ subject }}</b>{% else %}{{ subject }} {% endif %}{{applicationSpecificGuidance}}
+        </p>
+      {% endif %}
+      <p><a href="{{ auth.accountManagementUrl | safe }}">Check your Defra account details</a></a></p>
+      {{ govukCheckboxes({
+        name: "confirmDefraIdAccountDetails",
+        fieldset: {
+          legend: {
+            text: "Confirm your Defra account details are up to date",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        errorMessage: err[0],
+        items: [
+          {
+            value: "true",
+            html: confirmationText
+          }
+        ]
+      }) }}
+      {{ govukButton({
+        text: "Continue",
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+</div>
 {% endblock %}
