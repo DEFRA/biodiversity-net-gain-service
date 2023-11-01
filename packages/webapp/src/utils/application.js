@@ -5,10 +5,8 @@ import savePayment from '../payment/save-payment.js'
 
 // Application object schema must match the expected payload format for the Operator application
 const getApplicant = account => ({
-  firstName: account.idTokenClaims.firstName,
-  lastName: account.idTokenClaims.lastName,
-  emailAddress: account.idTokenClaims.email,
-  contactId: account.idTokenClaims.contactId
+  id: account.idTokenClaims.contactId,
+  role: 'Individual'
 })
 
 const getHabitats = session => {
@@ -161,6 +159,14 @@ const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDAR
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
 
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
   return {
@@ -182,7 +188,7 @@ const application = (session, account) => {
       managementMonitoringStartDate: session.get(constants.redisKeys.MANAGEMENT_MONITORING_START_DATE_KEY),
       submittedOn: new Date().toISOString(),
       landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
-      payment: savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+      payment: getPayment(session)
     }
   }
 }

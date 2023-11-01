@@ -36,10 +36,8 @@ const legalAgreementPlanningAuthoritySchema = Joi.object({
 const applicationValidation = Joi.object({
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      emailAddress: Joi.string().email().required(),
-      contactId: Joi.string().required()
+      id: Joi.string().required(),
+      role: Joi.string().required()
     }),
     habitats: Joi.object({
       baseline: Joi.array().items(
@@ -147,12 +145,9 @@ const applicationValidation = Joi.object({
       then: Joi.valid('true'),
       otherwise: Joi.valid('true', 'false')
     }).default('false'),
-    metricData: Joi.object().allow(null),
     payment: Joi.object({
-      caseType: Joi.string().required(),
-      fee: Joi.number().required(),
-      reference: Joi.string().allow('', null).optional(),
-      type: Joi.string().required()
+      reference: Joi.string().allow(null, ''),
+      method: Joi.string().required()
     })
   })
 })
