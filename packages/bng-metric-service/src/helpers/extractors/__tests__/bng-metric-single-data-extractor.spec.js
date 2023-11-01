@@ -228,6 +228,7 @@ describe('BNG data extractor test', () => {
 
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
     expect(response.test.length).toEqual(4)
+    response.test.forEach(element => expect(Object.keys(element)).toEqual([baselineRef, habitatType]))
   })
 
   it('Should rejects with an error if a stream error occurs', async () => {
