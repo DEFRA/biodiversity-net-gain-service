@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
-  getLegalAgreementDocumentType
+  processRegistrationTask
 } from '../../utils/helpers.js'
 
 const handlers = {
