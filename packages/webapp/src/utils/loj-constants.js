@@ -18,6 +18,7 @@ const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
+const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
@@ -72,6 +73,7 @@ const LEGAL_PARTY_ADD_START = 'land/legal-party-add-start'
 const NEED_ADD_ALL_PLANNING_AUTHORITIES = 'land/need-add-all-planning-authorities'
 const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
 const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
+const CLIENTS_ORGANISATION_NAME = 'land/clients-organisation-name'
 const ADD_PLANNING_AUTHORITY = 'land/add-planning-authority'
 const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
@@ -261,6 +263,7 @@ export default {
     EMAIL_VALUE,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
+    CLIENTS_ORGANISATION_NAME,
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
@@ -281,6 +284,7 @@ export default {
     HABITAT_PLAN_LEGAL_AGREEMENT,
     CHECK_LANDOWNERS,
     LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
+    CLIENT_INDIVIDUAL_ORGANISATION,
     LEGAL_PARTY_REMOVE,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
@@ -349,6 +353,7 @@ export default {
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
+    CLIENTS_ORGANISATION_NAME,
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
