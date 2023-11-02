@@ -3,6 +3,14 @@ import constants from '../../../utils/constants.js'
 
 const url = constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
 
+const individualSignInErrorMessage = `
+  You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
+  Register for or sign into a Defra account representing an organisation before continuing this application`
+
+const organisationSignInErrorMessage = `
+  You cannot apply as an individual because the Defra account you’re signed into is linked to an organisation.
+  Register for or sign into a Defra account as yourself before continuing this application`
+
 describe(url, () => {
   const redisMap = new Map()
   describe('GET', () => {
@@ -94,14 +102,14 @@ describe(url, () => {
       postOptions.payload.landownerType = constants.landownerTypes.ORGANISATION
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('There is a problem')
-      expect(response.payload).toContain('You are signed in representing yourself. Sign in representing the correct organisation')
+      expect(response.payload).toContain(individualSignInErrorMessage)
     })
     it('should redisplay the applicant type page when individual is chosen and signed in representing an organisation', async () => {
       postOptions.payload.landownerType = constants.landownerTypes.INDIVIDUAL
       postOptions.auth = organisationAuth
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('There is a problem')
-      expect(response.payload).toContain('You are signed in representing mock organisation. Sign in representing yourself')
+      expect(response.payload).toContain(organisationSignInErrorMessage)
     })
   })
 })

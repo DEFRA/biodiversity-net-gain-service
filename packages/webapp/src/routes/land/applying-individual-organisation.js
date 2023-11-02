@@ -1,6 +1,14 @@
 import auth from '../../utils/auth.js'
 import constants from '../../utils/constants.js'
 
+const individualSignInErrorMessage = `
+  You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
+  Register for or sign into a Defra account representing an organisation before continuing this application`
+
+const organisationSignInErrorMessage = `
+  You cannot apply as an individual because the Defra account you’re signed into is linked to an organisation.
+  Register for or sign into a Defra account as yourself before continuing this application`
+
 const handlers = {
   get: async (request, h) => {
     // TO DO - Add processRegistration task call when check your answers support is added for applicant information.
@@ -18,9 +26,9 @@ const handlers = {
         return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {
-        return getErrorView(h, request, `You are signed in representing ${currentOrganisation}. Sign in representing yourself`)
+        return getErrorView(h, request, organisationSignInErrorMessage)
       } else {
-        return getErrorView(h, request, 'You are signed in representing yourself. Sign in representing the correct organisation')
+        return getErrorView(h, request, individualSignInErrorMessage)
       }
     } else {
       return getErrorView(h, request, 'Select if you are applying as an individual or as part of an organisation')
