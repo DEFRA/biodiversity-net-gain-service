@@ -37,6 +37,7 @@ const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+const BLOB_STORAGE_CONTAINER = 'customer-uploads'
 
 const applicationTypes = {
   REGISTRATION,
@@ -174,7 +175,9 @@ const uploadErrors = {
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
   threatDetected: 'The selected file contains a virus',
-  unsupportedFileExt: 'Unsupported file extension'
+  malwareScanFailed: 'File malware scan failed',
+  unsupportedFileExt: 'Unsupported file extension',
+  noFileScanResponse: 'Timed out awaiting anti virus scan result'
 }
 
 const threatScreeningStatusValues = {
@@ -250,5 +253,6 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH
+  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
+  BLOB_STORAGE_CONTAINER
 })

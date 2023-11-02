@@ -1,11 +1,8 @@
 import { getBlobServiceClient, getQueueServiceClient } from '@defra/bng-connectors-lib/azure-storage'
 import { logger } from 'defra-logging-facade'
 
-const containerNames = ['trusted', 'untrusted']
+const containerNames = ['customer-uploads']
 const queueNames = [
-  'signalr-test-queue',
-  'trusted-file-queue',
-  'untrusted-file-queue',
   'saved-application-session-notification-queue',
   'expiring-application-session-notification-queue'
 ]

@@ -3,7 +3,7 @@
 {
 	"name": "Docker in Docker",
 	"dockerFile": "Dockerfile",
-	"runArgs": ["--init", "--privileged", "--add-host", "azure_services:127.0.0.1", "--add-host", "azurite:127.0.0.1", "--add-host", "geoserver:127.0.0.1", "--add-host", "pgadmin:127.0.0.1", "--add-host", "postgis:127.0.0.1",  "--add-host", "redis:127.0.0.1", "--add-host", "redis_commander:127.0.0.1", "--add-host", "signalr:127.0.0.1"],
+	"runArgs": ["--init", "--privileged", "--add-host", "azure_services:127.0.0.1", "--add-host", "azurite:127.0.0.1", "--add-host", "geoserver:127.0.0.1", "--add-host", "pgadmin:127.0.0.1", "--add-host", "postgis:127.0.0.1",  "--add-host", "redis:127.0.0.1", "--add-host", "redis_commander:127.0.0.1"],
 	"mounts": ["source=dind-var-lib-docker,target=/var/lib/docker,type=volume"],
 	"overrideCommand": false,
 

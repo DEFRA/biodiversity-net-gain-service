@@ -2,7 +2,6 @@ import { submitGetRequest } from '../helpers/server.js'
 import { promises as fs } from 'fs'
 const url = '/developer/download-consent-file'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-consent'
-jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('path')
 
