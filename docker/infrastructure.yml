@@ -15,7 +15,6 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-
   # ##############################################################################################################
   # # Postgres + Postgis on port 5432
   # ##############################################################################################################
@@ -30,13 +29,14 @@ services:
     secrets:
       - POSTGRES_PASSWORD
     volumes:
-      - ./volumes/postgis:/var/lib/postgresql/data
+      - postgis_data:/var/lib/postgresql/data
       - ./src/postgis/init.sql:/docker-entrypoint-initdb.d/init.sql
-
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     hostname: azurite
-    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0"
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --skipApiVersionCheck"
     ports:
       - "10000:10000"
       - "10001:10001"
+volumes:
+  postgis_data: {}

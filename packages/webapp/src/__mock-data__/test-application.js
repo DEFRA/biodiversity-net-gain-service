@@ -393,7 +393,6 @@ const dataString = `
   "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
   "habitat-plan-file-size": 0.01,
   "habitat-plan-file-type": "application/msword",
-  "application-reference": ""
   "application-reference": "",
   "land-ownership-proofs": [
     "file-1.pdf",
