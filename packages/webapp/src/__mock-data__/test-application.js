@@ -8,7 +8,6 @@ const dataString = `
           {
             "title": "Add details about the person applying",
             "status": "COMPLETED",
-            // TODO: update completed path and inProgressUrl when all applicant info jounrey is complete
             "completedTaskUrl": "/land/applicant-details-is-agent",
             "startTaskUrl": "/land/applicant-details-is-agent",
             "inProgressUrl": "/land/add-landowners",
