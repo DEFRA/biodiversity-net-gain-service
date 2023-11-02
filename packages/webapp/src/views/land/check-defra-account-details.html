@@ -14,12 +14,12 @@
       <p>We will use the information in your Defra account to identify you and to contact you about this application.</p>
       {% if applicationSpecificGuidance %}
         <p>
-          {% if organisation %}<b>{{ subject }}</b>{% else %}{{ subject }} {% endif %}{{applicationSpecificGuidance}}
+          {% if organisation %}<strong>{{ subject }}</strong>{% else %}{{ subject }} {% endif %}{{applicationSpecificGuidance}}
         </p>
       {% endif %}
       <p><a href="{{ auth.accountManagementUrl | safe }}">Check your Defra account details</a></a></p>
       {{ govukCheckboxes({
-        name: "confirmDefraIdAccountDetails",
+        name: "defraAccountDetailsConfirmed",
         fieldset: {
           legend: {
             text: "Confirm your Defra account details are up to date",
