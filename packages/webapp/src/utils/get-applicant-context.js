@@ -42,7 +42,7 @@ const getApplicantSpecificGuidance = organisation => {
 }
 const isApplicantAnAgent = session => {
   // If a landowner type is not present in the session the user is acting as an agent.
-  // TODO - Consider refactoring this logic when functionality for BNGP-3611 is available.
+  // Consider refactoring this logic when functionality for BNGP-3611 is available.
   const landownerType = session.get(constants.redisKeys.LANDOWNER_TYPE)
   const isLandowner = Boolean(landownerType)
   return !isLandowner
