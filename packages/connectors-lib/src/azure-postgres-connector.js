@@ -16,6 +16,7 @@ class Db {
   }
 
   query (query, vars) {
+    this.init()
     return pool.query(query, vars)
   }
 
