@@ -17,7 +17,7 @@
           {% if organisation %}<strong>{{ subject }}</strong>{% else %}{{ subject }} {% endif %}{{applicationSpecificGuidance}}
         </p>
       {% endif %}
-      <p><a href="{{ auth.accountManagementUrl | safe }}">Check your Defra account details</a></a></p>
+      <p><a href="{{ auth.accountManagementUrl }}" target="__blank" rel="noreferrer noopener"> Check your Defra account details</a></a></p>
       {{ govukCheckboxes({
         name: "defraAccountDetailsConfirmed",
         fieldset: {
