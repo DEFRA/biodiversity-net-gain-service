@@ -1,16 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 const MANAGEMENT_PLAN_FORM_ELEMENT_NAME = 'managementPlan'
 const url = constants.routes.UPLOAD_MANAGEMENT_PLAN
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Management plan upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -33,7 +29,6 @@ describe('Management plan upload controller tests', () => {
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload management plan document to cloud storage', (done) => {
@@ -158,23 +153,6 @@ describe('Management plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
           await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should cause an internal server error response when upload notification processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/legal-agreement.pdf`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          await uploadFile(config)
           setImmediate(() => {
             done()
           })

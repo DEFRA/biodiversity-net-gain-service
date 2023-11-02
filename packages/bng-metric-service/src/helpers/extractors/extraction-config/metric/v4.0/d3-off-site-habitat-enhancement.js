@@ -1,4 +1,5 @@
 const headers = [
+  'Baseline ref',
   'Baseline habitat',
   'Proposed Broad Habitat',
   'Proposed habitat',
@@ -21,6 +22,7 @@ const d3OffSiteHabitatEnhancement = {
   endCell: 'AU259',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Area (hectares)',
     __EMPTY_3: 'Condition',

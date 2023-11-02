@@ -14,7 +14,7 @@ describe('The Azure blob storage connector', () => {
     }
 
     const config = {
-      queueName: 'trusted-file-queue',
+      queueName: 'saved-application-session-notification-queue',
       message: Buffer.from(JSON.stringify(jsonMessage)).toString(base64)
     }
 

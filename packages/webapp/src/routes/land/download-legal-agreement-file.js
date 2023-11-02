@@ -11,7 +11,7 @@ const handlers = {
     const blobName = legalAgreementFile.location
     const config = {
       blobName,
-      containerName: 'trusted'
+      containerName: constants.BLOB_STORAGE_CONTAINER
     }
     const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
     const downloadFilename = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base

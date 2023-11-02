@@ -24,7 +24,6 @@ to include the following entries:
 127.0.0.1       postgis
 127.0.0.1       redis
 127.0.0.1       redis_commander
-127.0.0.1       signalr
 ```
 
 ### Secrets
@@ -62,12 +61,9 @@ export SESSION_COOKIE_PASSWORD=the-password-must-be-at-least-32-characters-long
 export AZURE_STORAGE_ACCOUNT=devstoreaccount1
 export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
 export AZURE_BLOB_SERVICE_URL="http://azurite:10000/devstoreaccount1"
-export AZURE_QUEUE_SERVICE_URL="http://azurite:10001/devstoreaccount1"
 export ORDNANCE_SURVEY_API_KEY=""
 export ORDNANCE_SURVEY_API_SECRET=""
 export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB="50"
-# Change to http://azure_services:7071/api if the application to register web application is running in a container.
-export SIGNALR_URL="http://azure_services:8082/api"
 export SERVICE_HOME_URL="http://localhost:3000"
 export DEFRA_ID_SESSION_COOKIE_PASSWORD=""
 export DEFRA_ID_POLICY_ID=""
@@ -90,7 +86,7 @@ npm run docker:build-services
 npm run docker:build-infrastructure
 docker:start-test-double-infrastructure
 
-# At this point unit tests can be run that make use of the signalr and azurite containers for test doubles.
+# At this point unit tests can be run that make use of the azurite container for test doubles.
 # To run linting and tests (from repository root)
 
 ```sh
@@ -179,7 +175,3 @@ A [Postgres container](https://hub.docker.com/_/postgres/) provides a substitute
 ### Azure Storage
 
 An [Azurite container](https://hub.docker.com/_/microsoft-azure-storage-azurite) provides a substitute for [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction).
-
-### Azure SignalR
-
-A custom container running the [Azure SignalR emulator](https://github.com/Azure/azure-signalr/blob/dev/docs/emulator.md) and [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local) provides a subsitute for [Azure Serverless SignalR](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-functions-javascript).

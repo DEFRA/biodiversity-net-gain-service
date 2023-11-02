@@ -3,10 +3,12 @@ import { getServer } from '../../../../.jest/setup.js'
 import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
-import { isUploadComplete, receiveMessages } from '@defra/bng-azure-storage-test-utils'
-import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes } from '@defra/bng-errors-lib'
+import { isUploadComplete } from '@defra/bng-azure-storage-test-utils'
+import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes, MalwareDetectedError } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
 import onPreAuth from '../../../__mocks__/on-pre-auth.js'
+
+jest.mock('../../../utils/file-post-process.js')
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -71,12 +73,9 @@ const uploadFile = async (uploadConfig) => {
       ? 0
       : 1
 
-  const { handleEvents } = require('../../../utils/azure-signalr.js')
-
-  handleEvents.mockImplementation(async (config, events) => {
-    const blobName = `${config.blobConfig.blobName}${events[0].split(' ')[1]}`
-    let uploadComplete = await isUploadComplete('untrusted', blobName, 1000)
-
+  const { postProcess } = require('../../../utils/file-post-process.js')
+  postProcess.mockImplementation(async (uploadType, blobName, containerName) => {
+    let uploadComplete = await isUploadComplete('customer-uploads', blobName, 1000)
     if (uploadConfig.generateUploadTimeoutError) {
       uploadComplete = false
     }
@@ -104,36 +103,21 @@ const uploadFile = async (uploadConfig) => {
       const errorMessage = 'Unexpected valdation error'
       throw new ValidationError('UNEXPECTED-ERROR-CODE', errorMessage)
     } else if (uploadConfig.generateThreatDetectedError) {
-      throw new ThreatScreeningError({
-        Status: constants.threatScreeningStatusValues.QUARANTINED
-      })
+      throw new MalwareDetectedError(constants.uploadErrors.threatDetected)
     } else if (uploadConfig.generateThreatScreeningFailure) {
       throw new ThreatScreeningError({
         Status: constants.threatScreeningStatusValues.FAILED_TO_VIRUS_SCAN
       })
     } else if (uploadConfig.generateHandleEventsError || !uploadComplete) {
-      throw new Error(`Upload of ${config.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
+      throw new Error(`Upload of ${uploadConfig.filePath} ${uploadConfig.generateHandleEventsError ? 'failed' : 'timed out'}`)
     } else if (uploadConfig.generateEmptyFileUploadError) {
       const errorMessage = 'The selected file is empty'
       throw new ValidationError(uploadWrittenConsentErrorCodes.EMPTY_FILE_UPLOAD, errorMessage)
     } else {
-      // Check that a message corresponding to the uploaded blob has been queued.
-      // This has to be checked in this mock implementation because the web application session ID is generated dynamically.
-      const expectedMessage = {
-        uploadType: uploadConfig.uploadType,
-        location: blobName,
-        containerName: config.blobConfig.containerName
-      }
-
-      const response = await receiveMessages('untrusted-file-queue')
-      const receivedMessageItems = response.receivedMessageItems
-      expect(receivedMessageItems.length).toBe(1)
-      const message = receivedMessageItems[0]
-      const jsonMessage = JSON.parse(Buffer.from(message.messageText, 'base64').toString())
-      await expect(jsonMessage).toStrictEqual(expectedMessage)
-      return uploadConfig.eventData
+      return uploadConfig.postProcess
     }
   })
+
   if (uploadConfig.sessionData) await addOnPreAuth(uploadConfig.sessionData)
   const response = await submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls })
   return response

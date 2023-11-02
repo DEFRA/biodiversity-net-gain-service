@@ -1,18 +1,18 @@
-{
+{ 
+  "disabled": false,
   "bindings": [
     {
-      "name": "message",
-      "type": "queueTrigger",
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
       "direction": "in",
-      "queueName": "trusted-file-queue",
-      "connection": "AzureWebJobsStorage"
+      "name": "req",
+      "route": "processtrustedfile",
+      "methods": [ "post" ]
     },
     {
-      "type": "signalR",
-      "name": "signalRMessages",
-      "hubName": "%AZURE_SIGNALR_HUB_NAME%",
-      "connectionStringSetting": "AzureSignalRConnectionString",
-      "direction": "out"
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }
