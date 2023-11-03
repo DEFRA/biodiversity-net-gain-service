@@ -34,7 +34,7 @@ describe(url, () => {
 
   describe('POST', () => {
     // TODO: should change path to next route when dev work is complete
-    it.skip('Should continue journey to APPLICANT_DETAILS_CONFIRM if yes is chosen', async () => {
+    it('Should continue journey to applicant-details-confirm if yes is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { isApplicantAgent: 'yes' }
@@ -42,11 +42,11 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.APPLICANT_DETAILS_IS_AGENT)
+      expect(viewResult).toEqual('land/applicant-details-confirm')
     })
 
     // TODO: should change path to next route when dev work is complete
-    it.skip('Should continue journey to APPLICANT_ROLE_AS_LANDOWNER if no is chosen', async () => {
+    it('Should continue journey to applying-individual-organisation if no is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { isApplicantAgent: 'no' }
@@ -54,7 +54,7 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.APPLICANT_DETAILS_IS_AGENT)
+      expect(viewResult).toEqual('land/applying-individual-organisation')
     })
 
     it('Should fail journey if no answer', async () => {

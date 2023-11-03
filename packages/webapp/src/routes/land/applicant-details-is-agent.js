@@ -22,10 +22,10 @@ const handlers = {
 
     if (isApplicantAgent === 'yes') {
       // TODO: change redirect route when next route dev work is complete
-      return h.redirect(constants.routes.APPLICANT_DETAILS_IS_AGENT)
+      return h.redirect('land/applicant-details-confirm')
     } else if (isApplicantAgent === 'no') {
       // TODO: change redirect route when next route dev work is complete
-      return h.redirect(constants.routes.APPLICANT_DETAILS_IS_AGENT)
+      return h.redirect('land/applying-individual-organisation')
     } else {
       return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
         isApplicantAgent,
