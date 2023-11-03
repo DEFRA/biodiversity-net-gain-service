@@ -30,8 +30,13 @@ const handlers = {
       })
     }
 
+    const applicantList = request.yar.get(constants.redisKeys.APPLICANT_INFO_CLIENT_ORG_LIST) ?? []
+
+    applicantList.push({ type: 'individual', value: { firstName, middleName, lastName } })
+    request.yar.set(constants.redisKeys.APPLICANT_INFO_CLIENT_ORG_LIST, applicantList)
+
     // TODO: REDIRECT to be added in next story
-    return h.redirect(constants.routes.CLIENTS_NAME, { middleName })
+    return h.redirect(constants.routes.CLIENTS_NAME)
   }
 }
 export default [{

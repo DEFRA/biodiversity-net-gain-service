@@ -173,6 +173,7 @@ const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const ALL_LPA = 'all-lpa'
+const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 
 export default {
@@ -269,6 +270,7 @@ export default {
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
+    APPLICANT_INFO_CLIENT_ORG_LIST,
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,

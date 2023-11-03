@@ -24,9 +24,9 @@ const handlers = {
       })
     }
     if (landownerType === constants.landownerTypes.INDIVIDUAL) {
-      return h.redirect(constants.routes.CLIENT_INDIVIDUAL_ORGANISATION)
+      return h.redirect(constants.routes.CLIENTS_NAME)
     } else {
-      return h.redirect(constants.routes.CLIENT_INDIVIDUAL_ORGANISATION)
+      return h.redirect(constants.routes.CLIENTS_ORGANISATION_NAME)
     }
   }
 }
