@@ -1,0 +1,12 @@
+{% extends 'form-layout.html' %}
+
+
+{% set pageHeading = "Is your address in the UK?" %}
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    Under construction
+  </div>      
+{% endblock %}

@@ -179,6 +179,8 @@ const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
+const UK_ADDRESS = 'land/uk-address'
+const NON_UK_ADDRESS = 'land/non-uk-address'
 
 export default {
   landownerTypes: {
@@ -362,6 +364,8 @@ export default {
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     CHECK_DEFRA_ACCOUNT_DETAILS,
     IS_ADDRESS_UK,
+    UK_ADDRESS,
+    NON_UK_ADDRESS,
     LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
