@@ -1,10 +1,12 @@
 {% extends 'form-layout.html' %}
 
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
 {% set pageHeading = "Your Defra account must be linked to the landowner or leaseholder organisation" %}
 {% block formContent %}
   <div class="govuk-body">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds"></div>
+      <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
         <p>Your Defra account is not linked to any organisation.</p> 
 
@@ -18,18 +20,14 @@
           <li>create a new Defra account for the organisation, if the organisation does not already have one</li>
         </ul>
 
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              Contact the Biodiversity Net Gain team if you need help
-            </span>
-          </summary>
-          <div class="govuk-details__text">
+        {{ govukDetails({
+          summaryText: "Contact the Biodiversity Net Gain team if you need help",
+          html: "
             <p>Telephone: 0190 050 8628<br>
             Monday to Friday, 8:30am to 5pm (except public holidays)</p>
-            <p><a href="https://www.gov.uk/call-charges">Find out about call charges</a></p>
-          </div>
-        </details>
+            <p><a href='https://www.gov.uk/call-charges'>Find out about call charges</a></p>
+          "
+        }) }}
       </div>
     </div>
   </div>
