@@ -23,8 +23,8 @@ export default async function (context, config) {
   }
 }
 
-const getApplicationSession = async (_context, applicationSessionId) => {
-  const db = await getDBConnection()
+const getApplicationSession = async (context, applicationSessionId) => {
+  const db = await getDBConnection(context)
   // Get the application session from database
   const result = await getApplicationSessionById(db, [applicationSessionId])
   try {

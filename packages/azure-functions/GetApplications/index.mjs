@@ -3,6 +3,7 @@ import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
+  let db
   try {
     const contactId = req.body.contactId
     const applicationType = req.body.applicationType
@@ -10,7 +11,7 @@ export default async function (context, req) {
       throw new Error('Contact ID or application type is missing')
     }
 
-    const db = await getDBConnection()
+    db = await getDBConnection(context)
 
     // Does the user have any applications regardless of application type?
     const applicationCountResult = await getApplicationCountByContactId(db, [contactId])
@@ -34,6 +35,8 @@ export default async function (context, req) {
       status: 400,
       body: JSON.stringify(err)
     }
+  } finally {
+    await db?.end()
   }
 }
 
