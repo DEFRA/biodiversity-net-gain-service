@@ -95,7 +95,7 @@ const ROUTING_REGISTER_OPTIONS = {
 
 const developerEligibilityHTML = {
   [DEVELOPER_WRITTEN_CONTENT_VALUE]: '<li>written consent from the landowner of the biodiversity gain site</li>',
-  [DEVELOPER_ELIGIBILITY_METRIC_VALUE]: '<li>a completed Biodiversity Metric file 4.0 for the site</li>'
+  [DEVELOPER_ELIGIBILITY_METRIC_VALUE]: '<li>a completed Biodiversity Metric file 4.1 for the site</li>'
 }
 
 export default {

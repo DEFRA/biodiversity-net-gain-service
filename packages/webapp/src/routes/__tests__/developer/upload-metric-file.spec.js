@@ -27,7 +27,7 @@ describe('Metric file upload controller tests', () => {
           d1: [{ 'Off-site reference': 'AZ12208461' }],
           e1: [],
           validation: {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: true
           }
@@ -51,7 +51,7 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
           uploadConfig.hasError = true
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
           const res = await uploadFile(uploadConfig)
@@ -76,7 +76,7 @@ describe('Metric file upload controller tests', () => {
             return Promise.reject(new Error('Error'))
           })
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           uploadConfig.sessionData[`${constants.redisKeys.CONTACT_ID}`] = 'mock contact ID'
           uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
@@ -95,7 +95,7 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
           uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -207,7 +207,7 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should return validation error message if not v4 metric', (done) => {
+    it('should return validation error message if not v4.1 metric', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
@@ -216,12 +216,12 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: false,
+            isSupportedVersion: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
+          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
@@ -241,7 +241,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
@@ -266,7 +266,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }

@@ -24,7 +24,7 @@ describe('Metric file upload controller tests', () => {
         location: 'mockUserId/mockUploadType/mockFilename',
         metricData: {
           validation: {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: true
           }
@@ -49,7 +49,7 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
@@ -186,12 +186,12 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: false,
+            isSupportedVersion: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
+          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
@@ -211,7 +211,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
@@ -236,7 +236,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }

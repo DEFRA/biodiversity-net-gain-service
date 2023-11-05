@@ -294,7 +294,7 @@ const dataString = `
       }
     ],
     "validation": {
-      "isVersion4OrLater": true,
+      "isSupportedVersion": true,
       "isOffsiteDataPresent": true,
       "areOffsiteTotalsCorrect": true
     }
