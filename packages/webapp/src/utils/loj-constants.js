@@ -37,6 +37,7 @@ const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
+const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
 const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
 const OS_API_TOKEN = 'land/os-api-token'
 const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
@@ -73,6 +74,8 @@ const LEGAL_PARTY_ADD_START = 'land/legal-party-add-start'
 const NEED_ADD_ALL_PLANNING_AUTHORITIES = 'land/need-add-all-planning-authorities'
 const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
 const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
+const CLIENTS_ORGANISATION_NAME = 'land/clients-organisation-name'
+const CLIENTS_NAME = 'land/clients-name'
 const ADD_PLANNING_AUTHORITY = 'land/add-planning-authority'
 const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
@@ -171,6 +174,11 @@ const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
+const WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'written-authorisation'
+const WRITTEN_AUTHORISATION_LOCATION = 'written-authorisation-location'
+const WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
+const WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
+const WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
 const ALL_LPA = 'all-lpa'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 
@@ -187,6 +195,7 @@ const CHECK_APPLICANT_INFORMATION = 'land/check-applicant-information'
 const CLIENTS_EMAIL_ADDRESS = 'land/clients-email-address'
 const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
+const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 
 export default {
   landownerTypes: {
@@ -284,6 +293,8 @@ export default {
     DEFRA_ACCOUNT_DETAILS_CONFIRMED,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
+    CLIENTS_ORGANISATION_NAME,
+    CLIENTS_NAME,
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
@@ -296,7 +307,11 @@ export default {
     NON_UK_ADDRESS,
     CLIENT_INDIVIDUAL_ORGANISATION,
     CLIENTS_EMAIL_ADDRESS,
-    CLIENTS_PHONE_NUMBER
+    CLIENTS_PHONE_NUMBER,
+    WRITTEN_AUTHORISATION_LOCATION,
+    WRITTEN_AUTHORISATION_FILE_SIZE,
+    WRITTEN_AUTHORISATION_FILE_TYPE,
+    WRITTEN_AUTHORISATION_CHECKED
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -337,6 +352,7 @@ export default {
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
+    DOWNLOAD_WRITTEN_AUTHORISATION,
     OS_API_TOKEN,
     PUBLIC_ROUTES,
     START,
@@ -391,7 +407,8 @@ export default {
     CHECK_APPLICANT_INFORMATION,
     CLIENTS_EMAIL_ADDRESS,
     CLIENTS_PHONE_NUMBER,
-    UPLOAD_WRITTEN_AUTHORISATION
+    UPLOAD_WRITTEN_AUTHORISATION,
+    CHECK_WRITTEN_AUTHORISATION_FILE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
@@ -401,7 +418,8 @@ export default {
     MANAGEMENT_PLAN_UPLOAD_TYPE,
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,
-    LAND_OWNERSHIP_UPLOAD_TYPE
+    LAND_OWNERSHIP_UPLOAD_TYPE,
+    WRITTEN_AUTHORISATION_UPLOAD_TYPE
   },
   setLojReferer: [
     CHECK_AND_SUBMIT,
