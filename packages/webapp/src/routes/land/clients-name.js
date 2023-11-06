@@ -1,18 +1,18 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
+  // processRegistrationTask,
   validateFirstLastName
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_NAME
-    })
+    // processRegistrationTask(request, {
+    //   taskTitle: 'Applicant information',
+    //   title: 'Add details about the applicant'
+    // }, {
+    //   inProgressUrl: constants.routes.CLIENTS_NAME
+    // })
 
     return h.view(constants.views.CLIENTS_NAME)
   },
@@ -30,10 +30,7 @@ const handlers = {
       })
     }
 
-    const applicantList = request.yar.get(constants.redisKeys.APPLICANT_INFO_CLIENT_ORG_LIST) ?? []
-
-    applicantList.push({ type: 'individual', value: { firstName, middleName, lastName } })
-    request.yar.set(constants.redisKeys.APPLICANT_INFO_CLIENT_ORG_LIST, applicantList)
+    request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleName, lastName } })
 
     // TODO: REDIRECT to be added in next story
     return h.redirect(constants.routes.CLIENTS_NAME)

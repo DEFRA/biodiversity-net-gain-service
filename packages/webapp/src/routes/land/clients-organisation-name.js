@@ -1,16 +1,16 @@
 import constants from '../../utils/constants.js'
-import {
-  processRegistrationTask
-} from '../../utils/helpers.js'
+// import {
+//   processRegistrationTask
+// } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_ORGANISATION_NAME
-    })
+    // processRegistrationTask(request, {
+    //   taskTitle: 'Applicant information',
+    //   title: 'Add details about the applicant'
+    // }, {
+    //   inProgressUrl: constants.routes.CLIENTS_ORGANISATION_NAME
+    // })
 
     return h.view(constants.views.CLIENTS_ORGANISATION_NAME)
   },
