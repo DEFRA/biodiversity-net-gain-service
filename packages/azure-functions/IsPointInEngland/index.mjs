@@ -12,7 +12,7 @@ export default async function (context, req) {
       throw new Error('Point is invalid')
     }
 
-    const { fn_is_point_in_england_27700: isPointInEnglandResponse } = (await isPointInEngland(await getDBConnection(), [point.easting, point.northing])).rows[0]
+    const { fn_is_point_in_england_27700: isPointInEnglandResponse } = (await isPointInEngland(await getDBConnection(context), [point.easting, point.northing])).rows[0]
 
     context.res = {
       status: 200,
