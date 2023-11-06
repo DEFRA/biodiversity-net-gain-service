@@ -75,7 +75,7 @@ describe(url, () => {
 
           await postHandler({ yar: session, payload }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_LIST])
+          expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
         } catch (err) {
           done(err)
@@ -142,7 +142,7 @@ describe(url, () => {
 
           await postHandler({ yar: session, payload }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_LIST])
+          expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
         } catch (err) {
           done(err)

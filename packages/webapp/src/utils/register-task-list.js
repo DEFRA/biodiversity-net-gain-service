@@ -8,7 +8,7 @@ const registerTaskList = {
         {
           title: 'Add land ownership details',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.LAND_OWNERSHIP_LIST,
+          completedTaskUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
           startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
           inProgressUrl: '',
           id: 'add-land-ownership'

@@ -16,7 +16,7 @@ const handlers = {
     const ownershipProofToRemove = landOwnershipProofs[id]
 
     if (!ownershipProofToRemove) {
-      return h.redirect(constants.routes.LAND_OWNERSHIP_LIST)
+      return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     }
 
     return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
@@ -43,7 +43,7 @@ const handlers = {
       landOwnershipProofs.splice(id, 1)
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, landOwnershipProofs)
     }
-    return h.redirect(landOwnershipProofs.length > 0 ? constants.routes.LAND_OWNERSHIP_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
+    return h.redirect(landOwnershipProofs.length > 0 ? constants.routes.LAND_OWNERSHIP_PROOF_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
   }
 }
 

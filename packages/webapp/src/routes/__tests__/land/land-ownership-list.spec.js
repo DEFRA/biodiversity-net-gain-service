@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = constants.routes.LAND_OWNERSHIP_LIST
+const url = constants.routes.LAND_OWNERSHIP_PROOF_LIST
 
 describe(url, () => {
   let viewResult
@@ -26,7 +26,7 @@ describe(url, () => {
       'mock-file-2'
     ])
 
-    landOwnershipProofs = require('../../land/land-ownership-list.js')
+    landOwnershipProofs = require('../../land/ownership-proof-list.js')
   })
 
   describe('GET', () => {
@@ -41,7 +41,7 @@ describe(url, () => {
 
       await landOwnershipProofs.default[0].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_PROOF_LIST)
       expect(resultContext.landOwnershipProofs.length).toEqual(2)
     })
 
@@ -53,7 +53,7 @@ describe(url, () => {
 
       await landOwnershipProofs.default[0].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_PROOF_LIST)
       expect(resultContext.landOwnershipProofs).toBeUndefined()
     })
   })
@@ -89,7 +89,7 @@ describe(url, () => {
 
       await landOwnershipProofs.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_PROOF_LIST)
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you have added all proof of land ownership files', href: '#add-another-op-yes' })
     })
   })

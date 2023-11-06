@@ -24,13 +24,13 @@ const handlers = {
       taskTitle: 'Land information',
       title: 'Add land ownership details'
     }, {
-      inProgressUrl: constants.routes.LAND_OWNERSHIP_LIST
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST
     })
 
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
     const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index))
 
-    return h.view(constants.views.LAND_OWNERSHIP_LIST, {
+    return h.view(constants.views.LAND_OWNERSHIP_PROOF_LIST, {
       landOwnershipsList,
       landOwnershipProofs
     })
@@ -40,7 +40,7 @@ const handlers = {
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
 
     if (!addAnotherOwnershipProof) {
-      return h.view(constants.views.LAND_OWNERSHIP_LIST, {
+      return h.view(constants.views.LAND_OWNERSHIP_PROOF_LIST, {
         landOwnershipProofs,
         routes: constants.routes,
         err: [{
@@ -61,10 +61,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.LAND_OWNERSHIP_LIST,
+  path: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.LAND_OWNERSHIP_LIST,
+  path: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
   handler: handlers.post
 }]

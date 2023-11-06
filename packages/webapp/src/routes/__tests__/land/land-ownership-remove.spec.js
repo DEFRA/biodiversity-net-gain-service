@@ -43,7 +43,7 @@ describe(url, () => {
 
       await landOwnershipRemove.default[0].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     })
 
     it('should show correct land ownership proofs to be remove', async () => {
@@ -69,7 +69,7 @@ describe(url, () => {
 
       await landOwnershipRemove.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
       expect(redisMap.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(1)
     })
 
@@ -96,7 +96,7 @@ describe(url, () => {
 
       await landOwnershipRemove.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_LIST)
+      expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
       expect(redisMap.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(2)
     })
 

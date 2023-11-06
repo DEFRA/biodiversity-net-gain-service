@@ -45,7 +45,7 @@ describe(url, () => {
               {
                 title: 'Add land ownership details',
                 status: 'NOT STARTED',
-                completedTaskUrl: '/land/land-ownership-list',
+                completedTaskUrl: '/land/ownership-proof-list',
                 startTaskUrl: '/land/upload-ownership-proof',
                 inProgressUrl: '',
                 id: 'add-land-ownership'
@@ -138,7 +138,7 @@ describe(url, () => {
               {
                 title: 'Add land ownership details',
                 status: 'NOT STARTED',
-                completedTaskUrl: '/land/land-ownership-list',
+                completedTaskUrl: '/land/ownership-proof-list',
                 startTaskUrl: '/land/upload-ownership-proof',
                 inProgressUrl: '',
                 id: 'add-land-ownership'
@@ -231,7 +231,7 @@ describe(url, () => {
               {
                 title: 'Add land ownership details',
                 status: 'NOT STARTED',
-                completedTaskUrl: '/land/land-ownership-list',
+                completedTaskUrl: '/land/ownership-proof-list',
                 startTaskUrl: '/land/upload-ownership-proof',
                 inProgressUrl: '',
                 id: 'add-land-ownership'
@@ -329,7 +329,7 @@ describe(url, () => {
           {
             title: 'Add land ownership details',
             status: 'COMPLETED',
-            completedTaskUrl: '/land/land-ownership-list',
+            completedTaskUrl: '/land/ownership-proof-list',
             startTaskUrl: '/land/upload-ownership-proof',
             inProgressUrl: '',
             id: 'add-land-ownership'
