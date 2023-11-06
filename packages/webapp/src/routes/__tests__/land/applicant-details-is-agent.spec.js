@@ -66,7 +66,7 @@ describe(url, () => {
       await isApplicantAgent.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.APPLICANT_DETAILS_IS_AGENT)
-      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want are an agent acting on behalf of a client', href: '#isApplicantAgent' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you are an agent acting on behalf of a client', href: '#isApplicantAgent' })
     })
   })
 })

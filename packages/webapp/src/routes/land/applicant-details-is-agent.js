@@ -30,7 +30,7 @@ const handlers = {
       return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
         isApplicantAgent,
         err: [{
-          text: 'Select yes if you want are an agent acting on behalf of a client',
+          text: 'Select yes if you are an agent acting on behalf of a client',
           href: '#isApplicantAgent'
         }]
       })
