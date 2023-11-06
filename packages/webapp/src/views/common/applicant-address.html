@@ -19,7 +19,7 @@
           text: "Address line 1"
         },
         spellcheck: false,
-        value: ukAddress.addressLine1
+        value: address.addressLine1
       }) }}
       {{ govukInput({
         id: "addressLine2",
@@ -28,7 +28,7 @@
           text: "Address line 2 (optional)"
         },
         spellcheck: false,
-        value: ukAddress.addressLine2
+        value: address.addressLine2
       }) }}
       {% if not isUkAddress %}
         {{ govukInput({
@@ -38,7 +38,7 @@
             text: "Address line 3 (optional)"
           },
           spellcheck: false,
-          value: nonUkAddress.addressLine3,
+          value: address.addressLine3,
           classes: 'govuk-input--width-20'
         }) }}
       {% endif %}
@@ -50,7 +50,7 @@
           text: "Town or city"
         },
         spellcheck: false,
-        value: ukAddress.town,
+        value: address.town,
         classes: 'govuk-!-width-two-thirds'
       }) }}
       {% if isUkAddress %}
@@ -61,7 +61,7 @@
             text: "County (optional)"
           },
           spellcheck: false,
-          value: ukAddress.county,
+          value: address.county,
           classes: 'govuk-!-width-two-thirds'
         }) }}
         {{ govukInput({
@@ -72,7 +72,7 @@
             text: "Postcode"
           },
           spellcheck: false,
-          value: ukAddress.postcode,
+          value: address.postcode,
           classes: 'govuk-input--width-10'
         }) }}
       {% else %}
@@ -83,7 +83,7 @@
             text: "Postcode (optional)"
           },
           spellcheck: false,
-          value: nonUkAddress.postcode,
+          value: address.postcode,
           classes: 'govuk-input--width-10'
         }) }}
         {{ govukInput({
@@ -94,7 +94,7 @@
             text: "Country"
           },
           spellcheck: false,
-          value: nonUkAddress.country
+          value: address.country
         }) }}
       {% endif %}   
       {{ govukButton({
