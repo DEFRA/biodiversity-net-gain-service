@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+const phoneRegex = /^[\d-+()#]*$/ // Very basic regex authored by tmason (ergo its probably bad) checks string is numeric or special chars -+()#
 
 const handlers = {
   get: async (request, h) => {
@@ -25,6 +26,12 @@ const validatePhone = (phone) => {
   if (!phone) {
     return [{
       text: 'Enter a phone number',
+      href: '#phone'
+    }]
+  }
+  if (!phoneRegex.test(phone)) {
+    return [{
+      text: 'Enter a phone number, like 01632 960 001, 07700 900 982 or +44 808 157 0192',
       href: '#phone'
     }]
   }

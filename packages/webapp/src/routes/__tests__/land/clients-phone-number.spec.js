@@ -26,10 +26,10 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('Enter a phone number')
     })
-    // it('Should error if no phone number given', async () => {
-    //   postOptions.payload.phone = 'sdfsdfsfds'
-    //   const response = await submitPostRequest(postOptions, 200)
-    //   expect(response.payload).toContain('Enter a phone number, like 01632 960 001, 07700 900 982 or +44 808 157 0192')
-    // })
+    it('Should error if invalid phone number given', async () => {
+      postOptions.payload.phone = 'sdfsdfsfds'
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.payload).toContain('Enter a phone number, like 01632 960 001, 07700 900 982 or +44 808 157 0192')
+    })
   })
 })
