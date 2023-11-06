@@ -37,12 +37,11 @@ const handlers = {
       request.yar.set(constants.redisKeys.UK_ADDRESS, ukAddress)
       if (isApplicantAgent === 'no') {
         return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
+      }
+      if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+        return h.redirect(constants.routes.CLIENTS_EMAIL_ADDRESS)
       } else {
-        if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
-          return h.redirect(constants.routes.CLIENTS_EMAIL_ADDRESS)
-        } else {
-          return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
-        }
+        return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
       }
     }
   }
