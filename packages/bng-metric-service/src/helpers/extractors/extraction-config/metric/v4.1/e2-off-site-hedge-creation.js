@@ -14,7 +14,7 @@ const e2OffSiteHedgeCreation = {
   sheetName: 'E-2 Off-Site Hedge Creation',
   titleCellAddress: 'B3',
   startCell: 'B11',
-  endCell: 'AD260',
+  endCell: 'AE260',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

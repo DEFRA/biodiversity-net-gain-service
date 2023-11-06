@@ -15,7 +15,7 @@ const d2OffSiteHabitatCreation = {
   sheetName: 'D-2 Off-Site Habitat Creation',
   titleCellAddress: 'D3',
   startCell: 'D10',
-  endCell: 'AF257',
+  endCell: 'AG257',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

@@ -52,7 +52,7 @@ describe(url, () => {
         taskTitle: 'Biodiversity 4.0 Metric calculations',
         tasks: [
           {
-            title: 'Upload Metric 4.0 file',
+            title: 'Upload Metric 4.1 file',
             status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
             completedTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
             startTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
@@ -138,7 +138,7 @@ describe(url, () => {
         taskTitle: 'Biodiversity 4.0 Metric calculations',
         tasks: [
           {
-            title: 'Upload Metric 4.0 file',
+            title: 'Upload Metric 4.1 file',
             status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
             completedTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
             startTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
