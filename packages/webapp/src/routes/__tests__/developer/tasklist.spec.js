@@ -49,7 +49,7 @@ describe(url, () => {
         ]
       })
       expect(contextResult.developerTasks.taskList[1]).toEqual({
-        taskTitle: 'Biodiversity 4.0 Metric calculations',
+        taskTitle: 'Biodiversity 4.1 Metric calculations',
         tasks: [
           {
             title: 'Upload Metric 4.1 file',
@@ -109,7 +109,7 @@ describe(url, () => {
         if (task.taskTitle === 'Consent to use a biodiversity gain site for off-site gain') {
           task.tasks[0].status = 'COMPLETED'
         }
-        if (task.taskTitle === 'Biodiversity 4.0 Metric calculations') {
+        if (task.taskTitle === 'Biodiversity 4.1 Metric calculations') {
           task.tasks[0].status = 'COMPLETED'
         }
       })
@@ -135,7 +135,7 @@ describe(url, () => {
         ]
       })
       expect(contextResult.developerTasks.taskList[1]).toEqual({
-        taskTitle: 'Biodiversity 4.0 Metric calculations',
+        taskTitle: 'Biodiversity 4.1 Metric calculations',
         tasks: [
           {
             title: 'Upload Metric 4.1 file',

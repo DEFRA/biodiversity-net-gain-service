@@ -179,7 +179,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isSupportedVersion: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -204,7 +204,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
@@ -229,7 +229,7 @@ describe('Metric file upload controller tests', () => {
           const config = Object.assign({}, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
+          config.postProcess.metricData.validation = {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
