@@ -5,26 +5,6 @@ const crypto = require('crypto')
 const url = constants.routes.CLIENTS_ORGANISATION_NAME
 
 describe(url, () => {
-  let viewResult
-  let h
-  let redisMap
-  let resultContext
-  let clientsOrganisationName
-
-  beforeEach(() => {
-    h = {
-      view: (view, context) => {
-        viewResult = view
-        resultContext = context
-      },
-      redirect: (view, context) => {
-        viewResult = view
-      }
-    }
-
-    clientsOrganisationName = require('../../land/clients-organisation-name.js')
-  })
-
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
