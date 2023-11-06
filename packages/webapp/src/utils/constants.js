@@ -36,6 +36,9 @@ const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
 const BLOB_STORAGE_CONTAINER = 'customer-uploads'
+const AGENT = 'Agent'
+const CITIZEN = 'Citizen'
+const EMPLOYEE = 'Employee'
 
 const applicationTypes = {
   REGISTRATION,
@@ -216,6 +219,12 @@ const landownerTypes = {
   ...lojConstants.landownerTypes
 }
 
+const signInTypes = {
+  AGENT,
+  CITIZEN,
+  EMPLOYEE
+}
+
 export default Object.freeze({
   applicationTypes,
   landownerTypes,
@@ -252,5 +261,6 @@ export default Object.freeze({
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
   creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
-  BLOB_STORAGE_CONTAINER
+  BLOB_STORAGE_CONTAINER,
+  signInTypes
 })

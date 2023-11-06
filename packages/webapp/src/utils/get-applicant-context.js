@@ -2,9 +2,9 @@ import constants from './constants.js'
 
 const getApplicantContext = (account, session) => {
   const isAgent = isApplicantAnAgent(session)
-  const accountInfo = account.idTokenClaims
-  const currentOrganisation = accountInfo?.relationships?.find(r => r?.startsWith(accountInfo?.currentRelationshipId))?.split(':')[1]
-  const currentUser = `${accountInfo.firstName} ${accountInfo.lastName}`
+  const claims = account.idTokenClaims
+  const { noOrganisationsLinkedToDefraAccount, currentOrganisation } = getOrganisationDetails(claims)
+  const currentUser = `${claims.firstName} ${claims.lastName}`
   // If the applicant is an agent, the individual or organisation the agent is representing has not been captured yet.
   // Similarly, no organisation is present if the applicant is representing themselves.
   const applicantDetails = !isAgent && currentOrganisation ? `${currentUser} for ${currentOrganisation}` : currentUser
@@ -12,6 +12,8 @@ const getApplicantContext = (account, session) => {
   const representing = currentOrganisation || `Myself (${applicantDetails})`
   const subject = currentOrganisation || currentUser
   const applicantContext = {
+    noOrganisationsLinkedToDefraAccount,
+    currentOrganisation,
     confirmationText,
     representing,
     subject
@@ -46,6 +48,27 @@ const isApplicantAnAgent = session => {
   const landownerType = session.get(constants.redisKeys.LANDOWNER_TYPE)
   const isLandowner = Boolean(landownerType)
   return !isLandowner
+}
+
+const getOrganisationDetails = claims => {
+  const currentRelationshipDetails = claims?.relationships?.find(r => r?.startsWith(claims?.currentRelationshipId))?.split(':')
+  const currentOrganisation = currentRelationshipDetails[2]
+  const enrolmentCount = claims.enrolmentCount
+  const signInType = currentRelationshipDetails[4]
+
+  // If the user has not signed in as an employee of an organisation and has only one enrolment then no organisations are
+  // associated with their Defra account.
+  const noOrganisationsLinkedToDefraAccount = signInType !== constants.signInTypes.EMPLOYEE && enrolmentCount === 1
+
+  const organisationDetails = {
+    noOrganisationsLinkedToDefraAccount
+  }
+
+  if (currentOrganisation) {
+    organisationDetails.currentOrganisation = currentOrganisation
+  }
+
+  return organisationDetails
 }
 
 export default getApplicantContext

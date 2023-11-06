@@ -16,10 +16,17 @@ describe('get-applicant-context', () => {
   it('should return correct details when the applicant is an agent', done => {
     jest.isolateModules(async () => {
       try {
+        Object.assign(account.idTokenClaims, {
+          enrolmentCount: 1,
+          currentRelationshipId: 'mock relationship id',
+          relationships: ['mock relationship id:::0:Citizen:0'],
+          roles: ['mock relationship id:Standard User:2']
+        })
         const session = new Session()
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith',
+          noOrganisationsLinkedToDefraAccount: true,
           representing: 'Myself (John Smith)',
           subject: 'John Smith'
         })
@@ -32,12 +39,19 @@ describe('get-applicant-context', () => {
   it('should return correct details when the applicant is a landowner representing themselves', done => {
     jest.isolateModules(async () => {
       try {
+        Object.assign(account.idTokenClaims, {
+          enrolmentCount: 1,
+          currentRelationshipId: 'mock relationship id',
+          relationships: ['mock relationship id:::0:Citizen:0'],
+          roles: ['mock relationship id:Standard User:2']
+        })
         const session = new Session()
         session.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.INDIVIDUAL)
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           applicationSpecificGuidance: 'must be named as a landowner or leaseholder on the legal agreement to apply.',
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith',
+          noOrganisationsLinkedToDefraAccount: true,
           representing: 'Myself (John Smith)',
           subject: 'John Smith'
         })
@@ -51,9 +65,10 @@ describe('get-applicant-context', () => {
     jest.isolateModules(async () => {
       try {
         Object.assign(account.idTokenClaims, {
+          enrolmentCount: 1,
           currentRelationshipId: 'mock relationship id',
-          relationships: ['mock relationship id:mock organisation:0:Employee:0'],
-          roles: ['mock relationship id:Standard User:2']
+          relationships: ['mock relationship id:mock organisation id:mock organisation:0:Employee:0'],
+          roles: ['mock relationship id:Standard User:3']
         })
         const session = new Session()
         session.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.ORGANISATION)
@@ -61,6 +76,7 @@ describe('get-applicant-context', () => {
         expect(applicantContext).toStrictEqual({
           applicationSpecificGuidance: ', the landowner or leaseholder you represent must be named on the legal agreement to apply.',
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith for mock organisation',
+          noOrganisationsLinkedToDefraAccount: false,
           organisation: 'mock organisation',
           representing: 'mock organisation',
           subject: 'mock organisation'

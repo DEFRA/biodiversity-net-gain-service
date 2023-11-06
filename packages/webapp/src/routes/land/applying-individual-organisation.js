@@ -1,4 +1,4 @@
-import auth from '../../utils/auth.js'
+import getApplicantContext from '../../utils/get-applicant-context.js'
 import constants from '../../utils/constants.js'
 
 const individualSignInErrorMessage = `
@@ -20,15 +20,21 @@ const handlers = {
       request.yar.set(constants.redisKeys.LANDOWNER_TYPE, landownerType)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
-      const { currentOrganisation } = auth.getAuthenticationContext(request.auth.credentials.account)
+      const { noOrganisationsLinkedToDefraAccount, currentOrganisation } =
+        getApplicantContext(request.auth.credentials.account, request.yar)
+
       if ((landownerType === constants.landownerTypes.INDIVIDUAL && !currentOrganisation) ||
           (landownerType === constants.landownerTypes.ORGANISATION && currentOrganisation)) {
         return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {
+        // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
         return getErrorView(h, request, organisationSignInErrorMessage)
       } else {
-        return getErrorView(h, request, individualSignInErrorMessage)
+        // Organisation has been chosen as the landowner type but the user is signed in as an individual.
+        // Check if the user has any organisations lined to their Defra account to decide which error page
+        // or error message to display.
+        return processOrganisationLandownerError(h, request, noOrganisationsLinkedToDefraAccount)
       }
     } else {
       return getErrorView(h, request, 'Select if you are applying as an individual or as part of an organisation')
@@ -52,6 +58,14 @@ const getErrorView = (h, request, errorMessage) => {
   })
 }
 
+const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDefraAccount) => {
+  if (noOrganisationsLinkedToDefraAccount) {
+    return h.redirect(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
+  } else {
+    return getErrorView(h, request, individualSignInErrorMessage)
+  }
+}
+
 export default [{
   method: 'GET',
   path: constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
@@ -60,5 +74,4 @@ export default [{
   method: 'POST',
   path: constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
   handler: handlers.post
-}
-]
+}]
