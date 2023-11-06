@@ -565,6 +565,17 @@ const isValidPostcode = (postcode) => {
   return postcodeRegExp.test(postcode)
 }
 
+const redirectAddress = (h, isApplicantAgent, isIndividualOrOrganisation) => {
+  if (isApplicantAgent === 'no') {
+    return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
+  }
+  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+    return h.redirect(constants.routes.CLIENTS_EMAIL_ADDRESS)
+  } else {
+    return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -611,5 +622,6 @@ export {
   initialCapitalization,
   checkDeveloperDetails,
   buildFullName,
-  isValidPostcode
+  isValidPostcode,
+  redirectAddress
 }
