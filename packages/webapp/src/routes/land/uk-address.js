@@ -66,13 +66,10 @@ const validateAddress = (address) => {
       text: 'Enter postcode',
       href: '#postcode'
     }
-  } else {
-    // check valid postcode
-    if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
     }
   }
   return Object.keys(errors).length > 0 ? errors : null
