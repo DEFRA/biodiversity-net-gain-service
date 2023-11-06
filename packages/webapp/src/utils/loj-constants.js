@@ -18,6 +18,7 @@ const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
+const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
@@ -83,6 +84,7 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
+const APPLICANT_DETAILS_IS_AGENT = 'land/applicant-details-is-agent'
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -181,6 +183,9 @@ const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
 const UK_ADDRESS = 'land/uk-address'
 const NON_UK_ADDRESS = 'land/non-uk-address'
+const CHECK_APPLICANT_INFORMATION = 'land/check-applicant-information'
+const CLIENTS_EMAIL_ADDRESS = 'land/clients-email-address'
+const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 
 export default {
   landownerTypes: {
@@ -234,6 +239,7 @@ export default {
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
+    APPLICANT_DETAILS_IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     MANAGEMENT_PLAN_CHECKED,
     MANAGEMENT_PLAN_LOCATION,
@@ -286,7 +292,8 @@ export default {
     ALL_LPA,
     IS_ADDRESS_UK,
     UK_ADDRESS,
-    NON_UK_ADDRESS
+    NON_UK_ADDRESS,
+    CLIENT_INDIVIDUAL_ORGANISATION
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -377,7 +384,10 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
-    LEGAL_AGREEMENT_LPA_REMOVE
+    LEGAL_AGREEMENT_LPA_REMOVE,
+    CHECK_APPLICANT_INFORMATION,
+    CLIENTS_EMAIL_ADDRESS,
+    UPLOAD_WRITTEN_AUTHORISATION
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
