@@ -185,6 +185,7 @@ const UK_ADDRESS = 'land/uk-address'
 const NON_UK_ADDRESS = 'land/non-uk-address'
 const CHECK_APPLICANT_INFORMATION = 'land/check-applicant-information'
 const CLIENTS_EMAIL_ADDRESS = 'land/clients-email-address'
+const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 
 export default {
@@ -293,7 +294,9 @@ export default {
     IS_ADDRESS_UK,
     UK_ADDRESS,
     NON_UK_ADDRESS,
-    CLIENT_INDIVIDUAL_ORGANISATION
+    CLIENT_INDIVIDUAL_ORGANISATION,
+    CLIENTS_EMAIL_ADDRESS,
+    CLIENTS_PHONE_NUMBER
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -387,6 +390,7 @@ export default {
     LEGAL_AGREEMENT_LPA_REMOVE,
     CHECK_APPLICANT_INFORMATION,
     CLIENTS_EMAIL_ADDRESS,
+    CLIENTS_PHONE_NUMBER,
     UPLOAD_WRITTEN_AUTHORISATION
   },
   uploadTypes: {
