@@ -4,17 +4,17 @@ import { redirectAddress, validateAddress } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
-    const nonUkAddress = request.yar.get(constants.redisKeys.NON_UK_ADDRESS)
+    const address = request.yar.get(constants.redisKeys.NON_UK_ADDRESS)
     return h.view(constants.views.NON_UK_ADDRESS, {
       isApplicantAgent,
-      nonUkAddress
+      address
     })
   },
   post: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
     const { addressLine1, addressLine2, addressLine3, town, postcode, country } = request.payload
-    const nonUkAddress = {
+    const address = {
       addressLine1,
       addressLine2,
       addressLine3,
@@ -22,7 +22,7 @@ const handlers = {
       postcode,
       country
     }
-    const errors = validateAddress(nonUkAddress, false)
+    const errors = validateAddress(address, false)
     if (errors) {
       const err = []
       Object.keys(errors).forEach(item => {
@@ -31,11 +31,11 @@ const handlers = {
       return h.view(constants.views.NON_UK_ADDRESS, {
         err,
         isApplicantAgent,
-        nonUkAddress,
+        address,
         ...errors
       })
     } else {
-      request.yar.set(constants.redisKeys.NON_UK_ADDRESS, nonUkAddress)
+      request.yar.set(constants.redisKeys.NON_UK_ADDRESS, address)
       return redirectAddress(h, isApplicantAgent, isIndividualOrOrganisation)
     }
   }
