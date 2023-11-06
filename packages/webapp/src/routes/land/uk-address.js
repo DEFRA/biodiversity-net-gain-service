@@ -3,17 +3,17 @@ import { redirectAddress, validateAddress } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
-    const ukAddress = request.yar.get(constants.redisKeys.UK_ADDRESS)
+    const address = request.yar.get(constants.redisKeys.UK_ADDRESS)
     return h.view(constants.views.UK_ADDRESS, {
       isApplicantAgent,
-      ukAddress
+      address
     })
   },
   post: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
     const { addressLine1, addressLine2, town, county, postcode } = request.payload
-    const ukAddress = {
+    const address = {
       addressLine1,
       addressLine2,
       town,
@@ -21,7 +21,7 @@ const handlers = {
       postcode
     }
 
-    const errors = validateAddress(ukAddress, true)
+    const errors = validateAddress(address, true)
     if (errors) {
       const err = []
       Object.keys(errors).forEach(item => {
@@ -30,11 +30,11 @@ const handlers = {
       return h.view(constants.views.UK_ADDRESS, {
         err,
         isApplicantAgent,
-        ukAddress,
+        address,
         ...errors
       })
     } else {
-      request.yar.set(constants.redisKeys.UK_ADDRESS, ukAddress)
+      request.yar.set(constants.redisKeys.UK_ADDRESS, address)
       return redirectAddress(h, isApplicantAgent, isIndividualOrOrganisation)
     }
   }
