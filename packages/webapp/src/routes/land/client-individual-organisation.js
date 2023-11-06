@@ -2,7 +2,9 @@ import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION)
+    const landownerType = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+
+    return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, { landownerType })
   },
   post: async (request, h) => {
     const { landownerType } = request.payload
@@ -15,7 +17,7 @@ const handlers = {
         }]
       })
     }
-    request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, landownerType)
+    request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, landownerType)
 
     if (landownerType === constants.landownerTypes.INDIVIDUAL) {
       return h.redirect(constants.routes.CLIENTS_NAME)

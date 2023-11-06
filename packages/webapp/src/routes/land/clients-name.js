@@ -6,7 +6,9 @@ import isEmpty from 'lodash/isEmpty.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.CLIENTS_NAME)
+    const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME)
+
+    return h.view(constants.views.CLIENTS_NAME, { individual })
   },
   post: async (request, h) => {
     const { firstName, middleName, lastName } = request.payload
