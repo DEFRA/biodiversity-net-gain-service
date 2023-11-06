@@ -37,5 +37,12 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('Select yes if your address is in the UK')
     })
+    it('Should return view with error if nothing is selected and ask for client\'s address', async () => {
+      postOptions.payload.isAddressUk = null
+      const sessionData = JSON.parse(application.dataString)
+      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = 'yes'
+      const response = await submitPostRequest(postOptions, 200, sessionData)
+      expect(response.payload).toContain('Select yes if your client&#39;s address is in the UK')
+    })
   })
 })
