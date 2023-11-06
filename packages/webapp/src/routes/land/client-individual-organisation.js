@@ -1,15 +1,7 @@
 import constants from '../../utils/constants.js'
-// import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    // processRegistrationTask(request, {
-    //   taskTitle: 'Applicant information',
-    //   title: 'Add details about the applicant'
-    // }, {
-    //   inProgressUrl: constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
-    // })
-
     return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION)
   },
   post: async (request, h) => {

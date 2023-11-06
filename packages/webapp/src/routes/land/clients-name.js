@@ -1,19 +1,11 @@
 import constants from '../../utils/constants.js'
 import {
-  // processRegistrationTask,
   validateFirstLastName
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
 const handlers = {
   get: async (request, h) => {
-    // processRegistrationTask(request, {
-    //   taskTitle: 'Applicant information',
-    //   title: 'Add details about the applicant'
-    // }, {
-    //   inProgressUrl: constants.routes.CLIENTS_NAME
-    // })
-
     return h.view(constants.views.CLIENTS_NAME)
   },
   post: async (request, h) => {
@@ -33,7 +25,7 @@ const handlers = {
     request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleName, lastName } })
 
     // TODO: REDIRECT to be added in next story
-    return h.redirect(constants.routes.CLIENTS_NAME)
+    return h.redirect('land/capture-clients-address')
   }
 }
 export default [{

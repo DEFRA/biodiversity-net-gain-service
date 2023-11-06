@@ -4,7 +4,7 @@ const url = constants.routes.CLIENTS_NAME
 
 describe(url, () => {
   describe('GET', () => {
-    it.skip(`should render the ${url.substring(1)} view`, async () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
   })
@@ -18,11 +18,11 @@ describe(url, () => {
     })
 
     // TODO: update test when next route dev work is complete
-    it.skip('Should continue journey if first and last name are provided', async () => {
+    it('Should continue journey if first and last name are provided', async () => {
       postOptions.payload.firstName = 'Tom'
       postOptions.payload.lastName = 'Smith'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
+      expect(res.headers.location).toEqual('land/capture-clients-address')
     })
 
     it('Should fail journey if no first name and no last name are provided', async () => {
