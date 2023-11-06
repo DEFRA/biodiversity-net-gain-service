@@ -18,10 +18,11 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(7)
-    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(8)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(10)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
+    expect(response.d1OffSiteHabitatBaseline[0]['Area enhanced']).toEqual(0)
     expect(response.d1OffSiteHabitatBaseline[0].Condition).toEqual('Condition Assessment N/A')
     expect((response.d1OffSiteHabitatBaseline[0]['Total habitat units']).toFixed(2)).toEqual('2.00')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat reference ']).toEqual('H1')
@@ -42,7 +43,7 @@ describe('BNG data extractor test', () => {
     expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.d3OffSiteHabitatEnhancement.length).toEqual(3)
-    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(14)
+    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(15)
     expect(response.d3OffSiteHabitatEnhancement[1]['Baseline habitat']).toEqual('Woodland and forest - Other woodland; mixed')
     expect(response.d3OffSiteHabitatEnhancement[1]['Proposed habitat']).toEqual('Other woodland; mixed')
     expect(response.d3OffSiteHabitatEnhancement[1]['Proposed Broad Habitat']).toEqual('Woodland and forest')
@@ -58,9 +59,10 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancement[1]['Off-site reference']).toEqual(1234)
 
     expect(response.e1OffSiteHedgeBaseline.length).toEqual(2)
-    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(8)
+    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(10)
     expect(response.e1OffSiteHedgeBaseline[0]['Hedgerow type']).toEqual('Ecologically valuable line of trees - associated with bank or ditch')
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
+    expect(response.e1OffSiteHedgeBaseline[0]['Length enhanced']).toEqual(0.226)
     expect(response.e1OffSiteHedgeBaseline[0].Condition).toEqual('Poor')
     expect((response.e1OffSiteHedgeBaseline[0]['Total hedgerow units']).toFixed(2)).toEqual('1.20')
     expect(response.e1OffSiteHedgeBaseline[0]['Hedge number']).toEqual(1)
@@ -81,7 +83,7 @@ describe('BNG data extractor test', () => {
     expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.e3OffSiteHedgeEnhancement.length).toEqual(2)
-    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(11)
+    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(12)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Ecologically valuable line of trees - associated with bank or ditch')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.226)
     expect(response.e3OffSiteHedgeEnhancement[0].Condition).toEqual('Moderate')
@@ -94,7 +96,7 @@ describe('BNG data extractor test', () => {
     expect(response.e3OffSiteHedgeEnhancement[0].Distinctiveness).toEqual('Medium')
 
     expect(response.f1OffSiteWaterCBaseline.length).toEqual(2)
-    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(9)
+    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(11)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Priority habitat')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(2)
     expect(response.f1OffSiteWaterCBaseline[0].Condition).toEqual('Good')
@@ -120,7 +122,7 @@ describe('BNG data extractor test', () => {
     expect(response.f2OffSiteWaterCCreation[0]['Watercourse type']).toEqual('Priority habitat')
 
     expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
-    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(12)
+    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(13)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline habitat']).toEqual('Priority habitat')
     expect(response.f3OffSiteWaterCEnhancement[0]['Proposed habitat']).toEqual('Ditches')
     expect(response.f3OffSiteWaterCEnhancement[0]['Length (km)']).toEqual(1)
@@ -221,6 +223,31 @@ describe('BNG data extractor test', () => {
     expect(response.test[0]['Broad habitat']).toBe(undefined)
   })
 
+  it('Should remove unwanted rows that only have data for the headers detailed in template', async () => {
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const baselineRef = 'Baseline ref'
+    const habitatType = 'Habitat type'
+    const extractionConfiguration = {
+      test: {
+        sheetName: 'D-1 Off-Site Habitat Baseline',
+        startCell: 'D10',
+        cellHeaders: [baselineRef, habitatType],
+        columnsToBeRemoved: [],
+        rowsToBeRemovedTemplate: [[baselineRef], [habitatType]]
+      }
+    }
+
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
+    expect(response.test.length).toEqual(248)
+
+    response.test.forEach(element => {
+      const trimmedKeys = Object.keys(element).map(key => key.trim())
+      const habitatTypeCount = trimmedKeys.filter(key => key === habitatType).length
+      expect(habitatTypeCount).toBeGreaterThan(0)
+    })
+  })
+
   it('Should rejects with an error if a stream error occurs', async () => {
     const { PassThrough } = require('stream')
     jest.mock('../bng-metric-single-data-extractor.js')
@@ -234,7 +261,7 @@ describe('BNG data extractor test', () => {
   })
 
   it('Should return data even if all extraction config properties are not provided', async () => {
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.0.xlsm')
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const extractionConfiguration = {
       test: {

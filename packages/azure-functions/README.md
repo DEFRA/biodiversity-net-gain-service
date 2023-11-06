@@ -1,8 +1,6 @@
 # Azure functions
 
 Node.js Microsoft Azure functions for the Biodiversity Net Gain service.
-Microsoft Azure SignalR is used to provide asynchronous notifications associated with function processing to the
-[web application](../webapp/).
 
 [Extension bundles](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-register) are used to ensure the function app
 uses a compatible set of binding extensions.
@@ -20,7 +18,6 @@ Prerequisite dependencies used by multiple packages within this repository are d
 ## Function triggers
 
 * HTTP based triggering is used:
-  * during Microsoft Azure SignalR client connection negotiation.
   * when starting to submit an application to the Biodiversity Net Gain public register.
 * Message based triggering is used when:
   * processing uploads to the service.
@@ -43,8 +40,6 @@ Prerequisite dependencies used by multiple packages within this repository are d
 |---------|-------------|-----------|
 | APPINSIGHTS_INSTRUMENTATIONKEY | Instrumentation key controlling if telemetry is sent to the ApplicationInsights service | Y |
 | APPLICATIONINSIGHTS_CONNECTION_STRING | ApplicationInsights service connection string used by the function app | Y |
-| AZURE_SIGNALR_HUB_NAME | Name of the SignalR hub facilitating communication between the functions and web application | Y |
-| AzureSignalRConnectionString | SignalR connection string | Y |
 | AZURE_STORAGE_ACCOUNT | Microsoft Azure storage account name | Y |
 | AZURE_STORAGE_ACCESS_KEY | Microsoft Azure storage account shared access key | Y |
 | AzureWebJobsStorage | Storage account connection string | Y |
@@ -107,22 +102,6 @@ To switch between connection to Microsoft Azure infrstructure and an Azurite con
 | AZURE_BLOB_SERVICE_URL | URL used to access the Azurite blob service |
 | AZURE_QUEUE_SERVICE_URL | URL used to access the Azurite queue service |
 | AZURE_STORAGE_CONNECTION_STRING | Connection string linking GDAL and Azurite |
-
-#### Mandatory app settings for threat screening
-
-| name | description |
-|------|-------------|
-| AV_DISABLE | "true" or "false" to disable threat screening |
-| AV_API_CLIENT_ID | OAuth client ID required for threat screening |
-| AV_API_CLIENT_SECRET | OAuth client secret required for threat screening |
-| AV_API_SCOPE | OAuth client ID required for threat screening |
-| AV_API_OCP_APIM_SUBSCRIPTION_KEY | Subscription key required for threat screening |
-| AV_API_USER_ID | User ID required for threat screening |
-| AV_API_BASE_URL | Base URL required for threat screening |
-| AV_API_TOKEN_URL | The URL used to obtain tokens required for threat screening |
-| AV_API_SB_CONNECTION_STRING | Connection string for AV solution service bus |
-| AV_COLLECTION_POSTFIX | environment postfix for multiple test environment support eg tst1, tst2, tst3 (leave blank if not needed, it is not mandatory) |
-| AV_SB_SUBSCRIPTION | trade service bus subscription |
 
 ## Installation
 

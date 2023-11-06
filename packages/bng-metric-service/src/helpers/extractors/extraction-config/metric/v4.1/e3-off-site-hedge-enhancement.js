@@ -1,4 +1,5 @@
 const headers = [
+  'Baseline ref',
   'Baseline habitat',
   'Proposed habitat',
   'Length (km)',
@@ -19,6 +20,7 @@ const e3OffSiteHedgeEnhancement = {
   endCell: 'AO258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Proposed habitat',
     __EMPTY_1: 'Length (km)',

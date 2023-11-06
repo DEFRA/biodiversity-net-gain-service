@@ -68,6 +68,7 @@ class BngMetricSingleDataExtractor {
       } else {
         data = this.#performSubstitution(data, extractionConfiguration)
         data = this.#removeUnwantedColumns(data, extractionConfiguration)
+        data = this.#removeUnwantedRows(data, extractionConfiguration)
         data.sheetTitle = sheetTitle
       }
 
@@ -127,6 +128,19 @@ class BngMetricSingleDataExtractor {
         return content
       })
       .filter(content => Object.values(content).some(value => value !== null && value !== ''))
+    return data
+  }
+
+  #removeUnwantedRows = (data, extractionConfiguration) => {
+    const { rowsToBeRemovedTemplate } = extractionConfiguration
+
+    rowsToBeRemovedTemplate?.forEach(rowTemplate => {
+      data = data.filter(row => {
+        const keys = Object.keys(row)
+        return !(keys.length === rowTemplate.length && keys.every(key => rowTemplate.includes(key)))
+      })
+    })
+
     return data
   }
 

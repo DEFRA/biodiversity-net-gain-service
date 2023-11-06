@@ -20,7 +20,8 @@ export const DEFRA_ID = {
   DEFRA_ID_DOMAIN: process.env.DEFRA_ID_DOMAIN,
   DEFRA_ID_CLIENT_SECRET: process.env.DEFRA_ID_CLIENT_SECRET,
   DEFRA_ID_CLIENT_ID: process.env.DEFRA_ID_CLIENT_ID,
-  DEFRA_ID_REDIRECT_URI: process.env.DEFRA_ID_REDIRECT_URI || 'http://localhost:3000/signin/callback'
+  DEFRA_ID_REDIRECT_URI: process.env.DEFRA_ID_REDIRECT_URI || 'http://localhost:3000/signin/callback',
+  DEFRA_ID_MOCK: process.env.DEFRA_ID_MOCK ? JSON.parse(process.env.DEFRA_ID_MOCK) : false
 }
 export const BACS_ACCOUNT_NAME = process.env.BACS_ACCOUNT_NAME || 'Natural England'
 export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'

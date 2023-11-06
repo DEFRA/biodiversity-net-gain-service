@@ -47,9 +47,9 @@ describe('application-validation', () => {
     it('Should fail validation if a .required() field is missing', () => {
       const session = applicationSession()
       const applicantCopy = JSON.parse(JSON.stringify(applicant))
-      applicantCopy.idTokenClaims.lastName = ''
+      applicantCopy.idTokenClaims.contactId = ''
       const { value, error } = applicationValidation.validate(application(session, applicantCopy))
-      expect(error.message).toEqual('"landownerGainSiteRegistration.applicant.lastName" is not allowed to be empty')
+      expect(error.message).toEqual('"landownerGainSiteRegistration.applicant.id" is not allowed to be empty')
       expect(value).not.toBeUndefined()
     })
     it('Should fail validation if not a landowner and otherLandowners is empty', () => {

@@ -19,6 +19,7 @@ const f2OffSiteWaterCCreation = {
   endCell: 'AH260',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Watercourse units delivered',
     'Condition ': 'Condition',

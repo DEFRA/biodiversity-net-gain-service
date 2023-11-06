@@ -4,7 +4,7 @@ import { blobStorageConnector } from '../connectors.js'
 import { logger } from 'defra-logging-facade'
 
 const config = {
-  containerName: 'untrusted',
+  containerName: 'customer-uploads',
   blobName: 'mock-data.json'
 }
 
@@ -83,7 +83,7 @@ describe('The Azure blob storage connector', () => {
         blobName: config.blobName
       },
       target: {
-        containerName: 'trusted',
+        containerName: 'customer-uploads',
         blobName: config.blobName
       }
     }
@@ -101,6 +101,7 @@ describe('The Azure blob storage connector', () => {
     expect(JSON.parse(sourceBuffer.toString())).toStrictEqual(mockData)
     expect(JSON.parse(targetBuffer.toString())).toStrictEqual(mockData)
   })
+
   it('should allow a blob to be moved', async () => {
     const copyConfig = {
       source: {
@@ -108,8 +109,8 @@ describe('The Azure blob storage connector', () => {
         blobName: config.blobName
       },
       target: {
-        containerName: 'trusted',
-        blobName: config.blobName
+        containerName: config.containerName,
+        blobName: `${config.blobName}-new`
       }
     }
 
@@ -152,5 +153,11 @@ describe('The Azure blob storage connector', () => {
       blobName: undefined
     }
     await expect(blobStorageConnector.deleteBlobIfExists(config)).resolves.toStrictEqual(false)
+  })
+  it('Should get tags for a blob', async () => {
+    const mockData = { mock: 'data' }
+    await blobStorageConnector.uploadStream(config, Readable.from(JSON.stringify(mockData)))
+    const res = await blobStorageConnector.getBlobTags(config)
+    expect(res.tags).toEqual({})
   })
 })

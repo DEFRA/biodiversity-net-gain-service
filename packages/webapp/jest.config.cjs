@@ -6,7 +6,7 @@ module.exports = {
   },
   setupFiles: ['<rootDir>/.jest/test.env.js'],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.js'],
-  testPathIgnorePatterns: ['__tests__/helpers'],
+  testPathIgnorePatterns: ['__tests__/helpers', 'json'],
   transformIgnorePatterns: [
     'node_modules/@defra/(?!(ngr-to-bng)/)'
   ]

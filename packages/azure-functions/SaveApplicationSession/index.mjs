@@ -18,7 +18,7 @@ export default async function (context, req) {
       throw new Error('Application type missing from request')
     }
 
-    db = await getDBConnection()
+    db = await getDBConnection(context)
 
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference =

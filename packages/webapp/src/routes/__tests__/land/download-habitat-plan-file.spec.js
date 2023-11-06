@@ -3,7 +3,6 @@ import { promises as fs } from 'fs'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.DOWNLOAD_HABITAT_PLAN_FILE
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 jest.mock('@defra/bng-connectors-lib')
 
 describe(url, () => {

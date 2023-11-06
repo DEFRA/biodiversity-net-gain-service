@@ -1,4 +1,5 @@
 const headers = [
+  'Baseline ref',
   'Baseline habitat',
   'Proposed habitat',
   'Length (km)',
@@ -20,6 +21,7 @@ const f3OffSiteWaterCEnhancement = {
   endCell: 'AT258',
   cellHeaders: headers,
   columnsToBeRemoved: [],
+  rowsToBeRemovedTemplate: [],
   substitutions: {
     __EMPTY: 'Proposed habitat',
     __EMPTY_1: 'Length (km)',
