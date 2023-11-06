@@ -54,7 +54,6 @@ const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
-const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -86,7 +85,8 @@ const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
 const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
-const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
+// const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
+const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
 
 const APPLICATION_REFERENCE = 'application-reference'
@@ -369,7 +369,6 @@ export default {
     REGISTERED_LANDOWNER,
     ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
-    CHECK_OWNERSHIP_DETAILS,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
     NEED_METRIC,
@@ -420,7 +419,7 @@ export default {
   setLojReferer: [
     CHECK_AND_SUBMIT,
     CHECK_YOUR_DETAILS,
-    CHECK_OWNERSHIP_DETAILS,
+    LAND_OWNERSHIP_PROOF_LIST,
     CHECK_LEGAL_AGREEMENT_DETAILS,
     CHECK_LAND_BOUNDARY_DETAILS,
     CHECK_METRIC_DETAILS,

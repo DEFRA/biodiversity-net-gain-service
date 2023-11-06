@@ -8,7 +8,7 @@
       {% include "errorbanner.html" %}
     {% endif %}
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-column-three-quarters">
         <h1 class="govuk-heading-xl">
           {{ pageHeading }}
         </h1>
@@ -115,61 +115,8 @@
         <!--Land ownership-->
         <h2 class="govuk-heading-l">Land ownership</h2>
         {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Proof of land ownership file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"proof-land-ownership-file-name-value\">" + listArray(landOwnershipFileNames) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.LAND_OWNERSHIP_LIST,
-                    text: "Change",
-                    visuallyHiddenText: " land boundary file"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Landowner name"
-              },
-              value: {
-                html: "<span data-testid=\"land-owner-names-value\">" + listArray(landownerNames) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: changeLandownersHref,
-                    text: "Change",
-                    visuallyHiddenText: " landowner name"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Landowner consent"
-              },
-              classes: hideClass(hideConsent),
-              value: {
-                html: "<span data-testid=\"land-owner-consent-value\">" + boolToYesNo(application.landownerConsent) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.LANDOWNER_CONSENT,
-                    text: "Change",
-                    visuallyHiddenText: " landowner consent"
-                  }
-                ]
-              }
-            }
-          ]
+          classes: 'govuk-!-margin-bottom-9',
+          rows: landownershipFilesRows
         }) }}
 
         <!--Biodiversity Metric-->

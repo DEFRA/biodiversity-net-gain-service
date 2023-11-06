@@ -21,7 +21,7 @@ const dataString = `
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
-            "completedTaskUrl": "/land/land-ownership-list",
+            "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"

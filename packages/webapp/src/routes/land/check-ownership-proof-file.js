@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import _ from 'lodash'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -18,22 +17,22 @@ const handlers = {
     const checkLandOwnership = request.payload.checkLandOwnership
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
-    let ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+
+    const ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+    const fileName = path.basename(context.fileLocation || '')
 
     if (checkLandOwnership === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
-      _.remove(ownershipProofs, (item) => item === path.basename(context.fileLocation))
-      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)
+      const _ownershipProofs = ownershipProofs.filter((item) => item === fileName)
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, _ownershipProofs)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      const fileLocation = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION) || ''
-      ownershipProofs = [
-        ...ownershipProofs,
-        path.basename(fileLocation)
-      ]
+      if (ownershipProofs.indexOf(fileName) === -1) {
+        ownershipProofs.push(fileName)
+      }
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ownershipProofs)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_LIST)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

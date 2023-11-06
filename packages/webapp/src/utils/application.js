@@ -201,9 +201,6 @@ const getFiles = session => {
   ]
 }
 
-const otherLandowners = session => session.get(constants.redisKeys.LANDOWNERS) &&
-  session.get(constants.redisKeys.LANDOWNERS).map(e => { return { name: e } })
-
 const getLocalPlanningAuthorities = lpas => {
   if (!lpas) return ''
   return lpas.map(e => { return { localPlanningAuthorityName: e } })
@@ -292,12 +289,10 @@ const application = (session, account) => {
       enhancementWorkStartDate: session.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
       legalAgreementEndDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY),
       habitatPlanIncludedLegalAgreementYesNo: session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
-      otherLandowners: otherLandowners(session) || [],
       legalAgreementLandowners: session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS),
       ...(!isLegalAgreementTypeS106 ? { legalAgreementResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
       ...(isLegalAgreementTypeS106 ? { legalAgreementPlanningAuthorities: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
       submittedOn: new Date().toISOString(),
-      landownerConsent: session.get(constants.redisKeys.LANDOWNER_CONSENT_KEY) || 'false',
       payment: getPayment(session)
     }
   }
