@@ -4,7 +4,7 @@ import { getDBConnection } from '@defra/bng-utils-lib'
 export default async function (context, _timer) {
   let db
   try {
-    db = await getDBConnection()
+    db = await getDBConnection(context)
     context.bindings.expiringApplicationSessionNotificationQueue = []
     context.log('Getting application sessions that require warning of expiry')
     const result = await getExpiringApplicationSessions(db)
