@@ -14,13 +14,13 @@ describe(url, () => {
     })
   })
   describe('POST', () => {
-    //happy path
+    // happy path
     it('Should accept a valid phone number and continue to upload-written-authorisation', async () => {
       postOptions.payload.phone = '01234567890'
       const response = await submitPostRequest(postOptions)
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     })
-    //sad paths
+    // sad paths
     it('Should error if no phone number given', async () => {
       postOptions.payload.phone = ''
       const response = await submitPostRequest(postOptions, 200)
