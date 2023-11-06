@@ -565,6 +565,44 @@ const isValidPostcode = (postcode) => {
   return postcodeRegExp.test(postcode)
 }
 
+const validateAddress = (address, isUkAddress) => {
+  const errors = {}
+  if (!address.addressLine1 || address.addressLine1.length === 0) {
+    errors.addressLine1Error = {
+      text: 'Enter address line 1',
+      href: '#addressLine1'
+    }
+  }
+  if (!address.town || address.town.length === 0) {
+    errors.townError = {
+      text: 'Enter town or city',
+      href: '#town'
+    }
+  }
+  if (isUkAddress) {
+    if (!address.postcode || address.postcode.length === 0) {
+      errors.postcodeError = {
+        text: 'Enter postcode',
+        href: '#postcode'
+      }
+    } else if (!isValidPostcode(address.postcode)) {
+      errors.postcodeError = {
+        text: 'Enter a full UK postcode',
+        href: '#postcode'
+      }
+    }
+  }
+  if (!isUkAddress) {
+    if (!address.country || address.country.length === 0) {
+      errors.countryError = {
+        text: 'Enter country',
+        href: '#country'
+      }
+    }
+  }
+  return Object.keys(errors).length > 0 ? errors : null
+}
+
 const redirectAddress = (h, isApplicantAgent, isIndividualOrOrganisation) => {
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
@@ -623,5 +661,6 @@ export {
   checkDeveloperDetails,
   buildFullName,
   isValidPostcode,
-  redirectAddress
+  redirectAddress,
+  validateAddress
 }

@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { redirectAddress } from '../../utils/helpers.js'
+import { redirectAddress, validateAddress } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -22,7 +22,7 @@ const handlers = {
       postcode,
       country
     }
-    const errors = validateAddress(nonUkAddress)
+    const errors = validateAddress(nonUkAddress, false)
     if (errors) {
       const err = []
       Object.keys(errors).forEach(item => {
@@ -41,28 +41,6 @@ const handlers = {
   }
 }
 
-const validateAddress = (address) => {
-  const errors = {}
-  if (!address.addressLine1 || address.addressLine1.length === 0) {
-    errors.addressLine1Error = {
-      text: 'Enter address line 1',
-      href: '#addressLine1'
-    }
-  }
-  if (!address.town || address.town.length === 0) {
-    errors.townError = {
-      text: 'Enter town or city',
-      href: '#town'
-    }
-  }
-  if (!address.country || address.country.length === 0) {
-    errors.countryError = {
-      text: 'Enter country',
-      href: '#country'
-    }
-  }
-  return Object.keys(errors).length > 0 ? errors : null
-}
 export default [{
   method: 'GET',
   path: constants.routes.NON_UK_ADDRESS,

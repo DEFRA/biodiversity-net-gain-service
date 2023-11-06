@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { isValidPostcode, redirectAddress } from '../../utils/helpers.js'
+import { redirectAddress, validateAddress } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
@@ -21,7 +21,7 @@ const handlers = {
       postcode
     }
 
-    const errors = validateAddress(ukAddress)
+    const errors = validateAddress(ukAddress, true)
     if (errors) {
       const err = []
       Object.keys(errors).forEach(item => {
@@ -38,34 +38,6 @@ const handlers = {
       return redirectAddress(h, isApplicantAgent, isIndividualOrOrganisation)
     }
   }
-}
-
-const validateAddress = (address) => {
-  const errors = {}
-  if (!address.addressLine1 || address.addressLine1.length === 0) {
-    errors.addressLine1Error = {
-      text: 'Enter address line 1',
-      href: '#addressLine1'
-    }
-  }
-  if (!address.town || address.town.length === 0) {
-    errors.townError = {
-      text: 'Enter town or city',
-      href: '#town'
-    }
-  }
-  if (!address.postcode || address.postcode.length === 0) {
-    errors.postcodeError = {
-      text: 'Enter postcode',
-      href: '#postcode'
-    }
-  } else if (!isValidPostcode(address.postcode)) {
-    errors.postcodeError = {
-      text: 'Enter a full UK postcode',
-      href: '#postcode'
-    }
-  }
-  return Object.keys(errors).length > 0 ? errors : null
 }
 
 export default [{
