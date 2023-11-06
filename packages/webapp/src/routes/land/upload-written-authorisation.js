@@ -77,18 +77,7 @@ const maximumSizeExceeded = h => {
 
 const handlers = {
   get: async (request, h) => {
-    // MOCKING fOR DEV TESTING, DELETE ME
-    // request.yar.set(constants.redisKeys.CLIENTS_NAME, {
-    //   type: 'individual',
-    //   value: {
-    //     firstName: 'test1',
-    //     middleName: 'test2',
-    //     lastName: 'test3'
-    //   }
-    // })
-    request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, 'Test organisation') // DELETE ME
-
-    const isIndividualOrOrganisation = constants.landownerTypes.ORGANISATION // request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
     const clientsName = request.yar.get(constants.redisKeys.CLIENTS_NAME)
     const clientsOrganisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
     const isIndividual = isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL
