@@ -33,7 +33,6 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    // TODO: should change path to next route when dev work is complete
     it('Should continue journey to applicant-details-confirm if yes is chosen', async () => {
       const request = {
         yar: redisMap,
@@ -42,10 +41,9 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual('land/applicant-details-confirm')
+      expect(viewResult).toEqual(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     })
 
-    // TODO: should change path to next route when dev work is complete
     it('Should continue journey to applying-individual-organisation if no is chosen', async () => {
       const request = {
         yar: redisMap,
@@ -54,7 +52,7 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual('land/applying-individual-organisation')
+      expect(viewResult).toEqual(constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     })
 
     it('Should fail journey if no answer', async () => {

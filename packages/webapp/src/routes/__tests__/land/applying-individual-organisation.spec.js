@@ -59,6 +59,23 @@ describe(url, () => {
     })
   })
   describe('POST', () => {
+    const citizenSignInWithOrganisationLinkedToDefraAccountAuth = {
+      strategy: 'session-auth',
+      credentials: {
+        account: {
+          idTokenClaims: {
+            firstName: 'John',
+            lastName: 'Smith',
+            email: 'john.smith@test.com',
+            contactId: 'mock contact id',
+            enrolmentCount: 2,
+            currentRelationshipId: 'mock relationship id',
+            relationships: ['mock relationship id:::0:Citizen:0'],
+            roles: ['mock relationship id:Standard User:2']
+          }
+        }
+      }
+    }
     const organisationAuth = {
       strategy: 'session-auth',
       credentials: {
@@ -68,9 +85,10 @@ describe(url, () => {
             lastName: 'Smith',
             email: 'john.smith@test.com',
             contactId: 'mock contact id',
+            enrolmentCount: 1,
             currentRelationshipId: 'mock relationship id',
-            relationships: ['mock relationship id:mock organisation:0:Employee:0'],
-            roles: ['mock relationship id:Standard User:2']
+            relationships: ['mock relationship id:mock organisation id:mock organisation:0:Employee:0'],
+            roles: ['mock relationship id:Standard User:3']
           }
         }
       }
@@ -98,8 +116,14 @@ describe(url, () => {
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain('Select if you are applying as an individual or as part of an organisation')
     })
-    it('should redisplay the applicant type page when organisation is chosen and signed in as an individual', async () => {
+    it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
       postOptions.payload.landownerType = constants.landownerTypes.ORGANISATION
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.response.headers.location).toBe(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
+    })
+    it('should redisplay the applicant type page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
+      postOptions.payload.landownerType = constants.landownerTypes.ORGANISATION
+      postOptions.auth = citizenSignInWithOrganisationLinkedToDefraAccountAuth
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain(individualSignInErrorMessage)

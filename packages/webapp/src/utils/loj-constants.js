@@ -188,6 +188,7 @@ const LANDOWNER_TYPE = 'landowner-type'
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
+const DEFRA_ACCOUNT_NOT_LINKED = 'land/defra-account-not-linked'
 const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
 const UK_ADDRESS = 'land/uk-address'
@@ -395,6 +396,7 @@ export default {
     NEW_REGISTRATION,
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     CHECK_DEFRA_ACCOUNT_DETAILS,
+    DEFRA_ACCOUNT_NOT_LINKED,
     IS_ADDRESS_UK,
     UK_ADDRESS,
     NON_UK_ADDRESS,

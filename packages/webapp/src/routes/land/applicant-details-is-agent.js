@@ -21,11 +21,9 @@ const handlers = {
     request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
-      // TODO: change redirect route when next route dev work is complete
-      return h.redirect('land/applicant-details-confirm')
+      return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {
-      // TODO: change redirect route when next route dev work is complete
-      return h.redirect('land/applying-individual-organisation')
+      return h.redirect(constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     } else {
       return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
         isApplicantAgent,
