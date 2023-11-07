@@ -26,8 +26,7 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleName, lastName } })
 
-    // TODO: REDIRECT to be added in next story
-    return h.redirect('land/capture-clients-address')
+    return h.redirect(constants.routes.IS_ADDRESS_UK)
   }
 }
 export default [{

@@ -23,7 +23,7 @@ describe(url, () => {
     it('Should continue journey if org name is provided', async () => {
       postOptions.payload.organisationName = 'ABC Organisation'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('land/isAddressUK')
+      expect(res.headers.location).toEqual(constants.routes.IS_ADDRESS_UK)
     })
 
     it('Should fail journey if no org name is provided', async () => {

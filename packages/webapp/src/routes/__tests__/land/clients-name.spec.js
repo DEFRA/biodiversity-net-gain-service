@@ -17,12 +17,11 @@ describe(url, () => {
       }
     })
 
-    // TODO: update test when next route dev work is complete
     it('Should continue journey if first and last name are provided', async () => {
       postOptions.payload.firstName = 'Tom'
       postOptions.payload.lastName = 'Smith'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('land/capture-clients-address')
+      expect(res.headers.location).toEqual(constants.routes.IS_ADDRESS_UK)
     })
 
     it('Should fail journey if no first name and no last name are provided', async () => {

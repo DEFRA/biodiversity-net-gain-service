@@ -32,8 +32,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, organisationName)
-      // TODO: update route when 3616 is complete
-      return h.redirect('land/isAddressUK')
+      return h.redirect(constants.routes.IS_ADDRESS_UK)
     }
   }
 }

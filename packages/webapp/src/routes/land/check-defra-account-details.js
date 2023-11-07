@@ -9,7 +9,7 @@ const handlers = {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || redirect(request.yar, h))
     } else {
       return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),
@@ -19,6 +19,14 @@ const handlers = {
         }]
       })
     }
+  }
+}
+
+const redirect = (session, h) => {
+  if (session.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
+    return constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
+  } else {
+    return constants.routes.IS_ADDRESS_UK
   }
 }
 

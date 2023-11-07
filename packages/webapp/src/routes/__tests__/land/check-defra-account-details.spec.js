@@ -17,9 +17,18 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('Should continue the journey when Defra account details are confirmed', async () => {
+    it('Should continue the journey when acting as an agent and Defra account details are confirmed', async () => {
       postOptions.payload.defraAccountDetailsConfirmed = 'true'
-      const res = await submitPostRequest(postOptions)
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      const res = await submitPostRequest(postOptions, 302, sessionData)
+      expect(res.headers.location).toEqual(constants.routes.CLIENT_INDIVIDUAL_ORGANISATION)
+    })
+    it('Should continue the journey when not acting as an agent and Defra account details are confirmed', async () => {
+      postOptions.payload.defraAccountDetailsConfirmed = 'true'
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.IS_ADDRESS_UK)
     })
     it('Should stop the journey when Defra account details are unconfirmed', async () => {
