@@ -56,6 +56,7 @@ describe(url, () => {
           {
             responsibleBodyName: 'test2'
           }])
+          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ['file1.doc', 'file2.doc'])
 
           const h = {
             view: (view, context) => {

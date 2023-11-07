@@ -24,7 +24,7 @@ const handlers = {
     if (checkLandOwnership === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
-      const _ownershipProofs = ownershipProofs.filter((item) => item === fileName)
+      const _ownershipProofs = ownershipProofs.filter((item) => item !== fileName)
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, _ownershipProofs)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
