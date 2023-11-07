@@ -9,7 +9,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { email } = request.payload
+    const email = request.payload.email
     const error = validateEmail(email, '#email')
     if (error) {
       if (error.err[0].text === 'Enter your email address') {
