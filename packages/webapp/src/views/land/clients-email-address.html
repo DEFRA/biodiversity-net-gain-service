@@ -1,0 +1,10 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your client’s email address?" %}
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    Under construction
+  </div>
+{% endblock %}

@@ -29,7 +29,7 @@ describe(url, () => {
         }
       })
       postOptions.payload.gridReference = 'SL123456'
-      await submitPostRequest(postOptions, 302, { expectedNumberOfPostJsonCalls: 2 })
+      await submitPostRequest(postOptions, 302, {}, { expectedNumberOfPostJsonCalls: 2 })
     })
     it('should fail journey if valid grid reference outside of England is entered', async () => {
       jest.resetAllMocks()
@@ -41,7 +41,7 @@ describe(url, () => {
         }
       })
       postOptions.payload.gridReference = 'SL123456'
-      const res = await submitPostRequest(postOptions, 200, { expectedNumberOfPostJsonCalls: 1 })
+      const res = await submitPostRequest(postOptions, 200, {}, { expectedNumberOfPostJsonCalls: 1 })
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Grid reference must be in England')
     })

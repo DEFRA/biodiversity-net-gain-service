@@ -87,7 +87,6 @@ const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
 const APPLICANT_DETAILS_IS_AGENT = 'land/applicant-details-is-agent'
-
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -185,6 +184,11 @@ const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
+const UK_ADDRESS = 'land/uk-address'
+const NON_UK_ADDRESS = 'land/non-uk-address'
+const CHECK_APPLICANT_INFORMATION = 'land/check-applicant-information'
+const CLIENTS_EMAIL_ADDRESS = 'land/clients-email-address'
+const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 
 export default {
   landownerTypes: {
@@ -292,7 +296,10 @@ export default {
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
-    ALL_LPA
+    ALL_LPA,
+    IS_ADDRESS_UK,
+    UK_ADDRESS,
+    NON_UK_ADDRESS
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -374,6 +381,8 @@ export default {
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     CHECK_DEFRA_ACCOUNT_DETAILS,
     IS_ADDRESS_UK,
+    UK_ADDRESS,
+    NON_UK_ADDRESS,
     LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
@@ -385,6 +394,9 @@ export default {
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
     LEGAL_AGREEMENT_LPA_REMOVE,
+    CHECK_APPLICANT_INFORMATION,
+    CLIENTS_EMAIL_ADDRESS,
+    UPLOAD_WRITTEN_AUTHORISATION,
     APPLICANT_DETAILS_IS_AGENT
   },
   uploadTypes: {
