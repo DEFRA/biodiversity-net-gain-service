@@ -20,11 +20,11 @@ const handlers = {
       request.yar.set(constants.redisKeys.LANDOWNER_TYPE, landownerType)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
-      const { noOrganisationsLinkedToDefraAccount, currentOrganisation } =
+      const { noOrganisationsLinkedToDefraAccount, organisation } =
         getApplicantContext(request.auth.credentials.account, request.yar)
 
-      if ((landownerType === constants.landownerTypes.INDIVIDUAL && !currentOrganisation) ||
-          (landownerType === constants.landownerTypes.ORGANISATION && currentOrganisation)) {
+      if ((landownerType === constants.landownerTypes.INDIVIDUAL && !organisation) ||
+          (landownerType === constants.landownerTypes.ORGANISATION && organisation)) {
         return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {

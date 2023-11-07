@@ -13,7 +13,6 @@ const getApplicantContext = (account, session) => {
   const subject = currentOrganisation || currentUser
   const applicantContext = {
     noOrganisationsLinkedToDefraAccount,
-    currentOrganisation,
     confirmationText,
     representing,
     subject
