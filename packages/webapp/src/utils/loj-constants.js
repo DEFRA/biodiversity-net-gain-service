@@ -174,7 +174,17 @@ const METRIC_UPLOAD_TYPE = 'metric-upload'
 const ALL_LPA = 'all-lpa'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 
+const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
+const LANDOWNER_TYPE = 'landowner-type'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'orgaanisation'
+const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
+
 export default {
+  landownerTypes: {
+    INDIVIDUAL,
+    ORGANISATION
+  },
   redisKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,
@@ -262,6 +272,7 @@ export default {
     METRIC_UPLOADED_ANSWER,
     REFERER,
     EMAIL_VALUE,
+    LANDOWNER_TYPE,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
     ADD_PLANNING_AUTHORITY,
@@ -348,6 +359,8 @@ export default {
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
+    APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+    CHECK_DEFRA_ACCOUNT_DETAILS,
     LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
