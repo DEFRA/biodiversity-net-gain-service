@@ -1,5 +1,5 @@
 {% extends 'form-layout.html' %}
-{% set pageHeading = "What is your client's email address?" %}
+{% set pageHeading = "What is your client's phone number?" %}
 {% block formContent %}
 <div class="govuk-body">
   {% if err %}
@@ -10,14 +10,16 @@
       <h1 class="govuk-heading-l">
         {{ pageHeading }}
       </h1>
-      <p class="govuk-hint">We will only use this to contact your client about this application.</p>
+      <p class="govuk-hint">We will only use this to contact your client about this application. For international numbers include the country code.</p>
       {{ govukInput({
-        id: "email",
-        name: "email",
+        id: "phone",
+        name: "phone",
         errorMessage: err[0],
-        autoComplete: "email",
         spellcheck: false,
-        value: email
+        type: "tel",
+        autocomplete: "tel",
+        classes: "govuk-input--width-20",
+        value: phone
       }) }}
     
       {{ govukButton({
