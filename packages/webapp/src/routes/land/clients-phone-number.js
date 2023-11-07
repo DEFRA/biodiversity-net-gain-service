@@ -9,7 +9,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const phone = request.payload.phone
+    const { phone } = request.payload
     const error = validatePhone(phone)
     if (error) {
       return h.view(constants.views.CLIENTS_PHONE_NUMBER, {
