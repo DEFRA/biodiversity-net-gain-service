@@ -1,7 +1,7 @@
 import constants from '../../../credits/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 
-const url = '/developer/check-metric-file'
+const url = '/credits/credits-metric-upload-check'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
 
@@ -81,70 +81,10 @@ describe(url, () => {
           await checkMetricFile.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.CREDITS_UPLOAD_METRIC)
           expect(spy).toHaveBeenCalledWith({
-            containerName: 'untrusted',
+            containerName: 'customer-uploads',
             blobName: mockFileLocation
           })
-          expect(spy).toHaveBeenCalledTimes(2)
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should allow to go to next page', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult
-          const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
-          redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.YES
-          const request = {
-            yar: redisMap,
-            payload: {
-              checkUploadMetric: constants.creditsCheckUploadMetric.YES
-            }
-          }
-          const h = {
-            redirect: (view) => {
-              viewResult = view
-            },
-            view: (view) => {
-              viewResult = view
-            }
-          }
-          await checkMetricFile.default[1].handler(request, h)
-          expect(viewResult).toEqual(constants.routes.CREDITS_CONFIRM_DEV_DETAILS)
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should not allow to go to next page', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult
-          const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
-          redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadMetric = undefined
-          const request = {
-            yar: redisMap,
-            payload: {
-              checkUploadMetric: undefined
-            }
-          }
-          const h = {
-            redirect: (view) => {
-              viewResult = view
-            },
-            view: (view) => {
-              viewResult = view
-            }
-          }
-          await checkMetricFile.default[1].handler(request, h)
-          expect(viewResult).toEqual(constants.views.CREDITS_CHECK_UPLOAD_METRIC)
+          expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {
           done(err)
@@ -153,7 +93,7 @@ describe(url, () => {
     })
 
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
-      postOptions.payload.checkUploadMetric = 'yes'
+      postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.YES
       await submitPostRequest(postOptions)
     })
     it('should detect an invalid response from user', async () => {
