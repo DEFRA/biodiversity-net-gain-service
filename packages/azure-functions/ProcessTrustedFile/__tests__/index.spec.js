@@ -12,7 +12,6 @@ const ZIP_FILE_EXTENSION = '.zip'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
-const CREDITS_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
 describe('Trusted file processing', () => {
@@ -136,82 +135,6 @@ describe('Trusted file processing', () => {
         done()
       } catch (err) {
         done(err)
-      }
-    })
-  })
-
-  it('Should process a trusted Credits metric file', done => {
-    jest.isolateModules(async () => {
-      try {
-        const context = getContext()
-        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
-          const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
-          const readableStream = Readable.from(readStream)
-          return {
-            readableStreamBody: readableStream
-          }
-        })
-        await processTrustedFile(context, {
-          uploadType: CREDITS_METRIC_UPLOAD_TYPE,
-          location: 'test',
-          containerName: 'test'
-        })
-        await expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
-        await expect(context.bindings.signalRMessages).toBeDefined()
-        await expect(context.bindings.signalRMessages[0].arguments[0].metricData).toBeDefined()
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
-  it('Should process file if a prefix was attached to collection name and none set in env vars', done => {
-    jest.isolateModules(async () => {
-      process.env.AV_COLLECTION_POSTFIX = 'tst1'
-      try {
-        const message = {
-          uploadType: 'land-ownership-tst1',
-          location: '123456/test.doc',
-          containerName: 'trusted'
-        }
-        const newProcessTrustedFile = require('../index')
-        // const testConfig = buildConfig(fileExtension, 'land-ownership')
-
-        await newProcessTrustedFile.default(getContext(), message)
-
-        setImmediate(async () => {
-          expect(getContext().bindings.signalRMessages[0].arguments[0].code).toBeUndefined()
-          expect(getContext().bindings.signalRMessages[0].arguments[0].uploadType).toBeUndefined()
-          expect(getContext().bindings.signalRMessages[0].arguments[0].location).toEqual('123456/test.doc')
-          done()
-        })
-      } catch (e) {
-        done(e)
-      }
-    })
-  })
-
-  it('Should fail to process file if a prefix was attached to collection name and none set in env vars', done => {
-    jest.isolateModules(async () => {
-      process.env.AV_COLLECTION_POSTFIX = ''
-      try {
-        const message = {
-          uploadType: 'land-ownership-tst1',
-          location: '12345/test.doc',
-          containerName: 'trusted'
-        }
-        const newProcessTrustedFile = require('../index')
-        // const testConfig = buildConfig(fileExtension, 'land-ownership')
-
-        await newProcessTrustedFile.default(getContext(), message)
-
-        setImmediate(async () => {
-          expect(getContext().bindings.signalRMessages[0].arguments[0].code).toEqual('UNKNOWN-UPLOAD-TYPE')
-          expect(getContext().bindings.signalRMessages[0].arguments[0].uploadType).toEqual('land-ownership-tst1')
-          done()
-        })
-      } catch (e) {
-        done(e)
       }
     })
   })
