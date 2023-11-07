@@ -49,6 +49,11 @@ const uploadTestConfig = [{
   url: constants.routes.UPLOAD_HABITAT_PLAN,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/habitat-plan/habitat-plan.pdf'
+}, {
+  uploadType: constants.uploadTypes.WRITTEN_AUTHORISATION_UPLOAD_TYPE,
+  url: constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
 }
 ]
 

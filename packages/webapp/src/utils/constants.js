@@ -134,6 +134,10 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
   YES
 }
 
+const APPLICANT_IS_AGENT = {
+  NO,
+  YES
+}
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
@@ -262,5 +266,6 @@ export default Object.freeze({
   ...developerConstants.options,
   creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
-  signInTypes
+  signInTypes,
+  APPLICANT_IS_AGENT
 })

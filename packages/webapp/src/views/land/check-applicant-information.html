@@ -1,0 +1,10 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Check applicant information" %}
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    Under construction
+  </div>
+{% endblock %}
