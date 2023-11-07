@@ -10,7 +10,7 @@ const headers = [
   'Area enhanced',
   'Condition',
   'Total habitat units',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Strategic significance'
 ]
@@ -24,7 +24,8 @@ const d1OffSiteHabitatBaseline = {
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
-    'Condition ': 'Condition'
+    'Condition ': 'Condition',
+    'Habitat reference ': 'Habitat reference Number'
   }
 }
 

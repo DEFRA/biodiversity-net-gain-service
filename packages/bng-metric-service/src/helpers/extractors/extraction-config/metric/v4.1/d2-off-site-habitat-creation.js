@@ -6,7 +6,7 @@ const headers = [
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
   'Habitat units delivered',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Strategic significance'
 ]
@@ -25,7 +25,8 @@ const d2OffSiteHabitatCreation = {
     __EMPTY_3: 'Area (hectares)',
     __EMPTY_6: 'Condition',
     __EMPTY_8: 'Habitat units delivered',
-    'Habitat created in advance (years) ': 'Habitat created in advance (years)'
+    'Habitat created in advance (years) ': 'Habitat created in advance (years)',
+    'Habitat reference ': 'Habitat reference Number'
   }
 }
 

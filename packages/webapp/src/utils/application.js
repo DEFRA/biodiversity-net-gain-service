@@ -38,6 +38,7 @@ const getHabitats = session => {
     metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
       habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Hedgerow type'],
       baselineReference: String(details['Baseline ref']),
+      habitatReferenceNumber: details['Habitat reference Number'] ?? details['Habitat reference Number'],
       condition: details.Condition,
       area: {
         beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
@@ -52,6 +53,7 @@ const getHabitats = session => {
       proposedHabitatId: '', // Leave blank for now until metric 4.1 when this property is extracted
       habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Proposed habitat'],
       baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      habitatReferenceNumber: details['Habitat reference Number'] ?? details['Habitat reference Number'],
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,

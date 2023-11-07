@@ -5,7 +5,7 @@ const headers = [
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
   'Watercourse units delivered',
-  'Habitat reference number',
+  'Habitat reference Number',
   'Off-site reference',
   'Extent of encroachment for both banks',
   'Extent of encroachment',
@@ -24,7 +24,8 @@ const f2OffSiteWaterCCreation = {
     __EMPTY: 'Watercourse units delivered',
     'Condition ': 'Condition',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
-    'Length km': 'Length (km)'
+    'Length km': 'Length (km)',
+    'Habitat reference number': 'Habitat reference Number'
   }
 }
 

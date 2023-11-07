@@ -9,7 +9,7 @@ const headers = [
   'Length enhanced',
   'Condition',
   'Total watercourse units',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Extent of encroachment',
   'Extent of encroachment for both banks',
@@ -25,7 +25,8 @@ const f1OffSiteWaterCBaseline = {
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
-    'Condition ': 'Condition'
+    'Condition ': 'Condition',
+    'Habitat reference': 'Habitat reference Number'
   }
 }
 

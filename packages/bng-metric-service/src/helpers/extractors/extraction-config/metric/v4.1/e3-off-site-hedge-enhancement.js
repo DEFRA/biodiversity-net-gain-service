@@ -7,7 +7,7 @@ const headers = [
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
   'Hedge units delivered',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Distinctiveness',
   'Strategic significance'
@@ -26,7 +26,8 @@ const e3OffSiteHedgeEnhancement = {
     __EMPTY_1: 'Length (km)',
     __EMPTY_4: 'Hedge units delivered',
     'Condition ': 'Condition',
-    'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)'
+    'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)',
+    'Habitat reference': 'Habitat reference Number'
   }
 }
 

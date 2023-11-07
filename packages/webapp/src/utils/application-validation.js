@@ -44,6 +44,7 @@ const applicationValidation = Joi.object({
         Joi.object({
           habitatType: Joi.string().required(),
           baselineReference: Joi.string().required(),
+          habitatReferenceNumber: Joi.string(),
           condition: Joi.string().required(),
           area: Joi.object({
             beforeEnhancement: Joi.number().required(),
@@ -60,6 +61,7 @@ const applicationValidation = Joi.object({
             then: Joi.string().required(),
             otherwise: Joi.string().allow('')
           }),
+          habitatReferenceNumber: Joi.string(),
           module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
           state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
           habitatType: Joi.string().required(),

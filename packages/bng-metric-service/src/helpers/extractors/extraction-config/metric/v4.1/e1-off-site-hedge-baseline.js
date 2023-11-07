@@ -9,7 +9,7 @@ const headers = [
   'Length enhanced',
   'Condition',
   'Total hedgerow units',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Hedge number',
   'Strategic significance'
@@ -24,7 +24,8 @@ const e1OffSiteHedgeBaseline = {
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
-    'Condition ': 'Condition'
+    'Condition ': 'Condition',
+    'Habitat reference': 'Habitat reference Number'
   }
 }
 

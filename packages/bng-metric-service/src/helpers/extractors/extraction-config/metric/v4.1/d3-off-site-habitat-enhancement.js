@@ -11,7 +11,7 @@ const headers = [
   'Total habitat area',
   'Distinctiveness change',
   'Condition change',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Strategic significance'
 ]
@@ -30,7 +30,8 @@ const d3OffSiteHabitatEnhancement = {
     __EMPTY_5: 'Habitat units delivered',
     'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)',
     'Proposed Habitat': 'Proposed habitat',
-    ' Distinctiveness change': 'Distinctiveness change'
+    ' Distinctiveness change': 'Distinctiveness change',
+    'Habitat reference ': 'Habitat reference Number'
   }
 }
 

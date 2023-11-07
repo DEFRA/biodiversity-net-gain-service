@@ -5,7 +5,7 @@ const headers = [
   'Habitat created in advance (years)',
   'Delay in starting habitat creation (years)',
   'Hedge units delivered',
-  'Habitat reference',
+  'Habitat reference Number',
   'Off-site reference',
   'Strategic significance'
 ]
@@ -21,7 +21,8 @@ const e2OffSiteHedgeCreation = {
   substitutions: {
     __EMPTY: 'Hedge units delivered',
     'Condition ': 'Condition',
-    'Habitat created in advance (years) ': 'Habitat created in advance (years)'
+    'Habitat created in advance (years) ': 'Habitat created in advance (years)',
+    'Habitat reference ': 'Habitat reference Number'
   }
 }
 

@@ -106,6 +106,7 @@ const dataString = `
     "d1": [
       {
         "Baseline ref": 1,
+        "Habitat reference Number": "H1",
         "Broad habitat": "Cropland",
         "Habitat type": "Cereal crops",
         "Area (hectares)": 1,
@@ -148,6 +149,7 @@ const dataString = `
     ],
     "d2": [
       {
+        "Habitat reference Number": "H2",
         "Delay in starting habitat creation (years)": 0,
         "Broad habitat": "Grassland",
         "Proposed habitat": "Other neutral grassland",
@@ -176,6 +178,7 @@ const dataString = `
     "d3": [
       {
         "Baseline ref": 2,
+        "Habitat reference Number": "H3",
         "Baseline habitat": "Grassland - Modified grassland",
         "Proposed Broad Habitat": "Wetland",
         "Habitat enhanced in advance (years)": 0,
@@ -218,6 +221,7 @@ const dataString = `
     "e1": [
       {
         "Baseline ref": 1,
+        "Habitat reference Number": "E1",
         "Hedgerow type": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Length enhanced": 0,
@@ -239,6 +243,7 @@ const dataString = `
     ],
     "e2": [
       {
+        "Habitat reference Number": "E2",
         "Habitat type": "Native hedgerow with trees",
         "Length (km)": 0.3,
         "Delay in starting habitat creation (years)": 0,
@@ -255,6 +260,7 @@ const dataString = `
     "e3": [
       {
         "Baseline ref": 1,
+        "Habitat reference Number": "E3",
         "Baseline habitat": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,
@@ -272,6 +278,7 @@ const dataString = `
     "f1": [
       {
         "Baseline ref": 1,
+        "Habitat reference Number": "F1",
         "Watercourse type": "Ditches",
         "Length (km)": 0.3,
         "Length enhanced": 0,
@@ -293,6 +300,7 @@ const dataString = `
     ],
     "f2": [
       {
+        "Habitat reference Number": "F2",
         "Watercourse type": "Ditches",
         "Habitat created in advance (years)": 0,
         "Delay in starting habitat creation (years)": 0,
@@ -309,6 +317,7 @@ const dataString = `
     "f3": [
       {
         "Baseline ref": 1,
+        "Habitat reference Number": "F3",
         "Baseline habitat": "Ditches",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,

@@ -110,24 +110,30 @@ class BngMetricSingleDataExtractor {
 
   #removeUnwantedColumns = (data, extractionConfiguration) => {
     const { columnsToBeRemoved, cellHeaders } = extractionConfiguration
-    const normalizedCellHeaders = cellHeaders.map(header => header.trim().toLowerCase())
     data.forEach(row => {
-      Object.keys(row).forEach(key => {
-        const normalizedKey = key.trim().toLowerCase()
-        if (columnsToBeRemoved.includes(normalizedKey)) {
-          delete row[key]
+      columnsToBeRemoved.forEach(column => {
+        if (row[column]) {
+          delete row[column]
         }
-        if (!normalizedCellHeaders.includes(normalizedKey)) {
+      })
+
+      // Checking if all requested columns in configs are there
+      Object.keys(row).forEach(key => {
+        if (!cellHeaders.includes(key)) {
           delete row[key]
         }
       })
     })
+
     data = data
       .map(content => {
         delete content.Ref
         return content
       })
-      .filter(content => Object.values(content).some(value => value !== null && value !== ''))
+      .filter(content =>
+        Object.values(content).some(value => value !== null && value !== '')
+      )
+
     return data
   }
 
