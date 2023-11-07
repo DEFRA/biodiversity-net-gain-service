@@ -1,0 +1,33 @@
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        <p class="govuk-hint">{{ hintText }}</p>
+
+        {{ govukInput({
+          id: "organisationName",
+          name: "organisationName",
+          errorMessage: organisationNameError,
+          label: {
+            text: "Organisation name"
+          },
+          autocomplete: "organisationName",
+          spellcheck: false,
+          value: organisationName
+        }) }}
+    
+
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
+    </div>
+  </div>
