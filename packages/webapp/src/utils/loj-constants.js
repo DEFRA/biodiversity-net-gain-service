@@ -177,8 +177,10 @@ const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
 const INDIVIDUAL = 'individual'
-const ORGANISATION = 'orgaanisation'
+const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
+const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
+const IS_ADDRESS_UK = 'land/is-address-uk'
 
 export default {
   landownerTypes: {
@@ -273,6 +275,7 @@ export default {
     REFERER,
     EMAIL_VALUE,
     LANDOWNER_TYPE,
+    DEFRA_ACCOUNT_DETAILS_CONFIRMED,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
     ADD_PLANNING_AUTHORITY,
@@ -361,6 +364,7 @@ export default {
     NEW_REGISTRATION,
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     CHECK_DEFRA_ACCOUNT_DETAILS,
+    IS_ADDRESS_UK,
     LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
