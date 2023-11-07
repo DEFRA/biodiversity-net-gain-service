@@ -57,6 +57,7 @@ describe(url, () => {
           session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
           session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
           session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -177,6 +178,40 @@ describe(url, () => {
           await postHandler({ yar: session, payload }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should redirect to land ownership proof list with unique entries', done => {
+      jest.isolateModules(async () => {
+        try {
+          const postHandler = checkOwnershipProofFile[1].handler
+          const session = new Session()
+          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ['test.doc'])
+
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+
+          const payload = {
+            checkLandOwnership: 'yes'
+          }
+
+          await postHandler({ yar: session, payload }, h)
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
         } catch (err) {
           done(err)
