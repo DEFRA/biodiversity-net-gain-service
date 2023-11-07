@@ -11,6 +11,7 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
+const CREDITS_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
@@ -45,6 +46,10 @@ describe('Trusted file processing', () => {
 
   it('should process a known developer metric file. ', done => {
     performDeveloperValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
+  })
+
+  it('should process a known credits metric file. ', done => {
+    performCreditsValidMetricFileProcessingTest(METRIC_FILE_EXTENSION, done)
   })
 
   it('should respond to a coordinate reference system validation error. ', done => {
@@ -139,34 +144,34 @@ describe('Trusted file processing', () => {
     })
   })
 
-  it('Should process a trusted developer metric file', done => {
-    jest.isolateModules(async () => {
-      try {
-        const context = getContext()
-        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
-          const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
-          const readableStream = Readable.from(readStream)
-          return {
-            readableStreamBody: readableStream
-          }
-        })
-        await processTrustedFile(context, {
-          body: {
-            uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
-            location: 'test',
-            containerName: 'test'
-          }
-        })
+  // it('Should process a trusted developer metric file', done => {
+  //   jest.isolateModules(async () => {
+  //     try {
+  //       const context = getContext()
+  //       blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
+  //         const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
+  //         const readableStream = Readable.from(readStream)
+  //         return {
+  //           readableStreamBody: readableStream
+  //         }
+  //       })
+  //       await processTrustedFile(context, {
+  //         body: {
+  //           uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+  //           location: 'test',
+  //           containerName: 'test'
+  //         }
+  //       })
 
-        expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
-        expect(context.res.status).toEqual(200)
-        expect(context.res.body).toBeDefined()
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
-  })
+  //       expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled(0)
+  //       expect(context.res.status).toEqual(200)
+  //       expect(context.res.body).toBeDefined()
+  //       done()
+  //     } catch (err) {
+  //       done(err)
+  //     }
+  //   })
+  // })
 })
 
 const buildConfig = (fileExtension, uploadType, epsg) => {
@@ -215,6 +220,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
 
   switch (uploadType) {
     case DEVELOPER_METRIC_UPLOAD_TYPE:
+    case CREDITS_METRIC_UPLOAD_TYPE:
       config.metricData = metricData
       break
 
@@ -342,7 +348,29 @@ const throwError = testConfig => {
 const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
-      const testConfig = buildConfig(fileExtension, 'metric-upload')
+      const testConfig = buildConfig(fileExtension, DEVELOPER_METRIC_UPLOAD_TYPE)
+      blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
+        const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
+        const readableStream = Readable.from(readStream)
+        return {
+          readableStreamBody: readableStream
+        }
+      })
+      await processTrustedFile(getContext(), testConfig.req)
+
+      expect(getContext().res.status).toEqual(200)
+      expect(JSON.parse(getContext().res.body)).toBeDefined()
+      done()
+    } catch (e) {
+      done(e)
+    }
+  })
+}
+
+const performCreditsValidMetricFileProcessingTest = (fileExtension, done) => {
+  jest.isolateModules(async () => {
+    try {
+      const testConfig = buildConfig(fileExtension, CREDITS_METRIC_UPLOAD_TYPE)
       blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
         const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
         const readableStream = Readable.from(readStream)
