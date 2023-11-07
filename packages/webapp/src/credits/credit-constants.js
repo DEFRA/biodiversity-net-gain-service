@@ -1,6 +1,7 @@
 const CREDITS_UPLOAD_METRIC = '/credits/credits-metric-upload'
 const CREDITS_CHECK_UPLOAD_METRIC = '/credits/credits-metric-upload-check'
 const CREDITS_CONFIRM_DEV_DETAILS = '/credits/credits-development-location'
+const CREDITS_DOWNLOAD_METRIC_FILE = '/credits/credits-download-metric'
 
 const CREDITS_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
 
@@ -20,7 +21,8 @@ export default {
   routes: {
     CREDITS_UPLOAD_METRIC,
     CREDITS_CHECK_UPLOAD_METRIC,
-    CREDITS_CONFIRM_DEV_DETAILS
+    CREDITS_CONFIRM_DEV_DETAILS,
+    CREDITS_DOWNLOAD_METRIC_FILE
   },
   uploadTypes: {
     CREDITS_METRIC_UPLOAD_TYPE
@@ -35,7 +37,9 @@ export default {
     emptyFile: 'Empty file',
     maximumFileSizeExceeded: 'Maxiumum file size exceeded',
     threatDetected: 'The selected file contains a virus',
-    unsupportedFileExt: 'Unsupported file extension'
+    malwareScanFailed: 'File malware scan failed',
+    unsupportedFileExt: 'Unsupported file extension',
+    noFileScanResponse: 'Timed out awaiting anti virus scan result'
   },
   creditsCheckUploadMetric: {
     NO,
@@ -44,5 +48,9 @@ export default {
   creditsCheckDetails: {
     NO,
     YES
-  }
+  },
+  applicationTypes: {
+    CREDITS: 'Credits'
+  },
+  BLOB_STORAGE_CONTAINER: 'customer-uploads'
 }

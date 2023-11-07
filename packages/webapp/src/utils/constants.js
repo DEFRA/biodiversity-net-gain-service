@@ -54,7 +54,8 @@ const COOKIES = 'cookies'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  ...creditsConstants.applicationTypes
 }
 
 const ADDRESS_TYPES = {
