@@ -83,6 +83,8 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
+const APPLICANT_DETAILS_IS_AGENT = 'land/applicant-details-is-agent'
+
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -220,6 +222,7 @@ export default {
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
+    APPLICANT_DETAILS_IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     MANAGEMENT_PLAN_CHECKED,
     MANAGEMENT_PLAN_LOCATION,
@@ -353,7 +356,8 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
-    LEGAL_AGREEMENT_LPA_REMOVE
+    LEGAL_AGREEMENT_LPA_REMOVE,
+    APPLICANT_DETAILS_IS_AGENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
