@@ -6,10 +6,9 @@ const registerTaskList = {
       taskTitle: 'Applicant information',
       tasks: [
         {
-          title: 'Add details about the person applying',
+          title: 'Add details about the applicant',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          // TODO: update completed path and inProgressUrl when all applicant info jounrey is complete
-          completedTaskUrl: constants.routes.CHECK_OWNERSHIP_DETAILS,
+          completedTaskUrl: constants.routes.CHECK_APPLICANT_INFORMATION,
           startTaskUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT,
           inProgressUrl: '',
           id: 'add-applicant-information'

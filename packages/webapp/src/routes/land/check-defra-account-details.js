@@ -1,8 +1,15 @@
 import constants from '../../utils/constants.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Applicant information',
+      title: 'Add details about the applicant'
+    }, {
+      inProgressUrl: constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+    })
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
     request.yar.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
