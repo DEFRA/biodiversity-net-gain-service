@@ -7,7 +7,7 @@ const handlers = {
   get: async (request, h) => {
     const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME)
     return h.view(constants.views.CLIENTS_NAME, {
-      individual: individual.value
+      individual: individual?.value
     })
   },
   post: async (request, h) => {
