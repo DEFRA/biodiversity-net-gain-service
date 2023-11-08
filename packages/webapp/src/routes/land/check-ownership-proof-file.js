@@ -19,7 +19,7 @@ const handlers = {
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
 
     const ownershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-    const fileName = path.basename(context.fileLocation || '')
+    const fileName = context.filename
 
     if (checkLandOwnership === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
