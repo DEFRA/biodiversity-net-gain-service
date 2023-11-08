@@ -39,20 +39,19 @@ describe(url, () => {
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(5)
-          // TODO: remove skip and test should pass after all routes are developed
-          // expect(contextResult.registrationTasks.taskList[0]).toEqual({
-          //   taskTitle: 'Applicant information',
-          //   tasks: [
-          //     {
-          //       title: 'Add details about the applicant',
-          //       status: 'NOT STARTED',
-          //       completedTaskUrl: '/land/check-ownership-details',
-          //       startTaskUrl: '/land/applicant-details-is-agent',
-          //       inProgressUrl: '',
-          //       id: 'add-applicant-details-is-agent'
-          //     }
-          //   ]
-          // })
+          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+            taskTitle: 'Applicant information',
+            tasks: [
+              {
+                title: 'Add details about the applicant',
+                status: 'NOT STARTED',
+                completedTaskUrl: '/land/check-applicant-information',
+                startTaskUrl: '/land/applicant-details-is-agent',
+                inProgressUrl: '',
+                id: 'add-applicant-information'
+              }
+            ]
+          })
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
