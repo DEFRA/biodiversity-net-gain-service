@@ -1,8 +1,16 @@
 import constants from '../../utils/constants.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Applicant information',
+      title: 'Add details about the applicant'
+    }, {
+      inProgressUrl: constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+    })
+
     return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {

@@ -6,7 +6,7 @@ const dataString = `
         "taskTitle": "Applicant information",
         "tasks": [
           {
-            "title": "Add details about the person applying",
+            "title": "Add details about the applicant",
             "status": "COMPLETED",
             "completedTaskUrl": "/land/applicant-details-is-agent",
             "startTaskUrl": "/land/applicant-details-is-agent",

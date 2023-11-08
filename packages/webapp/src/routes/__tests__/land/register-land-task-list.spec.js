@@ -44,7 +44,7 @@ describe(url, () => {
           //   taskTitle: 'Applicant information',
           //   tasks: [
           //     {
-          //       title: 'Add details about the person applying',
+          //       title: 'Add details about the applicant',
           //       status: 'NOT STARTED',
           //       completedTaskUrl: '/land/check-ownership-details',
           //       startTaskUrl: '/land/applicant-details-is-agent',
