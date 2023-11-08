@@ -3,15 +3,14 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Are you applying as an individual or as part of an organisation?" %}
-{% set landownerType = "landownerType" %}
 {% block formContent %}
   <div class="govuk-body">
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
     {{ govukRadios({
-      id: landownerType,
-      name: landownerType,
+      idPrefix: "landownerType",
+      name: "landownerType",
       fieldset: {
         legend: {
           text: pageHeading,
@@ -23,11 +22,15 @@
       items: [
         {
           value: "individual",
-          text: "An individual landowner or leaseholder"
+          text: "An individual landowner or leaseholder",
+          id: "landowner-type-individual",
+          checked: landownerType === "individual"
         },
         {
           value: "organisation",
-          text: "An organisation - I am an employee or representative"
+          text: "An organisation - I am an employee or representative",
+          id: "landowner-type-organisation",
+          checked: landownerType === "organisation"
         }
       ]
     }) }}
