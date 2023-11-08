@@ -67,18 +67,7 @@ const getLogoutUrl = () => {
   return signoutUrl
 }
 
-const getAuthenticationContext = account => {
-  const accountInfo = account.idTokenClaims
-  const currentOrganisation = accountInfo?.relationships?.find(r => r?.startsWith(accountInfo?.currentRelationshipId))?.split(':')[1]
-  const representing = currentOrganisation || `Myself (${accountInfo.firstName} ${accountInfo.lastName})`
-  return {
-    currentOrganisation,
-    representing
-  }
-}
-
 export default {
-  getAuthenticationContext,
   getAuthenticationUrl,
   authenticate,
   refresh,
