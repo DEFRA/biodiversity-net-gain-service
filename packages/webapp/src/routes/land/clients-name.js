@@ -2,29 +2,41 @@ import constants from '../../utils/constants.js'
 import {
   validateFirstLastName
 } from '../../utils/helpers.js'
-import isEmpty from 'lodash/isEmpty.js'
 
 const handlers = {
   get: async (request, h) => {
     const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME)
-
-    return h.view(constants.views.CLIENTS_NAME, { individual })
+    return h.view(constants.views.CLIENTS_NAME, {
+      individual: individual.value
+    })
   },
   post: async (request, h) => {
-    const { firstName, middleName, lastName } = request.payload
+    const { firstName, middleNames, lastName } = request.payload
+    const errors = {
+      firstNameError: validateFirstLastName(firstName, 'first name', '#firstName'),
+      lastNameError: validateFirstLastName(lastName, 'last name', '#lastName')
+    }
 
-    const firstNameError = validateFirstLastName(firstName, 'first name', 'firstNameId')
-    const lastNameError = validateFirstLastName(lastName, 'last name', 'lastNameId')
-
-    if (!isEmpty(firstNameError) || !isEmpty(lastNameError)) {
+    if (errors.firstNameError || errors.lastNameError) {
+      const err = []
+      Object.keys(errors).forEach(item => {
+        if (errors[item]) {
+          err.push(errors[item].err[0])
+        }
+      })
       return h.view(constants.views.CLIENTS_NAME, {
-        err: Object.values({ ...firstNameError, ...lastNameError }),
-        firstNameError: firstNameError?.err[0],
-        lastNameError: lastNameError?.err[0]
+        err,
+        firstNameError: errors.firstNameError?.err[0],
+        lastNameError: errors.lastNameError?.err[0],
+        individual: {
+          firstName,
+          middleNames,
+          lastName
+        }
       })
     }
 
-    request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleName, lastName } })
+    request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
 
     return h.redirect(constants.routes.IS_ADDRESS_UK)
   }
