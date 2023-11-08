@@ -44,7 +44,6 @@ const applicationValidation = Joi.object({
         Joi.object({
           habitatType: Joi.string().required(),
           baselineReference: Joi.string().required(),
-          habitatReferenceNumber: Joi.string(),
           condition: Joi.string().required(),
           area: Joi.object({
             beforeEnhancement: Joi.number().required(),
@@ -55,7 +54,7 @@ const applicationValidation = Joi.object({
       ),
       proposed: Joi.array().items(
         Joi.object({
-          proposedHabitatId: Joi.string().allow(''), // For now allow empty string until Metric 4.1
+          proposedHabitatId: Joi.string(),
           baselineReference: Joi.when('module', {
             is: 'Enhanced',
             then: Joi.string().required(),
