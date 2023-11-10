@@ -1,7 +1,6 @@
 import getApplicantContext from '../../utils/get-applicant-context.js'
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const individualSignInErrorMessage = `
   You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
