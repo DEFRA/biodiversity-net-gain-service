@@ -7,6 +7,7 @@ const handlers = {
       taskTitle: 'Applicant information',
       title: 'Add details about the person applying'
     }, {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT
     })
 

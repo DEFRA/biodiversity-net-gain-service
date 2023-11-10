@@ -1,8 +1,16 @@
 import constants from '../../utils/constants.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 const phoneRegex = /^[\d-+()#]*$/ // Very basic regex authored by tmason (ergo its probably bad) checks string is numeric or special chars -+()#
 
 const handlers = {
   get: async (request, h) => {
+    processRegistrationTask(request, {
+      taskTitle: 'Applicant information',
+      title: 'Add details about the person applying'
+    }, {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.CLIENTS_PHONE_NUMBER
+    })
     const phone = request.yar.get(constants.redisKeys.CLIENTS_PHONE_NUMBER)
     return h.view(constants.views.CLIENTS_PHONE_NUMBER, {
       phone
