@@ -87,7 +87,7 @@ const getLandOwnershipRows = (landOwnershipFileNames) => {
             text: 'Proof of land ownership file uploaded'
           },
           value: {
-            html: '<span data-testid="proof-land-ownership-file-name-value">' + item + '</span>'
+            html: '<span data-testid="proof-land-ownership-file-name-value">' + item.fileName + '</span>'
           },
           actions: {
             items: [

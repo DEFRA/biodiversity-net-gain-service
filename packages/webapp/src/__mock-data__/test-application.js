@@ -412,8 +412,22 @@ const dataString = `
   "landowner-type": "individual",
   "defraAccountDetailsConfirmed": "true",
   "land-ownership-proofs": [
-    "file-1.pdf",
-    "file-2.doc"
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf",
+        "fileName": "lopfile2.pdf",
+        "optional": false
+      },
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile1.pdf",
+        "fileName": "lopfile1.pdf",
+        "optional": false
+      }
   ]
 }`
 

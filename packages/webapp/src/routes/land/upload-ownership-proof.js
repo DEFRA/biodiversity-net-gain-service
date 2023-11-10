@@ -2,17 +2,32 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import path from 'path'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
 const processSuccessfulUpload = (result, request, h) => {
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, result.fileType)
-  logger.log(`${new Date().toUTCString()} Received land ownership data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.CHECK_PROOF_OF_OWNERSHIP)
+  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) ?? []
+  const location = result.config.blobConfig.blobName
+  let id = lopFiles.find(file => file.location === location)?.id
+  const fileName = path.parse(location).base
+  if (!id) {
+    id = generateUniqueId()
+    lopFiles.push({
+      fileName,
+      location,
+      fileSize: result.fileSize,
+      fileType: result.fileType,
+      id
+    })
+  }
+  logger.log(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+  if (lopFiles.length > 0) {
+    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+  }
+  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 
 const processErrorUpload = (err, h) => {

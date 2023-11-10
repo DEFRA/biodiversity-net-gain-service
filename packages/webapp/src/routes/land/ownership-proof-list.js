@@ -4,7 +4,7 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 const getCustomizedHTML = (item, index) => {
   return {
     key: {
-      text: item,
+      text: item.fileName,
       classes: 'govuk-summary-list govuk-!-font-weight-regular hmrc-list-with-actions hmrc-list-with-actions--short'
     },
     actions: {

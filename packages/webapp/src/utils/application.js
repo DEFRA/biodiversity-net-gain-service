@@ -191,14 +191,26 @@ const getFiles = session => {
   const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
   const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
   return [
+    ...getLandOwnershipFiles(session),
     ...getLegalAgreementFiles(session),
     getLandBoundaryFile(session),
     getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION, false),
-    getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION, false),
     getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, false),
     getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
     getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
+}
+
+const getLandOwnershipFiles = session => {
+  const lopFiles = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  return lopFiles.map(file => ({
+    contentMediaType: file.fileType,
+    fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+    fileSize: file.fileSize,
+    fileLocation: file.location,
+    fileName: path.basename(file.location),
+    optional: false
+  }))
 }
 
 const getLocalPlanningAuthorities = lpas => {

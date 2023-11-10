@@ -13,7 +13,7 @@ const handlers = {
     const { id } = request.query
 
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-    const ownershipProofToRemove = landOwnershipProofs[id]
+    const ownershipProofToRemove = landOwnershipProofs[id].fileName
 
     if (!ownershipProofToRemove) {
       return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
