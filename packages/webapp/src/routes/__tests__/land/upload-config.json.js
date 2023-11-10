@@ -10,11 +10,6 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.0.xlsm'
 }, {
-  uploadType: 'management-plan',
-  url: constants.routes.UPLOAD_MANAGEMENT_PLAN,
-  hasError: true,
-  filePath: 'packages/webapp/src/__mock-data__/uploads/legal-agreements/legal-agreement.pdf'
-}, {
   uploadType: 'metric-upload',
   url: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   hasError: true,

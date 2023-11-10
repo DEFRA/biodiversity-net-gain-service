@@ -33,12 +33,7 @@ const dataString = `
             "startTaskUrl": "/land/choose-land-boundary-upload",
             "inProgressUrl": "/land/add-grid-reference",
             "id": "add-land-boundary"
-          }
-        ]
-      },
-      {
-        "taskTitle": "Habitat information",
-        "tasks": [
+          },
           {
             "title": "Add habitat baseline, creation and enhancements",
             "status": "COMPLETED",
@@ -46,14 +41,6 @@ const dataString = `
             "startTaskUrl": "/land/upload-metric",
             "inProgressUrl": "/land/check-metric-details",
             "id": "add-habitat-information"
-          },
-          {
-            "title": "Add habitat management and monitoring details",
-            "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-management-monitoring-details",
-            "startTaskUrl": "/land/upload-management-plan",
-            "inProgressUrl": "/land/check-management-monitoring-details",
-            "id": "add-habitat-management"
           }
         ]
       },
@@ -344,11 +331,6 @@ const dataString = `
   },
   "metric-file-checked": "yes",
   "check-uploaded-metric": true,
-  "management-plan-location": "800376c7-8652-4906-8848-70a774578dfe/management-plan/legal-agreement.doc",
-  "management-plan-file-size": 0.01,
-  "management-plan-file-type": "application/msword",
-  "management-plan-checked": "yes",
-  "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",

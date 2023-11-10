@@ -33,12 +33,7 @@ const registerTaskList = {
           startTaskUrl: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' ? constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD : constants.routes.UPLOAD_LAND_BOUNDARY,
           inProgressUrl: '',
           id: 'add-land-boundary'
-        }
-      ]
-    },
-    {
-      taskTitle: 'Habitat information',
-      tasks: [
+        },
         {
           title: 'Add habitat baseline, creation and enhancements',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
@@ -46,14 +41,6 @@ const registerTaskList = {
           startTaskUrl: constants.routes.UPLOAD_METRIC,
           inProgressUrl: '',
           id: 'add-habitat-information'
-        },
-        {
-          title: 'Add habitat management and monitoring details',
-          status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
-          completedTaskUrl: constants.routes.CHECK_MANAGEMENT_MONITORING_DETAILS,
-          startTaskUrl: constants.routes.UPLOAD_MANAGEMENT_PLAN,
-          inProgressUrl: '',
-          id: 'add-habitat-management'
         }
       ]
     },

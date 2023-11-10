@@ -25,14 +25,12 @@ const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
 const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
-const CHECK_MANAGEMENT_PLAN = 'land/check-management-plan-file'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
 const DOWNLOAD_HABITAT_PLAN_FILE = 'land/download-habitat-plan-file'
-const DOWNLOAD_MANAGEMENT_PLAN = 'land/download-management-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
@@ -40,7 +38,6 @@ const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
 const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
 const OS_API_TOKEN = 'land/os-api-token'
-const UPLOAD_MANAGEMENT_PLAN = 'land/upload-management-plan'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const CHECK_LEGAL_AGREEMENT_DETAILS = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
@@ -53,8 +50,6 @@ const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-org
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
-const MANAGEMENT_MONITORING_START_DATE = 'land/management-monitoring-start-date'
-const CHECK_MANAGEMENT_MONITORING_DETAILS = 'land/check-management-monitoring-details'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
@@ -63,7 +58,6 @@ const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
 const NEED_METRIC = 'land/need-metric'
-const NEED_MANAGEMENT_PLAN = 'land/need-management-plan'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
 const NEED_HABITAT_PLAN = 'land/need-habitat-plan'
@@ -122,11 +116,6 @@ const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_RESPONSIBLE_BODIES = 'legal-agreement-reponsible-bodies'
 const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
-const MANAGEMENT_PLAN_KEY = 'management-plan-key'
-const MANAGEMENT_PLAN_CHECKED = 'management-plan-checked'
-const MANAGEMENT_PLAN_FILE_SIZE = 'management-plan-file-size'
-const MANAGEMENT_PLAN_FILE_TYPE = 'management-plan-file-type'
-const MANAGEMENT_PLAN_LOCATION = 'management-plan-location'
 const LAND_OWNERSHIP_FILE_SIZE = 'land-ownership-file-size'
 const LAND_OWNERSHIP_LOCATION = 'land-ownership-location'
 const LAND_OWNERSHIP_CHECKED = 'land-ownership-checked'
@@ -157,8 +146,6 @@ const METRIC_DATA = 'metric-data'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
-const HABITAT_WORKS_START_DATE_KEY = 'habitat-works-start-date'
-const MANAGEMENT_MONITORING_START_DATE_KEY = 'management-monitoring-start-date'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
@@ -170,7 +157,6 @@ const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
 const HABITAT_PLAN_UPLOAD_TYPE = 'habitat-plan'
-const MANAGEMENT_PLAN_UPLOAD_TYPE = 'management-plan'
 const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
@@ -246,17 +232,12 @@ export default {
     LOCAL_LAND_CHARGE_FILE_TYPE,
     HABITAT_PLAN_FILE_TYPE,
     LEGAL_AGREEMENT_PARTIES_KEY,
-    MANAGEMENT_PLAN_KEY,
     LEGAL_AGREEMENT_FILE_OPTION,
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
     APPLICANT_DETAILS_IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
-    MANAGEMENT_PLAN_CHECKED,
-    MANAGEMENT_PLAN_LOCATION,
-    MANAGEMENT_PLAN_FILE_SIZE,
-    MANAGEMENT_PLAN_FILE_TYPE,
     METRIC_FILE_TYPE,
     METRIC_UPLOAD_KEY,
     LAND_OWNERSHIP_LOCATION,
@@ -269,7 +250,6 @@ export default {
     FULL_NAME,
     LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
     NAME_KEY,
-    HABITAT_WORKS_START_DATE_KEY,
     REGISTERED_LANDOWNER_ONLY,
     LANDOWNERS,
     LANDOWNER_CONSENT_KEY,
@@ -278,7 +258,6 @@ export default {
     ENHANCEMENT_WORKS_START_DATE_OPTION,
     ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
-    MANAGEMENT_MONITORING_START_DATE_KEY,
     LEGAL_AGREEMENT_ORGANISATION_NAMES,
     LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
     LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
@@ -341,7 +320,6 @@ export default {
     NEED_ADD_ALL_LEGAL_FILES,
     NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,
-    CHECK_MANAGEMENT_PLAN,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
     CHECK_PROOF_OF_OWNERSHIP,
@@ -351,7 +329,6 @@ export default {
     DOWNLOAD_LEGAL_AGREEMENT,
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_HABITAT_PLAN_FILE,
-    DOWNLOAD_MANAGEMENT_PLAN,
     DOWNLOAD_LAND_BOUNDARY,
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
@@ -360,7 +337,6 @@ export default {
     OS_API_TOKEN,
     PUBLIC_ROUTES,
     START,
-    UPLOAD_MANAGEMENT_PLAN,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
@@ -374,8 +350,6 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
-    MANAGEMENT_MONITORING_START_DATE,
-    CHECK_MANAGEMENT_MONITORING_DETAILS,
     REGISTERED_LANDOWNER,
     ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
@@ -383,7 +357,6 @@ export default {
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
     NEED_METRIC,
-    NEED_MANAGEMENT_PLAN,
     NEED_LEGAL_AGREEMENT,
     NEED_LOCAL_LAND_CHARGE,
     NEED_HABITAT_PLAN,
@@ -423,7 +396,6 @@ export default {
     LEGAL_AGREEMENT_UPLOAD_TYPE,
     LOCAL_LAND_CHARGE_UPLOAD_TYPE,
     HABITAT_PLAN_UPLOAD_TYPE,
-    MANAGEMENT_PLAN_UPLOAD_TYPE,
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,
     LAND_OWNERSHIP_UPLOAD_TYPE,
@@ -434,7 +406,6 @@ export default {
     CHECK_YOUR_DETAILS,
     CHECK_OWNERSHIP_DETAILS,
     CHECK_LEGAL_AGREEMENT_DETAILS,
-    CHECK_MANAGEMENT_MONITORING_DETAILS,
     CHECK_LAND_BOUNDARY_DETAILS,
     CHECK_METRIC_DETAILS
   ],
