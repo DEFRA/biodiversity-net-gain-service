@@ -6,11 +6,13 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Applicant information',
-      title: 'Add details about the person applying'
+      title: 'Add details about the applicant'
     }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
     })
+    // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
+    // their account details are correct based on who they are representing in the current session.
+    request.yar.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
     return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {

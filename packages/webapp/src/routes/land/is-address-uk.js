@@ -5,11 +5,11 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Applicant information',
-      title: 'Add details about the person applying'
+      title: 'Add details about the applicant'
     }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.IS_ADDRESS_UK
     })
+
     const isAddressUk = request.yar.get(constants.redisKeys.IS_ADDRESS_UK)
     const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
     return h.view(constants.views.IS_ADDRESS_UK, {

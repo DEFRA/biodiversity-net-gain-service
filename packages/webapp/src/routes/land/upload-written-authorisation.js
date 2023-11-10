@@ -79,9 +79,8 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Applicant information',
-      title: 'Add details about the person applying'
+      title: 'Add details about the applicant'
     }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.UPLOAD_WRITTEN_AUTHORISATION
     })
 

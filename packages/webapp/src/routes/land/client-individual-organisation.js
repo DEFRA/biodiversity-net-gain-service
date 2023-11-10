@@ -5,13 +5,12 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Applicant information',
-      title: 'Add details about the person applying'
+      title: 'Add details about the applicant'
     }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
     })
-    const landownerType = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
 
+    const landownerType = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
     return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, { landownerType })
   },
   post: async (request, h) => {

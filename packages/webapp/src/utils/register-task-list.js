@@ -6,7 +6,7 @@ const registerTaskList = {
       taskTitle: 'Applicant information',
       tasks: [
         {
-          title: 'Add details about the person applying',
+          title: 'Add details about the applicant',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_APPLICANT_INFORMATION,
           startTaskUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT,

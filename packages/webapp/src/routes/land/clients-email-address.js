@@ -5,11 +5,11 @@ const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Applicant information',
-      title: 'Add details about the person applying'
+      title: 'Add details about the applicant'
     }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CLIENTS_EMAIL_ADDRESS
     })
+
     const email = request.yar.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS)
     return h.view(constants.views.CLIENTS_EMAIL_ADDRESS, {
       email
