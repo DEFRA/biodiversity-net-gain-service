@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import getLpaNames from '../../utils/get-lpa-names.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType
@@ -12,7 +13,9 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_PLANNING_AUTHORITY
     })
+
     const { id } = request.query
+    const lpaNames = getLpaNames()
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
@@ -20,9 +23,12 @@ const handlers = {
     if (id) {
       localPlanningAuthority = lpaList[id]
     }
+
+    console.log('lpaNames--->', lpaNames)
     return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
       localPlanningAuthority,
-      legalAgreementType
+      legalAgreementType,
+      lpaNames
     })
   },
   post: async (request, h) => {
