@@ -6,14 +6,14 @@ const getLpaNames = () => {
   // const data = fs.readFileSync('./ref-data/lpas-names-and-ids.json')
 
   const lpaList = JSON.parse(data)
-  const formattedLpaList = []
+  const cleansedLpaList = []
 
   lpaList
     .filter(element => !!element.id)
     .forEach(element => {
-      formattedLpaList.push(element.name)
+      cleansedLpaList.push(element.name)
     })
-  return formattedLpaList
+  return cleansedLpaList
 }
 
 export default getLpaNames
