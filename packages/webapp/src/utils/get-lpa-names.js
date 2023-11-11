@@ -16,5 +16,4 @@ const getLpaNames = () => {
   return formattedLpaList
 }
 
-// console.log(getLpaNames())
 export default getLpaNames

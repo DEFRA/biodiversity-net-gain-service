@@ -18,9 +18,9 @@
             <label class="govuk-label" for="localPlanningAuthority"> Local planning authority </label>
             <p class="govuk-hint">Start typing, then select a local planning authority.</p>
             <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
-              <option value=' '>Select a local planning authority</option>
+              <option value=''></option>
               {% for lpa in lpaNames %}
-                <option value=' '>{{ lpa }}</option>
+                <option>{{ lpa }}</option>
               {% endfor %}
             </select> 
           </div>

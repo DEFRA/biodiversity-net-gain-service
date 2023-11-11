@@ -171,6 +171,7 @@ const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const ALL_LPA = 'all-lpa'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
+const REF_LPA_NAMES = 'ref-lpa-names'
 
 export default {
   redisKeys: {
@@ -267,7 +268,8 @@ export default {
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
-    ALL_LPA
+    ALL_LPA,
+    REF_LPA_NAMES
   },
   routes: {
     ADD_GRID_REFERENCE,
