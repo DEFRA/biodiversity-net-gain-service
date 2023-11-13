@@ -1,0 +1,98 @@
+{%
+  set rowList = [
+    {
+      'text': 'Acting on behalf of a client',
+      'value': ('Yes' if actingForClient else 'No'),
+      'valueDataTestId': 'acting-for-client-value',
+      'href': '/land/applicant-details-is-agent',
+      'visuallyHiddenText':  ' acting on behalf of a client',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': true
+    },
+    {
+      'text': 'Defra account details are up to date',
+      'value': 'Confirmed',
+      'valueDataTestId': 'account-details-up-to-date-value',
+      'href': '/land/check-defra-account-details',
+      'visuallyHiddenText':  ' Defra account details are up to date',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': true
+    },
+    {
+      'text': 'Client is an individual or organisation',
+      'value': ('Individual' if clientIsIndividual else 'Organisation'),
+      'valueDataTestId': 'client-type-value',
+      'href': '/land/client-individual-organisation',
+      'visuallyHiddenText':  ' client is an individual or organisation',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': actingForClient
+    },
+    {
+      'text': 'Client\'s name',
+      'value': clientName,
+      'valueDataTestId': 'client-name-value',
+      'href': ('/land/clients-name' if clientIsIndividual else '/land/clients-organisation-name'),
+      'visuallyHiddenText':  ' client\'s name',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': actingForClient
+    },
+    {
+      'text': 'Client\'s address',
+      'value': clientAddress,
+      'valueDataTestId': 'client-address-value',
+      'href': ('/land/uk-address' if addressIsUK else '/land/non-uk-address'),
+      'visuallyHiddenText':  ' client\'s address',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': actingForClient
+    },
+    {
+      'text': 'Client\'s email address',
+      'value': clientEmail,
+      'valueDataTestId': 'client-email-value',
+      'href': '/land/clients-email-address',
+      'visuallyHiddenText':  ' client\'s email address',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': (actingForClient and clientIsIndividual)
+    },
+    {
+      'text': 'Client\'s phone number',
+      'value': clientPhone,
+      'valueDataTestId': 'client-phone-value',
+      'href': '/land/clients-phone-number',
+      'visuallyHiddenText':  ' phone number',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': (actingForClient and clientIsIndividual)
+    },
+    {
+      'text': 'Written authorisation',
+      'value': authorisationFile,
+      'valueDataTestId': 'authorisation-file-value',
+      'href': '/land/upload-written-authorisation',
+      'visuallyHiddenText':  ' written authorisation',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': actingForClient
+    },
+    {
+      'text': 'Applying as individual or organisation',
+      'value': ('Individual' if applicantIsIndividual else 'Organisation as employee or representative'),
+      'valueDataTestId': 'applicant-type-value',
+      'href': '/land/applying-individual-organisation',
+      'visuallyHiddenText':  ' applying as individual or organisation',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': (not actingForClient)
+    },
+    {
+      'text': 'Address',
+      'value': applicantAddress,
+      'valueDataTestId': 'applicant-address-value',
+      'href': ('/land/uk-address' if addressIsUK else '/land/non-uk-address'),
+      'visuallyHiddenText':  ' address',
+      'classes': 'govuk-!-margin-bottom-7',
+      'show': (not actingForClient)
+    }
+  ]
+%}
+
+{{ generateSummaryList({
+  rows: rowList
+}) }}
