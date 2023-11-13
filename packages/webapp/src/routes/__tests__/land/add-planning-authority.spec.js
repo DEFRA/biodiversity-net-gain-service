@@ -27,6 +27,8 @@ describe(url, () => {
   })
 
   describe('GET', () => {
+    jest.mock('../../../utils/get-lpa-names.js')
+
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
