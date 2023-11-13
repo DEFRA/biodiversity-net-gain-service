@@ -438,12 +438,12 @@ const checkForDuplicate = (array, property, value, hrefId, errorMessage, exclude
   return null
 }
 
-const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex = null) => {
+const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex) => {
   const targetValue = properties.map(prop => targetObject[prop].toLowerCase()).join(' ').trim()
   const error = {}
   const duplicate = array.some((item, index) => {
     if (excludedIndex !== null && index === excludedIndex) return false
-    const itemValue = properties.map(prop => item[prop] && item[prop].toLowerCase()).join(' ').trim()
+    const itemValue = properties.map(prop => item[prop]?.toLowerCase()).join(' ').trim()
     return itemValue === targetValue
   })
   if (duplicate) {
