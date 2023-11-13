@@ -4,6 +4,7 @@ import {
   processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
+const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
   get: async (request, h) => {
@@ -15,7 +16,7 @@ const handlers = {
     })
 
     const { id } = request.query
-    const lpaNames = getLpaNames()
+    const lpaNames = getLpaNames(filePathAndName)
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
     const legalAgreementType = getLegalAgreementDocumentType(
