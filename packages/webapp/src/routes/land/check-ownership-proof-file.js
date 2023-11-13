@@ -20,7 +20,7 @@ const handlers = {
 
     if (checkLandOwnership === 'no') {
       const { id } = request.query
-      const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
       await deleteBlobFromContainers(context.fileLocation)
       const updatedLopFiles = lopFiles.filter(item => item.id !== id)
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
@@ -38,7 +38,7 @@ const handlers = {
 }
 
 const getContext = request => {
-  const { id } = request.query
+  const id = request.query?.id
   let lopFile
   let fileLocation = ''
   let fileName = ''

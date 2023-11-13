@@ -21,10 +21,20 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
-      'mock-file-1',
-      'mock-file-2'
-    ])
+    redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+      fileName: 'file-1.doc',
+      location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+      fileSize: 0.01,
+      fileType: 'application/msword',
+      id: '1'
+    },
+    {
+      fileName: 'file-2.pdf',
+      location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-2.pdf',
+      fileSize: 0.01,
+      fileType: 'application/pdf',
+      id: '2'
+    }])
 
     landOwnershipRemove = require('../../land/land-ownership-remove.js')
   })
@@ -49,13 +59,13 @@ describe(url, () => {
     it('should show correct land ownership proofs to be remove', async () => {
       const request = {
         yar: redisMap,
-        query: { id: '0' }
+        query: { id: '1' }
       }
 
       await landOwnershipRemove.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_REMOVE)
-      expect(resultContext.ownershipProofToRemove).toEqual('mock-file-1')
+      expect(resultContext.ownershipProofToRemove).toEqual('file-2.pdf')
     })
   })
 
@@ -110,7 +120,7 @@ describe(url, () => {
       await landOwnershipRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_REMOVE)
-      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove mock-file-2 as proof of land ownership', href: '#remove-op-yes' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove file-2.pdf as proof of land ownership', href: '#remove-op-yes' })
     })
   })
 })

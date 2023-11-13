@@ -10,6 +10,34 @@ jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
+    let h, redisMap, viewResult, resultContext
+    beforeEach(() => {
+      redisMap = new Map()
+      h = {
+        view: (view, context) => {
+          viewResult = view
+          resultContext = context
+        },
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+
+      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+        fileName: 'file-1.doc',
+        location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+        fileSize: 0.01,
+        fileType: 'application/msword',
+        id: '1'
+      },
+      {
+        location: null,
+        fileSize: 0.01,
+        fileType: 'application/pdf',
+        id: '2'
+      }])
+    })
+
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
@@ -21,6 +49,30 @@ describe(url, () => {
           referer: constants.routes.CHECK_AND_SUBMIT
         }
       })
+    })
+
+    it('should show correct land ownership proofs', async () => {
+      const request = {
+        yar: redisMap,
+        query: { id: '1' }
+      }
+
+      await checkOwnershipProofFile[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.CHECK_PROOF_OF_OWNERSHIP)
+      expect(resultContext.fileName).toEqual('file-1.doc')
+    })
+
+    it('should not show land ownership proofs if file location is null', async () => {
+      const request = {
+        yar: redisMap,
+        query: { id: '2' }
+      }
+
+      await checkOwnershipProofFile[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.CHECK_PROOF_OF_OWNERSHIP)
+      expect(resultContext.fileName).toEqual('')
     })
   })
 

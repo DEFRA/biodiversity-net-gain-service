@@ -79,7 +79,7 @@ const getFileNameByType = (files, desiredType) => {
 
 const getLandOwnershipRows = (landOwnershipFileNames) => {
   const rows = []
-  if (landOwnershipFileNames) {
+  if (landOwnershipFileNames.length > 0) {
     for (const item of landOwnershipFileNames) {
       rows.push(
         {

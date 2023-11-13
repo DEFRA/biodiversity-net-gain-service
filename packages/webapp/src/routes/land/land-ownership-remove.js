@@ -13,7 +13,7 @@ const handlers = {
     const { id } = request.query
 
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-    const ownershipProofToRemove = landOwnershipProofs[id].fileName
+    const ownershipProofToRemove = landOwnershipProofs[id]?.fileName
 
     if (!ownershipProofToRemove) {
       return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
@@ -33,7 +33,7 @@ const handlers = {
       return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
         ownershipProofToRemove,
         err: [{
-          text: `Select yes if you want to remove ${landOwnershipProofs[id]} as proof of land ownership`,
+          text: `Select yes if you want to remove ${landOwnershipProofs[id].fileName} as proof of land ownership`,
           href: '#remove-op-yes'
         }]
       })

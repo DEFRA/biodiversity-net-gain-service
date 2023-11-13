@@ -61,7 +61,6 @@ describe(url, () => {
           {
             responsibleBodyName: 'test2'
           }])
-          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ['file1.doc', 'file2.doc'])
 
           const h = {
             view: (view, context) => {
@@ -122,6 +121,7 @@ describe(url, () => {
           const checkAndSubmitView = require('../../../routes/land/check-and-submit.js')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, null)
           session.set(constants.redisKeys.LANDOWNERS, [])
+          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
           const h = {
             view: (view, context) => {
               viewResult = view
