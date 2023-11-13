@@ -16,9 +16,17 @@ const handlers = {
     return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {
+    const { organisationId } = getApplicantContext(request.auth.credentials.account, request.yar)
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+
+      if (organisationId) {
+        // If representing an organisation store the organisation ID so that it can be included in the payload
+        // sent to the operator.
+        request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
+      }
+
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || redirect(request.yar, h))
     } else {
       return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {

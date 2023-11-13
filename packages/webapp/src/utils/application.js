@@ -4,10 +4,124 @@ import path from 'path'
 import savePayment from '../payment/save-payment.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = account => ({
+const getApplicant = (account, session) => ({
   id: account.idTokenClaims.contactId,
-  role: 'Individual'
+  role: getApplicantRole(session)
 })
+
+const getApplicantRole = session => {
+  const applicantIsAgent = session.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
+  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
+  let applicantRole
+
+  if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
+    applicantRole = constants.applicantTypes.AGENT
+  } else if (organisationId) {
+    applicantRole = constants.applicantTypes.REPRESENTATIVE
+  } else {
+    applicantRole = constants.applicantTypes.LANDOWNER
+  }
+
+  return applicantRole
+}
+
+const getClientDetails = session => {
+  const clientType =
+    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+  const clientAddress = getAddress(session)
+
+  const clientDetails = {
+    clientType,
+    clientAddress
+  }
+
+  if (clientType === constants.landownerTypes.INDIVIDUAL) {
+    Object.assign(clientDetails, getIndividualClientDetails(session))
+  } else {
+    Object.assign(clientDetails, getOrganisationClientDetails(session))
+  }
+}
+
+const getIndividualClientDetails = session => {
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.CLIENTS_NAME)
+
+  const clientEmailAddress =
+    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS)
+
+  const clientPhoneNumber =
+    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER)
+
+  const clientDetails = {
+    firstName,
+    lastName
+  }
+
+  if (clientEmailAddress) {
+    clientDetails.clientEmailAddress = clientEmailAddress
+  }
+
+  if (clientPhoneNumber) {
+    clientDetails.clientPhoneNumber = clientPhoneNumber
+  }
+
+  return clientDetails
+}
+
+const getOrganisationClientDetails = session => {
+  const clientNameOrganisation =
+    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
+
+  return {
+    clientNameOrganisation
+  }
+}
+
+const getOrganisation = session => ({
+  id: session.get(constants.redisKeys.ORGANISATION_ID),
+  address: getAddress(session)
+})
+
+const getAddress = session => {
+  const isUkAddress =
+    session.get(constants.redisKeys.IS_ADDRESS_UK) === constants.ADDRESS_IS_UK.YES
+
+  const addressType =
+    isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
+
+  const cachedAddress =
+    isUkAddress
+      ? session.get(constants.redisKeys.UK_ADDRESS)
+      : session.get(constants.redisKeys.NON_UK_ADDRESS)
+
+  const address = {
+    type: addressType,
+    line1: cachedAddress.addressLine1,
+    town: cachedAddress.town
+  }
+
+  if (cachedAddress.addressLine2) {
+    address.line2 = cachedAddress.line2
+  }
+
+  if (cachedAddress.addressLine3) {
+    address.line2 = cachedAddress.line3
+  }
+
+  if (cachedAddress.postcode) {
+    address.postcode = cachedAddress.postcode
+  }
+
+  if (isUkAddress && cachedAddress.county) {
+    address.county = cachedAddress.county
+  }
+
+  if (!isUkAddress && cachedAddress.country) {
+    address.country = cachedAddress.country
+  }
+
+  return address
+}
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
@@ -168,9 +282,9 @@ const getPayment = session => {
 
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
-  return {
+  const applicationJson = {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(account),
+      applicant: getApplicant(account, session),
       habitats: getHabitats(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
@@ -189,6 +303,16 @@ const application = (session, account) => {
       payment: getPayment(session)
     }
   }
+
+  if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.AGENT) {
+    applicationJson.landownerGainSiteRegistration.agent = getClientDetails(session)
+  } else if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.LANDOWNER) {
+    applicationJson.landownerGainSiteRegistration.landownerAddress = getAddress(session)
+  } else {
+    applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
+  }
+
+  return applicationJson
 }
 
 export default application
