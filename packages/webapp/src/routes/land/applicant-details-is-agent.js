@@ -11,7 +11,7 @@ const handlers = {
       inProgressUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT
     })
 
-    const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
+    const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
 
     return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
       isApplicantAgent
@@ -21,11 +21,11 @@ const handlers = {
     const { isApplicantAgent } = request.payload
 
     // Force replay of full journey if switching between agent and non-agent application
-    if (request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT) !== isApplicantAgent) {
+    if (request.yar.get(constants.redisKeys.IS_AGENT) !== isApplicantAgent) {
       request.yar.clear(constants.redisKeys.REFERER)
     }
 
-    request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
+    request.yar.set(constants.redisKeys.IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)

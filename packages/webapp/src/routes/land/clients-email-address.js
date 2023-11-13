@@ -10,7 +10,7 @@ const handlers = {
       inProgressUrl: constants.routes.CLIENTS_EMAIL_ADDRESS
     })
 
-    const email = request.yar.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS)
+    const email = request.yar.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
     return h.view(constants.views.CLIENTS_EMAIL_ADDRESS, {
       email
     })
@@ -27,7 +27,7 @@ const handlers = {
         email
       })
     }
-    request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS, email)
+    request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_PHONE_NUMBER)
   }
 }

@@ -10,16 +10,16 @@ const handlers = {
       inProgressUrl: constants.routes.NON_UK_ADDRESS
     })
 
-    const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
-    const address = request.yar.get(constants.redisKeys.NON_UK_ADDRESS)
+    const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
+    const address = request.yar.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
     return h.view(constants.views.NON_UK_ADDRESS, {
       isApplicantAgent,
       address
     })
   },
   post: async (request, h) => {
-    const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
-    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+    const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
+    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const { addressLine1, addressLine2, addressLine3, town, postcode, country } = request.payload
     const address = {
       addressLine1,
@@ -42,7 +42,7 @@ const handlers = {
         ...errors
       })
     } else {
-      request.yar.set(constants.redisKeys.NON_UK_ADDRESS, address)
+      request.yar.set(constants.redisKeys.NON_UK_ADDRESS_KEY, address)
       return redirectAddress(h, request.yar, isApplicantAgent, isIndividualOrOrganisation)
     }
   }

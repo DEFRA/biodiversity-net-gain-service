@@ -26,8 +26,8 @@ describe(url, () => {
         country: 'country'
       }
       const sessionData = JSON.parse(application.dataString)
-      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = 'yes'
-      sessionData[constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION] = constants.landownerTypes.INDIVIDUAL
+      sessionData[constants.redisKeys.IS_AGENT] = 'yes'
+      sessionData[constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY] = constants.landownerTypes.INDIVIDUAL
       const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.CLIENTS_EMAIL_ADDRESS)
     })
@@ -41,8 +41,8 @@ describe(url, () => {
         country: 'country'
       }
       const sessionData = JSON.parse(application.dataString)
-      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = 'yes'
-      sessionData[constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION] = constants.landownerTypes.ORGANISATION
+      sessionData[constants.redisKeys.IS_AGENT] = 'yes'
+      sessionData[constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY] = constants.landownerTypes.ORGANISATION
       const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     })
@@ -56,7 +56,7 @@ describe(url, () => {
         country: 'country'
       }
       const sessionData = JSON.parse(application.dataString)
-      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = 'no'
+      sessionData[constants.redisKeys.IS_AGENT] = 'no'
       const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.CHECK_APPLICANT_INFORMATION)
     })

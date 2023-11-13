@@ -19,6 +19,7 @@ const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
+const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
@@ -69,7 +70,9 @@ const NEED_ADD_ALL_PLANNING_AUTHORITIES = 'land/need-add-all-planning-authoritie
 const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
 const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
 const CLIENTS_ORGANISATION_NAME = 'land/clients-organisation-name'
+const CLIENTS_ORGANISATION_NAME_KEY = 'clients-organisation-name'
 const CLIENTS_NAME = 'land/clients-name'
+const CLIENTS_NAME_KEY = 'clients-name'
 const ADD_PLANNING_AUTHORITY = 'land/add-planning-authority'
 const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
@@ -82,6 +85,7 @@ const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
 const APPLICANT_DETAILS_IS_AGENT = 'land/applicant-details-is-agent'
+const IS_AGENT = 'is-agent'
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -177,11 +181,16 @@ const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_NOT_LINKED = 'land/defra-account-not-linked'
 const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
+const IS_ADDRESS_UK_KEY = 'is-address-uk'
 const UK_ADDRESS = 'land/uk-address'
+const UK_ADDRESS_KEY = 'uk-address'
 const NON_UK_ADDRESS = 'land/non-uk-address'
+const NON_UK_ADDRESS_KEY = 'non-uk-address'
 const CHECK_APPLICANT_INFORMATION = 'land/check-applicant-information'
 const CLIENTS_EMAIL_ADDRESS = 'land/clients-email-address'
+const CLIENTS_EMAIL_ADDRESS_KEY = 'clients-email-address'
 const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
+const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 
@@ -236,7 +245,7 @@ export default {
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
-    APPLICANT_DETAILS_IS_AGENT,
+    IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     METRIC_FILE_TYPE,
     METRIC_UPLOAD_KEY,
@@ -274,8 +283,8 @@ export default {
     DEFRA_ACCOUNT_DETAILS_CONFIRMED,
     LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
-    CLIENTS_ORGANISATION_NAME,
-    CLIENTS_NAME,
+    CLIENTS_ORGANISATION_NAME_KEY,
+    CLIENTS_NAME_KEY,
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
@@ -284,12 +293,12 @@ export default {
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
     ALL_LPA,
-    IS_ADDRESS_UK,
-    UK_ADDRESS,
-    NON_UK_ADDRESS,
-    CLIENT_INDIVIDUAL_ORGANISATION,
-    CLIENTS_EMAIL_ADDRESS,
-    CLIENTS_PHONE_NUMBER,
+    IS_ADDRESS_UK_KEY,
+    UK_ADDRESS_KEY,
+    NON_UK_ADDRESS_KEY,
+    CLIENT_INDIVIDUAL_ORGANISATION_KEY,
+    CLIENTS_EMAIL_ADDRESS_KEY,
+    CLIENTS_PHONE_NUMBER_KEY,
     WRITTEN_AUTHORISATION_LOCATION,
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,

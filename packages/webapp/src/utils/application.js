@@ -10,7 +10,7 @@ const getApplicant = (account, session) => ({
 })
 
 const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
+  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
   const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
   let applicantRole
 
@@ -27,7 +27,7 @@ const getApplicantRole = session => {
 
 const getClientDetails = session => {
   const clientType =
-    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
   const clientAddress = getAddress(session)
 
   const clientDetails = {
@@ -40,37 +40,33 @@ const getClientDetails = session => {
   } else {
     Object.assign(clientDetails, getOrganisationClientDetails(session))
   }
-}
-
-const getIndividualClientDetails = session => {
-  const { firstName, lastName } =
-    session.get(constants.redisKeys.CLIENTS_NAME)
-
-  const clientEmailAddress =
-    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS)
-
-  const clientPhoneNumber =
-    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER)
-
-  const clientDetails = {
-    firstName,
-    lastName
-  }
-
-  if (clientEmailAddress) {
-    clientDetails.clientEmailAddress = clientEmailAddress
-  }
-
-  if (clientPhoneNumber) {
-    clientDetails.clientPhoneNumber = clientPhoneNumber
-  }
 
   return clientDetails
 }
 
+const getIndividualClientDetails = session => {
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.CLIENTS_NAME_KEY)
+
+  const clientEmailAddress =
+    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+
+  const clientPhoneNumber =
+    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+
+  return {
+    clientNameIndividual: {
+      firstName,
+      lastName
+    },
+    clientEmailAddress,
+    clientPhoneNumber
+  }
+}
+
 const getOrganisationClientDetails = session => {
   const clientNameOrganisation =
-    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
+    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
 
   return {
     clientNameOrganisation
@@ -84,15 +80,15 @@ const getOrganisation = session => ({
 
 const getAddress = session => {
   const isUkAddress =
-    session.get(constants.redisKeys.IS_ADDRESS_UK) === constants.ADDRESS_IS_UK.YES
+    session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
 
   const addressType =
     isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
 
   const cachedAddress =
     isUkAddress
-      ? session.get(constants.redisKeys.UK_ADDRESS)
-      : session.get(constants.redisKeys.NON_UK_ADDRESS)
+      ? session.get(constants.redisKeys.UK_ADDRESS_KEY)
+      : session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
 
   const address = {
     type: addressType,
@@ -101,11 +97,11 @@ const getAddress = session => {
   }
 
   if (cachedAddress.addressLine2) {
-    address.line2 = cachedAddress.line2
+    address.line2 = cachedAddress.addressLine2
   }
 
   if (cachedAddress.addressLine3) {
-    address.line2 = cachedAddress.line3
+    address.line3 = cachedAddress.addressLine3
   }
 
   if (cachedAddress.postcode) {

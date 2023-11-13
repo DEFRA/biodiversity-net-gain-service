@@ -11,17 +11,17 @@ describe(url, () => {
     redisMap = new Map()
 
     redisMap.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, 'true')
-    redisMap.set(constants.redisKeys.UK_ADDRESS, {
+    redisMap.set(constants.redisKeys.UK_ADDRESS_KEY, {
       addressLine1: '123 The Street',
       town: 'Townsville',
       postcode: 'AB12 3DE'
     })
-    redisMap.set(constants.redisKeys.NON_UK_ADDRESS, {
+    redisMap.set(constants.redisKeys.NON_UK_ADDRESS_KEY, {
       addressLine1: '123 Le Street',
       town: 'Paris',
       country: 'France'
     })
-    redisMap.set(constants.redisKeys.CLIENTS_NAME, {
+    redisMap.set(constants.redisKeys.CLIENTS_NAME_KEY, {
       type: 'individual',
       value: {
         firstName: 'Joe',
@@ -29,9 +29,9 @@ describe(url, () => {
         lastName: 'Smith'
       }
     })
-    redisMap.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, 'Land Company Ltd')
-    redisMap.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS, 'me@me.com')
-    redisMap.set(constants.redisKeys.CLIENTS_PHONE_NUMBER, '07000000000')
+    redisMap.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, 'Land Company Ltd')
+    redisMap.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, 'me@me.com')
+    redisMap.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, '07000000000')
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, '/a-location/somewhere/authfile.pdf')
   })
 
@@ -52,8 +52,8 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, 'no')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK, 'yes')
+      redisMap.set(constants.redisKeys.IS_AGENT, 'no')
+      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
       redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.INDIVIDUAL)
 
       await getHandler({ yar: redisMap }, h)
@@ -77,8 +77,8 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, 'no')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK, 'no')
+      redisMap.set(constants.redisKeys.IS_AGENT, 'no')
+      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
       redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.ORGANISATION)
 
       await getHandler({ yar: redisMap }, h)
@@ -102,9 +102,9 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, 'yes')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK, 'no')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, constants.landownerTypes.INDIVIDUAL)
+      redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
+      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
+      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.INDIVIDUAL)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
@@ -131,9 +131,9 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, 'yes')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK, 'yes')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, constants.landownerTypes.ORGANISATION)
+      redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
+      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
+      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.ORGANISATION)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)

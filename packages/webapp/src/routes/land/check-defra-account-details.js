@@ -13,6 +13,7 @@ const handlers = {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
     request.yar.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
+    request.yar.get(constants.redisKeys.ORGANISATION_ID, true)
     return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {
@@ -41,7 +42,7 @@ const handlers = {
 }
 
 const redirect = (session, h) => {
-  if (session.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
+  if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
     return constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
   } else {
     return constants.routes.IS_ADDRESS_UK

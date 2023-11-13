@@ -11,7 +11,7 @@ const handlers = {
       inProgressUrl: constants.routes.CLIENTS_PHONE_NUMBER
     })
 
-    const phone = request.yar.get(constants.redisKeys.CLIENTS_PHONE_NUMBER)
+    const phone = request.yar.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
     return h.view(constants.views.CLIENTS_PHONE_NUMBER, {
       phone
     })
@@ -25,7 +25,7 @@ const handlers = {
         phone
       })
     }
-    request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER, phone)
+    request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, phone)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }

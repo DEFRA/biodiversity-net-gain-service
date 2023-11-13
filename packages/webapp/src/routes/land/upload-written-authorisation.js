@@ -84,9 +84,9 @@ const handlers = {
       inProgressUrl: constants.routes.UPLOAD_WRITTEN_AUTHORISATION
     })
 
-    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
-    const clientsName = request.yar.get(constants.redisKeys.CLIENTS_NAME)
-    const clientsOrganisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
+    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+    const clientsName = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
+    const clientsOrganisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
     const isIndividual = isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL
 
     return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
