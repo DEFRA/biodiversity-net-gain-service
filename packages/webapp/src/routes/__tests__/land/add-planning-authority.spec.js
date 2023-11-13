@@ -75,5 +75,27 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Enter a local planning authority')
     })
+    it('should fail to add planning authority  to legal agreement with duplicate planning authority name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: { localPlanningAuthority: 'Planning Authority 1' },
+        query: { }
+      }
+
+      await addPlanningAuthority.default[1].handler(request, h)
+      expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
+      expect(resultContext.err).toEqual([{ href: '#localPlanningAuthority', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
+    })
+    it('should fail to edit planning authority  to legal agreement with duplicate planning authority name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: { localPlanningAuthority: 'Planning Authority 2' },
+        query: { id: '0' }
+      }
+
+      await addPlanningAuthority.default[1].handler(request, h)
+      expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
+      expect(resultContext.err).toEqual([{ href: '#localPlanningAuthority', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
+    })
   })
 })

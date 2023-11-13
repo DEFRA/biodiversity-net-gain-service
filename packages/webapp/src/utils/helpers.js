@@ -419,6 +419,42 @@ const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, 
   return error.err ? error : null
 }
 
+const checkForDuplicate = (array, property, value, hrefId, errorMessage, excludeIndex) => {
+  const duplicate = array.some((item, index) => {
+    if (typeof item === 'object' && item !== null && property in item) {
+      return index !== excludeIndex && item[property] && item[property].toLowerCase() === value.toLowerCase()
+    } else {
+      return index !== excludeIndex && item.toLowerCase() === value.toLowerCase()
+    }
+  })
+  if (duplicate) {
+    return {
+      err: {
+        text: errorMessage,
+        href: hrefId
+      }
+    }
+  }
+  return null
+}
+
+const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex = null) => {
+  const targetValue = properties.map(prop => targetObject[prop].toLowerCase()).join(' ').trim()
+  const error = {}
+  const duplicate = array.some((item, index) => {
+    if (excludedIndex !== null && index === excludedIndex) return false
+    const itemValue = properties.map(prop => item[prop] && item[prop].toLowerCase()).join(' ').trim()
+    return itemValue === targetValue
+  })
+  if (duplicate) {
+    error.err = {
+      text: errorMessage,
+      href: hrefId
+    }
+    return error
+  }
+  return null
+}
 const validateBNGNumber = (bngNumber, hrefId) => {
   const error = {}
   if (!bngNumber.trim()) {
@@ -572,6 +608,8 @@ export {
   validateEmail,
   getNameAndRoles,
   getAllLandowners,
+  checkForDuplicate,
+  checkForDuplicateConcatenated,
   getResponsibleBodies,
   getLandowners,
   getLegalAgreementDocumentType,

@@ -1,7 +1,8 @@
 import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  checkForDuplicate
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -29,8 +30,10 @@ const handlers = {
     const { id } = request.query
     const { localPlanningAuthority } = request.payload
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
+    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
+    let localPlanningAuthorityNameErr
     if (!selectedLpa) {
-      const localPlanningAuthorityNameErr = [{
+      localPlanningAuthorityNameErr = [{
         text: 'Enter a local planning authority',
         href: 'localPlanningAuthority'
       }]
@@ -39,7 +42,21 @@ const handlers = {
         localPlanningAuthorityNameErr
       })
     }
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
+    const excludeIndex = id !== undefined ? parseInt(id, 10) : null
+    const duplicateError = checkForDuplicate(
+      lpaList,
+      null,
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      excludeIndex
+    )
+    if (duplicateError) {
+      return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
+        err: Object.values(duplicateError),
+        localPlanningAuthorityNameErr
+      })
+    }
     if (id) {
       lpaList.splice(id, 1, selectedLpa)
     } else {

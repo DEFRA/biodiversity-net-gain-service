@@ -70,7 +70,7 @@ describe(url, () => {
         payload: {
           firstName: 'Crishn',
           middleNames: '',
-          lastName: 'P'
+          lastName: 'Ps'
         },
         query: {}
       }
@@ -84,7 +84,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          firstName: 'Crishn',
+          firstName: 'Crish',
           middleNames: '',
           lastName: 'P'
         },
@@ -165,6 +165,40 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
 
       expect(resultContext.err[0]).toEqual({ text: 'First name must be 50 characters or fewer', href: '#firstName' })
+    })
+    it('should fail to add landowner to legal agreement with duplicate landowner name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          firstName: 'Crishn',
+          middleNames: '',
+          lastName: 'P'
+        },
+        query: {}
+      }
+
+      await addLandownerIndividuals.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
+
+      expect(resultContext.err).toEqual([{ href: '#personName', text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one' }])
+    })
+    it('should fail to edit landowner to legal agreement with duplicate landowner name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          firstName: 'Crishn',
+          middleNames: '',
+          lastName: 'P'
+        },
+        query: { id: '0' }
+      }
+
+      await addLandownerIndividuals.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
+
+      expect(resultContext.err).toEqual([{ href: '#personName', text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one' }])
     })
   })
 })

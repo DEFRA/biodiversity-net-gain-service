@@ -63,7 +63,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          responsibleBodyName: 'test1'
+          responsibleBodyName: 'test3'
         },
         query: {}
       }
@@ -100,7 +100,33 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
 
-      expect(resultContext.err[0]).toEqual({ text: 'Enter the name of the responsible body', href: '#responsibleBody' })
+      expect(resultContext.err[0]).toEqual([{ text: 'Enter the name of the responsible body', href: '#responsibleBody' }])
+    })
+    it('should fail to add responsibleBody to legal agreement with duplicate responsibleBody name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          responsibleBodyName: 'test2'
+        },
+        query: {}
+      }
+      await addConcovResponsibleParties.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
+      expect(resultContext.err).toEqual([{ text: 'This responsible body has already been added - enter a different responsible body, if there is one', href: '#responsibleBody' }])
+    })
+    it('should fail to edit responsibleBody to legal agreement with duplicate responsibleBody name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          responsibleBodyName: 'test2'
+        },
+        query: { id: '0' }
+      }
+      await addConcovResponsibleParties.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
+      expect(resultContext.err).toEqual([{ text: 'This responsible body has already been added - enter a different responsible body, if there is one', href: '#responsibleBody' }])
     })
   })
 })
