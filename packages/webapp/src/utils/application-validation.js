@@ -77,7 +77,7 @@ const applicationValidation = Joi.object({
     habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(
       Joi.object({
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'management-plan', 'metric', 'land-ownership', 'geojson').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson').required(),
         contentMediaType: Joi.when('optional', {
           is: true,
           then: Joi.string().allow(null),
@@ -133,11 +133,6 @@ const applicationValidation = Joi.object({
     legalAgreementLandowners: Joi.array().items(landownerSchema).min(1).required(),
     enhancementWorkStartDate: Joi.date().allow(null),
     legalAgreementEndDate: Joi.date().allow(null),
-    managementMonitoringStartDate: Joi.date().when('habitatWorkStartDate', {
-      // managementMonitoringStartDate must be greater or equal to habitatWorkStartDate
-      is: Joi.date().required(),
-      then: Joi.date().min(Joi.ref('habitatWorkStartDate'))
-    }).required(),
     submittedOn: Joi.date().required(),
     landownerConsent: Joi.string().when('otherLandowners', {
       // landownerConsent must be true if otherLandowners is an array of 1 or more items

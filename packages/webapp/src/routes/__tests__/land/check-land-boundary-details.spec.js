@@ -41,7 +41,7 @@ describe(url, () => {
           }
           await checkLandBoundary.default[1].handler(request, h)
           expect(viewResult).toBe(constants.routes.REGISTER_LAND_TASK_LIST)
-          expect(request.yar.get('registrationTaskDetails').taskList.length).toBe(5)
+          expect(request.yar.get('registrationTaskDetails').taskList.length).toBe(4)
           expect(request.yar.get('registrationTaskDetails').taskList[1].tasks[1].status).toBe('COMPLETED')
           done()
         } catch (err) {

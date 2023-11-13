@@ -192,49 +192,6 @@
             }
           ]
         }) }}
-
-        <!--Habitat management and monitoring plan-->
-        <h2 class="govuk-heading-l">Habitat management and monitoring</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Habitat management and monitoring plan uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"habitat-plan-file-name-value\">" + getFileNameByType(application.files, 'management-plan') + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_MANAGEMENT_PLAN,
-                    text: "Change",
-                    visuallyHiddenText: " habitat management and monitoring plan"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Start date of the 30 year management and monitoring period"
-              },
-              value: {
-                html: "<span data-testid=\"management-monitoring-start-date-value\">" + dateToString(application.managementMonitoringStartDate) + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.MANAGEMENT_MONITORING_START_DATE,
-                    text: "Change",
-                    visuallyHiddenText: " start date of the 30 year management and monitoring period"
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
-
        
         <!-- Legal agreement -->
         <h2 class="govuk-heading-l">Legal information</h2>

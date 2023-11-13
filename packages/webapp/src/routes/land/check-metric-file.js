@@ -7,7 +7,7 @@ const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
+      taskTitle: 'Land information',
       title: 'Add habitat baseline, creation and enhancements'
     }, {
       inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
