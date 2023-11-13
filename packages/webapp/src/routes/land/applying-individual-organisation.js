@@ -32,7 +32,7 @@ const handlers = {
 
       if ((landownerType === constants.landownerTypes.INDIVIDUAL && !organisation) ||
           (landownerType === constants.landownerTypes.ORGANISATION && organisation)) {
-        return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
+        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {
         // Individual has been chosen as the landowner type but the user is signed in representing an organisation.

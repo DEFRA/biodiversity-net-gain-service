@@ -19,12 +19,18 @@ const handlers = {
   },
   post: async (request, h) => {
     const { isApplicantAgent } = request.payload
+
+    // Force replay of full journey if switching between agent and non-agent application
+    if (request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT) !== isApplicantAgent) {
+      request.yar.clear(constants.redisKeys.REFERER)
+    }
+
     request.yar.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
-      return h.redirect(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {
-      return h.redirect(constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     } else {
       return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
         isApplicantAgent,

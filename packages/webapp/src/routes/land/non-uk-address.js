@@ -43,7 +43,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.NON_UK_ADDRESS, address)
-      return redirectAddress(h, isApplicantAgent, isIndividualOrOrganisation)
+      return redirectAddress(h, request.yar, isApplicantAgent, isIndividualOrOrganisation)
     }
   }
 }
