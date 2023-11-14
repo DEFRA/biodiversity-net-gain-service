@@ -24,12 +24,18 @@ const handlers = {
         }]
       })
     }
+
+    // Force replay of full journey if switching between individual and organisation client types
+    if (request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION) !== landownerType) {
+      request.yar.clear(constants.redisKeys.REFERER)
+    }
+
     request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, landownerType)
 
     if (landownerType === constants.landownerTypes.INDIVIDUAL) {
-      return h.redirect(constants.routes.CLIENTS_NAME)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_NAME)
     } else {
-      return h.redirect(constants.routes.CLIENTS_ORGANISATION_NAME)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_ORGANISATION_NAME)
     }
   }
 }

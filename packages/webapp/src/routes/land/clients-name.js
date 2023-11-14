@@ -46,7 +46,7 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
 
-    return h.redirect(constants.routes.IS_ADDRESS_UK)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
   }
 }
 export default [{

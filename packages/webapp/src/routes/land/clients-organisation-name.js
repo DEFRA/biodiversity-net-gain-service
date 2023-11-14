@@ -39,7 +39,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, organisationName)
-      return h.redirect(constants.routes.IS_ADDRESS_UK)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
     }
   }
 }
