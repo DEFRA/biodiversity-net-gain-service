@@ -5,7 +5,7 @@
       'value': ('Yes' if actingForClient else 'No'),
       'valueDataTestId': 'acting-for-client-value',
       'href': '/land/applicant-details-is-agent',
-      'visuallyHiddenText':  ' acting on behalf of a client',
+      'visuallyHiddenText': ' acting on behalf of a client',
       'classes': 'govuk-!-margin-bottom-7',
       'show': true
     },
@@ -14,7 +14,7 @@
       'value': ('Individual' if applicantIsIndividual else 'Organisation as employee or representative'),
       'valueDataTestId': 'applicant-type-value',
       'href': '/land/applying-individual-organisation',
-      'visuallyHiddenText':  ' applying as individual or organisation',
+      'visuallyHiddenText': ' applying as individual or organisation',
       'classes': 'govuk-!-margin-bottom-7',
       'show': (not actingForClient)
     },
@@ -23,7 +23,7 @@
       'value': 'Confirmed',
       'valueDataTestId': 'account-details-up-to-date-value',
       'href': '/land/check-defra-account-details',
-      'visuallyHiddenText':  ' Defra account details are up to date',
+      'visuallyHiddenText': ' Defra account details are up to date',
       'classes': 'govuk-!-margin-bottom-7',
       'show': true
     },
@@ -32,7 +32,7 @@
       'value': ('Individual' if clientIsIndividual else 'Organisation'),
       'valueDataTestId': 'client-type-value',
       'href': '/land/client-individual-organisation',
-      'visuallyHiddenText':  ' client is an individual or organisation',
+      'visuallyHiddenText': ' client is an individual or organisation',
       'classes': 'govuk-!-margin-bottom-7',
       'show': actingForClient
     },
@@ -41,7 +41,7 @@
       'value': clientName,
       'valueDataTestId': 'client-name-value',
       'href': ('/land/clients-name' if clientIsIndividual else '/land/clients-organisation-name'),
-      'visuallyHiddenText':  ' client\'s name',
+      'visuallyHiddenText': ' client\'s name',
       'classes': 'govuk-!-margin-bottom-7',
       'show': actingForClient
     },
@@ -49,8 +49,8 @@
       'text': 'Client\'s address',
       'value': clientAddress,
       'valueDataTestId': 'client-address-value',
-      'href': ('/land/uk-address' if addressIsUK else '/land/non-uk-address'),
-      'visuallyHiddenText':  ' client\'s address',
+      'href': '/land/is-address-uk',
+      'visuallyHiddenText': ' client\'s address',
       'classes': 'govuk-!-margin-bottom-7',
       'show': actingForClient
     },
@@ -59,7 +59,7 @@
       'value': clientEmail,
       'valueDataTestId': 'client-email-value',
       'href': '/land/clients-email-address',
-      'visuallyHiddenText':  ' client\'s email address',
+      'visuallyHiddenText': ' client\'s email address',
       'classes': 'govuk-!-margin-bottom-7',
       'show': (actingForClient and clientIsIndividual)
     },
@@ -68,7 +68,7 @@
       'value': clientPhone,
       'valueDataTestId': 'client-phone-value',
       'href': '/land/clients-phone-number',
-      'visuallyHiddenText':  ' phone number',
+      'visuallyHiddenText': ' phone number',
       'classes': 'govuk-!-margin-bottom-7',
       'show': (actingForClient and clientIsIndividual)
     },
@@ -77,7 +77,7 @@
       'value': authorisationFile,
       'valueDataTestId': 'authorisation-file-value',
       'href': '/land/check-written-authorisation-file',
-      'visuallyHiddenText':  ' written authorisation',
+      'visuallyHiddenText': ' written authorisation',
       'classes': 'govuk-!-margin-bottom-7',
       'show': actingForClient
     },
@@ -85,8 +85,8 @@
       'text': 'Address',
       'value': applicantAddress,
       'valueDataTestId': 'applicant-address-value',
-      'href': ('/land/uk-address' if addressIsUK else '/land/non-uk-address'),
-      'visuallyHiddenText':  ' address',
+      'href': '/land/is-address-uk',
+      'visuallyHiddenText': ' address',
       'classes': 'govuk-!-margin-bottom-7',
       'show': (not actingForClient)
     }
