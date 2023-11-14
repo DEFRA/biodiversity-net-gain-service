@@ -213,7 +213,7 @@ const getDateString = (dateValue, type) => {
 }
 const getResponsibleBodies = responsibleBodies => {
   const responsibleBodiesParsed = JSON.parse(JSON.stringify(responsibleBodies)) || []
-  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join(',')
+  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join('<br>')
   return responsibleBodiesOutput
 }
 
@@ -230,7 +230,7 @@ const getLandowners = landOwners => {
     }
   })
 
-  const result = [...organisationNames, ...individualNames].join(', ')
+  const result = [...organisationNames, ...individualNames].join('<br>')
   return result
 }
 const validateEmail = (emailAddress, ID) => {
