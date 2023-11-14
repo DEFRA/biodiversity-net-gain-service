@@ -22,7 +22,7 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
-    redisMap.set(constants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA'])
+    redisMap.set(constants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 3'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
   })
@@ -69,7 +69,7 @@ describe(url, () => {
 
       await addPlanningAuthority.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
+      expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
       expect(redisMap.get('planning-authority-list').length).toEqual(2)
     })
 
