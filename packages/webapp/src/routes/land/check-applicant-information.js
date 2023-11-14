@@ -16,7 +16,6 @@ const addOptionalAddressLine = (line) => line?.trim() ? `${line}, ` : ''
 const getAddress = (session, addressIsUK) => {
   if (addressIsUK) {
     const ukAddress = session.get(constants.redisKeys.UK_ADDRESS)
-    console.log(ukAddress)
     return `${ukAddress?.addressLine1}, ` +
       addOptionalAddressLine(ukAddress?.addressLine2) +
       `${ukAddress?.town}, ` +
