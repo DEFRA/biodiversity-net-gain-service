@@ -22,6 +22,7 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
+    redisMap.set(constants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
   })
@@ -33,7 +34,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should render the organisation view with organisation data to change', async () => {
+    it('should render ADD_PLANNING_AUTHORITY view with localPlanningAuthority data to change', async () => {
       const request = {
         yar: redisMap,
         query: { id: '0' }
@@ -53,7 +54,7 @@ describe(url, () => {
       }
     })
 
-    it('Should continue journey if org name is provided', async () => {
+    it('Should continue journey if localPlanningAuthority name is provided', async () => {
       postOptions.payload = { localPlanningAuthority: 'Planning Authority 1' }
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
@@ -68,7 +69,7 @@ describe(url, () => {
 
       await addPlanningAuthority.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
+      expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
       expect(redisMap.get('planning-authority-list').length).toEqual(2)
     })
 
