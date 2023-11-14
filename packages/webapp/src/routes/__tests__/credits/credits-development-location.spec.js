@@ -7,7 +7,6 @@ import constants from '../../../credits/constants.js'
 jest.mock('../../../utils/azure-storage.js')
 
 const url = constants.routes.CREDITS_CONFIRM_DEV_DETAILS
-const urlResult = constants.routes.CREDITS_UPLOAD_METRIC
 
 const mockMetricData = {
   startPage: {
@@ -83,7 +82,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual(urlResult)
+          expect(redirectArgs[0]).toEqual('#')
           done()
         } catch (err) {
           done(err)
