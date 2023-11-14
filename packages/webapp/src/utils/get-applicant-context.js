@@ -51,7 +51,7 @@ const isApplicantAnAgent = session => {
 }
 
 const getOrganisationDetails = claims => {
-  const currentRelationshipDetails = claims?.relationships?.find(r => r?.startsWith(claims?.currentRelationshipId))?.split(':')
+  const currentRelationshipDetails = claims?.relationships?.find(r => r?.toLowerCase()?.startsWith(claims?.currentRelationshipId?.toLowerCase()))?.split(':')
   const currentOrganisationId = currentRelationshipDetails[1]
   const currentOrganisation = currentRelationshipDetails[2]
   const enrolmentCount = claims.enrolmentCount
