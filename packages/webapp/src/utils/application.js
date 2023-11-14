@@ -204,11 +204,7 @@ const getFiles = session => {
 const getLandOwnershipFiles = session => {
   const lopFiles = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
   return lopFiles.map(file => ({
-    contentMediaType: file.fileType,
-    fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
-    fileSize: file.fileSize,
-    fileLocation: file.location,
-    fileName: file.location ? path.parse(file.location).base : '',
+    ...file,
     optional: false
   }))
 }

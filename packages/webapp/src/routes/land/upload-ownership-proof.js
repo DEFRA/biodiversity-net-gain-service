@@ -19,7 +19,8 @@ const processSuccessfulUpload = (result, request, h) => {
       fileName,
       location,
       fileSize: result.fileSize,
-      fileType: result.fileType,
+      fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+      contentMediaType: result.fileType,
       id
     })
   }
