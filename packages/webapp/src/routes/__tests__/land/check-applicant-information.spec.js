@@ -1,3 +1,4 @@
+import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 import checkApplicantInfoDetails from '../../land/check-applicant-information.js'
 
@@ -32,6 +33,12 @@ describe(url, () => {
     redisMap.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS, 'me@me.com')
     redisMap.set(constants.redisKeys.CLIENTS_PHONE_NUMBER, '07000000000')
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, '/a-location/somewhere/authfile.pdf')
+  })
+
+  describe('GET', () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
+      await submitGetRequest({ url })
+    })
   })
 
   describe('GET', () => {
