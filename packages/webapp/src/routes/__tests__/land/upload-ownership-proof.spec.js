@@ -62,7 +62,7 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-          uploadConfig.sessionData[`${constants.redisKeys.LAND_OWNERSHIP_PROOFS}`] = []
+          uploadConfig.sessionData[`${constants.redisKeys.LAND_OWNERSHIP_PROOFS}`] = undefined
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
