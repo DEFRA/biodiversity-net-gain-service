@@ -11,7 +11,9 @@ const postOptions = {
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      const response = await submitGetRequest({ url })
+      const sessionData = JSON.parse(application.dataString)
+      sessionData[constants.redisKeys.APPLICANT_DETAILS_IS_AGENT] = 'no'
+      const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.payload).toContain('Is your address in the UK?')
     })
     it(`should render the ${url.substring(1)} view and ask for client's address`, async () => {

@@ -33,7 +33,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
       return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {
-      return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_APPLICANT_INFORMATION)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
