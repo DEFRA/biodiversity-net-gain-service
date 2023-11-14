@@ -16,7 +16,7 @@ const handlers = {
     })
 
     const { id } = request.query
-    const lpaNames = getLpaNames(filePathAndName)
+    const lpaNames = await getLpaNames(filePathAndName)
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
     const legalAgreementType = getLegalAgreementDocumentType(
