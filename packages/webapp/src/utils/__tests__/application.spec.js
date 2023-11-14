@@ -126,16 +126,25 @@ describe('application', () => {
   it('Should correctly handle an application by an agent representing an individual with a UK address', () => {
     const session = applicationSession()
     const clientNameIndividual = {
-      firstName: 'Mock',
-      lastName: 'Client'
+      type: 'individual',
+      value: {
+        firstName: 'Mock',
+        middleNames: '',
+        lastName: 'Client'
+      }
     }
     const clientType = constants.landownerTypes.INDIVIDUAL
-    const clientEmailAddress = 'someone@test.com'
+    const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {
       addressLine1: 'Mock Street',
       town: 'Mock Town',
       postcode: 'AB1 2CD'
+    }
+
+    const expectedClientName = {
+      firstName: clientNameIndividual.value.firstName,
+      lastName: clientNameIndividual.value.lastName
     }
 
     const expectedClientAddress = Object.assign({
@@ -150,7 +159,7 @@ describe('application', () => {
     session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
     session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
     session.set(constants.redisKeys.UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmailAddress)
+    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
     session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
@@ -158,8 +167,8 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.applicant.role).toEqual(constants.applicantTypes.AGENT)
     expect(app.landownerGainSiteRegistration.agent).toStrictEqual({
       clientType,
-      clientNameIndividual,
-      clientEmailAddress,
+      clientNameIndividual: expectedClientName,
+      clientEmail,
       clientPhoneNumber,
       clientAddress: expectedClientAddress
     })
@@ -206,16 +215,25 @@ describe('application', () => {
   it('Should correctly handle an application by an agent representing an individual with a non-UK address', () => {
     const session = applicationSession()
     const clientNameIndividual = {
-      firstName: 'Mock',
-      lastName: 'Client'
+      type: 'individual',
+      value: {
+        firstName: 'Mock',
+        middleNames: '',
+        lastName: 'Client'
+      }
     }
     const clientType = constants.landownerTypes.INDIVIDUAL
-    const clientEmailAddress = 'someone@test.com'
+    const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {
       addressLine1: 'Mock Street',
       town: 'Mock Town',
       country: 'Mock Country'
+    }
+
+    const expectedClientName = {
+      firstName: clientNameIndividual.value.firstName,
+      lastName: clientNameIndividual.value.lastName
     }
 
     const expectedClientAddress = Object.assign({
@@ -230,7 +248,7 @@ describe('application', () => {
     session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
     session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
     session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmailAddress)
+    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
     session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
@@ -238,8 +256,8 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.applicant.role).toEqual(constants.applicantTypes.AGENT)
     expect(app.landownerGainSiteRegistration.agent).toStrictEqual({
       clientType,
-      clientNameIndividual,
-      clientEmailAddress,
+      clientNameIndividual: expectedClientName,
+      clientEmail,
       clientPhoneNumber,
       clientAddress: expectedClientAddress
     })
@@ -247,11 +265,15 @@ describe('application', () => {
   it('Should correctly handle an application by an agent representing an organisation with a non-UK address', () => {
     const session = applicationSession()
     const clientNameIndividual = {
-      firstName: 'Mock',
-      lastName: 'Client'
+      type: 'individual',
+      value: {
+        firstName: 'Mock',
+        middleNames: '',
+        lastName: 'Client'
+      }
     }
     const clientType = constants.landownerTypes.INDIVIDUAL
-    const clientEmailAddress = 'someone@test.com'
+    const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {
       addressLine1: 'Mock Building',
@@ -259,6 +281,11 @@ describe('application', () => {
       addressLine3: 'Mock District',
       town: 'Mock Town',
       postcode: 'AB1 2CD'
+    }
+
+    const expectedClientName = {
+      firstName: clientNameIndividual.value.firstName,
+      lastName: clientNameIndividual.value.lastName
     }
 
     const expectedClientAddress = Object.assign({
@@ -277,7 +304,7 @@ describe('application', () => {
     session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
     session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
     session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmailAddress)
+    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
     session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
@@ -285,8 +312,8 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.applicant.role).toEqual(constants.applicantTypes.AGENT)
     expect(app.landownerGainSiteRegistration.agent).toStrictEqual({
       clientType,
-      clientNameIndividual,
-      clientEmailAddress,
+      clientNameIndividual: expectedClientName,
+      clientEmail,
       clientPhoneNumber,
       clientAddress: expectedClientAddress
     })

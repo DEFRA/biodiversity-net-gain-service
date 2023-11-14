@@ -140,7 +140,7 @@ const applicationValidation = Joi.object({
     habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(
       Joi.object({
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson', 'written-authorisation').required(),
         contentMediaType: Joi.when('optional', {
           is: true,
           then: Joi.string().allow(null),
