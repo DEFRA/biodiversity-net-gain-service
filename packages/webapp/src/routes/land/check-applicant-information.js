@@ -4,32 +4,33 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 
 const getClientName = (session, isIndividual) => {
   if (isIndividual) {
-    const name = session.get(constants.redisKeys.CLIENTS_NAME).value
-    return `${name.firstName} ${name.middleNames} ${name.lastName}`
+    const name = session.get(constants.redisKeys.CLIENTS_NAME)?.value
+    return `${name?.firstName} ${name?.middleNames} ${name?.lastName}`
   }
 
   return session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
 }
 
-const addOptionalAddressLine = (line) => line.trim() ? `${line}, ` : ''
+const addOptionalAddressLine = (line) => line?.trim() ? `${line}, ` : ''
 
 const getAddress = (session, addressIsUK) => {
   if (addressIsUK) {
     const ukAddress = session.get(constants.redisKeys.UK_ADDRESS)
-    return `${ukAddress.addressLine1}, ` +
-      addOptionalAddressLine(ukAddress.addressLine2) +
-      `${ukAddress.town}, ` +
-      addOptionalAddressLine(ukAddress.county) +
-      `${ukAddress.postcode}`
+    console.log(ukAddress)
+    return `${ukAddress?.addressLine1}, ` +
+      addOptionalAddressLine(ukAddress?.addressLine2) +
+      `${ukAddress?.town}, ` +
+      addOptionalAddressLine(ukAddress?.county) +
+      `${ukAddress?.postcode}`
   }
 
   const internationalAddress = session.get(constants.redisKeys.NON_UK_ADDRESS)
-  return `${internationalAddress.addressLine1}, ` +
-    addOptionalAddressLine(internationalAddress.addressLine2) +
-    addOptionalAddressLine(internationalAddress.addressLine3) +
-    `${internationalAddress.town}, ` +
-    addOptionalAddressLine(internationalAddress.postcode) +
-    `${internationalAddress.country}`
+  return `${internationalAddress?.addressLine1}, ` +
+    addOptionalAddressLine(internationalAddress?.addressLine2) +
+    addOptionalAddressLine(internationalAddress?.addressLine3) +
+    `${internationalAddress?.town}, ` +
+    addOptionalAddressLine(internationalAddress?.postcode) +
+    `${internationalAddress?.country}`
 }
 
 const getContext = session => {
@@ -43,7 +44,7 @@ const getContext = session => {
     context.clientIsIndividual = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION) === constants.landownerTypes.INDIVIDUAL
     context.clientName = getClientName(session, context.clientIsIndividual)
     context.clientAddress = getAddress(session, context.addressIsUK)
-    context.authorisationFile = path.basename(session.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION))
+    context.authorisationFile = path.basename(session.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION) ?? '')
 
     if (context.clientIsIndividual) {
       context.clientEmail = session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS)
