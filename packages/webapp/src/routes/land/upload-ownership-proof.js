@@ -9,9 +9,9 @@ import path from 'path'
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
 const processSuccessfulUpload = (result, request, h) => {
-  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) ?? []
+  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
   const location = result.config.blobConfig.blobName
-  let id = lopFiles.find(file => file.location === location)?.id
+  let id = lopFiles.find(file => path.basename(file.location) === path.basename(location))?.id
   const fileName = path.parse(location).base
   if (!id) {
     id = generateUniqueId()

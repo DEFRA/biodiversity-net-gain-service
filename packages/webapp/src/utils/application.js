@@ -208,7 +208,7 @@ const getLandOwnershipFiles = session => {
     fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
     fileSize: file.fileSize,
     fileLocation: file.location,
-    fileName: path.basename(file.location),
+    fileName: file.location ? path.parse(file.location).base : '',
     optional: false
   }))
 }
