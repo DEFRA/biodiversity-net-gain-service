@@ -17,7 +17,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.CREDITS_METRIC_LOCATION)
       return h.redirect(constants.routes.CREDITS_UPLOAD_METRIC)
     } else if (confirmDevDetails === constants.creditsCheckDetails.YES) {
-      return h.redirect(constants.routes.CREDITS_UPLOAD_METRIC)
+      return h.redirect('#')
     } else {
       return h.view(constants.views.CREDITS_CONFIRM_DEV_DETAILS, {
         filename: path.basename(metricUploadLocation),
