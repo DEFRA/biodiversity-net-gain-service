@@ -32,6 +32,7 @@ describe(url, () => {
 
   describe('POST', () => {
     it('Should continue journey to CLIENTS_NAME if landownerType is individual', async () => {
+      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.INDIVIDUAL)
       const request = {
         yar: redisMap,
         payload: { landownerType: 'individual' }
