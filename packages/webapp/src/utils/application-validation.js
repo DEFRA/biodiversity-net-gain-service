@@ -95,7 +95,7 @@ const applicationValidation = Joi.object({
       otherwise: Joi.forbidden()
     }),
     organisation: Joi.when('applicant.role', {
-      is: 'organisation',
+      is: 'representative',
       then: Joi.object({
         id: Joi.string().required(),
         address: applicantAddressSchema
