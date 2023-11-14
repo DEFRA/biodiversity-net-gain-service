@@ -20,8 +20,8 @@ const processSuccessfulUpload = async (result, request, h) => {
 
   processDeveloperTask(request,
     {
-      taskTitle: 'Biodiversity 4.0 Metric calculations',
-      title: 'Upload Metric 4.0 file'
+      taskTitle: 'Biodiversity 4.1 Metric calculations',
+      title: 'Upload Metric 4.1 file'
     }, {
       status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
     })

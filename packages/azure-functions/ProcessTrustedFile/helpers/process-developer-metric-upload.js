@@ -12,7 +12,7 @@ export default async (context, config) => {
       const metricExtractionConfig = {
         extractionConfiguration: {
           start: extractionConfiguration.startExtractionConfig,
-          ...extractionConfiguration['v4.0']
+          ...extractionConfiguration['v4.1']
         },
         validationConfiguration
       }

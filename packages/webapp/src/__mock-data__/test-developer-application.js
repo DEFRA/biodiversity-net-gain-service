@@ -18,10 +18,10 @@ const data = `{
         ]
       },
       {
-        "taskTitle": "Biodiversity 4.0 Metric calculations",
+        "taskTitle": "Biodiversity 4.1 Metric calculations",
         "tasks": [
           {
-            "title": "Upload Metric 4.0 file",
+            "title": "Upload Metric 4.1 file",
             "status": "COMPLETED",
             "completedTaskUrl": "/developer/biodiversity-gain-site-number",
             "startTaskUrl": "/developer/biodiversity-gain-site-number",
@@ -286,7 +286,7 @@ const data = `{
     ],
     "validation": {
       "isMetricWorkbook": true,
-      "isVersion4OrLater": true,
+      "isSupportedVersion": true,
       "isOffsiteDataPresent": true,
       "areOffsiteTotalsCorrect": {}
     }
