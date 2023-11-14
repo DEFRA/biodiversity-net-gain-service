@@ -78,6 +78,7 @@ describe('get-applicant-context', () => {
           applicationSpecificGuidance: ', the landowner or leaseholder you represent must be named on the legal agreement to apply.',
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith for mock organisation',
           noOrganisationsLinkedToDefraAccount: false,
+          organisationId: 'mock organisation id',
           organisation: 'mock organisation',
           representing: 'mock organisation',
           subject: 'mock organisation'
