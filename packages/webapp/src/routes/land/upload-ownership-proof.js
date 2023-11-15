@@ -25,9 +25,7 @@ const processSuccessfulUpload = (result, request, h) => {
     })
   }
   logger.log(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
-  if (lopFiles.length > 0) {
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
-  }
+  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
   return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 
