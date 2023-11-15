@@ -69,7 +69,7 @@ describe('application', () => {
     const app = application(session, applicant)
 
     expect(app.landownerGainSiteRegistration.files[2].fileType).toEqual('land-boundary')
-    expect(app.landownerGainSiteRegistration.files[2].fileSize).toEqual('0.01')
+    expect(app.landownerGainSiteRegistration.files[2].fileSize).toEqual(0.01)
     expect(app.landownerGainSiteRegistration.files[2].fileName).toEqual('legal-agreement.doc')
     expect(app.landownerGainSiteRegistration.landBoundaryGridReference).toEqual('SE170441')
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(2)
