@@ -19,7 +19,7 @@ const handlers = {
     } else if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.YES) {
       processDeveloperTask(request,
         {
-          taskTitle: 'Biodiversity 4.0 Metric calculations',
+          taskTitle: 'Biodiversity 4.1 Metric calculations',
           title: 'Confirm off-site gain'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)

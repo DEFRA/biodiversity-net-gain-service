@@ -54,12 +54,13 @@ const applicationValidation = Joi.object({
       ),
       proposed: Joi.array().items(
         Joi.object({
-          proposedHabitatId: Joi.string().allow(''), // For now allow empty string until Metric 4.1
+          proposedHabitatId: Joi.string(),
           baselineReference: Joi.when('module', {
             is: 'Enhanced',
             then: Joi.string().required(),
             otherwise: Joi.string().allow('')
           }),
+          habitatReferenceNumber: Joi.string(),
           module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
           state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
           habitatType: Joi.string().required(),

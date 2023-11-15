@@ -1,6 +1,6 @@
 import configuration from '../extraction-config/configuration.js'
 
-const sheetConfig = configuration['v4.0']
+const sheetConfig = configuration['v4.1']
 const tolerance = 0.00000001
 const checkEqualsWithTolerance = (total, value1, value2) => Math.abs((value1 + value2) - total) < tolerance
 
@@ -16,6 +16,7 @@ const areOffsiteTotalsCorrect = workbook => checkEqualsWithTolerance(
   workbook.Sheets[sheetConfig.f1OffSiteWaterCBaseline.sheetName]?.E258?.v,
   workbook.Sheets[sheetConfig.f2OffSiteWaterCCreation.sheetName]?.D260?.v,
   workbook.Sheets[sheetConfig.f3OffSiteWaterCEnhancement.sheetName]?.Q258?.v
+
 )
 
 export default areOffsiteTotalsCorrect
