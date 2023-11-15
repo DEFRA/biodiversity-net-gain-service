@@ -203,10 +203,13 @@ const getFiles = session => {
 
 const getLandOwnershipFiles = session => {
   const lopFiles = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-  return lopFiles.map(file => ({
-    ...file,
-    optional: false
-  }))
+  return lopFiles.map(file => {
+    delete file.id // Removing id because is excluded from application data validation
+    return {
+      ...file,
+      optional: false
+    }
+  })
 }
 
 const getLocalPlanningAuthorities = lpas => {

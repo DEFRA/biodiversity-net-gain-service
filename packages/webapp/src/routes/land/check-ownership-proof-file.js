@@ -47,7 +47,7 @@ const getContext = request => {
   const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
   if (id) {
     lopFile = lopFiles.find(item => item.id === id)
-    fileLocation = lopFile.location
+    fileLocation = lopFile.fileLocation
     fileName = fileLocation === null ? '' : path.parse(fileLocation).base
     fileSize = lopFile.fileSize
     humanReadableFileSize = getHumanReadableFileSize(fileSize)

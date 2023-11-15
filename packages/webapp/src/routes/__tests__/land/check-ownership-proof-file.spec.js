@@ -25,13 +25,13 @@ describe(url, () => {
 
       redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
         fileName: 'file-1.doc',
-        location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+        fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
         fileSize: 0.01,
         fileType: 'application/msword',
         id: '1'
       },
       {
-        location: null,
+        fileLocation: null,
         fileSize: 0.01,
         fileType: 'application/pdf',
         id: '2'

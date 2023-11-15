@@ -11,13 +11,13 @@ const LAND_OWNERSHIP_ID = '#landOwnership'
 const processSuccessfulUpload = (result, request, h) => {
   const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
   const location = result.config.blobConfig.blobName
-  let id = lopFiles.find(file => path.basename(file.location) === path.basename(location))?.id
   const fileName = path.parse(location).base
+  let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
   if (!id) {
     id = generateUniqueId()
     lopFiles.push({
       fileName,
-      location,
+      fileLocation: location,
       fileSize: result.fileSize,
       fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
       contentMediaType: result.fileType,
