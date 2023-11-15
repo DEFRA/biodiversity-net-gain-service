@@ -28,7 +28,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS, email)
-    return h.redirect(constants.routes.CLIENTS_PHONE_NUMBER)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_PHONE_NUMBER)
   }
 }
 

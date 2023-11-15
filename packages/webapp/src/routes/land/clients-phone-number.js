@@ -26,7 +26,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER, phone)
-    return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 
