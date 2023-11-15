@@ -10,7 +10,7 @@ const handlers = {
       inProgressUrl: constants.routes.CLIENTS_ORGANISATION_NAME
     })
 
-    const organisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME)
+    const organisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
     return h.view(constants.views.CLIENTS_ORGANISATION_NAME, { organisationName })
   },
   post: async (request, h) => {
@@ -38,7 +38,7 @@ const handlers = {
         organisationNameErr
       })
     } else {
-      request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME, organisationName)
+      request.yar.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, organisationName)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
     }
   }

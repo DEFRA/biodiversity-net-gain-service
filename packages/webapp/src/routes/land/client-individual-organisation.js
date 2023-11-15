@@ -1,6 +1,16 @@
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
+const getLandownerType = (landownerType) => {
+  switch (landownerType) {
+    case constants.landownerTypes.INDIVIDUAL:
+      return 'yes'
+    case constants.landownerTypes.ORGANISATION:
+      return 'no'
+    default:
+  }
+}
+
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -9,9 +19,9 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
     })
-
-    const landownerType = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
-    return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, { landownerType })
+    return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, {
+      landownerType: getLandownerType(request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY))
+    })
   },
   post: async (request, h) => {
     const { landownerType } = request.payload
@@ -26,11 +36,11 @@ const handlers = {
     }
 
     // Force replay of full journey if switching between individual and organisation client types
-    if (request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION) !== landownerType) {
+    if (request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) !== landownerType) {
       request.yar.clear(constants.redisKeys.REFERER)
     }
 
-    request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, landownerType)
+    request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, landownerType)
 
     if (landownerType === constants.landownerTypes.INDIVIDUAL) {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_NAME)

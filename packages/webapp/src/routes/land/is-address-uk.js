@@ -10,8 +10,8 @@ const handlers = {
       inProgressUrl: constants.routes.IS_ADDRESS_UK
     })
 
-    const isAddressUk = request.yar.get(constants.redisKeys.IS_ADDRESS_UK)
-    const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
+    const isAddressUk = request.yar.get(constants.redisKeys.IS_ADDRESS_UK_KEY)
+    const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
     return h.view(constants.views.IS_ADDRESS_UK, {
       isAddressUk,
       isApplicantAgent
@@ -19,8 +19,8 @@ const handlers = {
   },
   post: async (request, h) => {
     const isAddressUk = request.payload.isAddressUk
-    const isApplicantAgent = request.yar.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
-    request.yar.set(constants.redisKeys.IS_ADDRESS_UK, isAddressUk)
+    const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
+    request.yar.set(constants.redisKeys.IS_ADDRESS_UK_KEY, isAddressUk)
     if (isAddressUk === 'yes') {
       return h.redirect(constants.routes.UK_ADDRESS)
     } else if (isAddressUk === 'no') {

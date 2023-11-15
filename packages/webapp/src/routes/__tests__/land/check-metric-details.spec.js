@@ -22,7 +22,7 @@ describe(url, () => {
 
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CHECK_METRIC_DETAILS)
-      expect(viewArgs[1]).toEqual({ filename: 'metric-file.xlsx' })
+      expect(viewArgs[1]).toEqual({ filename: 'new-metric-4.0.xlsm' })
     })
   })
   describe('POST', () => {

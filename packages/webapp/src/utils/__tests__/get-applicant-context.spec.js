@@ -23,7 +23,7 @@ describe('get-applicant-context', () => {
           roles: ['mock relationship id:Standard User:2']
         })
         const session = new Session()
-        session.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+        session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith',
@@ -78,6 +78,7 @@ describe('get-applicant-context', () => {
           applicationSpecificGuidance: ', the landowner or leaseholder you represent must be named on the legal agreement to apply.',
           confirmationText: 'My Defra account details are up to date and I will be applying as John Smith for mock organisation',
           noOrganisationsLinkedToDefraAccount: false,
+          organisationId: 'mock organisation id',
           organisation: 'mock organisation',
           representing: 'mock organisation',
           subject: 'mock organisation'

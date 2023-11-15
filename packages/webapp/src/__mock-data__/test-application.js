@@ -389,17 +389,19 @@ const dataString = `
   "habitat-plan-file-size": 0.01,
   "habitat-plan-file-type": "application/msword",
   "application-reference": "",
-  "land/applicant-details-is-agent": "yes",
-  "land/client-individual-organisation": "individual",
-  "land/clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
-  "land/is-address-uk": "yes",
-  "land/uk-address": {"addressLine1":"test","addressLine2":"test","town":"test","county":"test","postcode":"m11mm"},
-  "land/clients-email-address": "test@Test.com",
-  "land/clients-phone-number": "12323453453",
+  "is-agent": "yes",
+  "client-individual-organisation": "individual",
+  "clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
+  "is-address-uk": "yes",
+  "uk-address": {"addressLine1":"test","addressLine2":"test","town":"test","county":"test","postcode":"m11mm"},
+  "clients-email-address": "test@Test.com",
+  "clients-phone-number": "12323453453",
   "written-authorisation-location": "94c588fe-9242-43f2-a48c-926902a135e1/written-authorisation/legal-agreement.pdf",
   "written-authorisation-file-size": 7515,
   "written-authorisation-file-type": "application/pdf",
-  "written-authorisation-checked": "yes"
+  "written-authorisation-checked": "yes",
+  "landowner-type": "individual",
+  "defraAccountDetailsConfirmed": "true"
 }`
 
 export default {

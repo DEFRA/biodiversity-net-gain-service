@@ -21,7 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT, 'yes')
+    redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
 
     isApplicantAgent = require('../../land/applicant-details-is-agent.js')
   })

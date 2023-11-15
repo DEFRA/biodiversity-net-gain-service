@@ -3,7 +3,7 @@ import constants from './constants.js'
 const getApplicantContext = (account, session) => {
   const isAgent = isApplicantAnAgent(session)
   const claims = account.idTokenClaims
-  const { noOrganisationsLinkedToDefraAccount, currentOrganisation } = getOrganisationDetails(claims)
+  const { noOrganisationsLinkedToDefraAccount, currentOrganisationId, currentOrganisation } = getOrganisationDetails(claims)
   const currentUser = `${claims.firstName} ${claims.lastName}`
   // If the applicant is an agent, the individual or organisation the agent is representing has not been captured yet.
   // Similarly, no organisation is present if the applicant is representing themselves.
@@ -12,14 +12,18 @@ const getApplicantContext = (account, session) => {
   const representing = currentOrganisation || `Myself (${applicantDetails})`
   const subject = currentOrganisation || currentUser
   const applicantContext = {
-    noOrganisationsLinkedToDefraAccount,
     confirmationText,
+    noOrganisationsLinkedToDefraAccount,
     representing,
     subject
   }
 
   if (!isAgent) {
     applicantContext.applicationSpecificGuidance = getApplicantSpecificGuidance(currentOrganisation)
+  }
+
+  if (currentOrganisationId) {
+    applicantContext.organisationId = currentOrganisationId
   }
 
   if (currentOrganisation) {
@@ -42,12 +46,13 @@ const getApplicantSpecificGuidance = organisation => {
   return applicationSpecificGuidance
 }
 const isApplicantAnAgent = session => {
-  const isAgent = session.get(constants.redisKeys.APPLICANT_DETAILS_IS_AGENT)
+  const isAgent = session.get(constants.redisKeys.IS_AGENT)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
 }
 
 const getOrganisationDetails = claims => {
-  const currentRelationshipDetails = claims?.relationships?.find(r => r?.startsWith(claims?.currentRelationshipId))?.split(':')
+  const currentRelationshipDetails = claims?.relationships?.find(r => r?.toLowerCase()?.startsWith(claims?.currentRelationshipId?.toLowerCase()))?.split(':')
+  const currentOrganisationId = currentRelationshipDetails[1]
   const currentOrganisation = currentRelationshipDetails[2]
   const enrolmentCount = claims.enrolmentCount
   const signInType = currentRelationshipDetails[4]
@@ -58,6 +63,10 @@ const getOrganisationDetails = claims => {
 
   const organisationDetails = {
     noOrganisationsLinkedToDefraAccount
+  }
+
+  if (currentOrganisationId) {
+    organisationDetails.currentOrganisationId = currentOrganisationId
   }
 
   if (currentOrganisation) {

@@ -4,10 +4,120 @@ import path from 'path'
 import savePayment from '../payment/save-payment.js'
 
 // Application object schema must match the expected payload format for the Operator application
-const getApplicant = account => ({
+const getApplicant = (account, session) => ({
   id: account.idTokenClaims.contactId,
-  role: 'Individual'
+  role: getApplicantRole(session)
 })
+
+const getApplicantRole = session => {
+  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
+  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
+  let applicantRole
+
+  if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
+    applicantRole = constants.applicantTypes.AGENT
+  } else if (organisationId) {
+    applicantRole = constants.applicantTypes.REPRESENTATIVE
+  } else {
+    applicantRole = constants.applicantTypes.LANDOWNER
+  }
+
+  return applicantRole
+}
+
+const getClientDetails = session => {
+  const clientType =
+    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+  const clientAddress = getAddress(session)
+
+  const clientDetails = {
+    clientType,
+    clientAddress
+  }
+
+  if (clientType === constants.landownerTypes.INDIVIDUAL) {
+    Object.assign(clientDetails, getIndividualClientDetails(session))
+  } else {
+    Object.assign(clientDetails, getOrganisationClientDetails(session))
+  }
+
+  return clientDetails
+}
+
+const getIndividualClientDetails = session => {
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.CLIENTS_NAME_KEY).value
+
+  const clientEmail =
+    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+
+  const clientPhoneNumber =
+    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+
+  return {
+    clientNameIndividual: {
+      firstName,
+      lastName
+    },
+    clientEmail,
+    clientPhoneNumber
+  }
+}
+
+const getOrganisationClientDetails = session => {
+  const clientNameOrganisation =
+    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+
+  return {
+    clientNameOrganisation
+  }
+}
+
+const getOrganisation = session => ({
+  id: session.get(constants.redisKeys.ORGANISATION_ID),
+  address: getAddress(session)
+})
+
+const getAddress = session => {
+  const isUkAddress =
+    session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
+
+  const addressType =
+    isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
+
+  const cachedAddress =
+    isUkAddress
+      ? session.get(constants.redisKeys.UK_ADDRESS_KEY)
+      : session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
+
+  const address = {
+    type: addressType,
+    line1: cachedAddress.addressLine1,
+    town: cachedAddress.town
+  }
+
+  if (cachedAddress.addressLine2) {
+    address.line2 = cachedAddress.addressLine2
+  }
+
+  if (cachedAddress.addressLine3) {
+    address.line3 = cachedAddress.addressLine3
+  }
+
+  if (cachedAddress.postcode) {
+    address.postcode = cachedAddress.postcode
+  }
+
+  if (isUkAddress && cachedAddress.county) {
+    address.county = cachedAddress.county
+  }
+
+  if (!isUkAddress && cachedAddress.country) {
+    address.country = cachedAddress.country
+  }
+
+  return address
+}
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
@@ -85,7 +195,8 @@ const getFiles = session => {
     getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION, false),
     getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION, false),
     getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, false),
-    getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional)
+    getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
+    getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, false)
   ]
 }
 
@@ -168,9 +279,9 @@ const getPayment = session => {
 
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
-  return {
+  const applicationJson = {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(account),
+      applicant: getApplicant(account, session),
       habitats: getHabitats(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),
@@ -189,6 +300,16 @@ const application = (session, account) => {
       payment: getPayment(session)
     }
   }
+
+  if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.AGENT) {
+    applicationJson.landownerGainSiteRegistration.agent = getClientDetails(session)
+  } else if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.LANDOWNER) {
+    applicationJson.landownerGainSiteRegistration.landownerAddress = getAddress(session)
+  } else {
+    applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
+  }
+
+  return applicationJson
 }
 
 export default application

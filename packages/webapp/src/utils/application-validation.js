@@ -1,6 +1,25 @@
 import Joi from 'joi'
 import constants from './constants.js'
 
+const applicantAddressSchema = Joi.object({
+  type: Joi.string().valid('uk', 'international').required(),
+  line1: Joi.string().required(),
+  line2: Joi.string(),
+  line3: Joi.string(),
+  town: Joi.string().required(),
+  postcode: Joi.when('type', {
+    is: 'uk',
+    then: Joi.string().required(),
+    otherwise: Joi.string()
+  }),
+  county: Joi.string(),
+  country: Joi.when('type', {
+    is: 'international',
+    then: Joi.string().required(),
+    otherwise: Joi.string()
+  })
+}).required()
+
 const landownerSchema = Joi.object({
   type: Joi.string().valid('organisation', 'individual').required(),
   organisationName: Joi.when('type', {
@@ -37,7 +56,51 @@ const applicationValidation = Joi.object({
   landownerGainSiteRegistration: Joi.object({
     applicant: Joi.object({
       id: Joi.string().required(),
-      role: Joi.string().required()
+      role: Joi.string().valid('agent', 'landowner', 'representative').required()
+    }),
+    agent: Joi.when('applicant.role', {
+      is: 'agent',
+      then: Joi.object({
+        clientType: Joi.string().valid('organisation', 'individual').required(),
+        clientNameIndividual: Joi.when('clientType', {
+          is: 'individual',
+          then: Joi.object({
+            firstName: Joi.string().required(),
+            lastName: Joi.string().required()
+          }),
+          otherwise: Joi.forbidden()
+        }),
+        clientNameOrganisation: Joi.when('clientType', {
+          is: 'organisation',
+          then: Joi.string().required(),
+          otherwise: Joi.forbidden()
+        }),
+        clientPhoneNumber: Joi.when('clientType', {
+          is: 'individual',
+          then: Joi.string().required(),
+          otherwise: Joi.forbidden()
+        }),
+        clientEmail: Joi.when('clientType', {
+          is: 'individual',
+          then: Joi.string().required(),
+          otherwise: Joi.forbidden()
+        }),
+        clientAddress: applicantAddressSchema
+      }),
+      otherwise: Joi.forbidden()
+    }),
+    landownerAddress: Joi.when('applicant.role', {
+      is: 'landowner',
+      then: applicantAddressSchema,
+      otherwise: Joi.forbidden()
+    }),
+    organisation: Joi.when('applicant.role', {
+      is: 'representative',
+      then: Joi.object({
+        id: Joi.string().required(),
+        address: applicantAddressSchema
+      }),
+      otherwise: Joi.forbidden()
     }),
     habitats: Joi.object({
       baseline: Joi.array().items(
@@ -77,7 +140,7 @@ const applicationValidation = Joi.object({
     habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(
       Joi.object({
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson', 'written-authorisation').required(),
         contentMediaType: Joi.when('optional', {
           is: true,
           then: Joi.string().allow(null),
