@@ -25,8 +25,23 @@ describe(url, () => {
   })
 
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+    it(`should render the ${url.substring(1)} view with no prior checked`, async () => {
+      const response = await submitGetRequest({ url }, 200, {})
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-individual" name="landownerType" type="radio" value="individual"')
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-organisation" name="landownerType" type="radio" value="organisation">')
+    })
+    it(`should render the ${url.substring(1)} view with landowner checked`, async () => {
+      // default session test object is set as individual
+      const response = await submitGetRequest({ url })
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-individual" name="landownerType" type="radio" value="individual" checked>')
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-organisation" name="landownerType" type="radio" value="organisation">')
+    })
+    it(`should render the ${url.substring(1)} view with organisation checked`, async () => {
+      const response = await submitGetRequest({ url }, 200, {
+        'client-individual-organisation': 'organisation'
+      })
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-individual" name="landownerType" type="radio" value="individual"')
+      expect(response.payload).toContain('<input class="govuk-radios__input" id="an-organisation" name="landownerType" type="radio" value="organisation" checked>')
     })
   })
 
