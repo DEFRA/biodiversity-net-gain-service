@@ -18,17 +18,15 @@ describe('Proof of ownership upload controller tests', () => {
       uploadType: 'land-ownership',
       url,
       formName: PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME,
-      sessionData: [{
-        fileName: 'file-1.pdf',
-        location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.pdf',
-        fileSize: 0.01,
-        fileType: 'application/pdf',
-        id: '1'
-      }]
+      sessionData: {}
     }
 
     beforeEach(async () => {
       await recreateContainers()
+    })
+
+    afterEach(() => {
+      baseConfig.sessionData = {}
     })
 
     it('should upload land ownership document to cloud storage', (done) => {
@@ -62,7 +60,6 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
-          uploadConfig.sessionData[`${constants.redisKeys.LAND_OWNERSHIP_PROOFS}`] = undefined
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -160,7 +157,7 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-          await uploadFile(uploadConfig)
+          await uploadFile(uploadConfig, 200)
           setImmediate(() => {
             done()
           })
