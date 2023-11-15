@@ -20,8 +20,8 @@ const handlers = {
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
       processDeveloperTask(request,
         {
-          taskTitle: 'Biodiversity 4.0 Metric calculations',
-          title: 'Upload Metric 4.0 file'
+          taskTitle: 'Biodiversity 4.1 Metric calculations',
+          title: 'Upload Metric 4.1 file'
         }, {
           status: constants.COMPLETE_DEVELOPER_TASK_STATUS
         })

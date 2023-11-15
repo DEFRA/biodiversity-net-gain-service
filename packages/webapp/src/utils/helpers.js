@@ -214,7 +214,7 @@ const getDateString = (dateValue, type) => {
 }
 const getResponsibleBodies = responsibleBodies => {
   const responsibleBodiesParsed = JSON.parse(JSON.stringify(responsibleBodies)) || []
-  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join(',')
+  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join('<br>')
   return responsibleBodiesOutput
 }
 
@@ -231,7 +231,7 @@ const getLandowners = landOwners => {
     }
   })
 
-  const result = [...organisationNames, ...individualNames].join(', ')
+  const result = [...organisationNames, ...individualNames].join('<br>')
   return result
 }
 const validateEmail = (emailAddress, ID) => {
@@ -533,8 +533,8 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
       }
     ]
   }
-  if (!metricValidation.isVersion4OrLater) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
+  if (!metricValidation.isSupportedVersion) {
+    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.1'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {

@@ -159,7 +159,7 @@ const getHabitats = session => {
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
-      proposedHabitatId: '', // Leave blank for now until metric 4.1 when this property is extracted
+      proposedHabitatId: details['Habitat reference Number'],
       habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Proposed habitat'],
       baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
       module: getModule(identifier),
