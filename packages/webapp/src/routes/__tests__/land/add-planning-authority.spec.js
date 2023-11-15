@@ -73,10 +73,23 @@ describe(url, () => {
       expect(redisMap.get('planning-authority-list').length).toEqual(2)
     })
 
-    it('Should fail journey if no org name is provided', async () => {
+    it('Should show error message if no lpa name is provided', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Enter a local planning authority')
+    })
+
+    it('Should show error message if invalid lpa is provided', async () => {
+      const request = {
+        yar: redisMap,
+        payload: { localPlanningAuthority: 'Invalid lpa' },
+        query: { id: '0' }
+      }
+
+      await addPlanningAuthority.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
+      expect(resultContext.localPlanningAuthorityNameErr[0].text).toEqual('Enter a valid local planning authority')
     })
   })
 })
