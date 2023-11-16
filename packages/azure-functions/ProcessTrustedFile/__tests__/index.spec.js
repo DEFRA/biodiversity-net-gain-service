@@ -144,34 +144,34 @@ describe('Trusted file processing', () => {
     })
   })
 
-  // it('Should process a trusted developer metric file', done => {
-  //   jest.isolateModules(async () => {
-  //     try {
-  //       const context = getContext()
-  //       blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
-  //         const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
-  //         const readableStream = Readable.from(readStream)
-  //         return {
-  //           readableStreamBody: readableStream
-  //         }
-  //       })
-  //       await processTrustedFile(context, {
-  //         body: {
-  //           uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
-  //           location: 'test',
-  //           containerName: 'test'
-  //         }
-  //       })
+  it('Should process a trusted developer metric file', done => {
+    jest.isolateModules(async () => {
+      try {
+        const context = getContext()
+        blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
+          const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
+          const readableStream = Readable.from(readStream)
+          return {
+            readableStreamBody: readableStream
+          }
+        })
+        await processTrustedFile(context, {
+          body: {
+            uploadType: DEVELOPER_METRIC_UPLOAD_TYPE,
+            location: 'test',
+            containerName: 'test'
+          }
+        })
 
-  //       expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled(0)
-  //       expect(context.res.status).toEqual(200)
-  //       expect(context.res.body).toBeDefined()
-  //       done()
-  //     } catch (err) {
-  //       done(err)
-  //     }
-  //   })
-  // })
+        expect(blobStorageConnector.downloadStreamIfExists).toHaveBeenCalled()
+        expect(context.res.status).toEqual(200)
+        expect(context.res.body).toBeDefined()
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
 })
 
 const buildConfig = (fileExtension, uploadType, epsg) => {
