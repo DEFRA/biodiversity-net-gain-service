@@ -29,7 +29,7 @@ const handlers = {
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
 
     if (!ownershipProofToRemove) {
-      ownershipProofToRemove = landOwnershipProofs[id]
+      ownershipProofToRemove = landOwnershipProofs[id].fileName
       return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
         ownershipProofToRemove,
         err: [{
