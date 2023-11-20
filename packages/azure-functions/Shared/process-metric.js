@@ -9,6 +9,9 @@ const processMetric = metricData => ({
   f1: metricData.f1OffSiteWaterCBaseline,
   f2: metricData.f2OffSiteWaterCCreation,
   f3: metricData.f3OffSiteWaterCEnhancement,
+  habitatOffSiteGainSiteSummary: metricData.habitatOffSiteGainSiteSummary,
+  hedgeOffSiteGainSiteSummary: metricData.hedgeOffSiteGainSiteSummary,
+  waterCourseOffSiteGainSiteSummary: metricData.watercourseOffSiteGainSiteSummary,
   validation: metricData.validation
 })
 

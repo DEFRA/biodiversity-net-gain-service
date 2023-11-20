@@ -284,6 +284,40 @@ const data = `{
         "Condition": "Good"
       }
     ],
+    "habitatOffSiteGainSiteSummary": [
+      {
+        "Gain site reference": 1234,
+        "Habitat Offsite unit change p per gain site (Post SRM)": 2.7706089322595426
+      },
+      {
+        "Gain site reference": "BNGREG-0001",
+        "Habitat Offsite unit changep per gain site (Post SRM)": 11.7927807827911
+      },
+      {
+        "Gain site reference": "BNGREG-0002",
+        "Habitat Offsite unit change r per gain site (Post SRM)": 10.19391249922896
+      },
+      {
+        "Gain site reference": "BNGREG-0003",
+        "Habitat Offsite unit change   per gain site (Post SRM)": 11.092471223327998
+      }
+    ],
+    "hedgeOffSiteGainSiteSummary": [
+      {
+        "Gain site reference": 1234,
+        "Hedgfe Offsite unit change per gain site (Post SRM)": 1.1017262107027603
+      },
+      {
+        "Gain site reference": "BNGREG-0001",
+        "Hedgei Offsite unit change per gain site (Post SRM)": 0.5790828803015999
+      }
+    ],
+    "waterCourseOffSiteGainSiteSummary": [
+      {
+        "Gainr site reference": 1234,
+        "Watercourse Offsite unit change per gain site (Post SRM)": "0"
+      }
+    ],
     "validation": {
       "isMetricWorkbook": true,
       "isSupportedVersion": true,

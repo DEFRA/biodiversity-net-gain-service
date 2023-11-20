@@ -140,6 +140,21 @@ describe('BNG data extractor test', () => {
     expect(response.f3OffSiteWaterCEnhancement[0]['Extent of encroachment for both banks']).toEqual('Minor/ Minor')
     expect(response.f3OffSiteWaterCEnhancement[0]['Strategic significance']).toEqual('Medium strategic significance ')
 
+    expect(response.habitatOffSiteGainSiteSummary.length).toEqual(4)
+    expect(Object.keys(response.habitatOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(response.habitatOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
+    expect(response.habitatOffSiteGainSiteSummary[0]['Habitat Offsite unit change per gain site (Post SRM)']).toEqual(0.4980547172546399)
+
+    expect(response.hedgeOffSiteGainSiteSummary.length).toEqual(2)
+    expect(Object.keys(response.hedgeOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(response.hedgeOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
+    expect(response.hedgeOffSiteGainSiteSummary[0]['Hedge Offsite unit change per gain site (Post SRM)']).toEqual(-1.2)
+
+    expect(response.watercourseOffSiteGainSiteSummary.length).toEqual(1)
+    expect(Object.keys(response.watercourseOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(response.watercourseOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
+    expect(response.watercourseOffSiteGainSiteSummary[0]['Watercourse Offsite unit change per gain site (Post SRM)']).toEqual(-19.811076168919204)
+
     expect(response.validation.isSupportedVersion).toBe(true)
     expect(response.validation.isOffsiteDataPresent).toBe(true)
     expect(response.validation.areOffsiteTotalsCorrect).toBe(true)

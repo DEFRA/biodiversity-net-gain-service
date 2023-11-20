@@ -10,6 +10,9 @@ import e3OffSiteHedgeEnhancementv4 from './metric/v4.1/e3-off-site-hedge-enhance
 import f1OffSiteWaterCBaselinev4 from './metric/v4.1/f1-off-site-waterC-baseline.js'
 import f2OffSiteWaterCCreationv4 from './metric/v4.1/f2-off-site-waterC-creation.js'
 import f3OffSiteWaterCEnhancementv4 from './metric/v4.1/f3-off-site-waterC-enhancement.js'
+import habitatOffSiteGainSiteSummaryv4 from './metric/v4.1/habitat-off-site-gain-site-summary.js'
+import hedgeOffSiteGainSiteSummaryv4 from './metric/v4.1/hedge-off-site-gain-site-summary.js'
+import watercourseOffSiteGainSiteSummaryv4 from './metric/v4.1/watercourse-off-site-gain-site-summary.js'
 
 export default {
   startExtractionConfig: start,
@@ -22,6 +25,9 @@ export default {
     e3OffSiteHedgeEnhancement: e3OffSiteHedgeEnhancementv4,
     f1OffSiteWaterCBaseline: f1OffSiteWaterCBaselinev4,
     f2OffSiteWaterCCreation: f2OffSiteWaterCCreationv4,
-    f3OffSiteWaterCEnhancement: f3OffSiteWaterCEnhancementv4
+    f3OffSiteWaterCEnhancement: f3OffSiteWaterCEnhancementv4,
+    habitatOffSiteGainSiteSummary: habitatOffSiteGainSiteSummaryv4,
+    hedgeOffSiteGainSiteSummary: hedgeOffSiteGainSiteSummaryv4,
+    watercourseOffSiteGainSiteSummary: watercourseOffSiteGainSiteSummaryv4
   }
 }
