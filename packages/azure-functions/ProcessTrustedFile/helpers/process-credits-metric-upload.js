@@ -8,15 +8,15 @@ export default async (context, config) => {
   try {
     const response = await blobStorageConnector.downloadStreamIfExists(context, config)
     if (response) {
-      const docStream = response.readableStreamBody
+      const streamData = response.readableStreamBody
       const metricExtractionConfig = {
         extractionConfiguration: {
           start: extractionConfiguration.startExtractionConfig,
-          ...extractionConfiguration['v4.0']
+          ...extractionConfiguration['v4.1']
         },
         validationConfiguration
       }
-      metricData = await extractMetricContent(docStream, metricExtractionConfig)
+      metricData = await extractMetricContent(streamData, metricExtractionConfig)
     } else {
       throw new Error('Unable to retrieve blob for credits metric file')
     }
