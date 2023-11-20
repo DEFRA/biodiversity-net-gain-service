@@ -6,13 +6,13 @@ import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-const UPLOAD_METRIC_ID = '#uploadMetric'
+const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 
 const processSuccessfulUpload = async (result, request, h) => {
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
-  if (validationError) {
+  const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
+  if (creditsValidationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(constants.views.CREDITS_UPLOAD_METRIC, validationError)
+    return h.view(constants.views.CREDITS_UPLOAD_METRIC, creditsValidationError)
   }
 
   request.yar.set(constants.redisKeys.CREDITS_METRIC_LOCATION, result.config.blobConfig.blobName)
@@ -30,21 +30,21 @@ const processErrorUpload = (err, h) => {
       return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file is empty',
-          href: UPLOAD_METRIC_ID
+          href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
         err: [{
           text: 'Select a Biodiversity Metric',
-          href: UPLOAD_METRIC_ID
+          href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
-          href: UPLOAD_METRIC_ID
+          href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
@@ -54,21 +54,21 @@ const processErrorUpload = (err, h) => {
         return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
-            href: UPLOAD_METRIC_ID
+            href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.threatDetected,
-            href: UPLOAD_METRIC_ID
+            href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
       } else {
         return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
-            href: UPLOAD_METRIC_ID
+            href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
       }
@@ -79,7 +79,7 @@ const handlers = {
   get: async (_request, h) => h.view(constants.views.CREDITS_UPLOAD_METRIC),
   post: async (request, h) => {
     // Get upload config object from common code
-    const uploadConfig = buildConfig({
+    const creditsUploadConfig = buildConfig({
       sessionId: request.yar.id,
       fileExt: constants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
@@ -88,8 +88,8 @@ const handlers = {
     })
 
     try {
-      const result = await uploadFile(logger, request, uploadConfig)
-      return processSuccessfulUpload(result, request, h)
+      const metricUploadResult = await uploadFile(logger, request, creditsUploadConfig)
+      return processSuccessfulUpload(metricUploadResult, request, h)
     } catch (err) {
       logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
@@ -129,7 +129,7 @@ export default [{
 const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
-    href: UPLOAD_METRIC_ID,
+    href: UPLOAD_CREDIT_METRIC_ID,
     maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
     view: constants.views.CREDITS_UPLOAD_METRIC
   })
