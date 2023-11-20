@@ -18,7 +18,7 @@ describe('BNG data extractor service test', () => {
     }
     const response = await extractMetricContent(readableStream, options)
 
-    expect(Object.keys(response).length).toBe(11)
+    expect(Object.keys(response).length).toBe(14)
     expect(response.validation).toBeTruthy()
   })
 })
