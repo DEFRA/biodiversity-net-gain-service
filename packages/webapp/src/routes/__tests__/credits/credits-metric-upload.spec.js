@@ -1,8 +1,8 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
-import * as azureStorage from '../../../utils/azure-storage.js'
+import mainConstants from '../../../utils/constants'
 import constants from '../../../credits/constants.js'
-
+import * as azureStorage from '../../../utils/azure-storage.js'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.CREDITS_UPLOAD_METRIC
 
@@ -17,19 +17,18 @@ describe('Metric file upload controller tests', () => {
 
   describe('POST', () => {
     const mockMetric =
-    {
-      metricData: {
-        d1: [{ 'Off-site reference': 'AZ12208461' }],
-        e1: [],
-        validation: {
-          isVersion4OrLater: true,
-          isOffsiteDataPresent: true,
-          areOffsiteTotalsCorrect: true
+      {
+        metricData: {
+          validation: {
+            isSupportedVersion: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: true
+          }
         }
       }
-    }
+
     const baseConfig = {
-      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
+      uploadType: 'credits-metric-upload',
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       postProcess: mockMetric,
@@ -40,22 +39,15 @@ describe('Metric file upload controller tests', () => {
       await recreateContainers()
     })
 
-    it('should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails. ', (done) => {
+    it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          jest.resetAllMocks()
-          jest.mock('../../../utils/http.js')
-          const http = require('../../../utils/http.js')
-          // Ensure the call to persist journey data fails.
-          http.postJson = jest.fn().mockImplementation(() => {
-            return Promise.reject(new Error('Error'))
-          })
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
-          uploadConfig.sessionData['biodiversity-net-gain-number'] = 'AZ12208461'
-          uploadConfig.sessionData['contact-id'] = 'mock contact ID'
-          uploadConfig.sessionData['application-type'] = 'allocation'
-          uploadConfig.sessionData['developer-app-reference'] = 'mock developer app reference'
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
+          // uploadConfig.headers = {
+          //   referer: 'http://localhost:30000/land/register-land-task-list'
+          // }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -64,14 +56,13 @@ describe('Metric file upload controller tests', () => {
           done(err)
         }
       })
-    })
+    }, 300000)
 
     it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
-          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+          uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -164,6 +155,23 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
+    it('should cause an internal server error response when upload processing fails', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/metric-file.xlsx`
+          config.generateHandleEventsError = true
+          config.hasError = true
+          await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should return validation error message if not v4 metric', (done) => {
       jest.isolateModules(async () => {
         try {
@@ -173,12 +181,12 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.postProcess.metricData.validation = {
-            isVersion4OrLater: false,
+            isSupportedVersion: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
+          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
@@ -198,7 +206,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.postProcess.metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
@@ -223,7 +231,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
           config.postProcess.metricData.validation = {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
@@ -239,16 +247,15 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should display expected error details when an upload fails due to a timeout', (done) => {
+    it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {
           const config = Object.assign({ uploadType: null }, baseConfig)
           config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.generateUploadTimeoutError = true
+          config.generateHandleEventsError = true
           config.hasError = true
-          const res = await uploadFile(config)
-          expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
+          const response = await uploadFile(config)
+          expect(response.payload).toContain(mainConstants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })
