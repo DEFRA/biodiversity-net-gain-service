@@ -1,0 +1,36 @@
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            <h1 class="govuk-heading-l">
+                {{ pageHeading }}
+            </h1>
+
+            {{ govukRadios({
+                idPrefix: "landownerType",
+                name: "landownerType",
+                id: "landownerType",
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "individual",
+                        text: "An individual",
+                        id: "an-individual",
+                        checked: landownerType === "yes"
+                    },
+                    {
+                        value: "organisation",
+                        text: "An organisation",
+                        id: "an-organisation",
+                        checked: landownerType === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>

@@ -1,4 +1,5 @@
 import constants from '../utils/constants.js'
+import getApplicantContext from '../utils/get-applicant-context.js'
 import { logger } from 'defra-logging-facade'
 
 const onPostHandler = {
@@ -46,6 +47,7 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
     if (!h.request.response.source.context) {
       h.request.response.source.context = {}
     }
+    const { representing, organisation } = getApplicantContext(request.auth.credentials.account, request.yar)
     const accountInfo = request.auth.credentials.account.idTokenClaims
     h.request.response.source.context.auth = {
       isAuthenticated: true,
@@ -55,6 +57,10 @@ const addAccountDetailsToContextIfPresent = (request, h) => {
       contactId: accountInfo.contactId,
       accountManagementUrl: process.env.DEFRA_ID_ACCOUNT_MANAGEMENT_URL,
       enableAccountManagementUrl: request.path !== `${constants.routes.MANAGE_BIODIVERSITY_GAINS}`
+    }
+
+    if (organisation) {
+      h.request.response.source.context.auth.representing = representing
     }
   }
 }

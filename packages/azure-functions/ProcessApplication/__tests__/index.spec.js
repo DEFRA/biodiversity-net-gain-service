@@ -30,7 +30,7 @@ const req = {
         fileName: null
       }, {
         contentMediaType: null,
-        fileType: 'management-plan',
+        fileType: 'habitat-plan',
         fileSize: null,
         fileLocation: null,
         fileName: null
