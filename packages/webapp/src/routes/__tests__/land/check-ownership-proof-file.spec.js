@@ -85,8 +85,9 @@ describe(url, () => {
       }
     })
     it('should allow confirmation that the correct land ownership file has been uploaded', async () => {
+      const session = new Session()
       postOptions.payload.checkLandOwnership = 'yes'
-      await getServer().register(onPreAuth(['mock/file-1.doc']))
+      await getServer().register(onPreAuth(session))
       await submitPostRequest(postOptions)
     })
 
