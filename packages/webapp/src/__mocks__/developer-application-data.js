@@ -212,19 +212,19 @@ export default {
     habitatOffSiteGainSiteSummary: [
       {
         'Gain site reference': 1234,
-        'Habitat Offsite unit change p per gain site (Post SRM)': 2.7706089322595426
+        'Habitat Offsite unit change per gain site (Post SRM)': 2.7706089322595426
       },
       {
         'Gain site reference': 'BNGREG-0001',
-        'Habitat Offsite unit changep per gain site (Post SRM)': 11.7927807827911
+        'Habitat Offsite unit change per gain site (Post SRM)': 11.7927807827911
       },
       {
         'Gain site reference': 'BNGREG-0002',
-        'Habitat Offsite unit change r per gain site (Post SRM)': 10.19391249922896
+        'Habitat Offsite unit change per gain site (Post SRM)': 10.19391249922896
       },
       {
         'Gain site reference': 'BNGREG-0003',
-        'Habitat Offsite unit change   per gain site (Post SRM)': 11.092471223327998
+        'Habitat Offsite unit change  per gain site (Post SRM)': 11.092471223327998
       }
     ],
     hedgeOffSiteGainSiteSummary: [
