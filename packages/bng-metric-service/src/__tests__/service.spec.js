@@ -12,7 +12,7 @@ describe('BNG data extractor service test', () => {
     const options = {
       extractionConfiguration: {
         start: bngMetricService.extractionConfiguration.startExtractionConfig,
-        ...bngMetricService.extractionConfiguration['v4.0']
+        ...bngMetricService.extractionConfiguration['v4.1']
       },
       validationConfiguration: bngMetricService.validationConfiguration
     }

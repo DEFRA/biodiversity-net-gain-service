@@ -589,8 +589,8 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
       }
     ]
   }
-  if (!metricValidation.isVersion4OrLater) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
+  if (!metricValidation.isSupportedVersion) {
+    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.1'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {

@@ -11,7 +11,7 @@ export default async function (context, config) {
       const metricExtractionConfig = {
         extractionConfiguration: {
           start: bngMetricService.extractionConfiguration.startExtractionConfig,
-          ...bngMetricService.extractionConfiguration['v4.0']
+          ...bngMetricService.extractionConfiguration['v4.1']
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }

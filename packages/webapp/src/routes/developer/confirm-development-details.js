@@ -20,7 +20,7 @@ const handlers = {
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
       processDeveloperTask(request,
         {
-          taskTitle: 'Biodiversity 4.0 Metric calculations',
+          taskTitle: 'Biodiversity 4.1 Metric calculations',
           title: 'Confirm development details'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
