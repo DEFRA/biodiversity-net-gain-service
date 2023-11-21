@@ -230,7 +230,7 @@ export default {
     hedgeOffSiteGainSiteSummary: [
       {
         'Gain site reference': 1234,
-        'Hedgfe Offsite unit change per gain site (Post SRM)': 1.1017262107027603
+        'Hedge Offsite unit change per gain site (Post SRM)': 1.1017262107027603
       },
       {
         'Gain site reference': 'BNGREG-0001',
