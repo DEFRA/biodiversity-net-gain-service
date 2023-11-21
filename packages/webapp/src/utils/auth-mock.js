@@ -17,7 +17,11 @@ const authMock = (auth) => {
         email: 'johnsmith@email.com',
         contactId,
         firstName: 'John',
-        lastName: `Smith - ${contactId}`
+        lastName: `Smith - ${contactId}`,
+        enrolmentCount: 1,
+        currentRelationshipId: 'mock relationship id',
+        relationships: ['mock relationship id:::0:Citizen:0'],
+        roles: ['mock relationship id:Standard User:2']
       }
     }
 

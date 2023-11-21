@@ -22,7 +22,7 @@ describe(url, () => {
 
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CHECK_METRIC_DETAILS)
-      expect(viewArgs[1]).toEqual({ filename: 'metric-file.xlsx' })
+      expect(viewArgs[1]).toEqual({ filename: 'new-metric-4.0.xlsm' })
     })
   })
   describe('POST', () => {
@@ -37,7 +37,7 @@ describe(url, () => {
       }
       await postHandler({ yar: session }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-      expect(session.get(constants.redisKeys.REGISTRATION_TASK_DETAILS).taskList[1].tasks[0].status).toBe('COMPLETED')
+      expect(session.get(constants.redisKeys.REGISTRATION_TASK_DETAILS).taskList[1].tasks[2].status).toBe('COMPLETED')
     })
   })
 })

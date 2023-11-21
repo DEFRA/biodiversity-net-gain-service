@@ -3,37 +3,10 @@
 {% set pageHeading = "Add a landowner or leaseholder listed on the " + legalAgreementType %}
 
 {% block formContent %}
-  <div class="govuk-body">
+<div class="govuk-body">
     {% if err %}
-      {% include "errorbanner.html" %}
+        {% include "errorbanner.html" %}
     {% endif %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">
-          {{ pageHeading }}
-        </h1>
-
-        {{ govukInput({
-          id: "organisationName",
-          name: "organisationName",
-          errorMessage: organisationNameError,
-          label: {
-            text: "Organisation name"
-          },
-          autocomplete: "organisationName",
-          spellcheck: false,
-          value: organisationName
-        }) }}
-    
-
-        {{ govukButton({
-          text: "Save and continue",
-          attributes: {
-            id: "continue",
-            "data-testid": "continue"
-          }
-        }) }}
-      </div>
-    </div>
-  </div>
+    {% include "common/add-organisation-name.html" %}
+</div>
 {% endblock %}
