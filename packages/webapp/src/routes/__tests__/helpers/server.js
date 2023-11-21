@@ -129,7 +129,10 @@ const submitGetRequest = async (options, expectedResponseCode = 200, sessionData
   return submitRequest(options, expectedResponseCode, config)
 }
 
-const submitPostRequest = async (options, expectedResponseCode = 302, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {
+const submitPostRequest = async (options, expectedResponseCode = 302, sessionData, config = { expectedNumberOfPostJsonCalls: expectedResponseCode === 302 ? 1 : 0 }) => {
+  if (sessionData && Object.keys(sessionData).length > 0) {
+    await addOnPreAuth(sessionData)
+  }
   options.method = 'POST'
   return submitRequest(options, expectedResponseCode, config)
 }
@@ -146,7 +149,11 @@ const submitRequest = async (options, expectedResponseCode, config) => {
             firstName: 'John',
             lastName: 'Smith',
             email: 'john.smith@test.com',
-            contactId: 'mock contact id'
+            contactId: 'mock contact id',
+            enrolmentCount: 1,
+            currentRelationshipId: 'mock relationship id',
+            relationships: ['mock relationship id:::0:Citizen:0'],
+            roles: ['mock relationship id:Standard User:2']
           }
         }
       }

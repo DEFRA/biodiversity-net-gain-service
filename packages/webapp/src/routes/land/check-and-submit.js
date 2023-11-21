@@ -16,6 +16,7 @@ import {
   getLocalPlanningAuthorities
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
+import applicationInformationContext from './helpers/applicant-information.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -60,7 +61,8 @@ const getContext = request => {
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
-    ...geospatialOrLandBoundaryContext(request)
+    ...geospatialOrLandBoundaryContext(request),
+    ...applicationInformationContext(request.yar)
   }
 }
 const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {

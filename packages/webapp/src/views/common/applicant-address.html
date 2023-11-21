@@ -1,0 +1,110 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your " + ("client's " if isApplicantAgent === 'yes' else "") + "address?" %}
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+      <p class="govuk-hint">This must match your {% if isApplicantAgent === 'yes'%}client's {% endif %}address on the legal agreement.</p>
+      {{ govukInput({
+        id: "addressLine1",
+        name: "addressLine1",
+        errorMessage: addressLine1Error,
+        label: {
+          text: "Address line 1"
+        },
+        spellcheck: false,
+        value: address.addressLine1
+      }) }}
+      {{ govukInput({
+        id: "addressLine2",
+        name: "addressLine2",
+        label: {
+          text: "Address line 2 (optional)"
+        },
+        spellcheck: false,
+        value: address.addressLine2
+      }) }}
+      {% if not isUkAddress %}
+        {{ govukInput({
+          id: "addressLine3",
+          name: "addressLine3",
+          label: {
+            text: "Address line 3 (optional)"
+          },
+          spellcheck: false,
+          value: address.addressLine3,
+          classes: 'govuk-input--width-20'
+        }) }}
+      {% endif %}
+      {{ govukInput({
+        id: "town",
+        name: "town",
+        errorMessage: townError,
+        label: {
+          text: "Town or city"
+        },
+        spellcheck: false,
+        value: address.town,
+        classes: 'govuk-!-width-two-thirds'
+      }) }}
+      {% if isUkAddress %}
+        {{ govukInput({
+          id: "county",
+          name: "county",
+          label: {
+            text: "County (optional)"
+          },
+          spellcheck: false,
+          value: address.county,
+          classes: 'govuk-!-width-two-thirds'
+        }) }}
+        {{ govukInput({
+          id: "postcode",
+          name: "postcode",
+          errorMessage: postcodeError,
+          label: {
+            text: "Postcode"
+          },
+          spellcheck: false,
+          value: address.postcode,
+          classes: 'govuk-input--width-10'
+        }) }}
+      {% else %}
+        {{ govukInput({
+          id: "postcode",
+          name: "postcode",
+          label: {
+            text: "Postcode (optional)"
+          },
+          spellcheck: false,
+          value: address.postcode,
+          classes: 'govuk-input--width-10'
+        }) }}
+        {{ govukInput({
+          id: "country",
+          name: "country",
+          errorMessage: countryError,
+          label: {
+            text: "Country"
+          },
+          spellcheck: false,
+          value: address.country
+        }) }}
+      {% endif %}   
+      {{ govukButton({
+        text: "Save and continue",
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+</div>   
+{% endblock %}

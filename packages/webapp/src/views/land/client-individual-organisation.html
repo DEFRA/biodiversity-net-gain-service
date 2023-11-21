@@ -1,0 +1,12 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Is your client an individual or organisation?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    {% include "common/select-individual-or-organisation.html" %}
+</div>
+{% endblock %}

@@ -10,9 +10,10 @@
           <ul class="govuk-list">
             <li><b>{{ auth.firstName }} {{ auth.lastName }}</b></li>
             <li>{{ auth.email }}</li>
+            <li>Representing: {{ representing }}</li>
           </ul>
           <p class="govuk-body">
-            <a href="{{ auth.accountManagementUrl | safe }}">Update Defra account details</a>
+            <a href="{{ auth.accountManagementUrl }}" target="__blank" rel="noreferrer noopener">Update Defra account details</a>
           </p>
           <hr class="app-divider">
           <div class="flex-container">

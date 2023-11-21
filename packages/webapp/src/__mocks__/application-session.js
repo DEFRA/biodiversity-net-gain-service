@@ -1,10 +1,11 @@
 import Session from './session.js'
-import applicationMock from './application-data.js'
+import testApplication from '../__mock-data__/test-application.js'
 
 const applicationSession = () => {
   const session = new Session()
-  Object.keys(applicationMock).forEach((item) => {
-    session.set(item, applicationMock[item])
+  const application = JSON.parse(testApplication.dataString)
+  Object.keys(application).forEach((item) => {
+    session.set(item, application[item])
   })
   return session
 }
