@@ -418,14 +418,25 @@ const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, 
 
   return error.err ? error : null
 }
-
+/**
+ * Checks for duplicate objects in an array based on concatenated properties.
+ *
+ * @param {Array} array - The array of objects to be checked.
+ * @param {Array} properties - The properties of the objects to be concatenated for checking.
+ * @param {Object} targetObject - The object whose concatenated properties are to be checked against the array.
+ * @param {String} hrefId - The href ID to be used in the error object.
+ * @param {String} errorMessage - The error message to be used in the error object.
+ * @param {Number|null} excludedIndex - The index in the array to be excluded from duplicate checking.
+ * @returns {Object|null} An error object if a duplicate is found, otherwise null.
+ */
 const checkForDuplicate = (array, property, value, hrefId, errorMessage, excludeIndex) => {
   const duplicate = array.some((item, index) => {
     if (typeof item === 'object' && item !== null && property in item) {
       return index !== excludeIndex && item[property] && item[property].toLowerCase() === value.toLowerCase()
-    } else {
+    } else if (typeof item === 'string') {
       return index !== excludeIndex && item.toLowerCase() === value.toLowerCase()
     }
+    return false
   })
   if (duplicate) {
     return {
@@ -437,7 +448,17 @@ const checkForDuplicate = (array, property, value, hrefId, errorMessage, exclude
   }
   return null
 }
-
+/**
+ * Checks for duplicates in an array based on concatenated property values of the objects.
+ *
+ * @param {Array} array - Array of objects to check for duplicates.
+ * @param {Array} properties - List of properties whose values are concatenated and compared for duplicates.
+ * @param {Object} targetObject - Object whose properties are compared against the array.
+ * @param {String} hrefId - ID used for creating a reference link in the error message.
+ * @param {String} errorMessage - Error message to be returned if a duplicate is found.
+ * @param {Number|null} excludedIndex - Index in the array to exclude from duplicate checking.
+ * @returns {Object|null} Returns an error object if a duplicate is found, otherwise null.
+ */
 const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex) => {
   const targetValue = properties.map(prop => targetObject[prop].toLowerCase()).join(' ').trim()
   const error = {}

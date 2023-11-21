@@ -7,12 +7,14 @@ import {
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
+  checkForDuplicate,
+  checkForDuplicateConcatenated,
   getErrById,
   initialCapitalization
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
-import constants from '../../utils/constants.js'
+import constants from '../constants.js'
 
 describe('helpers file', () => {
   describe('boolToYesNo', () => {
@@ -171,6 +173,188 @@ describe('helpers file', () => {
     it('should return undefined if empty error\'s array is provided', () => {
       const mockErrors = []
       expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
+    })
+  })
+})
+
+describe('checkForDuplicate organisation', () => {
+  const testArray = [
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org3', type: 'organisation' },
+    { firstName: 'John', middleNames: 'a', lastName: 'Cs', type: 'individual' },
+    { firstName: 'John', middleNames: '', lastName: 'Cris', type: 'individual' }
+  ]
+  it('should return an error object if a duplicate is found for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org2',
+      '#organisationName',
+      'This organisation has already been added - enter a different organisation, if there is one',
+      null // Assuming excludeIndex is not used in this case
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This organisation has already been added - enter a different organisation, if there is one',
+        href: '#organisationName'
+      }
+    })
+  })
+  it('should not return an error if duplicate is at the excluded index for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org1',
+      '#organisationName',
+      'This organisation name is already in use',
+      0 // Exclude the first index
+    )
+
+    expect(result).toBeNull()
+  })
+  it('should return an error object if a duplicate is found the excluded index for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org3',
+      '#organisationName',
+      'This organisation has already been added - enter a different organisation, if there is one',
+      0 // Exclude the first index
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This organisation has already been added - enter a different organisation, if there is one',
+        href: '#organisationName'
+      }
+    })
+  })
+})
+
+describe('checkForDuplicate for LPA list', () => {
+  it('should return an error object if a duplicate LPA is found', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 1']
+
+    const selectedLpa = 'Planning Authority 1'
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      null // Assuming excludeIndex is not used in this case
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This local planning authority has already been added - enter a different local planning authority, if there is one',
+        href: '#localPlanningAuthority'
+      }
+    })
+  })
+
+  it('should not return an error if the duplicate LPA is at the excluded index', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3']
+    const selectedLpa = 'Planning Authority 1'
+    const excludeIndex = 0 // Exclude the first index where the duplicate is
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toBeNull()
+  })
+  it('should not return an error if duplicate is at the excluded index for lpa', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3']
+    const selectedLpa = 'Planning Authority 2'
+    const excludeIndex = 0 // Exclude the first index where the duplicate is
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      excludeIndex
+    )
+    expect(result).toEqual({
+      err: {
+        text: 'This local planning authority has already been added - enter a different local planning authority, if there is one',
+        href: '#localPlanningAuthority'
+      }
+    })
+  })
+})
+
+describe('checkForDuplicateConcatenated', () => {
+  const testArray = [
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org3', type: 'organisation' },
+    { firstName: 'John', middleNames: 'a', lastName: 'Cs', type: 'individual' },
+    { firstName: 'John', middleNames: '', lastName: 'Cris', type: 'individual' },
+    { firstName: 'Jane', middleNames: 'b', lastName: 'Doe', type: 'individual' }
+  ]
+
+  it('should return an error object if a duplicate individual is found', () => {
+    const individual = { firstName: 'John', middleNames: '', lastName: 'Cris' }
+    const excludeIndex = null // Not excluding any index
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+        href: '#personName'
+      }
+    })
+  })
+
+  it('should not return an error if the duplicate individual is at the excluded index', () => {
+    const individual = { firstName: 'John', middleNames: 'a', lastName: 'Cs' }
+    const excludeIndex = 3 // Exclude the first index where the duplicate is
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toBeNull()
+  })
+
+  it('should return an error object if a duplicate is found the excluded index for organsation', () => {
+    const individual = { firstName: 'John', middleNames: 'a', lastName: 'Cs' }
+    const excludeIndex = 4 // Exclude the first index where the duplicate is
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+    expect(result).toEqual({
+      err: {
+        text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+        href: '#personName'
+      }
     })
   })
 })
