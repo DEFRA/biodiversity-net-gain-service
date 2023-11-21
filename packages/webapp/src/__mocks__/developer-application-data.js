@@ -234,12 +234,12 @@ export default {
       },
       {
         'Gain site reference': 'BNGREG-0001',
-        'Hedgei Offsite unit change per gain site (Post SRM)': 0.5790828803015999
+        'Hedge Offsite unit change per gain site (Post SRM)': 0.5790828803015999
       }
     ],
     waterCourseOffSiteGainSiteSummary: [
       {
-        'Gainr site reference': 1234,
+        'Gain site reference': 1234,
         'Watercourse Offsite unit change per gain site (Post SRM)': '0'
       }
     ],
