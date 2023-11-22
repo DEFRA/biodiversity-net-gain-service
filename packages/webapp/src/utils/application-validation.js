@@ -20,36 +20,13 @@ const applicantAddressSchema = Joi.object({
   })
 }).required()
 
-const landownerSchema = Joi.object({
-  type: Joi.string().valid('organisation', 'individual').required(),
-  organisationName: Joi.when('type', {
-    is: 'organisation',
-    then: Joi.string().required(),
-    otherwise: Joi.forbidden()
-  }),
-  firstName: Joi.when('type', {
-    is: 'individual',
-    then: Joi.string().required(),
-    otherwise: Joi.forbidden()
-  }),
-  middleNames: Joi.when('type', {
-    is: 'individual',
-    then: Joi.string().allow('').optional(),
-    otherwise: Joi.forbidden()
-  }),
-  lastName: Joi.when('type', {
-    is: 'individual',
-    then: Joi.string().required(),
-    otherwise: Joi.forbidden()
-  })
-}).required()
-
 const responsibleBodySchema = Joi.object({
   responsibleBodyName: Joi.string().required()
 }).required()
 
 const legalAgreementPlanningAuthoritySchema = Joi.object({
-  localPlanningAuthorityName: Joi.string().required()
+  LPAName: Joi.string().required(),
+  LPAId: Joi.string().required()
 }).required()
 
 const applicationValidation = Joi.object({
@@ -169,19 +146,36 @@ const applicationValidation = Joi.object({
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
     legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)).required(),
-    legalAgreementResponsibleBodies: Joi.array().items(responsibleBodySchema)
+    conservationCovernantResponsibleBodies: Joi.array().items(responsibleBodySchema)
       .when('legalAgreementType', {
         is: Joi.string().not('759150000'), // When legalAgreementType is NOT '759150000'
         then: Joi.array().min(1), // Array must have at least one item
         otherwise: Joi.forbidden() // Otherwise, it shouldn't be present
       }),
-    legalAgreementPlanningAuthorities: Joi.array().items(legalAgreementPlanningAuthoritySchema)
+    planningObligationLPAs: Joi.array().items(legalAgreementPlanningAuthoritySchema)
       .when('legalAgreementType', {
         is: Joi.string().valid('759150000'), // When legalAgreementType is  '759150000'
         then: Joi.array().min(1), // Array must have at least one item
         otherwise: Joi.forbidden() // Otherwise, it shouldn't be present
       }),
-    legalAgreementLandowners: Joi.array().items(landownerSchema).min(1).required(),
+    landowners: Joi.object({
+      organisation: Joi.array().items(
+        Joi.object({
+          organisationName: Joi.string().required()
+        }).required()
+      ),
+      individual: Joi.array().items(
+        Joi.object({
+          firstName: Joi.string().required(),
+          middleNames: Joi.string().allow('').optional(),
+          lastName: Joi.string().required()
+        }).required()
+      )
+    }).custom((value, helpers) => {
+      if (value.organisation.length + value.individual.length === 0) {
+        throw new Error('at least one organisation or individual landowner should be present')
+      }
+    }).required(),
     enhancementWorkStartDate: Joi.date().allow(null),
     legalAgreementEndDate: Joi.date().allow(null),
     submittedOn: Joi.date().required(),

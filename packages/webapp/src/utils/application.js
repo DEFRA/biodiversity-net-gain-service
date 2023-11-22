@@ -214,7 +214,7 @@ const getLandOwnershipFiles = session => {
 
 const getLocalPlanningAuthorities = lpas => {
   if (!lpas) return ''
-  return lpas.map(e => { return { localPlanningAuthorityName: e } })
+  return lpas.map(e => { return { LPAName: e, LPAId: 'dummy' } })
 }
 const getLegalAgreementFiles = session => {
   const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
@@ -286,6 +286,28 @@ const getPayment = session => {
   }
 }
 
+const getLandowners = session => {
+  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+  const landownersByType = {
+    organisation: [],
+    individual: []
+  }
+
+  sessionLandowners?.forEach(landowner => {
+    if (landowner.type === 'organisation') {
+      landownersByType.organisation.push({ organisationName: landowner.organisationName })
+    } else if (landowner.type === 'individual') {
+      landownersByType.individual.push({
+        firstName: landowner.firstName,
+        middleNames: landowner.middleNames,
+        lastName: landowner.lastName
+      })
+    }
+  })
+
+  return landownersByType
+}
+
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
   const applicationJson = {
@@ -300,9 +322,9 @@ const application = (session, account) => {
       enhancementWorkStartDate: session.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
       legalAgreementEndDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY),
       habitatPlanIncludedLegalAgreementYesNo: session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
-      legalAgreementLandowners: session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS),
-      ...(!isLegalAgreementTypeS106 ? { legalAgreementResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
-      ...(isLegalAgreementTypeS106 ? { legalAgreementPlanningAuthorities: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
+      landowners: getLandowners(session),
+      ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
+      ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
       submittedOn: new Date().toISOString(),
       payment: getPayment(session)
     }
