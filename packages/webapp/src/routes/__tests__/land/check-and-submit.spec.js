@@ -2,9 +2,14 @@ import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 import applicant from '../../../__mocks__/applicant.js'
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import application from '../../../__mock-data__/test-application.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
+const postOptions = {
+  url,
+  payload: {}
+}
 
 const auth = {
   credentials: {
@@ -86,12 +91,19 @@ describe(url, () => {
         }
       })
     })
-
-    it(`should render the ${url.substring(1)} view `, async () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
+    })
+    it(`should render the ${url.substring(1)} view even when a file has been deleted`, async () => {
+      const sessionData = JSON.parse(application.dataString)
+      sessionData[constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO] = 'Yes'
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_LOCATION]
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_FILE_TYPE]
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_FILE_SIZE]
+      await submitGetRequest({ url }, 200, sessionData)
     })
     it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
       const session = applicationSession()
@@ -222,6 +234,23 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+
+    it('Should not fail if not is-agent and no written authoristation is provided', async () => {
+      const sessionData = JSON.parse(application.dataString)
+      sessionData['is-agent'] = 'no'
+      delete sessionData['written-authorisation-location']
+      delete sessionData['written-authorisation-file-size']
+      delete sessionData['written-authorisation-file-type']
+      await submitPostRequest(postOptions, 302, sessionData)
+    })
+
+    it('Should fail if agent and no written authorisation is provided', async () => {
+      const sessionData = JSON.parse(application.dataString)
+      delete sessionData['written-authorisation-location']
+      delete sessionData['written-authorisation-file-size']
+      delete sessionData['written-authorisation-file-type']
+      await submitPostRequest(postOptions, 500, sessionData)
     })
   })
 })

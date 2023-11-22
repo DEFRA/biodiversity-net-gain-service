@@ -189,6 +189,7 @@ const getFile = (session, fileType, filesize, fileLocation, optional) => ({
 
 const getFiles = session => {
   const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
+  const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
   return [
     ...getLegalAgreementFiles(session),
     getLandBoundaryFile(session),
@@ -196,7 +197,7 @@ const getFiles = session => {
     getFile(session, constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, constants.redisKeys.LAND_OWNERSHIP_LOCATION, false),
     getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, false),
     getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
-    getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, false)
+    getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
 }
 
@@ -308,6 +309,9 @@ const application = (session, account) => {
   } else {
     applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
   }
+
+  // Filter blank files that are optional
+  applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
 
   return applicationJson
 }
