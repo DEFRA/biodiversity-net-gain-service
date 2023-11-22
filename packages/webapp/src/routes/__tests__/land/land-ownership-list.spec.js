@@ -53,8 +53,7 @@ describe(url, () => {
 
       await landOwnershipProofs.default[0].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.LAND_OWNERSHIP_PROOF_LIST)
-      expect(resultContext.landOwnershipProofs).toBeUndefined()
+      expect(viewResult).toEqual(constants.routes.UPLOAD_LAND_OWNERSHIP)
     })
   })
 
