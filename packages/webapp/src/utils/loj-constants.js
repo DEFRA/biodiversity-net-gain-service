@@ -84,7 +84,7 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
-const APPLICANT_DETAILS_IS_AGENT = 'land/agent-acting-for-client'
+const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -400,7 +400,7 @@ export default {
     CLIENTS_PHONE_NUMBER,
     UPLOAD_WRITTEN_AUTHORISATION,
     CHECK_WRITTEN_AUTHORISATION_FILE,
-    APPLICANT_DETAILS_IS_AGENT
+    AGENT_ACTING_FOR_CLIENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
