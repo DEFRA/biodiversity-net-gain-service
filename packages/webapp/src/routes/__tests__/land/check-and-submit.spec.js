@@ -2,9 +2,14 @@ import applicationSession from '../../../__mocks__/application-session.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 import constants from '../../../utils/constants.js'
 import applicant from '../../../__mocks__/applicant.js'
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import application from '../../../__mock-data__/test-application.js'
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
+const postOptions = {
+  url,
+  payload: {}
+}
 
 const auth = {
   credentials: {
@@ -222,6 +227,25 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+
+    it('Should not fail if not is-agent and no written authoristation is provided', async () => {
+      const sessionData = JSON.parse(application.dataString)
+      sessionData['is-agent'] = 'no'
+      delete sessionData['written-authorisation-location']
+      delete sessionData['written-authorisation-file-size']
+      delete sessionData['written-authorisation-file-type']
+      delete sessionData['written-authorisation-checked']
+      await submitPostRequest(postOptions, 302, sessionData)
+    })
+
+    it('Should fail if agent and no written authorisation is provided', async () => {
+      const sessionData = JSON.parse(application.dataString)
+      delete sessionData['written-authorisation-location']
+      delete sessionData['written-authorisation-file-size']
+      delete sessionData['written-authorisation-file-type']
+      delete sessionData['written-authorisation-checked']
+      await submitPostRequest(postOptions, 500, sessionData)
     })
   })
 })
