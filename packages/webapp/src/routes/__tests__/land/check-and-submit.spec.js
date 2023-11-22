@@ -91,12 +91,19 @@ describe(url, () => {
         }
       })
     })
-
-    it(`should render the ${url.substring(1)} view `, async () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
+    })
+    it(`should render the ${url.substring(1)} view even when a file has been deleted`, async () => {
+      const sessionData = JSON.parse(application.dataString)
+      sessionData[constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO] = 'Yes'
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_LOCATION]
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_FILE_TYPE]
+      delete sessionData[constants.redisKeys.HABITAT_PLAN_FILE_SIZE]
+      await submitGetRequest({ url }, 200, sessionData)
     })
     it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
       const session = applicationSession()
@@ -235,7 +242,6 @@ describe(url, () => {
       delete sessionData['written-authorisation-location']
       delete sessionData['written-authorisation-file-size']
       delete sessionData['written-authorisation-file-type']
-      delete sessionData['written-authorisation-checked']
       await submitPostRequest(postOptions, 302, sessionData)
     })
 
@@ -244,7 +250,6 @@ describe(url, () => {
       delete sessionData['written-authorisation-location']
       delete sessionData['written-authorisation-file-size']
       delete sessionData['written-authorisation-file-type']
-      delete sessionData['written-authorisation-checked']
       await submitPostRequest(postOptions, 500, sessionData)
     })
   })
