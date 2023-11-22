@@ -172,6 +172,7 @@ const WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
 const ALL_LPA = 'all-lpa'
 const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
+const REF_LPA_NAMES = 'ref-lpa-names'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -293,6 +294,7 @@ export default {
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
     ALL_LPA,
+    REF_LPA_NAMES,
     IS_ADDRESS_UK_KEY,
     UK_ADDRESS_KEY,
     NON_UK_ADDRESS_KEY,
