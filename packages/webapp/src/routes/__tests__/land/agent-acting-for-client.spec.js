@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = constants.routes.APPLICANT_DETAILS_IS_AGENT
+const url = constants.routes.AGENT_ACTING_FOR_CLIENT
 
 describe(url, () => {
   let viewResult
@@ -23,7 +23,7 @@ describe(url, () => {
     redisMap = new Map()
     redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
 
-    isApplicantAgent = require('../../land/applicant-details-is-agent.js')
+    isApplicantAgent = require('../../land/agent-acting-for-client.js')
   })
 
   describe('GET', () => {
@@ -63,7 +63,7 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.APPLICANT_DETAILS_IS_AGENT)
+      expect(viewResult).toEqual(constants.views.AGENT_ACTING_FOR_CLIENT)
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you are an agent acting on behalf of a client', href: '#isApplicantAgent' })
     })
   })
