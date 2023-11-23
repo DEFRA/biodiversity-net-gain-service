@@ -435,8 +435,8 @@ describe('application', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.IS_AGENT, 'yes')
     const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.files[7].fileType).toEqual('written-authorisation')
-    expect(app.landownerGainSiteRegistration.files[7].optional).toEqual(false)
+    expect(app.landownerGainSiteRegistration.files[8].fileType).toEqual('written-authorisation')
+    expect(app.landownerGainSiteRegistration.files[8].optional).toEqual(false)
   })
   it('Should delete written authorisation file if not is-agent and file is blank', () => {
     const session = applicationSession()
@@ -445,6 +445,6 @@ describe('application', () => {
     session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, null)
     session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, null)
     const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.files.length).toEqual(7)
+    expect(app.landownerGainSiteRegistration.files.length).toEqual(8)
   })
 })
