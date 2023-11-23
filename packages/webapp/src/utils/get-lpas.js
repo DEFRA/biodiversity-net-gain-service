@@ -1,17 +1,25 @@
 import * as fs from 'fs'
-const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
-let lpaList
-let cleansedLpaList
+let lpaList = null
 
-try {
-  const data = fs.readFileSync(filePathAndName, 'binary')
-  lpaList = JSON.parse(Buffer.from(data))
-  cleansedLpaList = lpaList.map(lpa => lpa.name)
-} catch (err) {
-  throw new Error('Error processing LPA file - ', err)
+const readLPAs = (filePathAndName) => {
+  if (!lpaList) {
+    try {
+      const data = fs.readFileSync(filePathAndName, 'binary')
+      lpaList = JSON.parse(Buffer.from(data))
+    } catch (err) {
+      throw new Error('Error processing LPA file - ', err)
+    }
+  }
 }
 
-const getLpaNamesAndCodes = () => ([...lpaList])
-const getLpaNames = () => ([...cleansedLpaList])
+const getLpaNamesAndCodes = (filePathAndName) => {
+  readLPAs(filePathAndName)
+  return [...lpaList]
+}
+
+const getLpaNames = (filePathAndName) => {
+  readLPAs(filePathAndName)
+  return lpaList.map(lpa => lpa.name)
+}
 
 export { getLpaNamesAndCodes, getLpaNames }
