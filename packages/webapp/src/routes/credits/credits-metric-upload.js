@@ -8,7 +8,7 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 
-const processSuccessfulUpload = async (result, request, h) => {
+const processSuccessfulCreditUpload = async (result, request, h) => {
   const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
   if (creditsValidationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
@@ -89,7 +89,7 @@ const handlers = {
 
     try {
       const metricUploadResult = await uploadFile(logger, request, creditsUploadConfig)
-      return processSuccessfulUpload(metricUploadResult, request, h)
+      return processSuccessfulCreditUpload(metricUploadResult, request, h)
     } catch (err) {
       logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
