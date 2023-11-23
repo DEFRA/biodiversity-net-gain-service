@@ -220,7 +220,6 @@ const getLandOwnershipFiles = session => {
 const getLocalPlanningAuthorities = lpas => {
   if (!lpas) return ''
   const lpasReference = getLpaNamesAndCodes()
-  console.log(lpasReference)
   return lpas.map(e => { return { LPAName: e, LPAId: lpasReference.find(lpa => lpa.name === e).id } })
 }
 const getLegalAgreementFiles = session => {
@@ -347,8 +346,6 @@ const application = (session, account) => {
 
   // Filter blank files that are optional
   applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
-
-  console.log(applicationJson.landownerGainSiteRegistration.habitats)
 
   return applicationJson
 }
