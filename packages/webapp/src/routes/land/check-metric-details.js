@@ -5,7 +5,7 @@ import { processRegistrationTask } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
+      taskTitle: 'Land information',
       title: 'Add habitat baseline, creation and enhancements'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
@@ -18,7 +18,7 @@ const handlers = {
   },
   post: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
+      taskTitle: 'Land information',
       title: 'Add habitat baseline, creation and enhancements'
     }, {
       status: constants.COMPLETE_REGISTRATION_TASK_STATUS

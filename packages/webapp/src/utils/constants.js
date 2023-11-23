@@ -29,23 +29,30 @@ const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
 const SIGNED_OUT = 'signed-out'
 const CONTACT_ID = 'contact-id'
+const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
-const INDIVIDUAL = 'individual'
-const ORGANISATION = 'organisation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
 const BLOB_STORAGE_CONTAINER = 'customer-uploads'
+const AGENT = 'Agent'
+const CITIZEN = 'Citizen'
+const EMPLOYEE = 'Employee'
+const LANDOWNER = 'landowner'
+const REPRESENTATIVE = 'representative'
+const INTERNATIONAL = 'international'
+const UK = 'uk'
 
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION
 }
-const landownerTypes = {
-  INDIVIDUAL,
-  ORGANISATION
+
+const ADDRESS_TYPES = {
+  INTERNATIONAL,
+  UK
 }
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
@@ -137,11 +144,21 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
   YES
 }
 
+const APPLICANT_IS_AGENT = {
+  NO,
+  YES
+}
+
+const ADDRESS_IS_UK = {
+  NO,
+  YES
+}
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
+  ORGANISATION_ID,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT
@@ -218,8 +235,25 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
+const landownerTypes = {
+  ...lojConstants.landownerTypes
+}
+
+const signInTypes = {
+  AGENT,
+  CITIZEN,
+  EMPLOYEE
+}
+
+const applicantTypes = {
+  AGENT: AGENT.toLowerCase(),
+  LANDOWNER,
+  REPRESENTATIVE
+}
+
 export default Object.freeze({
   applicationTypes,
+  applicantTypes,
   landownerTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
@@ -254,5 +288,9 @@ export default Object.freeze({
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
   creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
-  BLOB_STORAGE_CONTAINER
+  BLOB_STORAGE_CONTAINER,
+  signInTypes,
+  APPLICANT_IS_AGENT,
+  ADDRESS_IS_UK,
+  ADDRESS_TYPES
 })

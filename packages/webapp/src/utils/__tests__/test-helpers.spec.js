@@ -10,7 +10,8 @@ import {
   checkForDuplicate,
   checkForDuplicateConcatenated,
   getErrById,
-  initialCapitalization
+  initialCapitalization,
+  isValidPostcode
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -173,6 +174,36 @@ describe('helpers file', () => {
     it('should return undefined if empty error\'s array is provided', () => {
       const mockErrors = []
       expect(getErrById(mockErrors, 'id-1')).toBeUndefined()
+    })
+  })
+
+  describe('isValidPostcode', () => {
+    it('Should validate valid postcodes', () => {
+      const postcodes = [
+        'WA4 1HT',
+        'SQ1W 0NY',
+        'PO16 7GZ',
+        'GU16 7HF',
+        'L1 8JQ',
+        'WA41HT',
+        'SQ1W0NY',
+        'PO167GZ',
+        'GU167HF',
+        'L18JQ'
+      ]
+      postcodes.forEach(postcode => {
+        expect(isValidPostcode(postcode)).toBeTruthy()
+      })
+    })
+    it('Should invalidate invalid postcodes', () => {
+      const postcodes = [
+        'XXXXXX',
+        'X1',
+        'WA4'
+      ]
+      postcodes.forEach(postcode => {
+        expect(isValidPostcode(postcode)).toBeFalsy()
+      })
     })
   })
 })

@@ -40,6 +40,19 @@ describe(url, () => {
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[0]).toEqual({
+            taskTitle: 'Applicant information',
+            tasks: [
+              {
+                title: 'Add details about the applicant',
+                status: 'NOT STARTED',
+                completedTaskUrl: '/land/check-applicant-information',
+                startTaskUrl: '/land/agent-acting-for-client',
+                inProgressUrl: '',
+                id: 'add-applicant-information'
+              }
+            ]
+          })
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -57,12 +70,7 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-land-boundary',
                 inProgressUrl: '',
                 id: 'add-land-boundary'
-              }
-            ]
-          })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
-            taskTitle: 'Habitat information',
-            tasks: [
+              },
               {
                 title: 'Add habitat baseline, creation and enhancements',
                 status: 'NOT STARTED',
@@ -70,14 +78,6 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-metric',
                 inProgressUrl: '',
                 id: 'add-habitat-information'
-              },
-              {
-                title: 'Add habitat management and monitoring details',
-                status: 'NOT STARTED',
-                completedTaskUrl: '/land/check-management-monitoring-details',
-                startTaskUrl: '/land/upload-management-plan',
-                inProgressUrl: '',
-                id: 'add-habitat-management'
               }
             ]
           })
@@ -132,7 +132,7 @@ describe(url, () => {
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -150,12 +150,7 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-land-boundary',
                 inProgressUrl: '',
                 id: 'add-land-boundary'
-              }
-            ]
-          })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
-            taskTitle: 'Habitat information',
-            tasks: [
+              },
               {
                 title: 'Add habitat baseline, creation and enhancements',
                 status: 'NOT STARTED',
@@ -163,14 +158,6 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-metric',
                 inProgressUrl: '',
                 id: 'add-habitat-information'
-              },
-              {
-                title: 'Add habitat management and monitoring details',
-                status: 'NOT STARTED',
-                completedTaskUrl: '/land/check-management-monitoring-details',
-                startTaskUrl: '/land/upload-management-plan',
-                inProgressUrl: '',
-                id: 'add-habitat-management'
               }
             ]
           })
@@ -225,7 +212,7 @@ describe(url, () => {
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
             tasks: [
               {
@@ -243,12 +230,7 @@ describe(url, () => {
                 startTaskUrl: '/land/choose-land-boundary-upload',
                 inProgressUrl: '',
                 id: 'add-land-boundary'
-              }
-            ]
-          })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
-            taskTitle: 'Habitat information',
-            tasks: [
+              },
               {
                 title: 'Add habitat baseline, creation and enhancements',
                 status: 'NOT STARTED',
@@ -256,14 +238,6 @@ describe(url, () => {
                 startTaskUrl: '/land/upload-metric',
                 inProgressUrl: '',
                 id: 'add-habitat-information'
-              },
-              {
-                title: 'Add habitat management and monitoring details',
-                status: 'NOT STARTED',
-                completedTaskUrl: '/land/check-management-monitoring-details',
-                startTaskUrl: '/land/upload-management-plan',
-                inProgressUrl: '',
-                id: 'add-habitat-management'
               }
             ]
           })
@@ -323,7 +297,7 @@ describe(url, () => {
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('land/register-land-task-list')
       expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-      expect(contextResult.registrationTasks.taskList[0]).toEqual({
+      expect(contextResult.registrationTasks.taskList[1]).toEqual({
         taskTitle: 'Land information',
         tasks: [
           {
@@ -341,12 +315,7 @@ describe(url, () => {
             startTaskUrl: '/land/choose-land-boundary-upload',
             inProgressUrl: '',
             id: 'add-land-boundary'
-          }
-        ]
-      })
-      expect(contextResult.registrationTasks.taskList[1]).toEqual({
-        taskTitle: 'Habitat information',
-        tasks: [
+          },
           {
             title: 'Add habitat baseline, creation and enhancements',
             status: 'NOT STARTED',
@@ -354,14 +323,6 @@ describe(url, () => {
             startTaskUrl: '/land/upload-metric',
             inProgressUrl: '',
             id: 'add-habitat-information'
-          },
-          {
-            title: 'Add habitat management and monitoring details',
-            status: 'NOT STARTED',
-            completedTaskUrl: '/land/check-management-monitoring-details',
-            startTaskUrl: '/land/upload-management-plan',
-            inProgressUrl: '',
-            id: 'add-habitat-management'
           }
         ]
       })
@@ -428,18 +389,6 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           await checkExpectedTaskStatus('upload-metric', 'IN PROGRESS', 'Add habitat baseline, creation and enhancements')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-    it('should render view with Add habitat management and monitoring details task in progress after associated functionality is accessed', done => {
-      jest.isolateModules(async () => {
-        try {
-          await checkExpectedTaskStatus('upload-management-plan', 'IN PROGRESS', 'Add habitat management and monitoring details')
           setImmediate(() => {
             done()
           })

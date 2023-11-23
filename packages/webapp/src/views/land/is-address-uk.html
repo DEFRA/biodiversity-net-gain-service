@@ -1,0 +1,48 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Is your " + ("client's " if isApplicantAgent === 'yes' else "") + "address in the UK?" %}
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l" tabindex="-1">
+          {{ pageHeading }}
+        </h1>
+
+        {{ govukRadios({
+            id: "isAddressUk",
+            idPrefix: "isAddressUk",
+            name: "isAddressUk",
+            hint: {
+              html: "<div class='govuk-hint'>This must match your " + ("client's " if isApplicantAgent === 'yes' else "") + "address on the legal agreement</div>"
+            },
+            errorMessage: err[0],
+            items: [
+                {
+                    value: "yes",
+                    text: "Yes",
+                    id: "is-address-uk-yes",
+                    checked: isAddressUk === "yes"
+                },
+                {
+                    value: "no",
+                    text: "No",
+                    id: "is-address-uk-no",
+                    checked: isAddressUk === "no"
+                }
+            ]
+        }) }}
+        {{ govukButton({
+            text: "Save and continue",
+            attributes: {
+                id: "continue",
+                "data-testid": "continue"
+            }
+        }) }}
+    </div>
+</div>
+</div>  
+{% endblock %}
