@@ -28,7 +28,7 @@ describe('Metric file upload controller tests', () => {
       }
 
     const baseConfig = {
-      uploadType: 'credits-metric-upload',
+      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       postProcess: mockMetric,
