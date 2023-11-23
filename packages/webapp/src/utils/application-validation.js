@@ -26,7 +26,7 @@ const responsibleBodySchema = Joi.object({
 
 const legalAgreementPlanningAuthoritySchema = Joi.object({
   LPAName: Joi.string().required(),
-  LPAId: Joi.string().required()
+  LPAId: Joi.string().allow('').required()
 }).required()
 
 const applicationValidation = Joi.object({
@@ -84,6 +84,8 @@ const applicationValidation = Joi.object({
         Joi.object({
           habitatType: Joi.string().required(),
           baselineReference: Joi.string().required(),
+          module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
+          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
           condition: Joi.string().required(),
           area: Joi.object({
             beforeEnhancement: Joi.number().required(),
@@ -162,14 +164,14 @@ const applicationValidation = Joi.object({
       organisation: Joi.array().items(
         Joi.object({
           organisationName: Joi.string().required()
-        }).required()
+        })
       ),
       individual: Joi.array().items(
         Joi.object({
           firstName: Joi.string().required(),
           middleNames: Joi.string().allow('').optional(),
           lastName: Joi.string().required()
-        }).required()
+        })
       )
     }).custom((value, helpers) => {
       if (value.organisation.length + value.individual.length === 0) {

@@ -2,6 +2,7 @@ import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import path from 'path'
 import savePayment from '../payment/save-payment.js'
+import { getLpaNamesAndCodes } from './get-lpas.js'
 
 // Application object schema must match the expected payload format for the Operator application
 const getApplicant = (account, session) => ({
@@ -137,6 +138,8 @@ const getHabitats = session => {
 
   const getModule = (identifier) => {
     switch (identifier.charAt(identifier.length - 1)) {
+      case '1':
+        return 'Baseline'
       case '2':
         return 'Created'
       case '3':
@@ -148,6 +151,8 @@ const getHabitats = session => {
     metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
       habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Hedgerow type'],
       baselineReference: String(details['Baseline ref']),
+      module: getModule(identifier),
+      state: getState(identifier),
       condition: details.Condition,
       area: {
         beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
@@ -214,7 +219,9 @@ const getLandOwnershipFiles = session => {
 
 const getLocalPlanningAuthorities = lpas => {
   if (!lpas) return ''
-  return lpas.map(e => { return { LPAName: e, LPAId: 'dummy' } })
+  const lpasReference = getLpaNamesAndCodes()
+  console.log(lpasReference)
+  return lpas.map(e => { return { LPAName: e, LPAId: lpasReference.find(lpa => lpa.name === e).id } })
 }
 const getLegalAgreementFiles = session => {
   const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
@@ -340,6 +347,8 @@ const application = (session, account) => {
 
   // Filter blank files that are optional
   applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
+
+  console.log(applicationJson.landownerGainSiteRegistration.habitats)
 
   return applicationJson
 }
