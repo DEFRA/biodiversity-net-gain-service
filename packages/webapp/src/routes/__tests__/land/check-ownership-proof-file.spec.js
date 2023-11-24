@@ -40,7 +40,7 @@ describe(url, () => {
       postOptions.payload.checkLandOwnership = 'no'
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_OWNERSHIP)
-      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {

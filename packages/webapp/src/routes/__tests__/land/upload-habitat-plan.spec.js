@@ -1,4 +1,5 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
 const HABITAT_PLAN_FORM_ELEMENT_NAME = 'habitatPlan'
@@ -24,9 +25,10 @@ describe('Habitat Plan upload controller tests', () => {
       await recreateContainers()
     })
 
-    it('should upload habitat plan document to cloud storage', (done) => {
+    it('should upload habitat plan document to cloud storage and delete previous upload', (done) => {
       jest.isolateModules(async () => {
         try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
             referer: `http://localhost:3000${url}`
@@ -34,6 +36,7 @@ describe('Habitat Plan upload controller tests', () => {
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/habitat-plan.pdf`
           await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })

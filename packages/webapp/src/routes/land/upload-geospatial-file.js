@@ -35,6 +35,10 @@ const performUpload = async (request, h) => {
   config.fileValidationConfig.maximumDecimalPlaces = 4
 
   try {
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, true))
+
     const geospatialData = await uploadFile(logger, request, config)
     processGeospatialLandBoundaryEvent(geospatialData.postProcess)
 

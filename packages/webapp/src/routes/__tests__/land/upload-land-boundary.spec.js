@@ -44,7 +44,7 @@ describe('Land boundary upload controller tests', () => {
             referer: 'http://localhost:30000/land/check-ownership-details'
           }
           await uploadFile(uploadConfig)
-          expect(spy).toHaveBeenCalledTimes(3)
+          expect(spy).toHaveBeenCalledTimes(4)
           setImmediate(() => {
             done()
           })
