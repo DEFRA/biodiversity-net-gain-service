@@ -3,10 +3,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import creditsConstants from '../../credits/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
-import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
-
-const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
+import { getMetricFileValidationErrors, maximumFileSizeExceeded, processErrorUpload } from '../../utils/helpers.js'
 
 const processSuccessfulCreditUpload = async (result, request, h) => {
   const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
@@ -22,57 +19,6 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
   logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(creditsConstants.routes.CREDITS_CHECK_UPLOAD_METRIC)
-}
-
-const processCreditsErrorUpload = (err, h) => {
-  switch (err.message) {
-    case creditsConstants.uploadErrors.emptyFile:
-      return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file is empty',
-          href: UPLOAD_CREDIT_METRIC_ID
-        }]
-      })
-    case creditsConstants.uploadErrors.noFile:
-      return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-        err: [{
-          text: 'Select a Biodiversity Metric',
-          href: UPLOAD_CREDIT_METRIC_ID
-        }]
-      })
-    case creditsConstants.uploadErrors.unsupportedFileExt:
-      return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file must be an XLSM or XLSX',
-          href: UPLOAD_CREDIT_METRIC_ID
-        }]
-      })
-    case creditsConstants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
-    default:
-      if (err instanceof ThreatScreeningError) {
-        return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-          err: [{
-            text: creditsConstants.uploadErrors.malwareScanFailed,
-            href: UPLOAD_CREDIT_METRIC_ID
-          }]
-        })
-      } else if (err instanceof MalwareDetectedError) {
-        return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-          err: [{
-            text: creditsConstants.uploadErrors.threatDetected,
-            href: UPLOAD_CREDIT_METRIC_ID
-          }]
-        })
-      } else {
-        return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
-          err: [{
-            text: creditsConstants.uploadErrors.uploadFailure,
-            href: UPLOAD_CREDIT_METRIC_ID
-          }]
-        })
-      }
-  }
 }
 
 const handlers = {
@@ -92,7 +38,7 @@ const handlers = {
       return processSuccessfulCreditUpload(metricUploadResult, request, h)
     } catch (err) {
       logger.log(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
-      return processCreditsErrorUpload(err, h)
+      return processErrorUpload(err, h, 'CREDITS')
     }
   }
 }
@@ -125,12 +71,3 @@ export default [{
   }
 }
 ]
-
-const maximumFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: UPLOAD_CREDIT_METRIC_ID,
-    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view: creditsConstants.views.CREDITS_UPLOAD_METRIC
-  })
-}
