@@ -1,6 +1,6 @@
 import allLPAs from './ref-data/lpas-names-and-ids.js'
 
-function getLpaNamesAndCodes () {
+const getLpaNamesAndCodes = () => {
   return [...allLPAs]
 }
 
