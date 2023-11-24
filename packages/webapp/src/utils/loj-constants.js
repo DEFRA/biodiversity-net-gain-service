@@ -199,7 +199,7 @@ const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
 const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
-const AGENT_ACTING_FOR_CLIENT = commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'land')
+const AGENT_ACTING_FOR_CLIENT = `/${commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'land')}`
 
 // Route definitions used by more than one journey need to be registered using ./constants.js without reference to
 // associated journey specific route constants. As such, route constants associated with common route definitions

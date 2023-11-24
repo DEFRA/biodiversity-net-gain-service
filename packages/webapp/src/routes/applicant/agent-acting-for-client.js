@@ -4,8 +4,8 @@ import lojConstants from '../../utils/loj-constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 import createJourneyRoutes from '../../utils/create-journey-routes.js'
 
-const allocationRoutePath = `/${developerConstants.commonRoutes.DEVELOPER_AGENT_ACTING_FOR_CLIENT}`
-const registrationRoutePath = `/${lojConstants.commonRoutes.AGENT_ACTING_FOR_CLIENT}`
+const allocationRoutePath = developerConstants.commonRoutes.DEVELOPER_AGENT_ACTING_FOR_CLIENT
+const registrationRoutePath = lojConstants.commonRoutes.AGENT_ACTING_FOR_CLIENT
 
 const config = {
   [allocationRoutePath]: {
@@ -44,7 +44,7 @@ const config = {
 const handlers = {
   get: async (request, h) => {
     const journeyConfig = config[request.path]
-    journeyConfig.preProcessor && journeyConfig.preProcessor(request)
+    journeyConfig.preProcessor?.(request)
     const isApplicantAgent = request.yar.get(journeyConfig.cacheKey)
     return h.view(constants.views.AGENT_ACTING_FOR_CLIENT, {
       isApplicantAgent

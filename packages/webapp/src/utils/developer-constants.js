@@ -28,7 +28,7 @@ const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
 const DEVELOPER_NEED_METRIC = 'developer/need-metric'
-const DEVELOPER_AGENT_ACTING_FOR_CLIENT = commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'developer')
+const DEVELOPER_AGENT_ACTING_FOR_CLIENT = `/${commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'developer')}`
 // ./Routes constants
 
 // RedisKeys constants
