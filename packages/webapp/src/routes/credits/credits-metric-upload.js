@@ -24,7 +24,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   return h.redirect(creditsConstants.routes.CREDITS_CHECK_UPLOAD_METRIC)
 }
 
-const processErrorUpload = (err, h) => {
+const processCreditsErrorUpload = (err, h) => {
   switch (err.message) {
     case creditsConstants.uploadErrors.emptyFile:
       return h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC, {
@@ -91,8 +91,8 @@ const handlers = {
       const metricUploadResult = await uploadFile(logger, request, creditsUploadConfig)
       return processSuccessfulCreditUpload(metricUploadResult, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h)
+      logger.log(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
+      return processCreditsErrorUpload(err, h)
     }
   }
 }
