@@ -1,0 +1,51 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Are you sure you want to change the type of legal agreement?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "changeLegalAgreementType",
+                name: "changeLegalAgreementType",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    html: "<div class='govuk-hint'>Changing the type of legal agreement means you’ll need to add information about it again.
+                            </div>"
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes, I want to change the type of legal agreement and add information about it again",
+                        id: "remove-landowner-yes",
+                        checked: landownerToRemove === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, I do not want to change the type of legal agreement ",
+                        id: "remove-landowner-no",
+                        checked: landownerToRemove === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
