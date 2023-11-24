@@ -378,7 +378,7 @@ const dataString = `
       "responsibleBodyName": "test2"
     }
   ],
-  "planning-authority-list":["Planning Authority 1", "Planning Authority 2"],
+  "planning-authority-list":["County Durham LPA", "Secretary of State"],
   "legal-agreement-landowner-conservation-convenants": [{
     "organisationName": "org1",
     "type": "organisation"
