@@ -7,9 +7,11 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-
+import creditsConstants from '../credits/constants.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
+const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 
 const parsePayload = (payload, ID) => {
   const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
