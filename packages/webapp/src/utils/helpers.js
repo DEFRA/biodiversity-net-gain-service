@@ -7,6 +7,7 @@ import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 const isoDateFormat = 'YYYY-MM-DD'
+const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
   const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
@@ -560,6 +561,59 @@ const buildFullName = (item) => {
     : item.value.firstName.concat(' ' + item.value.lastName)
 }
 
+const isValidPostcode = (postcode) => {
+  return postcodeRegExp.test(postcode)
+}
+
+const validateAddress = (address, isUkAddress) => {
+  const errors = {}
+  if (!address.addressLine1 || address.addressLine1.length === 0) {
+    errors.addressLine1Error = {
+      text: 'Enter address line 1',
+      href: '#addressLine1'
+    }
+  }
+  if (!address.town || address.town.length === 0) {
+    errors.townError = {
+      text: 'Enter town or city',
+      href: '#town'
+    }
+  }
+  if (isUkAddress) {
+    if (!address.postcode || address.postcode.length === 0) {
+      errors.postcodeError = {
+        text: 'Enter postcode',
+        href: '#postcode'
+      }
+    } else if (!isValidPostcode(address.postcode)) {
+      errors.postcodeError = {
+        text: 'Enter a full UK postcode',
+        href: '#postcode'
+      }
+    }
+  }
+  if (!isUkAddress) {
+    if (!address.country || address.country.length === 0) {
+      errors.countryError = {
+        text: 'Enter country',
+        href: '#country'
+      }
+    }
+  }
+  return Object.keys(errors).length > 0 ? errors : null
+}
+
+const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
+  if (isApplicantAgent === 'no') {
+    return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
+  }
+  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+  } else {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -605,5 +659,8 @@ export {
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,
-  buildFullName
+  buildFullName,
+  isValidPostcode,
+  redirectAddress,
+  validateAddress
 }

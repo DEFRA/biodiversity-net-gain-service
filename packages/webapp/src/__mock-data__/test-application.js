@@ -3,6 +3,19 @@ const dataString = `
   "registrationTaskDetails": {
     "taskList": [
       {
+        "taskTitle": "Applicant information",
+        "tasks": [
+          {
+            "title": "Add details about the applicant",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/check-applicant-information",
+            "startTaskUrl": "/land/agent-acting-for-client",
+            "inProgressUrl": "/land/add-landowners",
+            "id": "add-applicant-information"
+          }
+        ]
+      },
+      {
         "taskTitle": "Land information",
         "tasks": [
           {
@@ -20,12 +33,7 @@ const dataString = `
             "startTaskUrl": "/land/choose-land-boundary-upload",
             "inProgressUrl": "/land/add-grid-reference",
             "id": "add-land-boundary"
-          }
-        ]
-      },
-      {
-        "taskTitle": "Habitat information",
-        "tasks": [
+          },
           {
             "title": "Add habitat baseline, creation and enhancements",
             "status": "COMPLETED",
@@ -33,14 +41,6 @@ const dataString = `
             "startTaskUrl": "/land/upload-metric",
             "inProgressUrl": "/land/check-metric-details",
             "id": "add-habitat-information"
-          },
-          {
-            "title": "Add habitat management and monitoring details",
-            "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-management-monitoring-details",
-            "startTaskUrl": "/land/upload-management-plan",
-            "inProgressUrl": "/land/check-management-monitoring-details",
-            "id": "add-habitat-management"
           }
         ]
       },
@@ -340,11 +340,6 @@ const dataString = `
   },
   "metric-file-checked": "yes",
   "check-uploaded-metric": true,
-  "management-plan-location": "800376c7-8652-4906-8848-70a774578dfe/management-plan/legal-agreement.doc",
-  "management-plan-file-size": 0.01,
-  "management-plan-file-type": "application/msword",
-  "management-plan-checked": "yes",
-  "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
@@ -402,7 +397,20 @@ const dataString = `
   "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
   "habitat-plan-file-size": 0.01,
   "habitat-plan-file-type": "application/msword",
-  "application-reference": ""
+  "application-reference": "",
+  "is-agent": "yes",
+  "client-individual-organisation": "individual",
+  "clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
+  "is-address-uk": "yes",
+  "uk-address": {"addressLine1":"test","addressLine2":"test","town":"test","county":"test","postcode":"m11mm"},
+  "clients-email-address": "test@Test.com",
+  "clients-phone-number": "12323453453",
+  "written-authorisation-location": "94c588fe-9242-43f2-a48c-926902a135e1/written-authorisation/legal-agreement.pdf",
+  "written-authorisation-file-size": 7515,
+  "written-authorisation-file-type": "application/pdf",
+  "written-authorisation-checked": "yes",
+  "landowner-type": "individual",
+  "defraAccountDetailsConfirmed": "true"
 }`
 
 export default {

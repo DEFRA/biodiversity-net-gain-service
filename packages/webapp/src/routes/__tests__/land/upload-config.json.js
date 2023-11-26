@@ -10,11 +10,6 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
 }, {
-  uploadType: 'management-plan',
-  url: constants.routes.UPLOAD_MANAGEMENT_PLAN,
-  hasError: true,
-  filePath: 'packages/webapp/src/__mock-data__/uploads/legal-agreements/legal-agreement.pdf'
-}, {
   uploadType: 'metric-upload',
   url: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   hasError: true,
@@ -49,6 +44,11 @@ const uploadTestConfig = [{
   url: constants.routes.UPLOAD_HABITAT_PLAN,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/habitat-plan/habitat-plan.pdf'
+}, {
+  uploadType: constants.uploadTypes.WRITTEN_AUTHORISATION_UPLOAD_TYPE,
+  url: constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
 }
 ]
 
