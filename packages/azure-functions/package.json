@@ -27,7 +27,7 @@
     "@defra/bng-utils-lib": "0.244.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "moment": "^2.29.4",
-    "notifications-node-client": "^7.0.3"
+    "notifications-node-client": "^7.0.6"
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.244.0"
