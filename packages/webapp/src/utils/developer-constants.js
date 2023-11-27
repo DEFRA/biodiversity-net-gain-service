@@ -26,6 +26,8 @@ const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
 const DEVELOPER_NEED_METRIC = 'developer/need-metric'
+const DEVELOPER_AGENT_ACTING_FOR_CLIENT = 'developer/agent-acting-for-client'
+const DEVELOPER_IS_AGENT = 'developer-is-agent'
 // ./Routes constants
 
 // RedisKeys constants
@@ -126,7 +128,8 @@ export default {
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
     DEVELOPER_NEW_DEVELOPMENT_PROJECT,
-    DEVELOPER_NEED_METRIC
+    DEVELOPER_NEED_METRIC,
+    DEVELOPER_AGENT_ACTING_FOR_CLIENT
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -155,7 +158,8 @@ export default {
     DEVELOPER_CONSENT_ANSWER,
     DEVELOPER_TASK_DETAILS,
     DEVELOPER_APP_REFERENCE,
-    DEVELOPER_ROLE_KEY
+    DEVELOPER_ROLE_KEY,
+    DEVELOPER_IS_AGENT
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
