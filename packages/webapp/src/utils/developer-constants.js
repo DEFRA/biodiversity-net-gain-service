@@ -1,5 +1,3 @@
-import commonRouteConstants from './common-route-constants.js'
-
 // Routes constants
 const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
@@ -28,7 +26,6 @@ const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
 const DEVELOPER_NEED_METRIC = 'developer/need-metric'
-const DEVELOPER_AGENT_ACTING_FOR_CLIENT = commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'developer')
 // ./Routes constants
 
 // RedisKeys constants
@@ -59,7 +56,6 @@ const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
 const DEVELOPER_TASK_DETAILS = 'developer-task-details'
 const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 const DEVELOPER_ROLE_KEY = 'developer-role-key'
-const DEVELOPER_IS_AGENT = 'developer-is-agent'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -102,21 +98,7 @@ const developerEligibilityHTML = {
   [DEVELOPER_ELIGIBILITY_METRIC_VALUE]: '<li>a completed Biodiversity Metric file 4.1 for the site</li>'
 }
 
-// Route definitions used by more than one journey need to be registered using ./constants.js without reference to
-// associated journey specific route constants. As such, route constants associated with common route definitions
-// need to be differentiated from standard route constants. Without differentiation, route registration will attempt
-// to locate route definitions that do not exist.
-
-// EXAMPLE
-// Requests to /land/agent-acting-for-client and /developer/agent-acting-for-client are both processed by the common route
-// definition located at ../routes/applicant/agent-acting-for-client.js. Journey specific route definition files do not exist
-// and no attempt should be made to register them accordingly. If DEVELOPER_AGENT_ACTING_FOR_CLIENT was defined in routes rather
-// than commmonRoutes, server startup would attempt to register a route based on the non-existent file
-// ../routes/developer/agent-acting-for-client.js.
 export default {
-  commonRoutes: {
-    DEVELOPER_AGENT_ACTING_FOR_CLIENT
-  },
   routes: {
     DEVELOPER_UPLOAD_METRIC,
     DEVELOPER_CHECK_UPLOAD_METRIC,
@@ -173,8 +155,7 @@ export default {
     DEVELOPER_CONSENT_ANSWER,
     DEVELOPER_TASK_DETAILS,
     DEVELOPER_APP_REFERENCE,
-    DEVELOPER_ROLE_KEY,
-    DEVELOPER_IS_AGENT
+    DEVELOPER_ROLE_KEY
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,

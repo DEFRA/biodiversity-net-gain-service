@@ -1,5 +1,3 @@
-import commonRouteConstants from './common-route-constants.js'
-
 const PUBLIC_ROUTES = 'public-routes'
 const START = 'start'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
@@ -85,6 +83,7 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
+const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
@@ -199,23 +198,8 @@ const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
 const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
-const AGENT_ACTING_FOR_CLIENT = commonRouteConstants.AGENT_ACTING_FOR_CLIENT.replace('applicant', 'land')
 
-// Route definitions used by more than one journey need to be registered using ./constants.js without reference to
-// associated journey specific route constants. As such, route constants associated with common route definitions
-// need to be differentiated from standard route constants. Without differentiation, route registration will attempt
-// to locate route definitions that do not exist.
-
-// EXAMPLE
-// Requests to /land/agent-acting-for-client and /developer/agent-acting-for-client are both processed by the common route
-// definition located at ../routes/applicant/agent-acting-for-client.js. Journey specific route definition files do not exist
-// and no attempt should be made to register them accordingly. If AGENT_ACTING_FOR_CLIENT was defined in routes rather
-// than commmonRoutes, server startup would attempt to register a route based on the non-existent file
-// ../routes/land/agent-acting-for-client.js.
 export default {
-  commonRoutes: {
-    AGENT_ACTING_FOR_CLIENT
-  },
   landownerTypes: {
     INDIVIDUAL,
     ORGANISATION

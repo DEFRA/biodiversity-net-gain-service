@@ -1,4 +1,3 @@
-import commonRouteConstants from './common-route-constants.js'
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
@@ -166,7 +165,6 @@ const redisKeys = {
 }
 
 let routes = {
-  ...commonRouteConstants,
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
