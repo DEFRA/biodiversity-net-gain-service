@@ -43,7 +43,7 @@
     "@hapi/vision": "7.0.3",
     "@hapi/wreck": "^18.0.1",
     "@hapi/yar": "^11.0.1",
-    "@ministryofjustice/frontend": "^1.8.0",
+    "@ministryofjustice/frontend": "^1.8.1",
     "accessible-autocomplete": "^2.0.4",
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
