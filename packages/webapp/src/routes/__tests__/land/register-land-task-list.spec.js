@@ -46,7 +46,7 @@ describe(url, () => {
                 title: 'Add details about the applicant',
                 status: 'NOT STARTED',
                 completedTaskUrl: '/land/check-applicant-information',
-                startTaskUrl: '/land/applicant-details-is-agent',
+                startTaskUrl: '/land/agent-acting-for-client',
                 inProgressUrl: '',
                 id: 'add-applicant-information'
               }

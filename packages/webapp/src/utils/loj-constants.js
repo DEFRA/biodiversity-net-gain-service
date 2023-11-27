@@ -84,7 +84,7 @@ const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
-const APPLICANT_DETAILS_IS_AGENT = 'land/applicant-details-is-agent'
+const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -172,6 +172,7 @@ const WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
 const ALL_LPA = 'all-lpa'
 const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
+const REF_LPA_NAMES = 'ref-lpa-names'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -293,6 +294,7 @@ export default {
     PLANNING_AUTHORTITY_LIST,
     LEGAL_AGREEMENT_LPA_REMOVE,
     ALL_LPA,
+    REF_LPA_NAMES,
     IS_ADDRESS_UK_KEY,
     UK_ADDRESS_KEY,
     NON_UK_ADDRESS_KEY,
@@ -398,7 +400,7 @@ export default {
     CLIENTS_PHONE_NUMBER,
     UPLOAD_WRITTEN_AUTHORISATION,
     CHECK_WRITTEN_AUTHORISATION_FILE,
-    APPLICANT_DETAILS_IS_AGENT
+    AGENT_ACTING_FOR_CLIENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

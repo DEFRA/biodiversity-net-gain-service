@@ -9,7 +9,7 @@ const dataString = `
             "title": "Add details about the applicant",
             "status": "COMPLETED",
             "completedTaskUrl": "/land/check-applicant-information",
-            "startTaskUrl": "/land/applicant-details-is-agent",
+            "startTaskUrl": "/land/agent-acting-for-client",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-applicant-information"
           }

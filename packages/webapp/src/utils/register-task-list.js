@@ -9,7 +9,7 @@ const registerTaskList = {
           title: 'Add details about the applicant',
           status: constants.DEFAULT_REGISTRATION_TASK_STATUS,
           completedTaskUrl: constants.routes.CHECK_APPLICANT_INFORMATION,
-          startTaskUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT,
+          startTaskUrl: constants.routes.AGENT_ACTING_FOR_CLIENT,
           inProgressUrl: '',
           id: 'add-applicant-information'
         }

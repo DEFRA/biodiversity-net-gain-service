@@ -8,12 +8,12 @@ const handlers = {
       title: 'Add details about the applicant'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.APPLICANT_DETAILS_IS_AGENT
+      inProgressUrl: constants.routes.AGENT_ACTING_FOR_CLIENT
     })
 
     const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
 
-    return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
+    return h.view(constants.views.AGENT_ACTING_FOR_CLIENT, {
       isApplicantAgent
     })
   },
@@ -32,7 +32,7 @@ const handlers = {
     } else if (isApplicantAgent === 'no') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     } else {
-      return h.view(constants.views.APPLICANT_DETAILS_IS_AGENT, {
+      return h.view(constants.views.AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,
         err: [{
           text: 'Select yes if you are an agent acting on behalf of a client',
@@ -45,10 +45,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.APPLICANT_DETAILS_IS_AGENT,
+  path: constants.routes.AGENT_ACTING_FOR_CLIENT,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.APPLICANT_DETAILS_IS_AGENT,
+  path: constants.routes.AGENT_ACTING_FOR_CLIENT,
   handler: handlers.post
 }]

@@ -73,7 +73,7 @@ const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
 }
 const getFileNameByType = (files, desiredType) => {
   const file = files.find(file => file.fileType === desiredType)
-  return file.fileName
+  return file ? file.fileName : ''
 }
 
 export default [{
