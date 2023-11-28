@@ -177,6 +177,7 @@ const applicationValidation = Joi.object({
       if (value.organisation.length + value.individual.length === 0) {
         throw new Error('at least one organisation or individual landowner should be present')
       }
+      return value
     }).required(),
     enhancementWorkStartDate: Joi.date().allow(null),
     legalAgreementEndDate: Joi.date().allow(null),
