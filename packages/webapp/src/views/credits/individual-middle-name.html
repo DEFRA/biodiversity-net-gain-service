@@ -1,0 +1,67 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Do you have a middle name?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {# Create the conditional HTML content as a Nunjucks variable #}
+    {% set conditionalContent %}
+      {{ govukInput({
+        id: "middleName",
+        name: "middleName",
+        errorMessage: err[0],
+        label: {
+          text: "Middle Name",
+          classes: "govuk-label",
+          isPageHeading: false
+        },
+        classes: "govuk-!-width-two-thirds",
+        spellcheck: false,
+        value: middleName
+      }) }}
+    {% endset %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">
+              {{ pageHeading }}
+            </h1>
+          </legend>
+          <p>We are using the first and last name you entered in your Defra account.</p>
+          {{ govukRadios({
+              name: "middleNameOption",
+              id: "middleNameOption",
+              hint: {
+                html: "<div class='govuk-hint'>Select one option.</div>"
+              },
+              items: [
+                  {
+                      value: "yes",
+                      text: "Yes",
+                      id: "middle-name-yes",
+                      checked: middleNameOption === "yes",
+                      conditional: {
+                          html: conditionalContent
+                      }
+                  },
+                  {
+                      value: "no",
+                      text: "No",
+                      id: "middle-name-no",
+                      checked: middleNameOption === "no"
+                  }
+              ]
+          }) }}
+          {{ govukButton({
+              text: "Save and continue",
+              attributes: {
+                  id: "continue",
+                  "data-testid": "continue"
+              }
+          }) }}
+      </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your nationality?" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+        <p>To assist us with our customer due diligence checks, we need to know your nationality, or nationalities. You can choose up to four nationalities.</p>          
+        <div class="govuk-hint">Both of your parents could have dual nationalities. For example, your father is French/Swiss and your mother is German/Belgian</div>
+
+        {{ govukSelect({
+          id: "nationality1",
+          name: "nationality1",
+          label: {
+            text: "Choose nationality"
+          },
+          classes: "",
+          items: [
+            {
+              value: "choose",
+              text: "Choose nationality",
+              selected: true
+            },
+            {
+              value: "eastmidlands",
+              text: "East Midlands"
+            }
+          ]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality2",
+          name: "nationality2",
+          label: {
+            text: "Choose nationality"
+          },
+          items: [
+            {
+              value: "choose",
+              text: "Choose nationality",
+              selected: true
+            },
+            {
+              value: "eastmidlands",
+              text: "East Midlands"
+            }
+          ]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality3",
+          name: "nationality3",
+          label: {
+            text: "Choose nationality"
+          },
+          items: [
+            {
+              value: "choose",
+              text: "Choose nationality",
+              selected: true
+            },
+            {
+              value: "eastmidlands",
+              text: "East Midlands"
+            }
+          ]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality4",
+          name: "nationality4",
+          label: {
+            text: "Choose nationality"
+          },
+          items: [
+            {
+              value: "choose",
+              text: "Choose nationality",
+              selected: true
+            },
+            {
+              value: "eastmidlands",
+              text: "East Midlands"
+            }
+          ]
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
