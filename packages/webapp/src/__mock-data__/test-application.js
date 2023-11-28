@@ -21,7 +21,7 @@ const dataString = `
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-ownership-details",
+            "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"
@@ -410,7 +410,25 @@ const dataString = `
   "written-authorisation-file-type": "application/pdf",
   "written-authorisation-checked": "yes",
   "landowner-type": "individual",
-  "defraAccountDetailsConfirmed": "true"
+  "defraAccountDetailsConfirmed": "true",
+  "land-ownership-proofs": [
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf",
+        "fileName": "lopfile2.pdf",
+        "optional": false
+      },
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile1.pdf",
+        "fileName": "lopfile1.pdf",
+        "optional": false
+      }
+  ]
 }`
 
 export default {

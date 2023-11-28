@@ -169,19 +169,6 @@ const applicationValidation = Joi.object({
     landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
     landBoundaryHectares: Joi.number().required(),
     legalAgreementType: Joi.string().valid(...constants.LEGAL_AGREEMENT_DOCUMENTS.map(item => item.id)).required(),
-    otherLandowners: Joi.array().items(
-      Joi.object({
-        name: Joi.string()
-      })
-    ).when('applicant.role', {
-      // if applicant not landowner then length of array must be at least 1
-      is: Joi.string().disallow('Landowner'),
-      then: Joi.array().items(
-        Joi.object({
-          name: Joi.string()
-        })
-      ).min(1)
-    }).default([]),
     legalAgreementResponsibleBodies: Joi.array().items(responsibleBodySchema)
       .when('legalAgreementType', {
         is: Joi.string().not('759150000'), // When legalAgreementType is NOT '759150000'
@@ -198,12 +185,6 @@ const applicationValidation = Joi.object({
     enhancementWorkStartDate: Joi.date().allow(null),
     legalAgreementEndDate: Joi.date().allow(null),
     submittedOn: Joi.date().required(),
-    landownerConsent: Joi.string().when('otherLandowners', {
-      // landownerConsent must be true if otherLandowners is an array of 1 or more items
-      is: Joi.array().min(1),
-      then: Joi.valid('true'),
-      otherwise: Joi.valid('true', 'false')
-    }).default('false'),
     payment: Joi.object({
       reference: Joi.string().allow(null, ''),
       method: Joi.string().required()
