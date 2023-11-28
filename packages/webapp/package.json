@@ -1,6 +1,6 @@
 {
   "name": "webapp",
-  "version": "0.244.0",
+  "version": "0.247.0",
   "private": true,
   "type": "module",
   "description": "",
@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "@azure/msal-node": "^2.3.0",
-    "@defra/bng-connectors-lib": "0.244.0",
-    "@defra/bng-errors-lib": "0.244.0",
-    "@defra/bng-utils-lib": "0.244.0",
+    "@defra/bng-connectors-lib": "0.247.0",
+    "@defra/bng-errors-lib": "0.247.0",
+    "@defra/bng-utils-lib": "0.247.0",
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.2",
@@ -43,7 +43,7 @@
     "@hapi/vision": "7.0.3",
     "@hapi/wreck": "^18.0.1",
     "@hapi/yar": "^11.0.1",
-    "@ministryofjustice/frontend": "^1.8.0",
+    "@ministryofjustice/frontend": "^1.8.1",
     "accessible-autocomplete": "^2.0.4",
     "blipp": "4.0.2",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
@@ -61,7 +61,7 @@
     "sass": "^1.69.4"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.244.0",
+    "@defra/bng-azure-storage-test-utils": "0.247.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
