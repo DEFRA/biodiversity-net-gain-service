@@ -73,5 +73,34 @@ describe('application-validation', () => {
       expect(error).toBeUndefined()
       expect(value.landownerGainSiteRegistration.files.length).toEqual(8)
     })
+    it('Should fail validation if neither organisation nor individual landowner is present', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error.message).toEqual('"landownerGainSiteRegistration.landowners" failed custom validation because at least one organisation or individual landowner should be present')
+      expect(value).not.toBeUndefined()
+    })
+    it('Should pass validation with single individual landowner and no organisation', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        type: 'individual',
+        firstName: 'Geoff',
+        middleNames: '',
+        lastName: 'Hopkin'
+      }])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
+    })
+    it('Should pass validation with single individual landowner and no organisation', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        type: 'organisation',
+        organisationName: 'My Org'
+      }])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
+    })
   })
 })

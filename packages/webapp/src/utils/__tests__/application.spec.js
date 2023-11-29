@@ -74,23 +74,23 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.landBoundaryGridReference).toEqual('SE170441')
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(2)
   })
-  it('Should correctly show legalAgreementPlanningAuthorities and should not include legalAgreementResponsibleBodies when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150000', () => {
+  it('Should correctly show planningObligationLPAs and should not include conservationCovernantResponsibleBodies when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150000', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
     const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration).not.toHaveProperty('legalAgreementResponsibleBodies')
-    expect(app.landownerGainSiteRegistration).toHaveProperty('legalAgreementPlanningAuthorities')
-    expect(app.landownerGainSiteRegistration.legalAgreementPlanningAuthorities).toBeInstanceOf(Array)
-    expect(app.landownerGainSiteRegistration.legalAgreementPlanningAuthorities.length).toBeGreaterThan(1)
+    expect(app.landownerGainSiteRegistration).not.toHaveProperty('conservationCovernantResponsibleBodies')
+    expect(app.landownerGainSiteRegistration).toHaveProperty('planningObligationLPAs')
+    expect(app.landownerGainSiteRegistration.planningObligationLPAs).toBeInstanceOf(Array)
+    expect(app.landownerGainSiteRegistration.planningObligationLPAs.length).toBeGreaterThan(1)
   })
-  it('Should correctly show legalAgreementResponsibleBodies and should not include legalAgreementPlanningAuthorities  when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150001', () => {
+  it('Should correctly show legalAgreementResponsibleBodies and should not include planningObligationLPAs  when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150001', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
     const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration).not.toHaveProperty('legalAgreementPlanningAuthorities')
-    expect(app.landownerGainSiteRegistration).toHaveProperty('legalAgreementResponsibleBodies')
-    expect(app.landownerGainSiteRegistration.legalAgreementResponsibleBodies).toBeInstanceOf(Array)
-    expect(app.landownerGainSiteRegistration.legalAgreementResponsibleBodies.length).toBeGreaterThan(1)
+    expect(app.landownerGainSiteRegistration).not.toHaveProperty('planningObligationLPAs')
+    expect(app.landownerGainSiteRegistration).toHaveProperty('conservationCovernantResponsibleBodies')
+    expect(app.landownerGainSiteRegistration.conservationCovernantResponsibleBodies).toBeInstanceOf(Array)
+    expect(app.landownerGainSiteRegistration.conservationCovernantResponsibleBodies.length).toBeGreaterThan(1)
   })
   it('Should set land boundary file if no geospatial file is uploaded', () => {
     const session = applicationSession()
