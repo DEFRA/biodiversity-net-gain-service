@@ -1,0 +1,28 @@
+{% extends 'form-layout.html' %}
+
+{% set hideBackLink = true %}
+{% set pageHeading = "Application complete" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
+        {{ pageHeading }}
+      </h1>
+      
+      <div class="govuk-panel__body govuk-!-font-size-27">
+        Your BNG credit reference<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
+      </div>
+    </div>
+
+    <p>We will send you a confirmation email.</p>
+    
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p>We will send you a proforma invoice for the total price if you successfully pass our anti-money laundering checks. Payment details will also be included.</p>
+  </div>
+</div>
+{% endblock %}
