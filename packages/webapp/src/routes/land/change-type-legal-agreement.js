@@ -22,8 +22,15 @@ const handlers = {
       request.yar.clear(constants.redisKeys.REFERER)
 
       return h.redirect(constants.routes.LEGAL_AGREEMENT_TYPE)
-    } else {
+    } else if (changeLegalAgreementType === 'no') {
       return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+    } else {
+      return h.view(constants.views.CHANGE_TYPE_LEGAL_AGREEMENT, {
+        err: [{
+          text: 'Select yes or no',
+          href: '#changeLegalTypeAgreement'
+        }]
+      })
     }
   }
 }
