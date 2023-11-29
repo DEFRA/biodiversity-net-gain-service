@@ -18,8 +18,12 @@ const handlers = {
       request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return h.redirect(constants.routes.LEGAL_AGREEMENT_TYPE)
     } else {
-      return h.redirect(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS)
+      return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     }
   }
 }
