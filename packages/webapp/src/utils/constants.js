@@ -24,6 +24,7 @@ const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_REGISTER_APPLICATION = 'test/register-application'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -177,7 +178,8 @@ let routes = {
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_REGISTER_APPLICATION
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
