@@ -1,0 +1,66 @@
+{% extends 'form-layout.html' %}
+
+{% set noOfOwnershipProof = landOwnershipProofs.length %}
+
+{% set pageHeading = "You have added " + noOfOwnershipProof + " proof of land ownership file" %}
+{% if noOfOwnershipProof > 1 %}
+    {% set pageHeading = "You have added " + noOfOwnershipProof + " proof of land ownership files" %}
+{% endif %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l" tabindex="-1">
+              {{ pageHeading }}
+            </h1>
+                {{ govukSummaryList({
+                    rows: landOwnershipsList,
+                    classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
+                    }) 
+                }}
+            {{ govukRadios({
+                idPrefix: "addAnotherOwnershipProof",
+                name: "addAnotherOwnershipProof",
+                id: "addAnotherOwnershipProof",
+                fieldset: {
+                    legend: {
+                        text: "Have you added proof of land ownership files for all landowners?",
+                        isPageHeading: false,
+                        classes: "moj-add-another__title govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "You must provide proof of ownership for all owners of the land you want to register.",
+                    classes: "govuk-hint app-text-colour wrap-text"
+                },
+                errorMessage: err[0],
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes",
+                        id: "add-another-op-yes",
+                        checked: addAnotherOwnershipProof === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, add another proof of land ownership file",
+                        id: "add-another-op-no",
+                        checked: addAnotherOwnershipProof === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "Save and continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
