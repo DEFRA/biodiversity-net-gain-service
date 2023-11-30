@@ -399,7 +399,7 @@ const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
 const performCreditsValidMetricFileProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
-      const testConfig = buildConfig(fileExtension, 'metric-upload')
+      const testConfig = buildConfig(fileExtension, CREDITS_METRIC_UPLOAD_TYPE)
       blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
         const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
         const readableStream = Readable.from(readStream)
