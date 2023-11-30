@@ -9,7 +9,7 @@ import { MalwareDetectedError, ThreatScreeningError } from '@defra/bng-errors-li
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 const processSuccessfulUpload = async (result, request, h) => {
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, null, true)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -33,7 +33,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
-          text: 'Select a Biodiversity Metric',
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })
