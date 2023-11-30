@@ -153,6 +153,12 @@ const ADDRESS_IS_UK = {
   NO,
   YES
 }
+
+const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
@@ -292,5 +298,6 @@ export default Object.freeze({
   signInTypes,
   APPLICANT_IS_AGENT,
   ADDRESS_IS_UK,
-  ADDRESS_TYPES
+  ADDRESS_TYPES,
+  DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER
 })

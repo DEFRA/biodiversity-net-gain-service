@@ -18,9 +18,9 @@ const handlers = {
     request.yar.set(constants.redisKeys.DEVELOPER_IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     } else {
       return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,

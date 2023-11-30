@@ -41,10 +41,10 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
+      expect(viewResult).toEqual(constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
     })
 
-    it('Should continue journey to applying-individual-organisation if no is chosen', async () => {
+    it('Should continue journey to landowner-leaseholder if no is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { isApplicantAgent: 'no' }
@@ -52,7 +52,7 @@ describe(url, () => {
 
       await isApplicantAgent.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
+      expect(viewResult).toEqual(constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     })
 
     it('Should fail journey if no answer', async () => {
