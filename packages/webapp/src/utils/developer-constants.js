@@ -31,6 +31,7 @@ const DEVELOPER_IS_AGENT = 'developer-is-agent'
 const DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS = 'developer/check-defra-account-details'
 const DEVELOPER_LANDOWNER_OR_LEASEHOLDER = 'developer/landowner-or-leaseholder'
 const DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE = 'developer/upload-consent-to-use-gain-site'
+const DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'developer/applying-individual-organisation'
 // ./Routes constants
 
 // RedisKeys constants
@@ -62,6 +63,7 @@ const DEVELOPER_TASK_DETAILS = 'developer-task-details'
 const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 const DEVELOPER_ROLE_KEY = 'developer-role-key'
 const DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'developer-defra-account-details-confirmed'
+const DEVELOPER_LANDOWNER_TYPE = 'developer-landowner-type'
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
@@ -137,7 +139,8 @@ export default {
     DEVELOPER_AGENT_ACTING_FOR_CLIENT,
     DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
     DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-    DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE
+    DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE,
+    DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -169,7 +172,8 @@ export default {
     DEVELOPER_ROLE_KEY,
     DEVELOPER_IS_AGENT,
     DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED,
-    DEVELOPER_LANDOWNER_OR_LEASEHOLDER
+    DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
+    DEVELOPER_LANDOWNER_TYPE
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
