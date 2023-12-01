@@ -385,11 +385,19 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
-const validateFirstLastName = (name, text, hrefId) => {
+const validateFirstLastNameOfLandownerOrLeaseholder = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId, ' of the landowner or leaseholder')
+}
+
+const validateFirstLastNameOfDeveloperClient = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId)
+}
+
+const validateFirstLastName = (name, text, hrefId, noValueErrorSuffix) => {
   const error = {}
   if (!name) {
     error.err = [{
-      text: `Enter the ${text} of the landowner or leaseholder`,
+      text: `Enter ${noValueErrorSuffix ? 'the ' : ''}${text}${noValueErrorSuffix ?? ''}`,
       href: hrefId
     }]
   } else if (name.length > 50) {
@@ -614,6 +622,15 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   }
 }
 
+const redirectDeveloperClient = (h, yar) => {
+  const clientIsLandOwnerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  if (clientIsLandOwnerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
+  } else {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -646,7 +663,8 @@ export {
   getLocalPlanningAuthorities,
   getFileName,
   validateName,
-  validateFirstLastName,
+  validateFirstLastNameOfDeveloperClient,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
   getDeveloperEligibilityResults,
@@ -662,5 +680,6 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  redirectDeveloperClient
 }

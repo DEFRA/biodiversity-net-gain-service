@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
-  validateFirstLastName
+  validateFirstLastNameOfLandownerOrLeaseholder
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
@@ -36,8 +36,8 @@ const handlers = {
   post: async (request, h) => {
     const { firstName, middleName, lastName } = request.payload
 
-    const firstNameError = validateFirstLastName(firstName, 'first name', 'firstNameId')
-    const lastNameError = validateFirstLastName(lastName, 'last name', 'lastNameId')
+    const firstNameError = validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', 'firstNameId')
+    const lastNameError = validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', 'lastNameId')
 
     if (!isEmpty(firstNameError) || !isEmpty(lastNameError)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
