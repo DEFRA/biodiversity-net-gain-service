@@ -27,7 +27,7 @@ const handlers = {
     } else {
       return h.view(constants.views.CHANGE_TYPE_LEGAL_AGREEMENT, {
         err: [{
-          text: 'Select yes or no',
+          text: 'Select yes if you want to change the type of legal agreement',
           href: '#changeLegalTypeAgreement'
         }]
       })
