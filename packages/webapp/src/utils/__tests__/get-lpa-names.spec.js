@@ -1,17 +1,22 @@
-import getLpaNames from '../get-lpa-names.js'
+import { getLpaNames, getLpaNamesAndCodes } from '../get-lpas.js'
 
 describe('getLpaNames', () => {
-  it('Should extract all lpa names from lpa file', async () => {
-    const lpaNames = await getLpaNames('packages/webapp/src/utils/__tests__/test-data/lpas-test-data.json')
+  it('Should extract all lpa names from lpa file', () => {
+    const expectedToInclude = ['Secretary of State', 'County Durham LPA']
+    const lpaNames = getLpaNames()
 
-    expect(lpaNames.length).toEqual(2)
+    expect(lpaNames).toHaveLength(334)
+    expect(lpaNames).toEqual(expect.arrayContaining(expectedToInclude))
   })
 
-  it('Should throw error when file does not exist', async () => {
-    try {
-      await getLpaNames('packages/webapp/src/utils/__tests__/test-data/lpas-test-data1.json')
-    } catch (err) {
-      expect(err).toEqual(new Error('Error processing LPA file - '))
-    }
+  it('Should extract all lpa names and codes from lpa file', () => {
+    const expectedToInclude = [
+      { name: 'Secretary of State', id: '' },
+      { name: 'County Durham LPA', id: 'E60000001' }
+    ]
+    const lpaNamesAndCodes = getLpaNamesAndCodes()
+
+    expect(lpaNamesAndCodes).toHaveLength(334)
+    expect(lpaNamesAndCodes).toEqual(expect.arrayContaining(expectedToInclude))
   })
 })

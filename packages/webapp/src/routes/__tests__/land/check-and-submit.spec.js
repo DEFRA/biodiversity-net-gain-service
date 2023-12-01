@@ -121,6 +121,7 @@ describe(url, () => {
           const checkAndSubmitView = require('../../../routes/land/check-and-submit.js')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, null)
           session.set(constants.redisKeys.LANDOWNERS, [])
+          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
           const h = {
             view: (view, context) => {
               viewResult = view

@@ -15,7 +15,7 @@ const handlers = {
     request.yar.set(constants.redisKeys.REGISTERED_LANDOWNER_ONLY, selection)
     if (JSON.parse(selection)) {
       request.yar.set(constants.redisKeys.LANDOWNERS, [])
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_OWNERSHIP_DETAILS)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       return h.redirect(constants.routes.ADD_LANDOWNERS)
     }
