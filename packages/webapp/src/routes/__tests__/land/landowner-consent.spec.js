@@ -21,7 +21,7 @@ describe(url, () => {
     it('Should continue journey to consent being ticked', async () => {
       postOptions.payload.landownerConsent = 'true'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.CHECK_OWNERSHIP_DETAILS)
+      expect(res.headers.location).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     })
     it('Should stop journey if consent not ticked', async () => {
       postOptions.payload.landownerConsent = undefined

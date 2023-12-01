@@ -41,7 +41,7 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
           uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-ownership-details'
+            referer: 'http://localhost:30000/land/ownership-proof-list'
           }
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(3)

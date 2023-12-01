@@ -52,21 +52,7 @@ describe('application-validation', () => {
       expect(error.message).toEqual('"landownerGainSiteRegistration.applicant.id" is not allowed to be empty')
       expect(value).not.toBeUndefined()
     })
-    it('Should fail validation if not a landowner and otherLandowners is empty', () => {
-      const session = applicationSession()
-      session.set(constants.redisKeys.LANDOWNERS, [])
-      const { value, error } = applicationValidation.validate(application(session, applicant))
-      expect(error.message).toEqual('"landownerGainSiteRegistration.otherLandowners" must contain at least 1 items')
-      expect(value).not.toBeUndefined()
-    })
-    it('Should fail validation if otherLandowners and landownerConsent is false', () => {
-      const session = applicationSession()
-      session.set(constants.redisKeys.LANDOWNERS, ['test1', 'test2'])
-      session.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, 'false')
-      const { value, error } = applicationValidation.validate(application(session, applicant))
-      expect(error.message).toEqual('"landownerGainSiteRegistration.landownerConsent" must be [true]')
-      expect(value).not.toBeUndefined()
-    })
+
     it('Should fail validation if a file is not optional and blank, also if IS_AGENT is true then written authorisation is mandatory', () => {
       const session = applicationSession()
       session.set(constants.redisKeys.IS_AGENT, 'yes')
@@ -74,7 +60,7 @@ describe('application-validation', () => {
       session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, null)
       session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, null)
       const { value, error } = applicationValidation.validate(application(session, applicant))
-      expect(error.message).toEqual('"landownerGainSiteRegistration.files[7].contentMediaType" must be a string')
+      expect(error.message).toEqual('"landownerGainSiteRegistration.files[8].contentMediaType" must be a string')
       expect(value).not.toBeUndefined()
     })
     it('Should pass validation if a file is optional and blank, it should also delete the file', () => {
@@ -85,7 +71,36 @@ describe('application-validation', () => {
       session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, null)
       const { value, error } = applicationValidation.validate(application(session, applicant))
       expect(error).toBeUndefined()
-      expect(value.landownerGainSiteRegistration.files.length).toEqual(7)
+      expect(value.landownerGainSiteRegistration.files.length).toEqual(8)
+    })
+    it('Should fail validation if neither organisation nor individual landowner is present', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error.message).toEqual('"landownerGainSiteRegistration.landowners" failed custom validation because at least one organisation or individual landowner should be present')
+      expect(value).not.toBeUndefined()
+    })
+    it('Should pass validation with single individual landowner and no organisation', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        type: 'individual',
+        firstName: 'Geoff',
+        middleNames: '',
+        lastName: 'Hopkin'
+      }])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
+    })
+    it('Should pass validation with single individual landowner and no organisation', () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        type: 'organisation',
+        organisationName: 'My Org'
+      }])
+      const { value, error } = applicationValidation.validate(application(session, applicant))
+      expect(error).toBeUndefined()
+      expect(value).not.toBeUndefined()
     })
   })
 })

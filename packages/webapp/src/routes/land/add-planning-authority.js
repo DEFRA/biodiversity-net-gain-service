@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import getLpaNames from '../../utils/get-lpa-names.js'
+import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
@@ -8,7 +8,7 @@ import {
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
-  get: async (request, h) => {
+  get: (request, h) => {
     processRegistrationTask(request, {
       taskTitle: 'Legal information',
       title: 'Add legal agreement details'
@@ -17,7 +17,7 @@ const handlers = {
     })
 
     const { id } = request.query
-    const lpaNames = await getLpaNames(filePathAndName)
+    const lpaNames = getLpaNames(filePathAndName)
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
     const legalAgreementType = getLegalAgreementDocumentType(
@@ -35,7 +35,7 @@ const handlers = {
       lpaNames
     })
   },
-  post: async (request, h) => {
+  post: (request, h) => {
     const { id } = request.query
     const { localPlanningAuthority } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(

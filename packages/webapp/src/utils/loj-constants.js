@@ -54,7 +54,6 @@ const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
 const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
-const CHECK_OWNERSHIP_DETAILS = 'land/check-ownership-details'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -86,6 +85,10 @@ const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
 const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
+// const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
+const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
+const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
@@ -173,6 +176,7 @@ const ALL_LPA = 'all-lpa'
 const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
+const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -304,7 +308,8 @@ export default {
     WRITTEN_AUTHORISATION_LOCATION,
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,
-    WRITTEN_AUTHORISATION_CHECKED
+    WRITTEN_AUTHORISATION_CHECKED,
+    LAND_OWNERSHIP_PROOFS
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -364,7 +369,6 @@ export default {
     REGISTERED_LANDOWNER,
     ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
-    CHECK_OWNERSHIP_DETAILS,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
     NEED_METRIC,
@@ -400,7 +404,9 @@ export default {
     CLIENTS_PHONE_NUMBER,
     UPLOAD_WRITTEN_AUTHORISATION,
     CHECK_WRITTEN_AUTHORISATION_FILE,
-    AGENT_ACTING_FOR_CLIENT
+    AGENT_ACTING_FOR_CLIENT,
+    LAND_OWNERSHIP_PROOF_LIST,
+    LAND_OWNERSHIP_REMOVE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
@@ -415,7 +421,7 @@ export default {
   setLojReferer: [
     CHECK_AND_SUBMIT,
     CHECK_YOUR_DETAILS,
-    CHECK_OWNERSHIP_DETAILS,
+    LAND_OWNERSHIP_PROOF_LIST,
     CHECK_LEGAL_AGREEMENT_DETAILS,
     CHECK_LAND_BOUNDARY_DETAILS,
     CHECK_METRIC_DETAILS,

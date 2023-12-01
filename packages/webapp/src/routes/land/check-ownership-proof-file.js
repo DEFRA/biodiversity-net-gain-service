@@ -17,14 +17,16 @@ const handlers = {
     const checkLandOwnership = request.payload.checkLandOwnership
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
+
     if (checkLandOwnership === 'no') {
+      const { id } = request.query
+      const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
       await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
+      const updatedLopFiles = lopFiles.filter(item => item.id !== id)
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      return request.yar.get(constants.redisKeys.ROLE_KEY) === 'Landowner'
-        ? h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.REGISTERED_LANDOWNER)
-        : h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LANDOWNERS)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
@@ -36,13 +38,25 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE)
-  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+  const id = request.query?.id
+  let lopFile
+  let fileLocation = ''
+  let fileName = ''
+  let fileSize = null
+  let humanReadableFileSize = ''
+  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+  if (id) {
+    lopFile = lopFiles.find(item => item.id === id)
+    fileLocation = lopFile.fileLocation
+    fileName = fileLocation === null ? '' : path.parse(fileLocation).base
+    fileSize = lopFile.fileSize
+    humanReadableFileSize = getHumanReadableFileSize(fileSize)
+  }
   return {
-    filename: fileLocation === null ? '' : path.parse(fileLocation).base,
+    fileName,
     fileSize: humanReadableFileSize,
-    fileLocation
+    fileLocation,
+    fileId: id
   }
 }
 

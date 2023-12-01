@@ -62,7 +62,8 @@ const getContext = request => {
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
-    ...applicationInformationContext(request.yar)
+    ...applicationInformationContext(request.yar),
+    landownershipFilesRows: getLandOwnershipRows(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS))
   }
 }
 const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
@@ -74,6 +75,34 @@ const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
 const getFileNameByType = (files, desiredType) => {
   const file = files.find(file => file.fileType === desiredType)
   return file ? file.fileName : ''
+}
+
+const getLandOwnershipRows = (landOwnershipFileNames) => {
+  const rows = []
+  if (landOwnershipFileNames.length > 0) {
+    for (const item of landOwnershipFileNames) {
+      rows.push(
+        {
+          key: {
+            text: 'Proof of land ownership file uploaded'
+          },
+          value: {
+            html: '<span data-testid="proof-land-ownership-file-name-value">' + item.fileName + '</span>'
+          },
+          actions: {
+            items: [
+              {
+                href: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+                text: 'Change',
+                visuallyHiddenText: ' land boundary file'
+              }
+            ]
+          }
+        }
+      )
+    }
+  }
+  return rows
 }
 
 export default [{
