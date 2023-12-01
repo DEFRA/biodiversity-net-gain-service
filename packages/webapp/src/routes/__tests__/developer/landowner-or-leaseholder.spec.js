@@ -1,7 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
-const url = constants.routes.DEVELOPER_NEED_ADD_PERMISION
+const url = constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER
 
 describe(url, () => {
   describe('GET', () => {
