@@ -39,6 +39,10 @@ const uploadFile = async (logger, request, config) => {
   if (uploadResult.config.postProcess) {
     try {
       uploadResult.postProcess = await postProcess(uploadResult.config.uploadType, uploadResult.config.blobConfig.blobName, uploadResult.config.blobConfig.containerName)
+
+      if (uploadResult.postProcess.errorMessage) {
+        throw new Error(uploadResult.postProcess.errorMessage)
+      }
     } catch (err) {
       logger.log(`${new Date().toUTCString()} File failed post processing: ${uploadResult.config.blobConfig.blobName}`)
       throw err
