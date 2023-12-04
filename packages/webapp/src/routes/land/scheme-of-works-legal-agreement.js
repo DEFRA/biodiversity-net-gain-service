@@ -14,12 +14,14 @@ const handlers = {
   },
   post: async (request, h) => {
     const { schemeOfWorksLegalAgreement } = request.payload
+    console.log('schemeOfWorksLegalAgreement--->', schemeOfWorksLegalAgreement)
+
     if (schemeOfWorksLegalAgreement) {
       request.yar.set(constants.redisKeys.SCHEME_OF_WORKS_LEGAL_AGREEMENT, schemeOfWorksLegalAgreement)
       if (schemeOfWorksLegalAgreement === 'yes-included') {
         return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
-      } else if (schemeOfWorksLegalAgreement === 'yes-separated') {
-        return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
+      } else if (schemeOfWorksLegalAgreement === 'yes-separate') {
+        return h.redirect(constants.routes.UPLOAD_SCHEME_OF_WORKS)
       } else if (schemeOfWorksLegalAgreement === 'no') {
         return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       }
