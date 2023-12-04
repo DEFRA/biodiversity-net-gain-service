@@ -30,7 +30,7 @@ describe(url, () => {
       postOptions.payload.checkWrittenAuthorisation = 'no'
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
-      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {

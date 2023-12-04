@@ -1,8 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -18,8 +16,6 @@ const handlers = {
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalLandCharge)
     if (checkLocalLandCharge === 'no') {
-      await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalLandCharge === 'yes') {
