@@ -29,7 +29,8 @@ export default async function (context, req) {
     if (!req.body.landownerGainSiteRegistration.gainSiteReference) {
       const applicationReference = await createApplicationReference(db, [
         req.body.landownerGainSiteRegistration.applicant.id,
-        'Registration'
+        'Registration',
+        req.body.organisationId
       ])
       req.body.landownerGainSiteRegistration.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
       req.body.landownerGainSiteRegistration.payment.reference = applicationReference.rows[0].fn_create_application_reference

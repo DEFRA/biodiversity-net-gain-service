@@ -71,6 +71,7 @@ const saveApplicationSession = async request => {
   // this file uses a standard import of the http module).
   const { postJson } = await import('../utils/http.js')
   cacheContactIdIfNeeded(request)
+  cacheOrganisationIdIfNeeded(request)
   cacheApplicationTypeIfNeeded(request)
 
   // Use the correct Redis key for the application type.
@@ -120,6 +121,13 @@ const isRouteIncludedInApplicationSave = request => {
 const cacheContactIdIfNeeded = request => {
   if (!request.yar.get(constants.redisKeys.CONTACT_ID)) {
     request.yar.set(constants.redisKeys.CONTACT_ID, request.auth.credentials.account.idTokenClaims.contactId)
+  }
+}
+
+const cacheOrganisationIdIfNeeded = request => {
+  if (!request.yar.get(constants.redisKeys.ORGANISATION_ID)) {
+    const { organisationId } = getApplicantContext(request.auth.credentials.account, request.yar)
+    request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
   }
 }
 

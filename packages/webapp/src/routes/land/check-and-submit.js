@@ -17,6 +17,7 @@ import {
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 import applicationInformationContext from './helpers/applicant-information.js'
+import getApplicantContext from '../../utils/get-applicant-context.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -31,6 +32,8 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
+    const { organisationId } = getApplicantContext(request.auth.credentials.account, request.yar)
+    value.organisationId = organisationId
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
     request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)

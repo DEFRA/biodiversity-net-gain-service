@@ -2,13 +2,16 @@ import auth from '../../utils/auth.js'
 import constants from '../../utils/constants.js'
 import { getApplicationSession } from '../../utils/get-application.js'
 import { postJson } from '../../utils/http.js'
+import getApplicantContext from '../../utils/get-applicant-context.js'
 
 const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
   let redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
   const applicationType = getApplicationType(preAuthenticationRoute)
   if (applicationType) {
+    const { organisationId } = getApplicantContext(account, request.yar)
     const applications = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplications`, {
       contactId: account.idTokenClaims.contactId,
+      organisationId,
       applicationType
     })
 
