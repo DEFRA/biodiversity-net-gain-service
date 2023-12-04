@@ -5,9 +5,12 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const uploadHabitatPlanId = '#uploadHabitatPlanId'
-function processSuccessfulUpload (result, request, h) {
+
+async function processSuccessfulUpload (result, request, h) {
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION, true))
   request.yar.set(constants.redisKeys.HABITAT_PLAN_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_TYPE, result.fileType)

@@ -9,6 +9,7 @@ import { MalwareDetectedError, ThreatScreeningError } from '@defra/bng-errors-li
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 const processSuccessfulUpload = async (result, request, h) => {
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)

@@ -41,6 +41,7 @@ describe('Metric file upload controller tests', () => {
     it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
@@ -48,6 +49,7 @@ describe('Metric file upload controller tests', () => {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
           await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -186,7 +188,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
@@ -211,7 +213,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
@@ -236,7 +238,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
