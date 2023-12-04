@@ -1,5 +1,5 @@
 import path from 'path'
-import { uploadStreamAndAwaitScan } from './azure-storage.js'
+import { uploadStreamAndAwaitScan, deleteBlobFromContainers } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
@@ -41,6 +41,7 @@ const uploadFile = async (logger, request, config) => {
       uploadResult.postProcess = await postProcess(uploadResult.config.uploadType, uploadResult.config.blobConfig.blobName, uploadResult.config.blobConfig.containerName)
 
       if (uploadResult.postProcess.errorMessage) {
+        await deleteBlobFromContainers(uploadResult.config.blobConfig.blobName)
         throw new Error(uploadResult.postProcess.errorMessage)
       }
     } catch (err) {
