@@ -2,19 +2,31 @@ import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import path from 'path'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
-const processSuccessfulUpload = async (result, request, h) => {
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_LOCATION, true))
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, result.fileType)
-  logger.log(`${new Date().toUTCString()} Received land ownership data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.CHECK_PROOF_OF_OWNERSHIP)
+const processSuccessfulUpload = (result, request, h) => {
+  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  const location = result.config.blobConfig.blobName
+  const fileName = path.parse(location).base
+  let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
+  if (!id) {
+    id = generateUniqueId()
+    lopFiles.push({
+      fileName,
+      fileLocation: location,
+      fileSize: result.fileSize,
+      fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+      contentMediaType: result.fileType,
+      id
+    })
+  }
+  logger.log(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 
 const processErrorUpload = (err, h) => {

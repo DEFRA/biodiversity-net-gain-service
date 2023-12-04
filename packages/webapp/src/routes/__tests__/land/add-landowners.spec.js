@@ -51,7 +51,7 @@ describe(url, () => {
         let viewResult
         const landowner = require('../../land/add-landowners.js')
         const redisMap = new Map()
-        redisMap.set(constants.redisKeys.REFERER, '/land/check-ownership-details')
+        redisMap.set(constants.redisKeys.REFERER, '/land/ownership-proof-list')
 
         const request = {
           yar: redisMap,
@@ -65,7 +65,7 @@ describe(url, () => {
           }
         }
         await landowner.default[1].handler(request, h)
-        expect(viewResult).toEqual(constants.routes.CHECK_OWNERSHIP_DETAILS)
+        expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
       })
     })
   })
