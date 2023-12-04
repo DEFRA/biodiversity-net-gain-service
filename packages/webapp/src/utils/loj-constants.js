@@ -88,6 +88,7 @@ const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const SCHEME_OF_WORKS_LEGAL_AGREEMENT = 'land/scheme-of-works-legal-agreement'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -309,7 +310,8 @@ export default {
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,
     WRITTEN_AUTHORISATION_CHECKED,
-    LAND_OWNERSHIP_PROOFS
+    LAND_OWNERSHIP_PROOFS,
+    SCHEME_OF_WORKS_LEGAL_AGREEMENT
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -406,7 +408,8 @@ export default {
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
     LAND_OWNERSHIP_PROOF_LIST,
-    LAND_OWNERSHIP_REMOVE
+    LAND_OWNERSHIP_REMOVE,
+    SCHEME_OF_WORKS_LEGAL_AGREEMENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

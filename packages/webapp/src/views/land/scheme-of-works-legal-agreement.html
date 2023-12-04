@@ -1,0 +1,60 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Does the planning obligation(Section 106 agreement) refer to a scheme of works?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "schemeOfWorksLegalAgreement",
+                name: "schemeOfWorksLegalAgreement",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    html: "<div class='govuk-hint'>A scheme of works is sometimes used to describe enhancement works reqired as part of a legal agreement.
+                            </div>"
+                },
+                items: [
+                    {
+                        value: "yes-included",
+                        text: "Yes, the details are included in the planning obligation",
+                        id: "schema-of-works-legal-agreement-yes-included",
+                        checked: schemeOfWorksLegalAgreement === "yes-included"
+                    },
+                    {
+                        value: "yes-separate",
+                        text: "Yes, it's a separate document",
+                        id: "schema-of-works-legal-agreement-yes-separate",
+                        checked: schemeOfWorksLegalAgreement === "yes-separate"
+                    },
+                    {
+                        divider: "or"
+                    },
+                    {
+                        value: "no",
+                        text: "No, there's no reference to a scheme of works",
+                        id: "schema-of-works-legal-agreement-no",
+                        checked: schemeOfWorksLegalAgreement === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
