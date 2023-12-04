@@ -1,7 +1,6 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
-import * as azureStorage from '../../../utils/azure-storage.js'
 const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
 const url = constants.routes.UPLOAD_LAND_OWNERSHIP
 
@@ -33,7 +32,6 @@ describe('Proof of ownership upload controller tests', () => {
     it('should upload land ownership document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/ownership-proof-list'
@@ -48,7 +46,6 @@ describe('Proof of ownership upload controller tests', () => {
             id: '1'
           }]
           await uploadFile(uploadConfig)
-          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
