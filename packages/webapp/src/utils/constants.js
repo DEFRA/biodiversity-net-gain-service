@@ -50,6 +50,7 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const TEST_CREDITS_ESTIMATION_DATA = 'test/seed-credits-estimation-data'
 
 const applicationTypes = {
   REGISTRATION,
@@ -191,7 +192,8 @@ let routes = {
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_CREDITS_ESTIMATION_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {

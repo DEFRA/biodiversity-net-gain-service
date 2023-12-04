@@ -1,0 +1,31 @@
+{% extends 'credits-form-layout.html' %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set pageHeading = "Check your answers before you submit your information" %}
+
+{% block formContent %}
+  {% if err %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: err
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1> 
+      <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
+
+        <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
+
+        {{ govukButton({
+          text: "Confirm and submit",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+    </div>
+  </div>
+{% endblock %}
