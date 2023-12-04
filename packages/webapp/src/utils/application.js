@@ -36,7 +36,7 @@ const getClientDetails = session => {
     clientAddress
   }
 
-  if (clientType === constants.landownerTypes.INDIVIDUAL) {
+  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
     Object.assign(clientDetails, getIndividualClientDetails(session))
   } else {
     Object.assign(clientDetails, getOrganisationClientDetails(session))

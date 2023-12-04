@@ -6,22 +6,22 @@
             </h1>
 
             {{ govukRadios({
-                idPrefix: "landownerType",
-                name: "landownerType",
-                id: "landownerType",
+                idPrefix: "individualOrOrganisation",
+                name: "individualOrOrganisation",
+                id: "individualOrOrganisation",
                 errorMessage: err[0],
                 items: [
                     {
                         value: "individual",
                         text: "An individual",
                         id: "an-individual",
-                        checked: landownerType === "yes"
+                        checked: individualOrOrganisation === "yes"
                     },
                     {
                         value: "organisation",
                         text: "An organisation",
                         id: "an-organisation",
-                        checked: landownerType === "no"
+                        checked: individualOrOrganisation === "no"
                     }
                 ]
             }) }}

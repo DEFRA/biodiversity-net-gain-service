@@ -16,19 +16,19 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { landownerType } = request.payload
+    const { individualOrOrganisation } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    if (!landownerType) {
+    if (!individualOrOrganisation) {
       return h.view(constants.views.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION, {
         legalAgreementType,
         err: [{
           text: 'Select if the landowner or leaseholder is an individual or organisation',
-          href: '#landownerType'
+          href: '#individualOrOrganisation'
         }]
       })
     }
-    if (landownerType === constants.landownerTypes.INDIVIDUAL) {
+    if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
     } else {
       return h.redirect(constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)

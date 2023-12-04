@@ -36,7 +36,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const organisation = request.payload
-    organisation.type = constants.landownerTypes.ORGANISATION
+    organisation.type = constants.individualOrOrganisationTypes.ORGANISATION
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()

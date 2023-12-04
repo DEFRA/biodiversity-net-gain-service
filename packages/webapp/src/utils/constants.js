@@ -44,6 +44,8 @@ const LANDOWNER = 'landowner'
 const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
 
 const applicationTypes = {
   REGISTRATION,
@@ -241,8 +243,9 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
-const landownerTypes = {
-  ...lojConstants.landownerTypes
+const individualOrOrganisationTypes = {
+  INDIVIDUAL,
+  ORGANISATION
 }
 
 const signInTypes = {
@@ -260,7 +263,7 @@ const applicantTypes = {
 export default Object.freeze({
   applicationTypes,
   applicantTypes,
-  landownerTypes,
+  individualOrOrganisationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,

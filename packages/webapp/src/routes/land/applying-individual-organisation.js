@@ -22,19 +22,19 @@ const handlers = {
     return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, getContext(request))
   },
   post: async (request, h) => {
-    const landownerType = request.payload.landownerType
-    if (landownerType) {
-      request.yar.set(constants.redisKeys.LANDOWNER_TYPE, landownerType)
+    const individualOrOrganisation = request.payload.individualOrOrganisation
+    if (individualOrOrganisation) {
+      request.yar.set(constants.redisKeys.LANDOWNER_TYPE, individualOrOrganisation)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
       const { noOrganisationsLinkedToDefraAccount, organisation } =
         getApplicantContext(request.auth.credentials.account, request.yar)
 
-      if ((landownerType === constants.landownerTypes.INDIVIDUAL && !organisation) ||
-          (landownerType === constants.landownerTypes.ORGANISATION && organisation)) {
+      if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
+          (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
-      } else if (landownerType === constants.landownerTypes.INDIVIDUAL) {
+      } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
         // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
         return getErrorView(h, request, organisationSignInErrorMessage)
       } else {
@@ -51,7 +51,7 @@ const handlers = {
 
 const getContext = request => {
   return {
-    landownerType: request.yar.get(constants.redisKeys.LANDOWNER_TYPE)
+    individualOrOrganisation: request.yar.get(constants.redisKeys.LANDOWNER_TYPE)
   }
 }
 
@@ -59,7 +59,7 @@ const getErrorView = (h, request, errorMessage) => {
   return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, {
     err: [{
       text: errorMessage,
-      href: '#landownerType'
+      href: '#individualOrOrganisation'
     }],
     ...getContext(request)
   })

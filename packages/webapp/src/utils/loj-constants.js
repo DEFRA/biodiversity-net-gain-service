@@ -180,8 +180,6 @@ const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
-const INDIVIDUAL = 'individual'
-const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_NOT_LINKED = 'land/defra-account-not-linked'
 const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defra-account-details-confirmed'
@@ -200,10 +198,6 @@ const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 
 export default {
-  landownerTypes: {
-    INDIVIDUAL,
-    ORGANISATION
-  },
   redisKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,

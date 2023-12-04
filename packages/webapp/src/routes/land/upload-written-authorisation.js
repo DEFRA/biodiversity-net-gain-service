@@ -87,7 +87,7 @@ const handlers = {
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const clientsName = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
     const clientsOrganisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
-    const isIndividual = isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL
+    const isIndividual = isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
 
     return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
       isIndividual,

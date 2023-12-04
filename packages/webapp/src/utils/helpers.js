@@ -615,7 +615,7 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
-  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+  if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)

@@ -9,8 +9,8 @@
       {% include "errorbanner.html" %}
     {% endif %}
     {{ govukRadios({
-      idPrefix: "landownerType",
-      name: "landownerType",
+      idPrefix: "individualOrOrganisation",
+      name: "individualOrOrganisation",
       fieldset: {
         legend: {
           text: pageHeading,
@@ -24,13 +24,13 @@
           value: "individual",
           text: "An individual landowner or leaseholder",
           id: "landowner-type-individual",
-          checked: landownerType === "individual"
+          checked: individualOrOrganisation === "individual"
         },
         {
           value: "organisation",
           text: "An organisation - I am an employee or representative",
           id: "landowner-type-organisation",
-          checked: landownerType === "organisation"
+          checked: individualOrOrganisation === "organisation"
         }
       ]
     }) }}
