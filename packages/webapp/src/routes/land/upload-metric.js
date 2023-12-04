@@ -10,7 +10,7 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 
 const processSuccessfulUpload = async (result, request, h) => {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -24,6 +24,13 @@ const processSuccessfulUpload = async (result, request, h) => {
 
 const processErrorUpload = (err, h) => {
   switch (err.message) {
+    case constants.uploadErrors.notValidMetric:
+      return h.view(constants.views.UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file is not a valid Metric',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
@@ -94,7 +101,7 @@ const handlers = {
     })
     try {
       const result = await uploadFile(logger, request, config)
-      return processSuccessfulUpload(result, request, h)
+      return await processSuccessfulUpload(result, request, h)
     } catch (err) {
       logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
