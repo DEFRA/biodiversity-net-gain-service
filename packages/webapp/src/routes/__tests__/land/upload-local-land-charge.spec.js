@@ -1,6 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const LOCAL_LAND_CHARGE_FORM_ELEMENT_NAME = 'localLandCharge'
 const url = constants.routes.UPLOAD_LOCAL_LAND_CHARGE
 
@@ -34,11 +35,13 @@ describe('Local Land Charge upload controller tests', () => {
     it('should upload local land charge document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
