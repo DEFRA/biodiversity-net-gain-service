@@ -15,7 +15,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_TYPE, result.fileType)
   logger.log(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.CHECK_HABITAT_PLAN_FILE)
+  return h.redirect(constants.routes.CHECK_SCHEME_OF_WORKS_FILE)
 }
 
 function buildErrorResponse (h, message) {
