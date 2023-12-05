@@ -3,7 +3,7 @@ import constants from '../../utils/constants.js'
 import {
   getHumanReadableFileSize,
   processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType, validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -77,9 +77,11 @@ const getContext = (request) => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.CHECK_LEGAL_AGREEMENT,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]
