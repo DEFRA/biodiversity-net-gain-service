@@ -14,7 +14,6 @@ const handlers = {
   },
   post: async (request, h) => {
     const { schemeOfWorksLegalAgreement } = request.payload
-    console.log('schemeOfWorksLegalAgreement--->', schemeOfWorksLegalAgreement)
 
     if (schemeOfWorksLegalAgreement) {
       request.yar.set(constants.redisKeys.SCHEME_OF_WORKS_LEGAL_AGREEMENT, schemeOfWorksLegalAgreement)
