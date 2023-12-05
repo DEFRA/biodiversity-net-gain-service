@@ -1,13 +1,1 @@
-{% extends 'form-layout.html' %}
-
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set pageHeading = "Upload written authorisation to apply" %}
-{% block formContent %}
-  <div class="govuk-body">
-    {% if err %}
-      {% include "errorbanner.html" %}
-    {% endif %}
-    Under construction
-  </div>      
-{% endblock %}
+{% include "common/upload-written-authorisation.html" %}

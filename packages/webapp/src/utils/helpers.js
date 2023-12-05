@@ -623,12 +623,21 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
 }
 
 const redirectDeveloperClient = (h, yar) => {
-  const clientIsLandOwnerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
-  if (clientIsLandOwnerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
+  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
   }
+}
+
+const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) => {
+  const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+  if (isAgent && !clientIsLandownerOrLeaseholder) {
+    context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = true
+  }
+  return context
 }
 
 export {
@@ -681,5 +690,6 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
-  redirectDeveloperClient
+  redirectDeveloperClient,
+  addMultipleProofsOfPermissionIndicatorToContextIfRquired
 }

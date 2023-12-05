@@ -46,6 +46,7 @@ const INTERNATIONAL = 'international'
 const UK = 'uk'
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'organisation'
+const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 
 const applicationTypes = {
   REGISTRATION,
@@ -302,5 +303,6 @@ export default Object.freeze({
   APPLICANT_IS_AGENT,
   ADDRESS_IS_UK,
   ADDRESS_TYPES,
-  DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER
+  DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
 })
