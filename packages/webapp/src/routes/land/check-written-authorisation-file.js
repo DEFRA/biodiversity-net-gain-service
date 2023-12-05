@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
@@ -29,8 +28,6 @@ const handlers = {
     const context = getContext(request)
     request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED, checkWrittenAuthorisation)
     if (checkWrittenAuthorisation === 'no') {
-      await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
       return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_APPLICANT_INFORMATION)
