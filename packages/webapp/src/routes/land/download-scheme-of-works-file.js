@@ -7,7 +7,7 @@ const downloadSchemeOfWorksFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.SCHEME_OF_WORKS_FILE_LOCATION)
   const config = {
     blobName,
-    containerName: 'trusted'
+    containerName: constants.BLOB_STORAGE_CONTAINER
   }
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
   return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))
