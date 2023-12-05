@@ -38,6 +38,7 @@ const DEVELOPER_CLIENTS_ORGANISATION_NAME = 'developer/clients-organisation-name
 const DEVELOPER_NEED_ADD_PERMISSION = 'developer/need-add-permission'
 const DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION = 'developer/upload-written-authorisation'
 const DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE = 'developer/check-written-authorisation-file'
+const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-authorisation-file'
 // ./Routes constants
 
 // RedisKeys constants
@@ -157,7 +158,8 @@ export default {
     DEVELOPER_CLIENTS_ORGANISATION_NAME,
     DEVELOPER_NEED_ADD_PERMISSION,
     DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-    DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE
+    DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
+    DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
