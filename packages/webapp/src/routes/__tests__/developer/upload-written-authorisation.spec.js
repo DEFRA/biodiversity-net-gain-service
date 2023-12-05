@@ -12,7 +12,7 @@ describe('Proof of ownership upload controller tests', () => {
       await submitGetRequest({ url })
     })
     it(`should render the ${url.substring(1)} view for an agent with a client who is not a landowner `, async () => {
-      await submitGetRequest({ url }, 200, { multipleProofsOfPermissionRequired: true })
+      await submitGetRequest({ url }, 200, { 'developer-is-agent': 'yes', 'developer/landowner-or-leaseholder': 'no' })
     })
   })
 
