@@ -61,7 +61,7 @@ describe(url, () => {
       await changeTypeLegalAgreement.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.CHANGE_TYPE_LEGAL_AGREEMENT)
-      expect(resultContext.err[0]).toEqual({ text: 'Select yes or no', href: '#changeLegalTypeAgreement' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to change the type of legal agreement', href: '#changeLegalTypeAgreement' })
     })
   })
 })
