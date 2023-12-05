@@ -203,7 +203,8 @@ const uploadErrors = {
   threatDetected: 'The selected file contains a virus',
   malwareScanFailed: 'File malware scan failed',
   unsupportedFileExt: 'Unsupported file extension',
-  noFileScanResponse: 'Timed out awaiting anti virus scan result'
+  noFileScanResponse: 'Timed out awaiting anti virus scan result',
+  notValidMetric: 'Workbook is not a valid metric'
 }
 
 const threatScreeningStatusValues = {

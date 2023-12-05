@@ -10,23 +10,23 @@ const getClientName = (session, isIndividual) => {
   return session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
 }
 
-const addOptionalAddressLine = (line) => line?.trim() ? `${line}, ` : ''
+const addOptionalAddressLine = (line) => line?.trim() ? `${line}<br>` : ''
 
 const getAddress = (session, addressIsUK) => {
   if (addressIsUK) {
     const ukAddress = session.get(constants.redisKeys.UK_ADDRESS_KEY)
-    return `${ukAddress?.addressLine1}, ` +
+    return `${ukAddress?.addressLine1}<br>` +
       addOptionalAddressLine(ukAddress?.addressLine2) +
-      `${ukAddress?.town}, ` +
+      `${ukAddress?.town}<br>` +
       addOptionalAddressLine(ukAddress?.county) +
       `${ukAddress?.postcode}`
   }
 
   const internationalAddress = session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
-  return `${internationalAddress?.addressLine1}, ` +
+  return `${internationalAddress?.addressLine1}<br>` +
     addOptionalAddressLine(internationalAddress?.addressLine2) +
     addOptionalAddressLine(internationalAddress?.addressLine3) +
-    `${internationalAddress?.town}, ` +
+    `${internationalAddress?.town}<br>` +
     addOptionalAddressLine(internationalAddress?.postcode) +
     `${internationalAddress?.country}`
 }

@@ -9,6 +9,7 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 const LAND_BOUNDARY_ID = '#landBoundary'
 
 async function processSuccessfulUpload (result, request, h) {
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION, true))
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)

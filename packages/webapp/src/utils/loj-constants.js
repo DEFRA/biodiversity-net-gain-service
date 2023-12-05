@@ -196,6 +196,7 @@ const CLIENTS_PHONE_NUMBER = 'land/clients-phone-number'
 const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
+const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
 
 export default {
   redisKeys: {
@@ -399,6 +400,7 @@ export default {
     UPLOAD_WRITTEN_AUTHORISATION,
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
+    CHANGE_TYPE_LEGAL_AGREEMENT,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE
   },
