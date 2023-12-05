@@ -9,9 +9,8 @@
     {# Create the conditional HTML content as a Nunjucks variable #}
     {% set conditionalContent %}
       {{ govukInput({
-        id: "middleName",
+        id: "middle-name",
         name: "middleName",
-        errorMessage: err[0],
         label: {
           text: "Middle Name",
           classes: "govuk-label",
@@ -36,6 +35,7 @@
               hint: {
                 html: "<div class='govuk-hint'>Select one option.</div>"
               },
+              errorMessage: err[0],
               items: [
                   {
                       value: "yes",
