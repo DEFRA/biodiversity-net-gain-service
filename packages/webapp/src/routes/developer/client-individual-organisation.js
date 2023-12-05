@@ -1,19 +1,9 @@
 import constants from '../../utils/constants.js'
 
-const getClientType = individualOrOrganisation => {
-  switch (individualOrOrganisation) {
-    case constants.individualOrOrganisationTypes.INDIVIDUAL:
-      return 'yes'
-    case constants.individualOrOrganisationTypes.ORGANISATION:
-      return 'no'
-    default:
-  }
-}
-
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, {
-      individualOrOrganisation: getClientType(request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION))
+      individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     })
   },
   post: async (request, h) => {

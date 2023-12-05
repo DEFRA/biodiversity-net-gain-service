@@ -1,16 +1,6 @@
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
-const getClientType = individualOrOrganisation => {
-  switch (individualOrOrganisation) {
-    case constants.individualOrOrganisationTypes.INDIVIDUAL:
-      return 'yes'
-    case constants.individualOrOrganisationTypes.ORGANISATION:
-      return 'no'
-    default:
-  }
-}
-
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -20,7 +10,7 @@ const handlers = {
       inProgressUrl: constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
     })
     return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, {
-      individualOrOrganisation: getClientType(request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY))
+      individualOrOrganisation: request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     })
   },
   post: async (request, h) => {
