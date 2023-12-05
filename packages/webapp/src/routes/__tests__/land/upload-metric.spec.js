@@ -206,7 +206,7 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
