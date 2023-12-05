@@ -153,7 +153,15 @@ const prepareMockHandler = async (applications, preAuthenticationRoute) => {
   auth.authenticate = jest.fn().mockImplementation(() => {
     return {
       idTokenClaims: {
-        contactId: 'mock contact id'
+        contactId: 'mock contact id',
+        firstName: 'John',
+        lastName: 'Smith',
+        email: 'john.smith@test.com',
+        contactId: 'mock contact id',
+        enrolmentCount: 1,
+        currentRelationshipId: 'mock relationship id',
+        relationships: ['mock relationship id:::0:Citizen:0'],
+        roles: ['mock relationship id:Standard User:2']
       }
     }
   })
