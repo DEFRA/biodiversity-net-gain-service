@@ -1,10 +1,10 @@
 import {
   createApplicationReference,
   saveApplicationSession,
-  getApplicationCountByContactId,
+  getApplicationCountByContactIdAndOrganisationId,
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
-  getApplicationStatusesByContactIdAndApplicationType,
+  getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
@@ -30,7 +30,7 @@ const expectedInsertStatement = `
   RETURNING application_session_id;
 `
 
-const expectedGetApplicationCountByContactIdStatement = `
+const expectedGetApplicationCountByContactIdAndOrganisationIdStatement = `
   SELECT
     contact_id,
     COUNT(application_reference) AS application_count
@@ -38,6 +38,7 @@ const expectedGetApplicationCountByContactIdStatement = `
     bng.application_reference
   WHERE
     contact_id = $1
+    AND (organisation_id = $2 OR $2 IS NULL AND organisation_id IS NULL)
   GROUP BY
     contact_id;
 `
@@ -72,7 +73,7 @@ const expectedGetExpiringApplicationSessionsStatement = `
     AND date_modified > date_of_expiry_notification;
 `
 
-const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
+const expectedGetApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement = `
   (SELECT
     ar.application_reference,
     aps.date_modified,
@@ -83,7 +84,8 @@ const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
         ON ar.application_reference = aps.application_reference
   WHERE
     ar.contact_id = $1
-    AND ar.application_type = $2::bng.application_type
+    AND (organisation_id = $2 OR $2 IS NULL AND organisation_id IS NULL)
+    AND ar.application_type = $3::bng.application_type
   UNION
   SELECT
     ar.application_reference,
@@ -95,7 +97,8 @@ const expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement = `
         ON ar.application_reference = aps.application_reference
   WHERE
     ar.contact_id = $1
-    AND ar.application_type = $2::bng.application_type)
+    AND (organisation_id = $2 OR $2 IS NULL AND organisation_id IS NULL)
+    AND ar.application_type = $3::bng.application_type)
   ORDER BY
     application_status,
     date_modified DESC;
@@ -119,12 +122,12 @@ describe('Database queries', () => {
     const db = {
       query: query => query
     }
-    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference($1, $2);')
+    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference($1, $2, $3);')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
-    expect(getApplicationCountByContactId(db)).toEqual(expectedGetApplicationCountByContactIdStatement)
+    expect(getApplicationCountByContactIdAndOrganisationId(db)).toEqual(expectedGetApplicationCountByContactIdAndOrganisationIdStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
     expect(getApplicationSessionByReferenceContactIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement)
-    expect(getApplicationStatusesByContactIdAndApplicationType(db)).toEqual(expectedGetApplicationStatusesByContactIdAndApplicationTypeStatement)
+    expect(getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType(db)).toEqual(expectedGetApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement)
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
