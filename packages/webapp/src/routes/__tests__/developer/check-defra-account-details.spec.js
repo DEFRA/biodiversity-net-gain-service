@@ -49,7 +49,7 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_BNG_NUMBER)
     })
-    it('Should continue the journey for a non-responsible body when Defra account details are confirmed', async () => {
+    it('Should continue the journey for a non-relevant person when Defra account details are confirmed', async () => {
       postOptions.auth = {
         strategy: 'session-auth',
         credentials: {
