@@ -26,4 +26,17 @@ describe('Signin handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual('signin-url')
   })
+  it('Should redirect to auth url if reselect is true even if authenticated', async () => {
+    const options = {
+      url: `${url}?reselect=true`
+    }
+    const response = await submitGetRequest(options, 302)
+    expect(response.headers.location).toEqual('signin-url')
+  })
+  it('Should error if reselect is not a bool', async () => {
+    const options = {
+      url: `${url}?reselect=sdfsdfs`
+    }
+    await submitGetRequest(options, 400)
+  })
 })
