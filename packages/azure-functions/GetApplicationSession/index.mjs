@@ -1,13 +1,16 @@
-import { getApplicationSessionByReferenceContactIdAndApplicationType } from '../Shared/db-queries.js'
+import { getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType } from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   let db
   try {
-    const applicationReference = req.body.applicationReference
-    const contactId = req.body.contactId
-    const applicationType = req.body.applicationType
+    const {
+      applicationReference,
+      contactId,
+      organisationId,
+      applicationType
+    } = req.body
     let body
     if (!applicationReference || !contactId || !applicationType) {
       throw new Error('Contact ID, application type or application reference is missing')
@@ -16,7 +19,7 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Get the application session from database
-    const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType])
+    const applicationSession = await getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType(db, [applicationReference, contactId, organisationId, applicationType])
 
     // Check if we have an application session to return
     if (applicationSession.rows[0]) {

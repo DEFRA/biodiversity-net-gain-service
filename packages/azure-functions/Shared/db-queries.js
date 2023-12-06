@@ -26,7 +26,7 @@ const deleteApplicationSessionStatement = `
   WHERE
     application_reference = $1;
 `
-const getApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
+const getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationTypeStatement = `
   SELECT
     aps.application_session
   FROM
@@ -36,7 +36,8 @@ const getApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   WHERE
     aps.application_reference = $1
     AND ar.contact_id = $2
-    AND ar.application_type = $3;
+    AND (ar.organisation_id = $3 OR $3 IS NULL AND ar.organisation_id IS NULL)
+    AND ar.application_type = $4;
 `
 const getApplicationCountByContactIdAndOrganisationIdStatement = `
   SELECT
@@ -135,7 +136,7 @@ const getApplicationCountByContactIdAndOrganisationId = (db, values) => db.query
 
 const getApplicationSessionById = (db, values) => db.query('SELECT application_session FROM bng.application_session WHERE application_session_id = $1', values)
 
-const getApplicationSessionByReferenceContactIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdAndApplicationTypeStatement, values)
+const getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType = (db, values) => db.query(getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationTypeStatement, values)
 
 const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType = (db, values) => db.query(getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement, values)
 
@@ -157,7 +158,7 @@ export {
   deleteApplicationSession,
   getApplicationCountByContactIdAndOrganisationId,
   getApplicationSessionById,
-  getApplicationSessionByReferenceContactIdAndApplicationType,
+  getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType,
   getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
