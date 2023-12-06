@@ -1,4 +1,4 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION
 
@@ -48,7 +48,7 @@ describe(url, () => {
 
   describe('POST', () => {
     it('Should continue journey to CLIENTS_NAME if individualOrOrganisation is individual', async () => {
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      redisMap.set(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, constants.individualOrOrganisationTypes.INDIVIDUAL)
       const request = {
         yar: redisMap,
         payload: { individualOrOrganisation: 'individual' }
@@ -79,6 +79,19 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.views.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
       expect(resultContext.err[0]).toEqual({ text: 'Select if your client is an individual or organisation', href: '#individualOrOrganisation' })
+    })
+
+    it('Should force replay of the journey when an existing individual or organisation value is changed', async () => {
+      const postOptions = {
+        url,
+        payload: {}
+      }
+      postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.INDIVIDUAL
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.ORGANISATION
+      sessionData[constants.redisKeys.REFERER] = 'http://localhost:30000/mock-referer-url'
+      const res = await submitPostRequest(postOptions, 302, sessionData)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_CLIENTS_NAME)
     })
   })
 })
