@@ -9,7 +9,7 @@ const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-authoris
 describe('Proof of ownership upload controller tests', () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view for a landowner or agent with a client who is a landowner`, async () => {
-      await submitGetRequest({ url })
+      await submitGetRequest({ url }, 200, { 'developer-is-agent': 'no' })
     })
     it(`should render the ${url.substring(1)} view for an agent with a client who is not a landowner `, async () => {
       await submitGetRequest({ url }, 200, { 'developer-is-agent': 'yes', 'developer/landowner-or-leaseholder': 'no' })

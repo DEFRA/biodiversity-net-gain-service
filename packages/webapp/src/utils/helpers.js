@@ -633,8 +633,8 @@ const redirectDeveloperClient = (h, yar) => {
 
 const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) => {
   const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
-  if (isAgent && !clientIsLandownerOrLeaseholder) {
+  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  if (isAgent && clientIsNotLandownerOrLeaseholder) {
     context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = true
   }
   return context
