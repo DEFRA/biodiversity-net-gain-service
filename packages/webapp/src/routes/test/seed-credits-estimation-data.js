@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import applicant from '../../__mock-data__/test-developer-application.js'
+import applicant from '../../__mock-data__/test-credit-estimation-application.js'
 
 const seedCreditsEstimationData = {
   method: 'GET',
