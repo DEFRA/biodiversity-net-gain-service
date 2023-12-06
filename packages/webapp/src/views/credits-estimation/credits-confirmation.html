@@ -1,21 +1,33 @@
-{% extends 'credits-form-layout.html' %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends 'form-layout.html' %}
 
-{% set pageHeading = "Check your answers before you submit your information" %}
+{% set hideBackLink = true %}
 
-{% block formContent %}
-  {% if err %}
-    {{ govukErrorSummary({
-      titleText: "There is a problem",
-      errorList: err
-    }) }}
-  {% endif %}
+{% if applicationReference === null %}
+  {% set pageHeading = "You’ve submitted your application" %}
+{% else %}
+  {% set pageHeading = "Application complete" %}
+{% endif %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1> 
-      <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
+        {{ pageHeading }}
+      </h1>
+      
+      <div class="govuk-panel__body govuk-!-font-size-27">
+        Your BNG credit reference<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
+      </div>
     </div>
+
+    <p>We will send you a confirmation email.</p>
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <p>We will send you a proforma invoice for the total price within four weeks if you successfully pass our customer due diligence checks. Payment details will also be included.</p>
+    <p>If more checks are needed, we will let you know. This could take up to 8 weeks in total.</p>
   </div>
+</div>
+{% endif %}
+
 {% endblock %}
