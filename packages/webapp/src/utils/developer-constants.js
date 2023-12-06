@@ -39,6 +39,7 @@ const DEVELOPER_NEED_ADD_PERMISSION = 'developer/need-add-permission'
 const DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION = 'developer/upload-written-authorisation'
 const DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE = 'developer/check-written-authorisation-file'
 const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-authorisation-file'
+const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 // ./Routes constants
 
 // RedisKeys constants
@@ -159,7 +160,8 @@ export default {
     DEVELOPER_NEED_ADD_PERMISSION,
     DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
     DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-    DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION
+    DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION,
+    DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
