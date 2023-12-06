@@ -31,7 +31,7 @@ export default async function (context, req) {
         req.body.creditsEstimation.applicant?.contactId,
         'Credits'
       ])
-      req.body.creditsEstimation.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
+      req.body.creditsEstimation.gainSiteReference = applicationReference.rows[0].fn_create_credits_app_reference
     } else {
       // Check if application has been submitted and throw error if true
       const status = await getApplicationStatus(db, [req.body.creditsEstimation.gainSiteReference])
