@@ -114,6 +114,25 @@ const handlers = {
   }
 }
 
+const failAction = (request, h, err) => {
+  logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+  if (err.output.statusCode === 413) { // Request entity too large
+    return maximumSizeExceeded(h).takeover()
+  } else {
+    throw err
+  }
+}
+
+const payload = {
+  maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+  multipart: true,
+  timeout: false,
+  output: 'stream',
+  parse: false,
+  allow: 'multipart/form-data',
+  failAction
+}
+
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
@@ -123,21 +142,6 @@ export default [{
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
   handler: handlers.post,
   options: {
-    payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
-      multipart: true,
-      timeout: false,
-      output: 'stream',
-      parse: false,
-      allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
-        if (err.output.statusCode === 413) { // Request entity too large
-          return maximumSizeExceeded(h).takeover()
-        } else {
-          throw err
-        }
-      }
-    }
+    payload
   }
 }]
