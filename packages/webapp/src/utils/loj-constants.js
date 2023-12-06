@@ -177,6 +177,7 @@ const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'written-authorisation'
+const SCHEME_OF_WORKS_UPLOAD_TYPE = 'scheme-of-works-upload-type'
 const WRITTEN_AUTHORISATION_LOCATION = 'written-authorisation-location'
 const WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
 const WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
@@ -435,7 +436,8 @@ export default {
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,
     LAND_OWNERSHIP_UPLOAD_TYPE,
-    WRITTEN_AUTHORISATION_UPLOAD_TYPE
+    WRITTEN_AUTHORISATION_UPLOAD_TYPE,
+    SCHEME_OF_WORKS_UPLOAD_TYPE
   },
   setLojReferer: [
     CHECK_AND_SUBMIT,

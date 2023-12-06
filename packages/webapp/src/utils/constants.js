@@ -79,6 +79,11 @@ const LOCAL_LAND_CHARGE_FILE_EXT = [
   '.docx',
   '.pdf'
 ]
+const SCHEME_OF_WORKS_FILE_EXT = [
+  '.doc',
+  '.docx',
+  '.pdf'
+]
 const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.doc',
   '.docx',
@@ -265,6 +270,7 @@ export default Object.freeze({
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
+  schemeOfWorksFileExt: SCHEME_OF_WORKS_FILE_EXT,
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,
   landBoundaryUploadTypes,

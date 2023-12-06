@@ -61,8 +61,8 @@ const handlers = {
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,
-      uploadType: constants.uploadTypes.SCHEME_OF_WORKS_FILE_TYPE,
-      fileExt: constants.localLandChargeFileExt,
+      uploadType: constants.uploadTypes.SCHEME_OF_WORKS_UPLOAD_TYPE,
+      fileExt: constants.schemeOfWorksFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
