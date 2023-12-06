@@ -30,7 +30,7 @@ services:
     secrets:
       - POSTGRES_PASSWORD
     volumes:
-      - ./volumes/postgis:/var/lib/postgresql/data
+      - postgis_data:/var/lib/postgresql/data
       - ./src/postgis/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   azurite:
@@ -40,3 +40,5 @@ services:
     ports:
       - "10000:10000"
       - "10001:10001"
+volumes:
+  postgis_data: {}
