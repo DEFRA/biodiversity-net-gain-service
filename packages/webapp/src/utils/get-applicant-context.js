@@ -46,7 +46,13 @@ const getApplicantSpecificGuidance = organisation => {
   return applicationSpecificGuidance
 }
 const isApplicantAnAgent = session => {
-  const isAgent = session.get(constants.redisKeys.IS_AGENT)
+  const applicationType = session.get(constants.redisKeys.APPLICATION_TYPE)
+  const redisKey =
+    applicationType === constants.applicantTypes.REGISTRATION
+      ? constants.redisKeys.IS_AGENT
+      : constants.redisKeys.DEVELOPER_IS_AGENT
+
+  const isAgent = session.get(redisKey)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
 }
 
