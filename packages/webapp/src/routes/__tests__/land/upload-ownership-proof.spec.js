@@ -1,16 +1,12 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 const PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME = 'landOwnership'
 const url = constants.routes.UPLOAD_LAND_OWNERSHIP
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Proof of ownership upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -18,22 +14,19 @@ describe('Proof of ownership upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockLandOwnership = [
-      {
-        location: 'mockUserId/mockUploadType/mockFilename',
-        mapConfig: {}
-      }
-    ]
     const baseConfig = {
       uploadType: 'land-ownership',
       url,
       formName: PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME,
-      eventData: mockLandOwnership
+      sessionData: {}
     }
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
+    })
+
+    afterEach(() => {
+      baseConfig.sessionData = {}
     })
 
     it('should upload land ownership document to cloud storage', (done) => {
@@ -41,10 +34,17 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
-            referer: 'http://localhost:30000/land/check-ownership-details'
+            referer: 'http://localhost:30000/land/ownership-proof-list'
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          uploadConfig.sessionData[`${constants.redisKeys.LAND_OWNERSHIP_PROOFS}`] = [{
+            fileName: 'legal-agreement.pdf',
+            fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/legal-agreement.pdf',
+            fileSize: 0.01,
+            fileType: 'application/pdf',
+            id: '1'
+          }]
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -157,24 +157,7 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-          await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should cause an internal server error response when land ownership upload notification processing fails', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/legal-agreement.pdf`
-          config.generateHandleEventsError = true
-          config.hasError = true
-          await uploadFile(config)
+          await uploadFile(uploadConfig, 200)
           setImmediate(() => {
             done()
           })

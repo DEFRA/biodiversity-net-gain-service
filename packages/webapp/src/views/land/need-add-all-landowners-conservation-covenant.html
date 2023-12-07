@@ -1,0 +1,23 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "You need to add all landowners or leaseholders listed on the " + legalAgreementType %}
+
+{% block formContent %}
+  <div class="govuk-width-container">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+          <p>You can add as many as you need to.
+          </p>
+          {{ govukButton({
+            text: 'Add landowners or leaseholders',
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
+

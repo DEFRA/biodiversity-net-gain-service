@@ -1,10 +1,10 @@
 import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
-import { CoordinateSystemValidationError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
+import { CoordinateSystemValidationError, MalwareDetectedError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
 import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
@@ -28,16 +28,22 @@ const performUpload = async (request, h) => {
     sessionId: request.yar.id,
     uploadType: constants.uploadTypes.GEOSPATIAL_UPLOAD_TYPE,
     fileExt: constants.geospatialLandBoundaryFileExt,
-    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) * 1024 * 1024
+    maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB) * 1024 * 1024,
+    postProcess: true
   })
 
   config.fileValidationConfig.maximumDecimalPlaces = 4
-  config.signalRConfig.eventProcessingFunction = processGeospatialLandBoundaryEvent
 
   try {
-    const geospatialData = await uploadFiles(logger, request, config)
-    const uploadedFileLocation = `${geospatialData[0].location.substring(0, geospatialData[0].location.lastIndexOf('/'))}/${geospatialData.filename}`
-    const geoJsonFilename = geospatialData[0].location.substring(geospatialData[0].location.lastIndexOf('/') + 1)
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, true))
+
+    const geospatialData = await uploadFile(logger, request, config)
+    processGeospatialLandBoundaryEvent(geospatialData.postProcess)
+
+    const uploadedFileLocation = `${geospatialData.postProcess.location.substring(0, geospatialData.postProcess.location.lastIndexOf('/'))}/${geospatialData.filename}`
+    const geoJsonFilename = geospatialData.postProcess.location.substring(geospatialData.postProcess.location.lastIndexOf('/') + 1)
     logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
 
     if (!geospatialData.filename.endsWith('.geojson')) {
@@ -46,21 +52,21 @@ const performUpload = async (request, h) => {
       request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
     }
 
-    if (geospatialData[0].reprojectedLocation) {
+    if (geospatialData.postProcess.reprojectedLocation) {
       // A geospatial upload using the WGS84 Coordinate Reference System has been uploaded.
       // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System
       // and its size so that they can be part of the application submission.
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].reprojectedLocation)
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData[0].reprojectedFileSize)
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.reprojectedLocation)
+      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData.postProcess.reprojectedFileSize)
     }
 
-    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData[0].location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData[0].mapConfig)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.location)
+    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData.postProcess.mapConfig)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
     request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData[0].mapConfig.hectares.toFixed(2))
-    request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData[0].mapConfig.gridRef)
+    request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData.postProcess.mapConfig.hectares.toFixed(2))
+    request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData.postProcess.mapConfig.gridRef)
 
     // Clear out any land boundary data
     request.yar.clear(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
@@ -124,12 +130,10 @@ const processErrorMessage = (errorMessage, error) => {
       }]
       break
     default:
-      if (errorMessage.indexOf('timed out') > 0) {
-        error.err = [{
-          text: constants.uploadErrors.uploadFailure,
-          href: uploadGeospatialFileId
-        }]
-      }
+      error.err = [{
+        text: constants.uploadErrors.uploadFailure,
+        href: uploadGeospatialFileId
+      }]
       break
   }
 }
@@ -142,9 +146,8 @@ const getErrorContext = err => {
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof ThreatScreeningError) {
-    const status = err.threatScreeningDetails.Status
     error.err = [{
-      text: status === constants.threatScreeningStatusValues.QUARANTINED ? constants.uploadErrors.threatDetected : constants.uploadErrors.uploadFailure,
+      text: constants.uploadErrors.malwareScanFailed,
       href: uploadGeospatialFileId
     }]
   } else if (err instanceof UploadTypeValidationError || err.message === constants.uploadErrors.unsupportedFileExt) {
@@ -155,6 +158,11 @@ const getErrorContext = err => {
   } else if (err instanceof ValidationError) {
     error.err = [{
       text: getValidationErrorText(err),
+      href: uploadGeospatialFileId
+    }]
+  } else if (err instanceof MalwareDetectedError) {
+    error.err = [{
+      text: constants.uploadErrors.threatDetected,
       href: uploadGeospatialFileId
     }]
   } else {
@@ -185,7 +193,7 @@ export default [{
       output: 'stream',
       parse: false,
       failAction: (request, h, err) => {
-        logger.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [

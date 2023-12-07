@@ -1,0 +1,12 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Add a landowner or leaseholder listed on the " + legalAgreementType %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% include "common/add-individual-name.html" %}
+  </div>
+{% endblock %}

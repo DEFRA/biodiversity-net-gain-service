@@ -1,6 +1,6 @@
 <div id="profile" class="login-nav">
   <ul class="login-nav__list">
-    <li class="login-nav__list-item">{{ auth.firstName }} {{ auth.lastName }} |</li>
+    <li class="login-nav__list-item">{{ auth.firstName }} {{ auth.lastName }} |{% if auth.representing %} (representing {{ auth.representing }}){% endif %}</li>
     <li class="login-nav__list-item"><a id="link-manage-account" href="/manage-biodiversity-gains" class="govuk-link login-nav__link govuk-link--no-visited-state">Manage biodiversity gains</a> |</li>
     <li class="login-nav__list-item"><a id="link-sign-out" href="/signout" class="govuk-link login-nav__link govuk-link--no-visited-state">Sign out</a></li>
   </ul>

@@ -3,12 +3,25 @@ const dataString = `
   "registrationTaskDetails": {
     "taskList": [
       {
+        "taskTitle": "Applicant information",
+        "tasks": [
+          {
+            "title": "Add details about the applicant",
+            "status": "COMPLETED",
+            "completedTaskUrl": "/land/check-applicant-information",
+            "startTaskUrl": "/land/agent-acting-for-client",
+            "inProgressUrl": "/land/add-landowners",
+            "id": "add-applicant-information"
+          }
+        ]
+      },
+      {
         "taskTitle": "Land information",
         "tasks": [
           {
             "title": "Add land ownership details",
             "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-ownership-details",
+            "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
             "inProgressUrl": "/land/add-landowners",
             "id": "add-land-ownership"
@@ -20,12 +33,7 @@ const dataString = `
             "startTaskUrl": "/land/choose-land-boundary-upload",
             "inProgressUrl": "/land/add-grid-reference",
             "id": "add-land-boundary"
-          }
-        ]
-      },
-      {
-        "taskTitle": "Habitat information",
-        "tasks": [
+          },
           {
             "title": "Add habitat baseline, creation and enhancements",
             "status": "COMPLETED",
@@ -33,14 +41,6 @@ const dataString = `
             "startTaskUrl": "/land/upload-metric",
             "inProgressUrl": "/land/check-metric-details",
             "id": "add-habitat-information"
-          },
-          {
-            "title": "Add habitat management and monitoring details",
-            "status": "COMPLETED",
-            "completedTaskUrl": "/land/check-management-monitoring-details",
-            "startTaskUrl": "/land/upload-management-plan",
-            "inProgressUrl": "/land/check-management-monitoring-details",
-            "id": "add-habitat-management"
           }
         ]
       },
@@ -105,29 +105,38 @@ const dataString = `
   "metric-data": {
     "d1": [
       {
+        "Baseline ref": 1,
+        "Habitat reference Number": "H1",
         "Broad habitat": "Cropland",
         "Habitat type": "Cereal crops",
         "Area (hectares)": 1,
+        "Area enhanced": 1,
         "Total habitat units": 2,
         "Condition": "Condition Assessment N/A"
       },
       {
+        "Baseline ref": 2,
         "Broad habitat": "Grassland",
         "Habitat type": "Modified grassland",
         "Area (hectares)": 1,
+        "Area enhanced": 0,
         "Total habitat units": 4,
         "Condition": "Moderate"
       },
       {
+        "Baseline ref": 3,
         "Broad habitat": "Woodland and forest",
         "Habitat type": "Other woodland; mixed",
         "Area (hectares)": 0.5,
+        "Area enhanced": 0,
         "Total habitat units": 2,
         "Condition": "Poor"
       },
       {
+        "Baseline ref": 4,
         "Broad habitat": "Grassland",
         "Habitat type": "Modified grassland",
+        "Area enhanced": 0,
         "Area (hectares)": 1,
         "Total habitat units": 2,
         "Condition": "Poor"
@@ -140,12 +149,14 @@ const dataString = `
     ],
     "d2": [
       {
+        "Habitat reference Number": "H2",
         "Delay in starting habitat creation (years)": 0,
         "Broad habitat": "Grassland",
         "Proposed habitat": "Other neutral grassland",
         "Area (hectares)": 0.9,
         "Condition": "Fairly Good",
         "Habitat units delivered": 7.0134822603,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Habitat created in advance (years)": 0
       },
       {
@@ -155,6 +166,7 @@ const dataString = `
         "Area (hectares)": 0.1,
         "Condition": "Condition Assessment N/A",
         "Habitat units delivered": 0.386,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Habitat created in advance (years)": 0
       },
       {
@@ -165,6 +177,8 @@ const dataString = `
     ],
     "d3": [
       {
+        "Baseline ref": 2,
+        "Habitat reference Number": "H3",
         "Baseline habitat": "Grassland - Modified grassland",
         "Proposed Broad Habitat": "Wetland",
         "Habitat enhanced in advance (years)": 0,
@@ -172,9 +186,11 @@ const dataString = `
         "Area (hectares)": 1,
         "Condition": "Good",
         "Habitat units delivered": 7.027257226998999,
+        "Strategic significance": "Formally identified in local strategy",
         "Proposed habitat": "Lowland raised bog"
       },
       {
+        "Baseline ref": 3,
         "Baseline habitat": "Woodland and forest - Other woodland; mixed",
         "Proposed Broad Habitat": "Woodland and forest",
         "Habitat enhanced in advance (years)": 0,
@@ -182,9 +198,11 @@ const dataString = `
         "Area (hectares)": 0.5,
         "Condition": "Good",
         "Habitat units delivered": 4.555818212099999,
+        "Strategic significance": "Formally identified in local strategy",
         "Proposed habitat": "Other woodland; mixed"
       },
       {
+        "Baseline ref": 4,
         "Baseline habitat": "Grassland - Modified grassland",
         "Proposed Broad Habitat": "Grassland",
         "Habitat enhanced in advance (years)": 0,
@@ -192,6 +210,7 @@ const dataString = `
         "Area (hectares)": 1,
         "Condition": "Good",
         "Habitat units delivered": 4.9956750053,
+        "Strategic significance": "Formally identified in local strategy",
         "Proposed habitat": "Modified grassland"
       },
       {
@@ -201,14 +220,19 @@ const dataString = `
     ],
     "e1": [
       {
+        "Baseline ref": 1,
+        "Habitat reference Number": "E1",
         "Hedgerow type": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
+        "Length enhanced": 0,
         "Total hedgerow units": 1.2,
         "Condition": "Poor"
       },
       {
+        "Baseline ref": 2,
         "Hedgerow type": "Native hedgerow",
         "Length (km)": 0.3,
+        "Length enhanced": 0.3,
         "Total hedgerow units": 0.6,
         "Condition": "Poor"
       },
@@ -219,11 +243,13 @@ const dataString = `
     ],
     "e2": [
       {
+        "Habitat reference Number": "E2",
         "Habitat type": "Native hedgerow with trees",
         "Length (km)": 0.3,
         "Delay in starting habitat creation (years)": 0,
         "Hedge units delivered": 1.7654229486,
         "Condition": "Good",
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Habitat created in advance (years)": 0
       },
       {
@@ -233,12 +259,15 @@ const dataString = `
     ],
     "e3": [
       {
+        "Baseline ref": 1,
+        "Habitat reference Number": "E3",
         "Baseline habitat": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,
         "Delay in starting habitat enhancement (years)": 0,
         "Proposed habitat": "Native hedgerow - associated with bank or ditch",
         "Hedge units delivered": 2.27835855,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Condition": "Moderate"
       },
       {
@@ -248,14 +277,19 @@ const dataString = `
     ],
     "f1": [
       {
+        "Baseline ref": 1,
+        "Habitat reference Number": "F1",
         "Watercourse type": "Ditches",
         "Length (km)": 0.3,
+        "Length enhanced": 0,
         "Total watercourse units": 1.2,
         "Condition": "Poor"
       },
       {
+        "Baseline ref": 2,
         "Watercourse type": "Ditches",
         "Length (km)": 0.3,
+        "Length enhanced": 0.3,
         "Total watercourse units": 1.2,
         "Condition": "Poor"
       },
@@ -266,11 +300,13 @@ const dataString = `
     ],
     "f2": [
       {
+        "Habitat reference Number": "F2",
         "Watercourse type": "Ditches",
         "Habitat created in advance (years)": 0,
         "Delay in starting habitat creation (years)": 0,
         "Watercourse units delivered": 2.594403979575,
         "Condition": "Fairly Good",
+        "Strategic significance": "Formally identified in local strategy",
         "Length (km)": 0.3
       },
       {
@@ -280,12 +316,15 @@ const dataString = `
     ],
     "f3": [
       {
+        "Baseline ref": 1,
+        "Habitat reference Number": "F3",
         "Baseline habitat": "Ditches",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,
         "Delay in starting habitat enhancement (years)": 0,
         "Proposed habitat": "Ditches",
         "Watercourse units delivered": 2.409217854828,
+        "Strategic significance": "Low Strategic Significance",
         "Condition": "Good"
       },
       {
@@ -294,24 +333,31 @@ const dataString = `
       }
     ],
     "validation": {
-      "isVersion4OrLater": true,
+      "isSupportedVersion": true,
       "isOffsiteDataPresent": true,
       "areOffsiteTotalsCorrect": true
     }
   },
   "metric-file-checked": "yes",
   "check-uploaded-metric": true,
-  "management-plan-location": "800376c7-8652-4906-8848-70a774578dfe/management-plan/legal-agreement.doc",
-  "management-plan-file-size": 0.01,
-  "management-plan-file-type": "application/msword",
-  "management-plan-checked": "yes",
-  "management-monitoring-start-date": "2022-01-01T00:00:00.000Z",
   "legal-agreement-type": "759150001",
-  "legal-agreement-location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
-  "legal-agreement-file-size": 0.01,
-  "legal-agreement-file-type": "application/msword",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
+  "legal-agreement-files": [
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
+      "fileSize": 0.01,
+      "fileType": "application/msword",
+      "id": "1"
+
+    },
+    {
+      "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement1.pdf",
+      "fileSize": 0.01,
+      "fileType": "application/pdf",
+      "id": "2"
+    }
+  ],
   "legal-agreement-parties": [
     {
       "organisationName": "org1",
@@ -324,11 +370,65 @@ const dataString = `
       "organisationOtherRole": "undefined"
     }
   ],
-  "legal-agreement-start-date": "2022-01-01T00:00:00.000Z",
+  "legal-agreement-reponsible-bodies":[
+    {
+      "responsibleBodyName": "test1"
+    },
+    {
+      "responsibleBodyName": "test2"
+    }
+  ],
+  "planning-authority-list":["County Durham LPA", "Secretary of State"],
+  "legal-agreement-landowner-conservation-convenants": [{
+    "organisationName": "org1",
+    "type": "organisation"
+  }, {
+    "firstName": "Crishn",
+    "middleNames": "",
+    "lastName": "P",
+    "type": "individual"
+  }],
+  "habitat-plan-legal-agreement-document-included-yes-no": "No",
+  "enhancement-works-start-date": "2022-01-01T00:00:00.000Z",
+  "legal-agreement-end-date": "2023-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
-  "application-reference": ""
+  "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
+  "habitat-plan-file-size": 0.01,
+  "habitat-plan-file-type": "application/msword",
+  "application-reference": "",
+  "is-agent": "yes",
+  "client-individual-organisation": "individual",
+  "clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
+  "is-address-uk": "yes",
+  "uk-address": {"addressLine1":"test","addressLine2":"test","town":"test","county":"test","postcode":"m11mm"},
+  "clients-email-address": "test@Test.com",
+  "clients-phone-number": "12323453453",
+  "written-authorisation-location": "94c588fe-9242-43f2-a48c-926902a135e1/written-authorisation/legal-agreement.pdf",
+  "written-authorisation-file-size": 7515,
+  "written-authorisation-file-type": "application/pdf",
+  "written-authorisation-checked": "yes",
+  "landowner-type": "individual",
+  "defraAccountDetailsConfirmed": "true",
+  "land-ownership-proofs": [
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf",
+        "fileName": "lopfile2.pdf",
+        "optional": false
+      },
+      {
+        "contentMediaType": "application/pdf",
+        "fileType": "land-ownership",
+        "fileSize": 13264,
+        "fileLocation": "627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile1.pdf",
+        "fileName": "lopfile1.pdf",
+        "optional": false
+      }
+  ]
 }`
 
 export default {

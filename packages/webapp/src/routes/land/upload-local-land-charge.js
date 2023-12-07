@@ -1,21 +1,20 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const localLandChargeId = '#localLandChargeId'
-function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received legal and search data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE
-  }
-  return h.redirect(resultView)
+async function processSuccessfulUpload (result, request, h) {
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, true))
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  return h.redirect(constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE)
 }
 
 function buildErrorResponse (h, message) {
@@ -35,14 +34,16 @@ function processErrorUpload (err, h) {
       return buildErrorResponse(h, 'Select a local land charge search certificate file')
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
-
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return buildErrorResponse(h, 'The selected file could not be uploaded -- try again')
+      if (err instanceof ThreatScreeningError) {
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
+      } else if (err instanceof MalwareDetectedError) {
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
+      } else {
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
-      throw err
   }
 }
 
@@ -65,22 +66,13 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
 
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: localLandChargeId
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 

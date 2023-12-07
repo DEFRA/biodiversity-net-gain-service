@@ -1,24 +1,35 @@
 import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { uploadFile } from '../../utils/upload.js'
+import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import path from 'path'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
-function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land ownership data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_PROOF_OF_OWNERSHIP
+const processSuccessfulUpload = (result, request, h) => {
+  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  const location = result.config.blobConfig.blobName
+  const fileName = path.parse(location).base
+  let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
+  if (!id) {
+    id = generateUniqueId()
+    lopFiles.push({
+      fileName,
+      fileLocation: location,
+      fileSize: result.fileSize,
+      fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+      contentMediaType: result.fileType,
+      id
+    })
   }
-  return h.redirect(resultView)
+  logger.log(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 
-function processErrorUpload (err, h) {
+const processErrorUpload = (err, h) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
@@ -44,15 +55,28 @@ function processErrorUpload (err, h) {
         }]
       })
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LAND_OWNERSHIP, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.malwareScanFailed,
+            href: LAND_OWNERSHIP_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
+          err: [{
+            text: constants.uploadErrors.threatDetected,
+            href: LAND_OWNERSHIP_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
+          err: [{
+            text: constants.uploadErrors.uploadFailure,
             href: LAND_OWNERSHIP_ID
           }]
         })
       }
-      throw err
   }
 }
 
@@ -74,22 +98,13 @@ const handlers = {
       fileExt: constants.lanOwnerFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: LAND_OWNERSHIP_ID
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 
@@ -111,7 +126,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumOwnershipProofFileSizeExceeded(h).takeover()
         } else {

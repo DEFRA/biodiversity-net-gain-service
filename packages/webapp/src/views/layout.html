@@ -73,7 +73,7 @@
   {% if not hideSigninNav %}
     {% include "common/signin-nav.html" %}
   {% endif %}
-  
+
   <div class="app-save__wrapper">
     {% if not hideBackLink %}
     <div class="defra-js-show" hidden>
@@ -83,7 +83,7 @@
       }) }}
     </div>
     {% endif %}
-  </div>  
+  </div>
 {% endblock %}
 
 {% block content %}
@@ -100,8 +100,10 @@
   <script src="{{ assetPath }}/all.js"></script>
   <script src="{{ assetPath }}/moj/all.js"></script>
   <script>window.GOVUKFrontend.initAll()
-</script>
-  <script>window.MOJFrontend.initAll()
-</script>
+  </script>
+    <script>window.MOJFrontend.initAll()
+  </script>
   <script src="{{ assetPath }}/js/core.js"></script>
+  {% block pageScripts %}
+  {% endblock %}
 {% endblock %}

@@ -29,25 +29,41 @@ const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
 const SIGNED_OUT = 'signed-out'
 const CONTACT_ID = 'contact-id'
+const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+const BLOB_STORAGE_CONTAINER = 'customer-uploads'
+const AGENT = 'Agent'
+const CITIZEN = 'Citizen'
+const EMPLOYEE = 'Employee'
+const LANDOWNER = 'landowner'
+const REPRESENTATIVE = 'representative'
+const INTERNATIONAL = 'international'
+const UK = 'uk'
 
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION
 }
+
+const ADDRESS_TYPES = {
+  INTERNATIONAL,
+  UK
+}
 const APPLICATION_SUBMITTED = 'application-submitted'
 const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
 
 const confirmFileUploadOptions = {
   NO,
   NO_AGAIN,
   YES
 }
+
 const landBoundaryUploadTypes = {
   GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
@@ -97,7 +113,7 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150001',
     type: 'conservationCovenant',
-    text: 'Conservation covenant',
+    text: LEGAL_AGREEMENT_TYPE_CONSERVATION,
     htmlId: 'conservation-covenant'
   },
   {
@@ -128,19 +144,27 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
   YES
 }
 
+const APPLICANT_IS_AGENT = {
+  NO,
+  YES
+}
+
+const ADDRESS_IS_UK = {
+  NO,
+  YES
+}
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
+  ORGANISATION_ID,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
 let routes = {
-  ...creditsConstants.routes,
-  ...developerConstants.routes,
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
@@ -168,7 +192,10 @@ const uploadErrors = {
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
   threatDetected: 'The selected file contains a virus',
-  unsupportedFileExt: 'Unsupported file extension'
+  malwareScanFailed: 'File malware scan failed',
+  unsupportedFileExt: 'Unsupported file extension',
+  noFileScanResponse: 'Timed out awaiting anti virus scan result',
+  notValidMetric: 'Workbook is not a valid metric'
 }
 
 const threatScreeningStatusValues = {
@@ -209,8 +236,26 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
+const landownerTypes = {
+  ...lojConstants.landownerTypes
+}
+
+const signInTypes = {
+  AGENT,
+  CITIZEN,
+  EMPLOYEE
+}
+
+const applicantTypes = {
+  AGENT: AGENT.toLowerCase(),
+  LANDOWNER,
+  REPRESENTATIVE
+}
+
 export default Object.freeze({
   applicationTypes,
+  applicantTypes,
+  landownerTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -231,6 +276,7 @@ export default Object.freeze({
   uploadTypes,
   DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
   setReferer,
   clearReferer,
@@ -242,5 +288,10 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH
+  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
+  BLOB_STORAGE_CONTAINER,
+  signInTypes,
+  APPLICANT_IS_AGENT,
+  ADDRESS_IS_UK,
+  ADDRESS_TYPES
 })

@@ -1,0 +1,35 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your client's phone number?" %}
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+      <p class="govuk-hint">We will only use this to contact your client about this application. For international numbers include the country code.</p>
+      {{ govukInput({
+        id: "phone",
+        name: "phone",
+        errorMessage: err[0],
+        spellcheck: false,
+        type: "tel",
+        autocomplete: "tel",
+        classes: "govuk-input--width-20",
+        value: phone
+      }) }}
+    
+      {{ govukButton({
+        text: "Save and continue",
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+</div>   
+{% endblock %}

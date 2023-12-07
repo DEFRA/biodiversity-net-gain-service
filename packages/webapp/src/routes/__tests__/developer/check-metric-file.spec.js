@@ -88,10 +88,10 @@ describe(url, () => {
           await checkMetricFile.default[1].handler(request, h)
           expect(viewResult).toEqual(constants.routes.DEVELOPER_UPLOAD_METRIC)
           expect(spy).toHaveBeenCalledWith({
-            containerName: 'untrusted',
+            containerName: 'customer-uploads',
             blobName: mockFileLocation
           })
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {
           done(err)

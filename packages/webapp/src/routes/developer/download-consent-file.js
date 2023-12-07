@@ -7,7 +7,7 @@ const downloadUploadedFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
   const config = {
     blobName,
-    containerName: 'untrusted'
+    containerName: 'customer-uploads'
   }
   const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
   return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))

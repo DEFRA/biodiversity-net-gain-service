@@ -1,0 +1,40 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Add a local planning authority listed on the " + legalAgreementType %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+        <form method="post" >
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="localPlanningAuthority"> Local planning authority </label>
+            <p class="govuk-hint">Start typing, then select a local planning authority.</p>
+            <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
+              <option value=''></option>
+              {% for lpa in lpaNames %}
+                <option>{{ lpa }}</option>
+              {% endfor %}
+            </select> 
+          </div>
+          {{ govukButton({
+            text: "Save and continue",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block pageScripts %}
+  <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
+{% endblock %}

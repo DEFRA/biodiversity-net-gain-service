@@ -15,6 +15,8 @@ export default [{
       } else if (request.query.next) {
         // Cache the requested route for use during redirection processing after signing in.
         request.yar.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, request.query.next)
+      } else {
+        request.yar.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/land')
       }
 
       // Redirect to authUrl

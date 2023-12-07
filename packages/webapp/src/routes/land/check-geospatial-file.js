@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -24,9 +23,6 @@ const handlers = {
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
     let route
-    const uploadedGeospatialLandBoundaryLocation = request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
-    const geoJsonLandBoundaryLocation = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-    const reprojectedGeoJsonLandBoundaryLocation = request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
 
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
@@ -34,9 +30,6 @@ const handlers = {
         break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
-        await deleteBlobFromContainers(geoJsonLandBoundaryLocation)
-        await deleteBlobFromContainers(uploadedGeospatialLandBoundaryLocation)
-        await deleteBlobFromContainers(reprojectedGeoJsonLandBoundaryLocation)
         break
       default:
         return h.view(constants.views.CHECK_GEOSPATIAL_FILE, {

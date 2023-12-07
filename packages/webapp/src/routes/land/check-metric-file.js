@@ -1,13 +1,12 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
+      taskTitle: 'Land information',
       title: 'Add habitat baseline, creation and enhancements'
     }, {
       inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
@@ -19,8 +18,6 @@ const handlers = {
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
     if (checkUploadMetric === 'no') {
-      await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(constants.redisKeys.METRIC_LOCATION)
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)

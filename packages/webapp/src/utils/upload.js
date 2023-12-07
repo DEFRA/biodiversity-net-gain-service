@@ -1,20 +1,20 @@
 import path from 'path'
-import { uploadDocument } from '@defra/bng-document-service'
+import { uploadStreamAndAwaitScan, deleteBlobFromContainers } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
+import { postProcess } from './file-post-process.js'
+import { fileMalwareCheck } from './file-malware-check.js'
 
-const uploadFiles = async (logger, request, config) => {
-  const events = []
-  // Return a promise for processing the multipart request.
-  // This code is inspired by https://stackoverflow.com/questions/50522383/promisifying-multiparty
-  return new Promise((resolve, reject) => {
+const uploadFile = async (logger, request, config) => {
+  // Use multiparty to get file stream
+  const uploadResult = await new Promise((resolve, reject) => {
     const form = new multiparty.Form()
-    const uploadResult = {}
-    form.on('part', function (part) {
+    form.on('part', async function (part) {
       try {
+        const uploadResult = {}
         // Send this part of the multipart request for processing
-        handlePart(logger, part, config, uploadResult)
-        events.push(`Processed ${part.filename}`)
+        await handlePart(logger, part, config, uploadResult)
+        resolve(uploadResult)
       } catch (err) {
         reject(err)
       }
@@ -23,39 +23,45 @@ const uploadFiles = async (logger, request, config) => {
       reject(err)
     })
     form.on('close', async function () {
-      if (uploadResult.errorMessage) {
-        reject(new Error(uploadResult.errorMessage))
-      } else {
-        try {
-          // Resolve the promise when all parts of the upload have been processed.
-          const eventData = await config.functionConfig.handleEventsFunction(config, events)
-          resolve(Object.assign(uploadResult, eventData))
-        } catch (err) {
-          reject(err)
-        }
-      }
+      // Do nothing as we need to await the upload of the file
     })
     form.parse(request.raw.req)
   })
+
+  if (uploadResult.errorMessage) {
+    throw new Error(uploadResult.errorMessage)
+  }
+
+  // Check tags returned for Malware scanning here
+  fileMalwareCheck(uploadResult.tags)
+
+  // Send file for post Processing
+  if (uploadResult.config.postProcess) {
+    try {
+      uploadResult.postProcess = await postProcess(uploadResult.config.uploadType, uploadResult.config.blobConfig.blobName, uploadResult.config.blobConfig.containerName)
+
+      if (uploadResult.postProcess.errorMessage) {
+        await deleteBlobFromContainers(uploadResult.config.blobConfig.blobName)
+        throw new Error(uploadResult.postProcess.errorMessage)
+      }
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} File failed post processing: ${uploadResult.config.blobConfig.blobName}`)
+      throw err
+    }
+  }
+
+  return uploadResult
 }
 
-const createUploadConfiguration = config => {
-  // Clone the original configuration and retain the configured function used to perform the upload.
-  const uploadConfig = JSON.parse(JSON.stringify(config))
-  uploadConfig.functionConfig.uploadFunction = config.functionConfig.uploadFunction
-  // Delete all configuration that does not need to be passed to the configured functions.
-  // delete uploadConfig.viewConfig
-  return uploadConfig
-}
-
-const handlePart = (logger, part, config, uploadResult) => {
+const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
+  const filename = part.filename
   // Delay throwing errors until the form is closed.
-  if (!part.filename) {
+  if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
-  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(part.filename.toLowerCase()))) {
+  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
   } else if (fileSize * 100 === 0) {
@@ -65,17 +71,17 @@ const handlePart = (logger, part, config, uploadResult) => {
     uploadResult.errorMessage = constants.uploadErrors.maximumFileSizeExceeded
     part.resume()
   } else {
-    logger.log(`${new Date().toUTCString()} Uploading ${part.filename}`)
+    logger.log(`${new Date().toUTCString()} Uploading ${filename}`)
     uploadResult.fileSize = fileSizeInBytes
-    if (part.filename) {
-      uploadResult.filename = part.filename
-    }
-    if (part.headers['content-type']) {
-      uploadResult.fileType = part.headers['content-type']
-    }
-    const uploadConfig = createUploadConfiguration(config)
-    uploadDocument(logger, uploadConfig, part)
+    uploadResult.filename = filename
+    uploadResult.fileType = part.headers['content-type']
+
+    const uploadConfig = JSON.parse(JSON.stringify(config))
+    uploadConfig.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
+    const tags = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
+    uploadResult.tags = tags
+    uploadResult.config = uploadConfig
   }
 }
 
-export { uploadFiles }
+export { uploadFile }

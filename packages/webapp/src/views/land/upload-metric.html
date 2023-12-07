@@ -2,8 +2,8 @@
 
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-
-{% set pageHeading = "Upload the Biodiversity Metric 4.0 calculations for the biodiversity gain site" %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% set pageHeading = "Upload the statutory biodiversity metric calculations for the biodiversity gain site" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -15,9 +15,7 @@
         <h1 class="govuk-heading-l">
           {{ pageHeading }}
         </h1>
-
         <div id="location-upload-hint">
-          <p>You only need to include the baseline and proposed habitat data for the biodiversity gain site.</p>
           <p>The file should be:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>an XLSM or XLSX</li>
@@ -33,9 +31,22 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-          <p class="govuk-!-padding-top-3">
-            <a href="/land/need-metric">I do not have a Biodiversity Metric 4.0. file</a>
-          </p>
+
+          {{ govukDetails({
+            summaryText: "What to do if you have no biodiversity metric calculations",
+            text: ("
+            <p>You need to upload completed statutory biodiversity metric calculations for the 
+            biodiversity gain site you want to register.</p>
+            <p>You can <a href='https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development'>find out more about completing biodiversity metric calculations</a> on GOV.UK.</p>
+            <h2 class='govuk-heading-m'>Contact the Biodiversity Net Gain team if you need help</h2>
+            <p>Telephone: 0190 050 8628</p>
+            <p>Monday to Friday, 8:30am to 5pm (except public holidays)</p>
+            <p>
+              <a class='govuk-link' href='https://www.gov.uk/call-charges'>Find out about call charges</a>
+            </p>
+            ") | safe
+          }) }}
+
           {{ govukButton({
             text: "Upload",
             attributes: {

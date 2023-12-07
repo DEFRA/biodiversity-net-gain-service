@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% set hideBackLink = true %}
 {% set pageHeading = "Manage biodiversity gains" %}
 {% block content %}
   <div class="govuk-width-container">
@@ -9,9 +10,10 @@
           <ul class="govuk-list">
             <li><b>{{ auth.firstName }} {{ auth.lastName }}</b></li>
             <li>{{ auth.email }}</li>
+            <li>Representing: {{ representing }}</li>
           </ul>
           <p class="govuk-body">
-            <a href="{{ auth.accountManagementUrl | safe }}">Update Defra account details</a>
+            <a href="{{ auth.accountManagementUrl }}" target="__blank" rel="noreferrer noopener">Update Defra account details</a>
           </p>
           <hr class="app-divider">
           <div class="flex-container">
@@ -25,6 +27,7 @@
                 <li>continue a saved registration</li>
               </ul>
             </div>
+            {% if enableDev  %}
             <div class="dashboard-panel">
               <h2 class="govuk-heading-m govuk-!-padding-top-4">
                 <a href="/developer/development-projects">Development projects</a>
@@ -35,6 +38,7 @@
                 <li>continue a saved record</li>
               </ul>
             </div>
+             {% endif %}
           </div>
         </div>
       </div>

@@ -2,35 +2,34 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
 async function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION, true))
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
+  logger.log(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
 
-    // Clear out any geospatial data and files
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_NAME)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
-    request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
-    request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
-    request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-  }
-  return resultView
+  // Clear out any geospatial data and files
+  request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_NAME)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_FILE_TYPE)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_HECTARES)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION))
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION))
+  request.yar.clear(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION)
+  request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
+  request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+
+  return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
 }
 
 function processErrorUpload (err, h) {
@@ -59,15 +58,28 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_LAND_BOUNDARY, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.malwareScanFailed,
+            href: LAND_BOUNDARY_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+          err: [{
+            text: constants.uploadErrors.threatDetected,
+            href: LAND_BOUNDARY_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+          err: [{
+            text: constants.uploadErrors.uploadFailure,
             href: LAND_BOUNDARY_ID
           }]
         })
       }
-      throw err
   }
 }
 
@@ -89,22 +101,13 @@ const handlers = {
       fileExt: constants.landBoundaryFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      logger.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: LAND_BOUNDARY_ID
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 
@@ -126,7 +129,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        logger.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {

@@ -1,22 +1,17 @@
-import buildSignalRMessage from '../../Shared/build-signalr-message.js'
 import bngMetricService from '@defra/bng-metric-service'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import processMetric from '../../Shared/process-metric.js'
 
 export default async function (context, config) {
-  let signalRMessageArguments, metricData
+  let metricData
   try {
-    const blobConfig = {
-      blobName: config.fileConfig.fileLocation,
-      containerName: config.containerName
-    }
-    const response = await blobStorageConnector.downloadStreamIfExists(context, blobConfig)
+    const response = await blobStorageConnector.downloadStreamIfExists(context, config)
     if (response) {
       const documentStream = response.readableStreamBody
       const metricExtractionConfig = {
         extractionConfiguration: {
           start: bngMetricService.extractionConfiguration.startExtractionConfig,
-          ...bngMetricService.extractionConfiguration['v4.0']
+          ...bngMetricService.extractionConfiguration['v4.1']
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }
@@ -25,14 +20,13 @@ export default async function (context, config) {
       throw new Error('Unable to retrieve blob')
     }
 
-    signalRMessageArguments = [{
-      location: config.fileConfig.fileLocation,
+    return {
       metricData: processMetric(metricData)
-    }]
+    }
   } catch (err) {
     context.log.error(err)
-    signalRMessageArguments = [{ errorCode: err.code }]
-  } finally {
-    context.bindings.signalRMessages = [buildSignalRMessage(config.signalRMessageConfig, signalRMessageArguments)]
+    return {
+      errorMessage: err.message
+    }
   }
 }

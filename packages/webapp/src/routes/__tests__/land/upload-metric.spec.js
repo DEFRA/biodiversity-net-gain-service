@@ -1,17 +1,13 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
-import { clearQueues, recreateContainers, recreateQueues } from '@defra/bng-azure-storage-test-utils'
+import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.UPLOAD_METRIC
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
-jest.mock('../../../utils/azure-signalr.js')
 
 describe('Metric file upload controller tests', () => {
-  beforeAll(async () => {
-    await recreateQueues()
-  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -19,41 +15,38 @@ describe('Metric file upload controller tests', () => {
   })
 
   describe('POST', () => {
-    const mockMetric = [
-      {
-        location: 'mockUserId/mockUploadType/mockFilename',
+    const getBaseConfig = () => ({
+      uploadType: 'metric-upload',
+      url,
+      formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
+      postProcess: {
         metricData: {
           validation: {
-            isVersion4OrLater: true,
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: true
           }
         }
-      }
-    ]
-    const baseConfig = {
-      uploadType: 'metric-upload',
-      url,
-      formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-      eventData: mockMetric,
+      },
       sessionData: {}
-    }
+    })
 
     beforeEach(async () => {
       await recreateContainers()
-      await clearQueues()
     })
 
     it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = false
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.0.xlsm`
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
           await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -66,7 +59,7 @@ describe('Metric file upload controller tests', () => {
     it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -81,7 +74,7 @@ describe('Metric file upload controller tests', () => {
     it('should not upload unsupported metric file', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
           await uploadFile(uploadConfig)
@@ -97,7 +90,7 @@ describe('Metric file upload controller tests', () => {
     it('should not upload no selected file metric', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -112,7 +105,7 @@ describe('Metric file upload controller tests', () => {
     it('should not upload empty metric file', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
           await uploadFile(uploadConfig)
@@ -128,7 +121,7 @@ describe('Metric file upload controller tests', () => {
     it('should not upload metric file more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
           await uploadFile(uploadConfig)
@@ -145,7 +138,7 @@ describe('Metric file upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           process.env.MAX_METRIC_UPLOAD_MB = 49
-          const uploadConfig = Object.assign({}, baseConfig)
+          const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
           const res = await uploadFile(uploadConfig)
@@ -163,11 +156,32 @@ describe('Metric file upload controller tests', () => {
     it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {
-          const config = Object.assign({}, baseConfig)
+          const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
           await uploadFile(config)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return error if valid spreadsheet is not a valid metric', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const config = getBaseConfig()
+          config.filePath = `${mockDataPath}/not-metric-file.xlsx`
+          config.hasError = true
+          config.postProcess.errorMessage = constants.uploadErrors.notValidMetric
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file is not a valid Metric')
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -182,17 +196,17 @@ describe('Metric file upload controller tests', () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-          const config = Object.assign({}, baseConfig)
+          const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
-            isVersion4OrLater: false,
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: false,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.0')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
@@ -207,17 +221,17 @@ describe('Metric file upload controller tests', () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-          const config = Object.assign({}, baseConfig)
+          const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
@@ -232,17 +246,18 @@ describe('Metric file upload controller tests', () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
           const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-          const config = Object.assign({}, baseConfig)
+          const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
-          config.eventData[0].metricData.validation = {
-            isVersion4OrLater: true,
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
+
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
@@ -255,12 +270,13 @@ describe('Metric file upload controller tests', () => {
     it('should cause an internal server error response when upload processing fails', (done) => {
       jest.isolateModules(async () => {
         try {
-          const config = Object.assign({ uploadType: null }, baseConfig)
+          const config = getBaseConfig()
+          config.uploadType = null
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })

@@ -1,8 +1,13 @@
 import Cookie from '@hapi/cookie'
 import authentication from '../utils/auth.js'
+import authMock from '../utils/auth-mock.js'
 import { DEFRA_ID, COOKIE_IS_SECURE } from '../utils/config.js'
 
 const strategy = 'session-auth'
+
+if (DEFRA_ID.DEFRA_ID_MOCK) {
+  authMock(authentication)
+}
 
 const auth = {
   name: 'auth',

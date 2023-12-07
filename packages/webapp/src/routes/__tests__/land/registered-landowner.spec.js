@@ -20,7 +20,7 @@ describe(url, () => {
     it('Should continue journey to yes selection made', async () => {
       postOptions.payload.landownerOnly = 'true'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.CHECK_OWNERSHIP_DETAILS)
+      expect(res.headers.location).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     })
     it('Should continue journey to no selection made', async () => {
       postOptions.payload.landownerOnly = 'false'

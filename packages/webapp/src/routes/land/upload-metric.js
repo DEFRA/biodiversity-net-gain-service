@@ -2,31 +2,35 @@ import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
-import { uploadFiles } from '../../utils/upload.js'
+import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
+import { MalwareDetectedError, ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
-async function processSuccessfulUpload (result, request, h) {
-  let resultView = constants.views.INTERNAL_SERVER_ERROR
-  if (result[0].errorMessage === undefined) {
-    const validationError = getMetricFileValidationErrors(result[0].metricData?.validation)
-    if (validationError) {
-      await deleteBlobFromContainers(result[0].location)
-      return h.view(constants.views.UPLOAD_METRIC, validationError)
-    }
-    request.yar.set(constants.redisKeys.METRIC_LOCATION, result[0].location)
-    request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
-    request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
-    request.yar.set(constants.redisKeys.METRIC_DATA, result[0].metricData)
-    logger.log(`${new Date().toUTCString()} Received metric data for ${result[0].location.substring(result[0].location.lastIndexOf('/') + 1)}`)
-    resultView = constants.routes.CHECK_UPLOAD_METRIC
+const processSuccessfulUpload = async (result, request, h) => {
+  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
+  if (validationError) {
+    await deleteBlobFromContainers(result.config.blobConfig.blobName)
+    return h.view(constants.views.UPLOAD_METRIC, validationError)
   }
-  return h.redirect(resultView)
+  request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
+  return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
 }
 
-function processErrorUpload (err, h) {
+const processErrorUpload = (err, h) => {
   switch (err.message) {
+    case constants.uploadErrors.notValidMetric:
+      return h.view(constants.views.UPLOAD_METRIC, {
+        err: [{
+          text: 'The selected file is not a valid Metric',
+          href: UPLOAD_METRIC_ID
+        }]
+      })
     case constants.uploadErrors.emptyFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
@@ -37,7 +41,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
-          text: 'Select a Biodiversity Metric',
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })
@@ -51,22 +55,35 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
-      if (err.message.indexOf('timed out') > 0) {
-        return h.redirect(constants.views.UPLOAD_METRIC, {
+      if (err instanceof ThreatScreeningError) {
+        return h.view(constants.views.UPLOAD_METRIC, {
           err: [{
-            text: 'The selected file could not be uploaded -- try again',
+            text: constants.uploadErrors.malwareScanFailed,
+            href: UPLOAD_METRIC_ID
+          }]
+        })
+      } else if (err instanceof MalwareDetectedError) {
+        return h.view(constants.views.UPLOAD_METRIC, {
+          err: [{
+            text: constants.uploadErrors.threatDetected,
+            href: UPLOAD_METRIC_ID
+          }]
+        })
+      } else {
+        return h.view(constants.views.UPLOAD_METRIC, {
+          err: [{
+            text: constants.uploadErrors.uploadFailure,
             href: UPLOAD_METRIC_ID
           }]
         })
       }
-      throw err
   }
 }
 
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
-      taskTitle: 'Habitat information',
+      taskTitle: 'Land information',
       title: 'Add habitat baseline, creation and enhancements'
     }, {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
@@ -79,24 +96,16 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
-      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
+      postProcess: true
     })
-    return uploadFiles(logger, request, config).then(
-      function (result) {
-        return processSuccessfulUpload(result, request, h)
-      },
-      function (err) {
-        return processErrorUpload(err, h)
-      }
-    ).catch(err => {
-      console.log(`Problem uploading file ${err}`)
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file could not be uploaded -- try again',
-          href: UPLOAD_METRIC_ID
-        }]
-      })
-    })
+    try {
+      const result = await uploadFile(logger, request, config)
+      return await processSuccessfulUpload(result, request, h)
+    } catch (err) {
+      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      return processErrorUpload(err, h)
+    }
   }
 }
 
@@ -118,7 +127,7 @@ export default [{
       multipart: true,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
+        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {

@@ -1,11 +1,14 @@
 import moment from 'moment'
+import path from 'path'
+import crypto from 'crypto'
+import Joi from 'joi'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-
 const isoDateFormat = 'YYYY-MM-DD'
+const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
   const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
@@ -18,7 +21,7 @@ const parsePayload = (payload, ID) => {
   }
 }
 
-const validateDate = (payload, ID, desc) => {
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
@@ -30,28 +33,39 @@ const validateDate = (payload, ID, desc) => {
     }]
   } else if (!day) {
     context.err = [{
-      text: 'Start date must include a day',
+      text: `${fieldType} must include a day`,
       href: `#${ID}-day`,
       dayError: true
     }]
   } else if (!month) {
     context.err = [{
-      text: 'Start date must include a month',
+      text: `${fieldType} must include a month`,
       href: `#${ID}-month`,
       monthError: true
     }]
   } else if (!year) {
     context.err = [{
-      text: 'Start date must include a year',
+      text: `${fieldType} must include a year`,
       href: `#${ID}-year`,
       yearError: true
     }]
   } else if (!date.isValid()) {
     context.err = [{
-      text: 'Start date must be a real date',
+      text: `${fieldType} must be a real date`,
       href: `#${ID}-day`,
       dateError: true
     }]
+  } else if (checkFuture === true) {
+    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
+    const format = 'DD/MM/YYYY, HH:mm:ss'
+    const currentMomentInBritish = moment(dateString, format)
+    if (date.isAfter(currentMomentInBritish)) {
+      context.err = [{
+        text: `${fieldType} cannot be in the future`,
+        href: `#${ID}-day`,
+        dateError: true
+      }]
+    }
   }
   const dateAsISOString = !context.err && date.toISOString()
   return {
@@ -63,10 +77,10 @@ const validateDate = (payload, ID, desc) => {
   }
 }
 
-const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
+const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
   if (isDate1LessThanDate2(dateAsISOString, minDateISOString)) {
     return [{
-      text: `Start date must be after ${formatDateBefore(minDateISOString)}`,
+      text: `${fieldType} must be after ${formatDateBefore(minDateISOString)}`,
       href: `#${ID}-day`,
       dateError: true
     }]
@@ -74,7 +88,17 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString) => {
     return undefined
   }
 }
+const getLegalAgreementFileNames = (legalAgreementFiles) => {
+  if (!legalAgreementFiles) return ''
+  const filenames = legalAgreementFiles.map(file => getFileName(file.location))
+  return filenames.join('<br>')
+}
 
+const getLocalPlanningAuthorities = lpas => {
+  if (!lpas) return ''
+  return lpas.join('<br>')
+}
+const getFileName = fileLocation => fileLocation ? path.parse(fileLocation).base : ''
 const dateClasses = (localError, dateError, classes) => (localError || dateError) ? `${classes} govuk-input--error` : classes
 
 const isDate1LessThanDate2 = (isoString1, isoString2) => {
@@ -181,6 +205,42 @@ const getNameAndRoles = legalAgreementParties => {
   })
   return partySelectionContent
 }
+const getDateString = (dateValue, type) => {
+  let status = 'Not started yet'
+  if (type === 'end date') {
+    status = 'No end date'
+  }
+  const returnDateValue = dateValue ? dateToString(dateValue) : status
+  return returnDateValue
+}
+const getResponsibleBodies = responsibleBodies => {
+  const responsibleBodiesParsed = JSON.parse(JSON.stringify(responsibleBodies)) || []
+  const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join('<br>')
+  return responsibleBodiesOutput
+}
+const validateIdGetSchemaOptional = {
+  validate: {
+    query: Joi.object({
+      id: Joi.string().alphanum().min(1).allow(null).optional()
+    })
+  }
+}
+const getLandowners = landOwners => {
+  const organisationNames = []
+  const individualNames = []
+
+  landOwners.forEach(item => {
+    if (item.type === 'organisation') {
+      organisationNames.push(item.organisationName)
+    } else if (item.type === 'individual') {
+      const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
+      individualNames.push(nameParts.join(' '))
+    }
+  })
+
+  const result = [...organisationNames, ...individualNames].join('<br>')
+  return result
+}
 const validateEmail = (emailAddress, ID) => {
   const error = {}
   if (!emailAddress) {
@@ -224,6 +284,10 @@ const getLegalAgreementParties = legalAgreementParties => {
     }
   })
 }
+const generateUniqueId = () => {
+  return crypto.randomBytes(16).toString('hex')
+}
+
 // Nunjucks template function
 const checked = (selectedVal, val) => selectedVal === val
 
@@ -328,6 +392,98 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
+const validateFirstLastName = (name, text, hrefId) => {
+  const error = {}
+  if (!name) {
+    error.err = [{
+      text: `Enter the ${text} of the landowner or leaseholder`,
+      href: hrefId
+    }]
+  } else if (name.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
+const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
+  const error = {}
+  const fieldTypeLower = fieldType.toLowerCase()
+
+  if (!text) {
+    error.err = [{
+      text: `Enter the ${fieldTypeLower} of the ${target}`,
+      href: hrefId
+    }]
+  } else if (maxLength !== null && text.length > maxLength) {
+    error.err = [{
+      text: `${fieldType} must be ${maxLength} characters or fewer`,
+      href: hrefId
+    }]
+  }
+
+  return error.err ? error : null
+}
+/**
+ * Checks for duplicate objects in an array based on concatenated properties.
+ *
+ * @param {Array} array - The array of objects to be checked.
+ * @param {Array} properties - The properties of the objects to be concatenated for checking.
+ * @param {Object} targetObject - The object whose concatenated properties are to be checked against the array.
+ * @param {String} hrefId - The href ID to be used in the error object.
+ * @param {String} errorMessage - The error message to be used in the error object.
+ * @param {Number|null} excludedIndex - The index in the array to be excluded from duplicate checking.
+ * @returns {Object|null} An error object if a duplicate is found, otherwise null.
+ */
+const checkForDuplicate = (array, property, value, hrefId, errorMessage, excludeIndex) => {
+  const duplicate = array.some((item, index) => {
+    if (typeof item === 'object' && item !== null && property in item) {
+      return index !== excludeIndex && item[property] && item[property].toLowerCase() === value.toLowerCase()
+    } else if (typeof item === 'string') {
+      return index !== excludeIndex && item.toLowerCase() === value.toLowerCase()
+    }
+    return false
+  })
+  if (duplicate) {
+    return {
+      err: {
+        text: errorMessage,
+        href: hrefId
+      }
+    }
+  }
+  return null
+}
+/**
+ * Checks for duplicates in an array based on concatenated property values of the objects.
+ *
+ * @param {Array} array - Array of objects to check for duplicates.
+ * @param {Array} properties - List of properties whose values are concatenated and compared for duplicates.
+ * @param {Object} targetObject - Object whose properties are compared against the array.
+ * @param {String} hrefId - ID used for creating a reference link in the error message.
+ * @param {String} errorMessage - Error message to be returned if a duplicate is found.
+ * @param {Number|null} excludedIndex - Index in the array to exclude from duplicate checking.
+ * @returns {Object|null} Returns an error object if a duplicate is found, otherwise null.
+ */
+const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex) => {
+  const targetValue = properties.map(prop => targetObject[prop].toLowerCase()).join(' ').trim()
+  const error = {}
+  const duplicate = array.some((item, index) => {
+    if (excludedIndex !== null && index === excludedIndex) return false
+    const itemValue = properties.map(prop => item[prop]?.toLowerCase()).join(' ').trim()
+    return itemValue === targetValue
+  })
+  if (duplicate) {
+    error.err = {
+      text: errorMessage,
+      href: hrefId
+    }
+    return error
+  }
+  return null
+}
 const validateBNGNumber = (bngNumber, hrefId) => {
   const error = {}
   if (!bngNumber.trim()) {
@@ -432,7 +588,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href) => {
+const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
   const error = {
     err: [
       {
@@ -441,8 +597,10 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
       }
     ]
   }
-  if (!metricValidation.isVersion4OrLater) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.0'
+  if (!metricValidation.isSupportedVersion) {
+    error.err[0].text = useStatutoryMetric
+      ? 'The selected file must use the statutory biodiversity metric'
+      : 'The selected file must use Biodiversity Metric version 4.1'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
@@ -463,6 +621,65 @@ const areDeveloperDetailsPresent = session => (
   session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
 )
 
+const buildFullName = (item) => {
+  return item.value.middleName
+    ? item.value.firstName.concat(' ', item.value.middleName, ' ' + item.value.lastName)
+    : item.value.firstName.concat(' ' + item.value.lastName)
+}
+
+const isValidPostcode = (postcode) => {
+  return postcodeRegExp.test(postcode)
+}
+
+const validateAddress = (address, isUkAddress) => {
+  const errors = {}
+  if (!address.addressLine1 || address.addressLine1.length === 0) {
+    errors.addressLine1Error = {
+      text: 'Enter address line 1',
+      href: '#addressLine1'
+    }
+  }
+  if (!address.town || address.town.length === 0) {
+    errors.townError = {
+      text: 'Enter town or city',
+      href: '#town'
+    }
+  }
+  if (isUkAddress) {
+    if (!address.postcode || address.postcode.length === 0) {
+      errors.postcodeError = {
+        text: 'Enter postcode',
+        href: '#postcode'
+      }
+    } else if (!isValidPostcode(address.postcode)) {
+      errors.postcodeError = {
+        text: 'Enter a full UK postcode',
+        href: '#postcode'
+      }
+    }
+  }
+  if (!isUkAddress) {
+    if (!address.country || address.country.length === 0) {
+      errors.countryError = {
+        text: 'Enter country',
+        href: '#country'
+      }
+    }
+  }
+  return Object.keys(errors).length > 0 ? errors : null
+}
+
+const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
+  if (isApplicantAgent === 'no') {
+    return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
+  }
+  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+  } else {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -475,20 +692,32 @@ export {
   validateEmail,
   getNameAndRoles,
   getAllLandowners,
+  checkForDuplicate,
+  checkForDuplicateConcatenated,
+  getResponsibleBodies,
+  getLandowners,
   getLegalAgreementDocumentType,
   getLegalAgreementParties,
   checked,
   getEligibilityResults,
   formatSortCode,
+  generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,
+  validateTextInput,
   formatDateBefore,
   getMinDateCheckError,
+  getLegalAgreementFileNames,
+  getLocalPlanningAuthorities,
+  getFileName,
   validateName,
+  validateFirstLastName,
   emailValidator,
+  getDateString,
   getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
@@ -498,5 +727,9 @@ export {
   getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails
+  checkDeveloperDetails,
+  buildFullName,
+  isValidPostcode,
+  redirectAddress,
+  validateAddress
 }
