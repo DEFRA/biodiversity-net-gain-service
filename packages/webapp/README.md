@@ -44,6 +44,9 @@ warning: other service dependencies will be missing, install and run from root o
 | DISABLED_ROUTES | Used to enable/disable features and routes in form of string with semicolon | N |
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_REGISTRATION_JOURNEY | Feature flag to enable landowner/registration journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY | Feature flag to enable developer/allocation journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY | Feature flag to enable credit estimation journey | Y |
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.

@@ -1,5 +1,3 @@
-const PUBLIC_ROUTES = 'public-routes'
-const START = 'start'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
@@ -77,9 +75,6 @@ const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
 const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
-const ERROR = 'error'
-const HOME = 'home'
-const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
@@ -315,7 +310,6 @@ export default {
   routes: {
     ADD_GRID_REFERENCE,
     ADD_HECTARES,
-    ERROR,
     CHECK_LEGAL_AGREEMENT,
     CHECK_LEGAL_AGREEMENT_FILES,
     ADD_LEGAL_AGREEMENT_PARTIES,
@@ -352,8 +346,6 @@ export default {
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
     OS_API_TOKEN,
-    PUBLIC_ROUTES,
-    START,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
@@ -362,7 +354,6 @@ export default {
     UPLOAD_LAND_BOUNDARY,
     CHECK_LAND_BOUNDARY_DETAILS,
     UPLOAD_LAND_OWNERSHIP,
-    HOME,
     ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
     ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
@@ -379,7 +370,6 @@ export default {
     CHECK_HABITAT_BASELINE,
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
-    COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,

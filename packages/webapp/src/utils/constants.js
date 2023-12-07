@@ -2,7 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsConstants from '../credits/constants.js'
-import disabledRoutesContants from './disabled-routes-constants.js'
+import enabledRoutesContants from './enabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -24,6 +24,11 @@ const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const TEST_SEED_DATA = 'test/seed-data'
+const PUBLIC_ROUTES = 'public-routes'
+const START = 'start'
+const ERROR = 'error'
+const HOME = 'home'
+const COOKIES = 'cookies'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -165,7 +170,11 @@ const redisKeys = {
 }
 
 let routes = {
-  ...lojConstants.routes,
+  PUBLIC_ROUTES,
+  HOME,
+  START,
+  ERROR,
+  COOKIES,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
   SIGNIN_CALLBACK,
@@ -184,7 +193,7 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
   routes = { ...routes, ...testRoutes }
 }
 
-routes = { ...routes, ...disabledRoutesContants }
+routes = { ...routes, ...enabledRoutesContants }
 
 const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',
