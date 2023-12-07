@@ -94,7 +94,7 @@ describe('Get Applications', () => {
         await getApplicationsByContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -109,7 +109,7 @@ describe('Get Applications', () => {
         await getApplicationsByContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -124,7 +124,7 @@ describe('Get Applications', () => {
         await getApplicationsByContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
