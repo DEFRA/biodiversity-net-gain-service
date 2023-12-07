@@ -2,6 +2,8 @@ import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
+import * as uploadSchemeOfWorks from '../../land/upload-scheme-of-works.js'
+
 const SCHEME_OF_WORKS_FORM_ELEMENT_NAME = 'uploadSchemeOfWorks'
 const url = constants.routes.UPLOAD_SCHEME_OF_WORKS
 
@@ -177,6 +179,25 @@ describe('Scheme of works upload controller tests', () => {
           done(err)
         }
       })
+    })
+
+    it('should show error message when file could not be uploaded', async () => {
+      let resultContext
+
+      const h = {
+        view: (view, context) => {
+          resultContext = context
+        }
+      }
+
+      const redisMap = new Map()
+      const request = {
+        yar: redisMap
+      }
+
+      await uploadSchemeOfWorks.default[1].handler(request, h)
+
+      expect(resultContext.err[0].text).toEqual('The selected file could not be uploaded -- try again')
     })
   })
 })
