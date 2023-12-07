@@ -1,0 +1,18 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "You cannot view this application" %}
+
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    {% if organisationIdError %}
+      <p>You'll need to <a href="/sigin?reselect=true">choose to represent the individual or organisation associated with this application</a> in your Defra account.</p>
+    {% else %}
+      <p>If you're trying to access an application you started, you'll need to <a href="/signout">sign into your Defra account</a> to view it. </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

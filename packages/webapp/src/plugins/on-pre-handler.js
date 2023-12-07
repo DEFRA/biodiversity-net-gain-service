@@ -1,21 +1,33 @@
 import constants from '../utils/constants.js'
+// import getOrganisationDetails from '../utils/get-organisation-details.js'
 
 const onPostAuthHandler = {
   plugin: {
     name: 'on-pre-handler',
     register: (server, _options) => {
       server.ext('onPreHandler', async function (request, h) {
-        // Do not allow users to change the application type part way through a journey without using the dashboards.
-        const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
-        if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
-            isBlockedCreditsEstimationRouteOnLandownerJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
-        } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
-                   isBlockedCreditsEstimationRouteOnDeveloperJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
-        } else {
-          return h.continue
+        // Ignore public asset requests
+        if (!request.path.includes('/public/')) {
+          // if (request.auth?.credentials && Object.keys(request.yar._store).length > 0) {
+          //   // Ensure login matches session
+          //   const { contactId } = request.auth.credentials.account.idTokenClaims
+          //   const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+          //   const sessionOrganisationId = request.yar.get(constants.redisKeys.ORGANISATION_ID) || undefined
+          //   if (contactId !== request.yar.get(constants.redisKeys.CONTACT_ID) || organisationId !== sessionOrganisationId) {
+          //     h.redirect(constants.routes.CANNOT_VIEW_APPLICATION).takeover()
+          //   }
+          // }
+          // Do not allow users to change the application type part way through a journey without using the dashboards.
+          const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+          if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
+              isBlockedCreditsEstimationRouteOnLandownerJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
+          } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
+                    isBlockedCreditsEstimationRouteOnDeveloperJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
+          }
         }
+        return h.continue
       })
     }
   }

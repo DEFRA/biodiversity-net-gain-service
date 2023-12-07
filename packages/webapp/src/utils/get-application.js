@@ -2,7 +2,7 @@ import constants from './constants.js'
 import { postJson } from './http.js'
 import Boom from '@hapi/boom'
 import saveApplicationSessionIfNeeded from './save-application-session-if-needed.js'
-import getApplicantContext from './get-applicant-context.js'
+import getOrganisationDetails from './get-organisation-details.js'
 
 const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
@@ -11,13 +11,13 @@ const getRegistration = async (request, h) => getApplication(request, h, constan
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
     // Get session for values
-    const { organisationId } = getApplicantContext(request.auth.credentials.account, request.yar)
-    const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
-      applicationReference: request.params.path,
-      contactId: request.auth.credentials.account.idTokenClaims.contactId,
+    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    const session = await getSession(
+      request.params.path,
+      request.auth.credentials.account.idTokenClaims.contactId,
       organisationId,
       applicationType
-    })
+    )
 
     if (Object.keys(session).length === 0) {
       return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
@@ -36,13 +36,18 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-const getApplicationSession = async (request, applicationReference, contactId, applicationType) => {
-  const session = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
+const getApplicationSession = async (request, applicationReference, contactId, organisationId, applicationType) => {
+  const session = await getSession(applicationReference, contactId, organisationId, applicationType)
+  request.yar.set(session)
+}
+
+const getSession = (applicationReference, contactId, organisationId, applicationType) => {
+  return postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
     applicationReference,
     contactId,
+    organisationId,
     applicationType
   })
-  request.yar.set(session)
 }
 
 export { getDevelopmentProject, getRegistration, getApplicationSession }

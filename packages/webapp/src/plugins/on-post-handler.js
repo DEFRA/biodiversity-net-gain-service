@@ -1,5 +1,6 @@
 import constants from '../utils/constants.js'
 import getApplicantContext from '../utils/get-applicant-context.js'
+import getOrganisationDetails from '../utils/get-organisation-details.js'
 import { logger } from 'defra-logging-facade'
 
 const onPostHandler = {
@@ -126,7 +127,7 @@ const cacheContactIdIfNeeded = request => {
 
 const cacheOrganisationIdIfNeeded = request => {
   if (!request.yar.get(constants.redisKeys.ORGANISATION_ID)) {
-    const { organisationId } = getApplicantContext(request.auth.credentials.account, request.yar)
+    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
   }
 }
