@@ -20,7 +20,6 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_CHECKED, 'yes')
-    redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_LOCATION, null)
   })
 
   describe('GET', () => {
@@ -29,6 +28,8 @@ describe(url, () => {
     })
 
     it('should handle when file location is null', async () => {
+      redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_LOCATION, null)
+
       const request = {
         yar: redisMap
       }
@@ -36,6 +37,18 @@ describe(url, () => {
       await checkSchemeOfWorks.default[0].handler(request, h)
 
       expect(resultContext.filename).toEqual('')
+    })
+
+    it('should set context with correct file location', async () => {
+      redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_LOCATION, '/test/location')
+
+      const request = {
+        yar: redisMap
+      }
+
+      await checkSchemeOfWorks.default[0].handler(request, h)
+
+      expect(resultContext.fileLocation).toEqual('/test/location')
     })
   })
 
