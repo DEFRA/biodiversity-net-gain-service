@@ -169,12 +169,18 @@ const redisKeys = {
   SAVE_APPLICATION_SESSION_ON_SIGNOUT
 }
 
-let routes = {
+const publicRoutes = {
   PUBLIC_ROUTES,
-  HOME,
-  START,
   ERROR,
-  COOKIES,
+  COOKIES
+}
+
+const startRoutes = {
+  HOME,
+  START
+}
+
+const authenticatedRoutes = {
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
   SIGNIN_CALLBACK,
@@ -189,11 +195,13 @@ const testRoutes = {
   TEST_DEVELOPER_SEED_DATA
 }
 
-if (NODE_ENV === 'development' || NODE_ENV === 'test') {
-  routes = { ...routes, ...testRoutes }
+const routes = {
+  ...publicRoutes,
+  ...enabledRoutesContants,
+  ...(process.env.DISABLE_START_ROUTES === 'Y' ? {} : startRoutes),
+  ...(process.env.DISABLE_AUTHENTICATED_ROUTES === 'Y' ? {} : authenticatedRoutes),
+  ...((NODE_ENV === 'development' || NODE_ENV === 'test') ? testRoutes : {})
 }
-
-routes = { ...routes, ...enabledRoutesContants }
 
 const uploadErrors = {
   uploadFailure: 'The selected file could not be uploaded -- try again',
