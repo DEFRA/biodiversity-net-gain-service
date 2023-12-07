@@ -127,7 +127,7 @@ const cacheContactIdIfNeeded = request => {
 
 const cacheOrganisationIdIfNeeded = request => {
   if (!request.yar.get(constants.redisKeys.ORGANISATION_ID)) {
-    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
   }
 }

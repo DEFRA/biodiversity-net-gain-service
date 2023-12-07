@@ -11,7 +11,7 @@ const onPostAuthHandler = {
           // if (request.auth?.credentials && Object.keys(request.yar._store).length > 0) {
           //   // Ensure login matches session
           //   const { contactId } = request.auth.credentials.account.idTokenClaims
-          //   const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+          //   const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
           //   const sessionOrganisationId = request.yar.get(constants.redisKeys.ORGANISATION_ID) || undefined
           //   if (contactId !== request.yar.get(constants.redisKeys.CONTACT_ID) || organisationId !== sessionOrganisationId) {
           //     h.redirect(constants.routes.CANNOT_VIEW_APPLICATION).takeover()

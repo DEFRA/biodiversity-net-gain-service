@@ -32,7 +32,7 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     value.organisationId = organisationId
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
     request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)

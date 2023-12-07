@@ -8,7 +8,7 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
   let redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
   const applicationType = getApplicationType(preAuthenticationRoute)
   if (applicationType) {
-    const { organisationId } = getOrganisationDetails(account.idTokenClaims)
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(account.idTokenClaims)
     const applications = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplications`, {
       contactId: account.idTokenClaims.contactId,
       organisationId,

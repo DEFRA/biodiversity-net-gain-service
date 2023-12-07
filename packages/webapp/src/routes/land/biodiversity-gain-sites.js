@@ -6,7 +6,7 @@ export default {
   method: 'GET',
   path: constants.routes.BIODIVERSITY_GAIN_SITES,
   handler: async (request, h) => {
-    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     return h.view(constants.views.BIODIVERSITY_GAIN_SITES, {
       ...await getContextForRegistrations(request.auth.credentials.account.idTokenClaims.contactId, organisationId)
     })

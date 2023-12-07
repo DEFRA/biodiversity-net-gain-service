@@ -11,7 +11,7 @@ const getRegistration = async (request, h) => getApplication(request, h, constan
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
     // Get session for values
-    const { organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     const session = await getSession(
       request.params.path,
       request.auth.credentials.account.idTokenClaims.contactId,
