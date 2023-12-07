@@ -16,7 +16,7 @@ describe('Get Application Session', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType = jest.fn().mockImplementation(() => {
           return {
             rows: [{
               application_session: {}
@@ -27,7 +27,7 @@ describe('Get Application Session', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual('{}')
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(1)
         done()
       } catch (err) {
         done(err)
@@ -42,7 +42,7 @@ describe('Get Application Session', () => {
         await getApplicationSessionByReferenceContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -57,7 +57,7 @@ describe('Get Application Session', () => {
         await getApplicationSessionByReferenceContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
@@ -72,7 +72,7 @@ describe('Get Application Session', () => {
         await getApplicationSessionByReferenceContactIdAndApplicationType(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)
