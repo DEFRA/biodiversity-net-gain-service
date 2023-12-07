@@ -1,4 +1,4 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
 const url = constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
@@ -47,7 +47,16 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
       expect(resultContext.responsibleBody.responsibleBodyName).toEqual('test1')
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it(`should render the ${url.substring(1)} view without responsibleBody`, async () => {
       const request = {
         yar: redisMap,
@@ -72,7 +81,16 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.CHECK_RESPONSIBLE_BODIES)
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should edit responsibleBody to legal agreement and redirect to CHECK_RESPONSIBLE_BODIES page by using id', async () => {
       const request = {
         yar: redisMap,

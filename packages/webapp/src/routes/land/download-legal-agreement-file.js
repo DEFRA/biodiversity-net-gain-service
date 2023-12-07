@@ -1,6 +1,7 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 import { logger } from 'defra-logging-facade'
 
 const handlers = {
@@ -22,5 +23,6 @@ const handlers = {
 export default {
   method: 'GET',
   path: constants.routes.DOWNLOAD_LEGAL_AGREEMENT,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }

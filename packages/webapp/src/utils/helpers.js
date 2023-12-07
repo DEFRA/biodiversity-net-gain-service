@@ -1,6 +1,7 @@
 import moment from 'moment'
 import path from 'path'
 import crypto from 'crypto'
+import Joi from 'joi'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
@@ -217,7 +218,13 @@ const getResponsibleBodies = responsibleBodies => {
   const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join('<br>')
   return responsibleBodiesOutput
 }
-
+const validateIdGetSchemaOptional = {
+  validate: {
+    query: Joi.object({
+      id: Joi.string().alphanum().min(1).allow(null).optional()
+    })
+  }
+}
 const getLandowners = landOwners => {
   const organisationNames = []
   const individualNames = []
@@ -581,7 +588,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href) => {
+const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
   const error = {
     err: [
       {
@@ -591,7 +598,9 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
     ]
   }
   if (!metricValidation.isSupportedVersion) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.1'
+    error.err[0].text = useStatutoryMetric
+      ? 'The selected file must use the statutory biodiversity metric'
+      : 'The selected file must use Biodiversity Metric version 4.1'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
@@ -695,6 +704,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,

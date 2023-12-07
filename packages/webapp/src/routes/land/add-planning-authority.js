@@ -3,7 +3,8 @@ import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
-  checkForDuplicate
+  checkForDuplicate,
+  validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
@@ -101,9 +102,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_PLANNING_AUTHORITY,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.ADD_PLANNING_AUTHORITY,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]

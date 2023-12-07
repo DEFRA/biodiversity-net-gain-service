@@ -1,4 +1,4 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.REMOVE_LANDOWNER
 
@@ -38,7 +38,16 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should show correct organisation landowner to be removed.', async () => {
       const request = {
         yar: redisMap,
@@ -86,6 +95,16 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
       expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(1)
+    })
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
     })
     it('Should continue journey to CHECK_LANDOWNERS if yes is chosen and remove 1 landowner organisation', async () => {
       const request = {

@@ -33,7 +33,16 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should render ADD_PLANNING_AUTHORITY view with localPlanningAuthority data to change', async () => {
       const request = {
         yar: redisMap,
@@ -59,7 +68,16 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should edit planning authority and redirect to CHECK_PLANNING_AUTHORITIES page by using id', async () => {
       const request = {
         yar: redisMap,

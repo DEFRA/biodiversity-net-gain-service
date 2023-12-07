@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const organisationNameID = '#organisationName'
 const validateOrganisation = organisation => {
@@ -80,9 +80,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]
