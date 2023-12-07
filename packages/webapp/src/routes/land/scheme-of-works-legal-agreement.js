@@ -21,7 +21,7 @@ const handlers = {
         return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       } else if (schemeOfWorksLegalAgreement === 'yes-separate') {
         return h.redirect(constants.routes.UPLOAD_SCHEME_OF_WORKS)
-      } else if (schemeOfWorksLegalAgreement === 'no') {
+      } else {
         return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       }
     } else {

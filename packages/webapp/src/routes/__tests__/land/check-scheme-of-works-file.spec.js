@@ -1,13 +1,41 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
+import * as checkSchemeOfWorks from '../../land/check-scheme-of-works-file.js'
+
 const url = constants.routes.CHECK_SCHEME_OF_WORKS_FILE
 jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
+  let redisMap
+  let h
+  let resultContext
+
+  beforeEach(() => {
+    h = {
+      view: (_view, context) => {
+        resultContext = context
+      }
+    }
+
+    redisMap = new Map()
+    redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_CHECKED, 'yes')
+    redisMap.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_LOCATION, null)
+  })
+
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
+    })
+
+    it('should handle when file location is null', async () => {
+      const request = {
+        yar: redisMap
+      }
+
+      await checkSchemeOfWorks.default[0].handler(request, h)
+
+      expect(resultContext.filename).toEqual('')
     })
   })
 
