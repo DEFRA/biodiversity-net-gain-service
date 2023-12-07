@@ -1,6 +1,6 @@
-import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
+import constants from '../../utils/constants.js'
+import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const organisationNameID = '#organisationName'
 const validateOrganisation = organisation => {
@@ -40,16 +40,33 @@ const handlers = {
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const organisationError = validateOrganisation(organisation)
-    if (!isEmpty(organisationError)) {
+    let errors = {}
+    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
+    const excludeIndex = id !== undefined ? parseInt(id, 10) : null
+
+    errors = validateOrganisation(organisation)
+    if (isEmpty(errors)) {
+      const duplicateError = checkForDuplicate(
+        landownerOrganisations,
+        'organisationName',
+        organisation.organisationName,
+        '#organisationName',
+        'This organisation has already been added - enter a different organisation, if there is one',
+        excludeIndex
+      )
+      if (duplicateError) {
+        errors.organisationNameError = duplicateError.err
+      }
+    }
+    if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT, {
         organisation,
         legalAgreementType,
-        err: Object.values(organisationError),
-        organisationNameError: organisationError?.organisationNameError
+        err: Object.values(errors),
+        ...errors
       })
     }
-    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
+
     if (id) {
       landownerOrganisations.splice(id, 1, organisation)
     } else {

@@ -70,7 +70,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          organisationName: 'org1'
+          organisationName: 'org3'
         },
         query: {}
       }
@@ -93,7 +93,7 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          organisationName: 'org1'
+          organisationName: 'org4'
 
         },
         query: { id: '0' }
@@ -118,6 +118,36 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
 
       expect(resultContext.err[0]).toEqual({ text: 'Enter the organisation name of the landowner or leaseholder', href: '#organisationName' })
+    })
+    it('should fail to add landowner to legal agreement with duplicate organisation name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'org1'
+        },
+        query: {}
+      }
+
+      await addLandownerOrganisations.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+
+      expect(resultContext.err).toEqual([{ href: '#organisationName', text: 'This organisation has already been added - enter a different organisation, if there is one' }])
+    })
+    it('should fail to edit landowner to legal agreement with duplicate organisation name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'org2'
+        },
+        query: { id: '0' }
+      }
+
+      await addLandownerOrganisations.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+
+      expect(resultContext.err).toEqual([{ href: '#organisationName', text: 'This organisation has already been added - enter a different organisation, if there is one' }])
     })
   })
 })
