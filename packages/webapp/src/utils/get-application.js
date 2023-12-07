@@ -15,12 +15,14 @@ const getApplication = async (request, h, applicationType) => {
     const session = await getSession(
       request.params.path,
       request.auth.credentials.account.idTokenClaims.contactId,
-      organisationId,
       applicationType
     )
 
+    // check here if org matches TODODOODODODO
     if (Object.keys(session).length === 0) {
-      return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
+      return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
+    } else if (session['organisation-id'] !== organisationId) {
+      return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`)
     } else {
       // Save data for the current application that hasn't been saved already
       // and reset the session before continuing.
@@ -36,16 +38,15 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-const getApplicationSession = async (request, applicationReference, contactId, organisationId, applicationType) => {
-  const session = await getSession(applicationReference, contactId, organisationId, applicationType)
+const getApplicationSession = async (request, applicationReference, contactId, applicationType) => {
+  const session = await getSession(applicationReference, contactId, applicationType)
   request.yar.set(session)
 }
 
-const getSession = (applicationReference, contactId, organisationId, applicationType) => {
+const getSession = (applicationReference, contactId, applicationType) => {
   return postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplicationsession`, {
     applicationReference,
     contactId,
-    organisationId,
     applicationType
   })
 }

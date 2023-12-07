@@ -3,7 +3,7 @@ import {
   saveApplicationSession,
   getApplicationCountByContactIdAndOrganisationId,
   getApplicationSessionById,
-  getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType,
+  getApplicationSessionByReferenceContactIdAndApplicationType,
   getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
   getExpiringApplicationSessions,
   clearApplicationSession,
@@ -43,7 +43,7 @@ const expectedGetApplicationCountByContactIdAndOrganisationIdStatement = `
     contact_id;
 `
 
-const expectedGetApplicationSessionByReferenceContactIdOrganisationIdAndApplicationTypeStatement = `
+const expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement = `
   SELECT
     aps.application_session
   FROM
@@ -53,8 +53,7 @@ const expectedGetApplicationSessionByReferenceContactIdOrganisationIdAndApplicat
   WHERE
     aps.application_reference = $1
     AND ar.contact_id = $2
-    AND (ar.organisation_id = $3 OR $3 IS NULL AND ar.organisation_id IS NULL)
-    AND ar.application_type = $4;
+    AND ar.application_type = $3;
 `
 const expectedGetExpiringApplicationSessionsStatement = `
   SELECT
@@ -127,7 +126,7 @@ describe('Database queries', () => {
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationCountByContactIdAndOrganisationId(db)).toEqual(expectedGetApplicationCountByContactIdAndOrganisationIdStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
-    expect(getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdOrganisationIdAndApplicationTypeStatement)
+    expect(getApplicationSessionByReferenceContactIdAndApplicationType(db)).toEqual(expectedGetApplicationSessionByReferenceContactIdAndApplicationTypeStatement)
     expect(getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType(db)).toEqual(expectedGetApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement)
     expect(getExpiringApplicationSessions(db)).toEqual(expectedGetExpiringApplicationSessionsStatement)
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)

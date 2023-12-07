@@ -1,4 +1,4 @@
-import { getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType } from '../Shared/db-queries.js'
+import { getApplicationSessionByReferenceContactIdAndApplicationType } from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, req) {
@@ -8,7 +8,6 @@ export default async function (context, req) {
     const {
       applicationReference,
       contactId,
-      organisationId,
       applicationType
     } = req.body
     let body
@@ -19,7 +18,7 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Get the application session from database
-    const applicationSession = await getApplicationSessionByReferenceContactIdOrganisationIdAndApplicationType(db, [applicationReference, contactId, organisationId, applicationType])
+    const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType])
 
     // Check if we have an application session to return
     if (applicationSession.rows[0]) {

@@ -16,7 +16,7 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
     })
 
     if (applications?.length === 1 && applications[0]?.applicationStatus === 'IN PROGRESS') {
-      await getApplicationSession(request, applications[0]?.applicationReference, account.idTokenClaims.contactId, organisationId, applicationType)
+      await getApplicationSession(request, applications[0]?.applicationReference, account.idTokenClaims.contactId, applicationType)
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
     } else if (applications?.length > 1) {
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS : constants.routes.BIODIVERSITY_GAIN_SITES
