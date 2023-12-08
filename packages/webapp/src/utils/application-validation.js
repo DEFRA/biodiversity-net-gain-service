@@ -71,14 +71,10 @@ const applicationValidation = Joi.object({
       then: applicantAddressSchema,
       otherwise: Joi.forbidden()
     }),
-    organisation: Joi.when('applicant.role', {
-      is: 'representative',
-      then: Joi.object({
-        id: Joi.string().required(),
-        address: applicantAddressSchema
-      }),
-      otherwise: Joi.forbidden()
-    }),
+    organisation:  Joi.object({
+      id: Joi.string().required(),
+      address: applicantAddressSchema
+    }).optional(),
     habitats: Joi.object({
       baseline: Joi.array().items(
         Joi.object({
