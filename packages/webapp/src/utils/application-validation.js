@@ -71,7 +71,7 @@ const applicationValidation = Joi.object({
       then: applicantAddressSchema,
       otherwise: Joi.forbidden()
     }),
-    organisation:  Joi.object({
+    organisation: Joi.object({
       id: Joi.string().required(),
       address: applicantAddressSchema
     }).optional(),
