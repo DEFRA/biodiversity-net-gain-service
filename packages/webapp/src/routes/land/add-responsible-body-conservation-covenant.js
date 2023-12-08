@@ -1,5 +1,6 @@
+import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const ID = '#responsibleBody'
 const handlers = {
@@ -28,15 +29,30 @@ const handlers = {
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const error = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, 'responsible body')
-    if (error) {
+    let errors = {}
+    const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) ?? []
+    const excludeIndex = id !== undefined ? parseInt(id, 10) : null
+    errors = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, 'responsible body')
+    if (isEmpty(errors)) {
+      const duplicateError = checkForDuplicate(
+        legalAgreementResponsibleBodies,
+        'responsibleBodyName',
+        responsibleBody.responsibleBodyName,
+        '#responsibleBody',
+        'This responsible body has already been added - enter a different responsible body, if there is one',
+        excludeIndex
+      )
+      if (duplicateError) {
+        errors = duplicateError
+      }
+    }
+    if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, {
         responsibleBody,
         legalAgreementType,
-        ...error
+        err: Object.values(errors)
       })
     } else {
-      const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) ?? []
       if (id) {
         legalAgreementResponsibleBodies.splice(id, 1, responsibleBody)
       } else { legalAgreementResponsibleBodies.push(responsibleBody) }
