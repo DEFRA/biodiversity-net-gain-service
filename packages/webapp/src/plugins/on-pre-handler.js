@@ -8,21 +8,6 @@ const onPostAuthHandler = {
       server.ext('onPreHandler', async function (request, h) {
         // Ignore public asset requests
         if (!request.path.includes('/public/')) {
-          // if (request.auth?.strategy && request.auth?.mode && request.auth?.credentials && Object.keys(request.yar._store).length > 0) {
-          //   // Ensure login matches session
-          //   const { contactId } = request.auth.credentials.account.idTokenClaims
-          //   const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-          //   const sessionOrganisationId = request.yar.get(constants.redisKeys.ORGANISATION_ID) || undefined
-          //   const sessionContactId = request.yar.get(constants.redisKeys.CONTACT_ID) || undefined
-          //   if (sessionContactId && contactId !== request.yar.get(constants.redisKeys.CONTACT_ID)) {
-          //     request.yar.clear()
-          //     return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION).takeover()
-          //   }
-          //   if (organisationId !== sessionOrganisationId) {
-          //     request.yar.clear()
-          //     return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`).takeover()
-          //   }
-          // }
           // Do not allow users to change the application type part way through a journey without using the dashboards.
           const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
           if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
