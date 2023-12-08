@@ -62,6 +62,7 @@ describe('on-post-handler', () => {
     const application = JSON.parse(testApplication.dataString)
     delete application['organisation-id']
     const response = await submitPostRequest(postOptions, 302, application)
+    // expect organisation-id to updated to that in the auth object
     expect(response.request.yar._store['organisation-id']).toEqual('mock-org-id')
   })
 })
