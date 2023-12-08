@@ -18,11 +18,18 @@ const getApplication = async (request, h, applicationType) => {
       applicationType
     )
 
-    // check here if org matches TODODOODODODO
     if (Object.keys(session).length === 0) {
-      return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
+      if (applicationType === constants.applicationTypes.REGISTRATION) {
+        return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
+      } else {
+        return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
+      }
     } else if (session['organisation-id'] !== organisationId) {
-      return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`)
+      if (applicationType === constants.applicationTypes.REGISTRATION) {
+        return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`)
+      } else {
+        return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
+      }
     } else {
       // Save data for the current application that hasn't been saved already
       // and reset the session before continuing.

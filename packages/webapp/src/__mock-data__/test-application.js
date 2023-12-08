@@ -1,5 +1,6 @@
 const dataString = `
 {
+  "contact-id": "mock contact id",
   "registrationTaskDetails": {
     "taskList": [
       {
