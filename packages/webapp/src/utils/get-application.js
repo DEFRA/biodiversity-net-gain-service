@@ -19,17 +19,9 @@ const getApplication = async (request, h, applicationType) => {
     )
 
     if (Object.keys(session).length === 0) {
-      if (applicationType === constants.applicationTypes.REGISTRATION) {
-        return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
-      } else {
-        return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
-      }
+      return noSession(request, h, applicationType)
     } else if (session['organisation-id'] !== organisationId) {
-      if (applicationType === constants.applicationTypes.REGISTRATION) {
-        return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`)
-      } else {
-        return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
-      }
+      return orgError(request, h, applicationType)
     } else {
       // Save data for the current application that hasn't been saved already
       // and reset the session before continuing.
@@ -42,6 +34,22 @@ const getApplication = async (request, h, applicationType) => {
     }
   } else {
     return Boom.badRequest('Application reference is missing')
+  }
+}
+
+const noSession = (request, h, applicationType) => {
+  if (applicationType === constants.applicationTypes.REGISTRATION) {
+    return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
+  } else {
+    return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
+  }
+}
+
+const orgError = (request, h, applicationType) => {
+  if (applicationType === constants.applicationTypes.REGISTRATION) {
+    return h.redirect(`${constants.routes.CANNOT_VIEW_APPLICATION}?orgError=true`)
+  } else {
+    return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
   }
 }
 
