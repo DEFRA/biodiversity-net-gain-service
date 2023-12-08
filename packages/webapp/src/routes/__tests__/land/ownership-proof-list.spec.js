@@ -55,6 +55,14 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.UPLOAD_LAND_OWNERSHIP)
     })
+
+    it('should redirect to the register land task list if the list is empty, and to avoid loopback navigation from uploading ownership proof', async () => {
+      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+
+      await landOwnershipProofs.default[0].handler({ headers: { referer: 'http://localhost/land/ownership-proof-list' }, yar: redisMap }, h)
+
+      expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
+    })
   })
 
   describe('POST', () => {
