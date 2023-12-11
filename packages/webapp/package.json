@@ -5,7 +5,7 @@
   "type": "module",
   "description": "",
   "engines": {
-    "node": "18.x.x"
+    "node": ">=18"
   },
   "main": "src/index.js",
   "author": "DEFRA",
