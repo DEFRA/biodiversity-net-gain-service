@@ -1,5 +1,4 @@
 import constants from '../utils/constants.js'
-// import getOrganisationDetails from '../utils/get-organisation-details.js'
 
 const onPostAuthHandler = {
   plugin: {
