@@ -17,13 +17,13 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('Should continue journey to NEED_ADD_ALL_PLANNING_AUTHORITIES if yes is chosen', async () => {
+    it('Should continue journey to NEED_ADD_ALL_PLANNING_AUTHORITIES if yes-included is chosen', async () => {
       postOptions.payload.schemeOfWorksLegalAgreement = 'yes-included'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
     })
 
-    it('Should continue journey to UPLOAD_SCHEME_OF_WORKS if yes is chosen', async () => {
+    it('Should continue journey to UPLOAD_SCHEME_OF_WORKS if yes-separate is chosen', async () => {
       postOptions.payload.schemeOfWorksLegalAgreement = 'yes-separate'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.UPLOAD_SCHEME_OF_WORKS)
