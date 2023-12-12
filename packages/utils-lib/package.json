@@ -13,7 +13,7 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^3.3.2",
+    "@azure/identity": "^4.0.0",
     "@defra/bng-connectors-lib": "0.259.0",
     "axios": "^1.6.2"
   },
