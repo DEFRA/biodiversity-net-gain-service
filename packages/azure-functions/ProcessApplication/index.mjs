@@ -12,7 +12,9 @@ const buildConfig = body => {
   return {
     serviceBusConfig: {
       queueName: 'ne.bng.landowner.inbound',
-      message: body
+      message: {
+        landownerGainSiteRegistration: body.landownerGainSiteRegistration
+      }
     },
     res: {
       gainSiteReference: body.landownerGainSiteRegistration.gainSiteReference
