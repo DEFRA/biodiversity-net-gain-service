@@ -49,7 +49,7 @@ describe(url, () => {
           }
           const res = await uploadFile(config)
           expect(res.headers.location).toBe(constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(4)
           setImmediate(() => {
             done()
           })
@@ -75,7 +75,7 @@ describe(url, () => {
           }
           const res = await uploadFile(config)
           expect(res.headers.location).toBe(constants.routes.CHECK_GEOSPATIAL_FILE)
-          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledTimes(4)
           setImmediate(() => {
             done()
           })

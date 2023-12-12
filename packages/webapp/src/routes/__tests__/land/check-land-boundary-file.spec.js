@@ -31,7 +31,7 @@ describe(url, () => {
       postOptions.payload.checkLandBoundary = constants.confirmLandBoundaryOptions.NO
       const response = await submitPostRequest(postOptions)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
-      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {

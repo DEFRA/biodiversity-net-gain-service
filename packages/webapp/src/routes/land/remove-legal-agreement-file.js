@@ -1,6 +1,6 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
@@ -59,9 +59,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.REMOVE_LEGAL_AGREEMENT_FILE,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.REMOVE_LEGAL_AGREEMENT_FILE,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]

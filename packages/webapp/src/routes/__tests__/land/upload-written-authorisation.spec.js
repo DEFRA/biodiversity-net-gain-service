@@ -1,6 +1,7 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants'
+import * as azureStorage from '../../../utils/azure-storage.js'
 const FORM_ELEMENT_NAME = 'writtenAuthorisation'
 const url = constants.routes.UPLOAD_WRITTEN_AUTHORISATION
 
@@ -27,6 +28,7 @@ describe('Proof of ownership upload controller tests', () => {
     it('should upload written authorisation document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-written-authorisation-file'
@@ -34,6 +36,7 @@ describe('Proof of ownership upload controller tests', () => {
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/written-authorisation.pdf`
           await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })

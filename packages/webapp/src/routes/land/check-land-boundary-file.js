@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -19,8 +18,6 @@ const handlers = {
     const landBoundaryLocation = request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)
     request.yar.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, checkLandBoundary)
     if (checkLandBoundary === 'no') {
-      await deleteBlobFromContainers(landBoundaryLocation)
-      request.yar.clear(constants.redisKeys.LAND_BOUNDARY_LOCATION)
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
       // to use referer we must have a LAND_BOUNDARY_GRID_REFERENCE set

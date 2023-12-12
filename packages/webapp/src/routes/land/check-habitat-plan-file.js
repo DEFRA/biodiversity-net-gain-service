@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,8 +17,6 @@ const handlers = {
     const context = getContext(request)
     request.yar.set(constants.redisKeys.HABITAT_PLAN_CHECKED, checkHabitatPlan)
     if (checkHabitatPlan === 'no') {
-      await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
     } else if (checkHabitatPlan === 'yes') {

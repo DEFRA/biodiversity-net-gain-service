@@ -120,14 +120,14 @@
         }) }}
 
         <!--Biodiversity Metric-->
-        <h2 class="govuk-heading-l">Biodiversity Metric</h2>
+        <h2 class="govuk-heading-l">Statutory biodiversity metric and habitat declarations</h2>
 
         {{ govukSummaryList({
           classes: 'govuk-!-margin-bottom-7',
           rows: [
             {
               key: {
-                text: "Biodiversity Metric file uploaded"
+                text: "Statutory biodiversity metric file uploaded"
               },
               value: {
                 html: "<span data-testid=\"metric-file-name-value\">" + getFileNameByType(application.files, 'metric') + "</span>"
@@ -138,6 +138,40 @@
                     href: routes.CHECK_UPLOAD_METRIC,
                     text: "Change",
                     visuallyHiddenText: " Biodiversity Metric file"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Habitat baseline information is correct"
+              },
+              value: {
+                html: "<span data-testid=\"baseline-biodiversity-value-declaration\">Yes</span>"
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_HABITAT_BASELINE,
+                    text: "Change",
+                    visuallyHiddenText: " Baseline biodiversity value declaration"
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Habitat creation and enhancement information is correct"
+              },
+              value: {
+                html: "<span data-testid=\"habitat-creation-and-enhancement-declaration\">Yes</span>"
+              },
+              actions: {
+                items: [
+                  {
+                    href: routes.CHECK_HABITAT_CREATED,
+                    text: "Change",
+                    visuallyHiddenText: " Habitat creation and enhancement declaration"
                   }
                 ]
               }
