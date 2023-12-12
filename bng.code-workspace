@@ -16,7 +16,7 @@
 	"settings": {
 		"debug.internalConsoleOptions": "neverOpen",
 		"editor.codeActionsOnSave": {
-			"source.fixAll": "explicit"
+			"source.fixAll": true
 		},
 		"eslint.validate": ["javascript", "html"]
 	},
