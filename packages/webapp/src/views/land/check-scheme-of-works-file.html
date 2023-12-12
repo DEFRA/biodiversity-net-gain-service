@@ -1,0 +1,16 @@
+{% extends 'form-layout.html' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set pageHeading = "Check the scheme of works file" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'checkSchemeOfWorks' %}
+    {% set name = 'checkSchemeOfWorks' %}
+    {% set id = 'check-scheme-of-works-yes' %}
+    {% set downloadUrl = 'download-scheme-of-works-file' %}
+    {% include "common/file-upload-check.html" %}
+  </div>
+{% endblock %}

@@ -29,9 +29,11 @@ const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landown
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
+const CHECK_SCHEME_OF_WORKS_FILE = 'land/check-scheme-of-works-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
 const DOWNLOAD_HABITAT_PLAN_FILE = 'land/download-habitat-plan-file'
+const DOWNLOAD_SCHEME_OF_WORKS_FILE = 'land/download-scheme-of-works-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
 const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
@@ -88,11 +90,17 @@ const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const SCHEME_OF_WORKS_LEGAL_AGREEMENT = 'land/scheme-of-works-legal-agreement'
+const SCHEME_OF_WORKS_FILE_LOCATION = 'scheme-of-works-upload-location'
+const SCHEME_OF_WORKS_FILE_SIZE = 'scheme-of-works-file-size'
+const SCHEME_OF_WORKS_FILE_TYPE = 'scheme-of-works-file-type'
+const UPLOAD_SCHEME_OF_WORKS = 'land/upload-scheme-of-works'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const HABITAT_PLAN_FILE_OPTION = 'habitat-plan-file-option'
+const SCHEME_OF_WORKS_FILE_OPTION = 'scheme-of-works-file-option'
 const METRIC_UPLOAD_KEY = 'metric-upload-key'
 const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
 const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
@@ -111,6 +119,7 @@ const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LOCAL_LAND_CHARGE_CHECKED = 'local-land-charge-checked'
 const HABITAT_PLAN_CHECKED = 'habitat-plan-checked'
+const SCHEME_OF_WORKS_CHECKED = 'scheme-of-works-checked'
 const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
 const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
@@ -168,6 +177,7 @@ const LAND_OWNERSHIP_UPLOAD_TYPE = 'land-ownership'
 const LAND_BOUNDARY_UPLOAD_TYPE = 'land-boundary'
 const METRIC_UPLOAD_TYPE = 'metric-upload'
 const WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'written-authorisation'
+const SCHEME_OF_WORKS_UPLOAD_TYPE = 'scheme-of-works-upload-type'
 const WRITTEN_AUTHORISATION_LOCATION = 'written-authorisation-location'
 const WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
 const WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
@@ -237,6 +247,7 @@ export default {
     LEGAL_AGREEMENT_CHECKED,
     LOCAL_LAND_CHARGE_CHECKED,
     HABITAT_PLAN_CHECKED,
+    SCHEME_OF_WORKS_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
     LEGAL_AGREEMENT_FILES,
     LOCAL_LAND_CHARGE_LOCATION,
@@ -250,6 +261,7 @@ export default {
     LEGAL_AGREEMENT_FILE_OPTION,
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
+    SCHEME_OF_WORKS_FILE_OPTION,
     LEGAL_AGREEMENT_PARTIES,
     IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
@@ -310,7 +322,11 @@ export default {
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,
     WRITTEN_AUTHORISATION_CHECKED,
-    LAND_OWNERSHIP_PROOFS
+    LAND_OWNERSHIP_PROOFS,
+    SCHEME_OF_WORKS_LEGAL_AGREEMENT,
+    SCHEME_OF_WORKS_FILE_LOCATION,
+    SCHEME_OF_WORKS_FILE_SIZE,
+    SCHEME_OF_WORKS_FILE_TYPE
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -343,9 +359,11 @@ export default {
     CHECK_UPLOAD_METRIC,
     CHECK_LOCAL_LAND_CHARGE_FILE,
     CHECK_HABITAT_PLAN_FILE,
+    CHECK_SCHEME_OF_WORKS_FILE,
     DOWNLOAD_LEGAL_AGREEMENT,
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_HABITAT_PLAN_FILE,
+    DOWNLOAD_SCHEME_OF_WORKS_FILE,
     DOWNLOAD_LAND_BOUNDARY,
     DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
@@ -408,7 +426,9 @@ export default {
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
     LAND_OWNERSHIP_PROOF_LIST,
-    LAND_OWNERSHIP_REMOVE
+    LAND_OWNERSHIP_REMOVE,
+    SCHEME_OF_WORKS_LEGAL_AGREEMENT,
+    UPLOAD_SCHEME_OF_WORKS
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
@@ -418,7 +438,8 @@ export default {
     LAND_BOUNDARY_UPLOAD_TYPE,
     METRIC_UPLOAD_TYPE,
     LAND_OWNERSHIP_UPLOAD_TYPE,
-    WRITTEN_AUTHORISATION_UPLOAD_TYPE
+    WRITTEN_AUTHORISATION_UPLOAD_TYPE,
+    SCHEME_OF_WORKS_UPLOAD_TYPE
   },
   setLojReferer: [
     CHECK_AND_SUBMIT,

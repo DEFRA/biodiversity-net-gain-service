@@ -1,0 +1,44 @@
+{% extends 'multipart-form-layout.html' %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% set pageHeading = "Upload the scheme of works" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          <p>The file should be:</p>     
+      <ul class="govuk-list govuk-list--bullet">
+        <li>a DOC, DOCX or PDF</li>
+        <li>no larger than 50MB</li>
+      </ul>
+          {{ govukFileUpload({
+            id: "schemeOfWorks",
+            name: "schemeOfWorks",
+            errorMessage: err[0], 
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+          {{ govukButton({
+            text: "Upload",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
