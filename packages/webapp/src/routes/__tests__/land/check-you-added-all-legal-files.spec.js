@@ -85,7 +85,7 @@ describe(url, () => {
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
-    it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if yes is chosen and legalAgreementType=conservation covenant', async () => {
+    it('Should continue journey to SCHEME_OF_WORKS_LEGAL_AGREEMENT if yes is chosen and legalAgreementType=conservation covenant', async () => {
       let viewResult
       const redisMap = new Map()
       const h = {
@@ -103,7 +103,7 @@ describe(url, () => {
       }
       const legalAgreementFile = require('../../land/check-you-added-all-legal-files.js')
       await legalAgreementFile.default[1].handler(request, h)
-      expect(viewResult).toBe(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+      expect(viewResult).toBe(constants.routes.SCHEME_OF_WORKS_LEGAL_AGREEMENT)
     })
     it('should detect an invalid response from user', async () => {
       await submitPostRequest(postOptions, 200)

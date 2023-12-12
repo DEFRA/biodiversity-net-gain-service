@@ -22,7 +22,7 @@ const handlers = {
     } else if (checkSchemeOfWorks === 'yes') {
       request.yar.set(constants.redisKeys.SCHEME_OF_WORKS_FILE_OPTION, 'yes')
       const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
-                          constants.routes.ENHANCEMENT_WORKS_START_DATE
+                          constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES
       return h.redirect(redirectUrl)
     } else {
       context.err = [{

@@ -63,7 +63,7 @@ describe(url, () => {
     it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
       postOptions.payload.checkSchemeOfWorks = 'yes'
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.ENHANCEMENT_WORKS_START_DATE)
+      expect(response.headers.location).toBe(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
     })
 
     it('should allow an alternative written authorisation file to be uploaded ', async () => {

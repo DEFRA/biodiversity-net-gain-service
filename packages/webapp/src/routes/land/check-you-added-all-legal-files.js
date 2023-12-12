@@ -65,7 +65,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
       if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.SCHEME_OF_WORKS_LEGAL_AGREEMENT)
       } else {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       }
