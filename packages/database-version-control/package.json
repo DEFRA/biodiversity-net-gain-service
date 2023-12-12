@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-database-version-control",
-  "version": "0.259.0",
+  "version": "0.260.0",
   "private": true,
   "description": "Database version control for Biodiversity Net Gain",
   "main": "src/migrator-cli.js",
@@ -30,7 +30,7 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^3.3.2",
+    "@azure/identity": "^4.0.0",
     "@slonik/migrator": "0.12.0"
   }
 }
