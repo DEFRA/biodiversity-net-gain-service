@@ -49,9 +49,18 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-month'] = '01'
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2023'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
-      const response = await submitPostRequest(postOptions)
-      expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toBe('/land/check-legal-agreement-details')
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toEqual('2023-01-01T00:00:00.000Z')
+      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('yes')
+      expect(response.headers.location).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+    })
+
+    it('Should continue to check page if no option selected with blank date', async () => {
+      postOptions.payload.habitatEnhancementsEndDateOption = 'no'
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toBeNull()
+      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('no')
+      expect(response.headers.location).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
     it('should fail to add a habitat enhancement end date with empty dates', async () => {
@@ -60,7 +69,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = ''
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -70,7 +78,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2022'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -80,7 +87,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2022'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -90,7 +96,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = ''
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -100,7 +105,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = 'cc'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -110,7 +114,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2020'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -120,7 +123,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2020'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
@@ -130,7 +132,6 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2a20'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 200)
-      expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
     it('should fail if no option selected and continue', async () => {
@@ -164,7 +165,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('/land/check-and-submit')
+          expect(redirectArgs[0]).toEqual(constants.routes.CHECK_AND_SUBMIT)
           done()
         } catch (err) {
           done(err)
