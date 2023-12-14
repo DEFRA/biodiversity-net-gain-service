@@ -3,7 +3,7 @@ $govuk-assets-path: '/public/';
 $govuk-images-path: '#{$govuk-assets-path}images/';
 $govuk-fonts-path: '#{$govuk-assets-path}fonts/';
 $govuk-global-styles: true;
-$govuk-font-family: "Arial", sans-serif !important;
+$govuk-font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif !important;
 
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
