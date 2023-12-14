@@ -168,6 +168,14 @@ const processRegistrationTask = (request, taskDetails, options) => {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
       }
+
+      // Added this condition to revert the completed task based on the flag.
+      // And assigning given value of options.status to the selected task
+      // Ref: BNGP-4124
+      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
+        task.status = options.status || constants.IN_PROGRESS_REGISTRATION_TASK_STATUS
+      }
+
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })

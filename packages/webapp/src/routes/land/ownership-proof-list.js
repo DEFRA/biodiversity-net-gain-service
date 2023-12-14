@@ -32,11 +32,24 @@ const handlers = {
 
     // (Ref:BGNP-4124) Redirecting to the register land task list if there is no one file added.
     // And to avoid looping back navigation from upload ownership proof.
-    if (landOwnershipsList.length === 0 && request?.headers?.referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
-    } else if (landOwnershipsList.length === 0) {
-      return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+    const { referer } = request.headers || ''
+    if (landOwnershipsList.length === 0) {
+      processRegistrationTask(request, {
+        taskTitle: 'Land information',
+        title: 'Add land ownership details'
+      }, {
+        status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+        inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+        revert: true
+      })
+
+      if (referer && referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      } else {
+        return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+      }
     }
+
     return h.view(constants.views.LAND_OWNERSHIP_PROOF_LIST, {
       landOwnershipsList,
       landOwnershipProofs
