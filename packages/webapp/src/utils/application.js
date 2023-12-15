@@ -340,7 +340,9 @@ const application = (session, account) => {
     applicationJson.landownerGainSiteRegistration.agent = getClientDetails(session)
   } else if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.LANDOWNER) {
     applicationJson.landownerGainSiteRegistration.landownerAddress = getAddress(session)
-  } else {
+  }
+
+  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
     applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
   }
 
