@@ -163,11 +163,8 @@ const getDeveloperTasks = request => {
 */
 const processRegistrationTask = (request, taskDetails, options) => {
   const registrationTasks = getRegistrationTasks(request)
-  logger.info('taskDetails===>', taskDetails)
   const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
-  logger.info('affectedTask===>', affectedTask)
   affectedTask.tasks.forEach(task => {
-    logger.info('task===>', task)
     if (task.title === taskDetails.title) {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
@@ -177,7 +174,6 @@ const processRegistrationTask = (request, taskDetails, options) => {
       // And assigning given value of options.status to the selected task
       // Ref: BNGP-4124
       if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
-        logger.info('task.status', task.status, options)
         task.status = options.status
       }
 
