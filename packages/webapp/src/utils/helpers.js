@@ -7,6 +7,7 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+import { logger } from 'defra-logging-facade'
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
@@ -162,8 +163,11 @@ const getDeveloperTasks = request => {
 */
 const processRegistrationTask = (request, taskDetails, options) => {
   const registrationTasks = getRegistrationTasks(request)
+  logger.info('taskDetails===>', taskDetails)
   const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
+  logger.info('affectedTask===>', affectedTask)
   affectedTask.tasks.forEach(task => {
+    logger.info('task===>', task)
     if (task.title === taskDetails.title) {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
@@ -173,7 +177,8 @@ const processRegistrationTask = (request, taskDetails, options) => {
       // And assigning given value of options.status to the selected task
       // Ref: BNGP-4124
       if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
-        task.status = options.status || constants.IN_PROGRESS_REGISTRATION_TASK_STATUS
+        logger.info('task.status', task.status, options)
+        task.status = options.status
       }
 
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
