@@ -69,7 +69,7 @@
           </elementProp>
           <elementProp name="ramp1" elementType="Argument">
             <stringProp name="Argument.name">ramp1</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.value">300</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loop1" elementType="Argument">
@@ -79,7 +79,7 @@
           </elementProp>
           <elementProp name="think1" elementType="Argument">
             <stringProp name="Argument.name">think1</stringProp>
-            <stringProp name="Argument.value">250</stringProp>
+            <stringProp name="Argument.value">5000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -250,7 +250,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -321,7 +321,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -405,7 +405,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -493,7 +493,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -581,7 +581,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -683,7 +683,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -771,7 +771,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -887,7 +887,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -975,7 +975,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1063,7 +1063,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1152,7 +1152,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1236,7 +1236,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1316,7 +1316,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp1}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1391,7 +1391,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1476,7 +1476,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1560,7 +1560,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1648,7 +1648,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1736,7 +1736,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1816,7 +1816,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -1891,7 +1891,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -1974,7 +1974,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -2063,7 +2063,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2147,7 +2147,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -2235,7 +2235,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -2323,7 +2323,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -2403,7 +2403,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -2478,7 +2478,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2588,7 +2588,7 @@
                   </elementProp>
                   <elementProp name="Accept" elementType="Header">
                     <stringProp name="Header.name">Accept</stringProp>
-                    <stringProp name="Header.value">text/css,*/*;q=0.${ramp}</stringProp>
+                    <stringProp name="Header.value">text/css,*/*;q=0.1</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -2811,9 +2811,9 @@
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="upload-metric-132" enabled="true">
               <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
                 <collectionProp name="HTTPFileArgs.files">
-                  <elementProp name="metric-4.${ramp}.xlsm" elementType="HTTPFileArg">
+                  <elementProp name="metric-4.1.xlsm" elementType="HTTPFileArg">
                     <stringProp name="File.mimetype">application/vnd.ms-excel.sheet.macroEnabled.12</stringProp>
-                    <stringProp name="File.path">metric-4.${ramp}.xlsm</stringProp>
+                    <stringProp name="File.path">metric-4.1.xlsm</stringProp>
                     <stringProp name="File.paramname">uploadMetric</stringProp>
                   </elementProp>
                 </collectionProp>
@@ -2857,7 +2857,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -2941,7 +2941,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3021,7 +3021,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3101,7 +3101,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3181,7 +3181,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3256,7 +3256,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3340,7 +3340,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3420,7 +3420,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3509,7 +3509,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -3593,7 +3593,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3681,7 +3681,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3761,7 +3761,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3849,7 +3849,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -3937,7 +3937,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4017,7 +4017,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4104,7 +4104,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4191,7 +4191,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4278,7 +4278,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4365,7 +4365,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4454,7 +4454,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4538,7 +4538,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4647,7 +4647,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4756,7 +4756,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4836,7 +4836,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -4911,7 +4911,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -4996,7 +4996,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -5080,7 +5080,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -5155,7 +5155,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -5231,7 +5231,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Content-Type" elementType="Header">
                     <stringProp name="Header.name">Content-Type</stringProp>
@@ -5306,7 +5306,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
@@ -5377,7 +5377,7 @@
                   </elementProp>
                   <elementProp name="Upgrade-Insecure-Requests" elementType="Header">
                     <stringProp name="Header.name">Upgrade-Insecure-Requests</stringProp>
-                    <stringProp name="Header.value">${ramp}</stringProp>
+                    <stringProp name="Header.value">1</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Encoding" elementType="Header">
                     <stringProp name="Header.name">Accept-Encoding</stringProp>
