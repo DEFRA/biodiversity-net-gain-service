@@ -199,6 +199,7 @@ const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
+const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-client'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
 
 export default {
@@ -408,6 +409,7 @@ export default {
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
+    CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION
