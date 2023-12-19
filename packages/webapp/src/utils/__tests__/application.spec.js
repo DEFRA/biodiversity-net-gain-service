@@ -447,4 +447,19 @@ describe('application', () => {
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.length).toEqual(8)
   })
+  it('Should add broad habitat to habitat type for metric baseline and proposed habitats', () => {
+    const session = applicationSession()
+    const app = application(session, applicant)
+
+    const allHabitats = [
+      ...app.landownerGainSiteRegistration.habitats.baseline,
+      ...app.landownerGainSiteRegistration.habitats.proposed
+    ]
+
+    allHabitats.forEach(habitat => {
+      if (habitat.state === 'Habitat') {
+        expect(habitat.habitatType).toContain(' - ')
+      }
+    })
+  })
 })

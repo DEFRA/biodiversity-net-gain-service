@@ -5,17 +5,19 @@ const onPostAuthHandler = {
     name: 'on-pre-handler',
     register: (server, _options) => {
       server.ext('onPreHandler', async function (request, h) {
-        // Do not allow users to change the application type part way through a journey without using the dashboards.
-        const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
-        if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
-            isBlockedCreditsEstimationRouteOnLandownerJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
-        } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
-                   isBlockedCreditsEstimationRouteOnDeveloperJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
-        } else {
-          return h.continue
+        // Ignore public asset requests
+        if (!request.path.includes('/public/')) {
+          // Do not allow users to change the application type part way through a journey without using the dashboards.
+          const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+          if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
+              isBlockedCreditsEstimationRouteOnLandownerJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
+          } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
+                    isBlockedCreditsEstimationRouteOnDeveloperJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
+          }
         }
+        return h.continue
       })
     }
   }

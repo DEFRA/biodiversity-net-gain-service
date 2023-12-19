@@ -1,4 +1,4 @@
-import getApplicantContext from '../../utils/get-applicant-context.js'
+import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 
@@ -27,8 +27,8 @@ const handlers = {
       request.yar.set(constants.redisKeys.LANDOWNER_TYPE, individualOrOrganisation)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
-      const { noOrganisationsLinkedToDefraAccount, organisation } =
-        getApplicantContext(request.auth.credentials.account, request.yar)
+      const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } =
+        getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
       if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
           (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {

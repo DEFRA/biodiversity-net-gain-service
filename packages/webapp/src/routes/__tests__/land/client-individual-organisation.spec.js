@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import testApplication from '../../../__mock-data__/test-application.js'
 const url = constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
 
 describe(url, () => {
