@@ -18,11 +18,11 @@ const handlers = {
       request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
       request.yar.clear(constants.redisKeys.REFERER)
 
-      return h.redirect(constants.routes.CLIENT_INDIVIDUAL_ORGANISATION)
+      return h.redirect(constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     } else if (changeClientIndividualOrganisation === 'no') {
       return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
     } else {
-      return h.view(constants.views.CHANGE_CLIENT_INDIVIDUAL_ORGANISATION, {
+      return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, {
         err: [{
           text: 'Select yes if you want to change whether your client is an individual or organisation',
           href: '#changeClientIndividualOrganisation'
@@ -34,10 +34,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+  path: constants.routes.CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+  path: constants.routes.CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
   handler: handlers.post
 }]

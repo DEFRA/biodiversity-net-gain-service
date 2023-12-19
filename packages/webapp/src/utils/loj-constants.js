@@ -201,6 +201,7 @@ const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
 const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-client'
 const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = 'land/change-client-individual-organisation'
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = 'land/change-applying-individual-organisation'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
 
 export default {
@@ -412,6 +413,7 @@ export default {
     CHANGE_TYPE_LEGAL_AGREEMENT,
     CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
     CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+    CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION
