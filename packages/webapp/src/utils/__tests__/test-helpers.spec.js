@@ -411,7 +411,7 @@ describe('processRegistrationTask', () => {
     }]
   }
 
-  it.only('should revert completed status to in progress based on flag', () => {
+  it('should revert completed status to in progress based on flag', () => {
     const options = {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
