@@ -45,7 +45,7 @@ describe(url, () => {
             }
           ])
           session.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
-          session.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
+          session.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
             organisationName: 'org1',
             type: 'organisation'

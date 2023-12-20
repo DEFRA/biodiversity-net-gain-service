@@ -62,7 +62,7 @@ const getContext = request => {
     HabitatPlanFileName: getFileNameByType(applicationDetails.files, 'habitat-plan'),
     localLandChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
-    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
+    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),

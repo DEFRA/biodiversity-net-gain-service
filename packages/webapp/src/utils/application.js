@@ -349,7 +349,8 @@ const application = (session, account) => {
       landBoundaryHectares: getHectares(session),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       enhancementWorkStartDate: session.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
-      legalAgreementEndDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY),
+      // BNGP-3863, change legal agreement end date to habitat enhancements end date, but leave application as legalAgreementEndDate :facepalm:
+      legalAgreementEndDate: session.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY),
       habitatPlanIncludedLegalAgreementYesNo: session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
       landowners: getLandowners(session),
       ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
