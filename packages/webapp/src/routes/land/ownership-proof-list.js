@@ -30,9 +30,26 @@ const handlers = {
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
     const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index))
 
+    // (Ref:BGNP-4124) Redirecting to the register land task list if there is no one file added.
+    // And to avoid looping back navigation from upload ownership proof.
+    const { referer } = request.headers || ''
     if (landOwnershipsList.length === 0) {
-      return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+      processRegistrationTask(request, {
+        taskTitle: 'Land information',
+        title: 'Add land ownership details'
+      }, {
+        status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+        inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+        revert: true
+      })
+
+      if (referer && referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      } else {
+        return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+      }
     }
+
     return h.view(constants.views.LAND_OWNERSHIP_PROOF_LIST, {
       landOwnershipsList,
       landOwnershipProofs
