@@ -125,7 +125,7 @@ const getHabitats = session => {
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
-  const getState = (identifier) => {
+  const getState = identifier => {
     switch (identifier.charAt(0)) {
       case 'd':
         return 'Habitat'
@@ -136,7 +136,7 @@ const getHabitats = session => {
     }
   }
 
-  const getModule = (identifier) => {
+  const getModule = identifier => {
     switch (identifier.charAt(identifier.length - 1)) {
       case '1':
         return 'Baseline'
@@ -147,9 +147,32 @@ const getHabitats = session => {
     }
   }
 
+  const getHabitatType = (identifier, details) => {
+    switch (identifier) {
+      case 'd1':
+        return `${details['Broad habitat']} - ${details['Habitat type']}`
+      case 'd2':
+        return `${details['Broad habitat']} - ${details['Proposed habitat']}`
+      case 'd3':
+        return `${details['Proposed Broad Habitat']} - ${details['Proposed habitat']}`
+      case 'e1':
+        return details['Hedgerow type']
+      case 'e2':
+        return details['Habitat type']
+      case 'e3':
+        return details['Proposed habitat']
+      case 'f1':
+        return details['Watercourse type']
+      case 'f2':
+        return details['Watercourse type']
+      case 'f3':
+        return details['Proposed habitat']
+    }
+  }
+
   const baseline = baselineIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
-      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Hedgerow type'],
+      habitatType: getHabitatType(identifier, details),
       baselineReference: String(details['Baseline ref']),
       module: getModule(identifier),
       state: getState(identifier),
@@ -165,7 +188,7 @@ const getHabitats = session => {
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
       proposedHabitatId: details['Habitat reference Number'],
-      habitatType: details['Habitat type'] ?? details['Watercourse type'] ?? details['Proposed habitat'],
+      habitatType: getHabitatType(identifier, details),
       baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
       module: getModule(identifier),
       state: getState(identifier),
@@ -326,7 +349,8 @@ const application = (session, account) => {
       landBoundaryHectares: getHectares(session),
       legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
       enhancementWorkStartDate: session.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
-      legalAgreementEndDate: session.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY),
+      // BNGP-3863, change legal agreement end date to habitat enhancements end date, but leave application as legalAgreementEndDate :facepalm:
+      legalAgreementEndDate: session.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY),
       habitatPlanIncludedLegalAgreementYesNo: session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
       landowners: getLandowners(session),
       ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
@@ -340,7 +364,9 @@ const application = (session, account) => {
     applicationJson.landownerGainSiteRegistration.agent = getClientDetails(session)
   } else if (applicationJson.landownerGainSiteRegistration.applicant.role === constants.applicantTypes.LANDOWNER) {
     applicationJson.landownerGainSiteRegistration.landownerAddress = getAddress(session)
-  } else {
+  }
+
+  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
     applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
   }
 
