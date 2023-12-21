@@ -8,7 +8,7 @@
     "AZURE_BLOB_SERVICE_URL":"http://azurite:10000/devstoreaccount1",
     "AZURE_STORAGE_ACCOUNT": "devstoreaccount1",
     "AZURE_STORAGE_ACCESS_KEY": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
-    "WEBSITE_NODE_DEFAULT_VERSION": "~16",
+    "WEBSITE_NODE_DEFAULT_VERSION": "~18",
     "OPERATOR_SB_CONNECTION_STRING": "",
     "POSTGRES_HOST": "localhost",
     "POSTGRES_USER": "postgres",
