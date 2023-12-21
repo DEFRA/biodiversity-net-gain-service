@@ -11,7 +11,8 @@ import {
   checkForDuplicateConcatenated,
   getErrById,
   initialCapitalization,
-  isValidPostcode
+  isValidPostcode,
+  processRegistrationTask
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -387,5 +388,75 @@ describe('checkForDuplicateConcatenated', () => {
         href: '#personName'
       }
     })
+  })
+})
+
+describe('processRegistrationTask', () => {
+  const redisMap = new Map()
+  const taskDetails = {
+    taskTitle: 'Land information',
+    title: 'Add land ownership details'
+  }
+  const registrationTasks = {
+    taskList: [{
+      taskTitle: 'Land information',
+      tasks: [{
+        title: 'Add land ownership details',
+        status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
+        completedTaskUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+        startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
+        inProgressUrl: '',
+        id: 'add-land-ownership'
+      }]
+    }]
+  }
+
+  it('should revert completed status to in progress based on flag', () => {
+    const options = {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+      revert: true
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+  })
+
+  it('should revert the completed status of the task to inprogress if a revert flag is true', () => {
+    const options = {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+      revert: true
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+  })
+
+  it('should not revert the completed status of the task if a revert flag is false or undefined', () => {
+    const options = {
+      status: constants.COMPLETE_REGISTRATION_TASK_STATUS
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
   })
 })
