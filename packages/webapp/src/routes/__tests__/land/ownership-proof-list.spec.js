@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import * as helpers from '../../../utils/helpers.js'
 const url = constants.routes.LAND_OWNERSHIP_PROOF_LIST
 
 describe(url, () => {
@@ -54,6 +55,16 @@ describe(url, () => {
       await landOwnershipProofs.default[0].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.UPLOAD_LAND_OWNERSHIP)
+    })
+
+    it('should redirect to the register land task list if the list is empty, and to avoid loopback navigation from uploading ownership proof', async () => {
+      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      jest.mock('../../../utils/helpers.js')
+
+      const mockProcessRegistrationTask = jest.spyOn(helpers, 'processRegistrationTask')
+      await landOwnershipProofs.default[0].handler({ headers: { referer: 'http://localhost/land/ownership-proof-list' }, yar: redisMap }, h)
+      expect(mockProcessRegistrationTask).toHaveBeenCalledTimes(2)
+      expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })
 

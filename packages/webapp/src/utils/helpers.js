@@ -7,6 +7,7 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
@@ -168,6 +169,14 @@ const processRegistrationTask = (request, taskDetails, options) => {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
       }
+
+      // Added this condition to revert the completed task based on the flag.
+      // And assigning given value of options.status to the selected task
+      // Ref: BNGP-4124
+      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
+        task.status = options.status
+      }
+
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
