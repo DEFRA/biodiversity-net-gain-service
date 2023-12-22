@@ -31,7 +31,7 @@ describe('ProcessMaliciousUploads', () => {
     })
   })
 
-  it('Should pause when processing a large number of malicious uploads ', done => {
+  it('Should pause if the processing timeout is reached ', done => {
     jest.isolateModules(async () => {
       try {
         // Ensure module level variables are reset in each test.
@@ -55,15 +55,15 @@ describe('ProcessMaliciousUploads', () => {
       }
     })
   })
-  it('Should process malicious uploads with a default processing timeour when an invalid processing timeout is configured', done => {
+  it('Should process malicious uploads with a default processing timeout when an invalid processing timeout is configured', done => {
     jest.isolateModules(async () => {
       try {
         // Ensure module level variables are reset in each test.
         const processMaliciousUploads = require('../index.mjs').default
         // Absolute values are configured to guard against negative values being specified using environment variables.
         process.env.MALICIOUS_UPLOAD_PROCESSING_TIMEOUT_MILLIS = 'mock'
-        process.env.MALICIOUS_UPLOAD_PROCESSING_PAUSE_MILLIS = '-100'
         // Use a custom pause between the processing of each malicious upload to increase test coverage.
+        process.env.MALICIOUS_UPLOAD_PROCESSING_PAUSE_MILLIS = '-100'
         const mockBlobItems = new Array(5)
         mockBlobItems.fill(mockBlobItem)
         const { blobStorageConnector } = require('@defra/bng-connectors-lib')
