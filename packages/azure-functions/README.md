@@ -27,6 +27,11 @@ Prerequisite dependencies used by multiple packages within this repository are d
   * deleting unsubmitted, expired applications to the Biodiversity Net Gain public register.
   * detecting unsubmitted applications to the Biodiversity Net Gain public register that are due to expire sooh.
   * processing malicious uploads
+    * This uses [findBlobsByTags](https://learn.microsoft.com/en-us/javascript/api/@azure/storage-blob/blobserviceclient?view=azure-node-latest#@azure-storage-blob-blobserviceclient-findblobsbytags) functionality of the [Azure Storage Blob client library for JavaScript](https://learn.microsoft.com/en-us/javascript/api/overview/azure/storage-blob-readme?view=azure-node-latest). At the time of writing, Azurite does not appear to provide support for this functionality.
+    Consequently, the **ProcessMaliciousUploads** function must be disabled during standard local development. If refactoring of this function is required a local development
+    environment **must** be connected to a real Azure storage account using the AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCOUNT_KEY and AzureWebJobsStorage environment variables
+    described later in this document. Additionally, the Azurite specific environment variable AZURE_BLOB_SERVICE_URL **must** be removed from the local.settings.json file used
+    to specify app settings during local development.
 
 ## Message processing
 
