@@ -1,18 +1,18 @@
 import constants from '../utils/constants.js'
 
-const cookies = {
+const policies = {
   method: 'GET',
-  path: constants.routes.COOKIES,
+  path: constants.routes.POLICIES,
   options: {
     auth: false
   },
   handler: async (request, h) => {
     const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
 
-    return h.view('cookies', {
+    return h.view(constants.views.POLICIES, {
       referer: requestHeadersReferer
     })
   }
 }
 
-export default cookies
+export default policies

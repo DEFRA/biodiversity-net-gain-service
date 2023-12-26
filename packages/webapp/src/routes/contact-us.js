@@ -1,18 +1,18 @@
 import constants from '../utils/constants.js'
 
-const cookies = {
+const contactus = {
   method: 'GET',
-  path: constants.routes.COOKIES,
+  path: constants.routes.CONTACTUS,
   options: {
     auth: false
   },
   handler: async (request, h) => {
     const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
 
-    return h.view('cookies', {
+    return h.view(constants.views.CONTACTUS, {
       referer: requestHeadersReferer
     })
   }
 }
 
-export default cookies
+export default contactus
