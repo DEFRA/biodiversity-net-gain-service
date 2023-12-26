@@ -200,6 +200,9 @@ const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
+const POLICIES = 'policies'
+const CONTACTUS = 'contact-us'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 
 export default {
   landownerTypes: {
@@ -410,7 +413,10 @@ export default {
     CHANGE_TYPE_LEGAL_AGREEMENT,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
-    CANNOT_VIEW_APPLICATION
+    CANNOT_VIEW_APPLICATION,
+    POLICIES,
+    CONTACTUS,
+    ACCESSIBILITY_STATEMENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
