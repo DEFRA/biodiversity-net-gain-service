@@ -53,6 +53,7 @@ describe(url, () => {
             firstName: 'Crishn',
             middleNames: '',
             lastName: 'P',
+            emailAddress: 'me@me.com',
             type: 'individual'
           }])
           session.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
@@ -81,6 +82,7 @@ describe(url, () => {
           expect(contextResult.localPlanningAuthorities).toEqual('Planning Authority 1')
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1<br>test2')
+          expect(contextResult.landowners).toEqual('org1<br>Crishn P (me@me.com)')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2024')
           expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')

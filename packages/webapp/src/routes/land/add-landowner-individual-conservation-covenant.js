@@ -1,9 +1,11 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, checkForDuplicateConcatenated, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { processRegistrationTask, validateTextInput, checkForDuplicateConcatenated, getLegalAgreementDocumentType, validateIdGetSchemaOptional, emailValidator } from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
 const lastNameID = '#lastName'
+const emailID = '#emailAddress'
+
 const validateIndividual = individual => {
   const errors = {}
   const firstNameError = validateTextInput(individual.firstName, firstNameID, 'First name', 50, 'landowner or leaseholder')
@@ -13,6 +15,10 @@ const validateIndividual = individual => {
   const lastNameError = validateTextInput(individual.lastName, lastNameID, 'Last name', 50, 'landowner or leaseholder')
   if (lastNameError) {
     errors.lastNameError = lastNameError.err[0]
+  }
+  const emailAddressError = emailValidator(individual.emailAddress, emailID)
+  if (emailAddressError && emailAddressError.err && emailAddressError.err.length > 0) {
+    errors.emailAddressError = emailAddressError.err[0]
   }
   return errors
 }
@@ -30,7 +36,8 @@ const handlers = {
     let individual = {
       firstName: '',
       middleNames: '',
-      lastName: ''
+      lastName: '',
+      emailAddress: ''
     }
     const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
@@ -73,7 +80,8 @@ const handlers = {
         err: !isEmpty(errors.individualError) ? Object.values(errors.individualError) : Object.values(errors.fullNameError),
         fullNameError: errors.fullNameError,
         firstNameError: errors.individualError?.firstNameError,
-        lastNameError: errors.individualError?.lastNameError
+        lastNameError: errors.individualError?.lastNameError,
+        emailAddressError: errors.individualError?.emailAddressError
       })
     }
     if (id) {

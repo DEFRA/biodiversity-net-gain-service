@@ -28,6 +28,7 @@ describe(url, () => {
       firstName: 'Crishn',
       middleNames: '',
       lastName: 'P',
+      emailAddress: 'me@me.com',
       type: 'individual'
     }])
     landownersList = require('../../land/check-landowners.js')
