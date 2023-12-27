@@ -17,7 +17,7 @@ const validateIndividual = individual => {
     errors.lastNameError = lastNameError.err[0]
   }
   const emailAddressError = emailValidator(individual.emailAddress, emailID)
-  if (emailAddressError && emailAddressError.err && emailAddressError.err.length > 0) {
+  if (emailAddressError?.err?.length > 0) {
     errors.emailAddressError = emailAddressError.err[0]
   }
   return errors
