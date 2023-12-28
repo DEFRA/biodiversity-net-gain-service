@@ -6,13 +6,7 @@ const accessibilityStatement = {
   options: {
     auth: false
   },
-  handler: async (request, h) => {
-    const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
-
-    return h.view(constants.views.ACCESSIBILITY_STATEMENT, {
-      referer: requestHeadersReferer
-    })
-  }
+  handler: async (_request, h) => h.view(constants.views.ACCESSIBILITY_STATEMENT)
 }
 
 export default accessibilityStatement
