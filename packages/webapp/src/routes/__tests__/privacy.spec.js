@@ -1,7 +1,7 @@
 import { submitGetRequest } from './helpers/server.js'
 import constants from '../../utils/constants.js'
 
-const url = constants.routes.POLICIES
+const url = constants.routes.PRIVACY
 
 describe(url, () => {
   describe('GET', () => {
