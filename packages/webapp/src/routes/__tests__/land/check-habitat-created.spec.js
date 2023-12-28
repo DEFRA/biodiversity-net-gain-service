@@ -29,39 +29,39 @@ describe(url, () => {
     it(`should not display blank rows on ${url.substring(1)} view`, async () => {
       const session = applicationSession()
       session.set('metric-data', {
-        "d2": [
+        d2: [
           {
-            "Delay in starting habitat creation (years)": 0,
-            "Broad habitat": "Heathland and shrub",
-            "Proposed habitat": "Bramble scrub",
-            "Area (hectares)": 0.1,
-            "Condition": "Condition Assessment N/A",
-            "Habitat units delivered": 0.386,
-            "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
-            "Habitat created in advance (years)": 0
+            'Delay in starting habitat creation (years)': 0,
+            'Broad habitat': 'Heathland and shrub',
+            'Proposed habitat': 'Bramble scrub',
+            'Area (hectares)': 0.1,
+            Condition: 'Condition Assessment N/A',
+            'Habitat units delivered': 0.386,
+            'Strategic significance': 'Area/compensation not in local strategy/ no local strategy',
+            'Habitat created in advance (years)': 0
           },
           {
-            "Proposed habitat": "Total habitat area",
-            "Area (hectares)": 1,
-            "Habitat units delivered": 7.3994822603
+            'Proposed habitat': 'Total habitat area',
+            'Area (hectares)': 1,
+            'Habitat units delivered': 7.3994822603
           }
         ],
-        "e2": [
+        e2: [
           {
-            "Habitat reference Number": "",
-            "Habitat type": undefined,
-            "Length (km)": 0,
-            "Delay in starting habitat creation (years)": 0,
-            "Hedge units delivered": null,
-            "Condition": null,
-            "Strategic significance": "",
-            "Habitat created in advance (years)": 0
+            'Habitat reference Number': '',
+            'Habitat type': undefined,
+            'Length (km)': 0,
+            'Delay in starting habitat creation (years)': 0,
+            'Hedge units delivered': null,
+            Condition: null,
+            'Strategic significance': '',
+            'Habitat created in advance (years)': 0
           }
         ],
-        "validation": {
-          "isSupportedVersion": true,
-          "isOffsiteDataPresent": true,
-          "areOffsiteTotalsCorrect": true
+        validation: {
+          isSupportedVersion: true,
+          isOffsiteDataPresent: true,
+          areOffsiteTotalsCorrect: true
         }
       })
       const getHandler = checkHabitatCreated[0].handler
@@ -75,7 +75,7 @@ describe(url, () => {
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CHECK_HABITAT_CREATED)
       expect(viewArgs[1].combinedHabitatTypeAndCondition.length).toEqual(1)
-      expect(viewArgs[1].combinedHabitatTypeAndCondition).toEqual([{"dataTestId": "habitatTotal", "description": "Proposed habitat", "header": "Broad habitat", "items": [{"amount": 0.1, "condition": "Condition Assessment N/A", "description": "Bramble scrub", "header": "Heathland and shrub"}], "total": 1, "type": "Habitat", "unit": "Area (ha)", "unitKey": "Area (hectares)"}])
+      expect(viewArgs[1].combinedHabitatTypeAndCondition).toEqual([{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [{ amount: 0.1, condition: 'Condition Assessment N/A', description: 'Bramble scrub', header: 'Heathland and shrub' }], total: 1, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }])
     })
   })
   describe('POST', () => {
