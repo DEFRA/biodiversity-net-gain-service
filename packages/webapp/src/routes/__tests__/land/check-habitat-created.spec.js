@@ -50,12 +50,15 @@ describe(url, () => {
           {
             'Habitat reference Number': '',
             'Habitat type': undefined,
-            'Length (km)': 0,
+            'Length (km)': undefined,
             'Delay in starting habitat creation (years)': 0,
             'Hedge units delivered': null,
             Condition: null,
-            'Strategic significance': '',
-            'Habitat created in advance (years)': 0
+            'Strategic significance': ''
+          },
+          {
+            'Length (km)': 0.3,
+            'Hedge units delivered': 1.7654229486
           }
         ],
         validation: {
@@ -74,8 +77,8 @@ describe(url, () => {
 
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CHECK_HABITAT_CREATED)
-      expect(viewArgs[1].combinedHabitatTypeAndCondition.length).toEqual(1)
-      expect(viewArgs[1].combinedHabitatTypeAndCondition).toEqual([{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [{ amount: 0.1, condition: 'Condition Assessment N/A', description: 'Bramble scrub', header: 'Heathland and shrub' }], total: 1, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }])
+      expect(viewArgs[1].combinedHabitatTypeAndCondition.length).toEqual(2)
+      expect(viewArgs[1].combinedHabitatTypeAndCondition).toEqual(JSON.parse('[{"dataTestId":"habitatTotal","description":"Proposed habitat","header":"Broad habitat","items":[{"amount":0.1,"condition":"Condition Assessment N/A","description":"Bramble scrub","header":"Heathland and shrub"}],"total":1,"type":"Habitat","unit":"Area (ha)","unitKey":"Area (hectares)"},{"dataTestId":"hedgeTotal","description":"Habitat type","items":[],"total":0.3,"type":"Hedgerow","unit":"Length (km)","unitKey":"Length (km)"}]'))
     })
   })
   describe('POST', () => {
