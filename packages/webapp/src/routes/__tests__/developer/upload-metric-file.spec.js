@@ -268,8 +268,8 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
-
-    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+    /// / BNGP-4219 METRIC Validation: Suppress total area calculations
+    it.only('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
