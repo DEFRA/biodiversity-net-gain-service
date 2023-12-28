@@ -6,13 +6,7 @@ const contactus = {
   options: {
     auth: false
   },
-  handler: async (request, h) => {
-    const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
-
-    return h.view(constants.views.CONTACTUS, {
-      referer: requestHeadersReferer
-    })
-  }
+  handler: async (_request, h) => h.view(constants.views.CONTACTUS)
 }
 
 export default contactus
