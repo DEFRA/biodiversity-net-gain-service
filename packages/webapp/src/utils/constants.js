@@ -45,8 +45,6 @@ const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
 
-const SHUTTER_PAGE = 'shutter-page'
-
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION
@@ -173,8 +171,7 @@ let routes = {
   SIGNIN_CALLBACK,
   SIGNOUT,
   SIGNED_OUT,
-  APPLICATION_SUBMITTED,
-  SHUTTER_PAGE
+  APPLICATION_SUBMITTED
 }
 
 // Routes that are only loaded if NODE_ENV === development
