@@ -75,19 +75,20 @@ const applicationValidation = Joi.object({
       id: Joi.string().required(),
       address: applicantAddressSchema
     }).optional(),
+    // BNGP-4130-relax-metric-check-and-submit-validation
     habitats: Joi.object({
       baseline: Joi.array().items(
         Joi.object({
-          habitatType: Joi.string().required(),
-          baselineReference: Joi.string().required(),
-          module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
-          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
-          condition: Joi.string().required(),
+          habitatType: Joi.string(),
+          baselineReference: Joi.string(),
+          module: Joi.string().valid('Baseline', 'Created', 'Enhanced'),
+          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse'),
+          condition: Joi.string(),
           area: Joi.object({
-            beforeEnhancement: Joi.number().required(),
-            afterEnhancement: Joi.number().required()
-          }).required(),
-          measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
+            beforeEnhancement: Joi.number(),
+            afterEnhancement: Joi.number()
+          }),
+          measurementUnits: Joi.string().valid('hectares', 'kilometres')
         })
       ),
       proposed: Joi.array().items(
@@ -95,21 +96,21 @@ const applicationValidation = Joi.object({
           proposedHabitatId: Joi.string(),
           baselineReference: Joi.when('module', {
             is: 'Enhanced',
-            then: Joi.string().required(),
+            then: Joi.string(),
             otherwise: Joi.string().allow('')
           }),
           habitatReferenceNumber: Joi.string(),
-          module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
-          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
-          habitatType: Joi.string().required(),
-          condition: Joi.string().required(),
-          strategicSignificance: Joi.string().required(),
-          advanceCreation: Joi.number().integer().min(0).max(30).required(),
-          delayedCreation: Joi.number().integer().min(0).max(30).required(),
+          module: Joi.string().valid('Baseline', 'Created', 'Enhanced'),
+          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse'),
+          habitatType: Joi.string(),
+          condition: Joi.string(),
+          strategicSignificance: Joi.string(),
+          advanceCreation: Joi.number().integer(),
+          delayedCreation: Joi.number().integer(),
           encroachmentExtent: Joi.string(),
           encroachmentExtentBothBanks: Joi.string(),
-          area: Joi.number().required(),
-          measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
+          area: Joi.number(),
+          measurementUnits: Joi.string().valid('hectares', 'kilometres')
         })
       )
     }),
