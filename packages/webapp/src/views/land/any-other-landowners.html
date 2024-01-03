@@ -1,0 +1,53 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Are there any other landowners or leaseholders listed on the "+ legalAgreementType +"?" %}
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds" id="anyOtherLO">
+                {{ govukRadios({
+                    idPrefix: "anyOtherLO",
+                    name: "anyOtherLOValue",
+                    fieldset: {
+                        legend: {
+                            text: pageHeading,
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    hint: {
+                        text: "We need to know about any landowners or leaseholders apart from " + name,
+                        classes: "govuk-hint app-text-colour wrap-text"
+                    },
+                    errorMessage: err[0],
+                    items: [
+                        {
+                            value: "Yes",
+                            text: "Yes",
+                            id: "anyOtherLO-yes",
+                            checked: checked(selectedAnyOtherLOValue, "yes") 
+                        },
+                        {
+                            value: "No",
+                            text: "No",
+                            id: "anyOtherLO-no",
+                            checked: checked(selectedAnyOtherLOValue, "no") 
+                        }
+                    ]
+                }) }}
+                {{ govukButton({
+                    text: "Save and continue",
+                    attributes: {
+                        id: "continue",
+                        "data-testid": "continue"
+                      }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
