@@ -167,7 +167,8 @@ const applicationValidation = Joi.object({
         Joi.object({
           firstName: Joi.string().required(),
           middleNames: Joi.string().allow('').optional(),
-          lastName: Joi.string().required()
+          lastName: Joi.string().required(),
+          email: Joi.string().required()
         })
       )
     }).custom((value, helpers) => {

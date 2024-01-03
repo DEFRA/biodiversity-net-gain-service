@@ -38,6 +38,7 @@ describe('Land boundary upload controller tests', () => {
       firstName: 'Crishn',
       middleNames: '',
       lastName: 'P',
+      emailAddress: 'me@me.com',
       type: 'individual'
     }])
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
@@ -74,7 +75,7 @@ describe('Land boundary upload controller tests', () => {
           expect(contextResult.legalAgreementType).toEqual('Planning obligation (section 106 agreement)')
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1<br>test2')
-          expect(contextResult.landowners).toEqual('org1<br>Crishn P')
+          expect(contextResult.landowners).toEqual('org1<br>Crishn P (me@me.com)')
           expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')
           expect(contextResult.HabitatPlanFileName).toEqual('habitat-plan.pdf')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
