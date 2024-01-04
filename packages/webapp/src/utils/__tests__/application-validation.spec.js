@@ -86,7 +86,8 @@ describe('application-validation', () => {
         type: 'individual',
         firstName: 'Geoff',
         middleNames: '',
-        lastName: 'Hopkin'
+        lastName: 'Hopkin',
+        emailAddress: 'me@me.com'
       }])
       const { value, error } = applicationValidation.validate(application(session, applicant))
       expect(error).toBeUndefined()
