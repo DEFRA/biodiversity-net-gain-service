@@ -75,7 +75,7 @@ const getContext = request => {
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
     landownershipFilesRows: getLandOwnershipRows(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)),
-    anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED),
+    anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
 const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
