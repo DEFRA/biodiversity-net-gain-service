@@ -52,7 +52,6 @@ const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-co
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
-const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
@@ -369,7 +368,6 @@ export default {
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
     REGISTERED_LANDOWNER,
-    ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
