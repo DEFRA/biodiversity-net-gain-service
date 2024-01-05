@@ -321,7 +321,6 @@ const getLandowners = session => {
     organisation: [],
     individual: []
   }
-
   sessionLandowners?.forEach(landowner => {
     if (landowner.type === 'organisation') {
       landownersByType.organisation.push({ organisationName: landowner.organisationName })
@@ -329,7 +328,8 @@ const getLandowners = session => {
       landownersByType.individual.push({
         firstName: landowner.firstName,
         middleNames: landowner.middleNames,
-        lastName: landowner.lastName
+        lastName: landowner.lastName,
+        email: landowner.emailAddress
       })
     }
   })

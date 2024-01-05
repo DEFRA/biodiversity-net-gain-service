@@ -387,6 +387,7 @@ const dataString = `
     "firstName": "Crishn",
     "middleNames": "",
     "lastName": "P",
+    "emailAddress": "me@me.com",
     "type": "individual"
   }],
   "habitat-plan-legal-agreement-document-included-yes-no": "No",
