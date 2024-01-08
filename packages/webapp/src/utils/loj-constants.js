@@ -177,7 +177,7 @@ const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
-const ANY_OTHER_LANDOWNERS_CHECKED = 'la-concov-landowner-start-checked'
+const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
