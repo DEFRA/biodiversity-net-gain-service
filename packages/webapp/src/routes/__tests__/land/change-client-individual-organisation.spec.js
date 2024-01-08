@@ -41,7 +41,7 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.CLIENT_INDIVIDUAL_ORGANISATION)
     })
-    it('Should continue journey to CHECK_APPLICANT_INFORMATION if user does not want to change applying as individual or organisation', async () => {
+    it('Should continue journey to CHECK_APPLICANT_INFORMATION if user does not want to change if the client is individual or organisation', async () => {
       const request = {
         yar: redisMap,
         payload: { changeClientIndividualOrganisation: 'no' }

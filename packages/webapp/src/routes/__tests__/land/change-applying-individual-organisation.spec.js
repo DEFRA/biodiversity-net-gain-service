@@ -31,7 +31,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION if user confirms to changing legal agreement', async () => {
+    it('Should continue journey to APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION if the client is individual or organisation', async () => {
       const request = {
         yar: redisMap,
         payload: { changeApplyingIndividualOrganisation: 'yes' }
