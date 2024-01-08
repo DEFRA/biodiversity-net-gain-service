@@ -1,12 +1,18 @@
-import { getApplicationCountByContactId, getApplicationStatusesByContactIdAndApplicationType } from '../Shared/db-queries.js'
+import {
+  getApplicationCountByContactIdAndOrganisationId,
+  getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType
+} from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
 export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   let db
   try {
-    const contactId = req.body.contactId
-    const applicationType = req.body.applicationType
+    const {
+      contactId,
+      organisationId,
+      applicationType
+    } = req.body
     if (!contactId || !applicationType) {
       throw new Error('Contact ID or application type is missing')
     }
@@ -14,10 +20,10 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Does the user have any applications regardless of application type?
-    const applicationCountResult = await getApplicationCountByContactId(db, [contactId])
+    const applicationCountResult = await getApplicationCountByContactIdAndOrganisationId(db, [contactId, organisationId])
 
     if (applicationCountResult?.rows[0]?.application_count) {
-      const applicationStatusJson = await getApplicationData(db, contactId, applicationType)
+      const applicationStatusJson = await getApplicationData(db, contactId, organisationId, applicationType)
       context.res = {
         status: 200,
         body: applicationStatusJson
@@ -40,9 +46,9 @@ export default async function (context, req) {
   }
 }
 
-const getApplicationData = async (db, contactId, applicationType) => {
+const getApplicationData = async (db, contactId, organisationId, applicationType) => {
   const applicationData = []
-  const applicationStatusesResult = await getApplicationStatusesByContactIdAndApplicationType(db, [contactId, applicationType])
+  const applicationStatusesResult = await getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType(db, [contactId, organisationId, applicationType])
 
   for (const row of applicationStatusesResult.rows) {
     applicationData.push({

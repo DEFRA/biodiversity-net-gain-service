@@ -1,5 +1,6 @@
 const dataString = `
 {
+  "contact-id": "mock contact id",
   "registrationTaskDetails": {
     "taskList": [
       {
@@ -386,11 +387,12 @@ const dataString = `
     "firstName": "Crishn",
     "middleNames": "",
     "lastName": "P",
+    "emailAddress": "me@me.com",
     "type": "individual"
   }],
   "habitat-plan-legal-agreement-document-included-yes-no": "No",
   "enhancement-works-start-date": "2022-01-01T00:00:00.000Z",
-  "legal-agreement-end-date": "2023-01-01T00:00:00.000Z",
+  "habitat-enhancements-end-date": "2023-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",

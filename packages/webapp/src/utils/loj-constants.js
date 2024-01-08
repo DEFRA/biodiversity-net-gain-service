@@ -21,7 +21,7 @@ const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
+const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
@@ -130,12 +130,12 @@ const LAND_OWNERSHIP_FILE_TYPE = 'land-ownership-file-type'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
-const LEGAL_AGREEMENT_END_DATE_KEY = 'legal-agreement-end-date'
+const HABITAT_ENHANCEMENTS_END_DATE_KEY = 'habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE_KEY = 'enhancement-works-start-date'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_END_DATE_OPTION = 'legal-agreement-end-date-option'
+const HABITAT_ENHANCEMENTS_END_DATE_OPTION = 'legal-agreement-end-date-option'
 const ENHANCEMENT_WORKS_START_DATE_OPTION = 'enhancement-works-start-date-option'
 const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
 const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
@@ -199,6 +199,7 @@ const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
+const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
 
 export default {
   landownerTypes: {
@@ -269,7 +270,7 @@ export default {
     LANDOWNERS,
     LANDOWNER_CONSENT_KEY,
     LEGAL_AGREEMENT_START_DATE_KEY,
-    LEGAL_AGREEMENT_END_DATE_KEY,
+    HABITAT_ENHANCEMENTS_END_DATE_KEY,
     ENHANCEMENT_WORKS_START_DATE_OPTION,
     ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
@@ -277,7 +278,7 @@ export default {
     LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
     LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
     LEGAL_AGREEMENT_START_DAY,
-    LEGAL_AGREEMENT_END_DATE_OPTION,
+    HABITAT_ENHANCEMENTS_END_DATE_OPTION,
     LEGAL_AGREEMENT_START_MONTH,
     LEGAL_AGREEMENT_START_YEAR,
     REGISTRATION_TASK_DETAILS,
@@ -331,7 +332,7 @@ export default {
     REMOVE_LEGAL_AGREEMENT_FILE,
     REMOVE_LANDOWNER,
     LEGAL_AGREEMENT_START_DATE,
-    LEGAL_AGREEMENT_END_DATE,
+    HABITAT_ENHANCEMENTS_END_DATE,
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
@@ -408,7 +409,8 @@ export default {
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
     LAND_OWNERSHIP_PROOF_LIST,
-    LAND_OWNERSHIP_REMOVE
+    LAND_OWNERSHIP_REMOVE,
+    CANNOT_VIEW_APPLICATION
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

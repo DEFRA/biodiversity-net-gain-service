@@ -20,6 +20,7 @@ describe(url, () => {
         },
         redirect: (view, context) => {
           viewResult = view
+          resultContext = context
         }
       }
 
@@ -39,7 +40,7 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+      await submitGetRequest({ url }, 302)
     })
 
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -48,7 +49,7 @@ describe(url, () => {
         headers: {
           referer: constants.routes.CHECK_AND_SUBMIT
         }
-      })
+      }, 302)
     })
 
     it('should show correct land ownership proofs', async () => {
@@ -64,6 +65,26 @@ describe(url, () => {
     })
 
     it('should not show land ownership proofs if file location is null', async () => {
+      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+        fileName: '',
+        fileLocation: null,
+        fileSize: 0.01,
+        fileType: 'application/msword',
+        id: '1'
+      }])
+
+      const request = {
+        yar: redisMap,
+        query: { id: '1' }
+      }
+
+      await checkOwnershipProofFile[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
+    })
+
+    it('should redirect to the register task list if required data is not found', async () => {
+      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
       const request = {
         yar: redisMap,
         query: { id: '2' }
@@ -71,8 +92,7 @@ describe(url, () => {
 
       await checkOwnershipProofFile[0].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.CHECK_PROOF_OF_OWNERSHIP)
-      expect(resultContext.fileName).toEqual('')
+      expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })
 

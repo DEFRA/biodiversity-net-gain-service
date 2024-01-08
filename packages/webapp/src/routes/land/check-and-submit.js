@@ -17,6 +17,7 @@ import {
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 import applicationInformationContext from './helpers/applicant-information.js'
+import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -27,10 +28,20 @@ const handlers = {
       : h.redirect(constants.routes.START)
   },
   post: async (request, h) => {
+    if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
+      const err = [{
+        text: 'You must confirm you have read the terms and conditions',
+        href: '#termsAndConditionsConfirmed'
+      }]
+      return h.view(constants.views.CHECK_AND_SUBMIT, { ...getContext(request), err })
+    }
+
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    value.organisationId = organisationId
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
     request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
@@ -59,7 +70,7 @@ const getContext = request => {
     HabitatPlanFileName: getFileNameByType(applicationDetails.files, 'habitat-plan'),
     localLandChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
-    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY), 'end date'),
+    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),

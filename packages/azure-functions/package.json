@@ -1,9 +1,13 @@
 {
   "name": "azure-functions",
-  "version": "0.262.0",
+  "version": "0.274.0",
   "private": true,
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
+  "engines": {
+    "node": ">=18"
+  },
+  "engine-strict": true,
   "scripts": {
     "local:install": "bin/init-local-settings-if-needed.sh",
     "lint": "standard",
@@ -20,16 +24,16 @@
   "dependencies": {
     "@azure/identity": "^4.0.0",
     "@azure/storage-blob": "^12.16.0",
-    "@defra/bng-connectors-lib": "0.262.0",
-    "@defra/bng-errors-lib": "0.262.0",
-    "@defra/bng-geoprocessing-service": "0.262.0",
-    "@defra/bng-metric-service": "0.262.0",
-    "@defra/bng-utils-lib": "0.262.0",
+    "@defra/bng-connectors-lib": "0.274.0",
+    "@defra/bng-errors-lib": "0.274.0",
+    "@defra/bng-geoprocessing-service": "0.274.0",
+    "@defra/bng-metric-service": "0.274.0",
+    "@defra/bng-utils-lib": "0.274.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "moment": "^2.29.4",
     "notifications-node-client": "^7.0.6"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.262.0"
+    "@defra/bng-azure-storage-test-utils": "0.274.0"
   }
 }
