@@ -26,6 +26,12 @@ Prerequisite dependencies used by multiple packages within this repository are d
 * Timer based triggering is used when:
   * deleting unsubmitted, expired applications to the Biodiversity Net Gain public register.
   * detecting unsubmitted applications to the Biodiversity Net Gain public register that are due to expire sooh.
+  * processing malicious uploads
+    * This uses [findBlobsByTags](https://learn.microsoft.com/en-us/javascript/api/@azure/storage-blob/blobserviceclient?view=azure-node-latest#@azure-storage-blob-blobserviceclient-findblobsbytags) functionality of the [Azure Storage Blob client library for JavaScript](https://learn.microsoft.com/en-us/javascript/api/overview/azure/storage-blob-readme?view=azure-node-latest). At the time of writing, Azurite does not appear to provide support for this functionality.
+    Consequently, the **ProcessMaliciousUploads** function must be disabled during standard local development. If refactoring of this function is required a local development
+    environment **must** be connected to a real Azure storage account using the AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCOUNT_KEY and AzureWebJobsStorage environment variables
+    described later in this document. Additionally, the Azurite specific environment variable AZURE_BLOB_SERVICE_URL **must** be removed from the local.settings.json file used
+    to specify app settings during local development.
 
 ## Message processing
 
@@ -63,6 +69,9 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | CONTINUE_REGISTRATION_URL | URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
 | PROCESS_UNTRUSTED_ATTEMPTS | Count of attempts of process Untrusted (purpose is to replay AV scanning issues) defaults to 5 | N |
 | SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED | Set to true to send an email notification when application session data is saved | N |
+| PROCESS_MALICIOUS_UPLOADS_NCRONTAB | NCRONTAB expression for malicious upload processing timer (see [Timer trigger for Azure function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=in-process&pivots=programming-language-javascript#ncrontab-expressions)) | Y |
+| MALICIOUS_UPLOAD_PROCESSING_PAUSE_MILLIS | Pause (in milliseconds) between the processing of each malicious upload (defaults to 200) | N |
+| MALICIOUS_UPLOAD_PROCESSING_TIMEOUT_MILLIS | Timeout (in millisececonds) used to pause scheduled processing of malicious uploads (defaults to 10000) | N |
 
 ### App settings / environment variables for use with Azurite
 

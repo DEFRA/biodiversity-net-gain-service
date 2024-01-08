@@ -8,7 +8,7 @@
     "AZURE_BLOB_SERVICE_URL":"http://azurite:10000/devstoreaccount1",
     "AZURE_STORAGE_ACCOUNT": "devstoreaccount1",
     "AZURE_STORAGE_ACCESS_KEY": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
-    "WEBSITE_NODE_DEFAULT_VERSION": "~16",
+    "WEBSITE_NODE_DEFAULT_VERSION": "~18",
     "OPERATOR_SB_CONNECTION_STRING": "",
     "POSTGRES_HOST": "localhost",
     "POSTGRES_USER": "postgres",
@@ -23,10 +23,13 @@
     "EXPIRING_APPLICATION_SESSION_TEMPLATE_ID": "",
     "CONTINUE_REGISTRATION_URL": "",
     "PROCESS_UNTRUSTED_ATTEMPTS": 5,
+    "MALICIOUS_UPLOAD_PROCESSING_PAUSE_MILLIS": "200",
+    "MALICIOUS_UPLOAD_PROCESSING_TIMEOUT_MILLIS": "10000",
     "AzureWebJobs.ClearApplicationSession.Disabled": "true",
     "AzureWebJobs.SendExpiringApplicationSessionNotification.Disabled": "true",
     "AzureWebJobs.SendSavedApplicationSessionNotification.Disabled": "true",
-    "AzureWebJobs.WarnOfExpringApplicationSessions.Disabled": "true"
+    "AzureWebJobs.WarnOfExpringApplicationSessions.Disabled": "true",
+    "AzureWebJobs.ProcessMaliciousUploads.Disabled": "true"
   },
   "ConnectionStrings": {}
 }

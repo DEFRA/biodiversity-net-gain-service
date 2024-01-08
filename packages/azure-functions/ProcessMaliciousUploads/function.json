@@ -1,0 +1,10 @@
+{ 
+  "bindings": [
+    {
+      "schedule": "%PROCESS_MALICIOUS_UPLOADS_NCRONTAB%",
+      "name": "processMaliciousUploadsTimer",
+      "type": "timerTrigger",
+      "direction": "in"
+    }
+  ]
+}
