@@ -613,7 +613,6 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    console.log('sooraj')
     // BNGP-4219 METRIC Validation: Suppress total area calculations
     // error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
     return null
