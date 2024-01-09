@@ -30,6 +30,11 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
+    it(`should render the ${url.substring(1)} view when application reference is present`, async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, 'some-reference')
+      await submitGetRequest({ url }, 200, developerApplicationData)
+    })
   })
   describe('POST', () => {
     it('Should process a valid application correctly', done => {
