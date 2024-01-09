@@ -35,6 +35,12 @@ describe(url, () => {
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, 'some-reference')
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
+    it('should redirect to Start page when application reference is blank', async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, '')
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
   })
   describe('POST', () => {
     it('Should process a valid application correctly', done => {
