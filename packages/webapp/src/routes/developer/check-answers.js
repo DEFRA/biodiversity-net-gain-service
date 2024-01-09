@@ -11,14 +11,11 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    const appReference = request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
-    if (appReference !== null && appReference !== '') {
-      return h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
+    return request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) !== null
+      ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
       })
-    } else {
-      return h.redirect(constants.routes.START)
-    }
+      : h.redirect(constants.routes.START)
   },
   post: async (request, h) => {
     const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))

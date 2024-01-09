@@ -26,6 +26,12 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
+    it('should redirect to Start page when application reference is undefined', async () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, undefined)
+      const response = await submitGetRequest({ url }, 302, {})
+      expect(response.headers.location).toEqual(constants.routes.START)
+    })
     it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
