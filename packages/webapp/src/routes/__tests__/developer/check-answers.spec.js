@@ -17,17 +17,12 @@ const auth = {
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view`, async () => {
+    it(`should successfully render the ${url.substring(1)} view on valid GET request`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
-    it(`should render the ${url.substring(1)} view `, async () => {
+    it(`should redirect from ${url.substring(1)} view when application reference is null`, async () => {
       const session = new Session()
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, null)
-      await submitGetRequest({ url }, 302, { ...developerApplicationData, 'application-reference': null })
-    })
-    it(`should render the ${url.substring(1)} view `, async () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
     })
