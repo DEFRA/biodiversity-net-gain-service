@@ -243,7 +243,8 @@ const getLandowners = landOwners => {
       organisationNames.push(item.organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
-      individualNames.push(nameParts.join(' '))
+      const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
+      individualNames.push(individualName)
     }
   })
 
