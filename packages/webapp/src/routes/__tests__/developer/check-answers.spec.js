@@ -20,18 +20,16 @@ describe(url, () => {
     it(`should successfully render the ${url.substring(1)} view on valid GET request`, async () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
-    it(`should redirect from ${url.substring(1)} view when application reference is null`, async () => {
-      const session = new Session()
+
+    it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
+      const session = setDeveloperApplicationSession()
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, null)
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      const { handler } = checkAnswers.find(route => route.method === 'GET')
+      const h = { redirect: jest.fn() }
+      await handler({ yar: session }, h)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.START)
     })
-    it('should redirect to Start page when application reference is undefined', async () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, undefined)
-      const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
-    })
+
     it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual(constants.routes.START)
