@@ -60,6 +60,7 @@ describe('Land boundary upload controller tests', () => {
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
           redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, `${mockDataPath}/legal-agreement.pdf`)
           redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, `${mockDataPath}/habitat-plan.pdf`)
+          redisMap.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, 'Yes')
           const request = {
             yar: redisMap
           }
