@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-azure-storage-test-utils",
-  "version": "0.275.0",
+  "version": "0.276.0",
   "type": "module",
   "description": "Azure storage related test utilities for Biodiversity Net Gain",
   "main": "src/main.js",
@@ -15,7 +15,7 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@defra/bng-connectors-lib": "0.275.0",
+    "@defra/bng-connectors-lib": "0.276.0",
     "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b"
   },
   "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
