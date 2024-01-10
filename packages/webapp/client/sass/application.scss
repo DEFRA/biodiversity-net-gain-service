@@ -8,6 +8,7 @@ $govuk-font-family: "Arial", sans-serif !important;
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
 @import "./patterns/login-nav";
+@import "./patterns/summary-list";
 @import "node_modules/accessible-autocomplete/dist/accessible-autocomplete.min";
 
 //OL Mapping
