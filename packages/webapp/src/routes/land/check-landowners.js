@@ -37,7 +37,7 @@ const getCustomizedHTML = (item, index) => {
           href: `${constants.routes.REMOVE_LANDOWNER}?id=${index}`,
           text: 'Remove'
         }],
-        classes: 'govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short'
+        classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
       },
       class: 'govuk-summary-list__row'
     }
