@@ -45,6 +45,7 @@ warning: other service dependencies will be missing, install and run from root o
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
+| LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
 
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.
 
