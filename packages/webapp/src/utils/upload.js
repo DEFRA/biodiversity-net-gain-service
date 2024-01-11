@@ -5,6 +5,11 @@ import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
 import { fileMalwareCheck } from './file-malware-check.js'
 
+// The logger object is accessible through the request object
+// since the introduction of hapi-pino. Ideally the logger parameter
+// is redundant accordingly but the legacy signature remains due to
+// failing unit tests associated with file uploads. Refactoring can be
+// performed as tech debt.
 const uploadFile = async (logger, request, config) => {
   // Use multiparty to get file stream
   const uploadResult = await new Promise((resolve, reject) => {
