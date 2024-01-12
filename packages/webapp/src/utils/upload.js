@@ -4,6 +4,8 @@ import multiparty from 'multiparty'
 import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
 import { fileMalwareCheck } from './file-malware-check.js'
+import { isXSSVulnerable } from './html-sanitizer.js'
+import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const uploadFile = async (logger, request, config) => {
   // Use multiparty to get file stream
@@ -57,6 +59,13 @@ const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   const filename = part.filename
+
+  if (isXSSVulnerable(filename)) {
+    throw new ThreatScreeningError({
+      Status: constants.threatScreeningStatusValues.XSS_VULNERABILITY_FOUND
+    })
+  }
+
   // Delay throwing errors until the form is closed.
   if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
