@@ -8,7 +8,6 @@ const headers = [
   'Length (km)',
   'Length enhanced',
   'Condition',
-  'Total hedgerow units',
   'Habitat reference Number',
   'Off-site reference',
   'Hedge number',

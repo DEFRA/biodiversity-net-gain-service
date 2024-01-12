@@ -15,7 +15,9 @@ export default async function (context, config) {
         },
         validationConfiguration: bngMetricService.validationConfiguration
       }
+      console.time('bngMetricService.extractMetricContent')
       metricData = await bngMetricService.extractMetricContent(documentStream, metricExtractionConfig)
+      console.timeEnd('bngMetricService.extractMetricContent')
     } else {
       throw new Error('Unable to retrieve blob')
     }
