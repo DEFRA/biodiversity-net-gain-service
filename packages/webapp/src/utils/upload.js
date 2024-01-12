@@ -7,6 +7,11 @@ import { fileMalwareCheck } from './file-malware-check.js'
 import { isXSSVulnerable } from './html-sanitizer.js'
 import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
+// The logger object is accessible through the request object
+// since the introduction of hapi-pino. Ideally the logger parameter
+// is redundant accordingly but the legacy signature remains due to
+// failing unit tests associated with file uploads. Refactoring can be
+// performed as tech debt.
 const uploadFile = async (logger, request, config) => {
   // Use multiparty to get file stream
   const uploadResult = await new Promise((resolve, reject) => {
@@ -15,7 +20,7 @@ const uploadFile = async (logger, request, config) => {
       try {
         const uploadResult = {}
         // Send this part of the multipart request for processing
-        await handlePart(logger, part, config, uploadResult)
+        await handlePart(request.logger, part, config, uploadResult)
         resolve(uploadResult)
       } catch (err) {
         reject(err)
@@ -47,7 +52,7 @@ const uploadFile = async (logger, request, config) => {
         throw new Error(uploadResult.postProcess.errorMessage)
       }
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} File failed post processing: ${uploadResult.config.blobConfig.blobName}`)
+      logger.error(`${new Date().toUTCString()} File failed post processing: ${uploadResult.config.blobConfig.blobName}`)
       throw err
     }
   }
@@ -78,7 +83,7 @@ const handlePart = async (logger, part, config, uploadResult) => {
     uploadResult.errorMessage = constants.uploadErrors.maximumFileSizeExceeded
     part.resume()
   } else {
-    logger.log(`${new Date().toUTCString()} Uploading ${filename}`)
+    logger.info(`${new Date().toUTCString()} Uploading ${filename}`)
     uploadResult.fileSize = fileSizeInBytes
     uploadResult.filename = filename
     uploadResult.fileType = part.headers['content-type']

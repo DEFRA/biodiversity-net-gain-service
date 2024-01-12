@@ -346,12 +346,16 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
       metricData[key].forEach((item, index) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
-          items.push({
+          const habitatItems = {
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
             amount: item[habitatTypeMap[key].unitKey]
-          })
+          }
+          const isObjectWithEmptyValues = Object.values(habitatItems).every(value => value === null || value === '' || value === undefined)
+          if (!isObjectWithEmptyValues) {
+            items.push(habitatItems)
+          }
         }
       })
 
