@@ -72,9 +72,10 @@ class BngMetricSingleDataExtractor {
         for (const item of data) {
           // #1 Checking each row's to verify if all coliumn has valid values
           let isValidRow = false
-          for (const [key, val] of Object.entries(item)) {
+          for (const key in item) {
             // Data was extracted even if all rows have null values due to 'Baseline ref'
             // So excluding this column will remove such blank rows.
+            const val = item[key]
             if (key !== 'Baseline ref') {
               if (typeof val === 'string' && val.trim().length !== 0) {
                 isValidRow = true
@@ -117,10 +118,11 @@ class BngMetricSingleDataExtractor {
           }
           dataKey++
         }
-        newData.sheetTitle = sheetTitle
+        data = newData
+        data.sheetTitle = sheetTitle
       }
 
-      return newData
+      return data
     }
   }
 

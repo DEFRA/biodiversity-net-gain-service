@@ -138,7 +138,7 @@ describe('BNG data extractor test', () => {
     expect(response.f3OffSiteWaterCEnhancement[0]['Off-site reference']).toEqual(1234)
     expect(response.f3OffSiteWaterCEnhancement[0]['Extent of encroachment']).toEqual('No Encroachment')
     expect(response.f3OffSiteWaterCEnhancement[0]['Extent of encroachment for both banks']).toEqual('Minor/ Minor')
-    expect(response.f3OffSiteWaterCEnhancement[0]['Strategic significance']).toEqual('Medium strategic significance ')
+    expect(response.f3OffSiteWaterCEnhancement[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.validation.isSupportedVersion).toBe(true)
     expect(response.validation.isOffsiteDataPresent).toBe(true)
@@ -237,6 +237,7 @@ describe('BNG data extractor test', () => {
       test: {
         sheetName: 'D-1 Off-Site Habitat Baseline',
         startCell: 'D10',
+        endCell: 'AF25',
         cellHeaders: [baselineRef, habitatType],
         columnsToBeRemoved: [],
         rowsToBeRemovedTemplate: [[baselineRef], [habitatType]]
