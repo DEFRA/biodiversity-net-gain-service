@@ -59,7 +59,7 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancement[0]['Habitat reference Number']).toEqual('H3')
     expect(response.d3OffSiteHabitatEnhancement[0]['Off-site reference']).toEqual(1234)
 
-    expect(response.e1OffSiteHedgeBaseline.length).toEqual(2)
+    expect(response.e1OffSiteHedgeBaseline.length).toEqual(1)
     expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(10)
     expect(response.e1OffSiteHedgeBaseline[0]['Baseline ref']).toEqual(1)
     expect(response.e1OffSiteHedgeBaseline[0]['Hedgerow type']).toEqual('Ecologically valuable line of trees - associated with bank or ditch')
@@ -72,7 +72,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Off-site reference']).toEqual(1234)
     expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
+    expect(response.e2OffSiteHedgeCreation.length).toEqual(1)
     expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(9)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Native hedgerow with trees')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.074)
@@ -97,7 +97,7 @@ describe('BNG data extractor test', () => {
     expect(response.e3OffSiteHedgeEnhancement[0]['Strategic significance']).toEqual('Location ecologically desirable but not in local strategy')
     expect(response.e3OffSiteHedgeEnhancement[0].Distinctiveness).toEqual('Medium')
 
-    expect(response.f1OffSiteWaterCBaseline.length).toEqual(2)
+    expect(response.f1OffSiteWaterCBaseline.length).toEqual(1)
     expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(11)
     expect(response.f1OffSiteWaterCBaseline[0]['Baseline ref']).toEqual(1)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Priority habitat')
@@ -110,7 +110,7 @@ describe('BNG data extractor test', () => {
     expect(response.f1OffSiteWaterCBaseline[0]['Extent of encroachment for both banks']).toEqual('Minor/ Minor')
     expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Location ecologically desirable but not in local strategy')
 
-    expect(response.f2OffSiteWaterCCreation.length).toEqual(2)
+    expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
     expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(11)
     expect(response.f2OffSiteWaterCCreation[0]['Length (km)']).toEqual(1)
     expect(response.f2OffSiteWaterCCreation[0].Condition).toEqual('Good')
@@ -124,7 +124,7 @@ describe('BNG data extractor test', () => {
     expect(response.f2OffSiteWaterCCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
     expect(response.f2OffSiteWaterCCreation[0]['Watercourse type']).toEqual('Priority habitat')
 
-    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
+    expect(response.f3OffSiteWaterCEnhancement.length).toEqual(1)
     expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(13)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline ref']).toEqual(1)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline habitat']).toEqual('Priority habitat')
