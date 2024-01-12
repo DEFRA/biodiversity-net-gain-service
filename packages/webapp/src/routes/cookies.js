@@ -6,13 +6,7 @@ const cookies = {
   options: {
     auth: false
   },
-  handler: async (request, h) => {
-    const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
-
-    return h.view('cookies', {
-      referer: requestHeadersReferer
-    })
-  }
+  handler: async (_request, h) => h.view(constants.views.COOKIES)
 }
 
 export default cookies

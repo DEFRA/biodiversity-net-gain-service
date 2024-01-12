@@ -6,7 +6,7 @@ import { ThreatScreeningError } from '@defra/bng-errors-lib'
 const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20) => {
   const { filename } = stream
   await blobStorageConnector.uploadStream(config.blobConfig, stream)
-  logger.log(`${new Date().toUTCString()} ${filename} has been uploaded`)
+  logger.info(`${new Date().toUTCString()} ${filename} has been uploaded`)
   const start = performance.now()
   let blobTags
   const timeout = (ms) => {
@@ -17,7 +17,7 @@ const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20
   if (process.env.AZURE_BLOB_SERVICE_URL?.indexOf('azurite') > -1 ||
     process.env.AZURE_BLOB_SERVICE_URL?.indexOf('localhost') > -1 ||
     process.env.AZURE_BLOB_SERVICE_URL?.indexOf('127.0.0.1') > -1) {
-    logger.log(`${new Date().toUTCString()} Malware scanning is mocked for Azurite usage`)
+    logger.info(`${new Date().toUTCString()} Malware scanning is mocked for Azurite usage`)
     return {
       'Malware Scanning scan result': 'No threats found',
       'Malware Notes': 'Mocked scan result for Azurite blob storage'
@@ -37,11 +37,11 @@ const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20
   const end = performance.now()
 
   if (Object.keys(blobTags.tags).length === 0) {
-    logger.log(`${new Date().toUTCString()} ${filename} No malware scan response after ${Math.round(end - start)}ms`)
+    logger.info(`${new Date().toUTCString()} ${filename} No malware scan response after ${Math.round(end - start)}ms`)
     throw new ThreatScreeningError(constants.uploadErrors.noFileScanResponse)
   } else {
-    logger.log(`${new Date().toUTCString()} ${filename} malware scan response after ${Math.round(end - start)}ms`)
-    logger.log(`${new Date().toUTCString()} ${filename} malware scan results: ${JSON.stringify(blobTags.tags)}`)
+    logger.info(`${new Date().toUTCString()} ${filename} malware scan response after ${Math.round(end - start)}ms`)
+    logger.info(`${new Date().toUTCString()} ${filename} malware scan results: ${JSON.stringify(blobTags.tags)}`)
     return blobTags.tags
   }
 }
