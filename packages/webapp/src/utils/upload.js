@@ -60,16 +60,14 @@ const handlePart = async (logger, part, config, uploadResult) => {
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   const filename = part.filename
 
-  if (isXSSVulnerable(filename)) {
-    throw new ThreatScreeningError({
-      Status: constants.threatScreeningStatusValues.XSS_VULNERABILITY_FOUND
-    })
-  }
-
   // Delay throwing errors until the form is closed.
   if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
+  } else if (isXSSVulnerable(filename)) {
+    throw new ThreatScreeningError({
+      Status: constants.threatScreeningStatusValues.XSS_VULNERABILITY_FOUND
+    })
   } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
