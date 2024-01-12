@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
@@ -30,7 +29,7 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
-  logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   if (Array.isArray(result.postProcess.metricData?.d1) && filterByBGN(result.postProcess.metricData?.d1, request).length === 0 &&
     Array.isArray(result.postProcess.metricData?.e1) && filterByBGN(result.postProcess.metricData?.e1, request).length === 0) {
     const error = {
@@ -117,10 +116,10 @@ const handlers = {
     })
 
     try {
-      const result = await uploadFile(logger, request, uploadConfig)
+      const result = await uploadFile(request.logger, request, uploadConfig)
       return await processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }
