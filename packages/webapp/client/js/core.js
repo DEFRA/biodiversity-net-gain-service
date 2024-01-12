@@ -4,14 +4,14 @@ window.bng = {
   utils: {
     getCookie: (name) => {
       const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
-      return v ? v[2] : null
+      return v ? decodeURIComponent(atob(v[2])) : null
     },
     setCookie: (cookieName, cookieValue, cookieExpiryDays = 365) => {
       const date = new Date()
       date.setTime(date.getTime() + (cookieExpiryDays * 24 * 60 * 60 * 1000))
       const expires = 'expires=' + date.toUTCString()
       const sameSite = 'SameSite=Strict'
-      document.cookie = `${cookieName}=${encodeURIComponent(cookieValue)};${sameSite};${expires};path=/`
+      document.cookie = `${cookieName}=${btoa(encodeURIComponent(cookieValue))};${sameSite};${expires};path=/`
     },
     deleteCookie: (cookieName) => {
       const expires = 'expires=Thu, 01 Jan 1970 00:00:01 GMT'

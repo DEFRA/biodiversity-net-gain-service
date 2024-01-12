@@ -8,7 +8,9 @@ const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
 const postOptions = {
   url,
-  payload: {}
+  payload: {
+    termsAndConditionsConfirmed: 'Yes'
+  }
 }
 
 const auth = {
@@ -45,7 +47,7 @@ describe(url, () => {
             }
           ])
           session.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
-          session.set(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
+          session.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
           session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
             organisationName: 'org1',
             type: 'organisation'
@@ -53,6 +55,7 @@ describe(url, () => {
             firstName: 'Crishn',
             middleNames: '',
             lastName: 'P',
+            emailAddress: 'me@me.com',
             type: 'individual'
           }])
           session.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
@@ -81,6 +84,7 @@ describe(url, () => {
           expect(contextResult.localPlanningAuthorities).toEqual('Planning Authority 1')
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1<br>test2')
+          expect(contextResult.landowners).toEqual('org1<br>Crishn P (me@me.com)')
           expect(contextResult.HabitatWorksStartDate).toEqual('11 March 2020')
           expect(contextResult.HabitatWorksEndDate).toEqual('11 March 2024')
           expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')
@@ -167,7 +171,8 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ yar: session, auth }, h)
+          const payload = { termsAndConditionsConfirmed: 'Yes' }
+          await postHandler({ yar: session, auth, payload }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.APPLICATION_SUBMITTED])
           done()
@@ -189,7 +194,8 @@ describe(url, () => {
             throw new Error('test error')
           })
 
-          await expect(postHandler({ yar: session, auth })).rejects.toThrow('test error')
+          const payload = { termsAndConditionsConfirmed: 'Yes' }
+          await expect(postHandler({ yar: session, auth, payload })).rejects.toThrow('test error')
           done()
         } catch (err) {
           done(err)
@@ -204,7 +210,8 @@ describe(url, () => {
       const session = applicationSession()
       const { handler } = checkAndSubmit.find(route => route.method === 'POST')
 
-      await expect(handler({ yar: session, auth })).rejects.toEqual(errorMock)
+      const payload = { termsAndConditionsConfirmed: 'Yes' }
+      await expect(handler({ yar: session, auth, payload })).rejects.toEqual(errorMock)
     })
 
     it('Should throw an error page if validation fails for application', done => {
@@ -227,7 +234,8 @@ describe(url, () => {
           const authCopy = JSON.parse(JSON.stringify(auth))
           authCopy.credentials.account.idTokenClaims.contactId = ''
 
-          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.id" is not allowed to be empty')
+          const payload = { termsAndConditionsConfirmed: 'Yes' }
+          await expect(postHandler({ yar: session, auth: authCopy, payload }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.id" is not allowed to be empty')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()
@@ -252,6 +260,29 @@ describe(url, () => {
       delete sessionData['written-authorisation-file-size']
       delete sessionData['written-authorisation-file-type']
       await submitPostRequest(postOptions, 500, sessionData)
+    })
+
+    it('Should display an error message if user has not confirmed reading terms and conditions', done => {
+      jest.isolateModules(async () => {
+        try {
+          const session = applicationSession()
+          const postHandler = checkAndSubmit[1].handler
+
+          let viewResult = ''
+          const h = {
+            view: (view) => {
+              viewResult = view
+            }
+          }
+
+          const payload = { termsAndConditionsConfirmed: undefined }
+          await postHandler({ yar: session, auth, payload }, h)
+          expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })

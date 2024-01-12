@@ -3,13 +3,10 @@ import constants from '../utils/constants.js'
 const cookies = {
   method: 'GET',
   path: constants.routes.COOKIES,
-  handler: async (request, h) => {
-    const requestHeadersReferer = request.headers.referer ? encodeURI(request.headers.referer) : ''
-
-    return h.view('cookies', {
-      referer: requestHeadersReferer
-    })
-  }
+  options: {
+    auth: false
+  },
+  handler: async (_request, h) => h.view(constants.views.COOKIES)
 }
 
 export default cookies

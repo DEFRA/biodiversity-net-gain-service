@@ -2,13 +2,13 @@ import constants from './constants.js'
 import { getFormattedDate } from './helpers.js'
 import { postJson } from './http.js'
 
-const getContextForAllocations = async contactId => getContext(contactId, constants.applicationTypes.ALLOCATION)
+const getContextForAllocations = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.ALLOCATION)
 
-const getContextForRegistrations = async contactId => getContext(contactId, constants.applicationTypes.REGISTRATION)
+const getContextForRegistrations = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.REGISTRATION)
 
-const getContext = async (contactId, applicationType) => {
+const getContext = async (contactId, organisationId, applicationType) => {
   return {
-    applications: await getApplications(contactId, applicationType)
+    applications: await getApplications(contactId, organisationId, applicationType)
   }
 }
 
@@ -19,9 +19,10 @@ const formatApplication = application => {
   }
 }
 
-const getApplications = async (contactId, applicationType) => {
+const getApplications = async (contactId, organisationId, applicationType) => {
   const applications = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplications`, {
     contactId,
+    organisationId,
     applicationType
   })
   return applications.map(application => formatApplication(application))

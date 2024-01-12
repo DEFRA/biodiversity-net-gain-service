@@ -57,7 +57,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
     }
     request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LEGAL_AGREEMENT_END_DATE)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
   }
 }
 
