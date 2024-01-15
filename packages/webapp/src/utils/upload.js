@@ -5,7 +5,6 @@ import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
 import { fileMalwareCheck } from './file-malware-check.js'
 import { isXSSVulnerable } from './html-sanitizer.js'
-import { ThreatScreeningError } from '@defra/bng-errors-lib'
 
 // The logger object is accessible through the request object
 // since the introduction of hapi-pino. Ideally the logger parameter
