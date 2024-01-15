@@ -99,9 +99,9 @@
   <script src="{{ assetPath }}/jquery.js"></script>
   <script src="{{ assetPath }}/all.js"></script>
   <script src="{{ assetPath }}/moj/all.js"></script>
-  <script>window.GOVUKFrontend.initAll()
+  <script nonce="{{ nonce }}">window.GOVUKFrontend.initAll()
   </script>
-    <script>window.MOJFrontend.initAll()
+    <script nonce="{{ nonce }}">window.MOJFrontend.initAll()
   </script>
   <script src="{{ assetPath }}/js/core.js"></script>
   {% block pageScripts %}
