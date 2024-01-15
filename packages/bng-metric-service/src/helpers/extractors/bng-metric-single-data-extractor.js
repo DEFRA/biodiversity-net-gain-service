@@ -85,16 +85,15 @@ class BngMetricSingleDataExtractor {
   }
 
   #performSubstitution = (data, extractionConfiguration) => {
-    const { substitutions } = extractionConfiguration
-    if (substitutions) {
+    if (extractionConfiguration.substitutions) {
       data = data.map(content => {
-        Object.keys(substitutions).forEach(
+        Object.keys(extractionConfiguration.substitutions).forEach(
           substitutionKey => {
             const substituteValue = content[substitutionKey]
             if (typeof substituteValue !== 'undefined') {
               Object.defineProperty(
                 content,
-                substitutions[substitutionKey],
+                extractionConfiguration.substitutions[substitutionKey],
                 Object.getOwnPropertyDescriptor(content, substitutionKey)
               )
               delete content[substitutionKey]
