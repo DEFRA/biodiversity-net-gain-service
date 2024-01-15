@@ -71,6 +71,7 @@ const handlers = {
     }
 
     if (addAnotherOwnershipProof === 'yes' && landOwnershipProofs.length > 0) {
+      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY, addAnotherOwnershipProof)
       processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land ownership details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }

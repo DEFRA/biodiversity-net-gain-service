@@ -87,6 +87,7 @@ const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
+const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
 
 const APPLICATION_REFERENCE = 'application-reference'
@@ -150,6 +151,8 @@ const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
+const METRIC_HABITAT_BASELINE_CHECKED = 'metric-habitat-baseline-checked'
+const METRIC_HABITAT_CREATED_CHECKED = 'metric-habitat-created-checked'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
@@ -235,6 +238,7 @@ export default {
     LAND_BOUNDARY_CHECKED,
     LAND_BOUNDARY_GRID_REFERENCE,
     LAND_BOUNDARY_HECTARES,
+    LAND_OWNERSHIP_PROOF_LIST_KEY,
     LEGAL_AGREEMENT_CHECKED,
     LOCAL_LAND_CHARGE_CHECKED,
     HABITAT_PLAN_CHECKED,
@@ -263,6 +267,8 @@ export default {
     METRIC_LOCATION,
     METRIC_FILE_SIZE,
     METRIC_DATA,
+    METRIC_HABITAT_BASELINE_CHECKED,
+    METRIC_HABITAT_CREATED_CHECKED,
     FULL_NAME,
     LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
     NAME_KEY,
