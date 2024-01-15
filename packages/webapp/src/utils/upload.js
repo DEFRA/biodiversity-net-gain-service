@@ -70,9 +70,7 @@ const handlePart = async (logger, part, config, uploadResult) => {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
   } else if (isXSSVulnerable(filename)) {
-    throw new ThreatScreeningError({
-      Status: constants.threatScreeningStatusValues.XSS_VULNERABILITY_FOUND
-    })
+    throw new Error(constants.uploadErrors.uploadFailure)
   } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
