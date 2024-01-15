@@ -53,7 +53,6 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(applicationSession[redisKeys.applicationReference])
     }
-    context.log(`Saved application session ${applicationSession[redisKeys.applicationReference]}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
