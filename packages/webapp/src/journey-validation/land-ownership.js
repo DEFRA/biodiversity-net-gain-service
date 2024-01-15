@@ -29,7 +29,7 @@ const landOwnershipJourneys = [
         ...UPLOAD_LAND_OWNERSHIP.sessionKeys,
         ...CHECK_PROOF_OF_OWNERSHIP.sessionKeys
       ],
-      [ANY, 'yes']
+      [[ANY], 'yes']
     ),
     journeyStepFromRoute(LAND_OWNERSHIP_PROOF_LIST, ['yes'])
   ]

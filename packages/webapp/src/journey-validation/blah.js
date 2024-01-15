@@ -76,8 +76,18 @@ const journeyDefinition = {
 
 const getReturnObject = (status, url, title, valid) => ({ status, url, title, valid })
 
+// FIXME: we should move to Joi to do the validation
 const check = (schema, session) => {
-  const sessionMatches = ([k, v]) => v === ANY ? session.get(k) !== null : session.get(k) === v
+  const arrayOfAnyComparator = JSON.stringify([ANY])
+
+  const sessionMatches = ([k, v]) => {
+    if (JSON.stringify(v) === arrayOfAnyComparator) {
+      return session.get(k)?.length > 0
+    }
+
+    return v === ANY ? session.get(k) !== null : session.get(k) === v
+  }
+
   const sessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
 
   const journeyStatuses = schema.journeyParts.map(journey => {
