@@ -9,7 +9,7 @@ const redisKeys = {
 }
 
 export default async function (context, req) {
-  context.log('Processing', JSON.stringify(req.body))
+  context.log('Processing', JSON.stringify(req.body['application-reference']))
   let db
   try {
     const applicationSession = req.body
