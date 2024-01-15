@@ -29,12 +29,9 @@ const handlers = {
   }
 }
 
-const getName = account => `${account.idTokenClaims.firstName} ${account.idTokenClaims.lastName}`
-
 const getContext = request => ({
   legalAgreementType: getLegalAgreementDocumentType(
     request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase(),
-  name: getName(request.auth.credentials.account),
   selectedAnyOtherLOValue: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
 })
 

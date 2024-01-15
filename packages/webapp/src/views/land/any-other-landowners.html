@@ -21,7 +21,7 @@
                         }
                     },
                     hint: {
-                        text: "We need to know about any landowners or leaseholders apart from " + name,
+                        text: "We need to know about any other landowners or leaseholders apart from you, or your client if you’re an agent acting on their behalf.",
                         classes: "govuk-hint app-text-colour wrap-text"
                     },
                     errorMessage: err[0],
@@ -30,13 +30,13 @@
                             value: "Yes",
                             text: "Yes",
                             id: "anyOtherLO-yes",
-                            checked: checked(selectedAnyOtherLOValue, "yes") 
+                            checked: checked(selectedAnyOtherLOValue, "Yes") 
                         },
                         {
                             value: "No",
                             text: "No",
                             id: "anyOtherLO-no",
-                            checked: checked(selectedAnyOtherLOValue, "no") 
+                            checked: checked(selectedAnyOtherLOValue, "No") 
                         }
                     ]
                 }) }}
