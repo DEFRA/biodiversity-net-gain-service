@@ -212,6 +212,9 @@ const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
 const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
 const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
 const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
+const PRIVACY = 'privacy'
+const CONTACTUS = 'contact-us'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 
 export default {
   landownerTypes: {
@@ -434,7 +437,10 @@ export default {
     CHANGE_TYPE_LEGAL_AGREEMENT,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
-    CANNOT_VIEW_APPLICATION
+    CANNOT_VIEW_APPLICATION,
+    PRIVACY,
+    CONTACTUS,
+    ACCESSIBILITY_STATEMENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

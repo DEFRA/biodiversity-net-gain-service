@@ -346,12 +346,16 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
       metricData[key].forEach((item, index) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
-          items.push({
+          const habitatItems = {
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
             amount: item[habitatTypeMap[key].unitKey]
-          })
+          }
+          const isObjectWithEmptyValues = Object.values(habitatItems).every(value => value === null || value === '' || value === undefined)
+          if (!isObjectWithEmptyValues) {
+            items.push(habitatItems)
+          }
         }
       })
 
@@ -614,7 +618,9 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    // error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    return null
   }
   return error.err[0].text ? error : null
 }

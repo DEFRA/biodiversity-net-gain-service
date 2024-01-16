@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
@@ -13,7 +12,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
-  logger.log(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
 
   // Clear out any geospatial data and files
   request.yar.clear(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
@@ -102,10 +101,10 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }
@@ -129,7 +128,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {

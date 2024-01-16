@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
@@ -24,7 +23,7 @@ const processSuccessfulUpload = (result, request, h) => {
       id
     })
   }
-  logger.log(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
@@ -107,10 +106,10 @@ const handlers = {
     })
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h, legalAgreementType)
     }
   }
@@ -134,7 +133,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h, legalAgreementType).takeover()

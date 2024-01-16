@@ -1,10 +1,11 @@
+import { logger } from '@defra/bng-utils-lib'
 import Pino from 'hapi-pino'
 
 const logging = {
   plugin: Pino,
   options: {
     logPayload: true,
-    level: 'warn'
+    instance: logger
   }
 }
 
