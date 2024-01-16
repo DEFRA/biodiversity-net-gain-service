@@ -3,7 +3,9 @@
 {% set habitatPlanIncludedLegalAgreement = habitatPlanIncludedLegalAgreementYesNo == 'No' %}
 {% set isLegalAgreementTypeS106Type = legalAgreementType == 'Planning obligation (section 106 agreement)' %}
 {% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
+{% set isOtherLandowners = anyOtherLO == 'Yes' %}
 {% set classHidden = hideClass(true) %} 
+{% set lc_legalAgreementType = legalAgreementType | lower %}
 {% 
     set rowList = [
     {
@@ -47,6 +49,16 @@
         'show':isLegalAgreementTypeS106Type
     },
     {
+        'text': 'Other landowners or leaseholders on '+lc_legalAgreementType,
+        'value': anyOtherLO,
+        'valueDataTestId': 'any-other-landowner-value',
+        'valueId': 'any-other-landowner-value',
+        'href': '/land/any-other-landowners',
+        'visuallyHiddenText':  ' landowner',
+        'classes': 'govuk-!-margin-bottom-7',
+        'show':true
+    },
+    {
         'text': 'Landowner or leaseholder',
         'value': landowners,
         'valueDataTestId': 'legal-agreement-landowner-value',
@@ -54,7 +66,7 @@
         'href': '/land/check-landowners',
         'visuallyHiddenText':  ' landowner',
         'classes': 'govuk-!-margin-bottom-7',
-        'show':true
+        'show':isOtherLandowners
     },
     {
         'text': 'Habitat management and monitoring plan included in legal agreement',

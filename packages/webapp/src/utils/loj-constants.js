@@ -180,6 +180,7 @@ const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
+const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -215,6 +216,7 @@ const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
 const PRIVACY = 'privacy'
 const CONTACTUS = 'contact-us'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
   landownerTypes: {
@@ -339,6 +341,7 @@ export default {
     LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED
+    ANY_OTHER_LANDOWNERS_CHECKED
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -440,7 +443,8 @@ export default {
     CANNOT_VIEW_APPLICATION,
     PRIVACY,
     CONTACTUS,
-    ACCESSIBILITY_STATEMENT
+    ACCESSIBILITY_STATEMENT,
+    ANY_OTHER_LANDOWNERS
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

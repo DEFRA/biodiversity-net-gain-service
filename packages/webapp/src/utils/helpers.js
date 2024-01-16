@@ -235,6 +235,10 @@ const validateIdGetSchemaOptional = {
   }
 }
 const getLandowners = landOwners => {
+  if (!landOwners) {
+    return null
+  }
+
   const organisationNames = []
   const individualNames = []
 
