@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { checked, checkLegalAgreementDocumentTypeSelected, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { checked, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const href = '#anyOtherLO-yes'
 const handlers = {
@@ -38,10 +38,7 @@ const getContext = request => ({
 export default [{
   method: 'GET',
   path: constants.routes.ANY_OTHER_LANDOWNERS,
-  handler: handlers.get,
-  config: {
-    pre: [checkLegalAgreementDocumentTypeSelected]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.ANY_OTHER_LANDOWNERS,

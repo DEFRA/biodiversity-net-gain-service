@@ -700,13 +700,6 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   }
 }
 
-const checkLegalAgreementDocumentTypeSelected = (request, h) => {
-  if (!request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)) {
-    return h.redirect(constants.routes.START).takeover()
-  }
-  return h.continue
-}
-
 export {
   validateDate,
   dateClasses,
@@ -758,6 +751,5 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress,
-  checkLegalAgreementDocumentTypeSelected
+  validateAddress
 }
