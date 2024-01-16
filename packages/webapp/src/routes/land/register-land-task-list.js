@@ -4,7 +4,6 @@ import { JOURNEYS, getTaskList } from '../../journey-validation/blah.js'
 const handlers = {
   get: async (request, h) => {
     const taskList = getTaskList(JOURNEYS.REGISTRATION, request.yar)
-    console.log(JSON.stringify(taskList, undefined, 4))
 
     let completedTasks = 0
     let totalTasks = 0

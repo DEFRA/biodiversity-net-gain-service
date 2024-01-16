@@ -6,8 +6,6 @@ import { localLandChargeJourneys } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
 import { legalAgreementJourneys } from './legal-agreement.js'
 
-applicantInfoJourneys.map(journey => console.log(journey))
-
 const ANY = 'any'
 
 const STATUSES = {
@@ -75,12 +73,10 @@ const journeyDefinition = {
 }
 
 const getReturnObject = (status, url, title, valid) => ({ status, url, title, valid })
+const arrayOfAnyComparator = JSON.stringify([ANY])
 
-// FIXME: we should move to Joi to do the validation
-const check = (schema, session) => {
-  const arrayOfAnyComparator = JSON.stringify([ANY])
-
-  const sessionMatches = ([k, v]) => {
+const sessionMatches = (part, session) => {
+  const checkSessionMatches = ([k, v]) => {
     if (JSON.stringify(v) === arrayOfAnyComparator) {
       return session.get(k)?.length > 0
     }
@@ -88,14 +84,21 @@ const check = (schema, session) => {
     return v === ANY ? session.get(k) !== null && session.get(k) !== undefined : session.get(k) === v
   }
 
-  const sessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
+  return Object.entries(part.sessionDataRequired).every(checkSessionMatches)
+}
 
-  const journeyStatuses = schema.journeyParts.map(journey => {
+const sessionMismatches = (part, session) => {
+  const checkSessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
+  return Object.entries(part.sessionDataRequired).some(checkSessionMismatch)
+}
+
+const getJourneyStatuses = (schema, session) => {
+  const statuses = schema.journeyParts.map(journey => {
     for (const part of journey) {
-      if (!Object.entries(part.sessionDataRequired).every(sessionMatches)) {
+      if (!sessionMatches(part, session)) {
         let valid = true
 
-        if (part.sessionMismatchWillInvalidate && Object.entries(part.sessionDataRequired).some(sessionMismatch)) {
+        if (part.sessionMismatchWillInvalidate && sessionMismatches(part, session)) {
           valid = false
         }
 
@@ -110,7 +113,12 @@ const check = (schema, session) => {
     return getReturnObject(STATUSES.COMPLETE, schema.completeUrl, schema.title, true)
   })
 
-  // console.log(journeyStatuses)
+  return statuses
+}
+
+// We should move to Joi to do the validation in a later iteration
+const check = (schema, session) => {
+  const journeyStatuses = getJourneyStatuses(schema, session)
 
   // Return a complete journey if there is one
   const completeJourney = journeyStatuses.find(s => s.status === STATUSES.COMPLETE)
@@ -128,36 +136,17 @@ const check = (schema, session) => {
   return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, schema.title, true)
 }
 
-// FIXME: probably just want a single function for all statuses
 const getJourneySectionStatus = (journey, section, session) => {
   return check(journeyDefinition[journey][section], session)
 }
 
 const getTaskList = (journey, session) => {
-  console.log('=== Applicant Info ===')
   const applicantInfoTask = getJourneySectionStatus(journey, REGISTRATION.APPLICANT_INFO, session)
-  console.log('=== Land Ownership ===')
   const landOwnershipTask = getJourneySectionStatus(journey, REGISTRATION.LAND_OWNERSHIP, session)
-  console.log('=== Site Boundary ===')
   const siteBoundaryTask = getJourneySectionStatus(journey, REGISTRATION.SITE_BOUNDARY, session)
-  console.log('=== Habitat Info ===')
   const habitatInfoTask = getJourneySectionStatus(journey, REGISTRATION.HABITAT_INFO, session)
-  console.log('=== Legal Agreement ===')
   const legalAgreementTask = getJourneySectionStatus(journey, REGISTRATION.LEGAL_AGREEMENT, session)
-  console.log('=== Local Land Charge ===')
   const localLandChargeTask = getJourneySectionStatus(journey, REGISTRATION.LOCAL_LAND_CHARGE, session)
-
-  // FIXME: how to handle the end of the land ownership journey? (probably need that last page in the
-  // journey, and I think maybe for the other journeys too)
-
-  console.log('---***---***---')
-  console.log(applicantInfoTask)
-  console.log(landOwnershipTask)
-  console.log(siteBoundaryTask)
-  console.log(habitatInfoTask)
-  console.log(legalAgreementTask)
-  console.log(localLandChargeTask)
-  console.log('---***---***---')
 
   return [
     {

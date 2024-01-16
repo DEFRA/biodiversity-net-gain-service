@@ -74,7 +74,9 @@ const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = routeDefinition(
   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS]
 )
 
-// FIXME: don't use this at the moment
+// Don't use this at the moment, but should in a later iteration. It shares session key with above
+// route and either this route or that route adds to the same session value. So OK to ignore this
+// route for now
 // // land/add-landowner-organisation-conservation-covenant
 // const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = routeDefinition(
 //   constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
@@ -147,15 +149,6 @@ const CHECK_PLANNING_AUTHORITIES = routeDefinition(
   [constants.redisKeys.PLANNING_AUTHORITIES_CHECKED]
 )
 
-// land/check-legal-agreement-details
-// const CHECK_LEGAL_AGREEMENT_DETAILS = routeDefinition(
-//   constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-//   []
-// )
-
-// FIXME: what to do about optional things e.g. habitat plan? how would you know whether you need to return to it. I suppo
-// FIXME: do I need to consider the remove pages? Can't imagine I'd want to go back to them so probs no I don't
-
 const CON_COV_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[1].id], true)
 const S106_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[0].id], true)
 const NEED_LEGAL_FILES = journeyStepFromRoute(NEED_ADD_ALL_LEGAL_FILES, [true])
@@ -165,10 +158,8 @@ const NEED_PLANNING_AUTHORITIES = journeyStepFromRoute(NEED_ADD_ALL_PLANNING_AUT
 const ADD_RESP_BODIES = journeyStepFromRoute(ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, [[ANY]])
 const CHECK_RESP_BODIES = journeyStepFromRoute(CHECK_RESPONSIBLE_BODIES, ['yes'])
 const NEED_ADD_LANDOWNERS = journeyStepFromRoute(NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT, [true])
-// const LANDOWNER_INDIV_OR_ORG = journeyStepFromRoute(LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION) // I think it's OK for value to be ANY
 const ADDED_LANDOWNERS = journeyStepFromRoute(CHECK_LANDOWNERS, ['yes'])
 const HABITAT_PLAN_INCLUDED = journeyStepFromRoute(HABITAT_PLAN_LEGAL_AGREEMENT, ['Yes'], true)
-// FIXME: NEED TO ADD THIS AS SEPARATE JOURNEYS
 const HABITAT_PLAN_NOT_INCLUDED = journeyStepFromRoute(HABITAT_PLAN_LEGAL_AGREEMENT, ['No'], true)
 const ENHANCEMENT_START = journeyStepFromRoute(ENHANCEMENT_WORKS_START_DATE)
 const ENHANCEMENT_END = journeyStepFromRoute(HABITAT_ENHANCEMENTS_END_DATE)
