@@ -5,7 +5,7 @@
 {% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
 {% set isOtherLandowners = anyOtherLO == 'Yes' %}
 {% set classHidden = hideClass(true) %} 
-{% set lc_legalAgreementType = legalAgreementType.toLowerCase()%}
+{% set lc_legalAgreementType = legalAgreementType | lower %}
 {% 
     set rowList = [
     {
