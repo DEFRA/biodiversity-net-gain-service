@@ -203,6 +203,9 @@ const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-clien
 const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = 'land/change-client-individual-organisation'
 const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = 'land/change-applying-individual-organisation'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
+const PRIVACY = 'privacy'
+const CONTACTUS = 'contact-us'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 
 export default {
   landownerTypes: {
@@ -416,7 +419,10 @@ export default {
     CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
-    CANNOT_VIEW_APPLICATION
+    CANNOT_VIEW_APPLICATION,
+    PRIVACY,
+    CONTACTUS,
+    ACCESSIBILITY_STATEMENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
