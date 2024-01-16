@@ -64,6 +64,7 @@ describe(url, () => {
           {
             responsibleBodyName: 'test2'
           }])
+          session.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, 'Yes')
 
           const h = {
             view: (view, context) => {
