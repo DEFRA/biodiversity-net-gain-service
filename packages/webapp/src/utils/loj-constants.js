@@ -203,6 +203,15 @@ const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
+const NEED_ADD_ALL_LEGAL_FILES_CHECKED = 'need-add-all-legal-files-checked'
+const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
+const NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED = 'need-add-all-responsible-bodies-checked'
+const NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED = 'need-add-all-planning-authorities-checked'
+const RESPONSIBLE_BODIES_CHECKED = 'responsible-bodies-checked'
+const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
+const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
+const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
+const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
 
 export default {
   landownerTypes: {
@@ -317,7 +326,16 @@ export default {
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,
     WRITTEN_AUTHORISATION_CHECKED,
-    LAND_OWNERSHIP_PROOFS
+    LAND_OWNERSHIP_PROOFS,
+    NEED_ADD_ALL_LEGAL_FILES_CHECKED,
+    LEGAL_AGREEMENT_FILES_CHECKED,
+    NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED,
+    NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED,
+    RESPONSIBLE_BODIES_CHECKED,
+    NEED_ADD_ALL_LANDOWNERS_CHECKED,
+    LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
+    ADDED_LANDOWNERS_CHECKED,
+    PLANNING_AUTHORITIES_CHECKED
   },
   routes: {
     ADD_GRID_REFERENCE,
