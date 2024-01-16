@@ -1,22 +1,15 @@
 import constants from '../../utils/constants.js'
-// import registerTaskList from '../../utils/register-task-list.js'
 import { JOURNEYS, getTaskList } from '../../journey-validation/blah.js'
 
 const handlers = {
   get: async (request, h) => {
-    const newTaskList = getTaskList(JOURNEYS.REGISTRATION, request.yar)
-    // console.log(JSON.stringify(newTaskList, undefined, 4))
+    const taskList = getTaskList(JOURNEYS.REGISTRATION, request.yar)
+    console.log(JSON.stringify(taskList, undefined, 4))
 
     let completedTasks = 0
     let totalTasks = 0
-    // let dataContent = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-    // if (!dataContent) {
-    //   dataContent = JSON.parse(JSON.stringify(registerTaskList))
-    //   totalTasks = registerTaskList.taskList.flatMap(task => task.tasks).length
-    // } else {
-    const dataContent = {
-      taskList: newTaskList
-    }
+
+    const dataContent = { taskList }
 
     dataContent.taskList.forEach(task => {
       if (task.tasks.length === 1) {
@@ -33,8 +26,9 @@ const handlers = {
         })
       }
     })
+
     dataContent.completedTasks = completedTasks
-    // }
+
     const canSubmit = completedTasks === (totalTasks - 1)
 
     return h.view(constants.views.REGISTER_LAND_TASK_LIST, {

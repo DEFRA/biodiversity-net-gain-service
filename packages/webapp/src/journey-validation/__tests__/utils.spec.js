@@ -33,7 +33,7 @@ const testJourneyStepWithoutInvalidate = {
   }
 }
 
-describe('journey validation', () => {
+describe('journey validation utils', () => {
   it('Route definition should be correct format', () => {
     const route = routeDefinition(testUrl, [testKey1])
     expect(route).toMatchObject(testRouteDefinition)
@@ -53,4 +53,6 @@ describe('journey validation', () => {
     const step = journeyStepFromRoute(testRouteDefinition)
     expect(step).toMatchObject(testJourneyStepWithoutInvalidate)
   })
+
+  // FIXME: should have some unhappy path tests too
 })

@@ -85,7 +85,7 @@ const check = (schema, session) => {
       return session.get(k)?.length > 0
     }
 
-    return v === ANY ? session.get(k) !== null : session.get(k) === v
+    return v === ANY ? session.get(k) !== null && session.get(k) !== undefined : session.get(k) === v
   }
 
   const sessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
@@ -229,6 +229,5 @@ export {
   STATUSES,
   JOURNEYS,
   REGISTRATION,
-  getJourneySectionStatus,
   getTaskList
 }
