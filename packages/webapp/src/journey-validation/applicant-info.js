@@ -4,7 +4,7 @@ import {
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './helpers.js'
+} from './utils.js'
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.AGENT_ACTING_FOR_CLIENT,

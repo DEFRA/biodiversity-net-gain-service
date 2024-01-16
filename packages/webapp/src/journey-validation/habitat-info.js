@@ -4,7 +4,7 @@ import {
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './helpers.js'
+} from './utils.js'
 
 const UPLOAD_METRIC = routeDefinition(
   constants.routes.UPLOAD_METRIC,

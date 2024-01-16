@@ -4,7 +4,7 @@ import {
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './helpers.js'
+} from './utils.js'
 
 const UPLOAD_LAND_BOUNDARY = routeDefinition(
   constants.routes.UPLOAD_LAND_BOUNDARY,

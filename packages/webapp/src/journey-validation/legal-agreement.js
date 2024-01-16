@@ -4,7 +4,7 @@ import {
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './helpers.js'
+} from './utils.js'
 
 // land/legal-agreement-type
 // S106: constants.LEGAL_AGREEMENT_DOCUMENTS[0].id
