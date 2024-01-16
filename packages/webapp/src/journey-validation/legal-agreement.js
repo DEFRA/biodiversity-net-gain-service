@@ -56,11 +56,16 @@ const CHECK_RESPONSIBLE_BODIES = routeDefinition(
   [constants.redisKeys.RESPONSIBLE_BODIES_CHECKED]
 )
 
-// // land/need-add-all-landowners-conservation-covenant
-const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = routeDefinition(
-  constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
-  [constants.redisKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED]
+const OTHER_LANDOWNERS = routeDefinition(
+  constants.routes.ANY_OTHER_LANDOWNERS,
+  [constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED]
 )
+
+// // land/need-add-all-landowners-conservation-covenant
+// const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = routeDefinition(
+//   constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
+//   [constants.redisKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED]
+// )
 
 // // land/landowner-conservation-covenant-individual-organisation
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = routeDefinition(
@@ -157,7 +162,8 @@ const NEED_RESP_BODIES = journeyStepFromRoute(NEED_ADD_ALL_RESPONSIBLE_BODIES, [
 const NEED_PLANNING_AUTHORITIES = journeyStepFromRoute(NEED_ADD_ALL_PLANNING_AUTHORITIES, [true])
 const ADD_RESP_BODIES = journeyStepFromRoute(ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, [[ANY]])
 const CHECK_RESP_BODIES = journeyStepFromRoute(CHECK_RESPONSIBLE_BODIES, ['yes'])
-const NEED_ADD_LANDOWNERS = journeyStepFromRoute(NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT, [true])
+const YES_OTHER_LANDOWNERS = journeyStepFromRoute(OTHER_LANDOWNERS, ['Yes'], true)
+const NO_OTHER_LANDOWNERS = journeyStepFromRoute(OTHER_LANDOWNERS, ['No'], true)
 const ADDED_LANDOWNERS = journeyStepFromRoute(CHECK_LANDOWNERS, ['yes'])
 const HABITAT_PLAN_INCLUDED = journeyStepFromRoute(HABITAT_PLAN_LEGAL_AGREEMENT, ['Yes'], true)
 const HABITAT_PLAN_NOT_INCLUDED = journeyStepFromRoute(HABITAT_PLAN_LEGAL_AGREEMENT, ['No'], true)
@@ -200,7 +206,7 @@ const legalFilesJourneySection = [
 ]
 
 const addLandownersJourneySection = [
-  NEED_ADD_LANDOWNERS,
+  YES_OTHER_LANDOWNERS,
   LANDOWNER_DETAILS,
   ADDED_LANDOWNERS
 ]
@@ -223,17 +229,36 @@ const conCovJourneyBase = [
   ...legalFilesJourneySection,
   NEED_RESP_BODIES,
   ADD_RESP_BODIES,
-  CHECK_RESP_BODIES,
+  CHECK_RESP_BODIES
+]
+
+const conCovNoOtherLandowners = [
+  ...conCovJourneyBase,
+  NO_OTHER_LANDOWNERS
+]
+
+const conCovYesOtherLandowners = [
+  ...conCovJourneyBase,
   ...addLandownersJourneySection
 ]
 
-const conCovJourneyNoHabitatPlan = [
-  ...conCovJourneyBase,
+const conCovNoOtherLandownersNoHabitatPlan = [
+  ...conCovNoOtherLandowners,
   ...habitatPlanIncludedSection
 ]
 
-const conCovJourneyNeedHabitatPlan = [
-  ...conCovJourneyBase,
+const conCovYesOtherLandownersNoHabitatPlan = [
+  ...conCovYesOtherLandowners,
+  ...habitatPlanIncludedSection
+]
+
+const conCovNoOtherLandownersNeedHabitatPlan = [
+  ...conCovNoOtherLandowners,
+  ...habitatPlanNeededSection
+]
+
+const conCovYesOtherLandownersNeedHabitatPlan = [
+  ...conCovYesOtherLandowners,
   ...habitatPlanNeededSection
 ]
 
@@ -242,25 +267,48 @@ const s106JourneyBase = [
   ...legalFilesJourneySection,
   NEED_PLANNING_AUTHORITIES,
   ADD_LPAS,
-  CHECK_LPAS,
+  CHECK_LPAS
+]
+
+const s106NoOtherLandowners = [
+  ...s106JourneyBase,
+  NO_OTHER_LANDOWNERS
+]
+
+const s106YesOtherLandowners = [
+  ...s106JourneyBase,
   ...addLandownersJourneySection
 ]
 
-const s106JourneyNoHabitatPlan = [
-  ...s106JourneyBase,
+const s106NoOtherLandownersNoHabitatPlan = [
+  ...s106NoOtherLandowners,
   ...habitatPlanIncludedSection
 ]
 
-const s106JourneyNeedHabitatPlan = [
-  ...s106JourneyBase,
+const s106NoOtherLandownersNeedHabitatPlan = [
+  ...s106NoOtherLandowners,
+  ...habitatPlanNeededSection
+]
+
+const s106YesOtherLandownersNoHabitatPlan = [
+  ...s106YesOtherLandowners,
+  ...habitatPlanIncludedSection
+]
+
+const s106YesOtherLandownersNeedHabitatPlan = [
+  ...s106YesOtherLandowners,
   ...habitatPlanNeededSection
 ]
 
 const legalAgreementJourneys = [
-  conCovJourneyNoHabitatPlan,
-  conCovJourneyNeedHabitatPlan,
-  s106JourneyNoHabitatPlan,
-  s106JourneyNeedHabitatPlan
+  conCovNoOtherLandownersNeedHabitatPlan,
+  conCovNoOtherLandownersNoHabitatPlan,
+  conCovYesOtherLandownersNeedHabitatPlan,
+  conCovYesOtherLandownersNoHabitatPlan,
+  s106NoOtherLandownersNoHabitatPlan,
+  s106NoOtherLandownersNeedHabitatPlan,
+  s106YesOtherLandownersNoHabitatPlan,
+  s106YesOtherLandownersNeedHabitatPlan
 ]
 
 export {
