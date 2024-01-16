@@ -4,7 +4,7 @@ import {
   getTaskList,
   JOURNEYS,
   STATUSES
-} from '../blah.js'
+} from '../task-list-generator.js'
 
 const testString = '1234'
 const session = new Session()
