@@ -17,7 +17,10 @@ const handlers = {
       checked
     })
   },
-  post: async (request, h) => h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_CREATED)
+  post: async (request, h) => {
+    request.yar.set(constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_CREATED)
+  }
 }
 
 export default [{
