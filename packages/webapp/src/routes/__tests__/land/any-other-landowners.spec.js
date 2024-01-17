@@ -18,13 +18,13 @@ describe(url, () => {
       }
     })
     it('Should continue journey to LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION if yes is chosen', async () => {
-      postOptions.payload.anyOtherLOValue = 'Yes'
+      postOptions.payload.anyOtherLOValue = 'yes'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
     })
 
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if no is chosen', async () => {
-      postOptions.payload.anyOtherLOValue = 'No'
+      postOptions.payload.anyOtherLOValue = 'no'
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     })

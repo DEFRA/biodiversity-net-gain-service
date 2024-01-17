@@ -17,7 +17,10 @@ const handlers = {
       combinedHabitatTypeAndCondition
     })
   },
-  post: async (request, h) => h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_METRIC_DETAILS)
+  post: async (request, h) => {
+    request.yar.set(constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED, true)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_METRIC_DETAILS)
+  }
 }
 
 export default [{
