@@ -23,6 +23,7 @@ const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
+const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
@@ -203,7 +204,8 @@ const threatScreeningStatusValues = {
   SUCCESS,
   FILE_INACCESSIBLE,
   QUARANTINED,
-  FAILED_TO_VIRUS_SCAN
+  FAILED_TO_VIRUS_SCAN,
+  XSS_VULNERABILITY_FOUND
 }
 
 const uploadTypes = {
