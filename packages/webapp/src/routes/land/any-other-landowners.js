@@ -10,9 +10,9 @@ const handlers = {
   post: async (request, h) => {
     const anyOtherLOValue = request.payload.anyOtherLOValue
     request.yar.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, anyOtherLOValue)
-    if (anyOtherLOValue === 'Yes') {
+    if (anyOtherLOValue === 'yes') {
       return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
-    } else if (anyOtherLOValue === 'No') {
+    } else if (anyOtherLOValue === 'no') {
       return h.redirect(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     } else {
       return h.view(constants.views.ANY_OTHER_LANDOWNERS, {
