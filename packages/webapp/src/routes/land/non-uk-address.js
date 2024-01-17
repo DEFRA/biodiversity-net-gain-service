@@ -43,6 +43,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.NON_UK_ADDRESS_KEY, address)
+      request.yar.set(constants.redisKeys.UK_ADDRESS_KEY, null)
       return redirectAddress(h, request.yar, isApplicantAgent, isIndividualOrOrganisation)
     }
   }
