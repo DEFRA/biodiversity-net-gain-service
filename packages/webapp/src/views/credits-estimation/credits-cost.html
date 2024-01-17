@@ -5,6 +5,7 @@
 {% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
 {% set pageHeading = "Estimated cost of statutory biodiversity credits" %}
 {% set hideSigninNav = true %}
+{% set bannerFeedbackLink = "https://defragroup.eu.qualtrics.com/jfe/form/SV_0fiTBJJKOjORLFk" %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -15,7 +16,7 @@
         classes: "govuk-!-text-align-left",
         attributes: {
           style: "background-color: #1d70b8"
-        }        
+        }
       }) }}
 
       {{ govukTable({
@@ -49,6 +50,11 @@
       <p class="govuk-body">All prices listed in this service do not include VAT, but VAT is payable.</p>
 
       <p class="govuk-body">Read the <a href="https://www.gov.uk/guidance/statutory-biodiversity-credits" target="_blank" rel="noopener">statutory biodiversity credits guidance</a> for further information.</p>
+
+      <h2 class="govuk-heading-m">Give feedback about this service</h2>
+      <p class="govuk-body">
+        <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_b9ObtM3ghayg074" rel="noreferrer noopener" target="__blank">What did you think of this service (opens in new tab)?</a>
+      </p>
     </div>
   </div>
 {% endblock %}
