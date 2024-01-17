@@ -16,6 +16,7 @@ const handlers = {
     return h.view(constants.views.NEED_ADD_ALL_RESPONSIBLE_BODIES, { legalAgreementType })
   },
   post: async (request, h) => {
+    request.yar.set(constants.redisKeys.NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED, true)
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }
 }
