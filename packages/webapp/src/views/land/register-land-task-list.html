@@ -17,7 +17,7 @@
                                 {% if task.taskTitle !== 'Submit your biodiversity gain site information' %}
                                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
-                                        <a href="{% if taskItem.status === 'COMPLETED' %}{{ taskItem.completedTaskUrl }}{% elif taskItem.status === 'IN PROGRESS' and taskItem.inProgressUrl %}{{ taskItem.inProgressUrl }}{% else %}{{ taskItem.startTaskUrl }}{% endif %}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
+                                        <a href="{{ taskItem.url }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
                                           {{ taskItem.title }}
                                         </a>
                                       </span>
@@ -31,7 +31,7 @@
                                             <li class="app-task-list__item">
                                                 {% if canSubmit  %}
                                                     <span class="app-task-list__task-name" id="check-your-answers">
-                                                            <a href="{{ taskItem.completedTaskUrl }}" aria-describedby="{{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].id }}">
+                                                            <a href="{{ taskItem.url }}" aria-describedby="{{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].id }}">
                                                                 {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
                                                             </a>
                                                     </span>
