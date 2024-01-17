@@ -31,7 +31,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to AGENT_ACTING_FOR_CLIENT if user confirms to changing legal agreement', async () => {
+    it('Should continue journey to AGENT_ACTING_FOR_CLIENT if user confirms to change acting on behalf of client', async () => {
       const request = {
         yar: redisMap,
         payload: { changeActingOnBehalfOfClient: 'yes' }
@@ -41,7 +41,7 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.AGENT_ACTING_FOR_CLIENT)
     })
-    it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change legal agreement', async () => {
+    it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change acting on behalf of client', async () => {
       const request = {
         yar: redisMap,
         payload: { changeActingOnBehalfOfClient: 'no' }
