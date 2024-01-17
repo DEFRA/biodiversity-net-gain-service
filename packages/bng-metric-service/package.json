@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-metric-service",
-  "version": "0.287.1",
+  "version": "0.287.2",
   "private": false,
   "description": "Bio diversity data extractor",
   "type": "module",
@@ -19,5 +19,5 @@
   "engines": {
     "node": ">=16"
   },
-  "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
+  "gitHead": "8da38afdf4ea5783c0f804232a460b55a0f25030"
 }
