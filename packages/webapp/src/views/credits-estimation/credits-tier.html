@@ -10,7 +10,6 @@
 {% set bannerFeedbackLink = "https://defragroup.eu.qualtrics.com/jfe/form/SV_0fiTBJJKOjORLFk" %}
 
 {% set creditText = "Enter number of credits" %}
-{% set creditHintText = "The number of credits must be entered up to 2 decimal places, like 23.75." %}"
 
 {% block content %}
   {% if err %}
@@ -22,11 +21,10 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-      <p class="govuk-body">The information you require to get an estimate from this service can be found in the 'unit shortfall summary' tab, from the results menu, in the Metric.</p>
-      <p class="govuk-body">Enter the number of credits from the Metric into the relevant tier box below.</p>
-      <p class="govuk-hint">{{ creditHintText }}</p>
-      <form method="POST" autocomplete="off" novalidate="novalidate">
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1> 
+      <p class="govuk-body">The information you require to get an estimate from this service can be found in the 'unit shortfall summary' tab, from the results menu, in the statutory biodiversity metric calculation tool.</p>
+      <p class="govuk-body">Enter the number of credits from the statutory biodiversity metric calculation tool, up to 2 decimal places, like 23.75.</p>
+      <form method="POST" autocomplete="off" novalidate="novalidate">      
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-one-third">
             <span class="govuk-caption-m">Area</span>
