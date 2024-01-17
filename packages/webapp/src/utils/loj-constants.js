@@ -79,7 +79,6 @@ const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
 const ERROR = 'error'
 const HOME = 'home'
-const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
@@ -213,9 +212,6 @@ const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
 const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
 const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
 const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
-const PRIVACY = 'privacy'
-const CONTACTUS = 'contact-us'
-const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
@@ -410,7 +406,6 @@ export default {
     CHECK_HABITAT_BASELINE,
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
-    COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
@@ -441,9 +436,6 @@ export default {
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    PRIVACY,
-    CONTACTUS,
-    ACCESSIBILITY_STATEMENT,
     ANY_OTHER_LANDOWNERS
   },
   uploadTypes: {

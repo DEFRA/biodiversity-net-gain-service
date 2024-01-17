@@ -44,6 +44,8 @@ const LANDOWNER = 'landowner'
 const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const COOKIES = 'cookies'
 
 const applicationTypes = {
   REGISTRATION,
@@ -171,7 +173,9 @@ let routes = {
   SIGNIN_CALLBACK,
   SIGNOUT,
   SIGNED_OUT,
-  APPLICATION_SUBMITTED
+  APPLICATION_SUBMITTED,
+  ACCESSIBILITY_STATEMENT,
+  COOKIES
 }
 
 // Routes that are only loaded if NODE_ENV === development
