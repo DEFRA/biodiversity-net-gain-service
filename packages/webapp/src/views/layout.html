@@ -67,7 +67,9 @@
     tag: {
       text: "beta"
     },
-    html: 'This is a new service – <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM" target="_blank" rel="noopener noreferrer">give feedback</a> to help us to improve it.'
+    html: 'This is a new service – <a class="govuk-link" href="'
+          + (bannerFeedbackLink or 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM')
+          + '" target="_blank" rel="noopener noreferrer">give feedback</a> to help us to improve it.'
   }) }}
 
   {% if not hideSigninNav %}
