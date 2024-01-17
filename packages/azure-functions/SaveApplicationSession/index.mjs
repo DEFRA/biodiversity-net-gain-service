@@ -9,7 +9,7 @@ const redisKeys = {
 }
 
 export default async function (context, req) {
-  context.log('Processing', JSON.stringify(req.body))
+  context.log('Processing', JSON.stringify(req.body['application-reference']))
   let db
   try {
     const applicationSession = req.body
@@ -53,7 +53,6 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(applicationSession[redisKeys.applicationReference])
     }
-    context.log(`Saved application session ${applicationSession[redisKeys.applicationReference]}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
