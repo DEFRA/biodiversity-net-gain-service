@@ -4,6 +4,7 @@ import multiparty from 'multiparty'
 import constants from './constants.js'
 import { postProcess } from './file-post-process.js'
 import { fileMalwareCheck } from './file-malware-check.js'
+import { isXSSVulnerable } from './html-sanitizer.js'
 
 // The logger object is accessible through the request object
 // since the introduction of hapi-pino. Ideally the logger parameter
@@ -62,10 +63,13 @@ const handlePart = async (logger, part, config, uploadResult) => {
   const fileSizeInBytes = part.byteCount
   const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
   const filename = part.filename
+
   // Delay throwing errors until the form is closed.
   if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
+  } else if (isXSSVulnerable(filename)) {
+    throw new Error(constants.uploadErrors.uploadFailure)
   } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
