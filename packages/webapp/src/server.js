@@ -23,7 +23,9 @@ const createServer = async options => {
             abortEarly: false
           }
         },
-        cors: true,
+        cors: {
+          exposedHeaders: []
+        },
         security: true
       },
       cache
