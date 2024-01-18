@@ -1,10 +1,5 @@
+import { taskListSections, REGISTRATION } from './task-list-sections'
 import constants from '../utils/constants.js'
-import { applicantInfoJourneys } from './applicant-info.js'
-import { landOwnershipJourneys } from './land-ownership.js'
-import { siteBoundaryJourneys } from './site-boundary.js'
-import { localLandChargeJourneys } from './local-land-charge.js'
-import { habitatInfoJourneys } from './habitat-info.js'
-import { legalAgreementJourneys } from './legal-agreement.js'
 
 const ANY = 'any'
 
@@ -14,63 +9,7 @@ const STATUSES = {
   COMPLETE: 'COMPLETED'
 }
 
-const JOURNEYS = {
-  REGISTRATION: 'registration'
-}
-
-const REGISTRATION = {
-  APPLICANT_INFO: 'applicantInfo',
-  LAND_OWNERSHIP: 'landOwnership',
-  SITE_BOUNDARY: 'siteBoundary',
-  HABITAT_INFO: 'habitatInfo',
-  LEGAL_AGREEMENT: 'legalAgreement',
-  LOCAL_LAND_CHARGE: 'localLandCharge'
-}
-
 Object.freeze(STATUSES)
-Object.freeze(JOURNEYS)
-Object.freeze(REGISTRATION)
-
-const journeyDefinition = {
-  [JOURNEYS.REGISTRATION]: {
-    [REGISTRATION.APPLICANT_INFO]: {
-      title: 'Add details about the applicant',
-      startUrl: constants.routes.AGENT_ACTING_FOR_CLIENT,
-      completeUrl: constants.routes.CHECK_APPLICANT_INFORMATION,
-      journeyParts: applicantInfoJourneys
-    },
-    [REGISTRATION.LAND_OWNERSHIP]: {
-      title: 'Add land ownership details',
-      startUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
-      completeUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-      journeyParts: landOwnershipJourneys
-    },
-    [REGISTRATION.SITE_BOUNDARY]: {
-      title: 'Add biodiversity gain site boundary details',
-      startUrl: constants.routes.UPLOAD_LAND_BOUNDARY,
-      completeUrl: constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
-      journeyParts: siteBoundaryJourneys
-    },
-    [REGISTRATION.HABITAT_INFO]: {
-      title: 'Add habitat baseline, creation and enhancements',
-      startUrl: constants.routes.UPLOAD_METRIC,
-      completeUrl: constants.routes.CHECK_METRIC_DETAILS,
-      journeyParts: habitatInfoJourneys
-    },
-    [REGISTRATION.LEGAL_AGREEMENT]: {
-      title: 'Add legal agreement details',
-      startUrl: constants.routes.LEGAL_AGREEMENT_TYPE,
-      completeUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-      journeyParts: legalAgreementJourneys
-    },
-    [REGISTRATION.LOCAL_LAND_CHARGE]: {
-      title: 'Add local land charge search certificate',
-      startUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
-      completeUrl: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
-      journeyParts: localLandChargeJourneys
-    }
-  }
-}
 
 const getReturnObject = (status, url, title, valid) => ({ status, url, title, valid })
 const arrayOfAnyComparator = JSON.stringify([ANY])
@@ -136,17 +75,17 @@ const check = (schema, session) => {
   return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, schema.title, true)
 }
 
-const getJourneySectionStatus = (journey, section, session) => {
-  return check(journeyDefinition[journey][section], session)
+const getTaskListSectionStatus = (journey, section, session) => {
+  return check(taskListSections[journey][section], session)
 }
 
 const getTaskList = (journey, session) => {
-  const applicantInfoTask = getJourneySectionStatus(journey, REGISTRATION.APPLICANT_INFO, session)
-  const landOwnershipTask = getJourneySectionStatus(journey, REGISTRATION.LAND_OWNERSHIP, session)
-  const siteBoundaryTask = getJourneySectionStatus(journey, REGISTRATION.SITE_BOUNDARY, session)
-  const habitatInfoTask = getJourneySectionStatus(journey, REGISTRATION.HABITAT_INFO, session)
-  const legalAgreementTask = getJourneySectionStatus(journey, REGISTRATION.LEGAL_AGREEMENT, session)
-  const localLandChargeTask = getJourneySectionStatus(journey, REGISTRATION.LOCAL_LAND_CHARGE, session)
+  const applicantInfoTask = getTaskListSectionStatus(journey, REGISTRATION.APPLICANT_INFO, session)
+  const landOwnershipTask = getTaskListSectionStatus(journey, REGISTRATION.LAND_OWNERSHIP, session)
+  const siteBoundaryTask = getTaskListSectionStatus(journey, REGISTRATION.SITE_BOUNDARY, session)
+  const habitatInfoTask = getTaskListSectionStatus(journey, REGISTRATION.HABITAT_INFO, session)
+  const legalAgreementTask = getTaskListSectionStatus(journey, REGISTRATION.LEGAL_AGREEMENT, session)
+  const localLandChargeTask = getTaskListSectionStatus(journey, REGISTRATION.LOCAL_LAND_CHARGE, session)
 
   return [
     {
@@ -216,7 +155,5 @@ const getTaskList = (journey, session) => {
 
 export {
   STATUSES,
-  JOURNEYS,
-  REGISTRATION,
   getTaskList
 }
