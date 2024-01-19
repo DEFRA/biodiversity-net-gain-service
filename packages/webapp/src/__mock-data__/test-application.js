@@ -11,7 +11,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/check-applicant-information",
             "startTaskUrl": "/land/agent-acting-for-client",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-applicant-information"
           }
         ]
@@ -24,7 +24,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-land-ownership"
           },
           {
