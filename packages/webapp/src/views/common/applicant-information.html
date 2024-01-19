@@ -6,7 +6,7 @@
       'valueDataTestId': 'acting-for-client-value',
       'href': '/land/agent-acting-for-client',
       'visuallyHiddenText': ' acting on behalf of a client',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': true
     },
     {
@@ -15,7 +15,7 @@
       'valueDataTestId': 'applicant-type-value',
       'href': '/land/applying-individual-organisation',
       'visuallyHiddenText': ' applying as individual or organisation',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': (not actingForClient)
     },
     {
@@ -24,7 +24,7 @@
       'valueDataTestId': 'account-details-up-to-date-value',
       'href': '/land/check-defra-account-details',
       'visuallyHiddenText': ' Defra account details are up to date',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': true
     },
     {
@@ -33,7 +33,7 @@
       'valueDataTestId': 'client-type-value',
       'href': '/land/client-individual-organisation',
       'visuallyHiddenText': ' client is an individual or organisation',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': actingForClient
     },
     {
@@ -42,7 +42,7 @@
       'valueDataTestId': 'client-name-value',
       'href': ('/land/clients-name' if clientIsIndividual else '/land/clients-organisation-name'),
       'visuallyHiddenText': ' client\'s name',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': actingForClient
     },
     {
@@ -51,7 +51,7 @@
       'valueDataTestId': 'client-address-value',
       'href': '/land/is-address-uk',
       'visuallyHiddenText': ' client\'s address',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': actingForClient
     },
     {
@@ -60,7 +60,7 @@
       'valueDataTestId': 'client-email-value',
       'href': '/land/clients-email-address',
       'visuallyHiddenText': ' client\'s email address',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': (actingForClient and clientIsIndividual)
     },
     {
@@ -69,7 +69,7 @@
       'valueDataTestId': 'client-phone-value',
       'href': '/land/clients-phone-number',
       'visuallyHiddenText': ' phone number',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': (actingForClient and clientIsIndividual)
     },
     {
@@ -78,7 +78,7 @@
       'valueDataTestId': 'authorisation-file-value',
       'href': '/land/check-written-authorisation-file',
       'visuallyHiddenText': ' written authorisation',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': actingForClient
     },
     {
@@ -87,12 +87,13 @@
       'valueDataTestId': 'applicant-address-value',
       'href': '/land/is-address-uk',
       'visuallyHiddenText': ' address',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show': (not actingForClient)
     }
   ]
 %}
 
 {{ generateSummaryList({
-  rows: rowList
+  rows: rowList,
+  classes: 'govuk-!-margin-bottom-9'
 }) }}
