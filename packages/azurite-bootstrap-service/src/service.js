@@ -1,5 +1,5 @@
 import { getBlobServiceClient, getQueueServiceClient } from '@defra/bng-connectors-lib/azure-storage'
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 
 const blobServiceClient = getBlobServiceClient()
 const queueServiceClient = getQueueServiceClient()
@@ -13,19 +13,19 @@ const queues = [
   async () => {
     for await (const container of containers) {
       if (await blobServiceClient.getContainerClient(container).exists()) {
-        logger.log(`${container} container exists`)
+        logger.info(`${container} container exists`)
       } else {
         await blobServiceClient.createContainer(container)
-        logger.log(`Created ${container} container`)
+        logger.info(`Created ${container} container`)
       }
     }
 
     for await (const queue of queues) {
       if (await queueServiceClient.getQueueClient(queue).exists()) {
-        logger.log(`${queue} queue exists`)
+        logger.info(`${queue} queue exists`)
       } else {
         await queueServiceClient.createQueue(queue)
-        logger.log(`Created ${queue} queue`)
+        logger.info(`Created ${queue} queue`)
       }
     }
   }
