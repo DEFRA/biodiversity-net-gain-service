@@ -68,6 +68,40 @@ describe('Signin callback handler', () => {
       }
     })
   })
+  //  test to cover the scenario where redirectUrl is not in validRedirectPaths
+  it('should redirect to the manage biodiversity gains route when redirectUrl is not in validRedirectPaths', done => {
+    jest.isolateModules(async () => {
+      try {
+        jest.resetAllMocks()
+        jest.mock('../../../utils/http.js')
+        const http = require('../../../utils/http.js')
+        http.postJson = jest.fn().mockImplementation(() => {
+          return [{
+            applicationStatus: 'SPECIAL_STATUS',
+            applicationReference: 'special-ref'
+          }]
+        })
+        auth.authenticate = jest.fn().mockImplementation(() => {
+          return { idTokenClaims: { /* mock token claims */ } }
+        })
+        const session = new Session()
+        session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/special-route')
+        let redirectArgs = ''
+        const h = {
+          redirect: (...args) => {
+            redirectArgs = args
+          }
+        }
+        const getHandler = callback[0].handler
+        await getHandler({ yar: session, query: {} }, h)
+        expect(redirectArgs[0]).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+        expect(auth.authenticate).toHaveBeenCalledTimes(1)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
 
   it('should redirect to the registrations tasklist when an authenticated registration user has one associated applications', done => {
     const mockApplications = [{
