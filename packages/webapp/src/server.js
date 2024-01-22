@@ -8,10 +8,11 @@ import errorPages from './plugins/error-pages.js'
 import logging from './plugins/logging.js'
 import session from './plugins/session.js'
 import cache from './plugins/cache.js'
+import header from './plugins/header.js'
 import onPreHandler from './plugins/on-pre-handler.js'
 import onPostHandler from './plugins/on-post-handler.js'
 import Blipp from 'blipp'
-import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT } from './utils/config.js'
+import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT, SERVICE_HOME_URL } from './utils/config.js'
 
 const createServer = async options => {
   // Create the hapi server
@@ -23,9 +24,6 @@ const createServer = async options => {
           options: {
             abortEarly: false
           }
-        },
-        cors: {
-          exposedHeaders: []
         },
         security: true
       },
@@ -49,6 +47,24 @@ const init = async server => {
   await server.register(Blipp)
   await server.register(onPreHandler)
   await server.register(onPostHandler)
+  await server.register({
+    plugin: header,
+    options: {
+      keys: [
+        { key: 'X-Frame-Options', value: 'deny' },
+        { key: 'X-Content-Type-Options', value: 'nosniff' },
+        { key: 'Access-Control-Allow-Origin', value: SERVICE_HOME_URL },
+        { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+        { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+        { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        { key: 'X-XSS-Protection', value: '1; mode=block' },
+        { key: 'Strict-Transport-Security', value: 'max-age=31536000;' },
+        { key: 'Cache-Control', value: 'no-cache' },
+        { key: 'Referrer-Policy', value: 'no-referrer' },
+        { key: 'Permissions-Policy', value: 'Interest-Cohort=()' }
+      ]
+    }
+  })
   server.ext('onPreResponse', (request, h) => {
     const response = request.response
     // Check if the response is a view and source is an object
