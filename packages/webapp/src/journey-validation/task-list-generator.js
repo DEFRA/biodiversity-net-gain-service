@@ -31,7 +31,7 @@ const sessionMismatches = (part, session) => {
   return Object.entries(part.sessionDataRequired).some(checkSessionMismatch)
 }
 
-const getJourneyStatuses = (schema, session) => {
+const getTaskStatuses = (schema, session) => {
   const statuses = schema.journeyParts.map(journey => {
     for (const part of journey) {
       if (!sessionMatches(part, session)) {
@@ -56,27 +56,27 @@ const getJourneyStatuses = (schema, session) => {
 }
 
 // We should move to Joi to do the validation in a later iteration
-const check = (schema, session) => {
-  const journeyStatuses = getJourneyStatuses(schema, session)
+const checkTaskStatus = (schema, session) => {
+  const taskStatuses = getTaskStatuses(schema, session)
 
-  // Return a complete journey if there is one
-  const completeJourney = journeyStatuses.find(s => s.status === STATUSES.COMPLETE)
-  if (completeJourney) {
-    return completeJourney
+  // Return a completed task if there is one
+  const completedTask = taskStatuses.find(s => s.status === STATUSES.COMPLETE)
+  if (completedTask) {
+    return completedTask
   }
 
-  // If there is a valid in-progress journey return it
-  const inProgressJourney = journeyStatuses.find(s => s.valid && s.status === STATUSES.IN_PROGRESS)
-  if (inProgressJourney) {
-    return inProgressJourney
+  // If there is a valid in-progress task return it
+  const inProgressTask = taskStatuses.find(s => s.valid && s.status === STATUSES.IN_PROGRESS)
+  if (inProgressTask) {
+    return inProgressTask
   }
 
-  // Found no complete or valid in-progress journeys, so return not started
+  // Found no complete or valid in-progress tasks, so return not started
   return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, schema.title, true)
 }
 
 const getTaskListSectionStatus = (journey, section, session) => {
-  return check(taskListSections[journey][section], session)
+  return checkTaskStatus(taskListSections[journey][section], session)
 }
 
 const getTaskList = (journey, session) => {
