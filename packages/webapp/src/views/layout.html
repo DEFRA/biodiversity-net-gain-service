@@ -81,8 +81,9 @@
     <div class="defra-js-show" hidden>
       {{ govukBackLink({
         text: "Back",
-        href: backLink or "javascript: window.history.go(-1)"
-      }) }}
+        href: backLink or "#"
+    }) }}
+    
     </div>
     {% endif %}
   </div>
@@ -101,9 +102,9 @@
   <script src="{{ assetPath }}/jquery.js"></script>
   <script src="{{ assetPath }}/all.js"></script>
   <script src="{{ assetPath }}/moj/all.js"></script>
-  <script>window.GOVUKFrontend.initAll()
+   <script nonce="{{ nonce }}">window.GOVUKFrontend.initAll()
   </script>
-    <script>window.MOJFrontend.initAll()
+    <script nonce="{{ nonce }}">window.MOJFrontend.initAll()
   </script>
   <script src="{{ assetPath }}/js/core.js"></script>
   {% block pageScripts %}
