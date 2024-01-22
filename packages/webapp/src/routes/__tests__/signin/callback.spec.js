@@ -166,6 +166,33 @@ describe('Signin callback handler', () => {
   })
 })
 
+it('should redirect to the manage biodiversity gains route when applicationType is null', done => {
+  jest.isolateModules(async () => {
+    try {
+      jest.resetAllMocks()
+      jest.mock('../../../utils/http.js')
+      const http = require('../../../utils/http.js')
+
+      http.postJson.mockImplementation(() => Promise.resolve([]))
+      auth.authenticate.mockImplementation(() => Promise.resolve({ idTokenClaims: { contactId: 'test-contact-id' } }))
+
+      const session = new Session()
+      session.set(constants.redisKeys.PRE_AUTHENTICATION_ROUTE, '/invalid-route')
+
+      const getHandler = callback[0].handler
+      const request = { yar: session, query: { code: 'dummy-code' } }
+      const h = { redirect: jest.fn() }
+
+      await getHandler(request, h)
+
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+      done()
+    } catch (err) {
+      done(err)
+    }
+  })
+})
+
 const processRedirectionByApplicationType = (applications, preAuthenticationRoute, redirectUrl, done) => {
   jest.isolateModules(async () => {
     try {

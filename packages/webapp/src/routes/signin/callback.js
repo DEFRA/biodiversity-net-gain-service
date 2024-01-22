@@ -4,13 +4,6 @@ import { getApplicationSession } from '../../utils/get-application.js'
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
-const validRedirectPaths = [
-  constants.routes.DEVELOPER_TASKLIST,
-  constants.routes.REGISTER_LAND_TASK_LIST,
-  constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS,
-  constants.routes.BIODIVERSITY_GAIN_SITES
-]
-
 const determineRedirectUrl = async (request, account, applicationType) => {
   let redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
   if (applicationType) {
@@ -29,6 +22,7 @@ const determineRedirectUrl = async (request, account, applicationType) => {
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
     }
   }
+
   return redirectUrl
 }
 
@@ -37,11 +31,7 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
     return constants.routes.MANAGE_BIODIVERSITY_GAINS
   }
   const applicationType = getApplicationType(preAuthenticationRoute)
-  let redirectUrl = await determineRedirectUrl(request, account, applicationType)
-  // Check if the determined redirectUrl is in the allow-list
-  if (!validRedirectPaths.includes(redirectUrl)) {
-    redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
-  }
+  const redirectUrl = await determineRedirectUrl(request, account, applicationType)
   return redirectUrl
 }
 
