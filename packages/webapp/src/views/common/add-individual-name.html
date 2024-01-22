@@ -6,38 +6,44 @@
 
     <p class="govuk-hint">{{ hintText }}</p>
 
-    {{ govukInput({
-    id: "firstName",
-    name: "firstName",
-    errorMessage: firstNameError,
-    label: {
-    text: "First name"
-    },
-    autocomplete: "firstName",
-    spellcheck: false,
-    value: individual.firstName
-    }) }}
-    {{ govukInput({
-    id: "middleNames",
-    name: "middleNames",
-    label: {
-    text: "Middle names"
-    },
-    autocomplete: "middleNames",
-    spellcheck: false,
-    value: individual.middleNames
-    }) }}
-    {{ govukInput({
-    id: "lastName",
-    name: "lastName",
-    errorMessage: lastNameError,
-    label: {
-    text: "Last name"
-    },
-    autocomplete: "lastName",
-    spellcheck: false,
-    value: individual.lastName
-    }) }}
+    {{ 
+      govukInput({
+        id: "firstName",
+        name: "firstName",
+        errorMessage: firstNameError,
+        label: {
+        text: "First name"
+        },
+        autocomplete: fnameAutocomplete or "firstName",
+        spellcheck: false,
+        value: individual.firstName
+      }) 
+    }}
+    {{ 
+      govukInput({
+        id: "middleNames",
+        name: "middleNames",
+        label: {
+        text: "Middle names"
+        },
+        autocomplete: "middleNames",
+        spellcheck: false,
+        value: individual.middleNames
+      }) 
+    }}
+    {{ 
+      govukInput({
+        id: "lastName",
+        name: "lastName",
+        errorMessage: lastNameError,
+        label: {
+        text: "Last name"
+        },
+        autocomplete: lnameAutocomplete or "lastName",
+        spellcheck: false,
+        value: individual.lastName
+      }) 
+    }}
 
     {% if view == "legalAgreement" %}
     <label class="govuk-label" for="emailAddress">Email address </label>
