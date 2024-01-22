@@ -24,8 +24,7 @@ const createServer = async options => {
           options: {
             abortEarly: false
           }
-        },
-        security: true
+        }
       },
       cache
     },
@@ -58,7 +57,7 @@ const init = async server => {
         { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
         { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
         { key: 'X-XSS-Protection', value: '1; mode=block' },
-        { key: 'Strict-Transport-Security', value: 'max-age=31536000;' },
+        { key: 'Strict-Transport-Security', value: 'max-age=15768000;' },
         { key: 'Cache-Control', value: 'no-cache' },
         { key: 'Referrer-Policy', value: 'no-referrer' },
         { key: 'Permissions-Policy', value: 'Interest-Cohort=()' }
