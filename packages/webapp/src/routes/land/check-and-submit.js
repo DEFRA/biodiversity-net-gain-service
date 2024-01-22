@@ -28,6 +28,14 @@ const handlers = {
       : h.redirect(constants.routes.START)
   },
   post: async (request, h) => {
+    if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
+      const err = [{
+        text: 'You must confirm you have read the terms and conditions',
+        href: '#termsAndConditionsConfirmed'
+      }]
+      return h.view(constants.views.CHECK_AND_SUBMIT, { ...getContext(request), err })
+    }
+
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
@@ -66,7 +74,8 @@ const getContext = request => {
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
-    landownershipFilesRows: getLandOwnershipRows(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS))
+    landownershipFilesRows: getLandOwnershipRows(request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)),
+    anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
 const getLegalAgreementFileNamesForCheckandSubmit = (legalAgreementFiles) => {
