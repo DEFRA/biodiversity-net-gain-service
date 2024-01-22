@@ -46,12 +46,13 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
 }
 
 const validatePreAuthenticationRoute = (route) => {
-  const isString = typeof route === 'string'
-  const startsWithSlash = route && route.startsWith('/')
+  if (typeof route !== 'string') {
+    return false
+  }
+  const startsWithSlash = route.startsWith('/')
   const doesNotContainProtocol = !route.includes('://')
   const startsWithAllowedPath = ['/developer', '/land'].some(allowedPath => route.startsWith(allowedPath))
-
-  return isString && startsWithSlash && doesNotContainProtocol && startsWithAllowedPath
+  return startsWithSlash && doesNotContainProtocol && startsWithAllowedPath
 }
 
 const getApplicationType = preAuthenticationRoute => {
