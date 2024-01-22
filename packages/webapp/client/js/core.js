@@ -204,6 +204,15 @@ if (!calledGTag) {
     }
   }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const backLink = document.querySelector('.govuk-back-link')
+  if (backLink && backLink.getAttribute('href') === '#') {
+    backLink.addEventListener('click', (e) => {
+      e.preventDefault()
+      window.history.back()
+    })
+  }
+})
 
 document.addEventListener('DOMContentLoaded', (event) => {
   const button = document.querySelector('.govuk-button')
