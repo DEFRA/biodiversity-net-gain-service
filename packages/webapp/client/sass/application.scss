@@ -3,7 +3,7 @@ $govuk-assets-path: '/public/';
 $govuk-images-path: '#{$govuk-assets-path}images/';
 $govuk-fonts-path: '#{$govuk-assets-path}fonts/';
 $govuk-global-styles: true;
-$govuk-font-family: "GDS Transport", arial, sans-serif !important;
+$govuk-font-family: "Arial", sans-serif !important;
 
 @import "node_modules/govuk-frontend/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";

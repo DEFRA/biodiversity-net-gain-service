@@ -16,8 +16,15 @@
       <h2 class="govuk-heading-m">Applicant information</h2>
       {% include "common/applicant-information.html" %}
 
+      <!--Land ownership-->
+      <h2 class="govuk-heading-m">Land ownership</h2>
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: landownershipFilesRows
+      }) }}
+
       <!--Land boundary-->
-      <h2 class="govuk-heading-m">Land boundary</h2>
+      <h2 class="govuk-heading-m">Biodiversity gain site boundary</h2>
       
       {% set landBoundaryUploadTypeElement = {
         key: {
@@ -56,7 +63,7 @@
           landBoundaryUploadTypeElement,
           {
             key: {
-              text: "Land boundary file uploaded"
+              text: "File uploaded"
             },
             value: {
               html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
@@ -109,13 +116,6 @@
             }
           }
         ]
-      }) }}
-
-      <!--Land ownership-->
-      <h2 class="govuk-heading-m">Land ownership</h2>
-      {{ govukSummaryList({
-        classes: 'govuk-!-margin-bottom-9',
-        rows: landownershipFilesRows
       }) }}
 
       <!--Biodiversity Metric-->
