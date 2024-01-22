@@ -4,9 +4,15 @@ import { getApplicationSession } from '../../utils/get-application.js'
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
-const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
+const validRedirectPaths = [
+  constants.routes.DEVELOPER_TASKLIST,
+  constants.routes.REGISTER_LAND_TASK_LIST,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECTS,
+  constants.routes.BIODIVERSITY_GAIN_SITES
+]
+
+const determineRedirectUrl = async (request, account, applicationType) => {
   let redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
-  const applicationType = getApplicationType(preAuthenticationRoute)
   if (applicationType) {
     const { currentOrganisationId: organisationId } = getOrganisationDetails(account.idTokenClaims)
     const applications = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/getapplications`, {
@@ -14,7 +20,6 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
       organisationId,
       applicationType
     })
-
     if (applications?.length === 1 && applications[0]?.applicationStatus === 'IN PROGRESS') {
       await getApplicationSession(request, applications[0]?.applicationReference, account.idTokenClaims.contactId, applicationType)
       redirectUrl = applicationType === constants.applicationTypes.ALLOCATION ? constants.routes.DEVELOPER_TASKLIST : constants.routes.REGISTER_LAND_TASK_LIST
@@ -27,9 +32,34 @@ const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
   return redirectUrl
 }
 
+const getRedirectUrl = async (request, account, preAuthenticationRoute) => {
+  if (!validatePreAuthenticationRoute(preAuthenticationRoute)) {
+    return constants.routes.MANAGE_BIODIVERSITY_GAINS
+  }
+  const applicationType = getApplicationType(preAuthenticationRoute)
+  let redirectUrl = await determineRedirectUrl(request, account, applicationType)
+  // Check if the determined redirectUrl is in the allow-list
+  if (!validRedirectPaths.includes(redirectUrl)) {
+    redirectUrl = constants.routes.MANAGE_BIODIVERSITY_GAINS
+  }
+  return redirectUrl
+}
+
+const validatePreAuthenticationRoute = (route) => {
+  if (!route || typeof route !== 'string') {
+    return false
+  }
+  // Check if the route starts with a slash and does not contain '://'
+  if (route.startsWith('/') && !route.includes('://')) {
+    // Allow-list of expected start paths
+    const allowedStartPaths = ['/developer', '/land']
+    return allowedStartPaths.some(allowedPath => route.startsWith(allowedPath))
+  }
+  return false
+}
+
 const getApplicationType = preAuthenticationRoute => {
   let applicationType
-
   if (preAuthenticationRoute) {
     if (preAuthenticationRoute.startsWith('/developer')) {
       applicationType = constants.applicationTypes.ALLOCATION

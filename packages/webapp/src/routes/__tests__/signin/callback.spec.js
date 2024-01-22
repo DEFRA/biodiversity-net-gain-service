@@ -23,6 +23,7 @@ describe('Signin callback handler', () => {
           return {}
         })
         const response = await submitGetRequest({ url }, 302)
+
         expect(response.headers.location).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
         expect(auth.authenticate).toHaveBeenCalledTimes(1)
         done()
