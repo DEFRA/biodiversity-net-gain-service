@@ -74,7 +74,6 @@ const getContext = request => {
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
-    // landownershipFileNames: getFileNameByType(applicationDetails.files, 'land-ownership'),
     landownershipFilesRows: getLandOwnershipRows(applicationDetails),
     anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
