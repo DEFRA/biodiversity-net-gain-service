@@ -3,9 +3,12 @@
 {% set habitatPlanIncludedLegalAgreement = habitatPlanIncludedLegalAgreementYesNo == 'No' %}
 {% set isLegalAgreementTypeS106Type = legalAgreementType == 'Planning obligation (section 106 agreement)' %}
 {% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
-{% set isOtherLandowners = anyOtherLO == 'Yes' %}
 {% set classHidden = hideClass(true) %} 
 {% set lc_legalAgreementType = legalAgreementType | lower %}
+{% set cap_anyOtherLO = anyOtherLO | capitalize %}
+{% set isOtherLandowners = cap_anyOtherLO == 'Yes' %}
+{% set landownerOrLeaseholderText = 'Landowner or leaseholder' if legalAgreementType == 'Conservation covenant' else 'Landowner' %}
+
 {% 
     set rowList = [
     {
@@ -49,7 +52,7 @@
         'show':isLegalAgreementTypeS106Type
     },
     {
-        'text': 'Landowner or leaseholder',
+        'text': landownerOrLeaseholderText,
         'value': landowners,
         'valueDataTestId': 'legal-agreement-landowner-value',
         'valueId': 'add-legal-agreement-landowner-value',
@@ -60,7 +63,7 @@
     },
     {
         'text': 'Other landowners or leaseholders on '+lc_legalAgreementType,
-        'value': anyOtherLO,
+        'value': cap_anyOtherLO,
         'valueDataTestId': 'any-other-landowner-value',
         'valueId': 'any-other-landowner-value',
         'href': '/land/any-other-landowners',
