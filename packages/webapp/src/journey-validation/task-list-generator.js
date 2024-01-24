@@ -1,5 +1,5 @@
 import { taskListSections, REGISTRATION } from './task-list-sections'
-import { taskItemFactory } from './utils.js'
+import constants from '../utils/constants.js'
 
 const ANY = 'any'
 
@@ -91,28 +91,63 @@ const getTaskList = (journey, session) => {
     {
       taskTitle: 'Applicant information',
       tasks: [
-        taskItemFactory(applicantInfoTask, 'add-applicant-information')
+        {
+          title: applicantInfoTask.title,
+          status: applicantInfoTask.status,
+          url: applicantInfoTask.url,
+          id: 'add-applicant-information'
+        }
       ]
     },
     {
       taskTitle: 'Land information',
       tasks: [
-        taskItemFactory(landOwnershipTask, 'add-land-ownership'),
-        taskItemFactory(siteBoundaryTask, 'add-land-boundary'),
-        taskItemFactory(habitatInfoTask, 'add-habitat-information')
+        {
+          title: landOwnershipTask.title,
+          status: landOwnershipTask.status,
+          url: landOwnershipTask.url,
+          id: 'add-land-ownership'
+        },
+        {
+          title: siteBoundaryTask.title,
+          status: siteBoundaryTask.status,
+          url: siteBoundaryTask.url,
+          id: 'add-land-boundary'
+        },
+        {
+          title: habitatInfoTask.title,
+          status: habitatInfoTask.status,
+          url: habitatInfoTask.url,
+          id: 'add-habitat-information'
+        }
       ]
     },
     {
       taskTitle: 'Legal information',
       tasks: [
-        taskItemFactory(legalAgreementTask, 'add-legal-agreement'),
-        taskItemFactory(localLandChargeTask, 'add-local-land-charge-search-certificate')
+        {
+          title: legalAgreementTask.title,
+          status: legalAgreementTask.status,
+          url: legalAgreementTask.url,
+          id: 'add-legal-agreement'
+        },
+        {
+          title: localLandChargeTask.title,
+          status: localLandChargeTask.status,
+          url: localLandChargeTask.url,
+          id: 'add-local-land-charge-search-certificate'
+        }
       ]
     },
     {
       taskTitle: 'Submit your biodiversity gain site information',
       tasks: [
-        taskItemFactory('check-your-answers')
+        {
+          title: 'Check your answers and submit information',
+          status: 'CANNOT START YET',
+          url: constants.routes.CHECK_AND_SUBMIT,
+          id: 'check-your-answers'
+        }
       ]
     }
   ]
