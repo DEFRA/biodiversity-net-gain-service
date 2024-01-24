@@ -685,6 +685,12 @@ const validateAddress = (address, isUkAddress) => {
         href: '#country'
       }
     }
+    if (address?.postcode?.length > 14) {
+      errors.postcodeError = {
+        text: 'Postal code must be 14 characters or fewer',
+        href: '#postcode'
+      }
+    }
   }
   return Object.keys(errors).length > 0 ? errors : null
 }
