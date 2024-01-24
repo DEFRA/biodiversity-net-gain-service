@@ -1,4 +1,4 @@
-import { taskListSections, REGISTRATION } from './task-list-sections'
+import { taskListSections, REGISTRATION, JOURNEYS } from './task-list-sections.js'
 import constants from '../utils/constants.js'
 
 const ANY = 'any'
@@ -153,7 +153,34 @@ const getTaskList = (journey, session) => {
   ]
 }
 
+const getTaskListWithStatusCounts = (session) => {
+  const taskList = getTaskList(JOURNEYS.REGISTRATION, session)
+
+  let completedTasks = 0
+  let totalTasks = 0
+
+  taskList.forEach(task => {
+    if (task.tasks.length === 1) {
+      totalTasks += 1
+      if (task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+        completedTasks += 1
+      }
+    } else {
+      task.tasks.forEach(currentTask => {
+        totalTasks += 1
+        if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+          completedTasks += 1
+        }
+      })
+    }
+  })
+
+  const canSubmit = completedTasks === (totalTasks - 1)
+
+  return { taskList, totalTasks, completedTasks, canSubmit }
+}
+
 export {
   STATUSES,
-  getTaskList
+  getTaskListWithStatusCounts
 }

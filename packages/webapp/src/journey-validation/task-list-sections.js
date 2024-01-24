@@ -63,4 +63,4 @@ const taskListSections = {
   }
 }
 
-export { REGISTRATION, taskListSections }
+export { JOURNEYS, REGISTRATION, taskListSections }
