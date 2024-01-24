@@ -7,7 +7,6 @@
 {% set lc_legalAgreementType = legalAgreementType | lower %}
 {% set cap_anyOtherLO = anyOtherLO | capitalize %}
 {% set isOtherLandowners = cap_anyOtherLO == 'Yes' %}
-{% set landownerOrLeaseholderText = 'Landowner or leaseholder' if legalAgreementType == 'Conservation covenant' else 'Landowner' %}
 
 {% 
     set rowList = [
@@ -52,16 +51,6 @@
         'show':isLegalAgreementTypeS106Type
     },
     {
-        'text': landownerOrLeaseholderText,
-        'value': landowners,
-        'valueDataTestId': 'legal-agreement-landowner-value',
-        'valueId': 'add-legal-agreement-landowner-value',
-        'href': '/land/check-landowners',
-        'visuallyHiddenText':  ' landowner',
-        'classes': '',
-        'show':isOtherLandowners
-    },
-    {
         'text': 'Other landowners or leaseholders on '+lc_legalAgreementType,
         'value': cap_anyOtherLO,
         'valueDataTestId': 'any-other-landowner-value',
@@ -70,6 +59,16 @@
         'visuallyHiddenText':  ' landowner',
         'classes': '',
         'show':true
+    },
+    {
+        'text': 'Landowner or leaseholder',
+        'value': landowners,
+        'valueDataTestId': 'legal-agreement-landowner-value',
+        'valueId': 'add-legal-agreement-landowner-value',
+        'href': '/land/check-landowners',
+        'visuallyHiddenText':  ' landowner',
+        'classes': '',
+        'show':isOtherLandowners
     },
     {
         'text': 'Habitat management and monitoring plan is a separate document',
