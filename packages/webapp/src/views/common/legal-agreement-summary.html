@@ -3,9 +3,10 @@
 {% set habitatPlanIncludedLegalAgreement = habitatPlanIncludedLegalAgreementYesNo == 'No' %}
 {% set isLegalAgreementTypeS106Type = legalAgreementType == 'Planning obligation (section 106 agreement)' %}
 {% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
-{% set isOtherLandowners = anyOtherLO == 'Yes' %}
+{% set isOtherLandowners = anyOtherLO == 'yes' %}
 {% set classHidden = hideClass(true) %} 
 {% set lc_legalAgreementType = legalAgreementType | lower %}
+{% set anyOtherLO = anyOtherLO | capitalize %}
 {% 
     set rowList = [
     {
