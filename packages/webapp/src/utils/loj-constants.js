@@ -201,6 +201,9 @@ const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
+const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-client'
+const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = 'land/change-client-individual-organisation'
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = 'land/change-applying-individual-organisation'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
 const NEED_ADD_ALL_LEGAL_FILES_CHECKED = 'need-add-all-legal-files-checked'
 const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
@@ -431,6 +434,9 @@ export default {
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
+    CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+    CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+    CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
