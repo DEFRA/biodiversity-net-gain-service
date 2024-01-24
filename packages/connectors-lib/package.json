@@ -29,5 +29,5 @@
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "0.294.0"
   },
-  "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
+  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }

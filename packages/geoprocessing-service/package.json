@@ -21,7 +21,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@defra/bng-errors-lib": "0.294.0",
-    "gdal-async": "3.7.3",
+    "gdal-async": "^3.8.3",
     "geodesy": "^2.4.0"
   },
   "devDependencies": {
@@ -29,5 +29,5 @@
     "@defra/bng-connectors-lib": "0.294.0",
     "@defra/bng-utils-lib": "0.294.0"
   },
-  "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
+  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }
