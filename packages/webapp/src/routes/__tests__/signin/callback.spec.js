@@ -3,7 +3,6 @@ import constants from '../../../utils/constants.js'
 
 const url = constants.routes.SIGNIN_CALLBACK
 
-
 describe('Signin callback handler', () => {
   it('Should redirect to the manage biodiversity gains view when authenticated and the developer journey is enabled', async () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'Y'
