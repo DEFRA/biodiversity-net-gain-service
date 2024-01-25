@@ -1,4 +1,4 @@
-import { logger } from 'defra-logging-facade'
+// import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import creditsConstants from '../../credits/constants.js'
@@ -20,7 +20,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
-  logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(creditsConstants.routes.CREDITS_CHECK_UPLOAD_METRIC)
 }
 
@@ -88,10 +88,10 @@ const handlers = {
     })
 
     try {
-      const metricUploadResult = await uploadFile(logger, request, creditsUploadConfig)
+      const metricUploadResult = await uploadFile(request.logger, request, creditsUploadConfig)
       return processSuccessfulCreditUpload(metricUploadResult, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
+      request.logger.log(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
       return processCreditsErrorUpload(err, h)
     }
   }
