@@ -182,5 +182,6 @@ const getTaskListWithStatusCounts = (session) => {
 
 export {
   STATUSES,
+  getTaskList,
   getTaskListWithStatusCounts
 }
