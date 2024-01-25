@@ -24,14 +24,12 @@ describe(url, () => {
   let viewResult
   let h
   let redisMap
-  let resultContext
   let checkAndSubmitGet
 
   beforeEach(() => {
     h = {
       view: (view, context) => {
         viewResult = view
-        resultContext = context
       },
       redirect: (view, context) => {
         viewResult = view
