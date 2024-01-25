@@ -666,27 +666,41 @@ const validateAddress = (address, isUkAddress) => {
     }
   }
   if (isUkAddress) {
-    if (!address.postcode || address.postcode.length === 0) {
-      errors.postcodeError = {
-        text: 'Enter postcode',
-        href: '#postcode'
-      }
-    } else if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
-    }
+    validateUkAddress(address, errors)
   }
   if (!isUkAddress) {
-    if (!address.country || address.country.length === 0) {
-      errors.countryError = {
-        text: 'Enter country',
-        href: '#country'
-      }
-    }
+    validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
+}
+
+const validateUkAddress = (address, errors) => {
+  if (!address.postcode || address.postcode.length === 0) {
+    errors.postcodeError = {
+      text: 'Enter postcode',
+      href: '#postcode'
+    }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
+    }
+  }
+}
+
+const validateNonUkAddress = (address, errors) => {
+  if (!address.country || address.country.length === 0) {
+    errors.countryError = {
+      text: 'Enter country',
+      href: '#country'
+    }
+  }
+  if (address?.postcode?.length > 14) {
+    errors.postcodeError = {
+      text: 'Postal code must be 14 characters or fewer',
+      href: '#postcode'
+    }
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {

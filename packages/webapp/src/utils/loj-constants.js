@@ -52,7 +52,6 @@ const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-co
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
-const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
@@ -79,7 +78,6 @@ const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
 const ERROR = 'error'
 const HOME = 'home'
-const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
@@ -203,6 +201,9 @@ const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
+const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-client'
+const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = 'land/change-client-individual-organisation'
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = 'land/change-applying-individual-organisation'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
 const NEED_ADD_ALL_LEGAL_FILES_CHECKED = 'need-add-all-legal-files-checked'
 const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
@@ -213,9 +214,6 @@ const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
 const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
 const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
 const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
-const PRIVACY = 'privacy'
-const CONTACTUS = 'contact-us'
-const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
@@ -399,7 +397,6 @@ export default {
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
     REGISTERED_LANDOWNER,
-    ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
@@ -410,7 +407,6 @@ export default {
     CHECK_HABITAT_BASELINE,
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
-    COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
@@ -438,12 +434,12 @@ export default {
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
+    CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+    CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+    CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    PRIVACY,
-    CONTACTUS,
-    ACCESSIBILITY_STATEMENT,
     ANY_OTHER_LANDOWNERS
   },
   uploadTypes: {
