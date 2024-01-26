@@ -4,7 +4,7 @@ import { submitGetRequest } from '../helpers/server.js'
 describe('Route authentication', () => {
   it('Should render a non protected route without authentication', async () => {
     const options = {
-      url: '/start',
+      url: '/credits-estimation/credits-tier',
       auth: false
     }
     await submitGetRequest(options)
