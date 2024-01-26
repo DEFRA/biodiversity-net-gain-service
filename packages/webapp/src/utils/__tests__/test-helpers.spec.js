@@ -12,7 +12,8 @@ import {
   getErrById,
   initialCapitalization,
   isValidPostcode,
-  processRegistrationTask
+  processRegistrationTask,
+  validateLengthOfCharsLessThan50
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -458,5 +459,14 @@ describe('processRegistrationTask', () => {
 
     const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
     expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
+  })
+})
+
+describe('validateLengthOfCharsLessThan50', () => {
+  it('should return error if input character length is more than 50', () => {
+    const middleNameError = validateLengthOfCharsLessThan50(
+      'this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string',
+      'middle name', 'middleNameId')
+    expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
   })
 })
