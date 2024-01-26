@@ -1,2 +1,107 @@
-{% set pageHeading = "Accessibility Statement" %}
-{% include "common/temp-placeholder.html" %}
+{% extends 'layout.html' %}
+
+{% set pageHeading = "Accessibility statement for Register a biodiversity gain site" %}
+{% set hideSigninNav = true %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+
+      <p>This accessibility statement applies to content published on the <a href="https://manage-biodiversity-gains.defra.gov.uk">manage-biodiversity-gains.defra.gov.uk</a> domain.</p>
+
+      <p>This website is run by Natural England. We want as many people as possible to be able to use this website. For example, that means you should be able to:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>change colours, contrast levels and fonts</li>
+        <li>zoom in up to 300% without the text spilling off the screen</li>
+        <li>navigate most of the website using just a keyboard</li>
+        <li>navigate most of the website using speech recognition software</li>
+        <li>listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)</li>
+      </ul>
+
+      <p>We've also made the website text as simple as possible to understand.</p>
+
+      <p><a href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> has advice on making your device easier to use if you have a disability.</p>
+
+      <h2 class="govuk-heading-l">How accessible this website is</h2>
+
+      <p>The service uses common styles, patterns and components from the GOV.UK Design System, which are widely regarded as accessible.</p>
+
+      <p>We know some parts of this website are not fully accessible.</p>
+
+      <p>The colour contrast of the white text against the blue background colour on the tag element fails to meet WCAG 2.1 guidelines for contrast enhanced. This issue may affect you if you have low vision. You may have difficulty in distinguishing the text against the blue background colour.</p>
+
+      <p>The 'Change' links in the description list are non-descriptive and duplicated. This may be problematic if you're a screen reader user using the links dialogue list as it's not clear what will be changed if the links are activated.</p>
+
+
+      <h2 class="govuk-heading-l">Feedback and contact information</h2>
+
+      <p>If you need information on this website in a different format, like accessible PDF, contact the Biodiversity Net Gain team.</p>
+
+      <p>Telephone: 0300 060 3900</p>
+
+      <p>Opening times:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>March to September - Monday to Friday, 10am to 4pm</li>
+        <li>October to February - Monday to Friday, 10am to 2pm</li>
+      </ul>
+
+      <p>Closed on public holidays.</p>
+
+      <p><a href="https://www.gov.uk/call-charges">Find out about call charges</a></p>
+
+      <p>Email: <a href="mailto:biodiversitynetgainenquiries@naturalengland.org.uk">biodiversitynetgainenquiries@naturalengland.org.uk</a></p>
+
+      <p>We aim to reply within 10 working days.</p>
+
+      <h2 class="govuk-heading-l">Reporting accessibility problems with this website</h2>
+
+      <p>We're always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we're not meeting accessibility requirements, email: <a href="mailto:biodiversitynetgainenquiries@naturalengland.org.uk">biodiversitynetgainenquiries@naturalengland.org.uk</a></p>
+
+      <h2 class="govuk-heading-l">Enforcement procedure</h2>
+
+      <p>The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the 'accessibility regulations'). If you're not happy with how we respond to your complaint, <a href="https://www.equalityadvisoryservice.com/">contact the Equality Advisory and Support Service (EASS)</a>.</p>
+
+      <h2 class="govuk-heading-l">Technical information about this website's accessibility</h2>
+
+      <p>Natural England is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.</p>
+
+      <h3 class="govuk-heading-m">Compliance status</h3>
+
+      <p>This website is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1</a> AA standard, due to the non-compliances and exemptions listed below.</p>
+
+      <h2 class="govuk-heading-l">Non-accessible content</h2>
+
+      <p>The content listed below is non-accessible for the following reasons.</p>
+
+      <h3 class="govuk-heading-m">Non-compliance with the accessibility regulations</h3>
+
+      <p>The colour contrast of the white text against the blue background colour on the tag element fails to meet WCAG 2.1 guidelines for contrast enhanced. This fails WCAG criterion 1.4.6 Contrast (Enhanced) (Level AAA). We plan to address this by April 2024.</p>
+
+      <p>The 'Change' links in the description list are non-descriptive and duplicated. This fails WCAG criterion 2.4.9 Link Purpose (Link Only) (Level AAA). We plan to address this by April 2024.</p>
+
+      <h3 class="govuk-heading-m">Usability issues that do not fail to meet accessibility regulations</h3>
+
+      <p>We will be working to fix them the following usability issues. These do not fail to meet WCAG 2.1 regulations but may prove challenging for users of the service.</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>The page title does not contain the service name. This issue may affect screen reader users who use the page title to identify the page and service they are navigating. This could be considered a failure of WCAG 2.1 success criterion 2.4.2 Page Titled (A).</li>
+        <li>The navigation links under the header have not been marked up using HTML tags to enable screen reader users to understand they are navigational links. This could be considered a failure of WCAG 2.1 success criterion 2.4.1 Bypass Blocks (A).</li>
+        <li>The error skip link does not direct the user to the input field.</li>
+        <li>The 'Back' link cannot be activated using Dragon voice activation software.</li>
+        <li>Voice activation users may be unable to reference the file upload component using the label.</li>
+        <li>Users who use the skip link may be prevented from setting their cookies preferences.</li>
+      </ul>
+
+      <h2 class="govuk-heading-l">Preparation of this accessibility statement</h2>
+
+      <p>This statement was prepared on 12 January 2024. It was last reviewed on 12 January 2024.</p>
+
+      <p>This website was last tested 23 November 2023. The test was carried out by Digital Accessibility Centre (DAC).</p>
+
+    </div>
+  </div>
+{% endblock %}

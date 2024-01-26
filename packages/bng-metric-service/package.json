@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-metric-service",
-  "version": "0.291.0",
+  "version": "0.306.0",
   "private": false,
   "description": "Bio diversity data extractor",
   "type": "module",
@@ -14,10 +14,10 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "lodash": "^4.17.21",
-    "xlsx": "^0.18.5"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
-  "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
+  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }
