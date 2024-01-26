@@ -16,7 +16,7 @@ describe('Route authentication', () => {
       auth: false
     }
     const response = await submitGetRequest(options, 302)
-    expect(response.headers.location).toEqual('/signin?next=%2Fland%2Fupload-metric')
+    expect(response.headers.location).toEqual('/signin')
   })
 
   it('Should render protected page with Signin nav if authenticated', async () => {
