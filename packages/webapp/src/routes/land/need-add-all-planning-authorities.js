@@ -16,6 +16,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    request.yar.set(constants.redisKeys.NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED, true)
     return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
   }
 }

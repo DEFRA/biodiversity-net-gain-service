@@ -235,6 +235,10 @@ const validateIdGetSchemaOptional = {
   }
 }
 const getLandowners = landOwners => {
+  if (!landOwners) {
+    return null
+  }
+
   const organisationNames = []
   const individualNames = []
 
@@ -627,7 +631,7 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
@@ -662,27 +666,41 @@ const validateAddress = (address, isUkAddress) => {
     }
   }
   if (isUkAddress) {
-    if (!address.postcode || address.postcode.length === 0) {
-      errors.postcodeError = {
-        text: 'Enter postcode',
-        href: '#postcode'
-      }
-    } else if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
-    }
+    validateUkAddress(address, errors)
   }
   if (!isUkAddress) {
-    if (!address.country || address.country.length === 0) {
-      errors.countryError = {
-        text: 'Enter country',
-        href: '#country'
-      }
-    }
+    validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
+}
+
+const validateUkAddress = (address, errors) => {
+  if (!address.postcode || address.postcode.length === 0) {
+    errors.postcodeError = {
+      text: 'Enter postcode',
+      href: '#postcode'
+    }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
+    }
+  }
+}
+
+const validateNonUkAddress = (address, errors) => {
+  if (!address.country || address.country.length === 0) {
+    errors.countryError = {
+      text: 'Enter country',
+      href: '#country'
+    }
+  }
+  if (address?.postcode?.length > 14) {
+    errors.postcodeError = {
+      text: 'Postal code must be 14 characters or fewer',
+      href: '#postcode'
+    }
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
@@ -694,6 +712,20 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
+}
+
+const getAuthenticatedUserRedirectUrl = () => {
+  // BNGP- 4368 - Simplify the redirection logic for authenticated users.
+  // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
+  // When two or more journey types are enabled, redirect the user to select the dashboard for
+  // the required journey type.
+  //
+  // IMPORTANT
+  // This logic MUST be refactored to allow for correct redirection when credits purchase
+  // and/or allocation functionality is implemented and enabled.
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+    ? constants.routes.MANAGE_BIODIVERSITY_GAINS
+    : constants.routes.BIODIVERSITY_GAIN_SITES
 }
 
 export {
@@ -747,5 +779,6 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  getAuthenticatedUserRedirectUrl
 }

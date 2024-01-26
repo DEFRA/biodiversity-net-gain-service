@@ -65,7 +65,7 @@ describe(url, () => {
 
       await responsibleBodiesList.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.ANY_OTHER_LANDOWNERS)
     })
 
     it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT if no is chosen', async () => {

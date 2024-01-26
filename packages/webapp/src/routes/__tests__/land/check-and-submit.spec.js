@@ -64,6 +64,7 @@ describe(url, () => {
           {
             responsibleBodyName: 'test2'
           }])
+          session.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, 'Yes')
 
           const h = {
             view: (view, context) => {
@@ -99,7 +100,7 @@ describe(url, () => {
       const session = applicationSession()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
       const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      expect(response.headers.location).toEqual('/')
     })
     it(`should render the ${url.substring(1)} view even when a file has been deleted`, async () => {
       const sessionData = JSON.parse(application.dataString)
@@ -109,13 +110,13 @@ describe(url, () => {
       delete sessionData[constants.redisKeys.HABITAT_PLAN_FILE_SIZE]
       await submitGetRequest({ url }, 200, sessionData)
     })
-    it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
+    it('should redirect to / if APPLICATION_REFERENCE is null', async () => {
       const session = applicationSession()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
       const { handler } = checkAndSubmit.find(route => route.method === 'GET')
       const h = { redirect: jest.fn() }
       await handler({ yar: session }, h)
-      expect(h.redirect).toHaveBeenCalledWith(constants.routes.START)
+      expect(h.redirect).toHaveBeenCalledWith('/')
     })
     it(`should render the ${url.substring(1)} view with hideConsent true and no legal agreement files uploaded`, done => {
       jest.isolateModules(async () => {

@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
-const serviceName = 'Register land as a biodiversity gain site'
+const serviceName = 'Register a biodiversity gain site'
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
 
 const views = {
