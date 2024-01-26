@@ -118,7 +118,7 @@ describe(url, () => {
       jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.routes.START)
+      expect(viewResult).toEqual('/')
     })
   })
 

@@ -28,11 +28,12 @@ const handlers = {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
 
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
+      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
       ? h.view(constants.views.CHECK_AND_SUBMIT, {
         ...getContext(request)
       })
-      : h.redirect(constants.routes.START)
+      : h.redirect('/')
   },
   post: async (request, h) => {
     if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
