@@ -631,7 +631,7 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
