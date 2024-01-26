@@ -426,6 +426,17 @@ const validateFirstLastName = (name, text, hrefId) => {
   return error.err ? error : null
 }
 
+const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
+  const error = {}
+  if (input.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
   const error = {}
   const fieldTypeLower = fieldType.toLowerCase()
@@ -765,5 +776,6 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  validateLengthOfCharsLessThan50
 }

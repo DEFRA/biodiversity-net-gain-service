@@ -32,7 +32,7 @@ const handlers = {
     let errors = {}
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) ?? []
     const excludeIndex = id !== undefined ? parseInt(id, 10) : null
-    errors = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', null, 'responsible body')
+    errors = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', 50, 'responsible body')
     if (isEmpty(errors)) {
       const duplicateError = checkForDuplicate(
         legalAgreementResponsibleBodies,

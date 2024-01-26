@@ -1,7 +1,8 @@
 import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
@@ -13,6 +14,11 @@ const validateOrganisation = organisation => {
       text: 'Enter the name of the legal party',
       href: '#organisationName'
     }
+  }
+
+  const organisationNameError = validateLengthOfCharsLessThan50(organisation.organisationName, 'organisation name', 'organisationNameId')
+  if (organisationNameError) {
+    errors.organisationNameErr = organisationNameError.err[0]
   }
 
   if (organisation.organisationRole === undefined) {
