@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-errors-lib",
-  "version": "0.292.0",
+  "version": "0.305.0",
   "type": "module",
   "private": false,
   "description": "Custom errors for Biodiversity Net Gain",
@@ -15,5 +15,5 @@
   },
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
-  "gitHead": "9ad28d0bbee0660fbd3082d79f339bccc2ac444c"
+  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }

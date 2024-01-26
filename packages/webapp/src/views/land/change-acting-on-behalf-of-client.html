@@ -1,0 +1,51 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Are you sure you want to change whether you're acting on behalf of a client?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "changeActingOnBehalfOfClient",
+                name: "changeActingOnBehalfOfClient",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    html: "<div class='govuk-hint'>Changing whether you're acting on behalf of a client means you'll 
+                        need to add information about the applicant again.</div>"
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes, I want to change whether I'm acting on behalf of a client and add information about the applicant again",
+                        id: "change-acting-on-behalf-of-client-yes",
+                        checked: changeActingOnBehalfOfClient === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, I do not want to change whether I'm acting on behalf of a client",
+                        id: "change-acting-on-behalf-of-client-no",
+                        checked: changeActingOnBehalfOfClient === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

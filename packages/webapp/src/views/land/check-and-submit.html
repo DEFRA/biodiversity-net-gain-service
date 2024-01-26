@@ -3,219 +3,217 @@
 {% set pageHeading = "Check your answers before submitting your information" %}
 
 {% block formContent %}
-  <div class="govuk-body">
+  <div class="govuk-grid-row">
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">
-          {{ pageHeading }}
-        </h1>
-        
-        <!--Applicant information-->
-        <h2 class="govuk-heading-l">Applicant information</h2>
-        {% include "common/applicant-information.html" %}
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+      
+      <!--Applicant information-->
+      <h2 class="govuk-heading-m">Applicant information</h2>
+      {% include "common/applicant-information.html" %}
 
-        <!--Land boundary-->
-        <h2 class="govuk-heading-l">Land boundary</h2>
-        
-        {% set landBoundaryUploadTypeElement = {
-          key: {
-              text: "Land boundary file type"
-          },
-          value: {
-            html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-          },
-          actions: {
-            items: [
-                {
-                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_LAND_BOUNDARY,
-                    text: "Change",
-                    visuallyHiddenText: " land boundary file",
-                    attributes: {
-                        id: "check-land-boundary-file-type"
-                    }
-                }
-            ]
-          }
-        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+      <!--Land ownership-->
+      <h2 class="govuk-heading-m">Land ownership</h2>
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: landownershipFilesRows
+      }) }}
 
-        {% set landBoundaryOnAMapElement = {
-          key: {
-            text: "Land boundary on a map"
-          },
-          classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-          value: {
-            html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
-          }
-        } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
-
-        {{ govukSummaryList({
-          classes: "govuk-!-margin-bottom-7",
-          rows: [
-            landBoundaryUploadTypeElement,
-            {
-              key: {
-                text: "Land boundary file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: checkLandBoundaryLink,
-                    text: "Change",
-                    visuallyHiddenText: " land boundary file"
-                  }
-                ]
-              }
-            },
-            landBoundaryOnAMapElement,
-            {
-              key: {
-                text: "Grid reference"
-              },
-              value: {
-                html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.ADD_GRID_REFERENCE,
-                    text: "Change",
-                    visuallyHiddenText: " grid reference",
-                    classes: hideClass(geospatial)
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Area in hectares"
-              },
-              value: {
-                html: "<span data-testid=\"area-in-hectares-value\">" + areaInHectare + "</span>"
-              },              
-              actions: {
-                items: [
-                  {
-                    href: routes.ADD_HECTARES,
-                    text: "Change",
-                    visuallyHiddenText: " area in hectares",
-                    classes: hideClass(geospatial)
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
-
-        <!--Land ownership-->
-        <h2 class="govuk-heading-l">Land ownership</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-9',
-          rows: landownershipFilesRows
-        }) }}
-
-        <!--Biodiversity Metric-->
-        <h2 class="govuk-heading-l">Statutory biodiversity metric and habitat declarations</h2>
-
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "Statutory biodiversity metric file uploaded"
-              },
-              value: {
-                html: "<span data-testid=\"metric-file-name-value\">" + getFileNameByType(application.files, 'metric') + "</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_UPLOAD_METRIC,
-                    text: "Change",
-                    visuallyHiddenText: " Biodiversity Metric file"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Habitat baseline information is correct"
-              },
-              value: {
-                html: "<span data-testid=\"baseline-biodiversity-value-declaration\">Yes</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_HABITAT_BASELINE,
-                    text: "Change",
-                    visuallyHiddenText: " Baseline biodiversity value declaration"
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Habitat creation and enhancement information is correct"
-              },
-              value: {
-                html: "<span data-testid=\"habitat-creation-and-enhancement-declaration\">Yes</span>"
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.CHECK_HABITAT_CREATED,
-                    text: "Change",
-                    visuallyHiddenText: " Habitat creation and enhancement declaration"
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
-       
-        <!-- Legal agreement -->
-        <h2 class="govuk-heading-l">Legal information</h2>
-        {% set showLocalLandCharge = true %}
-        {% include "common/legal-agreement-summary.html" %}
-        <h2 class="govuk-heading-m">Terms and conditions</h2>
-        <p class="govuk-body">You need to <a href="https://www.gov.uk/government/publications/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
-        {{ govukCheckboxes({
-          name: "termsAndConditionsConfirmed",
-          errorMessage: err[0],
+      <!--Land boundary-->
+      <h2 class="govuk-heading-m">Biodiversity gain site boundary</h2>
+      
+      {% set landBoundaryUploadTypeElement = {
+        key: {
+            text: "Land boundary file type"
+        },
+        value: {
+          html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
+        },
+        actions: {
           items: [
               {
-                value: "Yes",
-                html: "I confirm I have read the terms and conditions"
+                  href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_LAND_BOUNDARY,
+                  text: "Change",
+                  visuallyHiddenText: " land boundary file",
+                  attributes: {
+                      id: "check-land-boundary-file-type"
+                  }
               }
           ]
-        }) }}
-        <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
+        }
+      } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
 
-        <p class="govuk-body">By submitting your information you agree that:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>it is true, to the best of your knowledge and belief</li>
-          <li>you have got, or will get, all consents, licences or other permissions needed to carry out the enhancement works</li>
-        </ul>
-        <div class="govuk-warning-text">
-          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-          <strong class="govuk-warning-text__text">
-            <span class="govuk-warning-text__assistive">Warning</span>
-            You may have to pay a fine if you have given false information.
-          </strong>
-        </div>
-        {{ govukButton({
-          text: "Confirm and submit",
-          attributes: {
-            "data-testid": "continue"
+      {% set landBoundaryOnAMapElement = {
+        key: {
+          text: "Land boundary on a map"
+        },
+        classes: hideClass(documentOrImage) + ' defra-js-show hidden',
+        value: {
+          html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
+        }
+      } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
+
+      {{ govukSummaryList({
+        classes: "govuk-!-margin-bottom-9",
+        rows: [
+          landBoundaryUploadTypeElement,
+          {
+            key: {
+              text: "File uploaded"
+            },
+            value: {
+              html: "<span data-testid=\"land-boundary-file-name-value\">" + landBoundaryFileName + "</span>"
+            },
+            actions: {
+              items: [
+                {
+                  href: checkLandBoundaryLink,
+                  text: "Change",
+                  visuallyHiddenText: " land boundary file"
+                }
+              ]
+            }
+          },
+          landBoundaryOnAMapElement,
+          {
+            key: {
+              text: "Grid reference"
+            },
+            value: {
+              html: "<span data-testid=\"grid-reference-value\">" + gridReference + "</span>"
+            },
+            actions: {
+              items: [
+                {
+                  href: routes.ADD_GRID_REFERENCE,
+                  text: "Change",
+                  visuallyHiddenText: " grid reference",
+                  classes: hideClass(geospatial)
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Area in hectares"
+            },
+            value: {
+              html: "<span data-testid=\"area-in-hectares-value\">" + areaInHectare + "</span>"
+            },              
+            actions: {
+              items: [
+                {
+                  href: routes.ADD_HECTARES,
+                  text: "Change",
+                  visuallyHiddenText: " area in hectares",
+                  classes: hideClass(geospatial)
+                }
+              ]
+            }
           }
-        }) }}
+        ]
+      }) }}
+
+      <!--Biodiversity Metric-->
+      <h2 class="govuk-heading-m">Statutory biodiversity metric and habitat declarations</h2>
+
+      {{ govukSummaryList({
+        classes: 'govuk-!-margin-bottom-9',
+        rows: [
+          {
+            key: {
+              text: "Statutory biodiversity metric file uploaded"
+            },
+            value: {
+              html: "<span data-testid=\"metric-file-name-value\">" + getFileNameByType(application.files, 'metric') + "</span>"
+            },
+            actions: {
+              items: [
+                {
+                  href: routes.CHECK_UPLOAD_METRIC,
+                  text: "Change",
+                  visuallyHiddenText: " Biodiversity Metric file"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Habitat baseline information is correct"
+            },
+            value: {
+              html: "<span data-testid=\"baseline-biodiversity-value-declaration\">Yes</span>"
+            },
+            actions: {
+              items: [
+                {
+                  href: routes.CHECK_HABITAT_BASELINE,
+                  text: "Change",
+                  visuallyHiddenText: " Baseline biodiversity value declaration"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Habitat creation and enhancement information is correct"
+            },
+            value: {
+              html: "<span data-testid=\"habitat-creation-and-enhancement-declaration\">Yes</span>"
+            },
+            actions: {
+              items: [
+                {
+                  href: routes.CHECK_HABITAT_CREATED,
+                  text: "Change",
+                  visuallyHiddenText: " Habitat creation and enhancement declaration"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+      
+      <!-- Legal agreement -->
+      <h2 class="govuk-heading-m">Legal information</h2>
+      {% set showLocalLandCharge = true %}
+      {% include "common/legal-agreement-summary.html" %}
+      <h2 class="govuk-heading-m">Terms and conditions</h2>
+      <p class="govuk-body">You need to <a href="https://www.gov.uk/government/publications/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
+      {{ govukCheckboxes({
+        name: "termsAndConditionsConfirmed",
+        errorMessage: err[0],
+        items: [
+            {
+              value: "Yes",
+              html: "I confirm I have read the terms and conditions"
+            }
+        ]
+      }) }}
+      <h2 class="govuk-heading-m">Submit your biodiversity gain site information</h2>
+
+      <p class="govuk-body">By submitting your information you agree that:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>it is true, to the best of your knowledge and belief</li>
+        <li>you have got, or will get, all consents, licences or other permissions needed to carry out the enhancement works</li>
+      </ul>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          You may have to pay a fine if you have given false information.
+        </strong>
       </div>
+      {{ govukButton({
+        text: "Confirm and submit",
+        attributes: {
+          "data-testid": "continue"
+        }
+      }) }}
     </div>
   </div>
 {% endblock %}
