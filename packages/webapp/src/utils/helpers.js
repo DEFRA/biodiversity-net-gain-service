@@ -428,7 +428,7 @@ const validateFirstLastName = (name, text, hrefId) => {
 
 const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
   const error = {}
-  if (input.length > 50) {
+  if (input?.length > 50) {
     error.err = [{
       text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
       href: hrefId
