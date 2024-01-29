@@ -23,7 +23,7 @@ describe(url, () => {
     })
     it('Should continue journey if Continue button clicked', async () => {
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('/land/landowner-conservation-covenant-individual-organisation')
+      expect(res.headers.location).toEqual('/land/landowner-individual-organisation')
     })
   })
 })
