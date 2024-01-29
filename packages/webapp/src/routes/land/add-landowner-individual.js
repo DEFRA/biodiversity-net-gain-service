@@ -41,7 +41,7 @@ const handlers = {
     const lastNameError = validateFirstLastName(lastName, 'last name', 'lastNameId')
     const middleNameError = validateLengthOfCharsLessThan50(middleName, 'middle name', 'middleNameId')
 
-    if (!isEmpty(firstNameError) || !isEmpty(lastNameError)) {
+    if (!isEmpty(firstNameError) || !isEmpty(lastNameError) || !isEmpty(middleNameError)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
         err: Object.values({ ...firstNameError, ...lastNameError }),
         firstNameError: firstNameError?.err[0],
