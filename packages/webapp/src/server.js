@@ -59,7 +59,7 @@ const init = async server => {
         { key: 'X-XSS-Protection', value: '1; mode=block' },
         { key: 'Strict-Transport-Security', value: 'max-age=15768000;' },
         { key: 'Cache-Control', value: 'no-cache' },
-        { key: 'Referrer-Policy', value: 'no-referrer' },
+        { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'interest-cohort=()' }
       ]
     }
