@@ -1,5 +1,4 @@
 const PUBLIC_ROUTES = 'public-routes'
-const START = 'start'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
@@ -21,7 +20,7 @@ const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
-const LEGAL_AGREEMENT_END_DATE = 'land/legal-agreement-end-date'
+const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
@@ -52,7 +51,6 @@ const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-co
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const REGISTERED_LANDOWNER = 'land/registered-landowner'
-const ADD_LANDOWNERS = 'land/add-landowners'
 const LANDOWNER_CONSENT = 'land/landowner-consent'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
@@ -79,7 +77,6 @@ const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
 const ERROR = 'error'
 const HOME = 'home'
-const COOKIES = 'cookies'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
@@ -87,6 +84,7 @@ const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
+const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
 
 const APPLICATION_REFERENCE = 'application-reference'
@@ -130,12 +128,12 @@ const LAND_OWNERSHIP_FILE_TYPE = 'land-ownership-file-type'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
-const LEGAL_AGREEMENT_END_DATE_KEY = 'legal-agreement-end-date'
+const HABITAT_ENHANCEMENTS_END_DATE_KEY = 'habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE_KEY = 'enhancement-works-start-date'
 const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
 const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
 const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
-const LEGAL_AGREEMENT_END_DATE_OPTION = 'legal-agreement-end-date-option'
+const HABITAT_ENHANCEMENTS_END_DATE_OPTION = 'legal-agreement-end-date-option'
 const ENHANCEMENT_WORKS_START_DATE_OPTION = 'enhancement-works-start-date-option'
 const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
 const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
@@ -150,6 +148,8 @@ const METRIC_LOCATION = 'metric-file-location'
 const METRIC_FILE_SIZE = 'metric-file-size'
 const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
+const METRIC_HABITAT_BASELINE_CHECKED = 'metric-habitat-baseline-checked'
+const METRIC_HABITAT_CREATED_CHECKED = 'metric-habitat-created-checked'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
@@ -177,6 +177,7 @@ const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
+const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -199,7 +200,20 @@ const CLIENTS_PHONE_NUMBER_KEY = 'clients-phone-number'
 const UPLOAD_WRITTEN_AUTHORISATION = 'land/upload-written-authorisation'
 const CHECK_WRITTEN_AUTHORISATION_FILE = 'land/check-written-authorisation-file'
 const CHANGE_TYPE_LEGAL_AGREEMENT = 'land/change-type-legal-agreement'
+const CHANGE_ACTING_ON_BEHALF_OF_CLIENT = 'land/change-acting-on-behalf-of-client'
+const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = 'land/change-client-individual-organisation'
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = 'land/change-applying-individual-organisation'
 const CANNOT_VIEW_APPLICATION = 'land/cannot-view-application'
+const NEED_ADD_ALL_LEGAL_FILES_CHECKED = 'need-add-all-legal-files-checked'
+const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
+const NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED = 'need-add-all-responsible-bodies-checked'
+const NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED = 'need-add-all-planning-authorities-checked'
+const RESPONSIBLE_BODIES_CHECKED = 'responsible-bodies-checked'
+const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
+const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
+const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
+const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
+const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
   landownerTypes: {
@@ -235,6 +249,7 @@ export default {
     LAND_BOUNDARY_CHECKED,
     LAND_BOUNDARY_GRID_REFERENCE,
     LAND_BOUNDARY_HECTARES,
+    LAND_OWNERSHIP_PROOF_LIST_KEY,
     LEGAL_AGREEMENT_CHECKED,
     LOCAL_LAND_CHARGE_CHECKED,
     HABITAT_PLAN_CHECKED,
@@ -263,6 +278,8 @@ export default {
     METRIC_LOCATION,
     METRIC_FILE_SIZE,
     METRIC_DATA,
+    METRIC_HABITAT_BASELINE_CHECKED,
+    METRIC_HABITAT_CREATED_CHECKED,
     FULL_NAME,
     LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
     NAME_KEY,
@@ -270,7 +287,7 @@ export default {
     LANDOWNERS,
     LANDOWNER_CONSENT_KEY,
     LEGAL_AGREEMENT_START_DATE_KEY,
-    LEGAL_AGREEMENT_END_DATE_KEY,
+    HABITAT_ENHANCEMENTS_END_DATE_KEY,
     ENHANCEMENT_WORKS_START_DATE_OPTION,
     ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
@@ -278,7 +295,7 @@ export default {
     LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
     LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
     LEGAL_AGREEMENT_START_DAY,
-    LEGAL_AGREEMENT_END_DATE_OPTION,
+    HABITAT_ENHANCEMENTS_END_DATE_OPTION,
     LEGAL_AGREEMENT_START_MONTH,
     LEGAL_AGREEMENT_START_YEAR,
     REGISTRATION_TASK_DETAILS,
@@ -311,7 +328,17 @@ export default {
     WRITTEN_AUTHORISATION_FILE_SIZE,
     WRITTEN_AUTHORISATION_FILE_TYPE,
     WRITTEN_AUTHORISATION_CHECKED,
-    LAND_OWNERSHIP_PROOFS
+    LAND_OWNERSHIP_PROOFS,
+    NEED_ADD_ALL_LEGAL_FILES_CHECKED,
+    LEGAL_AGREEMENT_FILES_CHECKED,
+    NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED,
+    NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED,
+    RESPONSIBLE_BODIES_CHECKED,
+    NEED_ADD_ALL_LANDOWNERS_CHECKED,
+    LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
+    ADDED_LANDOWNERS_CHECKED,
+    PLANNING_AUTHORITIES_CHECKED,
+    ANY_OTHER_LANDOWNERS_CHECKED
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -332,7 +359,7 @@ export default {
     REMOVE_LEGAL_AGREEMENT_FILE,
     REMOVE_LANDOWNER,
     LEGAL_AGREEMENT_START_DATE,
-    LEGAL_AGREEMENT_END_DATE,
+    HABITAT_ENHANCEMENTS_END_DATE,
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
@@ -354,7 +381,6 @@ export default {
     DOWNLOAD_WRITTEN_AUTHORISATION,
     OS_API_TOKEN,
     PUBLIC_ROUTES,
-    START,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
@@ -369,7 +395,6 @@ export default {
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
     REGISTERED_LANDOWNER,
-    ADD_LANDOWNERS,
     LANDOWNER_CONSENT,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
@@ -380,7 +405,6 @@ export default {
     CHECK_HABITAT_BASELINE,
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
-    COOKIES,
     BIODIVERSITY_GAIN_SITES,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
@@ -408,9 +432,13 @@ export default {
     CHECK_WRITTEN_AUTHORISATION_FILE,
     AGENT_ACTING_FOR_CLIENT,
     CHANGE_TYPE_LEGAL_AGREEMENT,
+    CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+    CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+    CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
-    CANNOT_VIEW_APPLICATION
+    CANNOT_VIEW_APPLICATION,
+    ANY_OTHER_LANDOWNERS
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

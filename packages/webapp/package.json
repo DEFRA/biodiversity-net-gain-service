@@ -1,9 +1,12 @@
 {
   "name": "webapp",
-  "version": "0.265.0",
+  "version": "0.310.0",
   "private": true,
   "type": "module",
   "description": "",
+  "engines": {
+    "node": ">=18"
+  },
   "main": "src/index.js",
   "author": "DEFRA",
   "license": "OGL-UK-3.0",
@@ -31,9 +34,9 @@
   },
   "dependencies": {
     "@azure/msal-node": "^2.3.0",
-    "@defra/bng-connectors-lib": "0.265.0",
-    "@defra/bng-errors-lib": "0.265.0",
-    "@defra/bng-utils-lib": "0.265.0",
+    "@defra/bng-connectors-lib": "0.310.0",
+    "@defra/bng-errors-lib": "0.310.0",
+    "@defra/bng-utils-lib": "0.310.0",
     "@defra/ngr-to-bng": "1.0.3",
     "@hapi/boom": "^10.0.1",
     "@hapi/catbox-redis": "^7.0.2",
@@ -46,10 +49,10 @@
     "@ministryofjustice/frontend": "^1.8.1",
     "accessible-autocomplete": "^2.0.4",
     "blipp": "4.0.2",
-    "defra-logging-facade": "git+https://github.com/DEFRA/defra-logging-facade.git#bb51e5b",
     "email-validator": "^2.0.4",
     "govuk-frontend": "4.7.0",
     "hapi-pino": "12.1.0",
+    "isomorphic-dompurify": "^2.2.0",
     "joi": "^17.11.0",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
@@ -58,10 +61,10 @@
     "nunjucks": "3.2.4",
     "ol": "^8.2.0",
     "proj4": "^2.9.2",
-    "sass": "^1.69.4"
+    "sass": "^1.70.0"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "0.265.0",
+    "@defra/bng-azure-storage-test-utils": "0.310.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",

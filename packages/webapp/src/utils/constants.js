@@ -23,6 +23,7 @@ const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
+const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
@@ -44,6 +45,8 @@ const LANDOWNER = 'landowner'
 const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const COOKIES = 'cookies'
 
 const applicationTypes = {
   REGISTRATION,
@@ -171,7 +174,9 @@ let routes = {
   SIGNIN_CALLBACK,
   SIGNOUT,
   SIGNED_OUT,
-  APPLICATION_SUBMITTED
+  APPLICATION_SUBMITTED,
+  ACCESSIBILITY_STATEMENT,
+  COOKIES
 }
 
 // Routes that are only loaded if NODE_ENV === development
@@ -203,7 +208,8 @@ const threatScreeningStatusValues = {
   SUCCESS,
   FILE_INACCESSIBLE,
   QUARANTINED,
-  FAILED_TO_VIRUS_SCAN
+  FAILED_TO_VIRUS_SCAN,
+  XSS_VULNERABILITY_FOUND
 }
 
 const uploadTypes = {

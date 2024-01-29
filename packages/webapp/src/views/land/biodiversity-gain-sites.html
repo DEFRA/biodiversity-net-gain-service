@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% set hideBackLink = true %}
 {% set pageHeading = "Biodiversity gain sites" %}
 {% set continueApplicationRouteStem = "/land/continue-registration" %}
 {% set newApplicationText = "Register a new biodiversity gain site" %}
@@ -7,4 +8,7 @@
 {% set newApplicationTestId = "create-registration" %}
 {% block content %}
   {% include "common/applications.html" %}
+  
+  {% set isCustomRowClass= true %}
+  {% include "common/assisted-digital-helpline.html" %}
 {% endblock %}
