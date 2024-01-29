@@ -1,6 +1,14 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, checkForDuplicateConcatenated, getLegalAgreementDocumentType, validateIdGetSchemaOptional, emailValidator } from '../../utils/helpers.js'
+import {
+  processRegistrationTask,
+  validateTextInput,
+  checkForDuplicateConcatenated,
+  getLegalAgreementDocumentType,
+  validateIdGetSchemaOptional,
+  emailValidator,
+  validateLengthOfCharsLessThan50
+} from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
 const lastNameID = '#lastName'
@@ -73,6 +81,13 @@ const handlers = {
     } else {
       errors.individualError = individualError
     }
+
+    const middleNameError = validateLengthOfCharsLessThan50(individual.middleNames, 'middle name', 'middleNameId')
+
+    if (middleNameError) {
+      errors.individualError = { ...individualError, ...{ middleNameError: middleNameError?.err[0] } }
+    }
+
     if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
         individual,
@@ -81,6 +96,7 @@ const handlers = {
         fullNameError: errors.fullNameError,
         firstNameError: errors.individualError?.firstNameError,
         lastNameError: errors.individualError?.lastNameError,
+        middleNameError: errors.individualError?.middleNameError,
         emailAddressError: errors.individualError?.emailAddressError
       })
     }
