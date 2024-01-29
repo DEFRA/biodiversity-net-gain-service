@@ -1,7 +1,8 @@
 import constants from '../../utils/constants.js'
 import {
   validateFirstLastName,
-  processRegistrationTask
+  processRegistrationTask,
+  validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -22,10 +23,11 @@ const handlers = {
     const { firstName, middleNames, lastName } = request.payload
     const errors = {
       firstNameError: validateFirstLastName(firstName, 'first name', '#firstName'),
-      lastNameError: validateFirstLastName(lastName, 'last name', '#lastName')
+      lastNameError: validateFirstLastName(lastName, 'last name', '#lastName'),
+      middleNameError: validateLengthOfCharsLessThan50(middleNames, 'middle name', 'middleNameId')
     }
 
-    if (errors.firstNameError || errors.lastNameError) {
+    if (errors.firstNameError || errors.lastNameError || errors.middleNameError) {
       const err = []
       Object.keys(errors).forEach(item => {
         if (errors[item]) {
@@ -36,6 +38,7 @@ const handlers = {
         err,
         firstNameError: errors.firstNameError?.err[0],
         lastNameError: errors.lastNameError?.err[0],
+        middleNameError: errors.middleNameError?.err[0],
         individual: {
           firstName,
           middleNames,
