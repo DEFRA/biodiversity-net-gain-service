@@ -31,7 +31,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, [{
       organisationName: 'org1',
       type: 'organisation'
     }, {
@@ -173,7 +173,7 @@ describe('Land boundary upload controller tests', () => {
     redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, null)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },

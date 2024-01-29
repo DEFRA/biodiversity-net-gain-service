@@ -10,9 +10,9 @@ const handlers = {
       inProgressUrl: constants.routes.REMOVE_LANDOWNER
     })
     const { id } = request.query
-    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER)
     if (landownerConversationConvenants.length === 0) {
-      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS)
     }
     let landownerToRemove
     let landownerToRemoveText
@@ -32,7 +32,7 @@ const handlers = {
     const { id } = request.query
     const { landownerToRemove } = request.payload
     let landownerToRemoveText
-    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER)
     if (!landownerToRemove) {
       const idToRemove = landownerConversationConvenants[id]
       if (idToRemove.type === 'individual') {
@@ -50,9 +50,9 @@ const handlers = {
     }
     if (landownerToRemove === 'yes') {
       landownerConversationConvenants.splice(id, 1)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerConversationConvenants)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, landownerConversationConvenants)
     }
-    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT) }
+    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS) }
     return h.redirect(constants.routes.CHECK_LANDOWNERS)
   }
 }

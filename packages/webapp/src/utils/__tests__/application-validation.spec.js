@@ -76,7 +76,7 @@ describe('application-validation', () => {
 
     it('Should pass validation with single individual landowner and no organisation', () => {
       const session = applicationSession()
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, [{
         type: 'individual',
         firstName: 'Geoff',
         middleNames: '',
@@ -89,7 +89,7 @@ describe('application-validation', () => {
     })
     it('Should pass validation with single individual landowner and no organisation', () => {
       const session = applicationSession()
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, [{
         type: 'organisation',
         organisationName: 'My Org'
       }])
