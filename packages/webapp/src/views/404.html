@@ -2,32 +2,23 @@
 {% set pageHeading = "Page not found" %}
 {% set hideSigninNav = true %}
 {% block content %}
-  <div class="govuk-width-container">
-    <div class="govuk-main-wrapper">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
           <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-          <p class="govuk-body">We have reported this to the team that manages the service and they will fix it as soon as possible.</p>
-          <p class="govuk-body">Contact us if you need to speak to someone.</p>
-          <p class="govuk-body">Telephone:
-            <br>
-            <strong class="govuk-!-font-weight-bold">0808 1234 1234</strong>
-          </p>
-          <p class="govuk-body">Textphone:
-            <br>
-            <strong class="govuk-!-font-weight-bold">0808 1234 1234</strong>
-          </p>
-          <p class="govuk-body">Outside UK:
-            <br>
-            <strong class="govuk-!-font-weight-bold">+44 0808 1234 1234</strong>
-          </p>
-          <p class="govuk-body">Opening times:
-            <br>
-            <strong class="govuk-!-font-weight-bold">Monday to Friday: 8am to 8pm</strong>
-          </p>
-          <p class="govuk-body">Closed Easter Sunday, Christmas Day, Boxing Day and New Year’s Day.</p>
+          <p> If you typed the web address, check it is correct.</p>
+          <p> If you pasted the web address, check you copied the entire address.</p>
+          <h2 class="govuk-heading-l">Get help with an application</h2>
+          <p >Telephone: 0300 060 3900</p>
+          <p>Opening times:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>March to September – Monday to Friday, 10am to 4pm</li>
+            <li>October to February – Monday to Friday, 10am to 2pm</li>
+          </ul>
+          <p>Closed on public holidays.</p>
+          <p><a href="https://www.gov.uk/call-charges">Find out about call charges</a></p>
+          <p>Email: <a href="mailto:biodiversitynetgainenquiries@naturalengland.org.uk">biodiversitynetgainenquiries@naturalengland.org.uk</a></p>
+          <p>We aim to reply within 10 working days.</p>
         </div>
       </div>
-    </div>
-  </div>
+    
 {% endblock %}
