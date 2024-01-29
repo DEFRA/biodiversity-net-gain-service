@@ -91,7 +91,7 @@ const handlers = {
       const metricUploadResult = await uploadFile(request.logger, request, creditsUploadConfig)
       return processSuccessfulCreditUpload(metricUploadResult, request, h)
     } catch (err) {
-      request.logger.log(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
+      logger.error(`${new Date().toUTCString()} Problem uploading credits metric file ${err}`)
       return processCreditsErrorUpload(err, h)
     }
   }
