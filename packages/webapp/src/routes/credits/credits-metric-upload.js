@@ -20,7 +20,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
-  logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(creditsConstants.routes.CREDITS_CHECK_UPLOAD_METRIC)
 }
 
