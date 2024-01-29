@@ -5,7 +5,7 @@ import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegal
 const organisationNameID = '#organisationName'
 const validateOrganisation = organisation => {
   const errors = {}
-  const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', null, 'landowner or leaseholder')
+  const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', 50, 'landowner or leaseholder')
   if (organisationNameError) {
     errors.organisationNameError = organisationNameError.err[0]
   }

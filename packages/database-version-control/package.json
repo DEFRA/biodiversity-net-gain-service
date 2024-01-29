@@ -10,7 +10,7 @@
     "local:install": "bin/init-database-version-control-env-if-needed.sh",
     "local:cli-up": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js up",
     "cli-up": "node src/migrator-cli.js up",
-    "local:cli-dowlocal:cli-upn": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js down",
+    "local:cli-down": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js down",
     "cli-down": "node src/migrator-cli.js down",
     "local:cli-pending": ". ../../docker/secrets/DATABASE_VERSION_CONTROL_ENV && node src/migrator-cli.js pending",
     "cli-pending": "node src/migrator-cli.js pending",

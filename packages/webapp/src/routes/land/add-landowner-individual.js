@@ -43,7 +43,7 @@ const handlers = {
 
     if (!isEmpty(firstNameError) || !isEmpty(lastNameError) || !isEmpty(middleNameError)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
-        err: Object.values({ ...firstNameError, ...lastNameError }),
+        err: Object.values({ ...firstNameError, ...lastNameError, ...middleNameError }),
         firstNameError: firstNameError?.err[0],
         lastNameError: lastNameError?.err[0],
         middleNameError: middleNameError?.err[0]
