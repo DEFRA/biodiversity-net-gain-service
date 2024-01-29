@@ -2,10 +2,9 @@ import Session from '../../__mocks__/session.js'
 import constants from '../../utils/constants.js'
 import {
   getTaskList,
-  JOURNEYS,
   STATUSES
 } from '../task-list-generator.js'
-
+import { JOURNEYS } from '../task-list-sections.js'
 const testString = '1234'
 const session = new Session()
 
