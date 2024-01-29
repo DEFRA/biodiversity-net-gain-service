@@ -50,7 +50,7 @@ const handlers = {
       return h.view(constants.views.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, {
         responsibleBody,
         legalAgreementType,
-        err: Object.values(errors.err)
+        err: errors.err
       })
     } else {
       if (id) {
