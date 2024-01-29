@@ -22,12 +22,12 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, [{
       organisationName: 'org1'
     }, {
       organisationName: 'org2'
     }])
-    addLandownerOrganisations = require('../../land/add-landowner-organisation-conservation-covenant.js')
+    addLandownerOrganisations = require('../../land/add-landowner-organisation.js')
   })
 
   describe('GET', () => {
