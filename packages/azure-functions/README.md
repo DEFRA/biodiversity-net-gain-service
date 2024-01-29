@@ -19,20 +19,8 @@ Prerequisite dependencies used by multiple packages within this repository are d
 
 * HTTP based triggering is used:
   * when starting to submit an application to the Biodiversity Net Gain public register.
-* Message based triggering is used when:
   * processing uploads to the service.
   * submitting an application to the Biodiversity Net Gain public register.
-  * sending notications to users of the service.
-* Timer based triggering is used when:
-  * deleting unsubmitted, expired applications to the Biodiversity Net Gain public register.
-  * detecting unsubmitted applications to the Biodiversity Net Gain public register that are due to expire sooh.
-
-## Message processing
-
-* Messages placed on the **untrusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessUntrustedFile** function.
-* Messages placed on the **trusted-file-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **ProcessTrustedFile** function.
-* Messages placed on the **saved-application-session-notification-queue*** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendSavedApplicationSessionNotification** function.
-* Messages placed on the **expiring-application-session-notification-queue** queue (see [Prerequisites](../../docs/prerequisites.md)) are processed by the **SendExpiringApplicationSessionNotification** function.
 
 ## App settings / environment variables for deployment to Microsoft Azure
 
@@ -55,14 +43,7 @@ Prerequisite dependencies used by multiple packages within this repository are d
 | POSTGRES_DATABASE | Database name eg bng | Y |
 | POSTGRES_PORT | Postgres port eg 5432 | Y |
 | POSTGRES_SSL_MODE | Postgres SSL Mode eg require or blank | N |
-| CLEAR_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for clear application session timer (see [Timer trigger for Azure function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer?tabs=in-process&pivots=programming-language-javascript#ncrontab-expressions)) | Y |
-| EXPIRING_APPLICATION_SESSION_NCRONTAB | NCRONTAB expression for expiring application session timer | Y |
-| NOTIFY_CLIENT_API_KEY | [Gov.UK Notify](https://www.notifications.service.gov.uk/) API key | Y |
-| SAVED_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for saved application session notifications | Y |
-| EXPIRING_APPLICATION_SESSION_TEMPLATE_ID | [Gov.UK Notify](https://www.notifications.service.gov.uk/) template ID for expiring application session notifications | Y |
-| CONTINUE_REGISTRATION_URL | URL contained in [Gov.UK Notify](https://www.notifications.service.gov.uk/) notifications for returning to a saved application session | Y |
 | PROCESS_UNTRUSTED_ATTEMPTS | Count of attempts of process Untrusted (purpose is to replay AV scanning issues) defaults to 5 | N |
-| SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED | Set to true to send an email notification when application session data is saved | N |
 
 ### App settings / environment variables for use with Azurite
 

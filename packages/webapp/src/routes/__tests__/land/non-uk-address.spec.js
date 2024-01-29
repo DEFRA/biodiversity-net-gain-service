@@ -97,5 +97,17 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('Enter country')
     })
+    it('should error if postcode is greater than 14 characters', async () => {
+      postOptions.payload = {
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2',
+        addressline3: 'address line 3',
+        town: 'town',
+        postcode: 'a very long postcode',
+        country: ''
+      }
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.payload).toContain('Postal code must be 14 characters or fewer')
+    })
   })
 })

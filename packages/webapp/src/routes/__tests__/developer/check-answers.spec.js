@@ -29,11 +29,11 @@ describe(url, () => {
       const session = new Session()
       session.set(constants.redisKeys.APPLICATION_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      expect(response.headers.location).toEqual('/')
     })
     it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      expect(response.headers.location).toEqual('/')
     })
   })
   describe('POST', () => {

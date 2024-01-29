@@ -59,6 +59,7 @@
     {% endfor %}
 
     {{ govukSummaryList({
-        rows: rows 
+        rows: rows,
+        classes: summary.classes
     }) }}
 {% endmacro %}

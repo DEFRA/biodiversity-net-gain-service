@@ -1,0 +1,52 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Are you sure you want to change whether your client is an individual or organisation?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "changeClientIndividualOrganisation",
+                name: "changeClientIndividualOrganisation",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    html: "<div class='govuk-hint'>Changing whether your client is individual or organisation means you'll need to 
+                        add applicant information again.
+                    </div>"
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes, I want to change whether my client is an individual or organisation and add applicant information again",
+                        id: "change-client-individual-organisation-yes",
+                        checked: changeClientIndividualOrganisation === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, I do not want to change whether my client is an individual or organisation",
+                        id: "change-client-individual-organisation-no",
+                        checked: changeClientIndividualOrganisation === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

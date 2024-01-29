@@ -3,9 +3,11 @@
 {% set habitatPlanIncludedLegalAgreement = habitatPlanIncludedLegalAgreementYesNo == 'No' %}
 {% set isLegalAgreementTypeS106Type = legalAgreementType == 'Planning obligation (section 106 agreement)' %}
 {% set isLegalAgreementTypeConservationType = legalAgreementType == 'Conservation covenant' %}
-{% set isOtherLandowners = anyOtherLO == 'Yes' %}
 {% set classHidden = hideClass(true) %} 
 {% set lc_legalAgreementType = legalAgreementType | lower %}
+{% set cap_anyOtherLO = anyOtherLO | capitalize %}
+{% set isOtherLandowners = cap_anyOtherLO == 'Yes' %}
+
 {% 
     set rowList = [
     {
@@ -15,7 +17,7 @@
         'valueId': 'add-legal-agreement-type-value',
         'href': '/land/change-type-legal-agreement',
         'visuallyHiddenText':  ' type of legal agreement',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -25,7 +27,7 @@
         'valueId': 'add-legal-agreement-file-value',
         'href': '/land/check-you-added-all-legal-files',
         'visuallyHiddenText':  ' legal agreement file',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -35,7 +37,7 @@
         'valueId': 'add-legal-agreement-responsible-bodies-value',
         'href': '/land/check-responsible-bodies',
         'visuallyHiddenText':  ' responsible body',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':isLegalAgreementTypeConservationType
     },
     {
@@ -45,17 +47,17 @@
         'valueId': 'add-local-planning-authorities',
         'href': '/land/check-planning-authorities',
         'visuallyHiddenText':  ' local planning authority',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':isLegalAgreementTypeS106Type
     },
     {
         'text': 'Other landowners or leaseholders on '+lc_legalAgreementType,
-        'value': anyOtherLO,
+        'value': cap_anyOtherLO,
         'valueDataTestId': 'any-other-landowner-value',
         'valueId': 'any-other-landowner-value',
         'href': '/land/any-other-landowners',
         'visuallyHiddenText':  ' landowner',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -65,17 +67,17 @@
         'valueId': 'add-legal-agreement-landowner-value',
         'href': '/land/check-landowners',
         'visuallyHiddenText':  ' landowner',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':isOtherLandowners
     },
     {
-        'text': 'Habitat management and monitoring plan included in legal agreement',
+        'text': 'Habitat management and monitoring plan is a separate document',
         'value': habitatPlanIncludedLegalAgreementYesNo,
         'valueDataTestId': 'legal-agreement-habitatplan-type-value',
         'valueId': 'add-legal-agreement-habitatplan-type-value',
         'href': '/land/habitat-plan-legal-agreement',
         'visuallyHiddenText':  ' habitat management plan',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -85,7 +87,7 @@
         'valueId': 'add-habitat-plan-file-value',
         'href': '/land/check-habitat-plan-file',
         'visuallyHiddenText':  ' habitat management plan file name',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':habitatPlanIncludedLegalAgreement
     },
     {
@@ -95,7 +97,7 @@
         'valueId': 'add-habitat-works-start-date-value',
         'href': '/land/enhancement-works-start-date',
         'visuallyHiddenText':  ' enhancement works start date',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -105,7 +107,7 @@
         'valueId': 'add-habitat-works-end-date-value',
         'href': '/land/habitat-enhancements-end-date',
         'visuallyHiddenText':  ' habitat enhancements end date',
-        'classes': 'govuk-!-margin-bottom-7',
+        'classes': '',
         'show':true
     },
     {
@@ -115,11 +117,12 @@
       'valueId': 'add-local-land-charge-file-name-value',
       'href': routes.CHECK_LOCAL_LAND_CHARGE_FILE,
       'visuallyHiddenText':  ' local land charge file',
-      'classes': 'govuk-!-margin-bottom-7',
+      'classes': '',
       'show':showLocalLandCharge
   }
     
 ] %}           
 {{ generateSummaryList({
-    rows: rowList
+    rows: rowList,
+    classes: 'govuk-!-margin-bottom-9'
 }) }}
