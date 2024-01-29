@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
@@ -13,7 +12,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
-  logger.log(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE)
 }
 
@@ -67,10 +66,10 @@ const handlers = {
     })
 
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }

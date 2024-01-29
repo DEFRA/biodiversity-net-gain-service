@@ -28,7 +28,8 @@ const f3OffSiteWaterCEnhancement = {
     __EMPTY_3: 'Watercourse units delivered',
     'Condition ': 'Condition',
     'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)',
-    'Habitat reference': 'Habitat reference Number'
+    'Habitat reference': 'Habitat reference Number',
+    'Strategic significance_1': 'Strategic significance'
   }
 }
 

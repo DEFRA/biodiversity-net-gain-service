@@ -16,8 +16,8 @@ const handlers = {
       request.yar.clear(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
       request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY)
       request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
-      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_KEY)
-      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_END_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
       request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
       request.yar.clear(constants.redisKeys.REFERER)
 

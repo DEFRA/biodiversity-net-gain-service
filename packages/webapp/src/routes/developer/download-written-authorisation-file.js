@@ -1,7 +1,7 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 
 const downloadFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)

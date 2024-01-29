@@ -1,4 +1,4 @@
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 
 export default function () {
   this.bindings = {}

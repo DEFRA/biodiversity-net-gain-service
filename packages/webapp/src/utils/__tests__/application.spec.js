@@ -190,6 +190,7 @@ describe('application', () => {
         firstName: 'Mock',
         middleNames: '',
         lastName: 'Client'
+
       }
     }
     const clientType = constants.individualOrOrganisationTypes.INDIVIDUAL

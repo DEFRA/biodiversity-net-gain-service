@@ -4,7 +4,7 @@ import { submitGetRequest } from '../helpers/server.js'
 describe('Route authentication', () => {
   it('Should render a non protected route without authentication', async () => {
     const options = {
-      url: '/start',
+      url: '/credits-estimation/credits-tier',
       auth: false
     }
     await submitGetRequest(options)
@@ -16,7 +16,7 @@ describe('Route authentication', () => {
       auth: false
     }
     const response = await submitGetRequest(options, 302)
-    expect(response.headers.location).toEqual('/signin?next=%2Fland%2Fupload-metric')
+    expect(response.headers.location).toEqual('/signin')
   })
 
   it('Should render protected page with Signin nav if authenticated', async () => {
