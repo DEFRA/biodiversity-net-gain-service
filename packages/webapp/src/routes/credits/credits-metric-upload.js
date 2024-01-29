@@ -1,4 +1,4 @@
-// import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import creditsConstants from '../../credits/constants.js'
@@ -20,7 +20,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(creditsConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
-  request.logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  logger.log(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(creditsConstants.routes.CREDITS_CHECK_UPLOAD_METRIC)
 }
 
