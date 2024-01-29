@@ -631,7 +631,7 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
@@ -714,6 +714,20 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   }
 }
 
+const getAuthenticatedUserRedirectUrl = () => {
+  // BNGP- 4368 - Simplify the redirection logic for authenticated users.
+  // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
+  // When two or more journey types are enabled, redirect the user to select the dashboard for
+  // the required journey type.
+  //
+  // IMPORTANT
+  // This logic MUST be refactored to allow for correct redirection when credits purchase
+  // and/or allocation functionality is implemented and enabled.
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+    ? constants.routes.MANAGE_BIODIVERSITY_GAINS
+    : constants.routes.BIODIVERSITY_GAIN_SITES
+}
+
 export {
   validateDate,
   dateClasses,
@@ -765,5 +779,6 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  getAuthenticatedUserRedirectUrl
 }

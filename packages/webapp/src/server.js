@@ -62,12 +62,12 @@ const init = async server => {
       const scriptHash = '+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='
       // This is a hash of the inline script in GDS template. It is added to the CSP to except the in-line
       const csp = 'default-src \'self\'; ' +
-                  `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'sha256-${scriptHash}' 'www.googletagmanager.com'; ` +
-                  `style-src 'self' 'nonce-${nonce}'; ` +
-                  'img-src \'self\'; ' +
-                  'font-src \'self\' \'fonts.gstatic.com\' \'data:\'; ' +
-                  'connect-src \'self\' \'*.google-analytics.com\'; ' +
-                  'frame-ancestors \'none\''
+            `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'sha256-${scriptHash}' www.googletagmanager.com; ` +
+            `style-src 'self' 'nonce-${nonce}'; ` +
+            'img-src \'self\'; ' +
+            'font-src \'self\' fonts.gstatic.com data:; ' +
+            'connect-src \'self\' *.google-analytics.com; ' +
+            'frame-ancestors \'none\''
       response.header('Content-Security-Policy', csp)
     }
     return h.continue
