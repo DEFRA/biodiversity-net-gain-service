@@ -663,19 +663,30 @@ const isValidPostcode = (postcode) => {
 }
 
 const validateAddress = (address, isUkAddress) => {
-  const errors = {}
+  let errors = {}
   if (!address.addressLine1 || address.addressLine1.length === 0) {
     errors.addressLine1Error = {
       text: 'Enter address line 1',
       href: '#addressLine1'
     }
   }
+
   if (!address.town || address.town.length === 0) {
     errors.townError = {
       text: 'Enter town or city',
       href: '#town'
     }
   }
+
+  const addressLine1Error = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')?.err[0]
+  errors = { ...errors, ...{ addressLine1Error } }
+
+  const addressLine2Error = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')?.err[0]
+  errors = { ...errors, ...{ addressLine2Error } }
+
+  const townError = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')?.err[0]
+  errors = { ...errors, ...{ townError } }
+
   if (isUkAddress) {
     validateUkAddress(address, errors)
   }
@@ -711,6 +722,11 @@ const validateNonUkAddress = (address, errors) => {
       text: 'Postal code must be 14 characters or fewer',
       href: '#postcode'
     }
+  }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')?.err[0]
+  if (countryValidation) {
+    errors.countryError = countryValidation
   }
 }
 
