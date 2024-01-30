@@ -30,7 +30,8 @@ const handlers = {
     }
 
     const errors = validateAddress(address, true)
-    if (errors) {
+
+    if (Object.values(errors).some((el) => el !== undefined)) {
       const err = []
       Object.keys(errors).forEach(item => {
         err.push(errors[item])
