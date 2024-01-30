@@ -684,6 +684,9 @@ const validateAddress = (address, isUkAddress) => {
   if (addressLine2Validation) {
     errors.addressLine2Error = addressLine2Validation.err[0]
   }
+  const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
+  if (addressLine3Validation) {
+    errors.addressLine3Error = addressLine3Validation.err[0]
   const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
   if (townValidation) {
     errors.townError = townValidation.err[0]
