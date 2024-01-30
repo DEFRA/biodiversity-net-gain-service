@@ -31,24 +31,6 @@ describe('Metric file upload controller tests', () => {
       },
       sessionData: {}
     })
-    // const mockMetric =
-    //   {
-    //     metricData: {
-    //       validation: {
-    //         isSupportedVersion: true,
-    //         isOffsiteDataPresent: true,
-    //         areOffsiteTotalsCorrect: true
-    //       }
-    //     }
-    //   }
-
-    // const baseConfig = {
-    //   uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
-    //   url,
-    //   formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
-    //   postProcess: mockMetric,
-    //   sessionData: {}
-    // }
 
     beforeEach(async () => {
       await recreateContainers()
@@ -72,21 +54,6 @@ describe('Metric file upload controller tests', () => {
         }
       })
     }, 300000)
-
-    // it('should upload metric document less than 50MB', (done) => {
-    //   jest.isolateModules(async () => {
-    //     try {
-    //       const uploadConfig = Object.assign({}, baseConfig)
-    //       uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
-    //       await uploadFile(uploadConfig)
-    //       setImmediate(() => {
-    //         done()
-    //       })
-    //     } catch (err) {
-    //       done(err)
-    //     }
-    //   })
-    // })
 
     it('should not upload unsupported metric file', (done) => {
       jest.isolateModules(async () => {
