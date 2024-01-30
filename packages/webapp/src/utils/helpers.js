@@ -663,34 +663,34 @@ const isValidPostcode = (postcode) => {
 }
 
 const validateAddress = (address, isUkAddress) => {
-  let errors = {}
+  const errors = {}
   if (!address.addressLine1 || address.addressLine1.length === 0) {
     errors.addressLine1Error = {
       text: 'Enter address line 1',
       href: '#addressLine1'
     }
   }
-
   if (!address.town || address.town.length === 0) {
     errors.townError = {
       text: 'Enter town or city',
       href: '#town'
     }
   }
-
-  const addressLine1Error = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')?.err[0]
-  errors = { ...errors, ...{ addressLine1Error } }
-
-  const addressLine2Error = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')?.err[0]
-  errors = { ...errors, ...{ addressLine2Error } }
-
-  const townError = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')?.err[0]
-  errors = { ...errors, ...{ townError } }
-
+  const addressLine1Validation = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')
+  if (addressLine1Validation) {
+    errors.addressLine1Error = addressLine1Validation.err[0]
+  }
+  const addressLine2Validation = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')
+  if (addressLine2Validation) {
+    errors.addressLine2Error = addressLine2Validation.err[0]
+  }
+  const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
+  if (townValidation) {
+    errors.townError = townValidation.err[0]
+  }
   if (isUkAddress) {
     validateUkAddress(address, errors)
-  }
-  if (!isUkAddress) {
+  } else {
     validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
