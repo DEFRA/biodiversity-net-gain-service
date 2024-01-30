@@ -114,8 +114,7 @@ export default [{
       allow: 'multipart/form-data',
       maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       failAction: (req, h, err) => {
-
-        req.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        req.logger.info(`${new Date().toUTCString()} File upload too large ${req.path}`)
 
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
