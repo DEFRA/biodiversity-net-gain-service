@@ -688,6 +688,10 @@ const validateAddress = (address, isUkAddress) => {
   if (townValidation) {
     errors.townError = townValidation.err[0]
   }
+  const countyValidation = validateLengthOfCharsLessThan50(address?.county, 'county', 'countyId')
+  if (countyValidation) {
+    errors.countyError = countyValidation.err[0]
+  }
   if (isUkAddress) {
     validateUkAddress(address, errors)
   } else {
