@@ -13,7 +13,8 @@ import {
   initialCapitalization,
   isValidPostcode,
   processRegistrationTask,
-  validateLengthOfCharsLessThan50
+  validateLengthOfCharsLessThan50,
+  getNameAndRoles
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -468,5 +469,25 @@ describe('validateLengthOfCharsLessThan50', () => {
       'this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string',
       'middle name', 'middleNameId')
     expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
+  })
+})
+
+describe('getNameAndRoles', () => {
+  const legalAgreementParties = [
+    {
+      organisationName: 'org1',
+      organisationRole: 'Developer',
+      organisationOtherRole: 'undefined'
+    },
+    {
+      organisationName: 'org2',
+      organisationRole: 'Other',
+      organisationOtherRole: 'other'
+    }
+  ]
+  it('should get name and role contacted string', () => {
+    const nameAndRoles = getNameAndRoles(legalAgreementParties)
+    expect(nameAndRoles[0]).toBe('org1 (Developer)')
+    expect(nameAndRoles[1]).toBe('org2 (other)')
   })
 })
