@@ -687,6 +687,8 @@ const validateAddress = (address, isUkAddress) => {
   const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
   if (addressLine3Validation) {
     errors.addressLine3Error = addressLine3Validation.err[0]
+  }
+
   const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
   if (townValidation) {
     errors.townError = townValidation.err[0]
@@ -729,11 +731,6 @@ const validateNonUkAddress = (address, errors) => {
       text: 'Postal code must be 14 characters or fewer',
       href: '#postcode'
     }
-  }
-
-  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')?.err[0]
-  if (countryValidation) {
-    errors.countryError = countryValidation
   }
 }
 
