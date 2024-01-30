@@ -75,8 +75,8 @@ const processCreditsErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC),
-  post: async (request, h) => {
+  onGet: async (_request, h) => h.view(creditsConstants.views.CREDITS_UPLOAD_METRIC),
+  onPost: async (request, h) => {
     // Get upload config object from common code
     const creditsUploadConfig = buildConfig({
       sessionId: request.yar.id,
@@ -99,21 +99,24 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsConstants.routes.CREDITS_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: handlers.onGet
 },
 {
   method: 'POST',
   path: creditsConstants.routes.CREDITS_UPLOAD_METRIC,
   config: {
-    handler: handlers.post,
+    handler: handlers.onPost,
     payload: {
-      maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       output: 'stream',
-      parse: false,
       multipart: true,
       timeout: false,
+      parse: false,
       allow: 'multipart/form-data',
-      failAction: (_request, h, err) => {
+      maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
+      failAction: (req, h, err) => {
+
+        req.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
+
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {
@@ -127,9 +130,9 @@ export default [{
 
 const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
-    h,
-    href: UPLOAD_CREDIT_METRIC_ID,
     maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view: creditsConstants.views.CREDITS_UPLOAD_METRIC
+    view: creditsConstants.views.CREDITS_UPLOAD_METRIC,
+    href: UPLOAD_CREDIT_METRIC_ID,
+    h
   })
 }
