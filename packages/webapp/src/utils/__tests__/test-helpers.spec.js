@@ -575,4 +575,16 @@ describe('validateAddress', () => {
 
     expect(result.countyError.text).toBe('County must be 50 characters or fewer')
   })
+
+  it('should add countryError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      country: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
+  })
 })

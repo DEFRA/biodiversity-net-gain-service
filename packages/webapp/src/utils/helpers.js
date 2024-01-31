@@ -732,6 +732,11 @@ const validateNonUkAddress = (address, errors) => {
       href: '#postcode'
     }
   }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')
+  if (countryValidation) {
+    errors.countryError = countryValidation.err[0]
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
