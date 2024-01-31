@@ -16,7 +16,8 @@ import {
   validateLengthOfCharsLessThan50,
   getNameAndRoles,
   validateDate,
-  getLandowners
+  getLandowners,
+  validateAddress
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -549,5 +550,68 @@ describe('getLandowners', () => {
     }])
 
     expect(result).toBe('org1<br>Crishn P (me@me.com)')
+  })
+})
+
+describe('validateAddress', () => {
+  it('should add addressLine1Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1address line 1address line 1address line 1address line 1address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine1Error.text).toBe('AddressLine1 must be 50 characters or fewer')
+  })
+
+  it('should add address line 2Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2address line 2address line 2address line 2address line 2address line 2address line 2address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine2Error.text).toBe('AddressLine2 must be 50 characters or fewer')
+  })
+
+  it('should add addressLine3Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      addressLine3: 'address line 3address line 3address line 3address line 3address line 3address line 3address line 3address line 3',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine3Error.text).toBe('AddressLine3 must be 50 characters or fewer')
+  })
+
+  it('should add townError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'towntowntowntowntowntowntowntowntowntowntowntowntowntowntowntowntown',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.townError.text).toBe('Town must be 50 characters or fewer')
+  })
+
+  it('should add countyError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countyError.text).toBe('County must be 50 characters or fewer')
   })
 })
