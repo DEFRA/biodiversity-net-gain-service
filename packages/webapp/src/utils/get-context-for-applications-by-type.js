@@ -1,3 +1,4 @@
+import { isArray } from 'lodash'
 import constants from './constants.js'
 import { getFormattedDate } from './helpers.js'
 import { postJson } from './http.js'
@@ -25,7 +26,7 @@ const getApplications = async (contactId, organisationId, applicationType) => {
     organisationId,
     applicationType
   })
-  return applications.map(application => formatApplication(application))
+  return isArray(applications) && applications.map(application => formatApplication(application))
 }
 
-export { getContextForAllocations, getContextForRegistrations }
+export { getContextForAllocations, getContextForRegistrations, getContext }

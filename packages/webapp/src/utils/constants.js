@@ -50,10 +50,12 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const CREDITS = 'credits'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS
 }
 
 const ADDRESS_TYPES = {
