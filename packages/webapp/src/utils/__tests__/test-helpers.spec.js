@@ -475,26 +475,6 @@ describe('validateLengthOfCharsLessThan50', () => {
   })
 })
 
-describe('getNameAndRoles', () => {
-  const legalAgreementParties = [
-    {
-      organisationName: 'org1',
-      organisationRole: 'Developer',
-      organisationOtherRole: 'undefined'
-    },
-    {
-      organisationName: 'org2',
-      organisationRole: 'Other',
-      organisationOtherRole: 'other'
-    }
-  ]
-  it('should get name and role contacted string', () => {
-    const nameAndRoles = getNameAndRoles(legalAgreementParties)
-    expect(nameAndRoles[0]).toBe('org1 (Developer)')
-    expect(nameAndRoles[1]).toBe('org2 (other)')
-  })
-})
-
 describe('validateDate', () => {
   it('should return date error when day is not included', () => {
     const result = validateDate(
@@ -533,23 +513,6 @@ describe('validateDate', () => {
     )
 
     expect(result.context.err[0].text).toBe('Start date must include a month')
-  })
-})
-
-describe('getLandowners', () => {
-  it('should join organisation and individual with a line break', () => {
-    const result = getLandowners([{
-      organisationName: 'org1',
-      type: 'organisation'
-    }, {
-      firstName: 'Crishn',
-      middleNames: '',
-      lastName: 'P',
-      emailAddress: 'me@me.com',
-      type: 'individual'
-    }])
-
-    expect(result).toBe('org1<br>Crishn P (me@me.com)')
   })
 })
 
