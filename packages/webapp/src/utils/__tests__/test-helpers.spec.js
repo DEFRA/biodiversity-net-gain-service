@@ -14,7 +14,8 @@ import {
   isValidPostcode,
   processRegistrationTask,
   validateLengthOfCharsLessThan50,
-  getNameAndRoles
+  getNameAndRoles,
+  validateDate
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -489,5 +490,46 @@ describe('getNameAndRoles', () => {
     const nameAndRoles = getNameAndRoles(legalAgreementParties)
     expect(nameAndRoles[0]).toBe('org1 (Developer)')
     expect(nameAndRoles[1]).toBe('org2 (other)')
+  })
+})
+
+describe('validateDate', () => {
+  it('should return date error when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a day')
+  })
+
+  it('should return date  when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.dateAsISOString).toBe('2023-01-01T00:00:00.000Z')
+  })
+
+  it('should return date error when month is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a month')
   })
 })
