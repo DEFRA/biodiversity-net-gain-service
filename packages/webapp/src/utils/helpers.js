@@ -10,6 +10,7 @@ import habitatTypeMap from './habitatTypeMap.js'
 import getOrganisationDetails from './get-organisation-details.js'
 import { getContext } from './get-context-for-applications-by-type.js'
 import creditsConstant from '../credits/constants.js'
+import { isArray } from 'lodash'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -792,7 +793,7 @@ const getCreditsRedirectURL = async (request) => {
   let redirectedURL = creditsConstant.routes.ESTIMATOR_CREDITS_APPLICATION_LIST
 
   // Have a single previous ‘in-progress' application
-  const application = applications && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
+  const application = isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
     redirectedURL = creditsConstant.routes.ESTIMATOR_CREDITS_TASKLIST
   }
