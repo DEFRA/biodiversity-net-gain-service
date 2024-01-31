@@ -15,7 +15,8 @@ import {
   processRegistrationTask,
   validateLengthOfCharsLessThan50,
   getNameAndRoles,
-  validateDate
+  validateDate,
+  getLandowners
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -531,5 +532,22 @@ describe('validateDate', () => {
     )
 
     expect(result.context.err[0].text).toBe('Start date must include a month')
+  })
+})
+
+describe('getLandowners', () => {
+  it('should join organisation and individual with a line break', () => {
+    const result = getLandowners([{
+      organisationName: 'org1',
+      type: 'organisation'
+    }, {
+      firstName: 'Crishn',
+      middleNames: '',
+      lastName: 'P',
+      emailAddress: 'me@me.com',
+      type: 'individual'
+    }])
+
+    expect(result).toBe('org1<br>Crishn P (me@me.com)')
   })
 })
