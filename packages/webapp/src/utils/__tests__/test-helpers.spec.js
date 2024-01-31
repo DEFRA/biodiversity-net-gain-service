@@ -14,9 +14,7 @@ import {
   isValidPostcode,
   processRegistrationTask,
   validateLengthOfCharsLessThan50,
-  getNameAndRoles,
   validateDate,
-  getLandowners,
   validateAddress
 } from '../helpers.js'
 
