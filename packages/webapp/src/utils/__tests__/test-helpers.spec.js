@@ -12,7 +12,10 @@ import {
   getErrById,
   initialCapitalization,
   isValidPostcode,
-  processRegistrationTask
+  processRegistrationTask,
+  validateLengthOfCharsLessThan50,
+  validateDate,
+  validateAddress
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -458,5 +461,130 @@ describe('processRegistrationTask', () => {
 
     const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
     expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
+  })
+})
+
+describe('validateLengthOfCharsLessThan50', () => {
+  it('should return error if input character length is more than 50', () => {
+    const middleNameError = validateLengthOfCharsLessThan50(
+      'this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string',
+      'middle name', 'middleNameId')
+    expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
+  })
+})
+
+describe('validateDate', () => {
+  it('should return date error when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a day')
+  })
+
+  it('should return date  when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.dateAsISOString).toBe('2023-01-01T00:00:00.000Z')
+  })
+
+  it('should return date error when month is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a month')
+  })
+})
+
+describe('validateAddress', () => {
+  it('should add addressLine1Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1address line 1address line 1address line 1address line 1address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine1Error.text).toBe('AddressLine1 must be 50 characters or fewer')
+  })
+
+  it('should add address line 2Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2address line 2address line 2address line 2address line 2address line 2address line 2address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine2Error.text).toBe('AddressLine2 must be 50 characters or fewer')
+  })
+
+  it('should add addressLine3Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      addressLine3: 'address line 3address line 3address line 3address line 3address line 3address line 3address line 3address line 3',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine3Error.text).toBe('AddressLine3 must be 50 characters or fewer')
+  })
+
+  it('should add townError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'towntowntowntowntowntowntowntowntowntowntowntowntowntowntowntowntown',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.townError.text).toBe('Town must be 50 characters or fewer')
+  })
+
+  it('should add countyError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countyError.text).toBe('County must be 50 characters or fewer')
+  })
+
+  it('should add countryError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      country: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
   })
 })

@@ -426,6 +426,17 @@ const validateFirstLastName = (name, text, hrefId) => {
   return error.err ? error : null
 }
 
+const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
+  const error = {}
+  if (input?.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
   const error = {}
   const fieldTypeLower = fieldType.toLowerCase()
@@ -665,10 +676,30 @@ const validateAddress = (address, isUkAddress) => {
       href: '#town'
     }
   }
+  const addressLine1Validation = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')
+  if (addressLine1Validation) {
+    errors.addressLine1Error = addressLine1Validation.err[0]
+  }
+  const addressLine2Validation = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')
+  if (addressLine2Validation) {
+    errors.addressLine2Error = addressLine2Validation.err[0]
+  }
+  const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
+  if (addressLine3Validation) {
+    errors.addressLine3Error = addressLine3Validation.err[0]
+  }
+
+  const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
+  if (townValidation) {
+    errors.townError = townValidation.err[0]
+  }
+  const countyValidation = validateLengthOfCharsLessThan50(address?.county, 'county', 'countyId')
+  if (countyValidation) {
+    errors.countyError = countyValidation.err[0]
+  }
   if (isUkAddress) {
     validateUkAddress(address, errors)
-  }
-  if (!isUkAddress) {
+  } else {
     validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
@@ -700,6 +731,11 @@ const validateNonUkAddress = (address, errors) => {
       text: 'Postal code must be 14 characters or fewer',
       href: '#postcode'
     }
+  }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')
+  if (countryValidation) {
+    errors.countryError = countryValidation.err[0]
   }
 }
 
@@ -780,5 +816,6 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
+  validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl
 }
