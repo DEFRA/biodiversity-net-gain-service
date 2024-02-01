@@ -101,10 +101,12 @@ const getLandOwnershipRows = (applicationDetails) => {
   const landOwnershipFileNames = getCombinedFileNamesByType(applicationDetails.files, 'land-ownership')
   const rows = []
   if (landOwnershipFileNames.length > 0) {
+    const fileCount = landOwnershipFileNames.split('<br>').length
+    const fileText = fileCount > 1 ? 'files' : 'file'
     rows.push(
       {
         key: {
-          text: 'Proof of land ownership file uploaded'
+          text: `Proof of land ownership ${fileText} uploaded`
         },
         value: {
           html: '<span data-testid="proof-land-ownership-file-name-value">' + landOwnershipFileNames + '</span>'
