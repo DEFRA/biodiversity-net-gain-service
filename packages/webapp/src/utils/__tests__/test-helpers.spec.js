@@ -516,12 +516,12 @@ describe('validateDate', () => {
 })
 describe('getLandownershipProofFileText', () => {
   it('should return "files" for multiple file names separated by <br>', () => {
-    const fileNames = 'open-redirect-vuln (1).pdf<br>Invoice (2).pdf'
+    const fileNames = 'proof1.pdf<br>proof2.pdf'
     expect(getLandownershipProofFileText(fileNames)).toEqual('files')
   })
 
   it('should return "file" for a single file name', () => {
-    const singleFileName = 'open-redirect-vuln (1).pdf'
+    const singleFileName = 'proof1.pdf'
     expect(getLandownershipProofFileText(singleFileName)).toEqual('file')
   })
 })
