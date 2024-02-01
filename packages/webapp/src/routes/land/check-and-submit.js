@@ -12,6 +12,7 @@ import {
   getResponsibleBodies,
   getLandowners,
   getDateString,
+  getLandownershipProofFileText,
   getFileName,
   getLocalPlanningAuthorities
 } from '../../utils/helpers.js'
@@ -101,8 +102,7 @@ const getLandOwnershipRows = (applicationDetails) => {
   const landOwnershipFileNames = getCombinedFileNamesByType(applicationDetails.files, 'land-ownership')
   const rows = []
   if (landOwnershipFileNames.length > 0) {
-    const fileCount = landOwnershipFileNames.split('<br>').length
-    const fileText = fileCount > 1 ? 'files' : 'file'
+    const fileText = getLandownershipProofFileText(landOwnershipFileNames)
     rows.push(
       {
         key: {

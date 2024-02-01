@@ -749,6 +749,10 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
+const getLandownershipProofFileText = (fileNames) => {
+  const fileCount = fileNames.split('<br>').length
+  return fileCount > 1 ? 'files' : 'file'
+}
 
 const getAuthenticatedUserRedirectUrl = () => {
   // BNGP- 4368 - Simplify the redirection logic for authenticated users.
@@ -788,6 +792,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  getLandownershipProofFileText,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
