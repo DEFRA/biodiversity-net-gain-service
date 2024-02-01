@@ -3,7 +3,7 @@ import {
   boolToYesNo,
   dateToString,
   hideClass,
-  getLandownershipProofFileText,
+  getFileHeaderPrefix,
   getAllLandowners,
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
@@ -515,14 +515,14 @@ describe('validateDate', () => {
   })
 })
 describe('getLandownershipProofFileText', () => {
-  it('should return "files" for multiple file names separated by <br>', () => {
-    const fileNames = 'proof1.pdf<br>proof2.pdf'
-    expect(getLandownershipProofFileText(fileNames)).toEqual('files')
+  it('should return "files" for multiple file names ', () => {
+    const fileNames = ['proof1.pdf', 'proof2.pdf']
+    expect(getFileHeaderPrefix(fileNames)).toEqual('files')
   })
 
   it('should return "file" for a single file name', () => {
     const singleFileName = 'proof1.pdf'
-    expect(getLandownershipProofFileText(singleFileName)).toEqual('file')
+    expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
   })
 })
 describe('validateAddress', () => {
