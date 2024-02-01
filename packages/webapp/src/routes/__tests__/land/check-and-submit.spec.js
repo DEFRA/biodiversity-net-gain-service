@@ -43,9 +43,7 @@ describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       redisMap.set(constants.redisKeys.APPLICATION_REFERENCE, '')
-
       const session = applicationSession()
-
       session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
       session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
       session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
@@ -96,7 +94,24 @@ describe(url, () => {
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
     })
+    it(`should render the ${url.substring(1)} view single LAND_OWNERSHIP_PROOFS`, async () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+        fileName: 'file-1.doc',
+        fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+        fileSize: 0.01,
+        fileType: 'application/msword',
+        id: '1'
+      }])
 
+      const request = {
+        yar: session,
+        auth
+      }
+      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
+      await checkAndSubmitGet.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
+    })
     it('should redirect to REGISTER_LAND_TASK_LIST if application progress is not complete', async () => {
       const request = {
         yar: redisMap
