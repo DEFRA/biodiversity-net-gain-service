@@ -90,7 +90,7 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType =
   }
 }
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
+  if (!legalAgreementFiles) return []
   const filenames = legalAgreementFiles.map(file => getFileName(file.location))
   return filenames
 }
