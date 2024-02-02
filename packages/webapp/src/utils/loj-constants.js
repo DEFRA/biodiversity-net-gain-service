@@ -16,7 +16,7 @@ const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
-const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
+const LANDOWNER_INDIVIDUAL_ORGANISATION = 'land/landowner-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
 const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
@@ -24,7 +24,7 @@ const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
-const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
+const NEED_ADD_ALL_LANDOWNERS = 'land/need-add-all-landowners'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
@@ -45,8 +45,7 @@ const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
-const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = 'land/add-landowner-individual-conservation-covenant'
-const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-organisation-conservation-covenant'
+const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
@@ -71,7 +70,6 @@ const CLIENTS_ORGANISATION_NAME_KEY = 'clients-organisation-name'
 const CLIENTS_NAME = 'land/clients-name'
 const CLIENTS_NAME_KEY = 'clients-name'
 const ADD_PLANNING_AUTHORITY = 'land/add-planning-authority'
-const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
 const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
@@ -152,7 +150,7 @@ const METRIC_HABITAT_BASELINE_CHECKED = 'metric-habitat-baseline-checked'
 const METRIC_HABITAT_CREATED_CHECKED = 'metric-habitat-created-checked'
 const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
-const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
+const LEGAL_AGREEMENT_LANDOWNER = 'legal-agreement-landowner-conservation-convenants'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
@@ -281,7 +279,7 @@ export default {
     METRIC_HABITAT_BASELINE_CHECKED,
     METRIC_HABITAT_CREATED_CHECKED,
     FULL_NAME,
-    LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
+    LEGAL_AGREEMENT_LANDOWNER,
     NAME_KEY,
     REGISTERED_LANDOWNER_ONLY,
     LANDOWNERS,
@@ -310,7 +308,6 @@ export default {
     CLIENTS_ORGANISATION_NAME_KEY,
     CLIENTS_NAME_KEY,
     ADD_PLANNING_AUTHORITY,
-    ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     APPLICANT_INFO_CLIENT_ORG_LIST,
     CHECK_PLANNING_AUTHORITIES,
@@ -351,7 +348,7 @@ export default {
     CHECK_RESPONSIBLE_BODIES,
     HABITAT_PLAN_LEGAL_AGREEMENT,
     CHECK_LANDOWNERS,
-    LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
+    LANDOWNER_INDIVIDUAL_ORGANISATION,
     CLIENT_INDIVIDUAL_ORGANISATION,
     LEGAL_PARTY_REMOVE,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
@@ -363,7 +360,7 @@ export default {
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
-    NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
+    NEED_ADD_ALL_LANDOWNERS,
     LEGAL_AGREEMENT_TYPE,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
@@ -391,8 +388,8 @@ export default {
     UPLOAD_LAND_OWNERSHIP,
     HOME,
     ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
-    ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
-    ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
+    ADD_LANDOWNER_INDIVIDUAL,
+    ADD_LANDOWNER_ORGANISATION,
     REGISTER_LAND_TASK_LIST,
     REGISTERED_LANDOWNER,
     LANDOWNER_CONSENT,
@@ -417,11 +414,9 @@ export default {
     LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
     LEGAL_PARTY_ADD_TYPE,
-    ADD_LANDOWNER_ORGANISATION,
     CLIENTS_ORGANISATION_NAME,
     CLIENTS_NAME,
     ADD_PLANNING_AUTHORITY,
-    ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
     LEGAL_AGREEMENT_LPA_REMOVE,

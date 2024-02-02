@@ -11,9 +11,9 @@ const handlers = {
     const anyOtherLOValue = request.payload.anyOtherLOValue
     request.yar.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, anyOtherLOValue)
     if (anyOtherLOValue === 'yes') {
-      return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
+      return h.redirect(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
     } else if (anyOtherLOValue === 'no') {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
+      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, null)
       return h.redirect(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     } else {
       return h.view(constants.views.ANY_OTHER_LANDOWNERS, {

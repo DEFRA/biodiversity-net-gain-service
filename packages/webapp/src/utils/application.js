@@ -316,7 +316,7 @@ const getPayment = session => {
 }
 
 const getLandowners = session => {
-  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER)
   const landownersByType = {
     organisation: [],
     individual: []

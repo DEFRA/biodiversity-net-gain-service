@@ -1,12 +1,35 @@
+import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
+  validateTextInput,
+  checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
-  validateFirstLastName,
+  validateIdGetSchemaOptional,
+  emailValidator,
   validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
-import isEmpty from 'lodash/isEmpty.js'
 
+const firstNameID = '#firstName'
+const lastNameID = '#lastName'
+const emailID = '#emailAddress'
+
+const validateIndividual = individual => {
+  const errors = {}
+  const firstNameError = validateTextInput(individual.firstName, firstNameID, 'First name', 50, 'landowner or leaseholder')
+  if (firstNameError) {
+    errors.firstNameError = firstNameError.err[0]
+  }
+  const lastNameError = validateTextInput(individual.lastName, lastNameID, 'Last name', 50, 'landowner or leaseholder')
+  if (lastNameError) {
+    errors.lastNameError = lastNameError.err[0]
+  }
+  const emailAddressError = emailValidator(individual.emailAddress, emailID)
+  if (emailAddressError?.err?.length > 0) {
+    errors.emailAddressError = emailAddressError.err[0]
+  }
+  return errors
+}
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -15,55 +38,88 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL
     })
-
-    const { id } = request.query
-
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
-
-    let individual
-
-    if (id) {
-      individual = lpaList[id].value
+    const { id } = request.query
+    let individual = {
+      firstName: '',
+      middleNames: '',
+      lastName: '',
+      emailAddress: ''
     }
-
+    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER)
+    if (id) {
+      individual = landownerIndividuals[id]
+    }
     return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
-      individual,
-      legalAgreementType
+      legalAgreementType,
+      individual
     })
   },
   post: async (request, h) => {
-    const { firstName, middleName, lastName } = request.payload
-
-    const firstNameError = validateFirstLastName(firstName, 'first name', 'firstNameId')
-    const lastNameError = validateFirstLastName(lastName, 'last name', 'lastNameId')
-    const middleNameError = validateLengthOfCharsLessThan50(middleName, 'middle name', 'middleNameId')
-
-    if (!isEmpty(firstNameError) || !isEmpty(lastNameError) || !isEmpty(middleNameError)) {
-      return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
-        err: Object.values({ ...firstNameError, ...lastNameError, ...middleNameError }),
-        firstNameError: firstNameError?.err[0],
-        lastNameError: lastNameError?.err[0],
-        middleNameError: middleNameError?.err[0]
-      })
+    const individual = request.payload
+    individual.type = constants.landownerTypes.INDIVIDUAL
+    const { id } = request.query
+    const errors = {}
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER) ?? []
+    const individualError = validateIndividual(individual)
+    if (isEmpty(individualError)) {
+      const excludeIndex = id !== undefined ? parseInt(id, 10) : null
+      const personDuplicateError = checkForDuplicateConcatenated(
+        landownerIndividuals,
+        ['firstName', 'middleNames', 'lastName'],
+        individual,
+        '#personName',
+        'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+        excludeIndex
+      )
+      if (personDuplicateError) {
+        errors.fullNameError = personDuplicateError
+      }
+    } else {
+      errors.individualError = individualError
     }
 
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST) ?? []
+    const middleNameError = validateLengthOfCharsLessThan50(individual.middleNames, 'middle name', 'middleNameId')
 
-    lpaList.push({ type: 'individual', value: { firstName, middleName, lastName } })
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, lpaList)
+    if (middleNameError) {
+      errors.individualError = { ...individualError, ...{ middleNameError: middleNameError?.err[0] } }
+    }
 
-    return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
+    if (!isEmpty(errors)) {
+      return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
+        individual,
+        legalAgreementType,
+        err: !isEmpty(errors.individualError) ? Object.values(errors.individualError) : Object.values(errors.fullNameError),
+        fullNameError: errors.fullNameError,
+        firstNameError: errors.individualError?.firstNameError,
+        lastNameError: errors.individualError?.lastNameError,
+        middleNameError: errors.individualError?.middleNameError,
+        emailAddressError: errors.individualError?.emailAddressError
+      })
+    }
+    if (id) {
+      landownerIndividuals.splice(id, 1, individual)
+    } else {
+      landownerIndividuals.push(individual)
+    }
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER, landownerIndividuals)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
+
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.ADD_LANDOWNER_INDIVIDUAL,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
+
 }, {
   method: 'POST',
   path: constants.routes.ADD_LANDOWNER_INDIVIDUAL,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]

@@ -68,15 +68,15 @@ const OTHER_LANDOWNERS = routeDefinition(
 // )
 
 // // land/landowner-conservation-covenant-individual-organisation
-const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = routeDefinition(
-  constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
+const LANDOWNER_INDIVIDUAL_ORGANISATION = routeDefinition(
+  constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION,
   [constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY]
 )
 
 // // land/add-landowner-individual-conservation-covenant
-const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = routeDefinition(
-  constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
-  [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS]
+const ADD_LANDOWNER_INDIVIDUAL = routeDefinition(
+  constants.routes.ADD_LANDOWNER_INDIVIDUAL,
+  [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER]
 )
 
 // Don't use this at the moment, but should in a later iteration. It shares session key with above
@@ -191,10 +191,10 @@ const HABITAT_PLAN_UPLOAD = journeyStep(
 )
 
 const LANDOWNER_DETAILS = journeyStep(
-  LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION.startUrl,
+  LANDOWNER_INDIVIDUAL_ORGANISATION.startUrl,
   [
-    ...LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION.sessionKeys,
-    ...ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT.sessionKeys
+    ...LANDOWNER_INDIVIDUAL_ORGANISATION.sessionKeys,
+    ...ADD_LANDOWNER_INDIVIDUAL.sessionKeys
   ],
   [ANY, [ANY]]
 )
