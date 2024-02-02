@@ -116,6 +116,24 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
       expect(resultContext.organisationNameErr).toEqual({ text: 'Enter the name of the legal party', href: '#organisationName' })
     })
+    it('should fail to add legal party to legal agreement with organisation name length > 50', async () => {
+      const longOrganisationName = 'x'.repeat(51)
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: longOrganisationName,
+          organisationRole: 'Developer',
+          organisationOtherRole: ''
+        },
+        query: {}
+      }
+      await addLegalAgreementParties.default[1].handler(request, h)
+      expect(viewResult).toEqual(constants.views.ADD_LEGAL_AGREEMENT_PARTIES)
+      expect(resultContext.organisationNameErr).toEqual({
+        text: 'Organisation name must be 50 characters or fewer',
+        href: 'organisationNameId'
+      })
+    })
 
     it('should fail to add legal party to legal agreement without organisation role', async () => {
       const request = {

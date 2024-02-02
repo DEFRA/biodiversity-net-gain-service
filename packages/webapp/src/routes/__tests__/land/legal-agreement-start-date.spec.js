@@ -215,6 +215,16 @@ describe(url, () => {
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
 
+    it('should fail to add a legal agreement start date with date before MINIMUM_START_DATE', async () => {
+      postOptions.payload['legalAgreementStartDate-day'] = '01'
+      postOptions.payload['legalAgreementStartDate-month'] = '01'
+      postOptions.payload['legalAgreementStartDate-year'] = '2020'
+
+      const response = await submitPostRequest(postOptions, 200)
+      expect(response.statusCode).toBe(200)
+      expect(response.result.indexOf('Start date must be after 29 January 2020')).toBeGreaterThan(1)
+    })
+
     it('Ensure page uses referrer if is set on post', done => {
       jest.isolateModules(async () => {
         try {
