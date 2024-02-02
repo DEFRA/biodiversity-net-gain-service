@@ -521,7 +521,7 @@ describe('getLandownershipProofFileText', () => {
   })
 
   it('should return "file" for a single file name', () => {
-    const singleFileName = 'proof1.pdf'
+    const singleFileName = ['proof1.pdf']
     expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
   })
 })
