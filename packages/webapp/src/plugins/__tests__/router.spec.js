@@ -1,6 +1,6 @@
 import plugin from '../router'
 import developerConstants from '../../utils/developer-constants'
-import creditsConstants from '../../credits/constants'
+import creditsConstants from '../../utils/credits-constants'
 
 const ORIGINAL_ENV = process.env
 let server

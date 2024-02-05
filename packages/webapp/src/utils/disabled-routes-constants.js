@@ -1,7 +1,12 @@
 import developerConstants from './developer-constants.js'
-import constants from '../credits/constants.js'
+import creditsConstants from './credits-constants.js'
 
-const { ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL, ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL, ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY, ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY } = process.env
+const {
+  ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
+  ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
+  ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY,
+  ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY
+} = process.env
 let disabledRoutes = {}
 
 // Disabled routes for MVP
@@ -35,7 +40,7 @@ if (ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y') {
 }
 
 if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...constants.routes }
+  disabledRoutes = { ...disabledRoutes, ...creditsConstants.routes }
 }
 
 export default disabledRoutes

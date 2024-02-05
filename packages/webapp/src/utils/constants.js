@@ -1,7 +1,7 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsConstants from '../credits/constants.js'
+import creditsConstants from './credits-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -159,6 +159,7 @@ const ADDRESS_IS_UK = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...creditsConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
