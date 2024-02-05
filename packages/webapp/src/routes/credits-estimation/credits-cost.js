@@ -12,7 +12,7 @@ const getRow = ({ tier, unitAmount, cost }) => [
 export default [
   {
     method: 'GET',
-    path: constants.routes.ESTIMATOR_CREDITS_COST,
+    path: constants.creditEstimateRoutes.ESTIMATOR_CREDITS_COST,
     options: {
       auth: false
     },

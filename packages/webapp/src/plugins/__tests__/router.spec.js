@@ -26,6 +26,7 @@ describe('Routes', () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'Y'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'Y'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY = 'Y'
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_MAIN_CREDITS_JOURNEY = 'Y'
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
     expect(disabledRoutes).toStrictEqual({
@@ -45,6 +46,7 @@ describe('Routes', () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY = 'N'
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_MAIN_CREDITS_JOURNEY = 'N'
     jest.mock('../../utils/disabled-routes-constants')
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
