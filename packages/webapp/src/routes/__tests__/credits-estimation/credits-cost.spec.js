@@ -1,7 +1,7 @@
+import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
-import creditsConstants from '../../../utils/credits-estimation-constants.js'
 
-const url = creditsConstants.routes.ESTIMATOR_CREDITS_COST
+const url = constants.routes.ESTIMATOR_CREDITS_COST
 
 const calculationResult = {
   tierCosts: [
@@ -17,21 +17,21 @@ const calculationResult = {
 }
 
 const redisCalculation = {
-  [creditsConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
+  [constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
 }
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${creditsConstants.views.ESTIMATOR_CREDITS_COST} view with correct content`, async () => {
+    it(`should render the ${constants.views.ESTIMATOR_CREDITS_COST} view with correct content`, async () => {
       const res = await submitGetRequest({ url }, 200, redisCalculation)
       expect(res.result).toContain(
         calculationResult.total.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
       )
     })
 
-    it(`should redirect to the ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER} route if no session data}`, async () => {
+    it(`should redirect to the ${constants.routes.ESTIMATOR_CREDITS_TIER} route if no session data}`, async () => {
       const res = await submitGetRequest({ url }, 302)
-      expect(res.headers.location).toEqual(creditsConstants.routes.ESTIMATOR_CREDITS_TIER)
+      expect(res.headers.location).toEqual(constants.routes.ESTIMATOR_CREDITS_TIER)
     })
   })
 })
