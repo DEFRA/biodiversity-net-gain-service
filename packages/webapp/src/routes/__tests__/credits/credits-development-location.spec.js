@@ -2,7 +2,7 @@ import Session from '../../../__mocks__/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../credits/credits-development-location.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
-import constants from '../../../credits/constants.js'
+import constants from '../../../utils/constants.js'
 
 jest.mock('../../../utils/azure-storage.js')
 

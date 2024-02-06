@@ -1,8 +1,8 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
-import mainConstants from '../../../utils/constants'
-import constants from '../../../credits/constants.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
+import constants from '../../../utils/constants.js'
+
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.CREDITS_UPLOAD_METRIC
 
@@ -212,7 +212,7 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain(mainConstants.uploadErrors.uploadFailure)
+          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })

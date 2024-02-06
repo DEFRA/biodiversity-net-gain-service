@@ -1,9 +1,6 @@
-import creditConstants from './credit-constants.js'
-
 const CREDITS_ESTIMATION_PATH = '/credits-estimation'
 
 const routes = {
-  ...creditConstants.routes,
   ESTIMATOR_CREDITS_COST: '/credits-estimation/credits-cost',
   ESTIMATOR_CREDITS_TIER: '/credits-estimation/credits-tier'
 }
@@ -13,12 +10,10 @@ const views = Object.fromEntries(
 )
 
 const redisKeys = {
-  ...creditConstants.redisKeys,
   ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
 }
 
 export default {
-  ...creditConstants,
   CREDITS_ESTIMATION_PATH,
   routes,
   views,

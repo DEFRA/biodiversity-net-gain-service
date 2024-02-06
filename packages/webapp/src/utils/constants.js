@@ -3,6 +3,7 @@ import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsEstimationConstants from './credits-estimation-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -160,6 +161,7 @@ const ADDRESS_IS_UK = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...creditsPurchaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -216,7 +218,7 @@ const threatScreeningStatusValues = {
 const uploadTypes = {
   ...developerConstants.uploadTypes,
   ...lojConstants.uploadTypes,
-  ...creditsConstants.uploadTypes
+  ...creditsPurchaseConstants.uploadTypes
 }
 
 // setReferer contain routes that can be set as a referer for a user

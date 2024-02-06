@@ -1,7 +1,7 @@
 import path from 'path'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import constants from '../../credits/constants.js'
+import constants from '../../utils/constants.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {

@@ -1,15 +1,27 @@
 import developerConstants from './developer-constants.js'
+<<<<<<< HEAD
 import creditsEstimationConstants from './credits-estimation-constants.js'
+=======
+import constants from '../credits/constants.js'
+>>>>>>> 64054453 (Updated folder and file structure)
 import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const {
   ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
   ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
   ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY,
+<<<<<<< HEAD
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY,
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY
 } = process.env
 let disabledRoutes = {}
+=======
+  ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY
+} = process.env
+let disabledRoutes = {
+  ...creditsPurchaseConstants.routes
+}
+>>>>>>> 64054453 (Updated folder and file structure)
 
 // Disabled routes for MVP
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'

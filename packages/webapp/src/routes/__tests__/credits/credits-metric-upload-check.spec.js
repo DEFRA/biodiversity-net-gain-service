@@ -1,4 +1,4 @@
-import constants from '../../../credits/constants.js'
+import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 
 const url = '/credits/credits-metric-upload-check'
