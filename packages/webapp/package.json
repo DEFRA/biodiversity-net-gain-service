@@ -33,7 +33,7 @@
     "directory": "packages/webapp"
   },
   "dependencies": {
-    "@azure/msal-node": "^2.3.0",
+    "@azure/msal-node": "^2.6.2",
     "@defra/bng-connectors-lib": "1.1.0",
     "@defra/bng-errors-lib": "1.1.0",
     "@defra/bng-utils-lib": "1.1.0",
