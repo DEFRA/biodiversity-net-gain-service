@@ -303,5 +303,6 @@ export default Object.freeze({
   signInTypes,
   APPLICANT_IS_AGENT,
   ADDRESS_IS_UK,
-  ADDRESS_TYPES
+  ADDRESS_TYPES,
+  ...creditsPurchaseConstants.options,
 })

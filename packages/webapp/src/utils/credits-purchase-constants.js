@@ -49,16 +49,18 @@ export default {
     unsupportedFileExt: 'Unsupported file extension',
     noFileScanResponse: 'Timed out awaiting anti virus scan result'
   },
-  creditsCheckUploadMetric: {
-    NO,
-    YES
-  },
-  creditsCheckDetails: {
-    NO,
-    YES
-  },
-  applicationTypes: {
-    CREDITS: 'Credits'
+  options: {
+    creditsCheckUploadMetric: {
+      NO,
+      YES
+    },
+    creditsCheckDetails: {
+      NO,
+      YES
+    },
+    applicationTypes: {
+      CREDITS: 'Credits'
+    },
   },
   BLOB_STORAGE_CONTAINER: 'customer-uploads'
 }
