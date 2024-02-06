@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 
-const url = '/credits/credits-metric-upload-check'
+const url = constants.routes.CREDITS_CHECK_UPLOAD_METRIC
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
 
@@ -10,7 +10,7 @@ describe(url, () => {
     let viewResult, contextResult
     const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
-      const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
+      const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
       redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
       const request = {
         yar: redisMap
@@ -27,7 +27,7 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
-      const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
+      const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
       redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, null)
       const request = {
         yar: redisMap
@@ -59,7 +59,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkMetricFile = require('../../credits/credits-metric-upload-check.js')
+          const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
           redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.NO
           const request = {
