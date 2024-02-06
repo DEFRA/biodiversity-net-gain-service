@@ -6,7 +6,7 @@ const {
   ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
   ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY,
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY,
-  ENABLE_ROUTE_SUPPORT_FOR_MAIN_CREDITS_JOURNEY
+  ENABLE_ROUTE_SUPPORT_FOR_CREDITS_PURCHASE_JOURNEY
 } = process.env
 let disabledRoutes = {}
 
@@ -44,7 +44,7 @@ if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY === 'Y') {
   disabledRoutes = { ...disabledRoutes, ...creditConstants.creditEstimateRoutes }
 }
 
-if (ENABLE_ROUTE_SUPPORT_FOR_MAIN_CREDITS_JOURNEY === 'Y') {
+if (ENABLE_ROUTE_SUPPORT_FOR_CREDITS_PURCHASE_JOURNEY === 'Y') {
   disabledRoutes = { ...disabledRoutes, ...creditConstants.mainCreditRoutes }
 }
 

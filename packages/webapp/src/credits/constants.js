@@ -6,7 +6,7 @@ const creditEstimateRoutes = {
 }
 
 const mainCreditRoutes = {
-  ESTIMATOR_CREDITS_COST: '/credits-estimation/credits-cost'
+  // TODO: Add main credit routes here
 }
 
 const routes = { ...creditEstimateRoutes, ...mainCreditRoutes }
