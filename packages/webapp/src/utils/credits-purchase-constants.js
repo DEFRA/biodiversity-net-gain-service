@@ -60,7 +60,7 @@ export default {
     },
     applicationTypes: {
       CREDITS: 'Credits'
-    },
+    }
   },
   BLOB_STORAGE_CONTAINER: 'customer-uploads'
 }
