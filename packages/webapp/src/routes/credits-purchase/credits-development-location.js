@@ -1,6 +1,6 @@
 import path from 'path'
-import constants from '../../credits/constants.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import constants from '../../utils/constants.js'
 
 const href = '#dev-details-checked-yes'
 const handlers = {

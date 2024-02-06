@@ -1,6 +1,6 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import constants from '../../credits/constants.js'
+import constants from '../../utils/constants.js'
 
 const downloadMetricFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.CREDITS_METRIC_LOCATION)
