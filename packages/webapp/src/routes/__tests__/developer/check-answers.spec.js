@@ -27,7 +27,7 @@ describe(url, () => {
       const { handler } = checkAnswers.find(route => route.method === 'GET')
       const h = { redirect: jest.fn() }
       await handler({ yar: session }, h)
-      expect(h.redirect).toHaveBeenCalledWith(constants.routes.START)
+      expect(h.redirect).toHaveBeenCalledWith('/')
     })
 
     it('should redirect to Start page if no develper data is available in session', async () => {
