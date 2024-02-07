@@ -52,11 +52,12 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const CREDITS_PURCHASE = 'credits-purchase'
 
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION,
-  ...creditsConstants.applicationTypes
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {

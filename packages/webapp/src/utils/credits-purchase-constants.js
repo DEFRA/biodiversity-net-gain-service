@@ -55,9 +55,6 @@ export default {
     creditsCheckDetails: {
       NO,
       YES
-    },
-    applicationTypes: {
-      CREDITS: 'Credits'
     }
   },
   BLOB_STORAGE_CONTAINER: 'customer-uploads'
