@@ -17,11 +17,13 @@
             <h1 class="govuk-heading-l" tabindex="-1">
               {{ pageHeading }}
             </h1>
+            <div class="govuk-summary-list-visible-values">
                 {{ govukSummaryList({
                     rows: landOwnershipsList,
                     classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
                     }) 
                 }}
+            </div>
             {{ govukRadios({
                 idPrefix: "addAnotherOwnershipProof",
                 name: "addAnotherOwnershipProof",
