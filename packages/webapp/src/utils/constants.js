@@ -48,6 +48,7 @@ const UK = 'uk'
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
+const MULTIPLE_PROOFS_COUNT = 'multipleProofsCount'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 
@@ -311,5 +312,6 @@ export default Object.freeze({
   ADDRESS_IS_UK,
   ADDRESS_TYPES,
   DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
-  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED,
+  MULTIPLE_PROOFS_COUNT
 })

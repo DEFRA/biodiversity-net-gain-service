@@ -2,26 +2,43 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, processRegistrationTask, generateUniqueId } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
 const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) => {
   const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  const writtenAuthorisationProofFiles = yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILES) ?? []
+  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER_VALUE) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
   if (isAgent && clientIsNotLandownerOrLeaseholder) {
+    yar.set(constants.redisKeys.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED, true)
     context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = true
+    context[constants.MULTIPLE_PROOFS_COUNT] = writtenAuthorisationProofFiles.length + 1
+  } else {
+    yar.set(constants.redisKeys.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED, false)
   }
   return context
 }
 
 const processSuccessfulUpload = (result, request, h) => {
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, result.fileType)
-  logger.info(`${new Date().toUTCString()} Received written authorisation data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE)
+  const location = result.config.blobConfig.blobName
+  const writtenAuthorisationProofFiles = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILES) ?? []
+  let id = writtenAuthorisationProofFiles.find(file => file.location === location)?.id
+  if (!id && writtenAuthorisationProofFiles.length < 2) {
+    id = generateUniqueId()
+    writtenAuthorisationProofFiles.push({
+      id,
+      location: result.config.blobConfig.blobName,
+      fileSize: result.fileSize,
+      fileType: result.fileType
+    })
+  }
+  request.logger.info(`${new Date().toUTCString()} Received written authorisation data for ${location.substring(location.lastIndexOf('/') + 1)}`)
+  if (writtenAuthorisationProofFiles.length > 0) {
+    request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILES, writtenAuthorisationProofFiles)
+  }
+  return h.redirect(`${constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE}?id=${id}`)
 }
 
 const processErrorUpload = (err, h) => {
@@ -92,7 +109,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
     })
-
+    const writtenAuthorisationProofFiles = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILES) ?? []
+    if (writtenAuthorisationProofFiles.length > 1) { return h.redirect(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE) }
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME_KEY)
     const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME_KEY)
@@ -103,7 +121,6 @@ const handlers = {
       clientsName,
       clientsOrganisationName
     }
-
     return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, addMultipleProofsOfPermissionIndicatorToContextIfRquired(request.yar, context))
   },
   post: async (request, h) => {
