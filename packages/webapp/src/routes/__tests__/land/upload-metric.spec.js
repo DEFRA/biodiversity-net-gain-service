@@ -240,8 +240,8 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
-
-    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    it.skip('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
@@ -254,7 +254,6 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
-
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
           expect(spy).toHaveBeenCalledTimes(2)

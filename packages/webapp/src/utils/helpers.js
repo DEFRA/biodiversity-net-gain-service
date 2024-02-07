@@ -235,6 +235,10 @@ const validateIdGetSchemaOptional = {
   }
 }
 const getLandowners = landOwners => {
+  if (!landOwners) {
+    return null
+  }
+
   const organisationNames = []
   const individualNames = []
 
@@ -346,12 +350,16 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
       metricData[key].forEach((item, index) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
-          items.push({
+          const habitatItems = {
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
             amount: item[habitatTypeMap[key].unitKey]
-          })
+          }
+          const isObjectWithEmptyValues = Object.values(habitatItems).every(value => value === null || value === '' || value === undefined)
+          if (!isObjectWithEmptyValues) {
+            items.push(habitatItems)
+          }
         }
       })
 
@@ -410,6 +418,17 @@ const validateFirstLastName = (name, text, hrefId) => {
       href: hrefId
     }]
   } else if (name.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
+const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
+  const error = {}
+  if (input?.length > 50) {
     error.err = [{
       text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
       href: hrefId
@@ -614,14 +633,16 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    // error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    return null
   }
   return error.err[0].text ? error : null
 }
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
@@ -655,28 +676,67 @@ const validateAddress = (address, isUkAddress) => {
       href: '#town'
     }
   }
-  if (isUkAddress) {
-    if (!address.postcode || address.postcode.length === 0) {
-      errors.postcodeError = {
-        text: 'Enter postcode',
-        href: '#postcode'
-      }
-    } else if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
-    }
+  const addressLine1Validation = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')
+  if (addressLine1Validation) {
+    errors.addressLine1Error = addressLine1Validation.err[0]
   }
-  if (!isUkAddress) {
-    if (!address.country || address.country.length === 0) {
-      errors.countryError = {
-        text: 'Enter country',
-        href: '#country'
-      }
-    }
+  const addressLine2Validation = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')
+  if (addressLine2Validation) {
+    errors.addressLine2Error = addressLine2Validation.err[0]
+  }
+  const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
+  if (addressLine3Validation) {
+    errors.addressLine3Error = addressLine3Validation.err[0]
+  }
+
+  const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
+  if (townValidation) {
+    errors.townError = townValidation.err[0]
+  }
+  const countyValidation = validateLengthOfCharsLessThan50(address?.county, 'county', 'countyId')
+  if (countyValidation) {
+    errors.countyError = countyValidation.err[0]
+  }
+  if (isUkAddress) {
+    validateUkAddress(address, errors)
+  } else {
+    validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
+}
+
+const validateUkAddress = (address, errors) => {
+  if (!address.postcode || address.postcode.length === 0) {
+    errors.postcodeError = {
+      text: 'Enter postcode',
+      href: '#postcode'
+    }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
+    }
+  }
+}
+
+const validateNonUkAddress = (address, errors) => {
+  if (!address.country || address.country.length === 0) {
+    errors.countryError = {
+      text: 'Enter country',
+      href: '#country'
+    }
+  }
+  if (address?.postcode?.length > 14) {
+    errors.postcodeError = {
+      text: 'Postal code must be 14 characters or fewer',
+      href: '#postcode'
+    }
+  }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')
+  if (countryValidation) {
+    errors.countryError = countryValidation.err[0]
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
@@ -688,6 +748,20 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
+}
+
+const getAuthenticatedUserRedirectUrl = () => {
+  // BNGP- 4368 - Simplify the redirection logic for authenticated users.
+  // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
+  // When two or more journey types are enabled, redirect the user to select the dashboard for
+  // the required journey type.
+  //
+  // IMPORTANT
+  // This logic MUST be refactored to allow for correct redirection when credits purchase
+  // and/or allocation functionality is implemented and enabled.
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+    ? constants.routes.MANAGE_BIODIVERSITY_GAINS
+    : constants.routes.BIODIVERSITY_GAIN_SITES
 }
 
 export {
@@ -741,5 +815,7 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  validateLengthOfCharsLessThan50,
+  getAuthenticatedUserRedirectUrl
 }

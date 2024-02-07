@@ -46,6 +46,7 @@
   <![endif]-->
 
   <!-- Application version: {{ applicationVersion }} -->
+  <link href="{{ assetPath }}/stylesheets/pages/assisted-digital-helpline.css" rel="stylesheet" />
 {% endblock %}
 
 {% block header %}
@@ -67,7 +68,9 @@
     tag: {
       text: "beta"
     },
-    html: 'This is a new service – <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM" target="_blank" rel="noopener noreferrer">give feedback</a> to help us to improve it.'
+    html: 'This is a new service – <a class="govuk-link" href="'
+          + (bannerFeedbackLink or 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM')
+          + '" target="_blank" rel="noopener noreferrer">give feedback</a> to help us to improve it.'
   }) }}
 
   {% if not hideSigninNav %}
@@ -79,8 +82,9 @@
     <div class="defra-js-show" hidden>
       {{ govukBackLink({
         text: "Back",
-        href: backLink or "javascript: window.history.go(-1)"
-      }) }}
+        href: backLink or "#"
+    }) }}
+    
     </div>
     {% endif %}
   </div>
@@ -99,9 +103,9 @@
   <script src="{{ assetPath }}/jquery.js"></script>
   <script src="{{ assetPath }}/all.js"></script>
   <script src="{{ assetPath }}/moj/all.js"></script>
-  <script>window.GOVUKFrontend.initAll()
+   <script nonce="{{ nonce }}">window.GOVUKFrontend.initAll()
   </script>
-    <script>window.MOJFrontend.initAll()
+    <script nonce="{{ nonce }}">window.MOJFrontend.initAll()
   </script>
   <script src="{{ assetPath }}/js/core.js"></script>
   {% block pageScripts %}

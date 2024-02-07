@@ -23,7 +23,8 @@ const auth = {
       },
       keepAlive: false, // BNGP-3530 if keepAlive is true then the validate function is overwriting the new session-auth cookie with previous
       redirectTo: '/signin',
-      appendNext: true,
+      // BNGP-4368 - Use custom logic to route authenticated users.
+      appendNext: false,
       validate: async (request, session) => {
         // Check session token still has an account and non expired (20 mins expiry from Defra ID)
         if (!validateSession(session)) {

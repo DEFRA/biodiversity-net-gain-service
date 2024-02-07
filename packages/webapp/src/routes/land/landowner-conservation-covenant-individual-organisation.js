@@ -29,8 +29,10 @@ const handlers = {
       })
     }
     if (landownerType === constants.landownerTypes.INDIVIDUAL) {
+      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.INDIVIDUAL)
       return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
     } else {
+      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.ORGANISATION)
       return h.redirect(constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
     }
   }

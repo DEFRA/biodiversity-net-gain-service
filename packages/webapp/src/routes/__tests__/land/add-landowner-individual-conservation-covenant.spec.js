@@ -188,6 +188,26 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'First name must be 50 characters or fewer', href: '#firstName' })
     })
+    it('should fail to add landowner to legal agreement with landowner middle name length > 50', async () => {
+      const longMiddleName = 'x'.repeat(51)
+      const request = {
+        yar: redisMap,
+        payload: {
+          firstName: 'John',
+          middleNames: longMiddleName,
+          lastName: 'Doe',
+          emailAddress: 'john.doe@example.com'
+        },
+        query: {}
+      }
+      await addLandownerIndividuals.default[1].handler(request, h)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
+      expect(resultContext.err).toContainEqual({
+        href: 'middleNameId',
+        text: 'Middle name must be 50 characters or fewer'
+      })
+    })
+
     it('should fail to add landowner to legal agreement with landowner first name length > 50', async () => {
       const request = {
         yar: redisMap,

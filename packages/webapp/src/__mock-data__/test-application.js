@@ -11,7 +11,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/check-applicant-information",
             "startTaskUrl": "/land/agent-acting-for-client",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-applicant-information"
           }
         ]
@@ -24,7 +24,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-land-ownership"
           },
           {
@@ -344,6 +344,7 @@ const dataString = `
   "legal-agreement-type": "759150001",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
+  "la-any-other-landowners-checked":"No",
   "legal-agreement-files": [
     {
       "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",

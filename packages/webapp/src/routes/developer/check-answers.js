@@ -15,7 +15,7 @@ const handlers = {
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
       })
-      : h.redirect(constants.routes.START)
+      : h.redirect('/')
   },
   post: async (request, h) => {
     const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))

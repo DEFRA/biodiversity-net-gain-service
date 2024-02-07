@@ -1,5 +1,5 @@
 import { getBlobServiceClient, getQueueServiceClient } from '@defra/bng-connectors-lib/azure-storage'
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 
 const containerNames = ['customer-uploads']
 const queueNames = [
@@ -14,7 +14,7 @@ const recreateContainer = async (containerName) => {
   const containerClient = await blobServiceClient.getContainerClient(containerName)
   await containerClient.deleteIfExists()
   await containerClient.createIfNotExists()
-  logger.log(`(Re)created ${containerName} container`)
+  logger.info(`(Re)created ${containerName} container`)
 }
 
 const recreateContainers = async () => {
@@ -27,7 +27,7 @@ const recreateQueue = async (queueName) => {
   const queueClient = await queueServiceClient.getQueueClient(queueName)
   await queueClient.deleteIfExists()
   await queueClient.createIfNotExists()
-  logger.log(`(Re)created ${queueName} queue`)
+  logger.info(`(Re)created ${queueName} queue`)
 }
 
 const recreateQueues = async () => {
@@ -45,7 +45,7 @@ const clearQueues = async () => {
 const clearQueue = async (queueName) => {
   const queueClient = await queueServiceClient.getQueueClient(queueName)
   await queueClient.clearMessages()
-  logger.log(`Cleared ${queueName} queue`)
+  logger.info(`Cleared ${queueName} queue`)
 }
 
 const blobExists = async (containerName, blobName) => {

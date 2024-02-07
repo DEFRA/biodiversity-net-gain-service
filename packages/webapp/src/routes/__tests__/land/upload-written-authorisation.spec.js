@@ -143,6 +143,24 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
+    it('should not upload file with xss velnerability', (done) => {
+      const mockDataPathGeneric = 'packages/webapp/src/__mock-data__/uploads/generic-files'
+
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPathGeneric}/<a onmouseover=alert(document.cookie)>resillion.doc`
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
     it('should  upload written authorisation document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {

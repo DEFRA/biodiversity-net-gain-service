@@ -32,7 +32,7 @@ describe(url, () => {
 
     it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      expect(response.headers.location).toEqual('/')
     })
     it(`should render the ${url.substring(1)} view when application reference is present`, async () => {
       const session = new Session()
@@ -43,7 +43,7 @@ describe(url, () => {
       const session = new Session()
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
-      expect(response.headers.location).toEqual(constants.routes.START)
+      expect(response.headers.location).toEqual('/')
     })
   })
   describe('POST', () => {

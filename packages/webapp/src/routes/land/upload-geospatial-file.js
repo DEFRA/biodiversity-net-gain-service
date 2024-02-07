@@ -1,6 +1,5 @@
 import processGeospatialLandBoundaryEvent from './helpers/process-geospatial-land-boundary-event.js'
 import { CoordinateSystemValidationError, MalwareDetectedError, ThreatScreeningError, UploadTypeValidationError, ValidationError, uploadGeospatialLandBoundaryErrorCodes } from '@defra/bng-errors-lib'
-import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
@@ -39,12 +38,12 @@ const performUpload = async (request, h) => {
     await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, true))
     await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, true))
 
-    const geospatialData = await uploadFile(logger, request, config)
+    const geospatialData = await uploadFile(request.logger, request, config)
     processGeospatialLandBoundaryEvent(geospatialData.postProcess)
 
     const uploadedFileLocation = `${geospatialData.postProcess.location.substring(0, geospatialData.postProcess.location.lastIndexOf('/'))}/${geospatialData.filename}`
     const geoJsonFilename = geospatialData.postProcess.location.substring(geospatialData.postProcess.location.lastIndexOf('/') + 1)
-    logger.log(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
+    request.logger.info(`${new Date().toUTCString()} Received land boundary data for ${geoJsonFilename}`)
 
     if (!geospatialData.filename.endsWith('.geojson')) {
       // A GeoJSON file was not uploaded.
@@ -193,7 +192,7 @@ export default [{
       output: 'stream',
       parse: false,
       failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, {
             err: [
