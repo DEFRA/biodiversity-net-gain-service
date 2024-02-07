@@ -48,11 +48,12 @@ const INTERNATIONAL = 'international'
 const UK = 'uk'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const CREDITS_PURCHASE = 'credits-purchase'
 
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION,
-  ...creditsConstants.applicationTypes
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
