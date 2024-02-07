@@ -18,7 +18,7 @@ let disabledRoutes = {}
 =======
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY
 } = process.env
-let disabledRoutes = {
+const disabledRoutes = {
   ...creditsPurchaseConstants.routes
 }
 >>>>>>> 64054453 (Updated folder and file structure)
