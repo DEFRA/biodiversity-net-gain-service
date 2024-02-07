@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../credits/constants.js'
-const url = constants.routes.ESTIMATOR_CREDITS_TIER
+const url = constants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER
 
 const calculationResult = {
   tierCosts: [
@@ -58,7 +58,7 @@ describe(url, () => {
     it(`Should redirect to ${constants.views.ESTIMATOR_CREDITS_COST} if good payload provided`, async () => {
       postOptions.payload = goodPayload
       const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
-      expect(res.headers.location).toEqual(constants.routes.ESTIMATOR_CREDITS_COST)
+      expect(res.headers.location).toEqual(constants.creditEstimateRoutes.ESTIMATOR_CREDITS_COST)
     })
 
     it('Should show error message if bad payload provided', async () => {
