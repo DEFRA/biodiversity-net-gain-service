@@ -1,12 +1,12 @@
 import developerConstants from './developer-constants.js'
-import creditConstants from '../credits/constants.js'
+import * as creditConstants from '../credits/constants.js'
 
 const {
   ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
   ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
   ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY,
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY,
-  ENABLE_ROUTE_SUPPORT_FOR_CREDITS_PURCHASE_JOURNEY
+  ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY
 } = process.env
 let disabledRoutes = {}
 
@@ -44,8 +44,8 @@ if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY === 'Y') {
   disabledRoutes = { ...disabledRoutes, ...creditConstants.creditEstimateRoutes }
 }
 
-if (ENABLE_ROUTE_SUPPORT_FOR_CREDITS_PURCHASE_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...creditConstants.mainCreditRoutes }
+if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y') {
+  disabledRoutes = { ...disabledRoutes, ...creditConstants.creditPurchaseRoutes }
 }
 
 export default disabledRoutes

@@ -15,12 +15,14 @@ const views = Object.fromEntries(
   Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
 )
 
+const redisKeys = {
+  ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
+}
+
 export default {
   CREDITS_ESTIMATION_PATH,
   creditEstimateRoutes,
-  mainCreditRoutes: creditPurchaseRoutes,
+  creditPurchaseRoutes,
   views,
-  redisKeys: {
-    ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
-  }
+  redisKeys
 }
