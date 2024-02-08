@@ -261,7 +261,7 @@ const dataString = `
     "e3": [
       {
         "Baseline ref": 1,
-        "Habitat reference Number": "E3",
+        "Habitat reference Number": 3,
         "Baseline habitat": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,

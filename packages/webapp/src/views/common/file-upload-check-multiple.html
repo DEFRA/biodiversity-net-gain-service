@@ -8,12 +8,13 @@
                 isPageHeading: true
             }
         }) }}
-      
+        <div class="govuk-summary-list-visible-values">
         {{ govukSummaryList({
             rows: filesListWithAction,
             classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
             }) 
         }}
+    </div>
         {{ govukRadios({
             idPrefix: prefix,
             name: name,
