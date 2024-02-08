@@ -6,7 +6,7 @@ const creditEstimateRoutes = {
 }
 
 const creditPurchaseRoutes = {
-  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-estimation/credits-individual-or-organisation'
+  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-purchase/credits-individual-or-organisation'
 }
 
 const routes = { ...creditEstimateRoutes, ...creditPurchaseRoutes }
