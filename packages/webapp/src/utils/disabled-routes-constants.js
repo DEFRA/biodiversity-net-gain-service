@@ -1,5 +1,6 @@
 import developerConstants from './developer-constants.js'
-import constants from '../credits/constants.js'
+import creditsEstimationConstants from './credits-estimation-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const {
   ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
@@ -41,11 +42,11 @@ if (ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y') {
 }
 
 if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...constants.creditEstimateRoutes }
+  disabledRoutes = { ...disabledRoutes, ...creditsEstimationConstants.creditEstimateRoutes }
 }
 
 if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...constants.creditPurchaseRoutes }
+  disabledRoutes = { ...disabledRoutes, ...creditsPurchaseConstants.creditPurchaseRoutes }
 }
 
 export default disabledRoutes

@@ -1,4 +1,4 @@
-import constants from '../../credits/constants.js'
+import creditsEstimationConstants from '../../utils/credits-estimation-constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
@@ -8,21 +8,21 @@ const inputSchema = Joi.string().regex(/^\d*(\.\d{1,2})?$/).allow('')
 export default [
   {
     method: 'GET',
-    path: constants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
+    path: creditsEstimationConstants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
     options: {
       auth: false
     },
     handler: (request, h) => {
-      const previousCostCalculation = request.yar.get(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)
+      const previousCostCalculation = request.yar.get(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)
       const inputValues = (previousCostCalculation)
         ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
         : {}
-      return h.view(constants.views.ESTIMATOR_CREDITS_TIER, { inputValues })
+      return h.view(creditsEstimationConstants.views.ESTIMATOR_CREDITS_TIER, { inputValues })
     }
   },
   {
     method: 'POST',
-    path: constants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
+    path: creditsEstimationConstants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
     options: {
       auth: false,
       validate: {
@@ -47,7 +47,7 @@ export default [
             })
           })
 
-          return h.view(constants.views.ESTIMATOR_CREDITS_TIER, {
+          return h.view(creditsEstimationConstants.views.ESTIMATOR_CREDITS_TIER, {
             errorMessages,
             inputValues: { ...request.payload },
             err: errorList
@@ -56,8 +56,8 @@ export default [
       }
     },
     handler: (request, h) => {
-      request.yar.set(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
-      return h.redirect(constants.routes.ESTIMATOR_CREDITS_COST)
+      request.yar.set(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
+      return h.redirect(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_COST)
     }
   }
 ]

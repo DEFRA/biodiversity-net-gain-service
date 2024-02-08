@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
-import constants from '../../../credits/constants.js'
-const url = constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+const url = creditsPurchaseConstants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG
 
 describe(url, () => {
   describe('GET', () => {
