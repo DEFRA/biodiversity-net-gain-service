@@ -35,6 +35,22 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it(`should render the ${url.substring(1)} view if fle location is null`, async () => {
+      redisMap.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILES, [
+        {
+          location: null,
+          fileSize: 0.01,
+          fileType: 'application/msword',
+          id: '1'
+
+        }])
+      const request = {
+        yar: redisMap,
+        query: { id: '1' }
+      }
+      await checkAuthorization.default[0].handler(request, h)
+      expect(viewResult).toEqual('developer/check-written-authorisation-file')
+    })
   })
 
   describe('POST', () => {
