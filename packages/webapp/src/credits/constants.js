@@ -24,5 +24,6 @@ export default {
   creditEstimateRoutes,
   creditPurchaseRoutes,
   views,
+  routes,
   redisKeys
 }
