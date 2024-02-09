@@ -45,8 +45,8 @@ warning: other service dependencies will be missing, install and run from root o
 | ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
-| ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY | Feature flag for credit estimation in the developer journey | Y |
-| ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY | Feature flag for main credits journey in the developer journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY | Feature flag for credits estimation journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY | Feature flag for credits purchase journey | Y |
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 | LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
 
