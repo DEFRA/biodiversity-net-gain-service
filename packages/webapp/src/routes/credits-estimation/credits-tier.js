@@ -8,7 +8,7 @@ const inputSchema = Joi.string().regex(/^\d*(\.\d{1,2})?$/).allow('')
 export default [
   {
     method: 'GET',
-    path: creditsEstimationConstants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
+    path: creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER,
     options: {
       auth: false
     },
@@ -22,7 +22,7 @@ export default [
   },
   {
     method: 'POST',
-    path: creditsEstimationConstants.creditEstimateRoutes.ESTIMATOR_CREDITS_TIER,
+    path: creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER,
     options: {
       auth: false,
       validate: {

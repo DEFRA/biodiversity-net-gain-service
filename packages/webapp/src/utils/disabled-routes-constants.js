@@ -42,11 +42,11 @@ if (ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y') {
 }
 
 if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...creditsEstimationConstants.creditEstimateRoutes }
+  disabledRoutes = { ...disabledRoutes, ...creditsEstimationConstants.routes }
 }
 
 if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y') {
-  disabledRoutes = { ...disabledRoutes, ...creditsPurchaseConstants.creditPurchaseRoutes }
+  disabledRoutes = { ...disabledRoutes, ...creditsPurchaseConstants.routes }
 }
 
 export default disabledRoutes
