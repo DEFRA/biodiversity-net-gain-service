@@ -75,8 +75,8 @@ const processCreditsErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  onGet: async (_request, h) => h.view(constants.views.CREDITS_UPLOAD_METRIC),
-  onPost: async (request, h) => {
+  get: async (_request, h) => h.view(constants.views.CREDITS_UPLOAD_METRIC),
+  post: async (request, h) => {
     // Get upload config object from common code
     const creditsUploadConfig = buildConfig({
       sessionId: request.yar.id,
@@ -99,13 +99,13 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CREDITS_UPLOAD_METRIC,
-  handler: handlers.onGet
+  handler: handlers.get
 },
 {
   method: 'POST',
   path: constants.routes.CREDITS_UPLOAD_METRIC,
   config: {
-    handler: handlers.onPost,
+    handler: handlers.post,
     payload: {
       output: 'stream',
       multipart: true,
