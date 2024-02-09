@@ -1,6 +1,7 @@
 import plugin from '../router'
 import developerConstants from '../../utils/developer-constants'
-import creditsConstants from '../../credits/constants'
+import creditsEstimationConstants from '../../utils/credits-estimation-constants.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const ORIGINAL_ENV = process.env
 let server
@@ -36,7 +37,8 @@ describe('Routes', () => {
       CHOOSE_LAND_BOUNDARY_UPLOAD: 'land/choose-land-boundary-upload',
       DEVELOPER_EMAIL_ENTRY: 'developer/email-entry',
       ...developerConstants.routes,
-      ...creditsConstants.routes
+      ...creditsEstimationConstants.routes,
+      ...creditsPurchaseConstants.routes
     })
   })
 
