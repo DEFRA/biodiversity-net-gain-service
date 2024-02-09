@@ -1,16 +1,12 @@
-// Routes constants
+const routes = {
+  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation'
+}
 
-// ./Routes constants
-
-// RedisKeys constants
-
-// ./RedisKeys constants
-
-// Other constants
-
-// ./Other constants
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
+)
 
 export default {
-    routes: {},
-    redisKeys: {}
+  routes,
+  views
 }
