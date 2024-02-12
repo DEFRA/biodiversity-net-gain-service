@@ -1,4 +1,4 @@
-import constants from '../../credits/constants.js'
+import constants from '../../utils/credits-estimation-constants.js'
 
 export default [
   {

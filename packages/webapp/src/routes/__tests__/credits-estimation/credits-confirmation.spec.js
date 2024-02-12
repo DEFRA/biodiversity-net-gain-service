@@ -1,4 +1,4 @@
-import constants from '../../../credits/constants.js'
+import constants from '../../../utils/credits-estimation-constants.js'
 import Session from '../../../__mocks__/session.js'
 import creditsConfirmation from '../../credits-estimation/credits-confirmation.js'
 const url = constants.routes.ESTIMATOR_CREDITS_CONFIRMATION

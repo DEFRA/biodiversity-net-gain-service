@@ -1,4 +1,4 @@
-import constants from '../../credits/constants.js'
+import constants from '../..//utils/credits-estimation-constants.js'
 import creditsApplication from '../../utils/credits-application.js'
 import creditsApplicationValidation from '../../utils/credits-application-validation.js'
 import { postJson } from '../../utils/http.js'
