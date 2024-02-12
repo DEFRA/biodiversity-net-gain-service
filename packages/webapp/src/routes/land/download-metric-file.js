@@ -1,7 +1,6 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
-import { logger } from 'defra-logging-facade'
 
 const downloadMetricFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.METRIC_LOCATION)
@@ -10,7 +9,7 @@ const downloadMetricFile = async (request, h) => {
     containerName: constants.BLOB_STORAGE_CONTAINER
   }
 
-  const buffer = await blobStorageConnector.downloadToBufferIfExists(logger, config)
+  const buffer = await blobStorageConnector.downloadToBufferIfExists(request.logger, config)
   return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))
 }
 

@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { blobExists, isUploadComplete } from '@defra/bng-azure-storage-test-utils'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 import { CoordinateSystemValidationError, ValidationError } from '@defra/bng-errors-lib'
 
 jest.mock('../helpers/db-queries')

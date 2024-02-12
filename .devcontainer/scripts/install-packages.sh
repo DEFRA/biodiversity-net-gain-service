@@ -8,7 +8,7 @@ sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft
 # Install Nodesource package signing key and the Node.js 16 LTS repository.
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor > nodesource.gpg
 install -o root -g root -m 644 nodesource.gpg /etc/apt/trusted.gpg.d/ && rm nodesource.gpg
-sh -c 'echo "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_16.x $(lsb_release -s -c) main" > /etc/apt/sources.list.d/nodesource.list'
+sh -c 'echo "deb [signed-by=/etc/apt/trusted.gpg.d/nodesource.gpg] https://deb.nodesource.com/node_18.x $(lsb_release -s -c) main" > /etc/apt/sources.list.d/nodesource.list'
 # Install the current versions of Azure Functions Core Tools, Node.js 16 LTS, netcat and python3-venv.
 apt-get update -y && apt-get install azure-functions-core-tools nodejs netcat python3-venv -y
 

@@ -1,6 +1,6 @@
 import constants from '../utils/constants.js'
 import getApplicantContext from '../utils/get-applicant-context.js'
-import { logger } from 'defra-logging-facade'
+import getOrganisationDetails from '../utils/get-organisation-details.js'
 
 const onPostHandler = {
   plugin: {
@@ -71,6 +71,7 @@ const saveApplicationSession = async request => {
   // this file uses a standard import of the http module).
   const { postJson } = await import('../utils/http.js')
   cacheContactIdIfNeeded(request)
+  cacheOrganisationIdIfNeeded(request)
   cacheApplicationTypeIfNeeded(request)
 
   // Use the correct Redis key for the application type.
@@ -93,7 +94,7 @@ const saveApplicationSession = async request => {
         request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE)
       })
       .catch(error => {
-        logger.error(error)
+        request.logger.error(error)
         request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
       })
   } else {
@@ -120,6 +121,13 @@ const isRouteIncludedInApplicationSave = request => {
 const cacheContactIdIfNeeded = request => {
   if (!request.yar.get(constants.redisKeys.CONTACT_ID)) {
     request.yar.set(constants.redisKeys.CONTACT_ID, request.auth.credentials.account.idTokenClaims.contactId)
+  }
+}
+
+const cacheOrganisationIdIfNeeded = request => {
+  if (!request.yar.get(constants.redisKeys.ORGANISATION_ID)) {
+    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+    request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
   }
 }
 

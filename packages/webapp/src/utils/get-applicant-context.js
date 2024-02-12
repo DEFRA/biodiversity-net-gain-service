@@ -1,4 +1,5 @@
 import constants from './constants.js'
+import getOrganisationDetails from './get-organisation-details.js'
 
 const getApplicantContext = (account, session) => {
   const isAgent = isApplicantAnAgent(session)
@@ -48,32 +49,6 @@ const getApplicantSpecificGuidance = organisation => {
 const isApplicantAnAgent = session => {
   const isAgent = session.get(constants.redisKeys.IS_AGENT)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
-}
-
-const getOrganisationDetails = claims => {
-  const currentRelationshipDetails = claims?.relationships?.find(r => r?.toLowerCase()?.startsWith(claims?.currentRelationshipId?.toLowerCase()))?.split(':')
-  const currentOrganisationId = currentRelationshipDetails[1]
-  const currentOrganisation = currentRelationshipDetails[2]
-  const enrolmentCount = claims.enrolmentCount
-  const signInType = currentRelationshipDetails[4]
-
-  // If the user has not signed in as an employee of an organisation and has only one enrolment then no organisations are
-  // associated with their Defra account.
-  const noOrganisationsLinkedToDefraAccount = signInType !== constants.signInTypes.EMPLOYEE && enrolmentCount === 1
-
-  const organisationDetails = {
-    noOrganisationsLinkedToDefraAccount
-  }
-
-  if (currentOrganisationId) {
-    organisationDetails.currentOrganisationId = currentOrganisationId
-  }
-
-  if (currentOrganisation) {
-    organisationDetails.currentOrganisation = currentOrganisation
-  }
-
-  return organisationDetails
 }
 
 export default getApplicantContext

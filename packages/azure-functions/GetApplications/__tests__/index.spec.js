@@ -24,7 +24,7 @@ describe('Get Applications', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationCountByContactId = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationCountByContactIdAndOrganisationId = jest.fn().mockImplementation(() => {
           return {
             rows: [{
               contact_id: 'mock contact ID',
@@ -32,7 +32,7 @@ describe('Get Applications', () => {
             }]
           }
         })
-        dbQueries.getApplicationStatusesByContactIdAndApplicationType = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType = jest.fn().mockImplementation(() => {
           return {
             rows: [{
               application_reference: 'mock application reference 1',
@@ -49,8 +49,8 @@ describe('Get Applications', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual(applications)
-        expect(dbQueries.getApplicationCountByContactId.mock.calls).toHaveLength(1)
-        expect(dbQueries.getApplicationStatusesByContactIdAndApplicationType.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationCountByContactIdAndOrganisationId.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType.mock.calls).toHaveLength(1)
         done()
       } catch (err) {
         done(err)
@@ -61,7 +61,7 @@ describe('Get Applications', () => {
     jest.isolateModules(async () => {
       try {
         const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationCountByContactId = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationCountByContactIdAndOrganisationId = jest.fn().mockImplementation(() => {
           return {
             rows: [{
               contact_id: 'mock contact ID',
@@ -69,7 +69,7 @@ describe('Get Applications', () => {
             }]
           }
         })
-        dbQueries.getApplicationStatusesByContactIdAndApplicationType = jest.fn().mockImplementation(() => {
+        dbQueries.getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType = jest.fn().mockImplementation(() => {
           return {
             rows: []
           }
@@ -78,8 +78,8 @@ describe('Get Applications', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual([])
-        expect(dbQueries.getApplicationCountByContactId.mock.calls).toHaveLength(1)
-        expect(dbQueries.getApplicationStatusesByContactIdAndApplicationType.mock.calls).toHaveLength(0)
+        expect(dbQueries.getApplicationCountByContactIdAndOrganisationId.mock.calls).toHaveLength(1)
+        expect(dbQueries.getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType.mock.calls).toHaveLength(0)
         done()
       } catch (err) {
         done(err)

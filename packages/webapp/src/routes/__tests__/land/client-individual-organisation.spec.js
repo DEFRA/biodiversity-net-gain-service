@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import testApplication from '../../../__mock-data__/test-application.js'
 const url = constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
 
 describe(url, () => {
@@ -37,9 +38,9 @@ describe(url, () => {
       expect(response.payload).toContain('<input class="govuk-radios__input" id="an-organisation" name="landownerType" type="radio" value="organisation">')
     })
     it(`should render the ${url.substring(1)} view with organisation checked`, async () => {
-      const response = await submitGetRequest({ url }, 200, {
-        'client-individual-organisation': 'organisation'
-      })
+      const application = JSON.parse(testApplication.dataString)
+      application['client-individual-organisation'] = 'organisation'
+      const response = await submitGetRequest({ url }, 200, application)
       expect(response.payload).toContain('<input class="govuk-radios__input" id="an-individual" name="landownerType" type="radio" value="individual"')
       expect(response.payload).toContain('<input class="govuk-radios__input" id="an-organisation" name="landownerType" type="radio" value="organisation" checked>')
     })

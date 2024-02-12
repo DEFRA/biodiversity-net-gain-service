@@ -1,4 +1,5 @@
 const data = `{
+  "contact-id": "mock contact id",
   "metric-file-checked": "yes",
   "application-reference": "",
   "biodiversity-net-gain-number": "BGS-111 222 333",

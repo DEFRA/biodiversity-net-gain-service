@@ -1,4 +1,4 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY
 
@@ -30,7 +30,16 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should show correct local planning authority to be removed', async () => {
       const request = {
         yar: redisMap,
@@ -58,7 +67,16 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
       expect(redisMap.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST).length).toEqual(1)
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('Should continue journey to CHECK_PLANNING_AUTHORITIES if no is chosen', async () => {
       const request = {
         yar: redisMap,

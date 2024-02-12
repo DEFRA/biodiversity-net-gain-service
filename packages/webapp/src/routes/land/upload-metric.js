@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
@@ -10,7 +9,7 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 
 const processSuccessfulUpload = async (result, request, h) => {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -41,7 +40,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.UPLOAD_METRIC, {
         err: [{
-          text: 'Select a Biodiversity Metric',
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })
@@ -100,10 +99,10 @@ const handlers = {
       postProcess: true
     })
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return await processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }
@@ -127,7 +126,7 @@ export default [{
       multipart: true,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h).takeover()
         } else {

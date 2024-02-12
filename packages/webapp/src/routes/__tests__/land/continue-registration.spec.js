@@ -25,7 +25,7 @@ describe(url, () => {
         }
       })
     })
-    it('should return a HTTP 400 status code if a registration application reference does not exist', done => {
+    it('should redirect to /cannot-view-application if no application returned', done => {
       jest.isolateModules(async () => {
         try {
           jest.resetAllMocks()
@@ -34,7 +34,8 @@ describe(url, () => {
           http.postJson = jest.fn().mockImplementation(() => {
             return {}
           })
-          await submitGetRequest({ url }, 400, null, { expectedNumberOfPostJsonCalls: 1 })
+          const response = await submitGetRequest({ url }, 302, null, { expectedNumberOfPostJsonCalls: 1 })
+          expect(response.headers.location).toEqual('/land/cannot-view-application')
           done()
         } catch (err) {
           done(err)
@@ -51,6 +52,25 @@ describe(url, () => {
             return {}
           })
           await submitGetRequest({ url: url.substring(0, url.lastIndexOf('/') + 1) }, 400)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should redirect to /cannot-view-application?orgError=true if application returned but organisation doesn\'t match current login', done => {
+      jest.isolateModules(async () => {
+        try {
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
+          const http = require('../../../utils/http.js')
+          http.postJson = jest.fn().mockImplementation(() => {
+            return {
+              'organisation-id': 'random-org-id'
+            }
+          })
+          const response = await submitGetRequest({ url }, 302, null, { expectedNumberOfPostJsonCalls: 1 })
+          expect(response.headers.location).toEqual('/land/cannot-view-application?orgError=true')
           done()
         } catch (err) {
           done(err)

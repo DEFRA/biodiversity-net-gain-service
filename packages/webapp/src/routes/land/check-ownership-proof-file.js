@@ -5,13 +5,18 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
+    const context = getContext(request)
+    if (!context.fileName || !context.fileSize) {
+      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    }
+
     processRegistrationTask(request, {
       taskTitle: 'Land information',
       title: 'Add land ownership details'
     }, {
       inProgressUrl: constants.routes.CHECK_PROOF_OF_OWNERSHIP
     })
-    return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, getContext(request))
+    return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },
   post: async (request, h) => {
     const checkLandOwnership = request.payload.checkLandOwnership
@@ -47,10 +52,12 @@ const getContext = request => {
   const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
   if (id) {
     lopFile = lopFiles.find(item => item.id === id)
-    fileLocation = lopFile.fileLocation
-    fileName = fileLocation === null ? '' : path.parse(fileLocation).base
-    fileSize = lopFile.fileSize
-    humanReadableFileSize = getHumanReadableFileSize(fileSize)
+    if (lopFile) {
+      fileLocation = lopFile.fileLocation
+      fileName = fileLocation === null ? '' : path.parse(fileLocation).base
+      fileSize = lopFile.fileSize
+      humanReadableFileSize = getHumanReadableFileSize(fileSize)
+    }
   }
   return {
     fileName,

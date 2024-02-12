@@ -30,7 +30,8 @@ const handlers = {
     }
 
     const errors = validateAddress(address, true)
-    if (errors) {
+
+    if (errors && Object.values(errors).some((el) => el !== undefined)) {
       const err = []
       Object.keys(errors).forEach(item => {
         err.push(errors[item])
@@ -43,6 +44,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.UK_ADDRESS_KEY, address)
+      request.yar.set(constants.redisKeys.NON_UK_ADDRESS_KEY, null)
       return redirectAddress(h, request.yar, isApplicantAgent, isIndividualOrOrganisation)
     }
   }

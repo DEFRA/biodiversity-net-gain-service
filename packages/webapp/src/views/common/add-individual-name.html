@@ -1,50 +1,71 @@
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">
-        {{ pageHeading }}
-      </h1>
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
 
-      <p class="govuk-hint">{{ hintText }}</p>
+    <p class="govuk-hint">{{ hintText }}</p>
 
-      {{ govukInput({
+    {{ 
+      govukInput({
         id: "firstName",
         name: "firstName",
         errorMessage: firstNameError,
         label: {
-          text: "First name"
+        text: "First name"
         },
-        autocomplete: "firstName",
+        autocomplete: "given-name",
         spellcheck: false,
         value: individual.firstName
-      }) }}
-      {{ govukInput({
+      }) 
+    }}
+    {{ 
+      govukInput({
         id: "middleNames",
         name: "middleNames",
+        errorMessage: middleNameError,
         label: {
-          text: "Middle names"
+        text: "Middle names"
         },
         autocomplete: "middleNames",
         spellcheck: false,
         value: individual.middleNames
-      }) }}
-      {{ govukInput({
+      }) 
+    }}
+    {{ 
+      govukInput({
         id: "lastName",
         name: "lastName",
         errorMessage: lastNameError,
         label: {
-          text: "Last name"
+        text: "Last name"
         },
-        autocomplete: "lastName",
+        autocomplete: "family-name",
         spellcheck: false,
         value: individual.lastName
-      }) }}
+      }) 
+    }}
 
-      {{ govukButton({
-        text: "Save and continue",
-        attributes: {
-          id: "continue",
-          "data-testid": "continue"
-        }
-      }) }}
+    {% if view == "legalAgreement" %}
+    <label class="govuk-label" for="emailAddress">Email address </label>
+    <div id="email-hint" class="govuk-hint">
+      We will use this to tell the landowner or leaseholder about any updates to this application.
     </div>
+    {{ govukInput({
+    id: "emailAddress",
+    name: "emailAddress",
+    errorMessage: emailAddressError,
+    autocomplete: "emailAddress",
+    spellcheck: false,
+    value: individual.emailAddress
+    }) }}
+    {% endif %}
+    {{ govukButton({
+    text: "Save and continue",
+    attributes: {
+    id: "continue",
+    "data-testid": "continue"
+    }
+    }) }}
   </div>
+</div>

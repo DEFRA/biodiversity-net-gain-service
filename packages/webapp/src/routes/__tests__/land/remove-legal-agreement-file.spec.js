@@ -1,4 +1,4 @@
-import { submitGetRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.REMOVE_LEGAL_AGREEMENT_FILE
 
@@ -58,6 +58,16 @@ describe(url, () => {
         'legal-agreement.doc'
       )
     })
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES if all files removed', async () => {
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [])
       const request = {
@@ -82,7 +92,16 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
       expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_FILES).length).toEqual(1)
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_FILES if no is chosen', async () => {
       const request = {
         yar: redisMap,

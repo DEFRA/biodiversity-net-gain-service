@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { logger } from 'defra-logging-facade'
+import { logger } from '@defra/bng-utils-lib'
 import { uploadStreamAndAwaitScan } from '../azure-storage.js'
 
 const config = {

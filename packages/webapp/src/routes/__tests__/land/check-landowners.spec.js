@@ -28,6 +28,7 @@ describe(url, () => {
       firstName: 'Crishn',
       middleNames: '',
       lastName: 'P',
+      emailAddress: 'me@me.com',
       type: 'individual'
     }])
     landownersList = require('../../land/check-landowners.js')
@@ -37,7 +38,23 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it('should format individual landowner names and email addresses correctly', async () => {
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        firstName: 'John',
+        middleNames: 'A. B.',
+        lastName: 'Doe',
+        emailAddress: 'john.doe@example.com',
+        type: 'individual'
+      }])
 
+      const request = {
+        yar: redisMap
+      }
+
+      await landownersList.default[0].handler(request, h)
+      const expectedText = 'John A. B. Doe (john.doe@example.com)'
+      expect(resultContext.landOwnerConservationConvenantsWithAction[0].key.text).toEqual(expectedText)
+    })
     it('should show all landowners that are added', async () => {
       const request = {
         yar: redisMap

@@ -19,7 +19,7 @@ const defaults = {
     dataTestId: 'hedgeTotal'
   },
   river: {
-    type: 'River',
+    type: 'Watercourse',
     unitKey: lengthKm,
     unit: lengthKm,
     description: 'Watercourse type',

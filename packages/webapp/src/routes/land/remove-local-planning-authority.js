@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -41,9 +41,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]

@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs'
+import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 const url = constants.routes.DOWNLOAD_LEGAL_AGREEMENT
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/legal-agreements'
@@ -56,6 +57,16 @@ describe(url, () => {
       expect(h.response).toHaveBeenCalledTimes(1)
       expect(responseMock.header).toHaveBeenCalledTimes(1)
       expect(responseMock.header).toHaveBeenCalledWith('Content-Disposition', 'attachment; filename= legal-agreement.pdf')
+    })
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
     })
   })
 })

@@ -1,11 +1,13 @@
 import moment from 'moment'
 import path from 'path'
 import crypto from 'crypto'
+import Joi from 'joi'
 import constants from './constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
@@ -167,6 +169,14 @@ const processRegistrationTask = (request, taskDetails, options) => {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
       }
+
+      // Added this condition to revert the completed task based on the flag.
+      // And assigning given value of options.status to the selected task
+      // Ref: BNGP-4124
+      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
+        task.status = options.status
+      }
+
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
@@ -217,8 +227,18 @@ const getResponsibleBodies = responsibleBodies => {
   const responsibleBodiesOutput = responsibleBodiesParsed.map(item => item.responsibleBodyName).join('<br>')
   return responsibleBodiesOutput
 }
-
+const validateIdGetSchemaOptional = {
+  validate: {
+    query: Joi.object({
+      id: Joi.string().alphanum().min(1).allow(null).optional()
+    })
+  }
+}
 const getLandowners = landOwners => {
+  if (!landOwners) {
+    return null
+  }
+
   const organisationNames = []
   const individualNames = []
 
@@ -227,7 +247,8 @@ const getLandowners = landOwners => {
       organisationNames.push(item.organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
-      individualNames.push(nameParts.join(' '))
+      const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
+      individualNames.push(individualName)
     }
   })
 
@@ -329,12 +350,16 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
       metricData[key].forEach((item, index) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
-          items.push({
+          const habitatItems = {
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
             amount: item[habitatTypeMap[key].unitKey]
-          })
+          }
+          const isObjectWithEmptyValues = Object.values(habitatItems).every(value => value === null || value === '' || value === undefined)
+          if (!isObjectWithEmptyValues) {
+            items.push(habitatItems)
+          }
         }
       })
 
@@ -401,6 +426,17 @@ const validateFirstLastName = (name, text, hrefId) => {
   return error.err ? error : null
 }
 
+const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
+  const error = {}
+  if (input?.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
 const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, target = null) => {
   const error = {}
   const fieldTypeLower = fieldType.toLowerCase()
@@ -419,7 +455,64 @@ const validateTextInput = (text, hrefId, fieldType = 'input', maxLength = null, 
 
   return error.err ? error : null
 }
-
+/**
+ * Checks for duplicate objects in an array based on concatenated properties.
+ *
+ * @param {Array} array - The array of objects to be checked.
+ * @param {Array} properties - The properties of the objects to be concatenated for checking.
+ * @param {Object} targetObject - The object whose concatenated properties are to be checked against the array.
+ * @param {String} hrefId - The href ID to be used in the error object.
+ * @param {String} errorMessage - The error message to be used in the error object.
+ * @param {Number|null} excludedIndex - The index in the array to be excluded from duplicate checking.
+ * @returns {Object|null} An error object if a duplicate is found, otherwise null.
+ */
+const checkForDuplicate = (array, property, value, hrefId, errorMessage, excludeIndex) => {
+  const duplicate = array.some((item, index) => {
+    if (typeof item === 'object' && item !== null && property in item) {
+      return index !== excludeIndex && item[property] && item[property].toLowerCase() === value.toLowerCase()
+    } else if (typeof item === 'string') {
+      return index !== excludeIndex && item.toLowerCase() === value.toLowerCase()
+    }
+    return false
+  })
+  if (duplicate) {
+    return {
+      err: {
+        text: errorMessage,
+        href: hrefId
+      }
+    }
+  }
+  return null
+}
+/**
+ * Checks for duplicates in an array based on concatenated property values of the objects.
+ *
+ * @param {Array} array - Array of objects to check for duplicates.
+ * @param {Array} properties - List of properties whose values are concatenated and compared for duplicates.
+ * @param {Object} targetObject - Object whose properties are compared against the array.
+ * @param {String} hrefId - ID used for creating a reference link in the error message.
+ * @param {String} errorMessage - Error message to be returned if a duplicate is found.
+ * @param {Number|null} excludedIndex - Index in the array to exclude from duplicate checking.
+ * @returns {Object|null} Returns an error object if a duplicate is found, otherwise null.
+ */
+const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, errorMessage, excludedIndex) => {
+  const targetValue = properties.map(prop => targetObject[prop].toLowerCase()).join(' ').trim()
+  const error = {}
+  const duplicate = array.some((item, index) => {
+    if (excludedIndex !== null && index === excludedIndex) return false
+    const itemValue = properties.map(prop => item[prop]?.toLowerCase()).join(' ').trim()
+    return itemValue === targetValue
+  })
+  if (duplicate) {
+    error.err = {
+      text: errorMessage,
+      href: hrefId
+    }
+    return error
+  }
+  return null
+}
 const validateBNGNumber = (bngNumber, hrefId) => {
   const error = {}
   if (!bngNumber.trim()) {
@@ -524,7 +617,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href) => {
+const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
   const error = {
     err: [
       {
@@ -534,18 +627,22 @@ const getMetricFileValidationErrors = (metricValidation, href) => {
     ]
   }
   if (!metricValidation.isSupportedVersion) {
-    error.err[0].text = 'The selected file must use Biodiversity Metric version 4.1'
+    error.err[0].text = useStatutoryMetric
+      ? 'The selected file must use the statutory biodiversity metric'
+      : 'The selected file must use Biodiversity Metric version 4.1'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    // error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    return null
   }
   return error.err[0].text ? error : null
 }
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
@@ -579,28 +676,67 @@ const validateAddress = (address, isUkAddress) => {
       href: '#town'
     }
   }
-  if (isUkAddress) {
-    if (!address.postcode || address.postcode.length === 0) {
-      errors.postcodeError = {
-        text: 'Enter postcode',
-        href: '#postcode'
-      }
-    } else if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
-    }
+  const addressLine1Validation = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')
+  if (addressLine1Validation) {
+    errors.addressLine1Error = addressLine1Validation.err[0]
   }
-  if (!isUkAddress) {
-    if (!address.country || address.country.length === 0) {
-      errors.countryError = {
-        text: 'Enter country',
-        href: '#country'
-      }
-    }
+  const addressLine2Validation = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')
+  if (addressLine2Validation) {
+    errors.addressLine2Error = addressLine2Validation.err[0]
+  }
+  const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
+  if (addressLine3Validation) {
+    errors.addressLine3Error = addressLine3Validation.err[0]
+  }
+
+  const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
+  if (townValidation) {
+    errors.townError = townValidation.err[0]
+  }
+  const countyValidation = validateLengthOfCharsLessThan50(address?.county, 'county', 'countyId')
+  if (countyValidation) {
+    errors.countyError = countyValidation.err[0]
+  }
+  if (isUkAddress) {
+    validateUkAddress(address, errors)
+  } else {
+    validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
+}
+
+const validateUkAddress = (address, errors) => {
+  if (!address.postcode || address.postcode.length === 0) {
+    errors.postcodeError = {
+      text: 'Enter postcode',
+      href: '#postcode'
+    }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
+    }
+  }
+}
+
+const validateNonUkAddress = (address, errors) => {
+  if (!address.country || address.country.length === 0) {
+    errors.countryError = {
+      text: 'Enter country',
+      href: '#country'
+    }
+  }
+  if (address?.postcode?.length > 14) {
+    errors.postcodeError = {
+      text: 'Postal code must be 14 characters or fewer',
+      href: '#postcode'
+    }
+  }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')
+  if (countryValidation) {
+    errors.countryError = countryValidation.err[0]
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
@@ -612,6 +748,20 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
+}
+
+const getAuthenticatedUserRedirectUrl = () => {
+  // BNGP- 4368 - Simplify the redirection logic for authenticated users.
+  // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
+  // When two or more journey types are enabled, redirect the user to select the dashboard for
+  // the required journey type.
+  //
+  // IMPORTANT
+  // This logic MUST be refactored to allow for correct redirection when credits purchase
+  // and/or allocation functionality is implemented and enabled.
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+    ? constants.routes.MANAGE_BIODIVERSITY_GAINS
+    : constants.routes.BIODIVERSITY_GAIN_SITES
 }
 
 export {
@@ -626,6 +776,8 @@ export {
   validateEmail,
   getNameAndRoles,
   getAllLandowners,
+  checkForDuplicate,
+  checkForDuplicateConcatenated,
   getResponsibleBodies,
   getLandowners,
   getLegalAgreementDocumentType,
@@ -636,6 +788,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
   getFormattedDate,
@@ -662,5 +815,7 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  validateLengthOfCharsLessThan50,
+  getAuthenticatedUserRedirectUrl
 }

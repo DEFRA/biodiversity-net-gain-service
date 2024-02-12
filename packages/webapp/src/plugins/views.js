@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
-const serviceName = 'Register land as a biodiversity gain site'
+const serviceName = 'Register a biodiversity gain site'
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
 
 const views = {
@@ -42,7 +42,8 @@ const views = {
       ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
       ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL: process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
       ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY: process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY,
-      ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY: process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY
+      ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY: process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY,
+      ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY: process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY
     }
   }
 }

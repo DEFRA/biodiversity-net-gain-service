@@ -62,7 +62,7 @@ describe(url, () => {
 
       await localPlanningAuthorities.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.ANY_OTHER_LANDOWNERS)
     })
 
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {

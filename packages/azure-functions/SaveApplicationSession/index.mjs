@@ -4,11 +4,12 @@ import { getDBConnection } from '@defra/bng-utils-lib'
 // Ensure these stay up to date with webapp constants file.
 const redisKeys = {
   contactId: 'contact-id',
-  applicationType: 'application-type'
+  applicationType: 'application-type',
+  organisationId: 'organisation-id'
 }
 
 export default async function (context, req) {
-  context.log('Processing', JSON.stringify(req.body))
+  context.log('Processing', JSON.stringify(req.body['application-reference']))
   let db
   try {
     const applicationSession = req.body
@@ -28,7 +29,8 @@ export default async function (context, req) {
     if (!applicationSession[redisKeys.applicationReference]) {
       const result = await createApplicationReference(db, [
         applicationSession[redisKeys.contactId],
-        applicationSession[redisKeys.applicationType]
+        applicationSession[redisKeys.applicationType],
+        applicationSession[redisKeys.organisationId]
       ])
       applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
     }
@@ -51,7 +53,6 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(applicationSession[redisKeys.applicationReference])
     }
-    context.log(`Saved application session ${applicationSession[redisKeys.applicationReference]}`)
   } catch (err) {
     context.log.error(err)
     context.res = {

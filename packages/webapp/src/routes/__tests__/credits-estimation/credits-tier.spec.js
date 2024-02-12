@@ -1,5 +1,5 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../credits/constants.js'
+import constants from '../../../utils/credits-estimation-constants.js'
 const url = constants.routes.ESTIMATOR_CREDITS_TIER
 
 const calculationResult = {

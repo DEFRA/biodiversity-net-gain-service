@@ -7,13 +7,19 @@ import {
   getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
+  checkForDuplicate,
+  checkForDuplicateConcatenated,
   getErrById,
   initialCapitalization,
-  isValidPostcode
+  isValidPostcode,
+  processRegistrationTask,
+  validateLengthOfCharsLessThan50,
+  validateDate,
+  validateAddress
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
-import constants from '../../utils/constants.js'
+import constants from '../constants.js'
 
 describe('helpers file', () => {
   describe('boolToYesNo', () => {
@@ -203,5 +209,382 @@ describe('helpers file', () => {
         expect(isValidPostcode(postcode)).toBeFalsy()
       })
     })
+  })
+})
+
+describe('checkForDuplicate organisation', () => {
+  const testArray = [
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org3', type: 'organisation' },
+    { firstName: 'John', middleNames: 'a', lastName: 'Cs', type: 'individual' },
+    { firstName: 'John', middleNames: '', lastName: 'Cris', type: 'individual' }
+  ]
+  it('should return an error object if a duplicate is found for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org2',
+      '#organisationName',
+      'This organisation has already been added - enter a different organisation, if there is one',
+      null // Assuming excludeIndex is not used in this case
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This organisation has already been added - enter a different organisation, if there is one',
+        href: '#organisationName'
+      }
+    })
+  })
+  it('should not return an error if duplicate is at the excluded index for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org1',
+      '#organisationName',
+      'This organisation name is already in use',
+      0 // Exclude the first index
+    )
+
+    expect(result).toBeNull()
+  })
+  it('should return an error object if a duplicate is found the excluded index for organsation', () => {
+    const result = checkForDuplicate(
+      testArray,
+      'organisationName',
+      'org3',
+      '#organisationName',
+      'This organisation has already been added - enter a different organisation, if there is one',
+      0 // Exclude the first index
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This organisation has already been added - enter a different organisation, if there is one',
+        href: '#organisationName'
+      }
+    })
+  })
+})
+
+describe('checkForDuplicate for LPA list', () => {
+  it('should return an error object if a duplicate LPA is found', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 1']
+
+    const selectedLpa = 'Planning Authority 1'
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      null // Assuming excludeIndex is not used in this case
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This local planning authority has already been added - enter a different local planning authority, if there is one',
+        href: '#localPlanningAuthority'
+      }
+    })
+  })
+
+  it('should not return an error if the duplicate LPA is at the excluded index', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3']
+    const selectedLpa = 'Planning Authority 1'
+    const excludeIndex = 0 // Exclude the first index where the duplicate is
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toBeNull()
+  })
+  it('should not return an error if duplicate is at the excluded index for lpa', () => {
+    const lpaList = ['Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3']
+    const selectedLpa = 'Planning Authority 2'
+    const excludeIndex = 0 // Exclude the first index where the duplicate is
+    const result = checkForDuplicate(
+      lpaList,
+      null, // No property since it's an array of strings
+      selectedLpa,
+      '#localPlanningAuthority',
+      'This local planning authority has already been added - enter a different local planning authority, if there is one',
+      excludeIndex
+    )
+    expect(result).toEqual({
+      err: {
+        text: 'This local planning authority has already been added - enter a different local planning authority, if there is one',
+        href: '#localPlanningAuthority'
+      }
+    })
+  })
+})
+
+describe('checkForDuplicateConcatenated', () => {
+  const testArray = [
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org2', type: 'organisation' },
+    { organisationName: 'org3', type: 'organisation' },
+    { firstName: 'John', middleNames: 'a', lastName: 'Cs', type: 'individual' },
+    { firstName: 'John', middleNames: '', lastName: 'Cris', type: 'individual' },
+    { firstName: 'Jane', middleNames: 'b', lastName: 'Doe', type: 'individual' }
+  ]
+
+  it('should return an error object if a duplicate individual is found', () => {
+    const individual = { firstName: 'John', middleNames: '', lastName: 'Cris' }
+    const excludeIndex = null // Not excluding any index
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toEqual({
+      err: {
+        text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+        href: '#personName'
+      }
+    })
+  })
+
+  it('should not return an error if the duplicate individual is at the excluded index', () => {
+    const individual = { firstName: 'John', middleNames: 'a', lastName: 'Cs' }
+    const excludeIndex = 3 // Exclude the first index where the duplicate is
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+
+    expect(result).toBeNull()
+  })
+
+  it('should return an error object if a duplicate is found the excluded index for organsation', () => {
+    const individual = { firstName: 'John', middleNames: 'a', lastName: 'Cs' }
+    const excludeIndex = 4 // Exclude the first index where the duplicate is
+
+    const result = checkForDuplicateConcatenated(
+      testArray,
+      ['firstName', 'middleNames', 'lastName'],
+      individual,
+      '#personName',
+      'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+      excludeIndex
+    )
+    expect(result).toEqual({
+      err: {
+        text: 'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
+        href: '#personName'
+      }
+    })
+  })
+})
+
+describe('processRegistrationTask', () => {
+  const redisMap = new Map()
+  const taskDetails = {
+    taskTitle: 'Land information',
+    title: 'Add land ownership details'
+  }
+  const registrationTasks = {
+    taskList: [{
+      taskTitle: 'Land information',
+      tasks: [{
+        title: 'Add land ownership details',
+        status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
+        completedTaskUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+        startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
+        inProgressUrl: '',
+        id: 'add-land-ownership'
+      }]
+    }]
+  }
+
+  it('should revert completed status to in progress based on flag', () => {
+    const options = {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+      revert: true
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+  })
+
+  it('should revert the completed status of the task to inprogress if a revert flag is true', () => {
+    const options = {
+      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+      revert: true
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+  })
+
+  it('should not revert the completed status of the task if a revert flag is false or undefined', () => {
+    const options = {
+      status: constants.COMPLETE_REGISTRATION_TASK_STATUS
+    }
+
+    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    const request = {
+      yar: redisMap
+    }
+    processRegistrationTask(request, taskDetails, options)
+
+    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
+  })
+})
+
+describe('validateLengthOfCharsLessThan50', () => {
+  it('should return error if input character length is more than 50', () => {
+    const middleNameError = validateLengthOfCharsLessThan50(
+      'this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string this is a very long string',
+      'middle name', 'middleNameId')
+    expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
+  })
+})
+
+describe('validateDate', () => {
+  it('should return date error when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a day')
+  })
+
+  it('should return date  when day is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '01',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.dateAsISOString).toBe('2023-01-01T00:00:00.000Z')
+  })
+
+  it('should return date error when month is not included', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': '01',
+        'legalAgreementStartDate-month': '',
+        'legalAgreementStartDate-year': '2023'
+      },
+      'legalAgreementStartDate'
+    )
+
+    expect(result.context.err[0].text).toBe('Start date must include a month')
+  })
+})
+
+describe('validateAddress', () => {
+  it('should add addressLine1Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1address line 1address line 1address line 1address line 1address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine1Error.text).toBe('AddressLine1 must be 50 characters or fewer')
+  })
+
+  it('should add address line 2Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2address line 2address line 2address line 2address line 2address line 2address line 2address line 2',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine2Error.text).toBe('AddressLine2 must be 50 characters or fewer')
+  })
+
+  it('should add addressLine3Error when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      addressLine3: 'address line 3address line 3address line 3address line 3address line 3address line 3address line 3address line 3',
+      town: 'town',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.addressLine3Error.text).toBe('AddressLine3 must be 50 characters or fewer')
+  })
+
+  it('should add townError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'towntowntowntowntowntowntowntowntowntowntowntowntowntowntowntowntown',
+      county: 'county',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.townError.text).toBe('Town must be 50 characters or fewer')
+  })
+
+  it('should add countyError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      county: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countyError.text).toBe('County must be 50 characters or fewer')
+  })
+
+  it('should add countryError when length of chars is above 50', () => {
+    const result = validateAddress({
+      addressLine1: 'address line 1',
+      addressLine2: 'address line 2',
+      town: 'town',
+      country: 'countycountycountycountycountycountycountycountycountycountycounty',
+      postcode: 'WA4 1HT'
+    })
+
+    expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
   })
 })

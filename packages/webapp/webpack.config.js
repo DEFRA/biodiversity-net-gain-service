@@ -10,7 +10,6 @@ const inDev = env === 'dev' || env === 'development'
 export default {
   entry: {
     core: './client/js/core.js',
-    addLandowners: './client/js/pages/land/add-landowners.js',
     addLegalAgreementParties: './client/js/pages/land/add-legal-agreement-parties.js',
     addPlanningAuthority: './client/js/pages/land/add-planning-authority.js',
     checkAndSubmit: './client/js/pages/land/check-and-submit.js',

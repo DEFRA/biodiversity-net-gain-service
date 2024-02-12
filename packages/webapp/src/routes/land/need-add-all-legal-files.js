@@ -17,6 +17,7 @@ const handlers = {
     return h.view(constants.views.NEED_ADD_ALL_LEGAL_FILES, { legalAgreementType })
   },
   post: async (request, h) => {
+    request.yar.set(constants.redisKeys.NEED_ADD_ALL_LEGAL_FILES_CHECKED, true)
     return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
   }
 }

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% set pageHeading = "Cookie Information" %}
+{% set hideSigninNav = true %}
 
 {% block header %}
   {{ govukHeader({
@@ -69,6 +70,17 @@
             </td>
             <td class="govuk-table__cell">30 days</td>
           </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" style="word-break: break-all">ARRAffinity</td>
+            <td class="govuk-table__cell">Maintains user session affinity to a specific server within Azure's server farm for consistent user experience and session stability</td>
+            <td class="govuk-table__cell">When you close your browser</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" style="word-break: break-all">ARRAffinitySameSite</td>
+            <td class="govuk-table__cell">Maintains user session affinity to a specific server within Azure's server farm, ensuring compatibility with browsers' SameSite cookie policy for improved security and consistent user experience</td>
+            <td class="govuk-table__cell">When you close your browser</td>
+          </tr>
+          
         </tbody>
       </table>
       <h2 class="govuk-heading-m" id="analytics-cookies-label">Analytics cookies (optional)</h2>
@@ -110,6 +122,12 @@
             </td>
             <td class="govuk-table__cell">1 minute</td>
           </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" style="word-break: break-all">ar_debug</td>
+            <td class="govuk-table__cell">Stores debugging information for site developers to track and resolve issues, enhancing site functionality and user experience</td>
+            <td class="govuk-table__cell">60 days</td>
+          </tr>
+          
         </tbody>
       </table>
       <div class="defra-js-hide">

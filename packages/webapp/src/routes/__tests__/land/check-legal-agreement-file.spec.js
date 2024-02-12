@@ -45,6 +45,16 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitGetRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should show correct legal Agreement file to be check', async () => {
       const request = {
         yar: redisMap,
@@ -78,7 +88,16 @@ describe(url, () => {
         query: { id: '1' }
       }
     })
-
+    it('should return an error for empty id in query string', async () => {
+      const queryUrl = url + '?id='
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
+    it('should return an error for invalid id in query string', async () => {
+      const queryUrl = url + '?id=$'
+      const response = await submitPostRequest({ url: queryUrl }, 400)
+      expect(response.statusCode).toBe(400)
+    })
     it('should allow confirmation that the correct legal agreement file has been uploaded', async () => {
       await legalAgreementFileCheck.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)

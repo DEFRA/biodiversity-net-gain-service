@@ -1,7 +1,7 @@
 import Session from '../../../__mocks__/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-import legalAgreementEndDate from '../../land/legal-agreement-end-date.js'
+import habitatEnhancementsEndDate from '../../land/habitat-enhancements-end-date.js'
 
 const url = constants.routes.ENHANCEMENT_WORKS_START_DATE
 
@@ -51,7 +51,7 @@ describe(url, () => {
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
       const response = await submitPostRequest(postOptions)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toBe('/land/legal-agreement-end-date')
+      expect(response.headers.location).toBe('/land/habitat-enhancements-end-date')
     })
 
     it('should fail to add an enhancement work start date with empty dates', async () => {
@@ -158,14 +158,14 @@ describe(url, () => {
     it('Ensure page uses referrer if is set on post', done => {
       jest.isolateModules(async () => {
         try {
-          const postHandler = legalAgreementEndDate[1].handler
+          const postHandler = habitatEnhancementsEndDate[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
           const payload = {
-            'legalAgreementEndDate-day': '01',
-            'legalAgreementEndDate-month': '12',
-            'legalAgreementEndDate-year': '2022',
-            legalAgreementEndDateOption: 'yes'
+            'habitatEnhancementsEndDate-day': '01',
+            'habitatEnhancementsEndDate-month': '12',
+            'habitatEnhancementsEndDate-year': '2022',
+            habitatEnhancementsEndDateOption: 'yes'
           }
           let viewArgs = ''
           let redirectArgs = ''

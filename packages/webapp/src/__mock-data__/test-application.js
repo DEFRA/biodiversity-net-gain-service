@@ -1,5 +1,6 @@
 const dataString = `
 {
+  "contact-id": "mock contact id",
   "registrationTaskDetails": {
     "taskList": [
       {
@@ -10,7 +11,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/check-applicant-information",
             "startTaskUrl": "/land/agent-acting-for-client",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-applicant-information"
           }
         ]
@@ -23,7 +24,7 @@ const dataString = `
             "status": "COMPLETED",
             "completedTaskUrl": "/land/ownership-proof-list",
             "startTaskUrl": "/land/upload-ownership-proof",
-            "inProgressUrl": "/land/add-landowners",
+            "inProgressUrl": "",
             "id": "add-land-ownership"
           },
           {
@@ -260,7 +261,7 @@ const dataString = `
     "e3": [
       {
         "Baseline ref": 1,
-        "Habitat reference Number": "E3",
+        "Habitat reference Number": 3,
         "Baseline habitat": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Habitat enhanced in advance (years)": 0,
@@ -343,6 +344,7 @@ const dataString = `
   "legal-agreement-type": "759150001",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
+  "la-any-other-landowners-checked":"No",
   "legal-agreement-files": [
     {
       "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
@@ -386,11 +388,12 @@ const dataString = `
     "firstName": "Crishn",
     "middleNames": "",
     "lastName": "P",
+    "emailAddress": "me@me.com",
     "type": "individual"
   }],
   "habitat-plan-legal-agreement-document-included-yes-no": "No",
   "enhancement-works-start-date": "2022-01-01T00:00:00.000Z",
-  "legal-agreement-end-date": "2023-01-01T00:00:00.000Z",
+  "habitat-enhancements-end-date": "2023-01-01T00:00:00.000Z",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
