@@ -1,4 +1,4 @@
-import constants from '../../../utils/constants.js'
+import constants from '../../../credits/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
 
 const url = constants.routes.ESTIMATOR_CREDITS_COST

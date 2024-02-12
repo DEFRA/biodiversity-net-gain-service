@@ -7,12 +7,12 @@ const organisationSignInErrorMessage = 'Select \'organisation\' if you are purch
 
 const getContext = request => {
   return {
-    userType: request.yar.get(constants.redisKeys.ESTIMATOR_CREDITS_USER_TYPE)
+    userType: request.yar.get(constants.redisKeys.CREDITS_USER_TYPE)
   }
 }
 
 const getErrorView = (h, request, errorMessage) => {
-  return h.view(constants.views.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG, {
+  return h.view(constants.views.CREDITS_INDIVIDUAL_OR_ORG, {
     err: [{
       text: errorMessage,
       href: '#creditsIndividualOrganisation'
@@ -23,7 +23,7 @@ const getErrorView = (h, request, errorMessage) => {
 
 const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDefraAccount) => {
   if (noOrganisationsLinkedToDefraAccount) {
-    return h.redirect(constants.routes.ESTIMATOR_CREDITS_DEFRA_ACCOUNT_NOT_LINKED)
+    return h.redirect(constants.routes.CREDITS_DEFRA_ACCOUNT_NOT_LINKED)
   } else {
     return getErrorView(h, request, individualSignInErrorMessage)
   }
@@ -31,17 +31,17 @@ const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDe
 
 const handlers = {
   get: async (request, h) => {
-    const userType = request.yar.get(constants.redisKeys.ESTIMATOR_CREDITS_USER_TYPE)
-    return h.view(constants.views.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG, { userType })
+    const userType = request.yar.get(constants.redisKeys.CREDITS_USER_TYPE)
+    return h.view(constants.views.CREDITS_INDIVIDUAL_OR_ORG, { userType })
   },
   post: async (request, h) => {
     const userType = request.payload.userType
     if (userType) {
-      request.yar.set(constants.redisKeys.ESTIMATOR_CREDITS_USER_TYPE, userType)
+      request.yar.set(constants.redisKeys.CREDITS_USER_TYPE, userType)
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
       if ((userType === constants.landownerTypes.INDIVIDUAL && !organisation) || (userType === constants.landownerTypes.ORGANISATION && organisation)) {
-        return h.redirect(constants.routes.ESTIMATOR_CREDITS_APPLICANT_CONFIRM)
+        return h.redirect(constants.routes.CREDITS_APPLICANT_CONFIRM)
       } else if (userType === constants.landownerTypes.INDIVIDUAL) {
         return getErrorView(h, request, organisationSignInErrorMessage)
       } else {
@@ -55,10 +55,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG,
+  path: constants.routes.CREDITS_INDIVIDUAL_OR_ORG,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG,
+  path: constants.routes.CREDITS_INDIVIDUAL_OR_ORG,
   handler: handlers.post
 }]

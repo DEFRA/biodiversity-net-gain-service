@@ -53,5 +53,5 @@ if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y') {
 
 export default {
   ...disabledRoutes,
-  ...creditsPurchaseConstants.routes // As of now there is no env for credits-purchase enable/disable
+  ...creditsPurchaseConstants.routes
 }

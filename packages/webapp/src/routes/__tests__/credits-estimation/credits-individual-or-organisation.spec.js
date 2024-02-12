@@ -1,12 +1,12 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
-const url = constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG
+const url = constants.routes.CREDITS_INDIVIDUAL_OR_ORG
 
 const individualSignInErrorMessage = 'Select &#39;individual&#39; if you are purchasing statutory biodiversity credits as an individual'
 const organisationSignInErrorMessage = 'Select &#39;organisation&#39; if you are purchasing statutory biodiversity credits as an organisation'
 
-const creditsIndividualOrOganisation = require('../../credits-estimation/credits-individual-or-organisation.js')
+const creditsIndividualOrOganisation = require('../../credits-purchase/credits-individual-or-organisation.js')
 
 describe(url, () => {
   const redisMap = new Map()
@@ -26,20 +26,20 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with individual selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.ESTIMATOR_CREDITS_USER_TYPE, constants.landownerTypes.INDIVIDUAL)
+        redisMap.set(constants.redisKeys.CREDITS_USER_TYPE, constants.landownerTypes.INDIVIDUAL)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(constants.views.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG)
+        expect(viewResult).toEqual(constants.views.CREDITS_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(constants.landownerTypes.INDIVIDUAL)
       })
     })
 
     it(`should render the ${url.substring(1)} view with organisation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.ESTIMATOR_CREDITS_USER_TYPE, constants.landownerTypes.ORGANISATION)
+        redisMap.set(constants.redisKeys.CREDITS_USER_TYPE, constants.landownerTypes.ORGANISATION)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(constants.views.ESTIMATOR_CREDITS_INDIVIDUAL_OR_ORG)
+        expect(viewResult).toEqual(constants.views.CREDITS_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(constants.landownerTypes.ORGANISATION)
       })
     })
@@ -88,14 +88,14 @@ describe(url, () => {
     })
     it('should redirect to the check Defra account details page when individual is chosen and signed in as an individual', async () => {
       postOptions.payload.userType = constants.landownerTypes.INDIVIDUAL
-      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
-      expect(response.request.response.headers.location).toBe(constants.routes.ESTIMATOR_CREDITS_APPLICANT_CONFIRM)
+      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
+      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_APPLICANT_CONFIRM)
     })
     it('should redirect to the check Defra account details page when organisation is chosen and signed in representing an organisation', async () => {
       postOptions.payload.userType = constants.landownerTypes.ORGANISATION
       postOptions.auth = organisationAuth
-      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
-      expect(response.request.response.headers.location).toBe(constants.routes.ESTIMATOR_CREDITS_APPLICANT_CONFIRM)
+      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
+      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_APPLICANT_CONFIRM)
     })
     it('should redisplay the credits individual or organisation page when no applicant type is chosen', async () => {
       const response = await submitPostRequest(postOptions, 200)
@@ -104,8 +104,8 @@ describe(url, () => {
     })
     it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
       postOptions.payload.userType = constants.landownerTypes.ORGANISATION
-      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
-      expect(response.request.response.headers.location).toBe(constants.routes.ESTIMATOR_CREDITS_DEFRA_ACCOUNT_NOT_LINKED)
+      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
+      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_DEFRA_ACCOUNT_NOT_LINKED)
     })
     it('should redisplay the credits individual or organisation page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
       postOptions.payload.userType = constants.landownerTypes.ORGANISATION
