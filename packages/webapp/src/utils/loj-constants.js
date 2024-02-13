@@ -37,7 +37,6 @@ const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
 const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
-const OS_API_TOKEN = 'land/os-api-token'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const CHECK_LEGAL_AGREEMENT_DETAILS = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
@@ -379,7 +378,6 @@ export default {
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
-    OS_API_TOKEN,
     PUBLIC_ROUTES,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
