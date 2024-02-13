@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-
+<link href="{{ assetPath }}/stylesheets/pages/cookies.css" rel="stylesheet" />
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
@@ -48,35 +48,35 @@
       <table class="govuk-table" aria-labelledby="essential-cookies-label">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header" style="width:20%">Name</th>
+            <th scope="col" class="govuk-table__header" >Name</th>
             <th scope="col" class="govuk-table__header">Purpose</th>
-            <th scope="col" class="govuk-table__header" style="width:20%">Expires</th>
+            <th scope="col" class="govuk-table__header" >Expires</th>
           </tr>
         </thead>
         <tbody>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">session</td>
+            <td class="govuk-table__cell">session</td>
             <td class="govuk-table__cell">Used to store page state</td>
             <td class="govuk-table__cell">When you close your browser</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">set_cookie_usage</td>
+            <td class="govuk-table__cell" >set_cookie_usage</td>
             <td class="govuk-table__cell">Remembers your cookie consent settings</td>
             <td class="govuk-table__cell">30 days</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">seen_cookie_message</td>
+            <td class="govuk-table__cell" >seen_cookie_message</td>
             <td class="govuk-table__cell">Stops your browser showing the cookie banner after you’ve set your preferences
             </td>
             <td class="govuk-table__cell">30 days</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">ARRAffinity</td>
+            <td class="govuk-table__cell" >ARRAffinity</td>
             <td class="govuk-table__cell">Maintains user session affinity to a specific server within Azure's server farm for consistent user experience and session stability</td>
             <td class="govuk-table__cell">When you close your browser</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">ARRAffinitySameSite</td>
+            <td class="govuk-table__cell" >ARRAffinitySameSite</td>
             <td class="govuk-table__cell">Maintains user session affinity to a specific server within Azure's server farm, ensuring compatibility with browsers' SameSite cookie policy for improved security and consistent user experience</td>
             <td class="govuk-table__cell">When you close your browser</td>
           </tr>
@@ -98,32 +98,32 @@
       <table class="govuk-table" aria-labelledby="analytics-cookies-label">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header" style="width:20%">Name</th>
+            <th scope="col" class="govuk-table__header" >Name</th>
             <th scope="col" class="govuk-table__header">Purpose</th>
-            <th scope="col" class="govuk-table__header" style="width:20%">Expires</th>
+            <th scope="col" class="govuk-table__header">Expires</th>
           </tr>
         </thead>
         <tbody>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">_ga</td>
+            <td class="govuk-table__cell" >_ga</td>
             <td class="govuk-table__cell">Checks if you've visited the service before. This helps us count how many
               people visit our site.</td>
             <td class="govuk-table__cell">2 years</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">_gid</td>
+            <td class="govuk-table__cell" >_gid</td>
             <td class="govuk-table__cell">Checks if you've visited the service before. This helps us count how many
               people visit our site.</td>
             <td class="govuk-table__cell">24 hours</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">_gat_gtag</td>
+            <td class="govuk-table__cell" >_gat_gtag</td>
             <td class="govuk-table__cell">This randomly generated number is used to reduce the number of requests made.
             </td>
             <td class="govuk-table__cell">1 minute</td>
           </tr>
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell" style="word-break: break-all">ar_debug</td>
+            <td class="govuk-table__cell" >ar_debug</td>
             <td class="govuk-table__cell">Stores debugging information for site developers to track and resolve issues, enhancing site functionality and user experience</td>
             <td class="govuk-table__cell">60 days</td>
           </tr>
