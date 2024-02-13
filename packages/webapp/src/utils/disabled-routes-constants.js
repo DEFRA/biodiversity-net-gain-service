@@ -51,7 +51,4 @@ if (ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y') {
   disabledRoutes = { ...disabledRoutes, ...creditsPurchaseConstants.routes }
 }
 
-export default {
-  ...disabledRoutes,
-  ...creditsPurchaseConstants.routes
-}
+export default disabledRoutes

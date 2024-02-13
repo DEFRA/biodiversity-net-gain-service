@@ -1,9 +1,50 @@
-{% extends 'layout.html' %}
+{% extends 'credits-form-layout.html' %}
+{% set pageHeading = "Are you purchasing statutory biodiversity credits as an individual or an organisation?" %}
 
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
-{% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
-
-{% block content %}
-    <div class="govuk-body"></div>
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "userType",
+                name: "userType",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--xl"
+                    }
+                },
+                hint: {
+                    text: "Select one option."
+                },
+                items: [
+                    {
+                        value: "individual",
+                        text: "Individual",
+                        id: "user-type-individual",
+                        checked: userType === "individual"
+                    },
+                    {
+                        value: "organisation",
+                        text: "Organisation",
+                        id: "user-type-organisation",
+                        checked: userType === "organisation"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
 {% endblock %}

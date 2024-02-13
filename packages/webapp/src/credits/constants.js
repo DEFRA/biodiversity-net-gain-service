@@ -5,17 +5,13 @@ const routes = {
   ESTIMATOR_CREDITS_TIER: '/credits-estimation/credits-tier'
 }
 
-const views = Object.fromEntries(
-  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
-)
-
-const redisKeys = {
-  ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
-}
+const views = Object.fromEntries(Object.entries(routes).map(([k, v]) => [k, v.substring(1)]))
 
 export default {
   CREDITS_ESTIMATION_PATH,
   routes,
   views,
-  redisKeys
+  redisKeys: {
+    ESTIMATOR_CREDITS_CALCULATION: 'estimator-credits-calculation'
+  }
 }

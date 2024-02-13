@@ -53,6 +53,6 @@ describe('Routes', () => {
     jest.mock('../../utils/disabled-routes-constants')
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
-    expect(disabledRoutes).toStrictEqual({ ...creditsPurchaseConstants.routes })
+    expect(disabledRoutes).toStrictEqual({})
   })
 })
