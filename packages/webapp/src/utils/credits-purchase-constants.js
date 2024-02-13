@@ -3,7 +3,6 @@ const CREDITS_UPLOAD_METRIC = 'credits-purchase/credits-metric-upload'
 const CREDITS_CHECK_UPLOAD_METRIC = 'credits-purchase/credits-metric-upload-check'
 const CREDITS_CONFIRM_DEV_DETAILS = 'credits-purchase/credits-development-location'
 const CREDITS_DOWNLOAD_METRIC_FILE = 'credits-purchase/credits-download-metric'
-const ESTIMATOR_CREDITS_INDIVIDUAL_ORG = 'credits-purchase/applying-individual-organisation'
 // ./Routes constants
 
 // RedisKeys constants
@@ -20,8 +19,7 @@ export default {
     CREDITS_UPLOAD_METRIC,
     CREDITS_CHECK_UPLOAD_METRIC,
     CREDITS_CONFIRM_DEV_DETAILS,
-    CREDITS_DOWNLOAD_METRIC_FILE,
-    ESTIMATOR_CREDITS_INDIVIDUAL_ORG
+    CREDITS_DOWNLOAD_METRIC_FILE
   },
   redisKeys: {
     CREDITS_TERMS_AND_CONDITIONS: 'estimator-credits-consent',
