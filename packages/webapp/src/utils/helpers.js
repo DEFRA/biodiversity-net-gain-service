@@ -410,11 +410,19 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
-const validateFirstLastName = (name, text, hrefId) => {
+const validateFirstLastNameOfLandownerOrLeaseholder = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId, ' of the landowner or leaseholder')
+}
+
+const validateFirstLastNameOfDeveloperClient = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId)
+}
+
+const validateFirstLastName = (name, text, hrefId, noValueErrorSuffix) => {
   const error = {}
   if (!name) {
     error.err = [{
-      text: `Enter the ${text} of the landowner or leaseholder`,
+      text: `Enter ${noValueErrorSuffix ? 'the ' : ''}${text}${noValueErrorSuffix ?? ''}`,
       href: hrefId
     }]
   } else if (name.length > 50) {
@@ -743,10 +751,19 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
-  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+  if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+  }
+}
+
+const redirectDeveloperClient = (h, yar) => {
+  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
+  } else {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
   }
 }
 
@@ -799,7 +816,8 @@ export {
   getLocalPlanningAuthorities,
   getFileName,
   validateName,
-  validateFirstLastName,
+  validateFirstLastNameOfDeveloperClient,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
   getDeveloperEligibilityResults,
@@ -816,6 +834,7 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
+  redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl
 }

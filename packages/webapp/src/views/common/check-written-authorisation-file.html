@@ -1,0 +1,20 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check your written authorisation file" %}
+
+{% block formContent %}
+
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        {% set idPrefix = 'checkWrittenAuthorisation' %}
+        {% set name = 'checkWrittenAuthorisation' %}
+        {% set id = 'check-upload-correct-yes' %}
+        {% set downloadUrl = 'download-written-authorisation-file' %}
+        {% set checkUploadCorrectNoText = 'No, upload a different file' %}
+        {% include "common/file-upload-check.html" %}
+    </div>
+{% endblock %}

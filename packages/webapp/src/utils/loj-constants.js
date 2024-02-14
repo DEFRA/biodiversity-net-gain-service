@@ -181,11 +181,9 @@ const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
-const INDIVIDUAL = 'individual'
-const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_NOT_LINKED = 'land/defra-account-not-linked'
-const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
+const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defra-account-details-confirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
 const IS_ADDRESS_UK_KEY = 'is-address-uk'
 const UK_ADDRESS = 'land/uk-address'
@@ -216,10 +214,6 @@ const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
 const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
-  landownerTypes: {
-    INDIVIDUAL,
-    ORGANISATION
-  },
   redisKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,

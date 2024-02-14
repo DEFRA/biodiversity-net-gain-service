@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
-  validateFirstLastName,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
@@ -37,8 +37,8 @@ const handlers = {
   post: async (request, h) => {
     const { firstName, middleName, lastName } = request.payload
 
-    const firstNameError = validateFirstLastName(firstName, 'first name', 'firstNameId')
-    const lastNameError = validateFirstLastName(lastName, 'last name', 'lastNameId')
+    const firstNameError = validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', 'firstNameId')
+    const lastNameError = validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', 'lastNameId')
     const middleNameError = validateLengthOfCharsLessThan50(middleName, 'middle name', 'middleNameId')
 
     if (!isEmpty(firstNameError) || !isEmpty(lastNameError) || !isEmpty(middleNameError)) {

@@ -31,20 +31,20 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT if landownerType is individual', async () => {
+    it('Should continue journey to ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT if individualOrOrganisation is individual', async () => {
       const request = {
         yar: redisMap,
-        payload: { landownerType: 'individual' }
+        payload: { individualOrOrganisation: 'individual' }
       }
 
       await landOwnerConservation.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
     })
-    it('Should continue journey to ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT if landownerType is organisation', async () => {
+    it('Should continue journey to ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT if individualOrOrganisation is organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { landownerType: 'organisation' }
+        payload: { individualOrOrganisation: 'organisation' }
       }
 
       await landOwnerConservation.default[1].handler(request, h)
@@ -61,7 +61,7 @@ describe(url, () => {
       await landOwnerConservation.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.views.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
-      expect(resultContext.err[0]).toEqual({ text: 'Select if the landowner or leaseholder is an individual or organisation', href: '#landownerType' })
+      expect(resultContext.err[0]).toEqual({ text: 'Select if the landowner or leaseholder is an individual or organisation', href: '#individualOrOrganisation' })
     })
   })
 })

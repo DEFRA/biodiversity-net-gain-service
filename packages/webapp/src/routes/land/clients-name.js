@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
-  validateFirstLastName,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   processRegistrationTask,
   validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
@@ -22,8 +22,8 @@ const handlers = {
   post: async (request, h) => {
     const { firstName, middleNames, lastName } = request.payload
     const errors = {
-      firstNameError: validateFirstLastName(firstName, 'first name', '#firstName'),
-      lastNameError: validateFirstLastName(lastName, 'last name', '#lastName'),
+      firstNameError: validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', '#firstName'),
+      lastNameError: validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', '#lastName'),
       middleNameError: validateLengthOfCharsLessThan50(middleNames, 'middle name', 'middleNameId')
     }
 
