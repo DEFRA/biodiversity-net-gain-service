@@ -1,5 +1,8 @@
 const routes = {
-  CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details'
+  CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
+  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
+  CREDITS_TERM_AND_CONDITIONS: '/credits-purchase/credits-terms-and-conditions',
+  CREDITS_CHECK_YOUR_ANSWERS: '/credits-purchase/credits-check-your-answers'
 }
 
 const views = Object.fromEntries(
