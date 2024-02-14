@@ -17,12 +17,14 @@ const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const GEOSPATIAL_LAND_BOUNDARY = 'land/geospatial-land-boundary'
 const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
 const DEVELOPER_EMAIL_ENTRY = 'developer/email-entry'
+const OS_API_TOKEN = 'land/os-api-token'
 
 const geospatialRoutes = {
   CHECK_GEOSPATIAL_FILE,
   UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
   GEOSPATIAL_LAND_BOUNDARY,
-  CHOOSE_LAND_BOUNDARY_UPLOAD
+  CHOOSE_LAND_BOUNDARY_UPLOAD,
+  OS_API_TOKEN
 }
 
 const additionalEmailRoutes = {
