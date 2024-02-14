@@ -9,7 +9,6 @@ import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 import getOrganisationDetails from './get-organisation-details.js'
 import { getContext } from './get-context-for-applications-by-type.js'
-import creditsConstant from '../credits/constants.js'
 import { isArray } from 'lodash'
 
 const isoDateFormat = 'YYYY-MM-DD'
@@ -790,12 +789,12 @@ const getCreditsRedirectURL = async (request) => {
   const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS)
   const applications = context.applications
   // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
-  let redirectedURL = creditsConstant.routes.ESTIMATOR_CREDITS_APPLICATION_LIST
+  let redirectedURL = constants.routes.CREDITS_APPLICATION_LIST
 
   // Have a single previous ‘in-progress' application
   const application = isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
-    redirectedURL = creditsConstant.routes.ESTIMATOR_CREDITS_TASKLIST
+    redirectedURL = constants.routes.CREDITS_TASKLIST
   }
 
   return redirectedURL
