@@ -11,7 +11,7 @@
       <h1 class="govuk-heading-l">
         {{ pageHeading }}
       </h1>
-      
+
       <!--Applicant information-->
       <h2 class="govuk-heading-m">Applicant information</h2>
       {% include "common/applicant-information.html" %}
@@ -25,7 +25,7 @@
 
       <!--Land boundary-->
       <h2 class="govuk-heading-m">Biodiversity gain site boundary</h2>
-      
+
       {% set landBoundaryUploadTypeElement = {
         key: {
             text: "Land boundary file type"
@@ -103,7 +103,7 @@
             },
             value: {
               html: "<span data-testid=\"area-in-hectares-value\">" + areaInHectare + "</span>"
-            },              
+            },
             actions: {
               items: [
                 {
@@ -177,13 +177,13 @@
           }
         ]
       }) }}
-      
+
       <!-- Legal agreement -->
       <h2 class="govuk-heading-m">Legal information</h2>
       {% set showLocalLandCharge = true %}
       {% include "common/legal-agreement-summary.html" %}
       <h2 class="govuk-heading-m">Terms and conditions</h2>
-      <p class="govuk-body">You need to <a href="https://www.gov.uk/government/publications/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
+      <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
       {{ govukCheckboxes({
         name: "termsAndConditionsConfirmed",
         errorMessage: err[0],
