@@ -7,11 +7,11 @@ import {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CREDITS_INDIVIDUAL_DOB,
+  path: constants.routes.PURCHASE_CREDITS_INDIVIDUAL_DOB,
   handler: (_request, h) => {
-    const { day, month, year } = validateAndParseISOString(_request.yar.get(constants.redisKeys.CREDITS_INDIVIDUAL_DOB))
+    const { day, month, year } = validateAndParseISOString(_request.yar.get(constants.redisKeys.PURCHASE_CREDITS_INDIVIDUAL_DOB))
 
-    return h.view(constants.views.CREDITS_INDIVIDUAL_DOB, {
+    return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_DOB, {
       dateClasses,
       day,
       month,
@@ -20,12 +20,12 @@ export default [{
   }
 }, {
   method: 'POST',
-  path: constants.routes.CREDITS_INDIVIDUAL_DOB,
+  path: constants.routes.PURCHASE_CREDITS_INDIVIDUAL_DOB,
   handler: (request, h) => {
     const ID = 'dob'
     const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'individual DOB', 'date of birth', true)
     if (context.err) {
-      return h.view(constants.views.CREDITS_INDIVIDUAL_DOB, {
+      return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_DOB, {
         day,
         month,
         year,
@@ -33,7 +33,7 @@ export default [{
         ...context
       })
     }
-    request.yar.set(constants.redisKeys.CREDITS_INDIVIDUAL_DOB, dateAsISOString)
-    return h.redirect(constants.routes.CREDITS_INDIVIDUAL_NATIONALITY)
+    request.yar.set(constants.redisKeys.PURCHASE_CREDITS_INDIVIDUAL_DOB, dateAsISOString)
+    return h.redirect(constants.routes.PURCHASE_CREDITS_INDIVIDUAL_NATIONALITY)
   }
 }]

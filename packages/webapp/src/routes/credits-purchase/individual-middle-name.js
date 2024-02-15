@@ -2,18 +2,18 @@ import constants from '../../utils/constants.js'
 
 export default [{
   method: 'GET',
-  path: constants.routes.CREDITS_INDIVIDUAL_MIDDLE_NAME,
+  path: constants.routes.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME,
   handler: (request, h) => {
-    const values = request.yar.get(constants.redisKeys.CREDITS_INDIVIDUAL_MIDDLE_NAME)
-    return h.view(constants.views.CREDITS_INDIVIDUAL_MIDDLE_NAME, values)
+    const values = request.yar.get(constants.redisKeys.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME)
+    return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME, values)
   }
 }, {
   method: 'POST',
-  path: constants.routes.CREDITS_INDIVIDUAL_MIDDLE_NAME,
+  path: constants.routes.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME,
   handler: (request, h) => {
     const { middleName, middleNameOption } = request.payload
     if (!middleNameOption) {
-      return h.view(constants.views.CREDITS_INDIVIDUAL_MIDDLE_NAME, {
+      return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME, {
         middleName,
         middleNameOption,
         err: [{
@@ -23,7 +23,7 @@ export default [{
       })
     }
     if (middleNameOption === 'yes' && middleName.length === 0) {
-      return h.view(constants.views.CREDITS_INDIVIDUAL_MIDDLE_NAME, {
+      return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME, {
         middleName,
         middleNameOption,
         err: [{
@@ -32,10 +32,10 @@ export default [{
         }]
       })
     }
-    request.yar.set(constants.redisKeys.CREDITS_INDIVIDUAL_MIDDLE_NAME, {
+    request.yar.set(constants.redisKeys.PURCHASE_CREDITS_INDIVIDUAL_MIDDLE_NAME, {
       middleNameOption,
       middleName
     })
-    return h.redirect(constants.routes.CREDITS_INDIVIDUAL_DOB)
+    return h.redirect(constants.routes.PURCHASE_CREDITS_INDIVIDUAL_DOB)
   }
 }]

@@ -2,7 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsEstimationConstants from './credits-estimation-constants.js'
-import creditsConstants from './credits-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -160,7 +160,7 @@ const ADDRESS_IS_UK = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
-  ...creditsConstants.redisKeys,
+  ...creditsPurchaseConstants.redisKeys,
   ...creditsEstimationConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
@@ -172,7 +172,7 @@ const redisKeys = {
 
 let routes = {
   ...lojConstants.routes,
-  ...creditsConstants.routes,
+  ...creditsPurchaseConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
   SIGNIN_CALLBACK,
@@ -227,14 +227,14 @@ const uploadTypes = {
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer,
-  ...creditsConstants.setCreditsReferer
+  ...creditsPurchaseConstants.setCreditsReferer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
   ...lojConstants.clearLojReferer,
   ...developerConstants.clearDeveloperReferer,
-  ...creditsConstants.clearCreditsReferer
+  ...creditsPurchaseConstants.clearCreditsReferer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }

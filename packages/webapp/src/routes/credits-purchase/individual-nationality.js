@@ -3,7 +3,7 @@ import { getNationalityTextandValues } from '../../utils/get-nationalities.js'
 
 export default [{
   method: 'GET',
-  path: constants.routes.CREDITS_INDIVIDUAL_NATIONALITY,
+  path: constants.routes.PURCHASE_CREDITS_INDIVIDUAL_NATIONALITY,
   handler: (_request, h) => {
     const allNationalities = getNationalityTextandValues()
     allNationalities.unshift({
@@ -12,7 +12,7 @@ export default [{
       selected: true
     })
 
-    return h.view(constants.views.CREDITS_INDIVIDUAL_NATIONALITY, {
+    return h.view(constants.views.PURCHASE_CREDITS_INDIVIDUAL_NATIONALITY, {
       allNationalities
     })
   }
