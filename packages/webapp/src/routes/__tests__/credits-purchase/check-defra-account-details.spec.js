@@ -18,13 +18,12 @@ describe(url, () => {
       }
     })
 
-    // it('Should continue the journey when ind/ord is selected and Defra account details are confirmed', async () => {
-    //   postOptions.payload.defraAccountDetailsConfirmed = 'true'
-    //   const sessionData = {}
-    //   sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_INDIVIDUAL_ORG] = 'individual'
-    //   const res = await submitPostRequest(postOptions, 302, sessionData)
-    //   expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
-    // })
+    it('Should continue to task list journey when Defra account details are confirmed', async () => {
+      postOptions.payload.defraAccountDetailsConfirmed = 'true'
+      const res = await submitPostRequest(postOptions, 302)
+      // TODO: Update assertion to task list when task list task is complete
+      expect(res.headers.location).toEqual('#')
+    })
 
     it('Should stop the journey when Defra account details are unconfirmed', async () => {
       const res = await submitPostRequest(postOptions, 200)

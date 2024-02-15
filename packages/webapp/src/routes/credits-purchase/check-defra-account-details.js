@@ -12,6 +12,7 @@ const handlers = {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(creditsPurchaseConstants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+      // TODO: Update redirection to task list when task list task is complete
       // return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
       return h.redirect('#')
     } else {
