@@ -12,7 +12,8 @@ const handlers = {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(creditsPurchaseConstants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
+      // return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
+      return h.redirect('#')
     } else {
       return h.view(creditsPurchaseConstants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),
