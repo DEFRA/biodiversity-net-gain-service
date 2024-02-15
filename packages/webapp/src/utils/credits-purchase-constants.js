@@ -10,7 +10,8 @@ const views = Object.fromEntries(
 )
 
 const redisKeys = {
-  CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'credits-purchase-defra-account-details-confirmed'
+  CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'credits-purchase-defra-account-details-confirmed',
+  CREDITS_TERMS_AND_CONDITIONS: 'credits-purchase-consent'
 }
 
 export default {
