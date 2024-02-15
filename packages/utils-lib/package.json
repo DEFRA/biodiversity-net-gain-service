@@ -15,7 +15,7 @@
   "dependencies": {
     "@azure/identity": "^4.0.0",
     "@defra/bng-connectors-lib": "1.10.0",
-    "axios": "^1.6.2",
+    "axios": "^1.6.7",
     "pino": "^8.17.2",
     "pino-pretty": "10.3.1"
   },
