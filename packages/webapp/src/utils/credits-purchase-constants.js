@@ -1,6 +1,6 @@
 const routes = {
   APPLYING_INDIVIDIAL_ORGANISATION: '/credits-purchase/applying-individual-organisation',
-  CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details'
+  CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details'
   // REGISTER_CREDIT_PURCHASE_TASK_LIST: '/credit-purchase/register-credit-purchase-task-list'
 }
 

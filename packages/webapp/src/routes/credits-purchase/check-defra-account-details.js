@@ -6,7 +6,7 @@ const handlers = {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
     request.yar.get(creditsPurchaseConstants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
-    return h.view(creditsPurchaseConstants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
@@ -15,7 +15,7 @@ const handlers = {
       // return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
       return h.redirect('#')
     } else {
-      return h.view(creditsPurchaseConstants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {
+      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),
         err: [{
           text: 'You must confirm your Defra account details are up to date',
@@ -28,10 +28,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: creditsPurchaseConstants.routes.CHECK_DEFRA_ACCOUNT_DETAILS,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: creditsPurchaseConstants.routes.CHECK_DEFRA_ACCOUNT_DETAILS,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS,
   handler: handlers.post
 }]
