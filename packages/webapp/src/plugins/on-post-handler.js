@@ -107,7 +107,7 @@ const isApplicationSessionSaveNeeded = request => {
   return request.method === 'post' &&
     request?.response?.statusCode === 302 &&
     // Exclude credits estimation and developing routing
-    isRouteIncludedInApplicationSave(request) &&
+    isRouteIncludedInApplicationSave(request) && !(request.path.startsWith('/credits')) &&
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.APPLICATION_SUBMITTED &&
     request?.auth?.isAuthenticated

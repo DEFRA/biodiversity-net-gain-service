@@ -16,78 +16,46 @@
           id: "nationality1",
           name: "nationality1",
           label: {
-            text: "Choose nationality"
+            text: "Nationality one"
           },
-          classes: "",
-          items: [
-            {
-              value: "choose",
-              text: "Choose nationality",
-              selected: true
-            },
-            {
-              value: "eastmidlands",
-              text: "East Midlands"
-            }
-          ]
+          items: allNationalities
         }) }}
+        
 
         {{ govukSelect({
           id: "nationality2",
           name: "nationality2",
           label: {
-            text: "Choose nationality"
+            text: "Nationality two"
           },
-          items: [
-            {
-              value: "choose",
-              text: "Choose nationality",
-              selected: true
-            },
-            {
-              value: "eastmidlands",
-              text: "East Midlands"
-            }
-          ]
+          items: allNationalities
         }) }}
-
+        
         {{ govukSelect({
           id: "nationality3",
           name: "nationality3",
           label: {
-            text: "Choose nationality"
+            text: "Nationality three"
           },
-          items: [
-            {
-              value: "choose",
-              text: "Choose nationality",
-              selected: true
-            },
-            {
-              value: "eastmidlands",
-              text: "East Midlands"
-            }
-          ]
+          items: allNationalities
         }) }}
 
         {{ govukSelect({
           id: "nationality4",
           name: "nationality4",
           label: {
-            text: "Choose nationality"
+            text: "Nationality four"
           },
-          items: [
-            {
-              value: "choose",
-              text: "Choose nationality",
-              selected: true
-            },
-            {
-              value: "eastmidlands",
-              text: "East Midlands"
-            }
-          ]
+          items: allNationalities
         }) }}
+        
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+              id: "continue",
+              "data-testid": "continue"
+          }
+      }) }}
       </div>
     </div>
   </div>

@@ -160,6 +160,7 @@ const ADDRESS_IS_UK = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...creditsConstants.redisKeys,
   ...creditsEstimationConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,

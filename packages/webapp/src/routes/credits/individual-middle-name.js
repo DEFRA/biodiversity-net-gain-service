@@ -1,11 +1,5 @@
 import constants from '../../utils/constants.js'
 
-const individualMiddleName = {
-  method: 'GET',
-  path: constants.routes.CREDITS_INDIVIDUAL_MIDDLE_NAME,
-  handler: (_request, h) => h.view(constants.views.CREDITS_INDIVIDUAL_MIDDLE_NAME)
-}
-
 export default [{
   method: 'GET',
   path: constants.routes.CREDITS_INDIVIDUAL_MIDDLE_NAME,
@@ -17,7 +11,7 @@ export default [{
   method: 'POST',
   path: constants.routes.CREDITS_INDIVIDUAL_MIDDLE_NAME,
   handler: (request, h) => {
-    const { middleName, middleNameOption} = request.payload
+    const { middleName, middleNameOption } = request.payload
     if (!middleNameOption) {
       return h.view(constants.views.CREDITS_INDIVIDUAL_MIDDLE_NAME, {
         middleName,
@@ -42,6 +36,6 @@ export default [{
       middleNameOption,
       middleName
     })
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CREDITS_INDIVIDUAL_DOB)
+    return h.redirect(constants.routes.CREDITS_INDIVIDUAL_DOB)
   }
 }]
