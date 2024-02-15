@@ -1,5 +1,5 @@
 const routes = {
-  CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
+  APPLYING_INDIVIDIAL_ORGANISATION: '/credits-purchase/applying-individual-organisation',
   CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details'
   // REGISTER_CREDIT_PURCHASE_TASK_LIST: '/credit-purchase/register-credit-purchase-task-list'
 }
@@ -9,7 +9,7 @@ const views = Object.fromEntries(
 )
 
 const redisKeys = {
-  CREDITS_PURCHASE_INDIVIDUAL_ORG: 'credits-purchase-individual-org',
+  APPLYING_INDIVIDIAL_ORGANISATION: 'applying-individual-organisation',
   DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'defra-account-details-confirmed'
 }
 

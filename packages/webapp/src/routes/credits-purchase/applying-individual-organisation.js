@@ -3,10 +3,10 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 export default [
   {
     method: 'GET',
-    path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG,
+    path: creditsPurchaseConstants.routes.APPLYING_INDIVIDIAL_ORGANISATION,
     options: {
       auth: false
     },
-    handler: (_request, h) => h.view(creditsPurchaseConstants.views.ESTIMATOR_CREDITS_INDIVIDUAL_ORG)
+    handler: (_request, h) => h.view(creditsPurchaseConstants.views.APPLYING_INDIVIDIAL_ORGANISATION)
   }
 ]
