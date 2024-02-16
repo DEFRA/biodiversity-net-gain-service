@@ -1,10 +1,10 @@
-import constants from '../../credits/constants.js'
+import constants from '../../utils/constants.js'
 import { checked } from '../../utils/helpers.js'
 
 export default [
   {
     method: 'GET',
-    path: constants.routes.ESTIMATOR_CREDITS_PURCHASE_ORDER,
+    path: constants.routes.CREDITS_PURCHASE_ORDER,
     options: {
       auth: false
     },
@@ -12,7 +12,7 @@ export default [
       const willPOInUse = request.yar.get(constants.redisKeys.WILL_CREDITS_PO_IN_USE)
       const purchaseOrderNumber = request.yar.get(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
 
-      return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
+      return h.view(constants.views.CREDITS_PURCHASE_ORDER, {
         willPOInUse,
         purchaseOrderNumber,
         checked
@@ -21,7 +21,7 @@ export default [
   },
   {
     method: 'POST',
-    path: constants.routes.ESTIMATOR_CREDITS_PURCHASE_ORDER,
+    path: constants.routes.CREDITS_PURCHASE_ORDER,
     options: {
       auth: false
     },
@@ -32,7 +32,7 @@ export default [
 
       const error = validateData(willPOInUse, purchaseOrderNumber)
       if (error) {
-        return h.view(constants.views.ESTIMATOR_CREDITS_PURCHASE_ORDER, {
+        return h.view(constants.views.CREDITS_PURCHASE_ORDER, {
           purchaseOrderNumber,
           willPOInUse,
           checked,
@@ -44,7 +44,7 @@ export default [
         request.yar.clear(constants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
       }
 
-      return h.redirect(constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG, {
+      return h.redirect(constants.routes.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, {
         purchaseOrderNumber: null,
         willPOInUse,
         checked

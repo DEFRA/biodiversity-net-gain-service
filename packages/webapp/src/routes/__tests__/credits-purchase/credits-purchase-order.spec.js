@@ -1,9 +1,9 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../credits/constants.js'
-import credisPurchaseOrder from '../../credits-estimation/credits-purchase-order.js'
+import credisPurchaseOrder from '../../credits-purchase/credits-purchase-order.js'
 import Session from '../../../__mocks__/session.js'
+import constants from '../../../utils/constants.js'
 
-const url = constants.routes.ESTIMATOR_CREDITS_PURCHASE_ORDER
+const url = constants.routes.CREDITS_PURCHASE_ORDER
 const postHandler = credisPurchaseOrder[1].handler
 
 describe(url, () => {
@@ -64,7 +64,7 @@ const processCreditsPurchaseOrder = (payload, done) => jest.isolateModules(async
 
     await postHandler({ payload, yar: session }, h)
     expect(viewArgs).toEqual('')
-    expect(redirectArgs[0]).toEqual(constants.routes.ESTIMATOR_CREDITS_INDIVIDUAL_ORG)
+    expect(redirectArgs[0]).toEqual(constants.routes.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     done()
   } catch (err) {
     done(err)
