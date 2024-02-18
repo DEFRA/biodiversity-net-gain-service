@@ -1,5 +1,5 @@
 const routes = {
-  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation'
+  CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/task-list'
 }
 
 const views = Object.fromEntries(
