@@ -9,7 +9,7 @@ const routes = {
 // RedisKeys constants
 const redisKeys = {
   CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'credits-purchase-defra-account-details-confirmed',
-  CREDITS_PURCHASE_APP_REFERENCE: 'credits-app-reference'
+  CREDITS_PURCHASE_APPLICATION_REFERENCE: 'credits-purchase-application-reference'
 }
 // ./RedisKeys constants
 

@@ -1,8 +1,8 @@
-{% extends 'layout.html' %}
+{% extends 'credits-form-layout.html' %}
 
 {% set pageHeading = "Check your answers before you submit your information" %}
 
-{% block content %}
+{% block formContent %}
   {% if err %}
     {{ govukErrorSummary({
       titleText: "There is a problem",

@@ -19,7 +19,7 @@ export default [
       }
 
       const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcreditsapplication`, value)
-      request.yar.set(constants.redisKeys.CREDITS_APP_REFERENCE, result.gainSiteReference)
+      request.yar.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, result.gainSiteReference)
       return h.redirect(constants.routes.CREDITS_PURCHASE_CONFIRMATION)
     }
   }

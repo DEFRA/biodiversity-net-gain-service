@@ -4,22 +4,36 @@ import creditsConfirmation from '../../credits-purchase/credits-confirmation.js'
 
 const url = constants.routes.CREDITS_PURCHASE_CONFIRMATION
 
-const gainSiteReference = 'TEST-00000001-AKD3'
+const creditReference = 'BNGCRD-GH67D-A-JK24'
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view with formatted land owner application reference`, async () => {
+    it(`should render the ${url.substring(1)} view with formatted credits application reference`, async () => {
       const getHandler = creditsConfirmation[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.CREDITS_APP_REFERENCE, gainSiteReference)
+      session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, creditReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
           viewArgs = args
         }
       }
-      await getHandler({ headers: { referer: url }, yar: session }, h)
+      await getHandler({ headers: { referer: 'http://localhost/credits/credits-check-your-answers' }, yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CREDITS_PURCHASE_CONFIRMATION)
+    })
+
+    it(`should render the ${url.substring(1)} view with formatted credits application reference`, async () => {
+      const getHandler = creditsConfirmation[0].handler
+      const session = new Session()
+      session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, null)
+      let viewArgs = ''
+      const h = {
+        view: (...args) => {
+          viewArgs = args
+        }
+      }
+      await getHandler({ headers: { referer: 'http://localhost/credits/credits-check-your-answers' }, yar: session }, h)
+      expect(viewArgs[0]).toEqual(constants.views.MANAGE_BIODIVERSITY_GAINS)
     })
   })
 })
