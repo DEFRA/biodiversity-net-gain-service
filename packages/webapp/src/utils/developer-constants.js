@@ -11,11 +11,6 @@ const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
-const DEVELOPER_ELIGIBILITY_ENGLAND = 'developer/eligibility-england'
-const DEVELOPER_ELIGIBILITY_LO_CONSENT = 'developer/eligibility-landowner-consent'
-const DEVELOPER_ELIGIBILITY_NO = 'developer/eligibility-england-no'
-const DEVELOPER_ELIGIBILITY_METRIC = 'developer/eligibility-metric'
-const DEVELOPER_ELIGIBILITY_RESULT = 'developer/eligibility-results'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
@@ -55,9 +50,7 @@ const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
-const DEVELOPER_ELIGIBILITY_ENGLAND_VALUE = 'eligibility-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
-const DEVELOPER_ELIGIBILITY_METRIC_VALUE = 'developer-eligibility-metric-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
 const CONFIRM_OFFSITE_GAIN_CHECKED = 'offsite-details-checked'
@@ -115,11 +108,6 @@ const ROUTING_REGISTER_OPTIONS = {
   RECORD: 'record-off-site'
 }
 
-const developerEligibilityHTML = {
-  [DEVELOPER_WRITTEN_CONTENT_VALUE]: '<li>written consent from the landowner of the biodiversity gain site</li>',
-  [DEVELOPER_ELIGIBILITY_METRIC_VALUE]: '<li>a completed Biodiversity Metric file 4.1 for the site</li>'
-}
-
 export default {
   routes: {
     DEVELOPER_UPLOAD_METRIC,
@@ -134,11 +122,6 @@ export default {
     DEVELOPER_ROUTING_REGISTER,
     DEVELOPER_ROUTING_RESULT,
     DEVELOPER_ROUTING_SOLD,
-    DEVELOPER_ELIGIBILITY_ENGLAND,
-    DEVELOPER_ELIGIBILITY_LO_CONSENT,
-    DEVELOPER_ELIGIBILITY_NO,
-    DEVELOPER_ELIGIBILITY_METRIC,
-    DEVELOPER_ELIGIBILITY_RESULT,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CHECK_ANSWERS,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
@@ -176,9 +159,7 @@ export default {
     DEVELOPER_EMAIL_VALUE,
     DEVELOPER_CONFIRM_EMAIL,
     DEVELOPER_ROUTING_REGISTER_VALUE,
-    DEVELOPER_ELIGIBILITY_ENGLAND_VALUE,
     DEVELOPER_WRITTEN_CONTENT_VALUE,
-    DEVELOPER_ELIGIBILITY_METRIC_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
     DEVELOPER_ADDITIONAL_EMAILS,
     CONFIRM_OFFSITE_GAIN_CHECKED,
@@ -211,7 +192,6 @@ export default {
   },
   options: {
     ROUTING_REGISTER_OPTIONS,
-    developerEligibilityHTML,
     offSiteGainTypes,
     DEFAULT_DEVELOPER_TASK_STATUS,
     IN_PROGRESS_DEVELOPER_TASK_STATUS,
