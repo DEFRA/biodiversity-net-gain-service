@@ -5,13 +5,13 @@ const handlers = {
   get: async (request, h) => {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
-    request.yar.get(creditsPurchaseConstants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
+    request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
       // TODO: Update redirection to task list when task list task is complete
       // return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
       return h.redirect('#')
