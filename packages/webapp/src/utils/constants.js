@@ -33,6 +33,7 @@ const CONTACT_ID = 'contact-id'
 const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -53,7 +54,8 @@ const COOKIES = 'cookies'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
