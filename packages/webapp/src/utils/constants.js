@@ -2,6 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import creditsEstimationConstants from './credits-estimation-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -169,6 +170,7 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...creditsPurchaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,

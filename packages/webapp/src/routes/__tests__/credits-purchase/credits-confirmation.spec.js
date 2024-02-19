@@ -1,7 +1,8 @@
-import constants from '../../../utils/credits-estimation-constants.js'
 import Session from '../../../__mocks__/session.js'
-import creditsConfirmation from '../../credits-estimation/credits-confirmation.js'
-const url = constants.routes.ESTIMATOR_CREDITS_CONFIRMATION
+import constants from '../../../utils/constants.js'
+import creditsConfirmation from '../../credits-purchase/credits-confirmation.js'
+
+const url = constants.routes.CREDITS_PURCHASE_CONFIRMATION
 
 const gainSiteReference = 'TEST-00000001-AKD3'
 
@@ -18,7 +19,7 @@ describe(url, () => {
         }
       }
       await getHandler({ headers: { referer: url }, yar: session }, h)
-      expect(viewArgs[0]).toEqual(constants.views.ESTIMATOR_CREDITS_CONFIRMATION)
+      expect(viewArgs[0]).toEqual(constants.views.CREDITS_PURCHASE_CONFIRMATION)
     })
   })
 })

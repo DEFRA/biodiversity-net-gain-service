@@ -1,10 +1,8 @@
-{% extends 'credits-form-layout.html' %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends 'layout.html' %}
 
 {% set pageHeading = "Check your answers before you submit your information" %}
 
-{% block formContent %}
+{% block content %}
   {% if err %}
     {{ govukErrorSummary({
       titleText: "There is a problem",

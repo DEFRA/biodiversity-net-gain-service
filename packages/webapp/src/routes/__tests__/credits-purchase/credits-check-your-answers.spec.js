@@ -4,8 +4,8 @@ import creditsApplicationData from '../../../__mocks__/credits-application-data.
 import setCreditsApplicationSession from '../../../__mocks__/credits-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 
-const checkAnswers = require('../../credits-estimation/credits-check-your-answers.js').default
-const url = constants.views.ESTIMATOR_CREDITS_CYA
+const checkAnswers = require('../../credits-purchase/credits-check-your-answers.js').default
+const url = constants.routes.CREDITS_PURCHASE_CYA
 jest.mock('../../../utils/http.js')
 
 const auth = {
@@ -49,7 +49,7 @@ describe(url, () => {
 
           await postHandler({ yar: session, auth }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.views.ESTIMATOR_CREDITS_CONFIRMATION])
+          expect(redirectArgs).toEqual([constants.routes.CREDITS_PURCHASE_CONFIRMATION])
           done()
         } catch (err) {
           done(err)
