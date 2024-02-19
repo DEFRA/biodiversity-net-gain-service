@@ -94,8 +94,8 @@ const handlers = {
     })
 
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
-    const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME_KEY)
-    const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME_KEY)
+    const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)
+    const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
     const isIndividual = isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
 
     const context = {

@@ -1,13 +1,33 @@
 {% extends 'form-layout.html' %}
 
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
 {% set pageHeading = "You need to add proof you have permission to apply" %}
 {% block formContent %}
-  <div class="govuk-body">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
     {% if err %}
       {% include "errorbanner.html" %}
     {% endif %}
-    Under construction
-  </div>      
+    <p>You will need to upload:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a document confirming
+        {% if isIndividual %}
+          {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}'s
+        {% else %}
+          {{ clientsOrganisationName }}'s
+        {% endif %}
+        authorisation for you to apply on their behalf
+      </li>
+      <li>the landowner or leaseholder's consent to use their biodiversity gain site for off-site gain</li>
+      {{ govukButton({
+        text: 'Continue',
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+  </div>
+</div>
 {% endblock %}
