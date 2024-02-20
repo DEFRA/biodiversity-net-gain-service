@@ -2,6 +2,7 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
+import getDeveloperClientContext from '../../utils/get-developer-client-context.js'
 import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
@@ -93,17 +94,7 @@ const handlers = {
       inProgressUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
     })
 
-    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
-    const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)
-    const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
-    const isIndividual = isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
-
-    const context = {
-      isIndividual,
-      clientsName,
-      clientsOrganisationName
-    }
-
+    const context = getDeveloperClientContext(request.yar)
     return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, addMultipleProofsOfPermissionIndicatorToContextIfRquired(request.yar, context))
   },
   post: async (request, h) => {

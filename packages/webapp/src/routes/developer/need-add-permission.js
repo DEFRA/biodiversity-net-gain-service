@@ -1,17 +1,9 @@
 import constants from '../../utils/constants.js'
+import getDeveloperClientContext from '../../utils/get-developer-client-context.js'
 
 const handlers = {
   get: async (request, h) => {
-    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
-    const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)
-    const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
-    const isIndividual = isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
-
-    const context = {
-      isIndividual,
-      clientsName,
-      clientsOrganisationName
-    }
+    const context = getDeveloperClientContext(request.yar)
     return h.view(constants.views.DEVELOPER_NEED_ADD_PERMISSION, context)
   },
   post: async (request, h) => {
