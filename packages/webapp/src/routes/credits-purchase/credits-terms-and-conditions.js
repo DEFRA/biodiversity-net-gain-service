@@ -9,7 +9,7 @@ const handlers = {
     if (!consent) {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_TERMS_AND_CONDITIONS, {
         err: [{
-          text: 'Check the box to confirm you have read the Ts and Cs',
+          text: 'Check the box to confirm you have read the terms and conditions',
           href: '#termsAndConditions'
         }]
       })

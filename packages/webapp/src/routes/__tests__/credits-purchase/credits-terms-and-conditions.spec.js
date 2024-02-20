@@ -25,7 +25,7 @@ describe(url, () => {
       postOptions.payload.termsAndConditions = undefined
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Check the box to confirm you have read the Ts and Cs')
+      expect(res.payload).toContain('Check the box to confirm you have read the terms and conditions')
     })
   })
 })
