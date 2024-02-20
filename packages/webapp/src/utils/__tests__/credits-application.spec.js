@@ -7,7 +7,7 @@ describe('credits-application', () => {
   it('Should set the credit application reference number has been updated', () => {
     const session = setCreditsApplicationSession()
     const gainSiteReference = 'BNGCRD-TEST1-T3ST2'
-    session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, gainSiteReference)
+    session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, gainSiteReference)
 
     const app = creditsApplication(session, applicant)
     expect(app.creditsEstimation.gainSiteReference).toEqual(gainSiteReference)
@@ -15,7 +15,7 @@ describe('credits-application', () => {
 
   it('Should handle nullable fields if session data not exists', () => {
     const session = setCreditsApplicationSession()
-    session.clear(constants.redisKeys.CREDITS_APPLICATION_REFERENCE)
+    session.clear(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
 
     const app = creditsApplication(session, applicant)
     expect(app.creditsEstimation.gainSiteReference).toEqual('')

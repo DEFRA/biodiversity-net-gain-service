@@ -17,7 +17,6 @@ const redisKeys = {
 
 // ./Other constants
 
-
 export default {
   routes,
   redisKeys

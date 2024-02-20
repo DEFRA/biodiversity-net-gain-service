@@ -82,7 +82,7 @@ describe(url, () => {
       try {
         const session = setCreditsApplicationSession()
         const postHandler = checkAnswers[1].handler
-        session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, undefined)
+        session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, undefined)
 
         let viewArgs = ''
         let redirectArgs = ''

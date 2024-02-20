@@ -11,7 +11,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted credits application reference`, async () => {
       const getHandler = creditsConfirmation[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, creditReference)
+      session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, creditReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
@@ -25,7 +25,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted credits application reference`, async () => {
       const getHandler = creditsConfirmation[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.CREDITS_APPLICATION_REFERENCE, null)
+      session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, null)
       let viewArgs = ''
       const h = {
         view: (...args) => {
