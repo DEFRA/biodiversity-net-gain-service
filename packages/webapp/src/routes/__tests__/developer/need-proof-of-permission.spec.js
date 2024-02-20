@@ -1,7 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
-const url = constants.routes.DEVELOPER_NEED_ADD_PERMISSION
+const url = constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION
 
 describe(url, () => {
   describe('GET', () => {

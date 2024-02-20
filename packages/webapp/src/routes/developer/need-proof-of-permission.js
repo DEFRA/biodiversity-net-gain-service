@@ -4,7 +4,7 @@ import getDeveloperClientContext from '../../utils/get-developer-client-context.
 const handlers = {
   get: async (request, h) => {
     const context = getDeveloperClientContext(request.yar)
-    return h.view(constants.views.DEVELOPER_NEED_ADD_PERMISSION, context)
+    return h.view(constants.views.DEVELOPER_NEED_PROOF_OF_PERMISSION, context)
   },
   post: async (request, h) => {
     return h.redirect(constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
@@ -13,11 +13,11 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.DEVELOPER_NEED_ADD_PERMISSION,
+  path: constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION,
   handler: handlers.get
 },
 {
   method: 'POST',
-  path: constants.routes.DEVELOPER_NEED_ADD_PERMISSION,
+  path: constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION,
   handler: handlers.post
 }]
