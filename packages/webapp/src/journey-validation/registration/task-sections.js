@@ -55,6 +55,16 @@ const localLandCharge = taskDefinition(
   localLandChargeJourneys
 )
 
+const checkYourAnswers = {
+  taskTitle: 'Submit your biodiversity gain site information',
+  tasks: [{
+    id: 'check-your-answers',
+    title: 'Check your answers and submit information',
+    url: constants.routes.CHECK_AND_SUBMIT,
+    status: constants.CANNOT_START_YET_STATUS
+  }]
+}
+
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantInfo]),
   taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo]),
@@ -62,5 +72,6 @@ const taskSections = [
 ]
 
 Object.freeze(taskSections)
+Object.freeze(checkYourAnswers)
 
-export { taskSections }
+export { taskSections, checkYourAnswers }

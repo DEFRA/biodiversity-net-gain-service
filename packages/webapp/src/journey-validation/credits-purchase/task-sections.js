@@ -1,3 +1,4 @@
+import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 
 const uploadMetric = taskDefinition(
@@ -40,6 +41,16 @@ const termsAndConditions = taskDefinition(
   []
 )
 
+const checkYourAnswers = {
+  taskTitle: 'Submit your biodiversity gain information',
+  tasks: [{
+    id: 'check-your-answers',
+    title: 'Check your answers before you submit them',
+    url: '#',
+    status: constants.CANNOT_START_YET_STATUS
+  }]
+}
+
 const taskSections = [
   taskSectionDefinition('Statutory biodiversity metric', [uploadMetric]),
   taskSectionDefinition('Statutory biodiversity credits', [addCredits]),
@@ -49,17 +60,6 @@ const taskSections = [
 ]
 
 Object.freeze(taskSections)
+Object.freeze(checkYourAnswers)
 
-export { taskSections }
-
-// {
-//   taskTitle: 'Submit your biodiversity gain site information',
-//   tasks: [
-//     {
-//       title: 'Check your answers and submit information',
-//       status: 'CANNOT START YET',
-//       url: '#',
-//       id: 'upload-metric'
-//     }
-//   ]
-// }
+export { taskSections, checkYourAnswers }
