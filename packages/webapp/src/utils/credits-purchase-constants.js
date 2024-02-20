@@ -1,8 +1,8 @@
 const routes = {
   CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
-  ESTIMATOR_CREDITS_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
-  CREDITS_TERM_AND_CONDITIONS: '/credits-purchase/credits-terms-and-conditions',
-  CREDITS_CHECK_YOUR_ANSWERS: '/credits-purchase/credits-check-your-answers'
+  CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
+  CREDITS_PURCHASE_TERMS_AND_CONDITIONS: '/credits-purchase/credits-terms-and-conditions',
+  CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: '/credits-purchase/credits-check-your-answers'
 }
 
 const views = Object.fromEntries(
@@ -11,7 +11,7 @@ const views = Object.fromEntries(
 
 const redisKeys = {
   CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'credits-purchase-defra-account-details-confirmed',
-  CREDITS_TERMS_AND_CONDITIONS: 'credits-purchase-consent'
+  CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED: 'credits-purchase-consent'
 }
 
 export default {
