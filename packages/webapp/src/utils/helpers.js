@@ -9,7 +9,6 @@ import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 import getOrganisationDetails from './get-organisation-details.js'
 import { getContext } from './get-context-for-applications-by-type.js'
-import { isArray } from 'lodash'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -786,13 +785,13 @@ const getAuthenticatedUserRedirectUrl = () => {
 
 const getCreditsRedirectURL = async (request) => {
   const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-  const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS)
+  const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
   const applications = context.applications
   // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
   let redirectedURL = constants.routes.CREDITS_APPLICATION_LIST
 
   // Have a single previous ‘in-progress' application
-  const application = isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
+  const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
     redirectedURL = constants.routes.CREDITS_TASKLIST
   }
