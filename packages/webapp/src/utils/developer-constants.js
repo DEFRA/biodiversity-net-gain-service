@@ -3,10 +3,6 @@ const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
-const DEVELOPER_DETAILS_NAME = 'developer/details-name'
-const DEVELOPER_DETAILS_EMAIL = 'developer/details-email'
-const DEVELOPER_DETAILS_EMAIL_CONFIRM = 'developer/details-email-confirm'
-const DEVELOPER_DETAILS_CONFIRM = 'developer/details-confirm'
 const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
@@ -45,10 +41,8 @@ const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upl
 const DEVELOPER_METRIC_FILE_NAME = 'developer-metric-filename'
 const DEVELOPER_METRIC_FILE_SIZE = 'developer-metric-filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'developer-metric-filetype'
-const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
-const DEVELOPER_CONFIRM_EMAIL = 'developer-confirm-email'
 const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
@@ -114,10 +108,6 @@ export default {
     DEVELOPER_CHECK_UPLOAD_METRIC,
     DEVELOPER_CONFIRM_DEV_DETAILS,
     DEVELOPER_DOWNLOAD_METRIC_FILE,
-    DEVELOPER_DETAILS_NAME,
-    DEVELOPER_DETAILS_EMAIL,
-    DEVELOPER_DETAILS_EMAIL_CONFIRM,
-    DEVELOPER_DETAILS_CONFIRM,
     DEVELOPER_TASKLIST,
     DEVELOPER_ROUTING_REGISTER,
     DEVELOPER_ROUTING_RESULT,
@@ -154,10 +144,8 @@ export default {
     DEVELOPER_METRIC_FILE_NAME,
     DEVELOPER_METRIC_FILE_SIZE,
     DEVELOPER_METRIC_FILE_TYPE,
-    DEVELOPER_FULL_NAME,
     DEVELOPER_REFERER,
     DEVELOPER_EMAIL_VALUE,
-    DEVELOPER_CONFIRM_EMAIL,
     DEVELOPER_ROUTING_REGISTER_VALUE,
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
