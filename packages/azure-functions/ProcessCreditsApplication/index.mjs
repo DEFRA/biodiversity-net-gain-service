@@ -29,7 +29,7 @@ export default async function (context, req) {
     if (!req.body.creditsEstimation.gainSiteReference) {
       const applicationReference = await createCreditsAppReference(db, [
         req.body.creditsEstimation.applicant?.contactId,
-        'Credits'
+        'CreditsPurchase'
       ])
       req.body.creditsEstimation.gainSiteReference = applicationReference.rows[0].fn_create_credits_app_reference
     } else {
