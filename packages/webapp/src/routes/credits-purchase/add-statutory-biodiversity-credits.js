@@ -2,8 +2,9 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
-const errorMessage = { text: 'Enter at least one credit from the metric up to 2 decimal places, like 23.75' }
-const inputSchema = Joi.string().regex(/^[0-9]*(\.\d{1,2})?$/).allow('')
+const defaultErrorMessage = { text: 'Enter at least one credit from the metric up to 2 decimal places, like 23.75' }
+const charLengthErrorMessage = { text: 'Number of credits must be 50 characters or fewer' }
+const inputSchema = Joi.string().max(10).regex(/^\d*(\.\d{1,2})?$/).allow('')
 
 const handlers = {
   get: async (request, h) => {
@@ -28,7 +29,7 @@ const payloadValidationSchema = Joi.object({
   h: inputSchema,
   w: inputSchema
 }).custom((value, helpers) => {
-  if (Object.values(value).every(v => v === '' || v === '0')) {
+  if (Object.values(value).every(v => v === '' || Number(v) === 0)) {
     throw new Error('at least one credit unit input should have a value')
   }
 })
@@ -37,15 +38,18 @@ const validationFailAction = (request, h, err) => {
   const errorMessages = {}
   const errorList = []
 
+  console.log(err.details)
+
   if (err.details.some(e => e.type === 'any.custom')) {
     const errorId = 'custom-err'
-    errorMessages[errorId] = errorMessage
+    errorMessages[errorId] = defaultErrorMessage
     errorList.push({
-      ...errorMessage,
+      ...defaultErrorMessage,
       href: `#${errorId}`
     })
   } else {
     err.details.forEach(e => {
+      const errorMessage = e.type === 'string.max' ? charLengthErrorMessage : defaultErrorMessage
       errorMessages[e.context.key] = errorMessage
       errorList.push({
         ...errorMessage,
