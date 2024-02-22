@@ -41,6 +41,7 @@ const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upl
 const DEVELOPER_METRIC_FILE_NAME = 'developer-metric-filename'
 const DEVELOPER_METRIC_FILE_SIZE = 'developer-metric-filesize'
 const DEVELOPER_METRIC_FILE_TYPE = 'developer-metric-filetype'
+const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
 const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
@@ -144,6 +145,7 @@ export default {
     DEVELOPER_METRIC_FILE_NAME,
     DEVELOPER_METRIC_FILE_SIZE,
     DEVELOPER_METRIC_FILE_TYPE,
+    DEVELOPER_FULL_NAME,
     DEVELOPER_REFERER,
     DEVELOPER_EMAIL_VALUE,
     DEVELOPER_ROUTING_REGISTER_VALUE,
