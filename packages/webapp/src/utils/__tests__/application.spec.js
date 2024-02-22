@@ -193,7 +193,7 @@ describe('application', () => {
 
       }
     }
-    const clientType = constants.landownerTypes.INDIVIDUAL
+    const clientType = constants.individualOrOrganisationTypes.INDIVIDUAL
     const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {
@@ -236,7 +236,7 @@ describe('application', () => {
   it('Should correctly handle an application by an agent representing an organisation with a UK address', () => {
     const session = applicationSession()
     const clientNameOrganisation = 'Mock Organisation'
-    const clientType = constants.landownerTypes.ORGANISATION
+    const clientType = constants.individualOrOrganisationTypes.ORGANISATION
     const clientAddress = {
       addressLine1: 'Mock Building',
       addressLine2: 'Mock Steet',
@@ -282,7 +282,7 @@ describe('application', () => {
         lastName: 'Client'
       }
     }
-    const clientType = constants.landownerTypes.INDIVIDUAL
+    const clientType = constants.individualOrOrganisationTypes.INDIVIDUAL
     const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {
@@ -332,7 +332,7 @@ describe('application', () => {
         lastName: 'Client'
       }
     }
-    const clientType = constants.landownerTypes.INDIVIDUAL
+    const clientType = constants.individualOrOrganisationTypes.INDIVIDUAL
     const clientEmail = 'someone@test.com'
     const clientPhoneNumber = '0123456789'
     const clientAddress = {

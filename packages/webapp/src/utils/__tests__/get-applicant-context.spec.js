@@ -47,7 +47,7 @@ describe('get-applicant-context', () => {
           roles: ['mock relationship id:Standard User:2']
         })
         const session = new Session()
-        session.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.INDIVIDUAL)
+        session.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           applicationSpecificGuidance: 'must be named as a landowner or leaseholder on the legal agreement to apply.',
@@ -72,7 +72,7 @@ describe('get-applicant-context', () => {
           roles: ['mock relationship id:Standard User:3']
         })
         const session = new Session()
-        session.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.ORGANISATION)
+        session.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           applicationSpecificGuidance: ', the landowner or leaseholder you represent must be named on the legal agreement to apply.',

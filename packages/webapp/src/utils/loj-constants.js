@@ -37,7 +37,6 @@ const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
 const CHECK_PROOF_OF_OWNERSHIP = 'land/check-ownership-proof-file'
-const OS_API_TOKEN = 'land/os-api-token'
 const UPLOAD_LEGAL_AGREEMENT = 'land/upload-legal-agreement'
 const CHECK_LEGAL_AGREEMENT_DETAILS = 'land/check-legal-agreement-details'
 const UPLOAD_LAND_BOUNDARY = 'land/upload-land-boundary'
@@ -181,11 +180,9 @@ const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
-const INDIVIDUAL = 'individual'
-const ORGANISATION = 'organisation'
 const CHECK_DEFRA_ACCOUNT_DETAILS = 'land/check-defra-account-details'
 const DEFRA_ACCOUNT_NOT_LINKED = 'land/defra-account-not-linked'
-const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defraAccountDetailsConfirmed'
+const DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'defra-account-details-confirmed'
 const IS_ADDRESS_UK = 'land/is-address-uk'
 const IS_ADDRESS_UK_KEY = 'is-address-uk'
 const UK_ADDRESS = 'land/uk-address'
@@ -216,10 +213,6 @@ const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
 const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
-  landownerTypes: {
-    INDIVIDUAL,
-    ORGANISATION
-  },
   redisKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,
@@ -379,7 +372,6 @@ export default {
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
-    OS_API_TOKEN,
     PUBLIC_ROUTES,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,

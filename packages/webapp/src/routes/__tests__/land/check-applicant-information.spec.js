@@ -54,7 +54,7 @@ describe(url, () => {
 
       redisMap.set(constants.redisKeys.IS_AGENT, 'no')
       redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
-      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.INDIVIDUAL)
+      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
@@ -79,7 +79,7 @@ describe(url, () => {
 
       redisMap.set(constants.redisKeys.IS_AGENT, 'no')
       redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
-      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.landownerTypes.ORGANISATION)
+      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
@@ -104,7 +104,7 @@ describe(url, () => {
 
       redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
       redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.INDIVIDUAL)
+      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
@@ -133,7 +133,7 @@ describe(url, () => {
 
       redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
       redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.landownerTypes.ORGANISATION)
+      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
 
       await getHandler({ yar: redisMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)

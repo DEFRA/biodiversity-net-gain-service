@@ -46,6 +46,9 @@ const LANDOWNER = 'landowner'
 const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
+const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 
@@ -157,6 +160,12 @@ const ADDRESS_IS_UK = {
   NO,
   YES
 }
+
+const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
@@ -249,8 +258,9 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
-const landownerTypes = {
-  ...lojConstants.landownerTypes
+const individualOrOrganisationTypes = {
+  INDIVIDUAL,
+  ORGANISATION
 }
 
 const signInTypes = {
@@ -268,7 +278,7 @@ const applicantTypes = {
 export default Object.freeze({
   applicationTypes,
   applicantTypes,
-  landownerTypes,
+  individualOrOrganisationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -306,5 +316,7 @@ export default Object.freeze({
   signInTypes,
   APPLICANT_IS_AGENT,
   ADDRESS_IS_UK,
-  ADDRESS_TYPES
+  ADDRESS_TYPES,
+  DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
 })

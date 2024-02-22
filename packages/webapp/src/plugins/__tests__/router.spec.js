@@ -36,6 +36,7 @@ describe('Routes', () => {
       GEOSPATIAL_LAND_BOUNDARY: 'land/geospatial-land-boundary',
       CHOOSE_LAND_BOUNDARY_UPLOAD: 'land/choose-land-boundary-upload',
       DEVELOPER_EMAIL_ENTRY: 'developer/email-entry',
+      OS_API_TOKEN: 'land/os-api-token',
       ...developerConstants.routes,
       ...creditsEstimationConstants.routes,
       ...creditsPurchaseConstants.routes

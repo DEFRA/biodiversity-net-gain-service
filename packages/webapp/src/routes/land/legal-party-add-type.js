@@ -24,7 +24,7 @@ const handlers = {
         checked,
         err: [{
           text: 'Select legal party type securing the biodiversity gain site',
-          href: '#landownerType'
+          href: '#individualOrOrganisation'
         }]
       })
     }
