@@ -1,5 +1,5 @@
 ALTER TYPE bng.APPLICATION_TYPE RENAME TO APPLICATION_TYPE_old;
-CREATE TYPE bng.APPLICATION_TYPE AS ENUM ('Registration', 'Allocation');
+CREATE TYPE bng.APPLICATION_TYPE AS ENUM ('Registration', 'Allocation', 'CreditsPurchase');
 ALTER TABLE bng.application_reference ALTER COLUMN application_type TYPE bng.APPLICATION_TYPE USING application_type::text::bng.APPLICATION_TYPE;
 
 DROP FUNCTION bng.fn_create_application_reference;
@@ -50,4 +50,4 @@ EXCEPTION
 END;
 $$;
 
-DROP TYPE bng.APPLICATION_TYPE_old;
+DROP TYPE bng.APPLICATION_TYPE_old cascade;
