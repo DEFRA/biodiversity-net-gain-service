@@ -2,7 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import creditsApplicationData from '../../../__mocks__/credits-application-data.js'
 import setCreditsApplicationSession from '../../../__mocks__/credits-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
-import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const checkAnswers = require('../../credits-purchase/credits-check-your-answers.js').default
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CYA
@@ -96,9 +96,9 @@ describe(url, () => {
         }
 
         const authCopy = JSON.parse(JSON.stringify(auth))
-        authCopy.credentials.account.idTokenClaims.lastName = ''
+        authCopy.credentials.account.idTokenClaims.contactId = ''
 
-        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsPurchase.applicant.lastName" is not allowed to be empty')
+        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsPurchase.applicant.contactId" is not allowed to be empty')
         expect(viewArgs).toEqual('')
         expect(redirectArgs).toEqual('')
         done()

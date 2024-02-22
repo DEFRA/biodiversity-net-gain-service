@@ -1,6 +1,6 @@
 import Session from '../../../__mocks__/session.js'
 import creditsConfirmation from '../../credits-purchase/credits-confirmation.js'
-import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRMATION
 

@@ -1,4 +1,4 @@
-import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS

@@ -1,4 +1,4 @@
-import creditsPurchaseConstants from "../../utils/credits-purchase-constants.js"
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const getApplicationReference = request => {
   let reference = null

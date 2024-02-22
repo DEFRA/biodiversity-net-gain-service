@@ -7,7 +7,7 @@ describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       const response = await submitGetRequest({ url })
-      expect(response.request.yar.get(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)).toEqual('')
+      expect(response.request.yar.get(constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)).toEqual(null)
     })
   })
 })
