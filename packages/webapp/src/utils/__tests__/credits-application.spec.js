@@ -10,7 +10,7 @@ describe('credits-application', () => {
     session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, gainSiteReference)
 
     const app = creditsApplication(session, applicant)
-    expect(app.creditsEstimation.gainSiteReference).toEqual(gainSiteReference)
+    expect(app.creditsPurchase.gainSiteReference).toEqual(gainSiteReference)
   })
 
   it('Should handle nullable fields if session data not exists', () => {
@@ -18,6 +18,6 @@ describe('credits-application', () => {
     session.clear(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
 
     const app = creditsApplication(session, applicant)
-    expect(app.creditsEstimation.gainSiteReference).toEqual('')
+    expect(app.creditsPurchase.gainSiteReference).toEqual('')
   })
 })

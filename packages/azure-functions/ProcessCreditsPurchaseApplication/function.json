@@ -6,13 +6,13 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "processcreditsapplication",
+      "route": "processcreditspurchaseapplication",
       "methods": [ "post" ]
     },
     {
       "name": "outputSbQueue",
       "type": "serviceBus",
-      "queueName": "ne.bng.credits-estimation.inbound",
+      "queueName": "ne.bng.credits-purchase.inbound",
       "connection": "OPERATOR_SB_CONNECTION_STRING",
       "direction": "out"
     },

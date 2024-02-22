@@ -1,10 +1,16 @@
 // Routes constants
 const routes = {
-  CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: 'credits-purchase/check-defra-account-details',
-  CREDITS_PURCHASE_CONFIRMATION: 'credits-purchase/credits-confirmation',
-  CREDITS_PURCHASE_CYA: 'credits-purchase/credits-check-your-answers'
+  CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
+  CREDITS_PURCHASE_CONFIRMATION: '/credits-purchase/credits-confirmation',
+  CREDITS_PURCHASE_CYA: '/credits-purchase/credits-check-your-answers'
 }
 // ./Routes constants
+
+// Views constants
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
+)
+// ./Views constants
 
 // RedisKeys constants
 const redisKeys = {
@@ -19,5 +25,6 @@ const redisKeys = {
 
 export default {
   routes,
+  views,
   redisKeys
 }

@@ -7,7 +7,7 @@ jest.mock('../../Shared/db-queries.js')
 
 const req = {
   body: {
-    creditsEstimation: {
+    creditsPurchase: {
       applicant: {
         name: 'Test Applicant',
         emailAddress: 'test@example.com'
@@ -38,7 +38,7 @@ describe('Processing an application', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.creditsEstimation.gainSiteReference).toEqual(gainSiteReference)
+        expect(context.bindings.outputSbQueue.creditsPurchase.gainSiteReference).toEqual(gainSiteReference)
         expect(dbQueries.createCreditsAppReference.mock.calls).toHaveLength(1)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
@@ -58,13 +58,13 @@ describe('Processing an application', () => {
             rows: []
           }
         })
-        req.body.creditsEstimation.gainSiteReference = gainSiteReference
+        req.body.creditsPurchase.gainSiteReference = gainSiteReference
         // execute function
         await processCreditsApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.creditsEstimation.gainSiteReference).toEqual(gainSiteReference)
+        expect(context.bindings.outputSbQueue.creditsPurchase.gainSiteReference).toEqual(gainSiteReference)
         expect(dbQueries.createCreditsAppReference.mock.calls).toHaveLength(0)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
@@ -88,7 +88,7 @@ describe('Processing an application', () => {
             ]
           }
         })
-        req.body.creditsEstimation.gainSiteReference = gainSiteReference
+        req.body.creditsPurchase.gainSiteReference = gainSiteReference
         // execute function
         await processCreditsApplication(getContext(), req)
         const context = getContext()

@@ -5,11 +5,8 @@ const getCreditsAppReference = session => session.get(constants.redisKeys.CREDIT
 // Credits Estimator's object schema must match the expected payload format for the Operator application
 export default (session, account) => {
   return {
-    creditsEstimation: {
+    creditsPurchase: {
       applicant: {
-        firstName: account.idTokenClaims.firstName,
-        lastName: account.idTokenClaims.lastName,
-        emailAddress: account.idTokenClaims.email,
         contactId: account.idTokenClaims.contactId
       },
       gainSiteReference: getCreditsAppReference(session), // Need to get one after submitting application

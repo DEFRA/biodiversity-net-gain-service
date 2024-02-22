@@ -1,7 +1,7 @@
 const constants = {
   REGISTRATION: 'registration',
   ALLOCATION: 'allocation',
-  CREDITS: 'credits'
+  CREDITS: 'credits-purchase'
 }
 
 export default constants

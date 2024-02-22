@@ -1,11 +1,11 @@
-import constants from '../../../utils/constants.js'
 import { submitGetRequest } from '../helpers/server.js'
 import creditsApplicationData from '../../../__mocks__/credits-application-data.js'
 import setCreditsApplicationSession from '../../../__mocks__/credits-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const checkAnswers = require('../../credits-purchase/credits-check-your-answers.js').default
-const url = constants.routes.CREDITS_PURCHASE_CYA
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CYA
 jest.mock('../../../utils/http.js')
 
 const auth = {
@@ -49,7 +49,7 @@ describe(url, () => {
 
           await postHandler({ yar: session, auth }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CREDITS_PURCHASE_CONFIRMATION])
+          expect(redirectArgs).toEqual([creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRMATION])
           done()
         } catch (err) {
           done(err)
@@ -82,7 +82,7 @@ describe(url, () => {
       try {
         const session = setCreditsApplicationSession()
         const postHandler = checkAnswers[1].handler
-        session.set(constants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, undefined)
+        session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, undefined)
 
         let viewArgs = ''
         let redirectArgs = ''
@@ -98,7 +98,7 @@ describe(url, () => {
         const authCopy = JSON.parse(JSON.stringify(auth))
         authCopy.credentials.account.idTokenClaims.lastName = ''
 
-        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsEstimation.applicant.lastName" is not allowed to be empty')
+        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsPurchase.applicant.lastName" is not allowed to be empty')
         expect(viewArgs).toEqual('')
         expect(redirectArgs).toEqual('')
         done()

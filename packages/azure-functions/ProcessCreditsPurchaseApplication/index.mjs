@@ -11,11 +11,11 @@ import { DuplicateApplicationReferenceError } from '@defra/bng-errors-lib'
 const buildConfig = body => {
   return {
     serviceBusConfig: {
-      queueName: 'ne.bng.credits-estimation.inbound',
+      queueName: 'ne.bng.credits-purchase.inbound',
       message: body
     },
     res: {
-      gainSiteReference: body.creditsEstimation.gainSiteReference
+      gainSiteReference: body.creditsPurchase.gainSiteReference
     }
   }
 }
@@ -26,27 +26,27 @@ export default async function (context, req) {
   try {
     // Generate gain site reference if not already present
     db = await getDBConnection(context)
-    if (!req.body.creditsEstimation.gainSiteReference) {
+    if (!req.body.creditsPurchase.gainSiteReference) {
       const applicationReference = await createCreditsAppReference(db, [
-        req.body.creditsEstimation.applicant?.contactId,
+        req.body.creditsPurchase.applicant?.contactId,
         'CreditsPurchase'
       ])
-      req.body.creditsEstimation.gainSiteReference = applicationReference.rows[0].fn_create_credits_app_reference
+      req.body.creditsPurchase.gainSiteReference = applicationReference.rows[0].fn_create_credits_app_reference
     } else {
       // Check if application has been submitted and throw error if true
-      const status = await getApplicationStatus(db, [req.body.creditsEstimation.gainSiteReference])
+      const status = await getApplicationStatus(db, [req.body.creditsPurchase.gainSiteReference])
       if (status.rows.length > 0 && status.rows[0].application_status === applicationStatuses.submitted) {
-        context.log(`Duplicate submission detected ${req.body.creditsEstimation.gainSiteReference}`)
+        context.log(`Duplicate submission detected ${req.body.creditsPurchase.gainSiteReference}`)
         throw new DuplicateApplicationReferenceError(
-          req.body.creditsEstimation.gainSiteReference,
+          req.body.creditsPurchase.gainSiteReference,
           'Application reference has already been processed'
         )
       }
       // Clear out saved application (reference was generated from saving)
-      await deleteApplicationSession(db, [req.body.creditsEstimation.gainSiteReference])
+      await deleteApplicationSession(db, [req.body.creditsPurchase.gainSiteReference])
     }
     // Set status of application to submitted
-    await insertApplicationStatus(db, [req.body.creditsEstimation.gainSiteReference, applicationStatuses.submitted])
+    await insertApplicationStatus(db, [req.body.creditsPurchase.gainSiteReference, applicationStatuses.submitted])
 
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
@@ -54,7 +54,7 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(config.res)
     }
-    context.log(`Processed ${req.body.creditsEstimation.gainSiteReference}`)
+    context.log(`Processed ${req.body.creditsPurchase.gainSiteReference}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
