@@ -1,8 +1,6 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsEstimationConstants from './credits-estimation-constants.js'
-import creditsPurchaseConstants from './credits-purchase-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -169,8 +167,6 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
-  ...creditsPurchaseConstants.redisKeys,
-  ...creditsEstimationConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -181,7 +177,6 @@ const redisKeys = {
 
 let routes = {
   ...lojConstants.routes,
-  ...creditsPurchaseConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
   SIGNIN,
   SIGNIN_CALLBACK,
@@ -227,23 +222,20 @@ const threatScreeningStatusValues = {
 
 const uploadTypes = {
   ...developerConstants.uploadTypes,
-  ...lojConstants.uploadTypes,
-  ...creditsEstimationConstants.uploadTypes
+  ...lojConstants.uploadTypes
 }
 
 // setReferer contain routes that can be set as a referer for a user
 // to return to from a "check your answers" page
 const setReferer = [
   ...lojConstants.setLojReferer,
-  ...developerConstants.setDeveloperReferer,
-  ...creditsPurchaseConstants.setCreditsReferer
+  ...developerConstants.setDeveloperReferer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
   ...lojConstants.clearLojReferer,
-  ...developerConstants.clearDeveloperReferer,
-  ...creditsPurchaseConstants.clearCreditsReferer
+  ...developerConstants.clearDeveloperReferer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
@@ -311,7 +303,6 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsEstimationConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
   signInTypes,
   APPLICANT_IS_AGENT,
