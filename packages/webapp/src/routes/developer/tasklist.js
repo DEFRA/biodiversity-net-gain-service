@@ -5,8 +5,10 @@ const handlers = {
   get: async (request, h) => {
     let completedTasks = 0
     let dataContent = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
+    console.log('dataContent---->', dataContent)
     if (!dataContent) {
       dataContent = JSON.parse(JSON.stringify(developerTaskList))
+      console.log('dataContent---->', dataContent)
     } else {
       dataContent.taskList.forEach(task => {
         if (task.tasks.length === 1 && task.tasks[0].status === constants.COMPLETE_DEVELOPER_TASK_STATUS) {
