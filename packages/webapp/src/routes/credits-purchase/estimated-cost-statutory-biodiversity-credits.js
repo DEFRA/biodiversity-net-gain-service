@@ -29,7 +29,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect('/')
+    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   }
 }
 
