@@ -74,11 +74,11 @@ describe(url, () => {
       expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
     })
 
-    it('Should fail journey if credit entered is more than 50 characters', async () => {
+    it('Should fail journey if credit entered is more than 10 characters', async () => {
       postOptions.payload.a2 = '123456789012345678901234567890123456789012345678901234567890'
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Number of credits must be 50 characters or fewer')
+      expect(res.payload).toContain('Number of credits must be 10 characters or fewer')
     })
   })
 })

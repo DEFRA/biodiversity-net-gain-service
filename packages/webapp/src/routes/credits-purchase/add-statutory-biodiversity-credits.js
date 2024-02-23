@@ -3,7 +3,7 @@ import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 
 const defaultErrorMessage = { text: 'Enter at least one credit from the metric up to 2 decimal places, like 23.75' }
-const charLengthErrorMessage = { text: 'Number of credits must be 50 characters or fewer' }
+const charLengthErrorMessage = { text: 'Number of credits must be 10 characters or fewer' }
 const inputSchema = Joi.string().max(10).regex(/^\d*(\.\d{1,2})?$/).allow('')
 
 const handlers = {
@@ -37,8 +37,6 @@ const payloadValidationSchema = Joi.object({
 const validationFailAction = (request, h, err) => {
   const errorMessages = {}
   const errorList = []
-
-  console.log(err.details)
 
   if (err.details.some(e => e.type === 'any.custom')) {
     const errorId = 'custom-err'
