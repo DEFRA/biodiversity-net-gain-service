@@ -1,4 +1,5 @@
 import constants from './constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 import { postJson } from './http.js'
 import Boom from '@hapi/boom'
 import saveApplicationSessionIfNeeded from './save-application-session-if-needed.js'
@@ -7,6 +8,8 @@ import getOrganisationDetails from './get-organisation-details.js'
 const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
 const getRegistration = async (request, h) => getApplication(request, h, constants.applicationTypes.REGISTRATION)
+
+const getCreditsPurchase = async (request, h) => getApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
 
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
@@ -29,13 +32,27 @@ const getApplication = async (request, h, applicationType) => {
       // Restore session to Yar object.
       request.yar.set(session)
 
-      // Redirect to task list
-      return h.redirect(applicationType === constants.applicationTypes.REGISTRATION ? constants.routes.REGISTER_LAND_TASK_LIST : constants.routes.DEVELOPER_TASKLIST)
+      // Redirect to task list or dashboard if unknown applicationType
+      if (applicationType === constants.applicationTypes.REGISTRATION) {
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      }
+
+      if (applicationType === constants.applicationTypes.ALLOCATION) {
+        return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+      }
+
+      if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
+        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      }
+
+      return h.redirect('/')
     }
   } else {
     return Boom.badRequest('Application reference is missing')
   }
 }
+
+// FIXME: do we need noSession and orgError for Allocation and Credits Purchage
 
 const noSession = (request, h, applicationType) => {
   if (applicationType === constants.applicationTypes.REGISTRATION) {
@@ -66,4 +83,9 @@ const getSession = (applicationReference, contactId, applicationType) => {
   })
 }
 
-export { getDevelopmentProject, getRegistration, getApplicationSession }
+export {
+  getDevelopmentProject,
+  getRegistration,
+  getCreditsPurchase,
+  getApplicationSession
+}

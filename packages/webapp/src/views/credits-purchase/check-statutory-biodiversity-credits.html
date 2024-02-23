@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% set hideBackLink = true %}
+{% set serviceName = "Buy statutory biodiversity credits" %}
+{% set pageHeading = "Statutory biodiversity credits" %}
+{% set continueApplicationRouteStem = "/credits-purchase/continue-purchase" %}
+{% set newApplicationText = "Buy statutory biodiversity credits" %}
+{% set newApplicationHref = "/credits-purchase/new-purchase" %}
+{% set newApplicationId = "create-credits-purchase" %}
+{% set newApplicationTestId = "create-credits-purchase" %}
+{% set isCustomRowClass = true %}
+{% set showProjectName = true %}
+{% set referenceHeadingText = "Credit reference" %}
+
+{% block content %}
+  {% include "common/applications.html" %}
+  {% include "common/assisted-digital-helpline.html" %}
+{% endblock %}
