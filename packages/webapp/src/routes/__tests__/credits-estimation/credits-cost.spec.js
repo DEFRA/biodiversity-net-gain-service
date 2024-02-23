@@ -36,8 +36,10 @@ describe(url, () => {
 
     it(`should render header link with href set to ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
       const res = await submitGetRequest({ url }, 200, redisCalculation)
-      expect(res.payload).toMatch(
-        new RegExp(`<a\\s+href="${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}"[^>]*>Estimate the cost of statutory biodiversity credits</a>`)
+      const escapeHref = creditsConstants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
+      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Estimate the cost of statutory biodiversity credits\\s+</a>`)
+      expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(
+        new RegExp(pattern)
       )
     })
   })
