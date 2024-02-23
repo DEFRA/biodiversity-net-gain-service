@@ -1,5 +1,5 @@
 const routes = {
-  CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/task-list'
+  CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/buy-statutory-biodiversity-credits'
 }
 
 const views = Object.fromEntries(
