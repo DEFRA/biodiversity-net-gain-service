@@ -1,5 +1,6 @@
 import nunjucks from 'nunjucks'
 import path from 'path'
+import creditsEstimationConstants from '../../../utils/credits-estimation-constants.js'
 const templatesDir = path.resolve(__dirname, './../../')
 const govukDir = path.resolve(__dirname, './../../../../node_modules/govuk-frontend')
 
@@ -8,6 +9,7 @@ const nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader([
   govukDir
 ]))
 const templatePath = path.resolve(templatesDir, 'credits-estimation/credits-cost.html')
+const url = creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER
 
 describe('credits cost view', () => {
   it('should render service url with credits tier href', () => {
@@ -17,7 +19,7 @@ describe('credits cost view', () => {
     expect(match).toBeTruthy()
     const hrefAttributeValue = match[1]
     const textContent = match[2]
-    expect(hrefAttributeValue).toBe('/credits-estimation/credits-tier')
+    expect(hrefAttributeValue).toBe(url)
     expect(textContent.trim()).toBe('Estimate the cost of statutory biodiversity credits')
   })
 })
