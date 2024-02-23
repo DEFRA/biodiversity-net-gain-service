@@ -44,6 +44,11 @@ describe(url, () => {
       // The 'h' tier input box should have the value 1.2
       expect(res.result).toContain('value="1.2"')
     })
+
+    it(`should render header link with href set to ${constants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
+      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      expect(res.payload).toContain(`<a href="${constants.routes.ESTIMATOR_CREDITS_TIER}">Estimate the cost of statutory biodiversity credits</a>`)
+    })
   })
 
   describe('POST', () => {

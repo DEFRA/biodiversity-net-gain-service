@@ -33,5 +33,10 @@ describe(url, () => {
       const res = await submitGetRequest({ url }, 302)
       expect(res.headers.location).toEqual(creditsConstants.routes.ESTIMATOR_CREDITS_TIER)
     })
+
+    it(`should render header link with href set to ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
+      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      expect(res.payload).toContain(`<a href="${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}">Estimate the cost of statutory biodiversity credits</a>`)
+    })
   })
 })
