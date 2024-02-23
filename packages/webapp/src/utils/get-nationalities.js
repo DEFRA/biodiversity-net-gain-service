@@ -1,7 +1,13 @@
-import allNationalities from './ref-data/nationality-values-and-texts.js'
+import allNationalities from './ref-data/nationalities.js'
 
-const getNationalityTextandValues = () => {
-  return [...allNationalities]
+const getNationalityTextAndValues = () => {
+  const nationaltyTextAndValues = allNationalities.map(n => ({ text: n, value: n }))
+  nationaltyTextAndValues.unshift({
+    value: '',
+    text: 'Choose nationality',
+    selected: true
+  })
+  return nationaltyTextAndValues
 }
 
-export { getNationalityTextandValues }
+export { getNationalityTextAndValues }

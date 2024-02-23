@@ -12,17 +12,19 @@ const handlers = {
         middleName,
         middleNameOption,
         err: [{
-          text: 'Select yes and enter your middle name',
+          text: 'Select yes if you have a middle name',
           href: '#middle-name-yes'
         }]
       })
     }
-    if (middleNameOption === 'yes' && middleName.length === 0) {
+
+    if (middleNameOption === 'yes' && (middleName.length === 0 || middleName.length > 50)) {
+      const errorText = middleName.length === 0 ? 'Enter your middle name' : 'Middle name must be 50 characters or fewer'
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, {
         middleName,
         middleNameOption,
         err: [{
-          text: 'Enter your middle name',
+          text: errorText,
           href: '#middle-name'
         }]
       })

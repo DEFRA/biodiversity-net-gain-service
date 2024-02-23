@@ -1,4 +1,6 @@
 {% extends 'form-layout.html' %}
+
+{% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Do you have a middle name?" %}
 
 {% block formContent %}
@@ -12,7 +14,7 @@
         id: "middle-name",
         name: "middleName",
         label: {
-          text: "Middle Name",
+          text: "Middle name",
           classes: "govuk-label",
           isPageHeading: false
         },
