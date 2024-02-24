@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
+import { addCreditsJourneys } from './add-credits.js'
 
 const uploadMetric = taskDefinition(
   'upload-metric',
@@ -14,8 +15,8 @@ const addCredits = taskDefinition(
   'add-credits',
   'Add statutory biodiversity credits',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
-  '#',
-  []
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_COST,
+  addCreditsJourneys
 )
 
 const purchaseOrder = taskDefinition(
