@@ -13,17 +13,6 @@
         <p>To assist us with our customer due diligence checks, we need to know your nationality, or nationalities. You can choose up to four nationalities.</p>
         <div class="govuk-hint">Both of your parents could have dual nationalities. For example, your father is French/Swiss and your mother is German/Belgian</div>
 
-        <!-- <div class="govuk-form-group">
-          <label class="govuk-label" for="nationality1">Nationality one</label>
-          <p class="govuk-hint">Start typing, then select a nationality.</p>
-          <select class="govuk-select gouvk-!-width-two-thirds" id="nationality1" name="nationality1">
-            <option value=''></option>
-            {% for nationality in nationalitySelects[0] %}
-              <option>{{ nationality.text }}</option>
-            {% endfor %}
-          </select>
-        </div> -->
-
         {{ govukSelect({
           id: "nationality1",
           name: "nationality1",
