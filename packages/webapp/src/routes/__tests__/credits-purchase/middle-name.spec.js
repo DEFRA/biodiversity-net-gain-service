@@ -44,6 +44,12 @@ describe(url, () => {
       expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
+    it('Should fail journey if user selects doesnt select yes or no', async () => {
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Select yes if you have a middle name')
+    })
+
     it('Should fail journey if user selects yes to middle name but doesnt enter one', async () => {
       postOptions.payload.middleNameOption = 'yes'
       postOptions.payload.middleName = ''
