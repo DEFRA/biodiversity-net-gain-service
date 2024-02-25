@@ -20,7 +20,7 @@ const replaceErrorMessages = context => {
     context.err[0].text = monthErrorMessage
   }
 
-  if (errText.includes(' must include a year')) {
+  if (errText.includes('must include a year')) {
     context.err[0].text = yearErrorMessage
   }
 
