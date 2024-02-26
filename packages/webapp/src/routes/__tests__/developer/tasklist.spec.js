@@ -78,15 +78,15 @@ describe(url, () => {
         ]
       })
       expect(contextResult.developerTasks.taskList[2]).toEqual({
-        taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
+        taskTitle: 'Consent to allocate off-site gains from a biodiversity gain site',
         tasks: [
           {
             title: 'Upload the consent document',
             status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            id: 'upload-consent-document'
+            completedTaskUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+            startTaskUrl: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+            inProgressUrl: '',
+            id: 'upload-consent-to-allocate-gains-document'
           }
         ]
       })
@@ -164,15 +164,15 @@ describe(url, () => {
         ]
       })
       expect(contextResult.developerTasks.taskList[2]).toEqual({
-        taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
+        taskTitle: 'Consent to allocate off-site gains from a biodiversity gain site',
         tasks: [
           {
             title: 'Upload the consent document',
-            status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            id: 'upload-consent-document'
+            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
+            completedTaskUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+            startTaskUrl: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+            inProgressUrl: '',
+            id: 'upload-consent-to-allocate-gains-document'
           }
         ]
       })
