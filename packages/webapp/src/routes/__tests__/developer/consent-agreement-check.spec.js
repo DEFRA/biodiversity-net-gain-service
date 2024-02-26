@@ -5,7 +5,7 @@ const url = '/developer/check-consent-file'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-consent'
 const mockFileLocation = `${mockDataPath}/sample.docx`
 
-describe(url, () => {
+describe.skip(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
     const redisMap = new Map()

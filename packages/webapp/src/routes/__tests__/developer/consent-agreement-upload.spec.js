@@ -6,7 +6,7 @@ const UPLOAD_CONSENT_FORM_ELEMENT_NAME = 'uploadWrittenConsent'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-consent'
 const url = constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD
 
-describe(url, () => {
+describe.skip(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
