@@ -1,0 +1,70 @@
+{% extends 'multipart-form-layout.html' %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload written consent to allocate off-site gains from a biodiversity gain site" %}
+
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+  {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if multipleProofsOfPermissionRequired %}
+      <span  class="govuk-caption-l">Proof of permission 1 of 2</span>
+      {% endif %}
+      {{ govukFieldset({
+      legend: {
+      text: pageHeading,
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: true
+      }
+      }) }}
+      <p>It must include:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>a written statement confirming the landowner or leaseholder’s consent to allocate off-site gains from their gain site</li>
+        <li>the gain site habitats to be allocated to your development</li>
+        <li>the names and signatures of all owners or leaseholders associated with the
+          gain site</li>
+        <li>the date consent was given by each landowner or leaseholder</li>
+      </ul>
+      <p>The file should be:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>a DOC, DOCX or PDF</li>
+        <li>no larger than 50MB</li>
+      </ul>
+      {{ govukFileUpload({
+      id: "writtenAuthorisation",
+      name: "writtenAuthorisation",
+      errorMessage: err[0],
+      label: {
+      text: "Choose file",
+      classes: "govuk-visually-hidden"
+      }
+      }) }}
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                      What to do if you have no written authorisation
+                    </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>You can <a href="#">download a 'Consent to allocate off-site gains' form</a> and ask the landowner or leaseholder to complete it.</p>
+          <p>You can then come back to this application and upload the completed form as written consent to allocate off-site gains.</p>
+        </div>
+      </details>
+
+      {{ govukButton({
+      text: "Upload",
+      attributes: {
+      id: "continue",
+      "data-testid": "continue"
+      }
+      }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
