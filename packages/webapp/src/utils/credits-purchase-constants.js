@@ -3,7 +3,6 @@ const routes = {
   CREDITS_PURCHASE_MIDDLE_NAME: '/credits-purchase/middle-name',
   CREDITS_PURCHASE_DATE_OF_BIRTH: '/credits-purchase/date-of-birth',
   CREDITS_PURCHASE_NATIONALITY: '/credits-purchase/nationality',
-  CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS: '/credits-purchase/confirm-terms-conditions',
   CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: '/credits-purchase/credits-check-your-answers',
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',
