@@ -6,7 +6,13 @@ const getLocaleString = num =>
 const getRow = ({ tier, unitAmount, cost }) => [
   { text: tier.toUpperCase() },
   { text: unitAmount, format: 'numeric' },
-  { text: getLocaleString(cost), format: 'numeric' }
+  {
+    text: getLocaleString(cost),
+    format: 'numeric',
+    attributes: {
+      'data-testid': `${tier.toUpperCase()}Value`
+    }
+  }
 ]
 
 const handlers = {
