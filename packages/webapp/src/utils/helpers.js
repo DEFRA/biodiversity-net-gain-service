@@ -794,7 +794,7 @@ const getCreditsRedirectURL = async (request) => {
   // Have a single previous ‘in-progress' application
   const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
-    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
+    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
   }
 
   return redirectedURL

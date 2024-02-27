@@ -3,7 +3,6 @@ const routes = {
   CREDITS_PURCHASE_CONFIRMATION: '/credits-purchase/application-submitted',
   CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
   CREDITS_PURCHASE_APPLICATION_LIST: '/credits-purchase/credits-application-list',
-  CREDITS_PURCHASE_TASKLIST: '/credits-purchase/credits-tasklist',
   CREDITS_PURCHASE_MIDDLE_NAME: '/credits-purchase/middle-name',
   CREDITS_PURCHASE_DATE_OF_BIRTH: '/credits-purchase/date-of-birth',
   CREDITS_PURCHASE_NATIONALITY: '/credits-purchase/nationality',
