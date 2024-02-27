@@ -1,5 +1,6 @@
 import { submitGetRequest } from './helpers/server.js'
 import constants from '../../utils/constants.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const url = constants.routes.MANAGE_BIODIVERSITY_GAINS
 
@@ -26,7 +27,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {
-          const expectedURL = constants.routes.CREDITS_APPLICATION_LIST
+          const expectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
           const expectedReturn = [{
             applicationReference: 'mock application reference 1',
             lastUpdated: new Date(),
@@ -55,7 +56,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {
-          const expectedURL = constants.routes.CREDITS_TASKLIST
+          const expectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
           const expectedReturn = [{
             applicationReference: 'mock application reference 1',
             lastUpdated: new Date(),

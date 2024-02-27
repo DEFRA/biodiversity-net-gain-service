@@ -1,9 +1,8 @@
 // Routes constants
 const routes = {
   CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
-  CREDITS_APPLICATION_LIST: 'credits-purchase/credits-application-list',
-  CREDITS_TASKLIST: 'credits-purchase/credits-tasklist',
-  CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
+  CREDITS_PURCHASE_APPLICATION_LIST: '/credits-purchase/credits-application-list',
+  CREDITS_PURCHASE_TASKLIST: '/credits-purchase/credits-tasklist',
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS: '/credits-purchase/confirm-terms-conditions',
   CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: '/credits-purchase/credits-check-your-answers',
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',

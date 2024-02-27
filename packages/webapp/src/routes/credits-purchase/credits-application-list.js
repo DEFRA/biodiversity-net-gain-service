@@ -1,12 +1,9 @@
-import constants from '../../utils/constants.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 export default [
   {
     method: 'GET',
-    path: constants.routes.CREDITS_APPLICATION_LIST,
-    options: {
-      auth: false
-    },
-    handler: (_req, h) => h.view(constants.views.CREDITS_APPLICATION_LIST)
+    path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST,
+    handler: (_req, h) => h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_APPLICATION_LIST)
   }
 ]

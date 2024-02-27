@@ -1,11 +1,11 @@
-import constants from '../../../utils/constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 import { submitGetRequest } from '../helpers/server.js'
 
-const url = constants.routes.CREDITS_TASKLIST
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${constants.views.CREDITS_TASKLIST} view`, async () => {
+    it(`should render the ${creditsPurchaseConstants.views.CREDITS_PURCHASE_TASKLIST} view`, async () => {
       await submitGetRequest({ url })
     })
   })

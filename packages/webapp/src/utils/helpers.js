@@ -3,6 +3,7 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
@@ -788,12 +789,12 @@ const getCreditsRedirectURL = async (request) => {
   const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
   const applications = context.applications
   // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
-  let redirectedURL = constants.routes.CREDITS_APPLICATION_LIST
+  let redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
 
   // Have a single previous ‘in-progress' application
   const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
-    redirectedURL = constants.routes.CREDITS_TASKLIST
+    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
   }
 
   return redirectedURL
