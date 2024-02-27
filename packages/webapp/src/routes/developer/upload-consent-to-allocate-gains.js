@@ -71,7 +71,8 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE,
       fileExt: constants.consentFileExt,
-      maxFileSize: parseInt(process.env.MAX_CONSENT_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_CONSENT_UPLOAD_MB) * 1024 * 1024,
+      postProcess: true
     })
     try {
       const result = await uploadFile(request.logger, request, config)

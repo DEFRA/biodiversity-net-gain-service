@@ -148,7 +148,7 @@ describe(url, () => {
             config.hasError = true
             const response = await uploadFile(config)
             expect(response.payload).toContain('There is a problem')
-            expect(response.payload).toContain(constants.uploadErrors.threatDetected)
+            expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
             setImmediate(() => {
               done()
             })
@@ -167,7 +167,7 @@ describe(url, () => {
             config.hasError = true
             const response = await uploadFile(config)
             expect(response.payload).toContain('There is a problem')
-            expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
+            expect(response.payload).toContain(constants.uploadErrors.threatDetected)
             setImmediate(() => {
               done()
             })
