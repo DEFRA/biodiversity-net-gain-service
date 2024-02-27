@@ -9,7 +9,7 @@ import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 import getOrganisationDetails from './get-organisation-details.js'
-import { getContext } from './get-context-for-applications-by-type.js'
+import { getContextForCreditsPurchase } from './get-context-for-applications-by-type.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -770,6 +770,7 @@ const redirectDeveloperClient = (h, yar) => {
   }
 }
 
+// FIXME: base this on the application type in the users session, maybe?
 const getAuthenticatedUserRedirectUrl = () => {
   // BNGP- 4368 - Simplify the redirection logic for authenticated users.
   // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
@@ -784,18 +785,19 @@ const getAuthenticatedUserRedirectUrl = () => {
     : constants.routes.BIODIVERSITY_GAIN_SITES
 }
 
+// FIXME: I don't like this behaviour. Make it consistent with other journeys
 const getCreditsRedirectURL = async (request) => {
-  const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-  const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
-  const applications = context.applications
-  // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
-  let redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
+  // const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+  // const context = await getContextForCreditsPurchase(request.auth.credentials.account.idTokenClaims.contactId, organisationId)
+  // const applications = context.applications
+  // // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
+  const redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
 
   // Have a single previous ‘in-progress' application
-  const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
-  if (application && application.length === 1) {
-    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
-  }
+  // const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
+  // if (application && application.length === 1) {
+  //   redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
+  // }
 
   return redirectedURL
 }

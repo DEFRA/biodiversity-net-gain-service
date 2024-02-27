@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { addCreditsJourneys } from './add-credits.js'
+import { termsAndConditionsJourneys } from './terms-and-conditions.js'
 
 const uploadMetric = taskDefinition(
   'upload-metric',
@@ -15,7 +16,7 @@ const addCredits = taskDefinition(
   'add-credits',
   'Add statutory biodiversity credits',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
-  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_COST,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
   addCreditsJourneys
 )
 
@@ -38,9 +39,9 @@ const customerDueDiligence = taskDefinition(
 const termsAndConditions = taskDefinition(
   'terms-and-conditions',
   'Accept terms and conditions',
-  '#',
-  '#',
-  []
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
+  termsAndConditionsJourneys
 )
 
 const checkYourAnswers = {
