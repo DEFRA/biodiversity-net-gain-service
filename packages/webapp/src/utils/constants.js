@@ -1,7 +1,6 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsEstimationConstants from './credits-estimation-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -304,7 +303,6 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsEstimationConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
   signInTypes,
   APPLICANT_IS_AGENT,
