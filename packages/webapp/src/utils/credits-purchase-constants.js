@@ -4,7 +4,7 @@ const routes = {
   CREDITS_PURCHASE_CONFIRMATION: '/credits-purchase/application-submitted',
   CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/applying-individual-organisation',
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS: '/credits-purchase/confirm-terms-conditions',
-  CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: 'credits-purchase/check-and-submit',
+  CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: '/credits-purchase/check-and-submit',
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',
   CREDITS_PURCHASE_CREDITS_COST: '/credits-purchase/estimated-cost-statutory-biodiversity-credits'
 }
