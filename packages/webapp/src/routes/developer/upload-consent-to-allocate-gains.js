@@ -39,14 +39,14 @@ const processErrorUpload = (err, h) => {
         }]
       })
     default:
-      if (err instanceof ThreatScreeningError) {
+      if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
             href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
-      } else if (err instanceof MalwareDetectedError) {
+      } else if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.threatDetected,

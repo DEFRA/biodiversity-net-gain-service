@@ -139,6 +139,44 @@ describe(url, () => {
         })
       })
 
+      it('should display an error when threat detected error', (done) => {
+        jest.isolateModules(async () => {
+          try {
+            const config = Object.assign({}, baseConfig)
+            config.filePath = `${mockDataPath}/sample.docx`
+            config.generateThreatDetectedError = true
+            config.hasError = true
+            const response = await uploadFile(config)
+            expect(response.payload).toContain('There is a problem')
+            expect(response.payload).toContain(constants.uploadErrors.threatDetected)
+            setImmediate(() => {
+              done()
+            })
+          } catch (err) {
+            done(err)
+          }
+        })
+      })
+
+      it('should display an error when threat screening error', (done) => {
+        jest.isolateModules(async () => {
+          try {
+            const config = Object.assign({}, baseConfig)
+            config.filePath = `${mockDataPath}/sample.docx`
+            config.generateThreatScreeningFailure = true
+            config.hasError = true
+            const response = await uploadFile(config)
+            expect(response.payload).toContain('There is a problem')
+            expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
+            setImmediate(() => {
+              done()
+            })
+          } catch (err) {
+            done(err)
+          }
+        })
+      })
+
       it('should handle failAction post route', async () => {
         const expectedStatusCode = 415
         const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
