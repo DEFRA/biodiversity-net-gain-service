@@ -4,7 +4,7 @@ import setCreditsApplicationSession from '../../../__mocks__/credits-application
 import applicant from '../../../__mocks__/applicant.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
-const checkAnswers = require('../../credits-purchase/credits-check-your-answers.js').default
+const checkAnswers = require('../../credits-purchase/check-and-submit.js').default
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS
 jest.mock('../../../utils/http.js')
 
