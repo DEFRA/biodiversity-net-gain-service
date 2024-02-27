@@ -11,7 +11,7 @@ const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME, result.filename)
-  request.logger.info(`${new Date().toUTCString()} Received consent file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received consent written consent to allocate off-site gains file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE)
 }
 
@@ -94,12 +94,12 @@ export default [{
   config: {
     handler: handlers.post,
     payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
-      output: 'stream',
-      timeout: false,
-      parse: false,
-      multipart: true,
       allow: 'multipart/form-data',
+      maxBytes: (parseInt(process.env.MAX_CONSENT_UPLOAD_MB) + 1) * 1024 * 1024,
+      multipart: true,
+      output: 'stream',
+      parse: false,
+      timeout: false,
       failAction: (_request, h, err) => {
         if (err.output.statusCode === 413) {
           return maximumFileSizeExceeded(h).takeover()
