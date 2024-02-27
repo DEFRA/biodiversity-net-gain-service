@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType,
   validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
@@ -38,13 +37,6 @@ const validateOrganisation = organisation => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
-    })
-
     const { orgId } = request.query
 
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
