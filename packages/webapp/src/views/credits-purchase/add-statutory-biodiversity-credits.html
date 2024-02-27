@@ -1,15 +1,15 @@
 {% extends 'layout.html' %}
+
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
 
-{% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
+
+{% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Add statutory biodiversity credits" %}
-{% set hideBackLink = true %}
-{% set hideSigninNav = true %}
-{% set bannerFeedbackLink = "https://defragroup.eu.qualtrics.com/jfe/form/SV_0fiTBJJKOjORLFk" %}
-
 {% set creditText = "Enter number of credits" %}
+{% set customErr = errorMessages['custom-err'] %}
 
 {% block content %}
   {% if err %}
@@ -21,14 +21,36 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1> 
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
       <p class="govuk-body">The information you require to get an estimate from this service can be found in the 'unit shortfall summary' tab, from the results menu, in the statutory biodiversity metric calculation tool.</p>
       <p class="govuk-body">Enter the number of credits from the statutory biodiversity metric calculation tool, up to 2 decimal places, like 23.75.</p>
-      <form method="POST" autocomplete="off" novalidate="novalidate">      
+
+      <form method="POST" autocomplete="off" novalidate="novalidate">
+      <div class="govuk-form-group {{ 'govuk-form-group--error' if customErr }}">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-one-third">
             <span class="govuk-caption-m">Area</span>
             <h2 class="govuk-heading-l">Tier A</h2>
+          </div>
+          <div class="govuk-grid-column-one-third">
+            <span class="govuk-caption-m">Hedgerow</span>
+            <h2 class="govuk-heading-l">Tier H</h2>
+          </div>
+          <div class="govuk-grid-column-one-third">
+            <span class="govuk-caption-m">Watercourse</span>
+            <h2 class="govuk-heading-l">Tier W</h2>
+          </div>
+        </div>
+
+        {% if customErr %}
+        {{ govukErrorMessage({
+          text: customErr.text,
+          id: "custom-err"
+        }) }}
+        {% endif %}
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-third">
             {{ govukInput({
               id: "a1-units",
               name: "a1",
@@ -100,9 +122,9 @@
               errorMessage: errorMessages.a5
             }) }}
           </div>
+
           <div class="govuk-grid-column-one-third">
-            <span class="govuk-caption-m">Hedgerow</span>
-            <h2 class="govuk-heading-l">Tier H</h2>
+            <div class="{{ 'govuk-form-group--error' if customErr }}">
             {{ govukInput({
               id: "h-units",
               name: "h",
@@ -117,10 +139,12 @@
               },
               errorMessage: errorMessages.h
             }) }}
+            </div>
           </div>
+
+
           <div class="govuk-grid-column-one-third">
-            <span class="govuk-caption-m">Watercourse</span>
-            <h2 class="govuk-heading-l">Tier W</h2>
+            <div class="{{ 'govuk-form-group--error' if customErr }}">
             {{ govukInput({
               id: "w-units",
               name: "w",
@@ -135,10 +159,16 @@
               },
               errorMessage: errorMessages.w
             }) }}
+            </div>
           </div>
         </div>
+      </div>
         {{ govukButton({
-          text: "Continue"
+          text: "Save and Continue",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
         }) }}
       </form>
     </div>

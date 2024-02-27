@@ -3,6 +3,7 @@ import getOrganisationDetails from './get-organisation-details.js'
 
 const getApplicantContext = (account, session) => {
   const isAgent = isApplicantAnAgent(session)
+  const isNonRelevantPerson = isApplicantNonRelevantPerson(session)
   const claims = account.idTokenClaims
   const { noOrganisationsLinkedToDefraAccount, currentOrganisationId, currentOrganisation } = getOrganisationDetails(claims)
   const currentUser = `${claims.firstName} ${claims.lastName}`
@@ -18,8 +19,7 @@ const getApplicantContext = (account, session) => {
     representing,
     subject
   }
-
-  if (!isAgent) {
+  if (!isAgent && !isNonRelevantPerson) {
     applicantContext.applicationSpecificGuidance = getApplicantSpecificGuidance(currentOrganisation)
   }
 
@@ -46,6 +46,7 @@ const getApplicantSpecificGuidance = organisation => {
   }
   return applicationSpecificGuidance
 }
+
 const isApplicantAnAgent = session => {
   const applicationType = session.get(constants.redisKeys.APPLICATION_TYPE)
   const redisKey =
@@ -55,6 +56,11 @@ const isApplicantAnAgent = session => {
 
   const isAgent = session.get(redisKey)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
+}
+
+const isApplicantNonRelevantPerson = session => {
+  const isNonRelevantPerson = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  return isNonRelevantPerson === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
 }
 
 export default getApplicantContext
