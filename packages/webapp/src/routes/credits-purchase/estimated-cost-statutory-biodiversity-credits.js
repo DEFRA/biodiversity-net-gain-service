@@ -30,7 +30,16 @@ const handlers = {
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
       tierRows: [
         ...creditCosts.tierCosts.map(item => getRow(item)),
-        [{ text: 'Total estimated cost' }, { text: '' }, { text: totalCost, format: 'numeric' }]
+        [
+          { text: 'Total estimated cost' },
+          { text: '' },
+          {
+            text: totalCost,
+            format: 'numeric',
+            attributes: {
+              'data-testid': 'totalCost'
+            }
+          }]
       ]
     })
   },

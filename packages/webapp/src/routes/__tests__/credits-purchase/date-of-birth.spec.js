@@ -43,7 +43,7 @@ describe(url, () => {
     it('Should fail journey if user enters nothing', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the day as a number. The day is a number between 1 and 31')
+      expect(res.payload).toContain('Enter the date of birth, for example 31 3 1980')
     })
 
     it('Should fail journey if user doesnt enter a day', async () => {
@@ -51,7 +51,7 @@ describe(url, () => {
       postOptions.payload['dob-year'] = goodYear
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the day as a number. The day is a number between 1 and 31')
+      expect(res.payload).toContain('Date of birth must include a day')
     })
 
     it('Should fail journey if user doesnt enter a month', async () => {
@@ -59,7 +59,7 @@ describe(url, () => {
       postOptions.payload['dob-year'] = goodYear
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the month as a number. The month is a number between 1 and 12')
+      expect(res.payload).toContain('Date of birth must include a month')
     })
 
     it('Should fail journey if user doesnt enter a year', async () => {
@@ -67,7 +67,7 @@ describe(url, () => {
       postOptions.payload['dob-month'] = goodMonth
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the year as a number. The year is a number, like 1998, or 2021')
+      expect(res.payload).toContain('Date of birth must include a year')
     })
 
     it('Should fail journey if user enters a day that isnt a number', async () => {
