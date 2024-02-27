@@ -50,10 +50,12 @@ const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequir
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
