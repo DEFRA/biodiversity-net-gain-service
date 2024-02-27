@@ -1,0 +1,14 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your date of birth?" %}
+{% set serviceName = "Buy statutory biodiversity credits" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    {% set hint = "For example, 31 3 1980" %}
+    {% set id = "dob" %}
+    {% include "common/date-input.html" %}
+  </div>
+{% endblock %}
