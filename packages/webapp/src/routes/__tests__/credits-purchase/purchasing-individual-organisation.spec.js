@@ -6,7 +6,7 @@ const url = constants.routes.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
 const individualSignInErrorMessage = 'Select &#39;individual&#39; if you are purchasing statutory biodiversity credits as an individual'
 const organisationSignInErrorMessage = 'Select &#39;organisation&#39; if you are purchasing statutory biodiversity credits as an organisation'
 
-const creditsIndividualOrOganisation = require('../../credits-purchase/applying-individual-organisation.js')
+const creditsIndividualOrOganisation = require('../../credits-purchase/purchasing-individual-organisation.js')
 
 describe(url, () => {
   const redisMap = new Map()

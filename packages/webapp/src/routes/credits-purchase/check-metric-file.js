@@ -25,7 +25,7 @@ const handlers = {
       ...getContext(request),
       err: [
         {
-          text: 'Select yes if this is the correct file',
+          text: 'Select yes if this is the statutory biodiversity metric file your local planning authority reviewed with your biodiversity net gain statement',
           href
         }
       ]

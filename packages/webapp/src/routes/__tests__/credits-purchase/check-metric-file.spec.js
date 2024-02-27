@@ -10,7 +10,7 @@ describe(url, () => {
     let viewResult, contextResult
     const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
-      const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
+      const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
       redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
       const request = {
         yar: redisMap
@@ -27,7 +27,7 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
-      const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
+      const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
       redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, null)
       const request = {
         yar: redisMap
@@ -59,7 +59,7 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const checkMetricFile = require('../../credits-purchase/credits-metric-upload-check.js')
+          const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
           redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.NO
           const request = {

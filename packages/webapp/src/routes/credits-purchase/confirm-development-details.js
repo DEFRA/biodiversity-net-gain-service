@@ -24,7 +24,7 @@ const handlers = {
         ...await getContext(request),
         err: [
           {
-            text: 'Select yes if this is the correct file',
+            text: 'Select yes if these details are correct',
             href
           }
         ]

@@ -35,7 +35,9 @@ const processCreditsErrorUpload = (err, h) => {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
         err: [{
-          text: 'Select a Biodiversity Metric',
+          text: `Upload the statutory biodiversity
+          metric file with the ‘unit shortfall
+          summary’ tab`,
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })

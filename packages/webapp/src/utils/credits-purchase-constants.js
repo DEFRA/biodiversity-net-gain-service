@@ -1,9 +1,9 @@
 // Routes constants
-const CREDITS_UPLOAD_METRIC = 'credits-purchase/credits-metric-upload'
-const CREDITS_CHECK_UPLOAD_METRIC = 'credits-purchase/credits-metric-upload-check'
-const CREDITS_CONFIRM_DEV_DETAILS = 'credits-purchase/credits-development-location'
+const CREDITS_UPLOAD_METRIC = 'credits-purchase/upload-metric-file'
+const CREDITS_CHECK_UPLOAD_METRIC = 'credits-purchase/check-metric-file'
+const CREDITS_CONFIRM_DEV_DETAILS = 'credits-purchase/confirm-development-details'
 const CREDITS_DOWNLOAD_METRIC_FILE = 'credits-purchase/credits-download-metric'
-const CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'credits-purchase/applying-individual-organisation'
+const CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'credits-purchase/purchasing-individual-organisation'
 const CREDITS_APPLICANT_CONFIRM = 'credits-purchase/credits-applicant-details-confirm'
 const CREDITS_DEFRA_ACCOUNT_NOT_LINKED = 'credits-purchase/defra-account-not-linked'
 // ./Routes constants
