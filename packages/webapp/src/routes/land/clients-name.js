@@ -1,19 +1,11 @@
 import constants from '../../utils/constants.js'
 import {
   validateFirstLastNameOfLandownerOrLeaseholder,
-  processRegistrationTask,
   validateLengthOfCharsLessThan50
 } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_NAME
-    })
-
     const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
     return h.view(constants.views.CLIENTS_NAME, {
       individual: individual?.value
