@@ -1,10 +1,10 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processDeveloperTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
+const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
 
 const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, result.config.blobConfig.blobName)
@@ -12,11 +12,6 @@ const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received consent file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  processDeveloperTask(request,
-    {
-      taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
-      title: 'Upload the consent document'
-    }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
   return h.redirect(constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE)
 }
 
@@ -26,21 +21,21 @@ const processErrorUpload = (err, h) => {
       return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'The selected file is empty',
-          href: DEVELOPER_WRITTEN_CONSENT_ID
+          href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
         }]
       })
     case constants.uploadErrors.noFile:
       return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'Select a written consent',
-          href: DEVELOPER_WRITTEN_CONSENT_ID
+          href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
-          href: DEVELOPER_WRITTEN_CONSENT_ID
+          href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
         }]
       })
     default:
@@ -48,21 +43,21 @@ const processErrorUpload = (err, h) => {
         return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
-            href: DEVELOPER_WRITTEN_CONSENT_ID
+            href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.threatDetected,
-            href: DEVELOPER_WRITTEN_CONSENT_ID
+            href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
       } else {
         return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
-            href: DEVELOPER_WRITTEN_CONSENT_ID
+            href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
       }
@@ -120,7 +115,7 @@ export default [{
 const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
-    href: DEVELOPER_WRITTEN_CONSENT_ID,
+    href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID,
     maximumFileSize: process.env.MAX_CONSENT_UPLOAD_MB,
     view: constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
   })
