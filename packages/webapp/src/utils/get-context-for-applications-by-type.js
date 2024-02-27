@@ -27,7 +27,7 @@ const getApplications = async (contactId, organisationId, applicationType) => {
     organisationId,
     applicationType
   })
-  return applications.map(application => formatApplication(application))
+  return Array.isArray(applications) && applications.map(application => formatApplication(application))
 }
 
 export {

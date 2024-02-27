@@ -1,0 +1,66 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "What is your nationality?" %}
+{% set serviceName = "Buy statutory biodiversity credits" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+        <p>To assist us with our customer due diligence checks, we need to know your nationality, or nationalities. You can choose up to four nationalities.</p>
+        <div class="govuk-hint">Both of your parents could have dual nationalities. For example, your father is French/Swiss and your mother is German/Belgian</div>
+
+        {{ govukSelect({
+          id: "nationality1",
+          name: "nationality1",
+          label: {
+            text: "Nationality one"
+          },
+          errorMessage: err[0],
+          items: nationalitySelects[0]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality2",
+          name: "nationality2",
+          label: {
+            text: "Nationality two"
+          },
+          items: nationalitySelects[1]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality3",
+          name: "nationality3",
+          label: {
+            text: "Nationality three"
+          },
+          items: nationalitySelects[2]
+        }) }}
+
+        {{ govukSelect({
+          id: "nationality4",
+          name: "nationality4",
+          label: {
+            text: "Nationality four"
+          },
+          items: nationalitySelects[3]
+        }) }}
+
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+              id: "continue",
+              "data-testid": "continue"
+          }
+      }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block pageScripts %}
+  <script src="{{assetPath}}/js/nationality.js"></script>
+{% endblock %}
