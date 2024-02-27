@@ -193,9 +193,6 @@ describe(url, () => {
             {
               title: 'Add your details',
               status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-              completedTaskUrl: constants.routes.DEVELOPER_DETAILS_CONFIRM,
-              startTaskUrl: constants.routes.DEVELOPER_DETAILS_NAME,
-              inProgressUrl: constants.routes.DEVELOPER_DETAILS_NAME,
               id: 'add-your-details'
             }
           ]
