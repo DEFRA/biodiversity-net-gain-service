@@ -1,19 +1,24 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
+import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const handlers = {
   get: async (request, h) => {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
-    request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
+    request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED)
+
+    const claims = request.auth.credentials.account.idTokenClaims
+    const { currentOrganisation } = getOrganisationDetails(claims)
+    const currentUser = `${claims.firstName} ${claims.lastName}`
+    const applicantDetails = currentOrganisation ? `${currentUser} for ${currentOrganisation}` : currentUser
+
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, { applicantDetails })
   },
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      // TODO: Update redirection to task list when task list task is complete
-      // return h.redirect(creditsPurchaseConstants.routes.REGISTER_CREDIT_PURCHASE_TASK_LIST)
       return h.redirect('#')
     } else {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
