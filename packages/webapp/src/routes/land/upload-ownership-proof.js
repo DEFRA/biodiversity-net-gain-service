@@ -1,7 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { generateUniqueId, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import path from 'path'
 
@@ -81,13 +81,6 @@ const processErrorUpload = (err, h) => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add land ownership details'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
-    })
     return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
   },
   post: async (request, h) => {
