@@ -176,7 +176,7 @@ describe(url, () => {
           }
         })
       })
-      
+
       it('should handle failAction post route', async () => {
         const expectedStatusCode = 415
         const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
