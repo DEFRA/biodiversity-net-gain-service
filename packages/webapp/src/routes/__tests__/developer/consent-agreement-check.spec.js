@@ -1,7 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 
-const url = '/developer/check-consent-file'
+const url = '/developer/check-consent-file-test'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-consent'
 const mockFileLocation = `${mockDataPath}/sample.docx`
 
