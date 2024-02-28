@@ -119,7 +119,7 @@ const uploadFile = async (uploadConfig) => {
     }
   })
 
-  const {fileMalwareCheck} = require('../../../utils/file-malware-check.js')
+  const { fileMalwareCheck } = require('../../../utils/file-malware-check.js')
   fileMalwareCheck.mockImplementation((tags) => {
     if (uploadConfig.generateThreatDetectedError) {
       throw new MalwareDetectedError(constants.uploadErrors.threatDetected)
