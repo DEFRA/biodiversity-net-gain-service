@@ -1,7 +1,7 @@
-import constants from '../../../utils/constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 import { submitPostRequest } from '../helpers/server.js'
 
-const url = constants.routes.CREDITS_CHECK_UPLOAD_METRIC
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
 
@@ -11,7 +11,7 @@ describe(url, () => {
     const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
+      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
       const request = {
         yar: redisMap
       }
@@ -22,13 +22,13 @@ describe(url, () => {
         }
       }
       await checkMetricFile.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.CREDITS_CHECK_UPLOAD_METRIC)
+      expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
       expect(contextResult.filename).toEqual('metric-file.xlsx')
     })
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, null)
+      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, null)
       const request = {
         yar: redisMap
       }
@@ -39,7 +39,7 @@ describe(url, () => {
         }
       }
       await checkMetricFile.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.CREDITS_CHECK_UPLOAD_METRIC)
+      expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
       expect(contextResult.filename).toEqual('')
     })
   })
@@ -60,12 +60,12 @@ describe(url, () => {
         try {
           let viewResult
           const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-          redisMap.set(constants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
-          postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.NO
+          redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
+          postOptions.payload.checkUploadMetric = creditsPurchaseConstants.creditsCheckUploadMetric.NO
           const request = {
             yar: redisMap,
             payload: {
-              checkUploadMetric: constants.creditsCheckUploadMetric.NO
+              checkUploadMetric: creditsPurchaseConstants.creditsCheckUploadMetric.NO
             }
           }
           const h = {
@@ -79,7 +79,7 @@ describe(url, () => {
           const { blobStorageConnector } = require('@defra/bng-connectors-lib')
           const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkMetricFile.default[1].handler(request, h)
-          expect(viewResult).toEqual(constants.routes.CREDITS_UPLOAD_METRIC)
+          expect(viewResult).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
           expect(spy).toHaveBeenCalledWith({
             containerName: 'customer-uploads',
             blobName: mockFileLocation
@@ -93,7 +93,7 @@ describe(url, () => {
     })
 
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
-      postOptions.payload.checkUploadMetric = constants.creditsCheckUploadMetric.YES
+      postOptions.payload.checkUploadMetric = creditsPurchaseConstants.creditsCheckUploadMetric.YES
       await submitPostRequest(postOptions)
     })
     it('should detect an invalid response from user', async () => {

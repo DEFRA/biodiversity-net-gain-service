@@ -1,10 +1,10 @@
 import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import * as azureStorage from '../../../utils/azure-storage.js'
-import constants from '../../../utils/constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
-const url = constants.routes.CREDITS_UPLOAD_METRIC
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 
@@ -17,7 +17,7 @@ describe('Metric file upload controller tests', () => {
 
   describe('POST', () => {
     const getBaseConfig = () => ({
-      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
+      uploadType: creditsPurchaseConstants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
       url,
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       postProcess: {
@@ -212,7 +212,7 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
+          expect(response.payload).toContain(creditsPurchaseConstants.uploadErrors.uploadFailure)
           setImmediate(() => {
             done()
           })

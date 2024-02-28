@@ -1,12 +1,12 @@
 import path from 'path'
 import { blobStorageConnector } from '@defra/bng-connectors-lib'
-import constants from '../../utils/constants.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const downloadMetricFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.CREDITS_METRIC_LOCATION)
+  const blobName = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
   const config = {
     blobName,
-    containerName: constants.BLOB_STORAGE_CONTAINER
+    containerName: creditsPurchaseConstants.BLOB_STORAGE_CONTAINER
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(request.logger, config)
@@ -15,6 +15,6 @@ const downloadMetricFile = async (request, h) => {
 
 export default {
   method: 'GET',
-  path: constants.routes.CREDITS_DOWNLOAD_METRIC_FILE,
+  path: creditsPurchaseConstants.routes.CREDITS_DOWNLOAD_METRIC_FILE,
   handler: downloadMetricFile
 }

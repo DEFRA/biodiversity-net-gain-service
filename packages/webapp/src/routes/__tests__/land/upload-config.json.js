@@ -50,8 +50,8 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
 }, {
-  uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
-  url: constants.routes.CREDITS_UPLOAD_METRIC,
+  uploadType: constants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
+  url: constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
 }

@@ -2,11 +2,11 @@ import Session from '../../../__mocks__/session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import confirmDevDetails from '../../credits-purchase/confirm-development-details.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
-import constants from '../../../utils/constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 jest.mock('../../../utils/azure-storage.js')
 
-const url = constants.routes.CREDITS_CONFIRM_DEV_DETAILS
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS
 
 const mockMetricData = {
   startPage: {
@@ -43,15 +43,15 @@ describe(url, () => {
       }
     })
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
-      postOptions.payload.confirmDevDetails = constants.creditsCheckDetails.YES
+      postOptions.payload.confirmDevDetails = creditsPurchaseConstants.creditsCheckDetails.YES
       await submitPostRequest(postOptions)
     })
 
     it('should allow an alternative metric file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-      postOptions.payload.confirmDevDetails = constants.creditsCheckDetails.NO
+      postOptions.payload.confirmDevDetails = creditsPurchaseConstants.creditsCheckDetails.NO
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.CREDITS_UPLOAD_METRIC)
+      expect(response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
       expect(spy).toHaveBeenCalledTimes(1)
     })
 
@@ -64,10 +64,10 @@ describe(url, () => {
         try {
           const postHandler = confirmDevDetails[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.CREDITS_METRIC_DATA, mockMetricData.startPage)
-          session.set('filename', constants.redisKeys.CREDITS_METRIC_LOCATION)
+          session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, mockMetricData.startPage)
+          session.set('filename', creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
           const payload = {
-            confirmDevDetails: constants.creditsCheckDetails.YES
+            confirmDevDetails: creditsPurchaseConstants.creditsCheckDetails.YES
           }
           let viewArgs = ''
           let redirectArgs = ''

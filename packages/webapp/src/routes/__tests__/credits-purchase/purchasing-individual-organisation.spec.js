@@ -1,7 +1,7 @@
-import constants from '../../../utils/constants.js'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
-const url = constants.routes.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG
 
 const individualSignInErrorMessage = 'Select &#39;individual&#39; if you are purchasing statutory biodiversity credits as an individual'
 const organisationSignInErrorMessage = 'Select &#39;organisation&#39; if you are purchasing statutory biodiversity credits as an organisation'
@@ -26,21 +26,21 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with individual selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.CREDITS_USER_TYPE, constants.landownerTypes.INDIVIDUAL)
+        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.landownerTypes.INDIVIDUAL)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(constants.views.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
-        expect(contextResult.userType).toEqual(constants.landownerTypes.INDIVIDUAL)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG)
+        expect(contextResult.userType).toEqual(creditsPurchaseConstants.landownerTypes.INDIVIDUAL)
       })
     })
 
     it(`should render the ${url.substring(1)} view with organisation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.CREDITS_USER_TYPE, constants.landownerTypes.ORGANISATION)
+        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.landownerTypes.ORGANISATION)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(constants.views.CREDITS_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
-        expect(contextResult.userType).toEqual(constants.landownerTypes.ORGANISATION)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG)
+        expect(contextResult.userType).toEqual(creditsPurchaseConstants.landownerTypes.ORGANISATION)
       })
     })
   })
@@ -87,15 +87,15 @@ describe(url, () => {
       }
     })
     it('should redirect to the check Defra account details page when individual is chosen and signed in as an individual', async () => {
-      postOptions.payload.userType = constants.landownerTypes.INDIVIDUAL
+      postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.INDIVIDUAL
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
-      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_APPLICANT_CONFIRM)
+      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICANT_CONFIRM)
     })
     it('should redirect to the check Defra account details page when organisation is chosen and signed in representing an organisation', async () => {
-      postOptions.payload.userType = constants.landownerTypes.ORGANISATION
+      postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.ORGANISATION
       postOptions.auth = organisationAuth
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
-      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_APPLICANT_CONFIRM)
+      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICANT_CONFIRM)
     })
     it('should redisplay the credits individual or organisation page when no applicant type is chosen', async () => {
       const response = await submitPostRequest(postOptions, 200)
@@ -103,19 +103,19 @@ describe(url, () => {
       expect(response.payload).toContain('Select if you are applying as an individual or as part of an organisation')
     })
     it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
-      postOptions.payload.userType = constants.landownerTypes.ORGANISATION
+      postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.ORGANISATION
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
-      expect(response.request.response.headers.location).toBe(constants.routes.CREDITS_DEFRA_ACCOUNT_NOT_LINKED)
+      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED)
     })
     it('should redisplay the credits individual or organisation page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
-      postOptions.payload.userType = constants.landownerTypes.ORGANISATION
+      postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.ORGANISATION
       postOptions.auth = userSignInWithOrganisationLinkedToDefraAccountAuth
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain(individualSignInErrorMessage)
     })
     it('should redisplay the credits individual or organisation page when individual is chosen and signed in representing an organisation', async () => {
-      postOptions.payload.userType = constants.landownerTypes.INDIVIDUAL
+      postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.INDIVIDUAL
       postOptions.auth = organisationAuth
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('There is a problem')

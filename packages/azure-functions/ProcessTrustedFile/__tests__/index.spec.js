@@ -11,7 +11,7 @@ const GEOPACKAGE_FILE_EXTENSION = '.gpkg'
 const ZIP_FILE_EXTENSION = '.zip'
 const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
-const CREDITS_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
+const CREDITS_PURCHASE_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
 const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
@@ -186,7 +186,7 @@ describe('Trusted file processing', () => {
         })
         await processTrustedFile(context, {
           body: {
-            uploadType: CREDITS_METRIC_UPLOAD_TYPE,
+            uploadType: CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
             location: 'test',
             containerName: 'test'
           }
@@ -249,7 +249,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
 
   switch (uploadType) {
     case DEVELOPER_METRIC_UPLOAD_TYPE:
-    case CREDITS_METRIC_UPLOAD_TYPE:
+    case CREDITS_PURCHASE_METRIC_UPLOAD_TYPE:
       config.metricData = metricData
       break
 
@@ -399,7 +399,7 @@ const performDeveloperValidMetricFileProcessingTest = (fileExtension, done) => {
 const performCreditsValidMetricFileProcessingTest = (fileExtension, done) => {
   jest.isolateModules(async () => {
     try {
-      const testConfig = buildConfig(fileExtension, CREDITS_METRIC_UPLOAD_TYPE)
+      const testConfig = buildConfig(fileExtension, CREDITS_PURCHASE_METRIC_UPLOAD_TYPE)
       blobStorageConnector.downloadStreamIfExists = jest.fn().mockImplementation(async () => {
         const readStream = fs.createReadStream('packages/azure-functions/ProcessTrustedFile/__mock-data__/metric-file/metric-4.0.2.xlsm')
         const readableStream = Readable.from(readStream)

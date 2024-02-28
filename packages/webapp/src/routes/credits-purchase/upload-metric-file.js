@@ -3,7 +3,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
-import constants from '../../utils/constants.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 
@@ -11,29 +11,29 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
   const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
   if (creditsValidationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(constants.views.CREDITS_UPLOAD_METRIC, creditsValidationError)
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, creditsValidationError)
   }
 
-  request.yar.set(constants.redisKeys.CREDITS_METRIC_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.CREDITS_METRIC_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.CREDITS_METRIC_FILE_TYPE, result.fileType)
-  request.yar.set(constants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
-  request.yar.set(constants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.CREDITS_CHECK_UPLOAD_METRIC)
+  return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
 }
 
 const processCreditsErrorUpload = (err, h) => {
   switch (err.message) {
-    case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+    case creditsPurchaseConstants.uploadErrors.emptyFile:
+      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file is empty',
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
-    case constants.uploadErrors.noFile:
-      return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+    case creditsPurchaseConstants.uploadErrors.noFile:
+      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         err: [{
           text: `Upload the statutory biodiversity
           metric file with the ‘unit shortfall
@@ -41,34 +41,34 @@ const processCreditsErrorUpload = (err, h) => {
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
-    case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+    case creditsPurchaseConstants.uploadErrors.unsupportedFileExt:
+      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
-    case constants.uploadErrors.maximumFileSizeExceeded:
+    case creditsPurchaseConstants.uploadErrors.maximumFileSizeExceeded:
       return maximumFileSizeExceeded(h)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           err: [{
-            text: constants.uploadErrors.malwareScanFailed,
+            text: creditsPurchaseConstants.uploadErrors.malwareScanFailed,
             href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           err: [{
-            text: constants.uploadErrors.threatDetected,
+            text: creditsPurchaseConstants.uploadErrors.threatDetected,
             href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
       } else {
-        return h.view(constants.views.CREDITS_UPLOAD_METRIC, {
+        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           err: [{
-            text: constants.uploadErrors.uploadFailure,
+            text: creditsPurchaseConstants.uploadErrors.uploadFailure,
             href: UPLOAD_CREDIT_METRIC_ID
           }]
         })
@@ -77,14 +77,14 @@ const processCreditsErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.CREDITS_UPLOAD_METRIC),
+  get: async (_request, h) => h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC),
   post: async (request, h) => {
     // Get upload config object from common code
     const creditsUploadConfig = buildConfig({
       sessionId: request.yar.id,
-      fileExt: constants.metricFileExt,
+      fileExt: creditsPurchaseConstants.metricFileExt,
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
-      uploadType: constants.uploadTypes.CREDITS_METRIC_UPLOAD_TYPE,
+      uploadType: creditsPurchaseConstants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
       postProcess: true
     })
 
@@ -100,12 +100,12 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: constants.routes.CREDITS_UPLOAD_METRIC,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   handler: handlers.get
 },
 {
   method: 'POST',
-  path: constants.routes.CREDITS_UPLOAD_METRIC,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   config: {
     handler: handlers.post,
     payload: {
@@ -132,7 +132,7 @@ export default [{
 const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view: constants.views.CREDITS_UPLOAD_METRIC,
+    view: creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC,
     href: UPLOAD_CREDIT_METRIC_ID,
     h
   })
