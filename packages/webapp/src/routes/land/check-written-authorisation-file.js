@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
@@ -15,12 +15,6 @@ const getContext = request => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE
-    })
     return h.view(constants.views.CHECK_WRITTEN_AUTHORISATION_FILE, getContext(request))
   },
   post: async (request, h) => {

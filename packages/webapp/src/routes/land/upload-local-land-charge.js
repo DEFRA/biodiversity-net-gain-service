@@ -2,7 +2,6 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -48,13 +47,6 @@ function processErrorUpload (err, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add local land charge search certificate'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS
-    })
     return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE)
   },
   post: async (request, h) => {

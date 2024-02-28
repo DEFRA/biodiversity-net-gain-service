@@ -2,7 +2,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
@@ -84,13 +84,6 @@ function processErrorUpload (err, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.UPLOAD_LAND_BOUNDARY
-    })
     return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
   },
   post: async (request, h) => {

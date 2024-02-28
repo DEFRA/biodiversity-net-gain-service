@@ -2,20 +2,12 @@ import path from 'path'
 import constants from '../../utils/constants.js'
 import {
   getHumanReadableFileSize,
-  processRegistrationTask,
   getLegalAgreementDocumentType, validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
-    const { id } = request.query
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
-    })
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)

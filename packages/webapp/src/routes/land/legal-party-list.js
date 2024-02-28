@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, getNameAndRoles } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -22,13 +22,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Legal party list'
-    }, {
-      inProgressUrl: constants.routes.LEGAL_PARTY_LIST
-    })
-
     const legalAgreementParties = getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES))
     const legalAgreementPartiesWithAction = legalAgreementParties.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(

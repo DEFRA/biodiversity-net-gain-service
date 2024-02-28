@@ -156,7 +156,6 @@ const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const LANDOWNERS = 'landowners'
 const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const LAND_OWNERSHIP_KEY = 'land-ownership-key'
-const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERER = 'referer'
 const EMAIL_VALUE = 'email-value'
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
@@ -291,7 +290,6 @@ export default {
     HABITAT_ENHANCEMENTS_END_DATE_OPTION,
     LEGAL_AGREEMENT_START_MONTH,
     LEGAL_AGREEMENT_START_YEAR,
-    REGISTRATION_TASK_DETAILS,
     LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,

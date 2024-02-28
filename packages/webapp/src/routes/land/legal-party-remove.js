@@ -1,15 +1,7 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Legal party remove'
-    }, {
-      inProgressUrl: constants.routes.LEGAL_PARTY_REMOVE
-    })
-
     const { orgId } = request.query
 
     const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)

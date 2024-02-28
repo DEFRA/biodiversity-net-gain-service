@@ -37,7 +37,6 @@ describe(url, () => {
       }
       await postHandler({ yar: session }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
-      expect(session.get(constants.redisKeys.REGISTRATION_TASK_DETAILS).taskList[1].tasks[2].status).toBe('COMPLETED')
     })
   })
 })

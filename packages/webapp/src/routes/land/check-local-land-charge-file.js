@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add local land charge search certificate'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE
-    })
     return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, getContext(request))
   },
   post: async (request, h) => {
@@ -20,14 +14,6 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalLandCharge === 'yes') {
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
-      const taskInformation = {
-        taskTitle: 'Legal information',
-        title: 'Add local land charge search certificate'
-      }
-      const taskStatus = {
-        status: constants.COMPLETE_REGISTRATION_TASK_STATUS
-      }
-      processRegistrationTask(request, taskInformation, taskStatus)
       const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
                           constants.routes.REGISTER_LAND_TASK_LIST
       return h.redirect(redirectUrl)

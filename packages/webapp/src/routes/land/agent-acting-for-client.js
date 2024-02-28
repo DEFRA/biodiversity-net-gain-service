@@ -1,16 +1,7 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.AGENT_ACTING_FOR_CLIENT
-    })
-
     const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
 
     return h.view(constants.views.AGENT_ACTING_FOR_CLIENT, {

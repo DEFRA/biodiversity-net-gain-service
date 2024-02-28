@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Legal party remove'
-    }, {
-      inProgressUrl: constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY
-    })
     const { id } = request.query
     const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
     const planningAuthToRemove = id && planningAuthorityList[id]

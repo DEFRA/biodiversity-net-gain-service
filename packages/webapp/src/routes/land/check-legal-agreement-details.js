@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   getResponsibleBodies,
   getDateString,
   listArray,
@@ -14,19 +13,12 @@ import {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
-    })
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
       listArray,
       ...getContext(request)
     })
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Legal information', title: 'Add legal agreement details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
