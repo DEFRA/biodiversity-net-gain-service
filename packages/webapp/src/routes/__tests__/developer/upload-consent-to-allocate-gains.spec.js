@@ -5,6 +5,8 @@ import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 const url = constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
 const UPLOAD_CONSENT_FORM_ELEMENT_NAME = 'uploadWrittenConsentToAllocateGains'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/consent-to-use-gain'
+const azureStorage = require('../../../utils/azure-storage.js')
+jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -28,6 +30,11 @@ describe(url, () => {
 
       beforeEach(async () => {
         await recreateContainers()
+        azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+          return {
+            'Malware Scanning scan result': 'No threats found'
+          }
+        })
       })
 
       it('should upload a valid written consent to allocate off-site gains file to cloud storage', (done) => {
@@ -142,6 +149,12 @@ describe(url, () => {
       it('should display an error when threat detected error', (done) => {
         jest.isolateModules(async () => {
           try {
+            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+              return {
+                'Malware Scanning scan result': 'Malicious',
+                'Malware Notes': 'Mocked scan result for Azurite blob storage'
+              }
+            })
             const config = Object.assign({}, baseConfig)
             config.filePath = `${mockDataPath}/sample.docx`
             config.generateThreatDetectedError = true
@@ -161,6 +174,12 @@ describe(url, () => {
       it('should display an error when threat screening error', (done) => {
         jest.isolateModules(async () => {
           try {
+            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+              return {
+                'Malware Scanning scan result': 'Scan failed - internal service error.',
+                'Malware Notes': 'Mocked scan result for Azurite blob storage'
+              }
+            })
             const config = Object.assign({}, baseConfig)
             config.filePath = `${mockDataPath}/sample.docx`
             config.generateThreatScreeningFailure = true

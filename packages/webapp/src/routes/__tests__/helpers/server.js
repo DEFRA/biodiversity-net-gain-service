@@ -9,7 +9,6 @@ import constants from '../../../utils/constants.js'
 import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 
 jest.mock('../../../utils/file-post-process.js')
-jest.mock('../../../utils/file-malware-check.js')
 
 const startServer = async (options) => {
   const server = await createServer(options)
@@ -116,17 +115,6 @@ const uploadFile = async (uploadConfig) => {
       throw new ValidationError(uploadWrittenConsentErrorCodes.EMPTY_FILE_UPLOAD, errorMessage)
     } else {
       return uploadConfig.postProcess
-    }
-  })
-
-  const { fileMalwareCheck } = require('../../../utils/file-malware-check.js')
-  fileMalwareCheck.mockImplementation((tags) => {
-    if (uploadConfig.generateThreatDetectedError) {
-      throw new MalwareDetectedError(constants.uploadErrors.threatDetected)
-    } else if (uploadConfig.generateThreatScreeningFailure) {
-      throw new ThreatScreeningError({
-        Status: constants.threatScreeningStatusValues.FAILED_TO_VIRUS_SCAN
-      })
     }
   })
 
