@@ -1,0 +1,65 @@
+{% extends 'form-layout.html' %}
+
+{% set serviceName = "Buy statutory biodiversity credits" %}
+{% set pageHeading = "Terms and conditions for the purchase of statutory biodiversity credits" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+                <h2 class="govuk-heading-m">Introduction</h2>
+                <p>The statutory biodiversity credit scheme is run by Natural England on behalf of the
+                  Department for Environment, Food and Rural Affairs (Defra) as part of the
+                  Environment Act 2021.</p>
+                
+                <h2 class="govuk-heading-m">Privacy notice</h2>
+                <p class="govuk-body">Our <a href="https://www.gov.uk/government/publications/natural-england-privacy-notices/biodiversity-net-gain-privacy-notice">privacy notice </a>sets out how we use the personal data.</p>  
+                
+                <h2 class="govuk-heading-m">Your responsibilities</h2>
+                <p class="govuk-body">It is your responsibility to ensure:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                  <li>you have purchased the correct number, and tier, of statutory biodiversity credits to
+                    meet your BNG obligation for development under the Planning Permission
+                    referenced in your application</li>
+                </ul>
+                
+                <h2 class="govuk-heading-m">Customer due diligence</h2>
+                <p class="govuk-body">All applications to purchase statutory biodiversity credits are subject to
+                  customer due diligence (anti-money laundering) checks. They can only be
+                  purchased by applicants who pass those checks.</p>
+                
+                <h2 class="govuk-heading-m">Purchase terms</h2>
+                <p class="govuk-body">You have no obligation to Natural England to buy the statutory biodiversity credits in
+                  this service. The terms and conditions for purchase of statutory biodiversity credits
+                  will apply if you proceed.</p>
+                  <p class="govuk-body">The full terms and conditions attached to our proforma purchase invoices are non-
+                    negotiable.</p>  
+                  <p class="govuk-body">Read <a href="https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions">the full terms and conditions </a>before progressing further.</p>  
+                
+
+                {{ govukCheckboxes({
+                  name: "termsAndConditions",
+                  class: "govuk-grid-column-two-thirds",
+                  errorMessage: err[0],
+                  items: [
+                    {
+                      value: "true",
+                      html: "I confirm I have read the above, and the full terms and conditions"
+                    }
+                  ]
+                }) }}
+              {{ govukButton({
+                text: "Save and Continue",
+                attributes: {
+                  id: "continue",
+                  "data-testid": "continue"
+                }
+              }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
