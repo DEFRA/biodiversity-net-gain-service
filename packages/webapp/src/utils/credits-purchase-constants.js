@@ -11,8 +11,8 @@ const routes = {
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',
   CREDITS_PURCHASE_CREDITS_COST: '/credits-purchase/estimated-cost-statutory-biodiversity-credits',
   CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/buy-statutory-biodiversity-credits',
-  CREDITS_PURCHASE_ORDER: '/credits-purchase/credits-purchase-order',
-  CREDITS_PURCHASE_ORDER: '/credits-purchase/credits-purchase-order'
+  CREDITS_PURCHASE_CHECK_ORDER: '/credits-purchase/check-purchase-order',
+  CREDITS_PURCHASE_APP_BY_INDIVIDUAL_OR_ORGANISATION: '/credits-purchase/applying-individual-organisation'
 }
 // ./Routes constants
 
@@ -31,7 +31,7 @@ const redisKeys = {
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED: 'credits-purchase-consent',
   CREDITS_PURCHASE_COST_CALCULATION: 'credits-purchase-cost-calculation',
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
-  WILL_CREDITS_PO_IN_USE: 'will-credits-po-in-use',
+  CREDITS_PURCHASE_WILL_PO_IN_USE: 'credits-purchase-will-po-in-use',
   CREDITS_PURCHASE_ORDER_NUMBER: 'credits-purchase-order-number'
 }
 // ./RedisKeys constants
