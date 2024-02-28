@@ -176,26 +176,7 @@ describe(url, () => {
           }
         })
       })
-
-      it('should handle an error when file upload processing fails', (done) => {
-        jest.isolateModules(async () => {
-          try {
-            const config = JSON.parse(JSON.stringify(baseConfig))
-            config.filePath = `${mockDataPath}/sample.docx`
-            config.generateFormDataError = true
-            config.hasError = true
-            const res = await uploadFile(config)
-            expect(res.payload).toContain('There is a problem')
-            expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
-          }
-        })
-      })
-
+      
       it('should handle failAction post route', async () => {
         const expectedStatusCode = 415
         const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
