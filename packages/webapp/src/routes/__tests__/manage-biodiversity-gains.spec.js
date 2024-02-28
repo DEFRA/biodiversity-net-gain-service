@@ -56,7 +56,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, done => {
       jest.isolateModules(async () => {
         try {
-          const expectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
+          const expectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
           const expectedReturn = [{
             applicationReference: 'mock application reference 1',
             lastUpdated: new Date(),
