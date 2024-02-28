@@ -1,7 +1,6 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsEstimationConstants from './credits-estimation-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
 
@@ -51,7 +50,8 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
-const CREDITS_PURCHASE = 'credits-purchase'
+const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 
 const applicationTypes = {
   REGISTRATION,
@@ -195,7 +195,8 @@ let routes = {
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_CREDITS_PURCHASE_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -309,7 +310,6 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsEstimationConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
   signInTypes,
   APPLICANT_IS_AGENT,
