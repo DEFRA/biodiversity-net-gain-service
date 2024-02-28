@@ -3,7 +3,6 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
@@ -136,14 +135,6 @@ const listArray = array => {
     })
   }
   return html
-}
-
-const getRegistrationTasks = request => {
-  const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-  if (!registrationTasks) {
-    return JSON.parse(JSON.stringify(registerTaskList))
-  }
-  return registrationTasks
 }
 
 const getDeveloperTasks = request => {
@@ -763,7 +754,6 @@ const getAuthenticatedUserRedirectUrl = () => {
 export {
   validateDate,
   dateClasses,
-  getRegistrationTasks,
   listArray,
   boolToYesNo,
   dateToString,
