@@ -29,13 +29,16 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
+
+  const bngNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   if (Array.isArray(result.postProcess.metricData?.d1) && filterByBGN(result.postProcess.metricData?.d1, request).length === 0 &&
     Array.isArray(result.postProcess.metricData?.e1) && filterByBGN(result.postProcess.metricData?.e1, request).length === 0) {
     const error = {
       err: [
         {
-          text: 'The uploaded metric does not contain the off-site reference entered.'
+          text: `Enter the off-site reference in the Metric and then upload the file again. The reference will be ${bngNumber}`
         }
       ]
     }
