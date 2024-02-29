@@ -49,10 +49,13 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
@@ -190,7 +193,8 @@ let routes = {
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_CREDITS_PURCHASE_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
