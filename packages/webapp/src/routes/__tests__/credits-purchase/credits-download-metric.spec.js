@@ -2,7 +2,7 @@ import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.
 import { submitGetRequest } from '../helpers/server.js'
 import { promises as fs } from 'fs'
 
-const url = creditsPurchaseConstants.routes.CREDITS_DOWNLOAD_METRIC_FILE
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
 jest.mock('@defra/bng-connectors-lib')
 jest.mock('path')
