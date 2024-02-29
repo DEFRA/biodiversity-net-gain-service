@@ -2,7 +2,7 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { maximumSizeExceeded, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
@@ -32,7 +32,11 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumSizeExceeded(h)
+      return maximumSizeExceeded(h, {
+        href: PLANNING_DECISION_NOTICE_ID,
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+        view: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
+      })
     default:
       if (err instanceof ThreatScreeningError) {
         return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
@@ -42,14 +46,6 @@ function processErrorUpload (err, h) {
         return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
-}
-const maximumSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: PLANNING_DECISION_NOTICE_ID,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
-  })
 }
 
 const handlers = {
@@ -83,12 +79,15 @@ const handlers = {
 const failAction = (request, h, err) => {
   logger.error(`${new Date().toUTCString()} File upload too large ${request.path}`)
   if (err.output.statusCode === 413) { // Request entity too large
-    return maximumSizeExceeded(h).takeover()
+    return maximumSizeExceeded(h, {
+      href: PLANNING_DECISION_NOTICE_ID, // Ensure this ID is correct for your context
+      maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+      view: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
+    }).takeover()
   } else {
     throw err
   }
 }
-
 const payload = {
   maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
   multipart: true,

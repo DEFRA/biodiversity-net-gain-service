@@ -605,6 +605,14 @@ const emailValidator = (email, id) => {
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
+const maximumSizeExceeded = (h, { href, maximumFileSize, view }) => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href,
+    maximumFileSize,
+    view
+  })
+}
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
@@ -843,6 +851,7 @@ export {
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
+  maximumSizeExceeded,
   getHumanReadableFileSize,
   processDeveloperTask,
   getDeveloperTasks,
