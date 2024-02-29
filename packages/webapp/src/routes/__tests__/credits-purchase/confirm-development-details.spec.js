@@ -82,7 +82,7 @@ describe(url, () => {
 
           await postHandler({ payload, yar: session }, h)
           expect(viewArgs).toEqual('')
-          expect(redirectArgs[0]).toEqual('#')
+          expect(redirectArgs[0]).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
           done()
         } catch (err) {
           done(err)

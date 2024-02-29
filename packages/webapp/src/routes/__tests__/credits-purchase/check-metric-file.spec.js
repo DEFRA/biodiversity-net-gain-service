@@ -11,7 +11,7 @@ describe(url, () => {
     const redisMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
+      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
       const request = {
         yar: redisMap
       }
@@ -28,7 +28,7 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, null)
+      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, null)
       const request = {
         yar: redisMap
       }
@@ -60,7 +60,7 @@ describe(url, () => {
         try {
           let viewResult
           const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-          redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, mockFileLocation)
+          redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadMetric = creditsPurchaseConstants.creditsCheckUploadMetric.NO
           const request = {
             yar: redisMap,
