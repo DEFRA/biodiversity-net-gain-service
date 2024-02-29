@@ -1,11 +1,17 @@
 import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+
 const FORM_ELEMENT_NAME = 'planningDecisionNotice'
 const url = constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/planning-decision-notice'
 
+jest.mock('../helpers/server.js', () => ({
+  ...jest.requireActual('../helpers/server.js'),
+  uploadFile: jest.fn()
+}))
 describe('Uplocad Planning Decision Notice tests', () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view `, async () => {
@@ -151,6 +157,26 @@ describe('Uplocad Planning Decision Notice tests', () => {
           })
         } catch (err) {
           done(err)
+        }
+      })
+    })
+    it('should handle malware scan failure', (done) => {
+      jest.isolateModules(async () => {
+        const { uploadFile } = require('../helpers/server.js')
+        uploadFile.mockImplementation(() => {
+          throw new ThreatScreeningError('Malware scan failed')
+        })
+        const uploadConfig = Object.assign({}, baseConfig, {
+        })
+        try {
+          await uploadFile(uploadConfig)
+          done(new Error('Expected uploadFile to throw ThreatScreeningError, but it did not.'))
+        } catch (err) {
+          if (err instanceof ThreatScreeningError) {
+            done()
+          } else {
+            done(new Error('Expected a ThreatScreeningError, but caught a different error.'))
+          }
         }
       })
     })
