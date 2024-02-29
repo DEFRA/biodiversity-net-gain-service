@@ -11,11 +11,11 @@ const handlers = {
   },
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
-    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
-    request.yar.set(creditsPurchaseConstants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
+    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
+    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_CHECKED, checkUploadMetric)
     if (checkUploadMetric === creditsPurchaseConstants.creditsCheckUploadMetric.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
+      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
     } else if (checkUploadMetric === creditsPurchaseConstants.creditsCheckUploadMetric.YES) {
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS)
@@ -34,7 +34,7 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
+  const fileLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
   const fileSize = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize, 1)
   return {

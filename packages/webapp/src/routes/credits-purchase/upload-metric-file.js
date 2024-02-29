@@ -14,11 +14,11 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, creditsValidationError)
   }
 
-  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE, result.fileType)
-  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_DATA, result.postProcess.metricData)
-  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_FILE_NAME, result.filename)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, result.postProcess.metricData)
+  request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
 }

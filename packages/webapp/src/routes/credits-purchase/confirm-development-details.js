@@ -10,11 +10,11 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmDevDetails = request.payload.confirmDevDetails
-    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
-    request.yar.set(creditsPurchaseConstants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
+    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
+    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_CHECKED, confirmDevDetails)
     if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_METRIC_LOCATION)
+      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_UPLOAD_METRIC)
     } else if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.YES) {
       return h.redirect('#')

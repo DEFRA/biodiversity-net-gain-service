@@ -45,7 +45,8 @@ describe('Metric file upload controller tests', () => {
           // uploadConfig.headers = {
           //   referer: 'http://localhost:30000/land/register-land-task-list'
           // }
-          await uploadFile(uploadConfig)
+          const resp = await uploadFile(uploadConfig)
+          console.log(resp)
           setImmediate(() => {
             done()
           })

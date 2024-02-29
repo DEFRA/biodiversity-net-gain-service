@@ -44,7 +44,7 @@ const redisKeys = {
   CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-metric-filetype',
   CREDITS_PURCHASE_METRIC_DATA: 'credits-metric-data',
   CREDITS_PURCHASE_METRIC_FILE_NAME: 'credits-metric-filename',
-  METRIC_FILE_CHECKED: 'metric-file-checked',
+  CREDITS_PURCHASE_METRIC_FILE_CHECKED: 'metric-file-checked',
   CREDITS_PURCHASE_USER_TYPE: 'credits-user-type'
 }
 
