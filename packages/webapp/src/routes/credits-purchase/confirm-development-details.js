@@ -15,9 +15,9 @@ const handlers = {
     if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_UPLOAD_METRIC)
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
     } else if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.YES) {
-      return h.redirect('#')
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     } else {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS, {
         filename: path.basename(metricUploadLocation),
