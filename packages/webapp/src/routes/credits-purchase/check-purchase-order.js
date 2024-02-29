@@ -38,7 +38,7 @@ export default [
         request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_ORDER_NUMBER)
       }
 
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APP_BY_INDIVIDUAL_OR_ORGANISATION, {
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST, {
         purchaseOrderNumber: null,
         willPOInUse,
         checked

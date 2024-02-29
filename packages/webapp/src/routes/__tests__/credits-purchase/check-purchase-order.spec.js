@@ -64,7 +64,7 @@ const processCreditsPurchaseOrder = (payload, done) => jest.isolateModules(async
 
     await postHandler({ payload, yar: session }, h)
     expect(viewArgs).toEqual('')
-    expect(redirectArgs[0]).toEqual(constants.views.CREDITS_PURCHASE_APP_BY_INDIVIDUAL_OR_ORGANISATION)
+    expect(redirectArgs[0]).toEqual(constants.views.CREDITS_PURCHASE_TASKLIST)
     done()
   } catch (err) {
     done(err)
