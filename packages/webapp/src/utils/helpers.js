@@ -601,7 +601,15 @@ const emailValidator = (email, id) => {
     }
   }
 }
-
+async function handleFileUploadOperation (operation, { logger, request, h, onSuccess, onError }) {
+  try {
+    const result = await operation()
+    return onSuccess(result, request, h)
+  } catch (err) {
+    logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
+    return onError(err, h)
+  }
+}
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
@@ -862,6 +870,7 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
+  handleFileUploadOperation,
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,

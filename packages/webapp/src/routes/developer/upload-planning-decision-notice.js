@@ -2,7 +2,7 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { maximumSizeExceeded, processRegistrationTask } from '../../utils/helpers.js'
+import { maximumSizeExceeded, processRegistrationTask, handleFileUploadOperation } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
@@ -16,7 +16,7 @@ const processSuccessfulUpload = (result, request, h) => {
 }
 
 function buildErrorResponse (h, message) {
-  return h.view(constants.views.UPLOAD_HABITAT_PLAN, {
+  return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
     err: [{
       text: message,
       href: PLANNING_DECISION_NOTICE_ID
@@ -28,7 +28,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.emptyFile:
       return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return buildErrorResponse(h, 'Select a habitat management and monitoring plan')
+      return buildErrorResponse(h, 'Select a planning decision notice file')
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
@@ -66,13 +66,14 @@ const handlers = {
       fileExt: constants.lanOwnerFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    try {
-      const result = await uploadFile(logger, request, config)
-      return processSuccessfulUpload(result, request, h)
-    } catch (err) {
-      logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h)
-    }
+    const uploadOperation = () => uploadFile(logger, request, config)
+    return handleFileUploadOperation(uploadOperation, {
+      logger,
+      request,
+      h,
+      onSuccess: processSuccessfulUpload,
+      onError: processErrorUpload
+    })
   }
 }
 
