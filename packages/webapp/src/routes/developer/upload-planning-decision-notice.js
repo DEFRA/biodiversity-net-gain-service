@@ -15,57 +15,34 @@ const processSuccessfulUpload = (result, request, h) => {
   return h.redirect(constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE)
 }
 
-const processErrorUpload = (err, h) => {
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.UPLOAD_HABITAT_PLAN, {
+    err: [{
+      text: message,
+      href: PLANNING_DECISION_NOTICE_ID
+    }]
+  })
+}
+function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
-        err: [{
-          text: 'The selected file is empty',
-          href: PLANNING_DECISION_NOTICE_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
-        err: [{
-          text: 'Select the Planning decision notice file',
-          href: PLANNING_DECISION_NOTICE_ID
-        }]
-      })
+      return buildErrorResponse(h, 'Select a habitat management and monitoring plan')
+    case constants.uploadErrors.unsupportedFileExt:
+      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumSizeExceeded(h)
-    case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
-        err: [{
-          text: 'The selected file must be a DOC, DOCX or PDF',
-          href: PLANNING_DECISION_NOTICE_ID
-        }]
-      })
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
-          err: [{
-            text: constants.uploadErrors.malwareScanFailed,
-            href: PLANNING_DECISION_NOTICE_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.DEVELOPER_.UPLOAD_PLANNING_DECISION_NOTICE, {
-          err: [{
-            text: constants.uploadErrors.threatDetected,
-            href: PLANNING_DECISION_NOTICE_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
       } else {
-        return h.view(constants.views.DEVELOPER_.UPLOAD_PLANNING_DECISION_NOTICE, {
-          err: [{
-            text: constants.uploadErrors.uploadFailure,
-            href: PLANNING_DECISION_NOTICE_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
 }
-
 const maximumSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
