@@ -2,7 +2,6 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
-import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -171,7 +170,6 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
-  ...creditsPurchaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -228,8 +226,7 @@ const threatScreeningStatusValues = {
 
 const uploadTypes = {
   ...developerConstants.uploadTypes,
-  ...lojConstants.uploadTypes,
-  ...creditsPurchaseConstants.uploadTypes
+  ...lojConstants.uploadTypes
 }
 
 // setReferer contain routes that can be set as a referer for a user
@@ -316,6 +313,5 @@ export default Object.freeze({
   ADDRESS_IS_UK,
   ADDRESS_TYPES,
   DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
-  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED,
-  ...creditsPurchaseConstants.options
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
 })

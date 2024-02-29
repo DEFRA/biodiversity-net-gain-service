@@ -1,4 +1,6 @@
 import constants from '../../../utils/constants'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants'
+
 const uploadTestConfig = [{
   uploadType: 'land-ownership',
   url: constants.routes.UPLOAD_LAND_OWNERSHIP,
@@ -50,8 +52,8 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
 }, {
-  uploadType: constants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
-  url: constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+  uploadType: creditsPurchaseConstants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
+  url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
 }
