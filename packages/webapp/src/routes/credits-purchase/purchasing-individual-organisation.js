@@ -1,9 +1,13 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
-const individualSignInErrorMessage = 'Select \'individual\' if you are purchasing statutory biodiversity credits as an individual'
+const individualSignInErrorMessage = `
+  You cannot purchase statutory biodiversity credits as an organisation because the Defra account you’re signed into is linked to an individual.
+  Register for or sign into a Defra account representing an organisation before continuing this application`
 
-const organisationSignInErrorMessage = 'Select \'organisation\' if you are purchasing statutory biodiversity credits as an organisation'
+const organisationSignInErrorMessage = `
+  You cannot purchase statutory biodiversity credits as an individual because the Defra account you’re signed into is linked to an organisation.
+  Register for or sign into a Defra account as yourself before continuing this application`
 
 const getContext = request => {
   return {
@@ -41,7 +45,7 @@ const handlers = {
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
       if ((userType === creditsPurchaseConstants.landownerTypes.INDIVIDUAL && !organisation) || (userType === creditsPurchaseConstants.landownerTypes.ORGANISATION && organisation)) {
-        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICANT_CONFIRM)
+        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
       } else if (userType === creditsPurchaseConstants.landownerTypes.INDIVIDUAL) {
         return getErrorView(h, request, organisationSignInErrorMessage)
       } else {

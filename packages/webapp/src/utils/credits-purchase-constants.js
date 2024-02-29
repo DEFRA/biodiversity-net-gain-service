@@ -22,7 +22,6 @@ const routes = {
   CREDITS_PURCHASE_CHECK_UPLOAD_METRIC: '/credits-purchase/check-metric-file',
   CREDITS_PURCHASE_CONFIRM_DEV_DETAILS: '/credits-purchase/confirm-development-details',
   CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
-  CREDITS_PURCHASE_APPLICANT_CONFIRM: '/credits-purchase/credits-applicant-details-confirm',
   CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
   CREDITS_PURCHASE_CHECK_ORDER: '/credits-purchase/check-purchase-order'
 }

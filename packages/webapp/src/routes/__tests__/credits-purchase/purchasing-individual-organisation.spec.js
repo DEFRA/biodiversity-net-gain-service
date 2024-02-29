@@ -3,8 +3,13 @@ import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG
 
-const individualSignInErrorMessage = 'Select &#39;individual&#39; if you are purchasing statutory biodiversity credits as an individual'
-const organisationSignInErrorMessage = 'Select &#39;organisation&#39; if you are purchasing statutory biodiversity credits as an organisation'
+const individualSignInErrorMessage = `
+  You cannot purchase statutory biodiversity credits as an organisation because the Defra account you’re signed into is linked to an individual.
+  Register for or sign into a Defra account representing an organisation before continuing this application`
+
+const organisationSignInErrorMessage = `
+  You cannot purchase statutory biodiversity credits as an individual because the Defra account you’re signed into is linked to an organisation.
+  Register for or sign into a Defra account as yourself before continuing this application`
 
 const creditsIndividualOrOganisation = require('../../credits-purchase/purchasing-individual-organisation.js')
 
@@ -89,13 +94,13 @@ describe(url, () => {
     it('should redirect to the check Defra account details page when individual is chosen and signed in as an individual', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.INDIVIDUAL
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
-      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICANT_CONFIRM)
+      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
     })
     it('should redirect to the check Defra account details page when organisation is chosen and signed in representing an organisation', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.landownerTypes.ORGANISATION
       postOptions.auth = organisationAuth
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
-      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICANT_CONFIRM)
+      expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
     })
     it('should redisplay the credits individual or organisation page when no applicant type is chosen', async () => {
       const response = await submitPostRequest(postOptions, 200)
