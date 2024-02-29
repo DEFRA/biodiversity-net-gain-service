@@ -14,7 +14,25 @@
               <h2 class="govuk-heading-m">Statutory biodiversity metric calculation tool</h2>
               {{ govukSummaryList({
                 classes: 'govuk-!-margin-bottom-9',
-                rows: TODOOOOOO!
+                rows: [
+                  {
+                    key: {
+                      text: "File added"
+                    },
+                    value: {
+                      html: "<span data-testid=\"metric-file-value\">" + metricFile + "</span>"
+                    },
+                    actions: {
+                      items: [
+                        {
+                          href: routes.TODO,
+                          text: "Change",
+                          visuallyHiddenText: " metric file"
+                        }
+                      ]
+                    }
+                  }
+                ]
               }) }}
             </div>
         </div>
