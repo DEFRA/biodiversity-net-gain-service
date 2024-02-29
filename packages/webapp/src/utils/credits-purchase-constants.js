@@ -23,7 +23,8 @@ const routes = {
   CREDITS_PURCHASE_CONFIRM_DEV_DETAILS: '/credits-purchase/confirm-development-details',
   CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
   CREDITS_PURCHASE_APPLICANT_CONFIRM: '/credits-purchase/credits-applicant-details-confirm',
-  CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked'
+  CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
+  CREDITS_PURCHASE_CHECK_ORDER: '/credits-purchase/check-purchase-order'
 }
 
 const views = Object.fromEntries(
@@ -38,14 +39,16 @@ const redisKeys = {
   CREDITS_PURCHASE_NATIONALITY: 'credits-purchase-nationality-key',
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED: 'credits-purchase-consent',
   CREDITS_PURCHASE_COST_CALCULATION: 'credits-purchase-cost-calculation',
-  CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-metric-upload',
-  CREDITS_PURCHASE_METRIC_LOCATION: 'credits-metric-file-location',
-  CREDITS_PURCHASE_METRIC_FILE_SIZE: 'credits-metric-filesize',
-  CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-metric-filetype',
-  CREDITS_PURCHASE_METRIC_DATA: 'credits-metric-data',
-  CREDITS_PURCHASE_METRIC_FILE_NAME: 'credits-metric-filename',
-  CREDITS_PURCHASE_METRIC_FILE_CHECKED: 'metric-file-checked',
-  CREDITS_PURCHASE_USER_TYPE: 'credits-user-type'
+  CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-purchase-metric-upload',
+  CREDITS_PURCHASE_METRIC_LOCATION: 'credits-purchase-metric-file-location',
+  CREDITS_PURCHASE_METRIC_FILE_SIZE: 'credits-purchase-metric-filesize',
+  CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-purchase-metric-filetype',
+  CREDITS_PURCHASE_METRIC_DATA: 'credits-purchase-metric-data',
+  CREDITS_PURCHASE_METRIC_FILE_NAME: 'credits-purchase-metric-filename',
+  CREDITS_PURCHASE_METRIC_FILE_CHECKED: 'credits-purchase-metric-file-checked',
+  CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
+  CREDITS_PURCHASE_WILL_PO_IN_USE: 'credits-purchase-will-po-in-use',
+  CREDITS_PURCHASE_ORDER_NUMBER: 'credits-purchase-order-number'
 }
 
 const NO = 'no'
