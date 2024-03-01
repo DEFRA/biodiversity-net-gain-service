@@ -329,19 +329,6 @@ const getEligibilityResults = session => {
   return eligibilityResults
 }
 
-const getDeveloperEligibilityResults = session => {
-  const developerEligibilityResults = {
-    yes: [],
-    no: [],
-    'not-sure': []
-  }
-  session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)].push(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
-  session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
-  return developerEligibilityResults
-}
-
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
@@ -794,7 +781,7 @@ const getCreditsRedirectURL = async (request) => {
   // Have a single previous ‘in-progress' application
   const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
-    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
+    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
   }
 
   return redirectedURL
@@ -839,7 +826,6 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,

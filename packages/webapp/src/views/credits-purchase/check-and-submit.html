@@ -4,37 +4,45 @@
 {% set pageHeading = "Check your answers before you submit your information" %}
 
 {% block formContent %}
-    <div class="govuk-body">
-        {% if err %}
-            {% include "errorbanner.html" %}
-        {% endif %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-              <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
-              <h2 class="govuk-heading-m">Statutory biodiversity metric calculation tool</h2>
-              {{ govukSummaryList({
-                classes: 'govuk-!-margin-bottom-9',
-                rows: [
+  <div class="govuk-body">
+  {% if err %}
+      {% include "errorbanner.html" %}
+  {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+        <h2 class="govuk-heading-m">Statutory biodiversity metric calculation tool</h2>
+        {{ govukSummaryList({
+          classes: 'govuk-!-margin-bottom-9',
+          rows: [
+            {
+              key: {
+                text: "File added"
+              },
+              value: {
+                html: "<span data-testid=\"metric-file-value\">" + metricFile + "</span>"
+              },
+              actions: {
+                items: [
                   {
-                    key: {
-                      text: "File added"
-                    },
-                    value: {
-                      html: "<span data-testid=\"metric-file-value\">" + metricFile + "</span>"
-                    },
-                    actions: {
-                      items: [
-                        {
-                          href: routes.TODO,
-                          text: "Change",
-                          visuallyHiddenText: " metric file"
-                        }
-                      ]
-                    }
+                    href: routes.TODO,
+                    text: "Change",
+                    visuallyHiddenText: " metric file"
                   }
                 ]
-              }) }}
-            </div>
-        </div>
+              }
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Confirm and submit",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
     </div>
+  </div>
 {% endblock %}
