@@ -67,6 +67,9 @@ export default [
   {
     method: 'GET',
     path: creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER,
+    options: {
+      auth: false
+    },
     handler: handlers.get
   },
   {
