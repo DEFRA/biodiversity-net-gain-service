@@ -16,7 +16,7 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
-    return h.redirect(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER)
+    return h.redirect(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_COST)
   }
 }
 
@@ -73,6 +73,7 @@ export default [
     method: 'POST',
     path: creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER,
     options: {
+      auth: false,
       validate: {
         payload: payloadValidationSchema,
         failAction: validationFailAction
