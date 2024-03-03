@@ -62,7 +62,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline.length).toEqual(2)
     expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(10)
     expect(response.e1OffSiteHedgeBaseline[0]['Baseline ref']).toEqual(1)
-    expect(response.e1OffSiteHedgeBaseline[0]['Hedgerow type']).toEqual('Ecologically valuable line of trees - associated with bank or ditch')
+    expect(response.e1OffSiteHedgeBaseline[0]['Habitat type']).toEqual('Ecologically valuable line of trees - associated with bank or ditch')
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
     expect(response.e1OffSiteHedgeBaseline[0]['Length enhanced']).toEqual(0.226)
     expect(response.e1OffSiteHedgeBaseline[0].Condition).toEqual('Poor')
