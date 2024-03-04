@@ -3,17 +3,17 @@
       <caption class="govuk-visually-hidden">Hedgerow</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Habitat type</th>
-          <th scope="col" class="govuk-table__header">Area in hectares</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Habitat type and condition</th>
+          <th scope="col" class="govuk-table__header">Area (ha)</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
         {% for item in offSiteHabitats.items %}
-        {% if item['Broad habitat'] and item['Area (hectares)'] is number %}
+        {% if item['Broad habitat'] and item['Area (hectares)'] %}
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             {{ item['Broad habitat'] }}
-            <span class="govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">{{ item['Habitat type'] }}</span>
+            <span class="govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">{{ item.Condition }}</span>
           </td>
           <td class="govuk-table__cell">
             {{ item['Area (hectares)'] }}
@@ -24,7 +24,7 @@
         <!-- Total -->
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__cell govuk-!-font-weight-bold">
-            Total area
+            Total
           </th>
           <td class="govuk-table__cell" data-testid="habitatTotal">
             {{ offSiteHabitats.total }}
