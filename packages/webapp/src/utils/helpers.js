@@ -32,11 +32,17 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
 
   const nonNumeric = /\D/
 
-  if (nonNumeric.test(day) || nonNumeric.test(month) || nonNumeric.test(year)) {
+  if (nonNumeric.test(day)) {
     context.err = [{
       text: `${fieldType} must be a number`,
       href: `#${ID}-day`,
-      dateError: true
+      dayError: true
+    }]
+  } else if (nonNumeric.test(month)) {
+    context.err = [{
+      text: `${fieldType} must be a number`,
+      href: `#${ID}-month`,
+      monthError: true
     }]
   } else if (!day && !month && !year) {
     context.err = [{
