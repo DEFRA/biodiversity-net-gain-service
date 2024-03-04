@@ -15,8 +15,8 @@ const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
-  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
-  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
+  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1 && !isNaN(payload[`${ID}-day`])) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
+  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1 && !isNaN(payload[`${ID}-month`])) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
   const year = payload[`${ID}-year`]
   return {
     day,
@@ -29,7 +29,16 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
-  if (!day && !month && !year) {
+
+  const nonNumeric = /\D/
+
+  if (nonNumeric.test(day) || nonNumeric.test(month) || nonNumeric.test(year)) {
+    context.err = [{
+      text: `${fieldType} must be a number`,
+      href: `#${ID}-day`,
+      dateError: true
+    }]
+  } else if (!day && !month && !year) {
     context.err = [{
       text: `Enter the ${desc}`,
       href: `#${ID}-day`,
