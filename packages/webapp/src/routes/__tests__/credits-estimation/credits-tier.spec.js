@@ -44,6 +44,15 @@ describe(url, () => {
       // The 'h' tier input box should have the value 1.2
       expect(res.result).toContain('value="1.2"')
     })
+
+    it(`should render header link with href set to ${constants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
+      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      const escapeHref = constants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
+      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Estimate the cost of statutory biodiversity credits\\s+</a>`)
+      expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(
+        new RegExp(pattern)
+      )
+    })
   })
 
   describe('POST', () => {

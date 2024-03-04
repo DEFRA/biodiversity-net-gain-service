@@ -8,8 +8,8 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-import getOrganisationDetails from './get-organisation-details.js'
-import { getContextForCreditsPurchase } from './get-context-for-applications-by-type.js'
+// import getOrganisationDetails from './get-organisation-details.js'
+// import { getContextForCreditsPurchase } from './get-context-for-applications-by-type.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -327,19 +327,6 @@ const getEligibilityResults = session => {
   session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
     eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
   return eligibilityResults
-}
-
-const getDeveloperEligibilityResults = session => {
-  const developerEligibilityResults = {
-    yes: [],
-    no: [],
-    'not-sure': []
-  }
-  session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)].push(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
-  session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
-  return developerEligibilityResults
 }
 
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
@@ -841,7 +828,6 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
