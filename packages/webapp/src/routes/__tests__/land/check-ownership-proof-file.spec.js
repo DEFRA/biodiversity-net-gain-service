@@ -53,6 +53,13 @@ describe(url, () => {
     })
 
     it('should show correct land ownership proofs', async () => {
+      redisMap.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, {
+        fileName: 'file-1.doc',
+        fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+        fileSize: 0.01,
+        fileType: 'application/msword',
+        id: '1'
+      })
       const request = {
         yar: redisMap,
         query: { id: '1' }
@@ -142,12 +149,15 @@ describe(url, () => {
               redirectArgs = args
             }
           }
-
           const payload = {
             checkLandOwnership: 'yes'
           }
-
-          await postHandler({ yar: session, payload }, h)
+          const request = {
+            yar: session,
+            query: { id: '1' },
+            payload
+          }
+          await postHandler(request, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
@@ -180,8 +190,12 @@ describe(url, () => {
           const payload = {
             checkLandOwnership: 'yes'
           }
-
-          await postHandler({ yar: session, payload }, h)
+          const request = {
+            yar: session,
+            query: { id: '1' },
+            payload
+          }
+          await postHandler(request, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
           done()
@@ -213,8 +227,12 @@ describe(url, () => {
           const payload = {
             checkLandOwnership: 'yes'
           }
-
-          await postHandler({ yar: session, payload }, h)
+          const request = {
+            yar: session,
+            query: { id: '1' },
+            payload
+          }
+          await postHandler(request, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
@@ -247,8 +265,12 @@ describe(url, () => {
           const payload = {
             checkLandOwnership: 'yes'
           }
-
-          await postHandler({ yar: session, payload }, h)
+          const request = {
+            yar: session,
+            query: { id: '1' },
+            payload
+          }
+          await postHandler(request, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
           done()
@@ -281,8 +303,12 @@ describe(url, () => {
           const payload = {
             checkLandOwnership: 'yes'
           }
-
-          await postHandler({ yar: session, payload }, h)
+          const request = {
+            yar: session,
+            query: { id: '1' },
+            payload
+          }
+          await postHandler(request, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.LAND_OWNERSHIP_PROOF_LIST])
           done()
