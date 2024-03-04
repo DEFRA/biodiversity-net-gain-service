@@ -1,3 +1,10 @@
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
+const landownerTypes = {
+  INDIVIDUAL,
+  ORGANISATION
+}
+
 const routes = {
   CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
   CREDITS_PURCHASE_CONFIRMATION: '/credits-purchase/application-submitted',
@@ -10,8 +17,13 @@ const routes = {
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',
   CREDITS_PURCHASE_CREDITS_COST: '/credits-purchase/estimated-cost-statutory-biodiversity-credits',
   CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/buy-statutory-biodiversity-credits',
-  CREDITS_PURCHASE_CHECK_ORDER: '/credits-purchase/check-purchase-order',
-  CREDITS_PURCHASE_APP_BY_INDIVIDUAL_OR_ORGANISATION: '/credits-purchase/applying-individual-organisation'
+  CREDITS_PURCHASE_INDIVIDUAL_ORG: '/credits-purchase/purchasing-individual-organisation',
+  CREDITS_PURCHASE_UPLOAD_METRIC: '/credits-purchase/upload-metric-file',
+  CREDITS_PURCHASE_CHECK_UPLOAD_METRIC: '/credits-purchase/check-metric-file',
+  CREDITS_PURCHASE_CONFIRM_DEV_DETAILS: '/credits-purchase/confirm-development-details',
+  CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
+  CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
+  CREDITS_PURCHASE_CHECK_ORDER: '/credits-purchase/check-purchase-order'
 }
 
 const views = Object.fromEntries(
@@ -26,13 +38,50 @@ const redisKeys = {
   CREDITS_PURCHASE_NATIONALITY: 'credits-purchase-nationality-key',
   CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED: 'credits-purchase-consent',
   CREDITS_PURCHASE_COST_CALCULATION: 'credits-purchase-cost-calculation',
+  CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-purchase-metric-upload',
+  CREDITS_PURCHASE_METRIC_LOCATION: 'credits-purchase-metric-file-location',
+  CREDITS_PURCHASE_METRIC_FILE_SIZE: 'credits-purchase-metric-filesize',
+  CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-purchase-metric-filetype',
+  CREDITS_PURCHASE_METRIC_DATA: 'credits-purchase-metric-data',
+  CREDITS_PURCHASE_METRIC_FILE_NAME: 'credits-purchase-metric-filename',
+  CREDITS_PURCHASE_METRIC_FILE_CHECKED: 'credits-purchase-metric-file-checked',
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
   CREDITS_PURCHASE_WILL_PO_IN_USE: 'credits-purchase-will-po-in-use',
   CREDITS_PURCHASE_ORDER_NUMBER: 'credits-purchase-order-number'
 }
 
+const NO = 'no'
+const YES = 'yes'
+
 export default {
   routes,
   views,
-  redisKeys
+  redisKeys,
+  landownerTypes,
+  creditsCheckUploadMetric: {
+    NO,
+    YES
+  },
+  creditsCheckDetails: {
+    NO,
+    YES
+  },
+  uploadTypes: {
+    CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-metric-upload'
+  },
+  metricFileExt: [
+    '.xlsm',
+    '.xlsx'
+  ],
+  uploadErrors: {
+    uploadFailure: 'The selected file could not be uploaded -- try again',
+    noFile: 'Non-file received',
+    emptyFile: 'Empty file',
+    maximumFileSizeExceeded: 'Maxiumum file size exceeded',
+    threatDetected: 'The selected file contains a virus',
+    malwareScanFailed: 'File malware scan failed',
+    unsupportedFileExt: 'Unsupported file extension',
+    noFileScanResponse: 'Timed out awaiting anti virus scan result'
+  },
+  BLOB_STORAGE_CONTAINER: 'customer-uploads'
 }
