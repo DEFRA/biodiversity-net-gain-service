@@ -3,13 +3,15 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { addCreditsJourneys } from './add-credits.js'
 import { termsAndConditionsJourneys } from './terms-and-conditions.js'
+import { purchaseOrderJourneys } from './purchase-order.js'
+import { uploadMetricJourneys } from './upload-metric.js'
 
 const uploadMetric = taskDefinition(
   'upload-metric',
   'Upload statutory biodiversity metric',
-  '#',
-  '#',
-  []
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
+  uploadMetricJourneys
 )
 
 const addCredits = taskDefinition(
@@ -23,16 +25,16 @@ const addCredits = taskDefinition(
 const purchaseOrder = taskDefinition(
   'add-purchase-order',
   'Add a purchase order number',
-  '#',
-  '#',
-  []
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
+  purchaseOrderJourneys
 )
 
 const customerDueDiligence = taskDefinition(
   'customer-due-diligence',
   'Complete customer due diligence',
-  '#',
-  '#',
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
   []
 )
 

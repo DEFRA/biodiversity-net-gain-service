@@ -12,6 +12,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+      {% if userType === 'individual' %}
       <p>We will use the following information from your Defra account to identify you, and to assist with our customer due diligence checks:</p>
       <ul>
         <li>name (first and family)</li>
@@ -19,6 +20,11 @@
         <li>email</li>
         <li>address</li>
       </ul>
+      {% elif userType === 'organisation' %}
+      <p>We will use this information to identify you and your organisation, and to assist with our customer due diligence checks.</p>
+
+      <p><strong>{{ currentOrganisation }}</strong> is the organisation you are purchasing credits for.</p>
+      {% endif %}
       <p><a href="{{ auth.accountManagementUrl }}" target="__blank" rel="noreferrer noopener"> Check your Defra account details (opens in a new tab)</a></p>
       {{ govukCheckboxes({
         name: "defraAccountDetailsConfirmed",

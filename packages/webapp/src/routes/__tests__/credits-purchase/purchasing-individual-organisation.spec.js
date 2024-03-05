@@ -1,7 +1,7 @@
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
-const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG
+const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
 const individualSignInErrorMessage = `
   You cannot purchase statutory biodiversity credits as an organisation because the Defra account you’re signed into is linked to an individual.
@@ -34,7 +34,7 @@ describe(url, () => {
         redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.landownerTypes.INDIVIDUAL)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.landownerTypes.INDIVIDUAL)
       })
     })
@@ -44,7 +44,7 @@ describe(url, () => {
         redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.landownerTypes.ORGANISATION)
 
         await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
-        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.landownerTypes.ORGANISATION)
       })
     })

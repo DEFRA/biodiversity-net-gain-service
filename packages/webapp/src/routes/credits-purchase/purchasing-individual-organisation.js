@@ -9,6 +9,8 @@ const organisationSignInErrorMessage = `
   You cannot purchase statutory biodiversity credits as an individual because the Defra account you’re signed into is linked to an organisation.
   Register for or sign into a Defra account as yourself before continuing this application`
 
+const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
+
 const getContext = request => {
   return {
     userType: request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
@@ -16,7 +18,8 @@ const getContext = request => {
 }
 
 const getErrorView = (h, request, errorMessage) => {
-  return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG, {
+  return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG, {
+    backLink,
     err: [{
       text: errorMessage,
       href: '#creditsIndividualOrganisation'
@@ -36,7 +39,10 @@ const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDe
 const handlers = {
   get: async (request, h) => {
     const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_ORG, { userType })
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG, {
+      backLink,
+      userType
+    })
   },
   post: async (request, h) => {
     const userType = request.payload.userType
@@ -59,10 +65,10 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
   handler: handlers.get
 }, {
   method: 'POST',
-  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_ORG,
+  path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
   handler: handlers.post
 }]
