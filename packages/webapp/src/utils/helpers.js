@@ -29,19 +29,11 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
 
-  const nonNumeric = /\D/
-
-  if (nonNumeric.test(day)) {
+  if (isNaN(day) || isNaN(month)) {
     context.err = [{
       text: `${fieldType} must be a number`,
       href: `#${ID}-day`,
       dayError: true
-    }]
-  } else if (nonNumeric.test(month)) {
-    context.err = [{
-      text: `${fieldType} must be a number`,
-      href: `#${ID}-month`,
-      monthError: true
     }]
   } else if (!day && !month && !year) {
     context.err = [{
@@ -85,6 +77,7 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
       }]
     }
   }
+
   const dateAsISOString = !context.err && date.toISOString()
   return {
     day,
