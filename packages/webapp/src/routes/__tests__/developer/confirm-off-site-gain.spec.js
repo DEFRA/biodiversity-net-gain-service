@@ -23,6 +23,21 @@ const mockMetricData = {
       Condition: 'Good'
     },
     { 'Length (km)': 3, 'Total hedgerow units': 27 }
+  ],
+  f1: [
+    {
+      'Baseline ref': 1,
+      'Watercourse type': 'Other rivers and streams',
+      'Length (km)': 1,
+      'Strategic significance': 'Location ecologically desirable but not in local strategy',
+      'Extent of encroachment': 'No Encroachment',
+      'Extent of encroachment for both banks': 'Minor/ Minor',
+      'Total watercourse units': 6.2700000000000005,
+      'Length enhanced': 1,
+      'Off-site reference': 1234,
+      Condition: 'Poor',
+      'Habitat reference Number': 'F1'
+    }
   ]
 }
 
@@ -65,6 +80,15 @@ describe(url, () => {
             'Total hedgerow units': 27,
             Condition: 'Good'
           }
+        ],
+        f1: [
+          {
+            'Watercourse type': 'Other rivers and streams',
+            'Length (km)': 1,
+            'Total watercourse units': 6.2700000000000005,
+            Condition: 'Poor',
+            'Habitat reference Number': 'F1'
+          }
         ]
       }
 
@@ -92,6 +116,17 @@ describe(url, () => {
             }
           ],
           total: 3
+        },
+        offSiteWatercourses: {
+          items: [
+            {
+              Condition: 'Poor',
+              'Watercourse type': 'Other rivers and streams',
+              'Length (km)': 1,
+              'Total watercourse units': 6.2700000000000005
+            }
+          ],
+          total: 1
         }
       }
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
