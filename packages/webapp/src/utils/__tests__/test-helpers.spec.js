@@ -4,7 +4,6 @@ import {
   dateToString,
   hideClass,
   getAllLandowners,
-  getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
   checkForDuplicate,
@@ -109,40 +108,6 @@ describe('helpers file', () => {
     })
   })
 
-  describe('getDeveloperEligibilityResults', () => {
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'yes')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(2)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(1)
-      expect(results['not-sure'].length).toEqual(0)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'not-sure')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(0)
-      expect(results['not-sure'].length).toEqual(1)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'no')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.no.length).toEqual(2)
-    })
-  })
   describe('getHumamReadableFileSize', () => {
     it('should convert a file size below 1MB to kilobytes', () => {
       expect(getHumanReadableFileSize(512)).toEqual('0.5 kB')
