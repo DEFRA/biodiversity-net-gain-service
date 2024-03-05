@@ -37,7 +37,8 @@ const handlers = {
         tempFile.confirmed = true
         if (duplicateIndex === -1) {
           tempFile.confirmed = true
-          lopFiles.push(tempFile)
+          const { confirmed, ...fileToAdd } = tempFile
+          lopFiles.push(fileToAdd)
           request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
         }
         request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
