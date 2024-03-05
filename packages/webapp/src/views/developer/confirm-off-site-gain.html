@@ -30,40 +30,18 @@
         {% include "common/off-site-habitat.html" %}
         {% include "common/off-site-hedgerow.html" %}
         {% include "common/off-site-watercourse.html" %}
-
-        {{ govukRadios({
-              idPrefix: prefix,
-              name: name,
-              id: id,
-              fieldset: {
-                  legend: {
-                      text: "Are these habitat details correct?",
-                      classes: "govuk-fieldset__legend--m"
-                  }
-              },
-              errorMessage: err[0],
-              items: [
-                  {
-                      value: "yes",
-                      text: "Yes",
-                      id: "offsite-details-checked-yes"
-                  },
-                  {
-                      value: "no",
-                      text: "No, I need to upload a different Metric file",
-                      id: "offsite-details-checked-no"
-                  }
-              ]
-          }) 
-        }}
   
         {{ govukButton({ 
-            text: 'Continue',
+            text: 'Save and continue',
             attributes: {
                 id: "continue",
                 "data-testid": "continue"
               }
          }) }}
+
+         <p> Or <p>
+
+        <a href="{{ uploadMetricFileRoute }}">Upload a different statutory biodiversity metric file</a>
       </div>
   	</div>
 </div>

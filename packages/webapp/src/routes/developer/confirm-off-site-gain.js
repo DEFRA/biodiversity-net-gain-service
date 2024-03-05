@@ -49,8 +49,8 @@ const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
   String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
 
-  console.log('metricData--->', metricData)
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
   const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1, request)
   const f1OffSiteHedgeBaseline = filterByBGN(metricData?.f1, request)
@@ -81,7 +81,8 @@ const getContext = request => {
       items: f1OffSiteHedgeBaseline,
       total: noOfWaterCourseUnits
     },
-    gainSiteNumber: request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    gainSiteNumber: request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
+    uploadMetricFileRoute
   }
 }
 
