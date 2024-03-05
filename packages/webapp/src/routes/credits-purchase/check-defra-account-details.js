@@ -30,7 +30,7 @@ const handlers = {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
       const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
 
-      if (userType === creditsPurchaseConstants.landownerTypes.INDIVIDUAL) {
+      if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
       } else {
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)

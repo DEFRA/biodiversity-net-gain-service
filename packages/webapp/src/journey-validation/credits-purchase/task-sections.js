@@ -5,6 +5,7 @@ import { addCreditsJourneys } from './add-credits.js'
 import { termsAndConditionsJourneys } from './terms-and-conditions.js'
 import { purchaseOrderJourneys } from './purchase-order.js'
 import { uploadMetricJourneys } from './upload-metric.js'
+import { dueDiligenceJourneys } from './due-diligence.js'
 
 const uploadMetric = taskDefinition(
   'upload-metric',
@@ -35,7 +36,7 @@ const customerDueDiligence = taskDefinition(
   'Complete customer due diligence',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
-  []
+  dueDiligenceJourneys
 )
 
 const termsAndConditions = taskDefinition(

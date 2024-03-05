@@ -1,6 +1,6 @@
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'organisation'
-const landownerTypes = {
+const applicantTypes = {
   INDIVIDUAL,
   ORGANISATION
 }
@@ -60,7 +60,7 @@ export default {
   routes,
   views,
   redisKeys,
-  landownerTypes,
+  applicantTypes,
   creditsCheckUploadMetric: {
     NO,
     YES

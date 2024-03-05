@@ -50,9 +50,9 @@ const handlers = {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, userType)
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
-      if ((userType === creditsPurchaseConstants.landownerTypes.INDIVIDUAL && !organisation) || (userType === creditsPurchaseConstants.landownerTypes.ORGANISATION && organisation)) {
+      if ((userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL && !organisation) || (userType === creditsPurchaseConstants.applicantTypes.ORGANISATION && organisation)) {
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
-      } else if (userType === creditsPurchaseConstants.landownerTypes.INDIVIDUAL) {
+      } else if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
         return getErrorView(h, request, organisationSignInErrorMessage)
       } else {
         return processOrganisationLandownerError(h, request, noOrganisationsLinkedToDefraAccount)
