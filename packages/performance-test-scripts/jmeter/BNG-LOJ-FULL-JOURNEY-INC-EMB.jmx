@@ -1282,9 +1282,9 @@
               <boolProp name="HTTPSampler.BROWSER_COMPATIBLE_MULTIPART">true</boolProp>
               <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
                 <collectionProp name="HTTPFileArgs.files">
-                  <elementProp name="new-metric-4.0.xlsm" elementType="HTTPFileArg">
+                  <elementProp name="metric-4.1.xlsm" elementType="HTTPFileArg">
                     <stringProp name="File.mimetype">application/vnd.ms-excel.sheet.macroEnabled.12</stringProp>
-                    <stringProp name="File.path">new-metric-4.0.xlsm</stringProp>
+                    <stringProp name="File.path">metric-4.1.xlsm</stringProp>
                     <stringProp name="File.paramname">uploadMetric</stringProp>
                   </elementProp>
                 </collectionProp>
