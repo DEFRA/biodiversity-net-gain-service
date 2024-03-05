@@ -218,7 +218,14 @@ describe(url, () => {
           session.set(constants.redisKeys.ROLE_KEY, 'Other')
           session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
           session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
-
+          session.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, {
+            fileName: 'file-3.doc',
+            fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+            fileSize: 0.01,
+            fileType: 'application/msword',
+            id: '3',
+            confirmed: false
+          })
           let viewArgs = ''
           let redirectArgs = ''
           const h = {
