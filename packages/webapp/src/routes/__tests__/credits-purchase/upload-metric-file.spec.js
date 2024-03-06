@@ -42,8 +42,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
-          const resp = await uploadFile(uploadConfig)
-          console.log(resp)
+          await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
           })
@@ -59,8 +58,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.1-feb24.xlsm`
-          const resp = await uploadFile(uploadConfig)
-          console.log(resp)
+          await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
           })
