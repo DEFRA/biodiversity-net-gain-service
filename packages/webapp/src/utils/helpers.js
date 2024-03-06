@@ -14,49 +14,44 @@ const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
-  const isNumericOrNull = value => {
-    if (value === '' || value === null) return true
-    return !isNaN(value)
+  const isNonNumericInput = value => {
+    if (value === undefined) return undefined
+    return value !== null && value !== '' && isNaN(value)
   }
   const dayRaw = payload[`${ID}-day`]
   const monthRaw = payload[`${ID}-month`]
   const yearRaw = payload[`${ID}-year`]
-  const isDayNumeric = isNumericOrNull(dayRaw)
-  const isMonthNumeric = isNumericOrNull(monthRaw)
-  const isYearNumeric = isNumericOrNull(yearRaw)
-
-  const day = isDayNumeric && dayRaw ? dayRaw.padStart(2, '0') : dayRaw
-  const month = isMonthNumeric && monthRaw ? monthRaw.padStart(2, '0') : monthRaw
+  const day = dayRaw && !isNaN(dayRaw) ? dayRaw.padStart(2, '0') : dayRaw
+  const month = monthRaw && !isNaN(monthRaw) ? monthRaw.padStart(2, '0') : monthRaw
   const year = yearRaw
   return {
     day,
     month,
     year,
     isNonNumeric: {
-      day: !isDayNumeric,
-      month: !isMonthNumeric,
-      year: !isYearNumeric
+      day: isNonNumericInput(dayRaw),
+      month: isNonNumericInput(monthRaw),
+      year: isNonNumericInput(yearRaw)
     }
   }
 }
-
 const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
   const context = {}
-  // Error handling for non-numeric values
-  if (isNonNumeric.day) {
-    context.err = [{ text: `${fieldType} must include a numeric day`, href: `#${ID}-day`, dayError: true }]
-  } else if (isNonNumeric.month) {
-    context.err = [{ text: `${fieldType} must include a numeric month`, href: `#${ID}-month`, monthError: true }]
-  } else if (isNonNumeric.year) {
-    context.err = [{ text: `${fieldType} must include a numeric year`, href: `#${ID}-year`, yearError: true }]
-  }
-  if (context.err) {
-    return {
-      day,
-      month,
-      year,
-      context
+  // Check for undefined components to issue specific numeric input errors
+  if (day === undefined || month === undefined || year === undefined) {
+    // Only proceed with numeric checks if any component is missing
+    if (isNonNumeric.day) {
+      context.err = [{ text: `${fieldType} must include a numeric day`, href: `#${ID}-day`, dayError: true }]
+      return { day, month, year, context }
+    }
+    if (isNonNumeric.month) {
+      context.err = [{ text: `${fieldType} must include a numeric month`, href: `#${ID}-month`, monthError: true }]
+      return { day, month, year, context }
+    }
+    if (isNonNumeric.year) {
+      context.err = [{ text: `${fieldType} must include a numeric year`, href: `#${ID}-year`, yearError: true }]
+      return { day, month, year, context }
     }
   }
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)

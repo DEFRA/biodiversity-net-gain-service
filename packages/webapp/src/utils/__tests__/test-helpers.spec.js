@@ -439,6 +439,41 @@ describe('validateLengthOfCharsLessThan50', () => {
 })
 
 describe('validateDate', () => {
+  it('should return numeric error when day is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': 'aa',
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a numeric day')
+  })
+
+  it('should return numeric error when month is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': 'aa',
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a numeric month')
+  })
+
+  it('should return numeric error when year is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': 'abcd'
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a numeric year')
+  })
   it('should return date error when day is not included', () => {
     const result = validateDate(
       {
