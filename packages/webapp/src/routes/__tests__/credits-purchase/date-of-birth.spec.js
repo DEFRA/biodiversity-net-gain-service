@@ -75,7 +75,7 @@ describe(url, () => {
       postOptions.payload['dob-month'] = goodMonth
       postOptions.payload['dob-year'] = goodYear
       const res = await submitPostRequest(postOptions, 200)
-      expect(res.result.indexOf('There is a problem')).toBeGreaterThan(-1)
+      expect(res.result.indexOf('There is a problem')).toBeGreaterThan(1)
       expect(res.result.indexOf('Date of birth must be a number')).toBeGreaterThan(1)
     })
 
