@@ -1,0 +1,16 @@
+{% extends 'form-layout.html' %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set pageHeading = "Check landowner or leaseholder’s written consent file" %}
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+    {% include "errorbanner.html" %}
+    {% endif %}
+    {% set idPrefix = 'checkConsentToAllocateGains' %}
+    {% set name = 'checkConsentToAllocateGains' %}
+    {% set id = 'check-upload-correct-yes' %}
+    {% include "common/file-upload-check.html" %}
+</div>
+{% endblock %}
