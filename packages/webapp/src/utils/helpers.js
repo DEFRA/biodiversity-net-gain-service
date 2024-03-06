@@ -38,9 +38,15 @@ const parsePayload = (payload, ID) => {
 const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
   const context = {}
-  // Check for undefined components to issue specific numeric input errors
-  if (day === undefined || month === undefined || year === undefined) {
-    // Only proceed with numeric checks if any component is missing
+  if (!day && !month && !year) {
+    context.err = [{
+      text: `Enter the ${desc}`,
+      href: `#${ID}-day`,
+      dateError: true
+    }]
+    return { day, month, year, context }
+  }
+  if (!day || !month || !year) {
     if (isNonNumeric.day) {
       context.err = [{ text: `${fieldType} must include a numeric day`, href: `#${ID}-day`, dayError: true }]
       return { day, month, year, context }
@@ -53,58 +59,26 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
       context.err = [{ text: `${fieldType} must include a numeric year`, href: `#${ID}-year`, yearError: true }]
       return { day, month, year, context }
     }
-  }
-  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
-  if (!day && !month && !year) {
-    context.err = [{
-      text: `Enter the ${desc}`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (!day) {
-    context.err = [{
-      text: `${fieldType} must include a day`,
-      href: `#${ID}-day`,
-      dayError: true
-    }]
-  } else if (!month) {
-    context.err = [{
-      text: `${fieldType} must include a month`,
-      href: `#${ID}-month`,
-      monthError: true
-    }]
-  } else if (!year) {
-    context.err = [{
-      text: `${fieldType} must include a year`,
-      href: `#${ID}-year`,
-      yearError: true
-    }]
-  } else if (!date.isValid()) {
-    context.err = [{
-      text: `${fieldType} must be a real date`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (checkFuture === true) {
-    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-    const format = 'DD/MM/YYYY, HH:mm:ss'
-    const currentMomentInBritish = moment(dateString, format)
-    if (date.isAfter(currentMomentInBritish)) {
-      context.err = [{
-        text: `${fieldType} cannot be in the future`,
-        href: `#${ID}-day`,
-        dateError: true
-      }]
+    if (!day) {
+      context.err = [{ text: `${fieldType} must include a day`, href: `#${ID}-day`, dayError: true }]
+    } else if (!month) {
+      context.err = [{ text: `${fieldType} must include a month`, href: `#${ID}-month`, monthError: true }]
+    } else if (!year) {
+      context.err = [{ text: `${fieldType} must include a year`, href: `#${ID}-year`, yearError: true }]
+    } else {
+      context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
     }
+    return { day, month, year, context }
   }
-  const dateAsISOString = !context.err && date.toISOString()
-  return {
-    day,
-    month,
-    year,
-    dateAsISOString,
-    context
+
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
+  if (!date.isValid()) {
+    context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
+  } else if (checkFuture && date.isAfter(moment())) {
+    context.err = [{ text: `${fieldType} cannot be in the future`, href: `#${ID}-day`, dateError: true }]
   }
+  const dateAsISOString = !context.err ? date.toISOString() : undefined
+  return { day, month, year, dateAsISOString, context }
 }
 
 const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
