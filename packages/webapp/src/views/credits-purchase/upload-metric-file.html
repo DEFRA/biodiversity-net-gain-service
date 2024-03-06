@@ -1,0 +1,48 @@
+{% extends 'multipart-form-layout.html' %}
+{% set serviceName = "Purchase statutory biodiversity credits" %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload the statutory biodiversity metric" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        <div id="location-upload-hint">
+          <p>This is the metric file that the local planning authority reviewed.</p>
+          <p>It must be the statutory biodiversity metric file as it has the ‘unit shortfall summary’ tab. This can be found in the results menu.</p>
+          <p>The file should be:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>XLSM or XLSX</li>
+            <li>No larger than 50MB</li>
+          </ul>
+        </div>
+          {{ govukFileUpload({
+            id: "uploadMetric",
+            name: "uploadMetric",
+            errorMessage: err[0],
+            label: {
+              text: "Upload a file"
+            }
+          }) }}
+          
+          {{ govukButton({
+            text: "Upload",
+            attributes: {
+              id: "Upload-File",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

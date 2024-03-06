@@ -1,57 +1,32 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../utils/credits-estimation-constants.js'
-const url = constants.routes.ESTIMATOR_CREDITS_TIER
+import creditsEstimationConstants from '../../../utils/credits-estimation-constants.js'
 
-const calculationResult = {
+const url = creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER
+const mockCostCalculation = {
   tierCosts: [
-    { tier: 'a1', unitAmount: 0, cost: 0 },
-    { tier: 'a2', unitAmount: 0, cost: 0 },
-    { tier: 'a3', unitAmount: 0, cost: 0 },
-    { tier: 'a4', unitAmount: 0, cost: 0 },
-    { tier: 'a5', unitAmount: 0, cost: 0 },
-    { tier: 'h', unitAmount: 1.2, cost: 52800 },
-    { tier: 'w', unitAmount: 0, cost: 0 }
+    { unitAmount: 2.3, tier: 'a1', cost: 96599.99999999999 },
+    { unitAmount: 0, tier: 'a2', cost: 0 },
+    { unitAmount: 0, tier: 'a3', cost: 0 },
+    { unitAmount: 0, tier: 'a4', cost: 0 },
+    { unitAmount: 0.4, tier: 'a5', cost: 260000 },
+    { unitAmount: 0, tier: 'h', cost: 0 },
+    { unitAmount: 0, tier: 'w', cost: 0 }
   ],
-  total: 52800
-}
-
-const redisCalculation = {
-  [constants.redisKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
-}
-
-const goodPayload = {
-  a1: '', a2: '', a3: '', a4: '', a5: '', h: '1.2', w: ''
-}
-
-const badPayload = {
-  a1: '', a2: '', a3: '', a4: '', a5: '', h: '1.222', w: ''
-}
-
-const viewInputValues = {
-  a1: 0, a2: 0, a3: 0, a4: 0, a5: 0, h: 1.2, w: 0
+  total: 356600
 }
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${constants.views.ESTIMATOR_CREDITS_TIER} view`, async () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
 
-    it(`should render the ${constants.views.ESTIMATOR_CREDITS_TIER} view with correct session content`, async () => {
-      const res = await submitGetRequest({ url }, 200, redisCalculation)
-
-      expect(res.request.response.source.context.inputValues).toMatchObject(viewInputValues)
-      // The 'h' tier input box should have the value 1.2
-      expect(res.result).toContain('value="1.2"')
-    })
-
-    it(`should render header link with href set to ${constants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
-      const res = await submitGetRequest({ url }, 200, redisCalculation)
-      const escapeHref = constants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
-      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Estimate the cost of statutory biodiversity credits\\s+</a>`)
-      expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(
-        new RegExp(pattern)
-      )
+    it('should render the view with previous values if in cache', async () => {
+      const sessionData = {}
+      sessionData[creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION] = mockCostCalculation
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('2.3')
+      expect(res.payload).toContain('0.4')
     })
   })
 
@@ -64,17 +39,46 @@ describe(url, () => {
       }
     })
 
-    it(`Should redirect to ${constants.views.ESTIMATOR_CREDITS_COST} if good payload provided`, async () => {
-      postOptions.payload = goodPayload
-      const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
-      expect(res.headers.location).toEqual(constants.routes.ESTIMATOR_CREDITS_COST)
+    it('Should continue journey if at least one credit is entered', async () => {
+      postOptions.payload.a2 = '1.2'
+      const res = await submitPostRequest(postOptions, 302, {}, { expectedNumberOfPostJsonCalls: 0 })
+      expect(res.headers.location).toEqual(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_COST)
     })
 
-    it('Should show error message if bad payload provided', async () => {
-      postOptions.payload = badPayload
+    it('Should fail journey if no credits are entered', async () => {
       const res = await submitPostRequest(postOptions, 200)
-      expect(res.result).toContain('There is a problem')
-      expect(res.result).toContain('Enter the number of credits from the Metric up to 2 decimal places, like 23.75.')
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    })
+
+    it('Should fail journey if no credits above 0 are entered', async () => {
+      postOptions.payload.a2 = '0'
+      postOptions.payload.a3 = '0.0'
+      postOptions.payload.a4 = '0.00'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    })
+
+    it('Should fail journey if more than two decimal places entered for a credit', async () => {
+      postOptions.payload.a2 = '1.22222'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    })
+
+    it('Should fail journey if credit entered is not a number', async () => {
+      postOptions.payload.a2 = 'geoff'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    })
+
+    it('Should fail journey if credit entered is more than 10 characters', async () => {
+      postOptions.payload.a2 = '123456789012345678901234567890123456789012345678901234567890'
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Number of credits must be 10 characters or fewer')
     })
   })
 })
