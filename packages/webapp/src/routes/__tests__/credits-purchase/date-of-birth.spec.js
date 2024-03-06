@@ -67,7 +67,8 @@ describe(url, () => {
       postOptions.payload['dob-month'] = goodMonth
       const res = await submitPostRequest(postOptions, 200)
       expect(res.statusCode).toBe(200)
-      expect(res.payload).toContain('There is a problem')
+      expect(res.result.indexOf('There is a problem')).toBeGreaterThan(1)
+      expect(res.result.indexOf('Date of birth must include a year'))
     })
 
     it('Should fail journey if user enters a day that isnt a number', async () => {
@@ -95,6 +96,7 @@ describe(url, () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.statusCode).toBe(200)
       expect(res.result.indexOf('There is a problem')).toBeGreaterThan(1)
+      expect(res.payload).toContain('Date of birth must be a number')
     })
   })
 })
