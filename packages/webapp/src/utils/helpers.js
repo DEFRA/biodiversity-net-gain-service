@@ -24,7 +24,7 @@ const parsePayload = (payload, ID) => {
   }
 }
 
-const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
+const validateDate = (payload, ID, desc, fieldType, checkFuture = false) => {
   const { day, month, year } = parsePayload(payload, ID)
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   const context = {}
