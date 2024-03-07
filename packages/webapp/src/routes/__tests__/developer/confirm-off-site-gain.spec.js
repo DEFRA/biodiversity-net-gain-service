@@ -16,7 +16,7 @@ const mockMetricData = {
   ],
   e1: [
     {
-      'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+      'Habitat type': 'Native hedgerow - associated with bank or ditch',
       'Length (km)': 3,
       'Total hedgerow units': 27,
       'Off-site reference': 'AZ12208461',
@@ -75,7 +75,7 @@ describe(url, () => {
         ],
         e1: [
           {
-            'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+            'Habitat type': 'Native hedgerow - associated with bank or ditch',
             'Length (km)': 3,
             'Total hedgerow units': 27,
             Condition: 'Good'
@@ -110,7 +110,7 @@ describe(url, () => {
           items: [
             {
               Condition: 'Good',
-              'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+              'Habitat type': 'Native hedgerow - associated with bank or ditch',
               'Length (km)': 3,
               'Total hedgerow units': 27
             }
