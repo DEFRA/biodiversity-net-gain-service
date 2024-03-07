@@ -75,7 +75,7 @@ const req = {
         ],
         e1: [
           {
-            'Hedgerow type': 'Native hedgerow - associated with bank or ditch',
+            'Habitat type': 'Native hedgerow - associated with bank or ditch',
             'Length (km)': 0.3,
             'Total hedgerow units': 1.2,
             Condition: 'Poor'
