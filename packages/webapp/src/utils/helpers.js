@@ -38,39 +38,29 @@ const parsePayload = (payload, ID) => {
 const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
   const context = {}
-  if (!day && !month && !year) {
-    context.err = [{
-      text: `Enter the ${desc}`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
+  const setErrorAndReturn = (condition, errorText, errorField) => {
+    if (condition) {
+      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, dateError: true }]
+      return true
+    }
+    return false
+  }
+  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day')) {
     return { day, month, year, context }
   }
   if (!day || !month || !year) {
-    if (isNonNumeric.day) {
-      context.err = [{ text: `${fieldType} must include a numeric day`, href: `#${ID}-day`, dayError: true }]
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a numeric day`, 'day') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a numeric month`, 'month') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a numeric year`, 'year')) {
       return { day, month, year, context }
     }
-    if (isNonNumeric.month) {
-      context.err = [{ text: `${fieldType} must include a numeric month`, href: `#${ID}-month`, monthError: true }]
-      return { day, month, year, context }
-    }
-    if (isNonNumeric.year) {
-      context.err = [{ text: `${fieldType} must include a numeric year`, href: `#${ID}-year`, yearError: true }]
-      return { day, month, year, context }
-    }
-    if (!day) {
-      context.err = [{ text: `${fieldType} must include a day`, href: `#${ID}-day`, dayError: true }]
-    } else if (!month) {
-      context.err = [{ text: `${fieldType} must include a month`, href: `#${ID}-month`, monthError: true }]
-    } else if (!year) {
-      context.err = [{ text: `${fieldType} must include a year`, href: `#${ID}-year`, yearError: true }]
-    } else {
-      context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
-    }
-    return { day, month, year, context }
-  }
 
+    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day') ||
+    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month') ||
+    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year')) {
+      return { day, month, year, context }
+    }
+  }
   const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
   if (!date.isValid()) {
     context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
