@@ -17,6 +17,11 @@
             <stringProp name="Argument.value">${__BeanShell( System.getenv(&quot;host&quot;) )}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">${__BeanShell( System.getenv(&quot;port&quot;) )}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="scheme" elementType="Argument">
             <stringProp name="Argument.name">scheme</stringProp>
             <stringProp name="Argument.value">${__BeanShell( System.getenv(&quot;scheme&quot;) )}</stringProp>
@@ -62,10 +67,15 @@
             <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="port1" elementType="Argument">
+            <stringProp name="Argument.name">port1</stringProp>
+            <stringProp name="Argument.value">3000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache Manager" enabled="true">
+      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache Manager">
         <boolProp name="clearEachIteration">false</boolProp>
         <boolProp name="useExpires">true</boolProp>
         <boolProp name="CacheManager.controlledByThread">false</boolProp>
@@ -86,7 +96,7 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
@@ -97,7 +107,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <RecordingController guiclass="RecordController" testclass="RecordingController" testname="Recording Controller"/>
+        <RecordingController guiclass="RecordController" testclass="RecordingController" testname="Recording Controller" enabled="true"/>
         <hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Home" enabled="true">
             <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -108,7 +118,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/</stringProp>
@@ -184,7 +194,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/register-land-task-list</stringProp>
@@ -264,7 +274,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-ownership-proof</stringProp>
@@ -345,7 +355,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-ownership-proof</stringProp>
@@ -441,7 +451,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-ownership-proof-file</stringProp>
@@ -538,7 +548,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/landowner-consent</stringProp>
@@ -634,7 +644,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-land-boundary</stringProp>
@@ -715,7 +725,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-land-boundary</stringProp>
@@ -811,7 +821,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-land-boundary-file</stringProp>
@@ -908,7 +918,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/add-grid-reference</stringProp>
@@ -1005,7 +1015,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/add-hectares</stringProp>
@@ -1102,7 +1112,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-land-boundary-details</stringProp>
@@ -1190,7 +1200,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-metric</stringProp>
@@ -1271,7 +1281,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-metric</stringProp>
@@ -1367,7 +1377,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-metric-file</stringProp>
@@ -1464,7 +1474,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-habitat-baseline</stringProp>
@@ -1553,7 +1563,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-habitat-created</stringProp>
@@ -1642,7 +1652,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-metric-details</stringProp>
@@ -1730,7 +1740,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/legal-agreement-type</stringProp>
@@ -1811,7 +1821,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/legal-agreement-type</stringProp>
@@ -1908,7 +1918,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-legal-agreement</stringProp>
@@ -2004,7 +2014,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-legal-agreement-file</stringProp>
@@ -2101,7 +2111,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/add-legal-agreement-parties</stringProp>
@@ -2211,7 +2221,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/legal-party-list</stringProp>
@@ -2308,7 +2318,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/legal-agreement-start-date</stringProp>
@@ -2419,7 +2429,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-legal-agreement-details</stringProp>
@@ -2507,7 +2517,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-local-land-charge</stringProp>
@@ -2588,7 +2598,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/upload-local-land-charge</stringProp>
@@ -2684,7 +2694,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-local-land-charge-file</stringProp>
@@ -2780,7 +2790,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-and-submit</stringProp>
@@ -2861,7 +2871,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/check-and-submit</stringProp>
@@ -2949,7 +2959,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/manage-biodiversity-gains</stringProp>
@@ -3029,7 +3039,7 @@
               <boolProp name="HTTPSampler.image_parser">true</boolProp>
               <intProp name="HTTPSampler.concurrentPool">6</intProp>
               <stringProp name="HTTPSampler.domain">${host}</stringProp>
-              <stringProp name="HTTPSampler.port">443</stringProp>
+              <stringProp name="HTTPSampler.port">${port}</stringProp>
               <stringProp name="HTTPSampler.protocol">${scheme}</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">/land/biodiversity-gain-sites</stringProp>
@@ -3140,7 +3150,7 @@
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
