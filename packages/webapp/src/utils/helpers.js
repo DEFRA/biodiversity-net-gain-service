@@ -754,17 +754,13 @@ const redirectDeveloperClient = (h, yar) => {
   }
 }
 
-// FIXME: base this on the application type in the users session, maybe?
 const getAuthenticatedUserRedirectUrl = () => {
   // BNGP- 4368 - Simplify the redirection logic for authenticated users.
   // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
   // When two or more journey types are enabled, redirect the user to select the dashboard for
   // the required journey type.
-  //
-  // IMPORTANT
-  // This logic MUST be refactored to allow for correct redirection when credits purchase
-  // and/or allocation functionality is implemented and enabled.
-  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y'
     ? constants.routes.MANAGE_BIODIVERSITY_GAINS
     : constants.routes.BIODIVERSITY_GAIN_SITES
 }
