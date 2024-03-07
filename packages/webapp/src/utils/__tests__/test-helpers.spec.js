@@ -448,7 +448,7 @@ describe('validateDate', () => {
       },
       'legalAgreementStartDate'
     )
-    expect(result.context.err[0].text).toBe('Start date must include a numeric day')
+    expect(result.context.err[0].text).toBe('Start date must include a day that is a number')
   })
 
   it('should return numeric error when month is non-numeric', () => {
@@ -460,7 +460,7 @@ describe('validateDate', () => {
       },
       'legalAgreementStartDate'
     )
-    expect(result.context.err[0].text).toBe('Start date must include a numeric month')
+    expect(result.context.err[0].text).toBe('Start date must include a month that is a number')
   })
 
   it('should return numeric error when year is non-numeric', () => {
@@ -472,7 +472,7 @@ describe('validateDate', () => {
       },
       'legalAgreementStartDate'
     )
-    expect(result.context.err[0].text).toBe('Start date must include a numeric year')
+    expect(result.context.err[0].text).toBe('Start date must include a year that is a number')
   })
   it('should return date error when day is not included', () => {
     const result = validateDate(

@@ -49,9 +49,9 @@ const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture =
     return { day, month, year, context }
   }
   if (!day || !month || !year) {
-    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a numeric day`, 'day', 'dayError') ||
-      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a numeric month`, 'month', 'monthError') ||
-      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a numeric year`, 'year', 'yearError')) {
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a day that is a number`, 'day', 'dayError') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a month that is a number`, 'month', 'monthError') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a year that is a number`, 'year', 'yearError')) {
       return { day, month, year, context }
     }
 
