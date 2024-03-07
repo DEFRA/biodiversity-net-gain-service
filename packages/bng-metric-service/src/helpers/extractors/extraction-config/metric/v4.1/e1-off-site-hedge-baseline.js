@@ -4,11 +4,10 @@ const totalUnits = 'Total hedgerow units'
 const headers = [
   baselineRef,
   totalUnits,
-  'Hedgerow type',
+  'Habitat type',
   'Length (km)',
   'Length enhanced',
   'Condition',
-  'Total hedgerow units',
   'Habitat reference Number',
   'Off-site reference',
   'Hedge number',
@@ -25,7 +24,9 @@ const e1OffSiteHedgeBaseline = {
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
     'Condition ': 'Condition',
-    'Habitat reference': 'Habitat reference Number'
+    'Habitat reference': 'Habitat reference Number',
+    'Hedgerow type': 'Habitat type',
+    Ref: baselineRef
   }
 }
 
