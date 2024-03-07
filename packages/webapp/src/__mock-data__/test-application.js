@@ -223,7 +223,7 @@ const dataString = `
       {
         "Baseline ref": 1,
         "Habitat reference Number": "E1",
-        "Hedgerow type": "Native hedgerow - associated with bank or ditch",
+        "Habitat type": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Length enhanced": 0,
         "Total hedgerow units": 1.2,
@@ -231,7 +231,7 @@ const dataString = `
       },
       {
         "Baseline ref": 2,
-        "Hedgerow type": "Native hedgerow",
+        "Habitat type": "Native hedgerow",
         "Length (km)": 0.3,
         "Length enhanced": 0.3,
         "Total hedgerow units": 0.6,

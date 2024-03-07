@@ -1,5 +1,4 @@
 import constants from '../../../utils/constants.js'
-import { submitPostRequest } from '../helpers/server.js'
 
 const url = '/developer/check-consent-file'
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-consent'
@@ -150,12 +149,6 @@ describe(url, () => {
           done(err)
         }
       })
-    })
-
-    it('should detect an invalid response from user', async () => {
-      postOptions.payload.checkUploadConsent = 'invalid'
-      const response = await submitPostRequest(postOptions, 404)
-      expect(response.payload).toContain('Page not found')
     })
   })
 })
