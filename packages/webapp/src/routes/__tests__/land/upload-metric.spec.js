@@ -56,6 +56,27 @@ describe('Metric file upload controller tests', () => {
       })
     }, 300000)
 
+    it('should upload feb24 format metric file to cloud storage', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const uploadConfig = getBaseConfig()
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1-feb24.xlsm`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/register-land-task-list'
+          }
+          await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    }, 300000)
+
     it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
