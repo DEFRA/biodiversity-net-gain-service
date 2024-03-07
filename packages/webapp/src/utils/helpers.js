@@ -765,6 +765,51 @@ const getAuthenticatedUserRedirectUrl = () => {
     : constants.routes.BIODIVERSITY_GAIN_SITES
 }
 
+const creditsValidationSchema = (inputSchema) => {
+  return Joi.object({
+    a1: inputSchema,
+    a2: inputSchema,
+    a3: inputSchema,
+    a4: inputSchema,
+    a5: inputSchema,
+    h: inputSchema,
+    w: inputSchema
+  }).custom((value, helpers) => {
+    if (Object.values(value).every(v => v === '' || Number(v) === 0)) {
+      throw new Error('at least one credit unit input should have a value')
+    }
+  })
+}
+
+const creditsValidationFailAction = ({
+  err,
+  defaultErrorMessage,
+  charLengthErrorMessage
+}) => {
+  const errorMessages = {}
+  const errorList = []
+
+  if (err.details.some(e => e.type === 'any.custom')) {
+    const errorId = 'custom-err'
+    errorMessages[errorId] = defaultErrorMessage
+    errorList.push({
+      ...defaultErrorMessage,
+      href: `#${errorId}`
+    })
+  } else {
+    err.details.forEach(e => {
+      const errorMessage = e.type === 'string.max' ? charLengthErrorMessage : defaultErrorMessage
+      errorMessages[e.context.key] = errorMessage
+      errorList.push({
+        ...errorMessage,
+        href: `#${e.context.key}-units`
+      })
+    })
+  }
+
+  return { errorMessages, errorList }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -819,5 +864,7 @@ export {
   validateAddress,
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
-  getAuthenticatedUserRedirectUrl
+  getAuthenticatedUserRedirectUrl,
+  creditsValidationSchema,
+  creditsValidationFailAction
 }
