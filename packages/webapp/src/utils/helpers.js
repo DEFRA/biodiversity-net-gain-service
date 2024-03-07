@@ -38,26 +38,26 @@ const parsePayload = (payload, ID) => {
 const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
   const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
   const context = {}
-  const setErrorAndReturn = (condition, errorText, errorField) => {
+  const setErrorAndReturn = (condition, errorText, errorField, errorFlag) => {
     if (condition) {
-      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, dateError: true }]
+      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, [errorFlag]: true }]
       return true
     }
     return false
   }
-  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day')) {
+  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day', 'dateError')) {
     return { day, month, year, context }
   }
   if (!day || !month || !year) {
-    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a numeric day`, 'day') ||
-      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a numeric month`, 'month') ||
-      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a numeric year`, 'year')) {
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a numeric day`, 'day', 'dayError') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a numeric month`, 'month', 'monthError') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a numeric year`, 'year', 'yearError')) {
       return { day, month, year, context }
     }
 
-    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day') ||
-    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month') ||
-    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year')) {
+    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day', 'dayError') ||
+    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month', 'monthError') ||
+    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year', 'yearError')) {
       return { day, month, year, context }
     }
   }
