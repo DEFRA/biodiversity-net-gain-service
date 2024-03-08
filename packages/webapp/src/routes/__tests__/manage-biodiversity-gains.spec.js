@@ -2,7 +2,7 @@ import { submitGetRequest } from './helpers/server.js'
 import constants from '../../utils/constants.js'
 
 const url = constants.routes.MANAGE_BIODIVERSITY_GAINS
-const creditsPurchaseLink = '<a href="/credits-purchase/check-statutory-biodiversity-credits/">Buy statutory biodiversity credits</a>'
+const creditsPurchaseLink = '<a href="/credits-purchase/check-statutory-biodiversity-credits">Buy statutory biodiversity credits</a>'
 
 describe(url, () => {
   describe('GET', () => {

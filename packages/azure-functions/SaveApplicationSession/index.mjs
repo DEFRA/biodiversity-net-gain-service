@@ -13,7 +13,6 @@ const redisKeys = {
 }
 
 export default async function (context, req) {
-  context.log('Processing', JSON.stringify(req.body['application-reference']))
   let db
   try {
     const applicationSession = req.body
@@ -38,6 +37,8 @@ export default async function (context, req) {
       redisKeys.applicationReference = 'credits-purchase-application-reference'
     }
 
+    context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
+
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
       let createApplicationRefFunction = createApplicationReference
@@ -55,6 +56,8 @@ export default async function (context, req) {
       applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
         ? result.rows[0].fn_create_credits_app_reference
         : result.rows[0].fn_create_application_reference
+
+      context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
 
     // Save the applicationSession to database

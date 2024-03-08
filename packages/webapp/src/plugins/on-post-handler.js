@@ -76,7 +76,7 @@ const saveApplicationSession = async request => {
   cacheApplicationTypeIfNeeded(request)
 
   // Use the correct Redis key for the application type.
-  const applicationType = constants.redisKeys.APPLICATION_TYPE
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
   let applicationReferenceRedisKey = constants.redisKeys.APPLICATION_REFERENCE
 
   if (applicationType === constants.applicationTypes.ALLOCATION) {
@@ -86,11 +86,6 @@ const saveApplicationSession = async request => {
   if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
     applicationReferenceRedisKey = creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
   }
-
-  console.log('-------')
-  console.log(applicationReferenceRedisKey)
-  console.log(request.yar.get(applicationReferenceRedisKey))
-  console.log('-------')
 
   if (request.yar.get(applicationReferenceRedisKey)) {
     // Persist the session data asynchronously and allow the user to progress without waiting.
@@ -112,10 +107,6 @@ const saveApplicationSession = async request => {
   } else {
     const applicationReference = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
     request.yar.set(applicationReferenceRedisKey, applicationReference)
-
-    console.log('&&&&')
-    console.log(`Created ${applicationReference}`)
-    console.log('&&&&')
   }
 }
 
