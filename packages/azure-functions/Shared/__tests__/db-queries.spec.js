@@ -132,5 +132,4 @@ describe('Database queries', () => {
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
     expect(isPointInEngland(db)).toEqual('select bng.fn_is_point_in_england_27700($1, $2)')
   })
-
 })
