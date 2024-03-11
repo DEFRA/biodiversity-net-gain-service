@@ -7,7 +7,7 @@
 {% set metricRowList = [
   {
     'text': 'File added',
-    'value': metric.fileName + ' ' + metric.fileSize,
+    'value': metric.fileName + ', ' + metric.fileSize,
     'valueDataTestId': 'metric-file-name-value',
     'valueId': 'metric-file-name-value',
     'href': metric.fileNameUrl,
@@ -259,6 +259,7 @@
 
         {{ govukButton({
           text: "Confirm and submit",
+          classes: 'govuk-!-margin-top-3',
           attributes: {
             id: "continue",
             "data-testid": "continue"
