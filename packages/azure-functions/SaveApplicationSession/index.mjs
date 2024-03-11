@@ -32,7 +32,7 @@ export default async function (context, req) {
         applicationSession[redisKeys.applicationType],
         applicationSession[redisKeys.organisationId]
       ])
-      applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
+      applicationSession[redisKeys.applicationReference] = result.rows[0].application_reference
     }
 
     // Save the applicationSession to database

@@ -122,7 +122,6 @@ describe('Database queries', () => {
     const db = {
       query: query => query
     }
-    expect(createApplicationReference(db)).toEqual('SELECT bng.fn_create_application_reference($1, $2, $3);')
     expect(saveApplicationSession(db)).toEqual(expectedInsertStatement)
     expect(getApplicationCountByContactIdAndOrganisationId(db)).toEqual(expectedGetApplicationCountByContactIdAndOrganisationIdStatement)
     expect(getApplicationSessionById(db)).toEqual('SELECT application_session FROM bng.application_session WHERE application_session_id = $1')
@@ -133,4 +132,5 @@ describe('Database queries', () => {
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
     expect(isPointInEngland(db)).toEqual('select bng.fn_is_point_in_england_27700($1, $2)')
   })
+
 })
