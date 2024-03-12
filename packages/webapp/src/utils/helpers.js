@@ -10,7 +10,6 @@ import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 import getOrganisationDetails from './get-organisation-details.js'
 import { getContext } from './get-context-for-applications-by-type.js'
-
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
@@ -327,19 +326,6 @@ const getEligibilityResults = session => {
   session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
     eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
   return eligibilityResults
-}
-
-const getDeveloperEligibilityResults = session => {
-  const developerEligibilityResults = {
-    yes: [],
-    no: [],
-    'not-sure': []
-  }
-  session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)].push(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
-  session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
-  return developerEligibilityResults
 }
 
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
@@ -810,10 +796,55 @@ const getCreditsRedirectURL = async (request) => {
   // Have a single previous ‘in-progress' application
   const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
   if (application && application.length === 1) {
-    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASKLIST
+    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
   }
 
   return redirectedURL
+}
+
+const creditsValidationSchema = (inputSchema) => {
+  return Joi.object({
+    a1: inputSchema,
+    a2: inputSchema,
+    a3: inputSchema,
+    a4: inputSchema,
+    a5: inputSchema,
+    h: inputSchema,
+    w: inputSchema
+  }).custom((value, helpers) => {
+    if (Object.values(value).every(v => v === '' || Number(v) === 0)) {
+      throw new Error('at least one credit unit input should have a value')
+    }
+  })
+}
+
+const creditsValidationFailAction = ({
+  err,
+  defaultErrorMessage,
+  charLengthErrorMessage
+}) => {
+  const errorMessages = {}
+  const errorList = []
+
+  if (err.details.some(e => e.type === 'any.custom')) {
+    const errorId = 'custom-err'
+    errorMessages[errorId] = defaultErrorMessage
+    errorList.push({
+      ...defaultErrorMessage,
+      href: `#${errorId}`
+    })
+  } else {
+    err.details.forEach(e => {
+      const errorMessage = e.type === 'string.max' ? charLengthErrorMessage : defaultErrorMessage
+      errorMessages[e.context.key] = errorMessage
+      errorList.push({
+        ...errorMessage,
+        href: `#${e.context.key}-units`
+      })
+    })
+  }
+
+  return { errorMessages, errorList }
 }
 
 export {
@@ -855,7 +886,6 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
@@ -874,5 +904,7 @@ export {
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,
-  getCreditsRedirectURL
+  getCreditsRedirectURL,
+  creditsValidationSchema,
+  creditsValidationFailAction
 }

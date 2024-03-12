@@ -1,0 +1,28 @@
+{% extends 'credits-form-layout.html' %}
+
+{% set pageHeading = "Check your answers before you submit your information" %}
+
+{% block formContent %}
+  {% if err %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: err
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+      <h2 class="govuk-heading-m">Submit your information</h2>
+      <p>By submitting the above information, you agree that it is complete and correct.</p>
+      <p>Submitting this information also confirms the planning permission referenced in your application has been granted.</p>
+      {{ govukButton({
+        text: "Confirm and submit",
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+{% endblock %}

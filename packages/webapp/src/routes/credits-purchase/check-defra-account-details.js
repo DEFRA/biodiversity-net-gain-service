@@ -1,5 +1,5 @@
-import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
+import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const handlers = {
   get: async (request, h) => {
