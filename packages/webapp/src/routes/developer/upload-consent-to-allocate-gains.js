@@ -71,7 +71,7 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE,
       fileExt: constants.consentFileExt,
-      maxFileSize: parseInt(process.env.MAX_CONSENT_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
       const result = await uploadFile(request.logger, request, config)
@@ -95,7 +95,7 @@ export default [{
     handler: handlers.post,
     payload: {
       allow: 'multipart/form-data',
-      maxBytes: (parseInt(process.env.MAX_CONSENT_UPLOAD_MB) + 1) * 1024 * 1024,
+      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
       multipart: true,
       output: 'stream',
       parse: false,
@@ -116,7 +116,7 @@ const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
     href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID,
-    maximumFileSize: process.env.MAX_CONSENT_UPLOAD_MB,
+    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
     view: constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
   })
 }
