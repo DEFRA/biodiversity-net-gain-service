@@ -16,7 +16,6 @@ const handlers = {
     const currentUser = `${claims.firstName} ${claims.lastName}`
     const applicantDetails = currentOrganisation || currentUser
 
-    // FIXME: pass through organisation and show org version of page if org
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
       backLink,
       userType,

@@ -52,8 +52,6 @@ const getApplication = async (request, h, applicationType) => {
   }
 }
 
-// FIXME: do we need noSession and orgError for Allocation and Credits Purchage
-
 const noSession = (request, h, applicationType) => {
   if (applicationType === constants.applicationTypes.REGISTRATION) {
     return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
