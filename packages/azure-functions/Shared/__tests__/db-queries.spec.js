@@ -9,7 +9,8 @@ import {
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
   isPointInEngland,
-  applicationStatuses
+  applicationStatuses,
+  createCreditsAppReference
 } from '../db-queries.js'
 
 const expectedDeleteStatement = `
@@ -113,6 +114,10 @@ const expectedRecordExpiringApplicationSessionNotificationStatement = `
 `
 
 describe('Database queries', () => {
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   describe('createApplicationReference', () => {
     it('Should be a function', () => {
       expect(typeof createApplicationReference).toBe('function')
@@ -131,5 +136,31 @@ describe('Database queries', () => {
     expect(clearApplicationSession(db)).toEqual(expectedDeleteStatement)
     expect(recordExpiringApplicationSessionNotification(db)).toEqual(expectedRecordExpiringApplicationSessionNotificationStatement)
     expect(isPointInEngland(db)).toEqual('select bng.fn_is_point_in_england_27700($1, $2)')
+  })
+  describe('createApplicationReference with retry and random reference string helpers', () => {
+    it('Should call helpers when calling createApplicationReference', () => {
+      const helpers = require('../reference-helpers.js')
+      const retrySpy = jest.spyOn(helpers, 'retry')
+      const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
+
+      const db = {
+        query: query => query
+      }
+      createApplicationReference(db, [])
+      expect(retrySpy).toHaveBeenCalledTimes(1)
+      expect(randomReferenceStringSpy).toHaveBeenCalledTimes(2)
+    })
+    it('Should call helpers when calling createCreditsAppReference', () => {
+      const helpers = require('../reference-helpers.js')
+      const retrySpy = jest.spyOn(helpers, 'retry')
+      const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
+
+      const db = {
+        query: query => query
+      }
+      createCreditsAppReference(db, [])
+      expect(retrySpy).toHaveBeenCalledTimes(1)
+      expect(randomReferenceStringSpy).toHaveBeenCalledTimes(2)
+    })
   })
 })
