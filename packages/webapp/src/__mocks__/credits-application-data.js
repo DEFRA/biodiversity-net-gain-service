@@ -42,7 +42,7 @@ export default {
   'credits-purchase-defra-account-details-confirmed': 'true',
   'credits-purchase-middle-name': {
     middleNameOption: 'yes',
-    middleName: 'Bob'
+    middleName: 'Geoff'
   },
   'credits-purchase-date-of-birth': '1977-02-13T00:00:00.000Z',
   'credits-purchase-nationality-key': {

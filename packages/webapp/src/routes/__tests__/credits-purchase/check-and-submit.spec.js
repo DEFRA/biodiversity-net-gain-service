@@ -16,8 +16,18 @@ const auth = {
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url }, 200, creditsApplicationData)
+    it(`should render the ${url.substring(1)} view for an individual application`, async () => {
+      const res = await submitGetRequest({ url }, 200, creditsApplicationData)
+      expect(res.payload).toContain('Geoff')
+    })
+  })
+
+  describe('GET', () => {
+    it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
+      creditsApplicationData['credits-purchase-user-type'] = 'organisation'
+      creditsApplicationData['credits-purchase-nationality-key'] = null
+      const res = await submitGetRequest({ url }, 200, creditsApplicationData)
+      expect(res.payload).not.toContain('Geoff')
     })
   })
 
