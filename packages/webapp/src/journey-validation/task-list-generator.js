@@ -8,10 +8,8 @@ import {
   checkYourAnswers as creditsPurchaseCheckYourAnswers
 } from './credits-purchase/task-sections.js'
 
-// FIXME: import this from constants.js
 const ANY = 'any'
 
-// FIXME: import these from constants.js
 const STATUSES = {
   NOT_STARTED: 'NOT STARTED',
   IN_PROGRESS: 'IN PROGRESS',

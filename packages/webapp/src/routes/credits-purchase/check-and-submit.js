@@ -3,16 +3,20 @@ import creditsApplicationValidation from '../../utils/credits-application-valida
 import { postJson } from '../../utils/http.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import constants from '../../utils/constants.js'
-import { getHumanReadableFileSize, dateToString } from '../../utils/helpers.js'
+import getOrganisationDetails from '../../utils/get-organisation-details.js'
+import {
+  getHumanReadableFileSize,
+  dateToString
+} from '../../utils/helpers.js'
 
-const getApplicationDetails = session => {
+const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
   const metricFileSize = getHumanReadableFileSize(session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE), 1)
   const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
   const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, element.unitAmount]))
   const usingPurchaseOrder = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
   const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
-  const nationalityHtml = Object.values(nationality).filter(n => n !== '').join('<br/>')
+  const nationalityHtml = nationality ? Object.values(nationality).filter(n => n !== '').join('<br/>') : ''
 
   return {
     metric: {
@@ -38,6 +42,7 @@ const getApplicationDetails = session => {
     dueDiligence: {
       individualOrOrg: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE),
       individualOrOrgUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
+      organisationName: currentOrganisation,
       middleName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)?.middleName,
       middleNameUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME,
       dateOfBirth: dateToString(session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)),
@@ -50,8 +55,10 @@ const getApplicationDetails = session => {
 
 const handlers = {
   get: (request, h) => {
+    const claims = request.auth.credentials.account.idTokenClaims
+    const { currentOrganisation } = getOrganisationDetails(claims)
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS, {
-      ...getApplicationDetails(request.yar),
+      ...getApplicationDetails(request.yar, currentOrganisation),
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
     })
   },
