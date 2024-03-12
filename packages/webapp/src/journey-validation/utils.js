@@ -11,7 +11,6 @@ const journeyStep = (startUrl, sessionKeys, sessionValues, sessionMismatchWillIn
 const journeyStepFromRoute = (route, sessionValues = [ANY], sessionMismatchWillInvalidate = false) =>
   journeyStep(route.startUrl, route.sessionKeys, sessionValues, sessionMismatchWillInvalidate)
 
-// FIXME: we should be able to get the startUrl and completeURL from the journeyParts
 const taskDefinition = (id, title, startUrl, completeUrl, journeyParts) => ({
   id, title, startUrl, completeUrl, journeyParts
 })
