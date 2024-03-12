@@ -156,7 +156,7 @@ const getHabitats = session => {
       case 'd3':
         return `${details['Proposed Broad Habitat']} - ${details['Proposed habitat']}`
       case 'e1':
-        return details['Hedgerow type']
+        return details['Habitat type']
       case 'e2':
         return details['Habitat type']
       case 'e3':

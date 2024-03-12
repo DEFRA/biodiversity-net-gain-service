@@ -6,8 +6,7 @@ describe('on-pre-handler', () => {
   it('Should get public assets and not block if wrong journey', async () => {
     const application = JSON.parse(testApplication.dataString)
     application[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
-    const response = await submitGetRequest({ url: '/public/robots.txt' }, 200, application)
-    console.log(response)
+    await submitGetRequest({ url: '/public/robots.txt' }, 200, application)
   })
   it('Should redirect to registration task list if on wrong journey', async () => {
     const application = JSON.parse(testApplication.dataString)
