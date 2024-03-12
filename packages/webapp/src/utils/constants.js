@@ -16,6 +16,7 @@ const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const CANNOT_START_YET_STATUS = 'CANNOT START YET'
 const YES = 'yes'
 const AWAITING_PROCESSING = 'AwaitingProcessing'
 const SUCCESS = 'Success'
@@ -32,6 +33,7 @@ const CONTACT_ID = 'contact-id'
 const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -50,7 +52,6 @@ const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequir
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
-const CREDITS_PURCHASE = 'CreditsPurchase'
 
 const applicationTypes = {
   REGISTRATION,
@@ -297,6 +298,7 @@ export default Object.freeze({
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
   LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
+  CANNOT_START_YET_STATUS,
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
