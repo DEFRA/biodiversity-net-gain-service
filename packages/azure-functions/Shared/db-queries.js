@@ -1,3 +1,5 @@
+import { retry, randomReferenceString } from './reference-helpers.js'
+
 const applicationStatuses = Object.freeze({
   inProgress: 'IN PROGRESS',
   received: 'RECEIVED'
@@ -135,27 +137,6 @@ const insertApplicationReferenceStatement = `
 
 const registrationAppPrefix = 'BNGREG'
 const creditsAppPrefix = 'BNGCRD'
-
-const randomReferenceString = (length) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return result
-}
-
-const retry = async (query, options, retries = 5) => {
-  for (let i = 0; i <= retries; i++) {
-    try {
-      return await query(...options)
-    } catch (error) {
-      if (i === retries) {
-        throw error
-      }
-    }
-  }
-}
 
 const createUniqueApplicationReference = (prefix, db, values) => {
   const firstRandomString = randomReferenceString(5)
