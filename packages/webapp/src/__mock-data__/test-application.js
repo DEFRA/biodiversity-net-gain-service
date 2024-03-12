@@ -339,7 +339,6 @@ const dataString = `
       "areOffsiteTotalsCorrect": true
     }
   },
-  "save-application-session-on-signout-or-journey-change": true,
   "metric-file-checked": "yes",
   "check-uploaded-metric": true,
   "metric-habitat-baseline-checked": true,
