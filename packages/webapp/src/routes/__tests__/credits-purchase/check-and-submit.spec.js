@@ -20,6 +20,7 @@ describe(url, () => {
       await submitGetRequest({ url }, 200, creditsApplicationData)
     })
   })
+
   describe('POST', () => {
     it('should process a valid application correctly', done => {
       jest.isolateModules(async () => {
@@ -56,6 +57,7 @@ describe(url, () => {
         }
       })
     })
+
     it('should fail if backend errors', done => {
       jest.isolateModules(async () => {
         try {
@@ -77,6 +79,7 @@ describe(url, () => {
       })
     })
   })
+
   it('should throw an error page if validation fails for application', done => {
     jest.isolateModules(async () => {
       try {
