@@ -1,5 +1,5 @@
 const randomReferenceString = (length) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const chars = '0123456789ABCDEFGHJKMNPRTUVWXY'
   let result = ''
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length))
