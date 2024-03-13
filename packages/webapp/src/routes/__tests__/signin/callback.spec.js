@@ -12,7 +12,18 @@ describe('Signin callback handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
   })
-  it('Should redirect to the regisrations dashboard when authenticated and the developer journey is not enabled', async () => {
+
+  it('Should redirect to the manage biodiversity gains view when authenticated and the credits purchase journey is enabled', async () => {
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'Y'
+    const options = {
+      url
+    }
+    const response = await submitGetRequest(options, 302)
+    expect(response.headers.location).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+  })
+
+  it('Should redirect to the biodiversity application list view when authenticated and the credits purchase journey is enabled', async () => {
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'N'
     const options = {
       url
