@@ -6,13 +6,10 @@ const UPLOAD_HABITAT_PLAN = 'land/upload-habitat-plan'
 const CHECK_LEGAL_AGREEMENT = 'land/check-legal-agreement-file'
 const CHECK_LEGAL_AGREEMENT_FILES = 'land/check-you-added-all-legal-files'
 const LEGAL_AGREEMENT_TYPE = 'land/legal-agreement-type'
-const ADD_LEGAL_AGREEMENT_PARTIES = 'land/add-legal-agreement-parties'
-const LEGAL_PARTY_REMOVE = 'land/legal-party-remove'
 const REMOVE_LOCAL_PLANNING_AUTHORITY = 'land/remove-local-planning-authority'
 const REMOVE_RESPONSIBLE_BODY = 'land/remove-responsible-body'
 const REMOVE_LEGAL_AGREEMENT_FILE = 'land/remove-legal-agreement-file'
 const REMOVE_LANDOWNER = 'land/remove-landowner'
-const LEGAL_PARTY_LIST = 'land/legal-party-list'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
@@ -73,7 +70,6 @@ const ADD_PLANNING_AUTHORITY = 'land/add-planning-authority'
 const ADD_LANDOWNER_INDIVIDUAL = 'land/add-landowner-individual'
 const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
 const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
-const LEGAL_AGREEMENT_LPA_REMOVE = 'land/legal-agreement-lpa-remove'
 const ERROR = 'error'
 const HOME = 'home'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
@@ -214,11 +210,9 @@ const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
   redisKeys: {
-    ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,
     ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
     REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
-    LEGAL_PARTY_REMOVE,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LANDOWNER,
@@ -308,7 +302,6 @@ export default {
     APPLICANT_INFO_CLIENT_ORG_LIST,
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
-    LEGAL_AGREEMENT_LPA_REMOVE,
     ALL_LPA,
     REF_LPA_NAMES,
     IS_ADDRESS_UK_KEY,
@@ -339,14 +332,11 @@ export default {
     ERROR,
     CHECK_LEGAL_AGREEMENT,
     CHECK_LEGAL_AGREEMENT_FILES,
-    ADD_LEGAL_AGREEMENT_PARTIES,
-    LEGAL_PARTY_LIST,
     CHECK_RESPONSIBLE_BODIES,
     HABITAT_PLAN_LEGAL_AGREEMENT,
     CHECK_LANDOWNERS,
     LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
     CLIENT_INDIVIDUAL_ORGANISATION,
-    LEGAL_PARTY_REMOVE,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LEGAL_AGREEMENT_FILE,
@@ -416,7 +406,6 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
     CHECK_PLANNING_AUTHORITIES,
-    LEGAL_AGREEMENT_LPA_REMOVE,
     CHECK_APPLICANT_INFORMATION,
     CLIENTS_EMAIL_ADDRESS,
     CLIENTS_PHONE_NUMBER,
