@@ -4,7 +4,7 @@ import constants from '../../../utils/constants.js'
 const getClientName = (session, isIndividual) => {
   if (isIndividual) {
     const name = session.get(constants.redisKeys.CLIENTS_NAME_KEY)?.value
-    return `${name?.firstName} ${name?.middleNames} ${name?.lastName}`
+    return `${name?.firstName} ${name?.lastName}`
   }
 
   return session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)

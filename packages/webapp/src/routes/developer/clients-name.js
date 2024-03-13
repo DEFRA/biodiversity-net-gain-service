@@ -9,7 +9,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { firstName, middleNames, lastName } = request.payload
+    const { firstName, lastName } = request.payload
     const errors = {
       firstNameError: validateFirstLastNameOfDeveloperClient(firstName, 'first name', '#firstName'),
       lastNameError: validateFirstLastNameOfDeveloperClient(lastName, 'last name', '#lastName')
@@ -28,13 +28,12 @@ const handlers = {
         lastNameError: errors.lastNameError?.err[0],
         individual: {
           firstName,
-          middleNames,
           lastName
         }
       })
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
+    request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, lastName } })
 
     return redirectDeveloperClient(h, request.yar)
   }

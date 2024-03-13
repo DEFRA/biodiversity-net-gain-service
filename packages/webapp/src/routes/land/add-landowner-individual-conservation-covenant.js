@@ -6,8 +6,7 @@ import {
   checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
   validateIdGetSchemaOptional,
-  emailValidator,
-  validateLengthOfCharsLessThan50
+  emailValidator
 } from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
@@ -43,7 +42,6 @@ const handlers = {
     const { id } = request.query
     let individual = {
       firstName: '',
-      middleNames: '',
       lastName: '',
       emailAddress: ''
     }
@@ -69,7 +67,7 @@ const handlers = {
       const excludeIndex = id !== undefined ? parseInt(id, 10) : null
       const personDuplicateError = checkForDuplicateConcatenated(
         landownerIndividuals,
-        ['firstName', 'middleNames', 'lastName'],
+        ['firstName', 'lastName'],
         individual,
         '#personName',
         'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
@@ -82,12 +80,6 @@ const handlers = {
       errors.individualError = individualError
     }
 
-    const middleNameError = validateLengthOfCharsLessThan50(individual.middleNames, 'middle name', 'middleNameId')
-
-    if (middleNameError) {
-      errors.individualError = { ...individualError, ...{ middleNameError: middleNameError?.err[0] } }
-    }
-
     if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
         individual,
@@ -96,7 +88,6 @@ const handlers = {
         fullNameError: errors.fullNameError,
         firstNameError: errors.individualError?.firstNameError,
         lastNameError: errors.individualError?.lastNameError,
-        middleNameError: errors.individualError?.middleNameError,
         emailAddressError: errors.individualError?.emailAddressError
       })
     }

@@ -36,7 +36,6 @@ describe('Land boundary upload controller tests', () => {
       type: 'organisation'
     }, {
       firstName: 'Crishn',
-      middleNames: '',
       lastName: 'P',
       emailAddress: 'me@me.com',
       type: 'individual'
