@@ -2,7 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Confirm off site gain" %}
+{% set pageHeading = "Confirm habitats being used by the development for off-site gain" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -21,62 +21,27 @@
                   isPageHeading: true
               }
           	}) }}
-          	<p>Confirm if these details match what you have agreed with the landowner.</p>
+          	<p>Confirm if these details match what your development project has agreed with the landowner or leaseholder.</p>
         
-          	{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-
-			{{ govukSummaryList({
-					rows: [
-					{
-						key: {
-						text: "Biodiversity gain site number"
-						},
-						value: {
-						text: gainSiteNumber
-						}
-					}
-					]
-				}) 
-			}}
+        {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
        
         {% from "govuk/components/table/macro.njk" import govukTable %}
         
         {% include "common/off-site-habitat.html" %}
         {% include "common/off-site-hedgerow.html" %}
-
-        {{ govukRadios({
-              idPrefix: prefix,
-              name: name,
-              id: id,
-              fieldset: {
-                  legend: {
-                      text: "Are these habitat details correct?",
-                      classes: "govuk-fieldset__legend--m"
-                  }
-              },
-              errorMessage: err[0],
-              items: [
-                  {
-                      value: "yes",
-                      text: "Yes",
-                      id: "offsite-details-checked-yes"
-                  },
-                  {
-                      value: "no",
-                      text: "No, I need to upload a different Metric file",
-                      id: "offsite-details-checked-no"
-                  }
-              ]
-          }) 
-        }}
+        {% include "common/off-site-watercourse.html" %}
   
         {{ govukButton({ 
-            text: 'Continue',
+            text: 'Save and continue',
             attributes: {
                 id: "continue",
                 "data-testid": "continue"
               }
          }) }}
+
+         <p> Or <p>
+
+        <a href="{{ uploadMetricFileRoute }}">Upload a different statutory biodiversity metric file</a>
       </div>
   	</div>
 </div>
