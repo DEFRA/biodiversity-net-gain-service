@@ -1,5 +1,12 @@
-import { taskListSections, REGISTRATION, JOURNEYS } from './task-list-sections.js'
 import constants from '../utils/constants.js'
+import {
+  taskSections as registrationTaskSections,
+  checkYourAnswers as registrationCheckYourAnswers
+} from './registration/task-sections.js'
+import {
+  taskSections as creditsPurchaseTaskSections,
+  checkYourAnswers as creditsPurchaseCheckYourAnswers
+} from './credits-purchase/task-sections.js'
 
 const ANY = 'any'
 
@@ -9,9 +16,7 @@ const STATUSES = {
   COMPLETE: 'COMPLETED'
 }
 
-Object.freeze(STATUSES)
-
-const getReturnObject = (status, url, title, valid) => ({ status, url, title, valid })
+const getReturnObject = (status, url, valid) => ({ status, url, valid })
 const arrayOfAnyComparator = JSON.stringify([ANY])
 
 const sessionMatches = (part, session) => {
@@ -42,14 +47,14 @@ const getTaskStatuses = (schema, session) => {
         }
 
         if (part.startUrl === schema.startUrl) {
-          return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, schema.title, valid)
+          return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, valid)
         }
 
-        return getReturnObject(STATUSES.IN_PROGRESS, part.startUrl, schema.title, valid)
+        return getReturnObject(STATUSES.IN_PROGRESS, part.startUrl, valid)
       }
     }
 
-    return getReturnObject(STATUSES.COMPLETE, schema.completeUrl, schema.title, true)
+    return getReturnObject(STATUSES.COMPLETE, schema.completeUrl, true)
   })
 
   return statuses
@@ -72,89 +77,43 @@ const checkTaskStatus = (schema, session) => {
   }
 
   // Found no complete or valid in-progress tasks, so return not started
-  return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, schema.title, true)
+  return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, true)
 }
 
-const getTaskListSectionStatus = (journey, section, session) => {
-  return checkTaskStatus(taskListSections[journey][section], session)
+const getTaskStatus = (task, session) => {
+  const calculatedStatus = checkTaskStatus(task, session)
+  return {
+    id: task.id,
+    title: task.title,
+    status: calculatedStatus.status,
+    url: calculatedStatus.url
+  }
+}
+
+const generateTaskList = (taskSections, session) => {
+  const taskList = taskSections.map(section => ({
+    taskTitle: section.title,
+    tasks: section.tasks.map(task => getTaskStatus(task, session))
+  }))
+
+  return taskList
 }
 
 const getTaskList = (journey, session) => {
-  const applicantInfoTask = getTaskListSectionStatus(journey, REGISTRATION.APPLICANT_INFO, session)
-  const landOwnershipTask = getTaskListSectionStatus(journey, REGISTRATION.LAND_OWNERSHIP, session)
-  const siteBoundaryTask = getTaskListSectionStatus(journey, REGISTRATION.SITE_BOUNDARY, session)
-  const habitatInfoTask = getTaskListSectionStatus(journey, REGISTRATION.HABITAT_INFO, session)
-  const legalAgreementTask = getTaskListSectionStatus(journey, REGISTRATION.LEGAL_AGREEMENT, session)
-  const localLandChargeTask = getTaskListSectionStatus(journey, REGISTRATION.LOCAL_LAND_CHARGE, session)
+  let taskList
 
-  return [
-    {
-      taskTitle: 'Applicant information',
-      tasks: [
-        {
-          title: applicantInfoTask.title,
-          status: applicantInfoTask.status,
-          url: applicantInfoTask.url,
-          id: 'add-applicant-information'
-        }
-      ]
-    },
-    {
-      taskTitle: 'Land information',
-      tasks: [
-        {
-          title: landOwnershipTask.title,
-          status: landOwnershipTask.status,
-          url: landOwnershipTask.url,
-          id: 'add-land-ownership'
-        },
-        {
-          title: siteBoundaryTask.title,
-          status: siteBoundaryTask.status,
-          url: siteBoundaryTask.url,
-          id: 'add-land-boundary'
-        },
-        {
-          title: habitatInfoTask.title,
-          status: habitatInfoTask.status,
-          url: habitatInfoTask.url,
-          id: 'add-habitat-information'
-        }
-      ]
-    },
-    {
-      taskTitle: 'Legal information',
-      tasks: [
-        {
-          title: legalAgreementTask.title,
-          status: legalAgreementTask.status,
-          url: legalAgreementTask.url,
-          id: 'add-legal-agreement'
-        },
-        {
-          title: localLandChargeTask.title,
-          status: localLandChargeTask.status,
-          url: localLandChargeTask.url,
-          id: 'add-local-land-charge-search-certificate'
-        }
-      ]
-    },
-    {
-      taskTitle: 'Submit your biodiversity gain site information',
-      tasks: [
-        {
-          title: 'Check your answers and submit information',
-          status: 'CANNOT START YET',
-          url: constants.routes.CHECK_AND_SUBMIT,
-          id: 'check-your-answers'
-        }
-      ]
-    }
-  ]
-}
-
-const getTaskListWithStatusCounts = (session) => {
-  const taskList = getTaskList(JOURNEYS.REGISTRATION, session)
+  switch (journey) {
+    case constants.applicationTypes.REGISTRATION:
+      taskList = generateTaskList(registrationTaskSections, session)
+      taskList.push(registrationCheckYourAnswers)
+      break
+    case constants.applicationTypes.CREDITS_PURCHASE:
+      taskList = generateTaskList(creditsPurchaseTaskSections, session)
+      taskList.push(creditsPurchaseCheckYourAnswers)
+      break
+    default:
+      taskList = []
+  }
 
   let completedTasks = 0
   let totalTasks = 0
@@ -181,7 +140,5 @@ const getTaskListWithStatusCounts = (session) => {
 }
 
 export {
-  STATUSES,
-  getTaskList,
-  getTaskListWithStatusCounts
+  getTaskList
 }

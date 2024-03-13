@@ -90,7 +90,7 @@ describe(url, () => {
         auth
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
@@ -101,7 +101,7 @@ describe(url, () => {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: false })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
@@ -114,7 +114,7 @@ describe(url, () => {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual('/')

@@ -3,13 +3,11 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import creditsPurchaseConstants from './credits-purchase-constants.js'
 import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-import getOrganisationDetails from './get-organisation-details.js'
-import { getContext } from './get-context-for-applications-by-type.js'
+
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
@@ -761,29 +759,10 @@ const getAuthenticatedUserRedirectUrl = () => {
   // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
   // When two or more journey types are enabled, redirect the user to select the dashboard for
   // the required journey type.
-  //
-  // IMPORTANT
-  // This logic MUST be refactored to allow for correct redirection when credits purchase
-  // and/or allocation functionality is implemented and enabled.
-  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y'
+
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y'
     ? constants.routes.MANAGE_BIODIVERSITY_GAINS
     : constants.routes.BIODIVERSITY_GAIN_SITES
-}
-
-const getCreditsRedirectURL = async (request) => {
-  const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-  const context = await getContext(request.auth.credentials.account.idTokenClaims.contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
-  const applications = context.applications
-  // Had NO previous ‘in-progress' applications or have a more than ONE ‘in-progress’ application
-  let redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
-
-  // Have a single previous ‘in-progress' application
-  const application = Array.isArray(applications) && applications.filter((item) => item.applicationStatus === 'IN PROGRESS')
-  if (application && application.length === 1) {
-    redirectedURL = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
-  }
-
-  return redirectedURL
 }
 
 const creditsValidationSchema = (inputSchema) => {
@@ -886,7 +865,6 @@ export {
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,
-  getCreditsRedirectURL,
   creditsValidationSchema,
   creditsValidationFailAction
 }

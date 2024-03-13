@@ -19,7 +19,7 @@ describe(url, () => {
     it('Should continue journey to consent being ticked', async () => {
       postOptions.payload.termsAndConditions = 'true'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     })
     it('Should stop journey if consent not ticked', async () => {
       postOptions.payload.termsAndConditions = undefined
