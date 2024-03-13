@@ -140,7 +140,7 @@ describe('Database queries', () => {
   describe('createApplicationReference with retry and random reference string helpers', () => {
     it('Should call helpers when calling createApplicationReference', () => {
       const helpers = require('../reference-helpers.js')
-      const retrySpy = jest.spyOn(helpers, 'retry')
+      const retrySpy = jest.spyOn(helpers, 'retryDbOperation')
       const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
 
       const db = {
@@ -152,7 +152,7 @@ describe('Database queries', () => {
     })
     it('Should call helpers when calling createCreditsAppReference', () => {
       const helpers = require('../reference-helpers.js')
-      const retrySpy = jest.spyOn(helpers, 'retry')
+      const retrySpy = jest.spyOn(helpers, 'retryDbOperation')
       const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
 
       const db = {
