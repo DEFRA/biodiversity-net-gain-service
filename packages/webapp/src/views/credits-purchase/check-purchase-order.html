@@ -18,8 +18,8 @@
             <div class="govuk-grid-column-two-thirds">
                 {{ govukRadios({
                     idPrefix: prefix,
-                    name: "willPOInUse",
-                    id: "willPOInUse",
+                    name: "purchaseOrderUsed",
+                    id: "purchaseOrderUsed",
                     fieldset: {
                         legend: {
                             text: pageHeading,
@@ -35,8 +35,8 @@
                         {
                             value: "yes",
                             text: "Yes",
-                            id: "willPOInUseYes",
-                            checked: checked(willPOInUse, "yes"),
+                            id: "purchaseOrderUsedYes",
+                            checked: checked(purchaseOrderUsed, "yes"),
                             conditional: {
                                 html: govukInput({
                                     label: {
@@ -53,8 +53,8 @@
                         {
                             value: "no",
                             text: "No",
-                            id: "willPOInUseNo",
-                            checked: checked(willPOInUse, "no")
+                            id: "purchaseOrderUsedNo",
+                            checked: checked(purchaseOrderUsed, "no")
                         }
                     ]
                 }) }}

@@ -18,11 +18,11 @@ import {
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 import applicationInformationContext from './helpers/applicant-information.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
-import { getTaskListWithStatusCounts } from '../../journey-validation/task-list-generator.js'
+import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
-    const { canSubmit } = getTaskListWithStatusCounts(request.yar)
+    const { canSubmit } = getTaskList(constants.applicationTypes.REGISTRATION, request.yar)
 
     if (!canSubmit) {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)

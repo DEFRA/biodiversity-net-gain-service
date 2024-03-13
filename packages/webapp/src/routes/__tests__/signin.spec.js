@@ -11,6 +11,7 @@ describe('Signin handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual('signin-url')
   })
+
   it('Should redirect to the manage biodiversity gains view when authenticated and the developer journey is enabled', async () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'Y'
     const options = {
@@ -19,14 +20,26 @@ describe('Signin handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
   })
-  it('Should redirect to the regisrations dashboard when authenticated and the developer journey is not enabled', async () => {
+
+  it('Should redirect to the manage biodiversity gains view when authenticated and the credits journey is enabled', async () => {
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'Y'
+    const options = {
+      url
+    }
+    const response = await submitGetRequest(options, 302)
+    expect(response.headers.location).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+  })
+
+  it('Should redirect to the regisrations dashboard when authenticated and the developer and credits journey are not enabled', async () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'N'
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'N'
     const options = {
       url
     }
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual(constants.routes.BIODIVERSITY_GAIN_SITES)
   })
+
   it('Should redirect to auth url if reselect is true even if authenticated', async () => {
     const options = {
       url: `${url}?reselect=true`
@@ -34,6 +47,7 @@ describe('Signin handler', () => {
     const response = await submitGetRequest(options, 302)
     expect(response.headers.location).toEqual('signin-url')
   })
+
   it('Should error if reselect is not a bool', async () => {
     const options = {
       url: `${url}?reselect=sdfsdfs`
