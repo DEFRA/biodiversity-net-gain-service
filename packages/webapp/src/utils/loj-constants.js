@@ -21,7 +21,6 @@ const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
-const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
@@ -46,12 +45,9 @@ const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-org
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
-const REGISTERED_LANDOWNER = 'land/registered-landowner'
-const LANDOWNER_CONSENT = 'land/landowner-consent'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
-const NEED_METRIC = 'land/need-metric'
 const NEED_LEGAL_AGREEMENT = 'land/need-legal-agreement'
 const NEED_LOCAL_LAND_CHARGE = 'land/need-local-land-charge'
 const NEED_HABITAT_PLAN = 'land/need-habitat-plan'
@@ -150,7 +146,6 @@ const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
 const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const LANDOWNERS = 'landowners'
-const LANDOWNER_CONSENT_KEY = 'landowner-consent'
 const LAND_OWNERSHIP_KEY = 'land-ownership-key'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERER = 'referer'
@@ -202,7 +197,6 @@ const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED = 'need-add-all-responsible-bodies-checked'
 const NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED = 'need-add-all-planning-authorities-checked'
 const RESPONSIBLE_BODIES_CHECKED = 'responsible-bodies-checked'
-const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
 const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
 const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
 const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
@@ -272,7 +266,6 @@ export default {
     NAME_KEY,
     REGISTERED_LANDOWNER_ONLY,
     LANDOWNERS,
-    LANDOWNER_CONSENT_KEY,
     LEGAL_AGREEMENT_START_DATE_KEY,
     HABITAT_ENHANCEMENTS_END_DATE_KEY,
     ENHANCEMENT_WORKS_START_DATE_OPTION,
@@ -320,7 +313,6 @@ export default {
     NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED,
     NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED,
     RESPONSIBLE_BODIES_CHECKED,
-    NEED_ADD_ALL_LANDOWNERS_CHECKED,
     LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED,
@@ -346,7 +338,6 @@ export default {
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
-    NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
@@ -376,11 +367,8 @@ export default {
     ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
     ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
-    REGISTERED_LANDOWNER,
-    LANDOWNER_CONSENT,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
-    NEED_METRIC,
     NEED_LEGAL_AGREEMENT,
     NEED_LOCAL_LAND_CHARGE,
     NEED_HABITAT_PLAN,
