@@ -25,9 +25,9 @@ const getApplicationDetails = (session, currentOrganisation) => {
       fileSize: metricFileSize,
       detailsConfirmed: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED),
       detailsConfirmedUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
-      projectName: metricData.startPage.projectName,
-      localAuthority: metricData.startPage.planningAuthority,
-      planningRef: metricData.startPage.planningApplicationReference
+      projectName: metricData.startPage.projectName ?? '',
+      localAuthority: metricData.startPage.planningAuthority ?? '',
+      planningRef: metricData.startPage.planningApplicationReference ?? ''
     },
     credits: {
       amounts: creditsAmounts,
@@ -55,6 +55,10 @@ const getApplicationDetails = (session, currentOrganisation) => {
 
 const handlers = {
   get: (request, h) => {
+    console.log(JSON.stringify(creditsApplication(request.yar, request.auth.credentials.account), null, 4))
+    const { value, error } = creditsApplicationValidation.validate(creditsApplication(request.yar, request.auth.credentials.account))
+    console.log(value)
+    console.log(error)
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 

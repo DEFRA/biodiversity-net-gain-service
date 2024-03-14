@@ -43,7 +43,7 @@ const redisKeys = {
   CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-purchase-metric-upload',
   CREDITS_PURCHASE_METRIC_LOCATION: 'credits-purchase-metric-file-location',
   CREDITS_PURCHASE_METRIC_FILE_SIZE: 'credits-purchase-metric-filesize',
-  CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-purchase-metric-filetype',
+  CREDITS_PURCHASE_METRIC_FILE_TYPE: 'credits-purchase-metric-file-type',
   CREDITS_PURCHASE_METRIC_DATA: 'credits-purchase-metric-data',
   CREDITS_PURCHASE_METRIC_FILE_NAME: 'credits-purchase-metric-filename',
   CREDITS_PURCHASE_METRIC_FILE_CHECKED: 'credits-purchase-metric-file-checked',
