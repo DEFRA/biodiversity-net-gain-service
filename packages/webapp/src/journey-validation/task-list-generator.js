@@ -152,7 +152,10 @@ const getTaskList = (journey, session) => {
     }
   ]
 }
-
+const getIndividualTaskStatus = (session, registrationTask) => {
+  const individualTask = getTaskListSectionStatus(JOURNEYS.REGISTRATION, registrationTask, session)
+  return individualTask.status
+}
 const getTaskListWithStatusCounts = (session) => {
   const taskList = getTaskList(JOURNEYS.REGISTRATION, session)
 
@@ -183,5 +186,6 @@ const getTaskListWithStatusCounts = (session) => {
 export {
   STATUSES,
   getTaskList,
+  getIndividualTaskStatus,
   getTaskListWithStatusCounts
 }

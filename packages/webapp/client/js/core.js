@@ -212,6 +212,14 @@ document.addEventListener('DOMContentLoaded', () => {
       window.history.back()
     })
   }
+  window.addEventListener('pageshow', function (event) {
+    const historyTraversal = event.persisted ||
+                           (typeof window.performance !== 'undefined' &&
+                                window.performance.getEntriesByType('navigation')[0] === 2)
+    if (historyTraversal) {
+      window.location.reload()
+    }
+  })
 })
 
 document.addEventListener('DOMContentLoaded', (event) => {
