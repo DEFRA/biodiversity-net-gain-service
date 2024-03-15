@@ -13,7 +13,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
   const metricFileSize = getHumanReadableFileSize(session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE), 1)
   const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
-  const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, element.unitAmount]))
+  const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, Number(element.unitAmount).toFixed(2)]))
   const usingPurchaseOrder = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
   const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
   const nationalityHtml = nationality ? Object.values(nationality).filter(n => n !== '').join('<br/>') : ''
@@ -55,10 +55,6 @@ const getApplicationDetails = (session, currentOrganisation) => {
 
 const handlers = {
   get: (request, h) => {
-    console.log(JSON.stringify(creditsApplication(request.yar, request.auth.credentials.account), null, 4))
-    const { value, error } = creditsApplicationValidation.validate(creditsApplication(request.yar, request.auth.credentials.account))
-    console.log(value)
-    console.log(error)
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
