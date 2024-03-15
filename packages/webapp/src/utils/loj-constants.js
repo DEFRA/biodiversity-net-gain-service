@@ -108,7 +108,6 @@ const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
 const LEGAL_AGREEMENT_DOCUMENT_TYPE = 'legal-agreement-type'
 const LEGAL_AGREEMENT_PARTIES = 'legal-agreement-parties'
 const LEGAL_AGREEMENT_RESPONSIBLE_BODIES = 'legal-agreement-reponsible-bodies'
-const LEGAL_AGREEMENT_PARTIES_KEY = 'legal-agreement-parties-key'
 const LAND_OWNERSHIP_FILE_SIZE = 'land-ownership-file-size'
 const LAND_OWNERSHIP_LOCATION = 'land-ownership-location'
 const LAND_OWNERSHIP_CHECKED = 'land-ownership-checked'
@@ -118,14 +117,8 @@ const METRIC_FILE_CHECKED = 'metric-file-checked'
 const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
 const HABITAT_ENHANCEMENTS_END_DATE_KEY = 'habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE_KEY = 'enhancement-works-start-date'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES = 'legal-agreement-oganisation-names'
-const LEGAL_AGREEMENT_OTHER_PARTY_NAMES = 'legal-agreement-other-party-names'
-const LEGAL_AGREEMENT_START_DAY = 'legal-agreement-start-day'
 const HABITAT_ENHANCEMENTS_END_DATE_OPTION = 'legal-agreement-end-date-option'
 const ENHANCEMENT_WORKS_START_DATE_OPTION = 'enhancement-works-start-date-option'
-const LEGAL_AGREEMENT_START_MONTH = 'legal-agreement-start-month'
-const LEGAL_AGREEMENT_START_YEAR = 'legal-agreement-start-year'
-const LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED = 'legal-agreement-oganisation-checked'
 const LAND_BOUNDARY_FILE_SIZE = 'land-boundary-file-size'
 const LAND_BOUNDARY_FILE_TYPE = 'land-boundary-file-type'
 const LAND_BOUNDARY_LOCATION = 'land-boundary-location'
@@ -138,12 +131,9 @@ const METRIC_FILE_TYPE = 'metric-file-type'
 const METRIC_DATA = 'metric-data'
 const METRIC_HABITAT_BASELINE_CHECKED = 'metric-habitat-baseline-checked'
 const METRIC_HABITAT_CREATED_CHECKED = 'metric-habitat-created-checked'
-const NAME_KEY = 'name-key'
 const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
-const REGISTERED_LANDOWNER_ONLY = 'registered-landowner-only'
 const LANDOWNERS = 'landowners'
-const LAND_OWNERSHIP_KEY = 'land-ownership-key'
 const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERER = 'referer'
 const EMAIL_VALUE = 'email-value'
@@ -160,7 +150,6 @@ const WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
 const WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
 const WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
 const ALL_LPA = 'all-lpa'
-const APPLICANT_INFO_CLIENT_ORG_LIST = 'applicant-info-client-org-list'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
@@ -240,7 +229,6 @@ export default {
     LEGAL_AGREEMENT_FILE_TYPE,
     LOCAL_LAND_CHARGE_FILE_TYPE,
     HABITAT_PLAN_FILE_TYPE,
-    LEGAL_AGREEMENT_PARTIES_KEY,
     LEGAL_AGREEMENT_FILE_OPTION,
     LOCAL_LAND_CHARGE_FILE_OPTION,
     HABITAT_PLAN_FILE_OPTION,
@@ -260,23 +248,14 @@ export default {
     METRIC_HABITAT_CREATED_CHECKED,
     FULL_NAME,
     LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
-    NAME_KEY,
-    REGISTERED_LANDOWNER_ONLY,
     LANDOWNERS,
     LEGAL_AGREEMENT_START_DATE_KEY,
     HABITAT_ENHANCEMENTS_END_DATE_KEY,
     ENHANCEMENT_WORKS_START_DATE_OPTION,
     ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
-    LEGAL_AGREEMENT_ORGANISATION_NAMES,
-    LEGAL_AGREEMENT_ORGANISATION_NAMES_CHECKED,
-    LEGAL_AGREEMENT_OTHER_PARTY_NAMES,
-    LEGAL_AGREEMENT_START_DAY,
     HABITAT_ENHANCEMENTS_END_DATE_OPTION,
-    LEGAL_AGREEMENT_START_MONTH,
-    LEGAL_AGREEMENT_START_YEAR,
     REGISTRATION_TASK_DETAILS,
-    LAND_OWNERSHIP_KEY,
     METRIC_UPLOADED_ANSWER,
     REFERER,
     EMAIL_VALUE,
@@ -288,7 +267,6 @@ export default {
     ADD_PLANNING_AUTHORITY,
     ADD_LANDOWNER_INDIVIDUAL,
     LEGAL_AGREEMENT_LPA_LIST,
-    APPLICANT_INFO_CLIENT_ORG_LIST,
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     ALL_LPA,
