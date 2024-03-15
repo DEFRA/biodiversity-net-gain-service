@@ -9,6 +9,8 @@ describe('credits-application', () => {
     const creditReference = 'BNGCRD-TEST1-T3ST2'
     session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, creditReference)
 
+    // console.log(session.values)
+
     const app = creditsApplication(session, applicant)
     expect(app.creditsPurchase.creditReference).toEqual(creditReference)
   })
@@ -18,6 +20,6 @@ describe('credits-application', () => {
     session.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
 
     const app = creditsApplication(session, applicant)
-    expect(app.creditsPurchase.creditReference).toEqual('')
+    expect(app.creditsPurchase.creditReference).toEqual(null)
   })
 })

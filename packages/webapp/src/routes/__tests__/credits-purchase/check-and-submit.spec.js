@@ -1,5 +1,4 @@
 import { submitGetRequest } from '../helpers/server.js'
-import creditsApplicationData from '../../../__mocks__/credits-application-data.js'
 import setCreditsApplicationSession from '../../../__mocks__/credits-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
@@ -17,16 +16,16 @@ const auth = {
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view for an individual application`, async () => {
-      const res = await submitGetRequest({ url }, 200, creditsApplicationData)
+      const session = setCreditsApplicationSession()
+      const res = await submitGetRequest({ url }, 200, session.values)
       expect(res.payload).toContain('Geoff')
     })
-  })
 
-  describe('GET', () => {
     it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
-      creditsApplicationData['credits-purchase-user-type'] = 'organisation'
-      creditsApplicationData['credits-purchase-nationality-key'] = null
-      const res = await submitGetRequest({ url }, 200, creditsApplicationData)
+      const session = setCreditsApplicationSession()
+      session.set('credits-purchase-user-type', 'organisation')
+      session.set('credits-purchase-nationality-key', null)
+      const res = await submitGetRequest({ url }, 200, session.values)
       expect(res.payload).not.toContain('Geoff')
     })
   })
@@ -88,36 +87,36 @@ describe(url, () => {
         }
       })
     })
-  })
 
-  it('should throw an error page if validation fails for application', done => {
-    jest.isolateModules(async () => {
-      try {
-        const session = setCreditsApplicationSession()
-        const postHandler = checkAnswers[1].handler
-        session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, undefined)
+    it('should throw an error page if validation fails for application', done => {
+      jest.isolateModules(async () => {
+        try {
+          const session = setCreditsApplicationSession()
+          const postHandler = checkAnswers[1].handler
+          session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, undefined)
 
-        let viewArgs = ''
-        let redirectArgs = ''
-        const h = {
-          view: (...args) => {
-            viewArgs = args
-          },
-          redirect: (...args) => {
-            redirectArgs = args
+          let viewArgs = ''
+          let redirectArgs = ''
+          const h = {
+            view: (...args) => {
+              viewArgs = args
+            },
+            redirect: (...args) => {
+              redirectArgs = args
+            }
           }
+
+          const authCopy = JSON.parse(JSON.stringify(auth))
+          authCopy.credentials.account.idTokenClaims.contactId = ''
+
+          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsPurchase.applicant.id" is not allowed to be empty')
+          expect(viewArgs).toEqual('')
+          expect(redirectArgs).toEqual('')
+          done()
+        } catch (err) {
+          done(err)
         }
-
-        const authCopy = JSON.parse(JSON.stringify(auth))
-        authCopy.credentials.account.idTokenClaims.contactId = ''
-
-        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "creditsPurchase.applicant.contactId" is not allowed to be empty')
-        expect(viewArgs).toEqual('')
-        expect(redirectArgs).toEqual('')
-        done()
-      } catch (err) {
-        done(err)
-      }
+      })
     })
   })
 })

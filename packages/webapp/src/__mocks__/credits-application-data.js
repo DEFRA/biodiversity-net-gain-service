@@ -38,6 +38,7 @@ export default {
     total: 513000
   },
   'credits-purchase-purchase-order-used': 'no',
+  'credits-purchase-purchase-order-number': null,
   'credits-purchase-user-type': 'individual',
   'credits-purchase-defra-account-details-confirmed': 'true',
   'credits-purchase-middle-name': {

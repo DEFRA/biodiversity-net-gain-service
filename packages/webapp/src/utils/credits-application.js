@@ -52,7 +52,7 @@ const application = (session, account) => {
       products: getCreditAmounts(session),
       purchaseOrderNumber: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER),
       files: getFiles(session),
-      creditReference: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE),
+      creditReference: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE) ?? null,
       submittedOn: new Date().toISOString()
     }
   }
