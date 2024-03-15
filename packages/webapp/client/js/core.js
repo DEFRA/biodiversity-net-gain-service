@@ -213,9 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
   window.addEventListener('pageshow', function (event) {
-    const historyTraversal = event.persisted ||
-                           (typeof window.performance !== 'undefined' &&
-                                window.performance.getEntriesByType('navigation')[0] === 2)
+    let navigationType
+    const navigationEntries = performance.getEntriesByType('navigation')
+    if (navigationEntries.length > 0 && 'type' in navigationEntries[0]) {
+      navigationType = navigationEntries[0].type
+    }
+    const historyTraversal = (event.persisted || navigationType === 'back_forward')
     if (historyTraversal) {
       window.location.reload()
     }

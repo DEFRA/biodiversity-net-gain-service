@@ -1,10 +1,10 @@
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import {
   ANY,
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './utils.js'
+} from '../utils.js'
 
 // land/legal-agreement-type
 // S106: constants.LEGAL_AGREEMENT_DOCUMENTS[0].id

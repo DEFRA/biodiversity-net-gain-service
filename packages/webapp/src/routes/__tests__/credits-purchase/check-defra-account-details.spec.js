@@ -18,11 +18,23 @@ describe(url, () => {
       }
     })
 
-    it('Should continue to task list journey when Defra account details are confirmed', async () => {
+    it('Should continue to task list journey when Defra account details are confirmed for individual', async () => {
       postOptions.payload.defraAccountDetailsConfirmed = 'true'
-      const res = await submitPostRequest(postOptions, 302)
-      // TODO: Update assertion to task list when task list task is complete
-      expect(res.headers.location).toEqual('#')
+      const sessionData = {
+        [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE]: creditsPurchaseConstants.applicantTypes.INDIVIDUAL
+      }
+      postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.INDIVIDUAL
+      const res = await submitPostRequest(postOptions, 302, sessionData)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
+    })
+
+    it('Should continue to task list journey when Defra account details are confirmed for organisation', async () => {
+      postOptions.payload.defraAccountDetailsConfirmed = 'true'
+      const sessionData = {
+        [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE]: creditsPurchaseConstants.applicantTypes.ORGANISATION
+      }
+      const res = await submitPostRequest(postOptions, 302, sessionData)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     })
 
     it('Should stop the journey when Defra account details are unconfirmed', async () => {
