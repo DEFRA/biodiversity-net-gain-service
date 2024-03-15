@@ -16,7 +16,6 @@ const CHECK_LANDOWNERS = 'land/check-landowners'
 const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
-const LEGAL_AGREEMENT_START_DATE = 'land/legal-agreement-start-date'
 const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
@@ -54,9 +53,7 @@ const NEED_HABITAT_PLAN = 'land/need-habitat-plan'
 const CHECK_HABITAT_BASELINE = 'land/check-habitat-baseline'
 const CHECK_HABITAT_CREATED = 'land/check-habitat-created'
 const CHECK_METRIC_DETAILS = 'land/check-metric-details'
-const LEGAL_PARTY_ADD_START = 'land/legal-party-add-start'
 const NEED_ADD_ALL_PLANNING_AUTHORITIES = 'land/need-add-all-planning-authorities'
-const LEGAL_PARTY_ADD_TYPE = 'land/legal-party-add-type'
 const ADD_LANDOWNER_ORGANISATION = 'land/add-landowner-organisation'
 const CLIENTS_ORGANISATION_NAME = 'land/clients-organisation-name'
 const CLIENTS_ORGANISATION_NAME_KEY = 'clients-organisation-name'
@@ -285,7 +282,6 @@ export default {
     EMAIL_VALUE,
     LANDOWNER_TYPE,
     DEFRA_ACCOUNT_DETAILS_CONFIRMED,
-    LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
     CLIENTS_ORGANISATION_NAME_KEY,
     CLIENTS_NAME_KEY,
@@ -333,7 +329,6 @@ export default {
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LEGAL_AGREEMENT_FILE,
     REMOVE_LANDOWNER,
-    LEGAL_AGREEMENT_START_DATE,
     HABITAT_ENHANCEMENTS_END_DATE,
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
@@ -384,9 +379,7 @@ export default {
     IS_ADDRESS_UK,
     UK_ADDRESS,
     NON_UK_ADDRESS,
-    LEGAL_PARTY_ADD_START,
     NEED_ADD_ALL_PLANNING_AUTHORITIES,
-    LEGAL_PARTY_ADD_TYPE,
     ADD_LANDOWNER_ORGANISATION,
     CLIENTS_ORGANISATION_NAME,
     CLIENTS_NAME,
