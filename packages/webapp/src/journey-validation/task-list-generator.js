@@ -1,7 +1,7 @@
 import constants from '../utils/constants.js'
 import {
   taskSections as registrationTaskSections,
-  checkYourAnswers as registrationCheckYourAnswers
+  checkYourAnswers as registrationCheckYourAnswers, getTaskById, REGISTRATIONCONSTANTS
 } from './registration/task-sections.js'
 import {
   taskSections as creditsPurchaseTaskSections,
@@ -35,7 +35,12 @@ const sessionMismatches = (part, session) => {
   const checkSessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
   return Object.entries(part.sessionDataRequired).some(checkSessionMismatch)
 }
-
+/*
+const getIndividualTaskStatus = (session, registrationTask) => {
+  const individualTask = getTaskListSectionStatus(JOURNEYS.REGISTRATION, registrationTask, session)
+  return individualTask.status
+}
+*/
 const getTaskStatuses = (schema, session) => {
   const statuses = schema.journeyParts.map(journey => {
     for (const part of journey) {
@@ -79,7 +84,11 @@ const checkTaskStatus = (schema, session) => {
   // Found no complete or valid in-progress tasks, so return not started
   return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, true)
 }
-
+const getIndividualTaskStatus = (session, taskId) => {
+  const regTask = getTaskById(taskId)
+  const taskStatus = getTaskStatus(regTask, session)
+  return taskStatus.status
+}
 const getTaskStatus = (task, session) => {
   const calculatedStatus = checkTaskStatus(task, session)
   return {
@@ -95,7 +104,7 @@ const generateTaskList = (taskSections, session) => {
     taskTitle: section.title,
     tasks: section.tasks.map(task => getTaskStatus(task, session))
   }))
-
+  getIndividualTaskStatus(session, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
   return taskList
 }
 
@@ -140,5 +149,6 @@ const getTaskList = (journey, session) => {
 }
 
 export {
-  getTaskList
+  getTaskList,
+  getIndividualTaskStatus
 }

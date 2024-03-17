@@ -11,8 +11,8 @@ import {
   getLocalPlanningAuthorities,
   getFileName
 } from '../../utils/helpers.js'
+import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
 import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
-import { REGISTRATION } from '../../journey-validation/task-list-sections.js'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -21,7 +21,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
     })
-    const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATION.LEGAL_AGREEMENT)
+
+    const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
     if (registrationTaskStatus !== 'COMPLETED') {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
