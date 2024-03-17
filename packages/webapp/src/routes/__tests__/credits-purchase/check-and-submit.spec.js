@@ -23,10 +23,16 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
       const session = setCreditsApplicationSession()
-      session.set('credits-purchase-user-type', 'organisation')
-      session.set('credits-purchase-nationality-key', null)
+      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
+      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, null)
       const res = await submitGetRequest({ url }, 200, session.values)
       expect(res.payload).not.toContain('Geoff')
+    })
+
+    it('should handle missing values from the metric', async () => {
+      const session = setCreditsApplicationSession()
+      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
+      await submitGetRequest({ url }, 200, session.values)
     })
   })
 
