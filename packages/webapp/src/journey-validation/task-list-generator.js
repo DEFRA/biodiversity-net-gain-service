@@ -1,7 +1,7 @@
 import constants from '../utils/constants.js'
 import {
   taskSections as registrationTaskSections,
-  checkYourAnswers as registrationCheckYourAnswers, getTaskById, REGISTRATIONCONSTANTS
+  checkYourAnswers as registrationCheckYourAnswers, getTaskById
 } from './registration/task-sections.js'
 import {
   taskSections as creditsPurchaseTaskSections,
