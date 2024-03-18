@@ -585,10 +585,26 @@ const emailValidator = (email, id) => {
     }
   }
 }
-
+async function handleFileUploadOperation (operation, { logger, request, h, onSuccess, onError }) {
+  try {
+    const result = await operation()
+    return onSuccess(result, request, h)
+  } catch (err) {
+    logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
+    return onError(err, h)
+  }
+}
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
+const maximumSizeExceeded = (h, { href, maximumFileSize, view }) => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href,
+    maximumFileSize,
+    view
+  })
+}
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
@@ -857,6 +873,7 @@ export {
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
+  maximumSizeExceeded,
   getHumanReadableFileSize,
   processDeveloperTask,
   getDeveloperTasks,
@@ -867,6 +884,7 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
+  handleFileUploadOperation,
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,

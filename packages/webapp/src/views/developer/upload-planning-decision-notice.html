@@ -1,0 +1,59 @@
+{% extends 'multipart-form-layout.html' %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% set pageHeading = "Upload the planning decision notice for the development"  %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+          {{ govukFieldset({
+            legend: {
+              text: pageHeading,
+              classes: "govuk-fieldset__legend--l",
+              isPageHeading: true
+            }
+          }) }}
+          <div id="planning-decision-notice-upload-hint">
+            <p>This must be the notice the local planning authority (LPA) sent that confirms planning 
+              permission for the development has been granted.</p>
+            <p>The file should be:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>a DOC, DOCX or PDF</li>
+              <li>no larger than 50MB</li>
+            </ul>
+          </div>
+          {{ govukFileUpload({
+            id: "planningDecisionNotice",
+            name: "planningDecisionNotice",
+            errorMessage: err[0],
+            label: {
+              text: "Choose file",
+              classes: "govuk-visually-hidden"
+            }
+          }) }}
+          <details class="govuk-details" data-module="govuk-details">
+            <summary class="govuk-details__summary">
+              <span class="govuk-details__summary-text">
+                What to do if you have no decision notice
+              </span>
+            </summary>
+            <div class="govuk-details__text">    
+              <p>You’ll need to ask the LPA that approved the planning application to send you a 
+                decision notice.</p>
+            </div>
+          </details>
+          {{ govukButton({
+            text: "Upload",
+            attributes: {
+              id: "continue",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
