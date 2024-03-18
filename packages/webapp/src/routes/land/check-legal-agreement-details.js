@@ -8,6 +8,7 @@ import {
   getLandowners,
   hideClass,
   getLegalAgreementFileNames,
+  getFileHeaderPrefix,
   getLocalPlanningAuthorities,
   getFileName
 } from '../../utils/helpers.js'
@@ -32,9 +33,12 @@ const handlers = {
 }
 
 const getContext = request => {
+  const legalAgreementFileNames = getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES))
+  const legalAgreementFileHeaderPrefix = getFileHeaderPrefix(legalAgreementFileNames)
   return {
     legalAgreementType: getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
-    legalAgreementFileNames: getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)),
+    legalAgreementFileNames: legalAgreementFileNames.join('<br>'),
+    legalAgreementFileHeaderPrefix,
     responsibleBodies: getResponsibleBodies(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
     anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED),
     landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
