@@ -99,7 +99,6 @@ const generateTaskList = (taskSections, session) => {
     taskTitle: section.title,
     tasks: section.tasks.map(task => getTaskStatus(task, session))
   }))
-  getIndividualTaskStatus(session, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
   return taskList
 }
 
