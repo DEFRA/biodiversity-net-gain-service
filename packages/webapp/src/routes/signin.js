@@ -20,8 +20,8 @@ export default [{
       if (!reselect) {
         // If we are authenticated then redirect to the URL for authenticated users.
         if (request.auth.isAuthenticated) {
-          const auhenticatedUserRedirectUrl = getAuthenticatedUserRedirectUrl()
-          return h.redirect(auhenticatedUserRedirectUrl)
+          const authenticatedUserRedirectUrl = getAuthenticatedUserRedirectUrl()
+          return h.redirect(authenticatedUserRedirectUrl)
         }
       }
 
