@@ -42,7 +42,7 @@ describe(url, () => {
 
     it('Should continue journey when continue clicked', async () => {
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual('/')
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     })
   })
 })

@@ -15,7 +15,10 @@
             <caption class="govuk-table__caption govuk-visually-hidden">Applications</caption>
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Registration reference</th>
+                <th scope="col" class="govuk-table__header">{{ referenceHeadingText or "Registration reference" }}</th>
+                {% if showProjectName %}
+                <th scope="col" class="govuk-table__header">Project name</th>
+                {% endif %}
                 <th scope="col" class="govuk-table__header">Last updated</th>
                 <th scope="col" class="govuk-table__header">Status</th>
                 <th scope="col" class="govuk-table__header">
@@ -33,6 +36,9 @@
                     <a href="{{ continueApplicationRouteStem }}/{{ application.applicationReference }}" class="govuk-link--no-visited-state">{{ application.applicationReference }}</a>
                   {% endif %}
                 </th>
+                {% if showProjectName %}
+                <td class="govuk-table__cell">TODO</td>
+                {% endif %}
                 <td class="govuk-table__cell">
                   {{ application.lastUpdated }}
                 </td>
@@ -46,9 +52,8 @@
                 <td class="govuk-table__cell"/>
               {% endfor %}
             </tbody>
-          </table>  
+          </table>
         </div>
       </div>
     </div>
   </div>
-  
