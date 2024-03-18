@@ -5,7 +5,7 @@ export default {
   'credits-purchase-metric-file-type': 'application/vnd.ms-excel.sheet.macroenabled.12',
   'credits-purchase-metric-data': {
     startPage: {
-      planningAuthority: 'Example',
+      planningAuthority: 'Hartlepool LPA',
       projectName: 'Gain Site 2 for Digital',
       planningApplicationReference: 'ABC/123/456'
     },

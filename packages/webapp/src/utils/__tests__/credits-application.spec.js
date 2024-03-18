@@ -5,13 +5,13 @@ import constants from '../constants.js'
 import applicant from '../../__mocks__/applicant'
 
 describe('credits-application', () => {
-  it('Should set the credit application reference number has been updated', () => {
+  it('Should process typical application based on test data including LPA code', () => {
     const session = setCreditsApplicationSession()
-    const creditReference = 'BNGCRD-TEST1-T3ST2'
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, creditReference)
     const app = creditsApplication(session, applicant)
 
-    expect(app.creditsPurchase.creditReference).toEqual(creditReference)
+    expect(app.creditsPurchase.creditReference).toEqual('BNGCRD-L4XCQ-AIZMO')
+    expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual('E60000003')
+    expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual('Hartlepool LPA')
   })
 
   it('Should handle nullable fields if session data not exists', () => {
