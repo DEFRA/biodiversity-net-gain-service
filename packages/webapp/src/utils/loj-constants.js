@@ -20,6 +20,7 @@ const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
+const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
@@ -183,6 +184,7 @@ const LEGAL_AGREEMENT_FILES_CHECKED = 'legal-agreement-files-checked'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED = 'need-add-all-responsible-bodies-checked'
 const NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED = 'need-add-all-planning-authorities-checked'
 const RESPONSIBLE_BODIES_CHECKED = 'responsible-bodies-checked'
+const NEED_ADD_ALL_LANDOWNERS_CHECKED = 'need-add-all-landowners-checked'
 const LANDOWNER_INDIVIDUAL_ORGANISATION_KEY = 'landowner-individual-organisation-key'
 const ADDED_LANDOWNERS_CHECKED = 'landowners-checked'
 const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
@@ -287,6 +289,7 @@ export default {
     NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED,
     NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED,
     RESPONSIBLE_BODIES_CHECKED,
+    NEED_ADD_ALL_LANDOWNERS_CHECKED,
     LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED,
@@ -311,6 +314,7 @@ export default {
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
+    NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
     LEGAL_AGREEMENT_TYPE,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
