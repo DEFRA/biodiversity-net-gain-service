@@ -1,28 +1,279 @@
-{% extends 'credits-form-layout.html' %}
+{% extends 'form-layout.html' %}
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 
+{% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Check your answers before you submit your information" %}
 
-{% block formContent %}
-  {% if err %}
-    {{ govukErrorSummary({
-      titleText: "There is a problem",
-      errorList: err
-    }) }}
-  {% endif %}
+{% set metricRowList = [
+  {
+    'text': 'File added',
+    'value': metric.fileName + ', ' + metric.fileSize,
+    'valueDataTestId': 'metric-file-name-value',
+    'valueId': 'metric-file-name-value',
+    'href': metric.fileNameUrl,
+    'visuallyHiddenText': ' metric file added',
+    'show': true
+  },
+  {
+    'text': 'Confirm development details',
+    'value': metric.detailsConfirmed | capitalize,
+    'valueDataTestId': 'metric-development-details-confirmed-value',
+    'valueId': 'metric-development-details-confirmed-value',
+    'href': metric.detailsConfirmedUrl,
+    'visuallyHiddenText': ' confirm development details',
+    'show': true
+  },
+  {
+    'text': 'Project name',
+    'value': metric.projectName,
+    'valueDataTestId': 'metric-project-name-value',
+    'valueId': 'metric-project-name-value',
+    'noAction': true,
+    'show': true
+  },
+  {
+    'text': 'Local authority',
+    'value': metric.localAuthority,
+    'valueDataTestId': 'metric-local-authority-value',
+    'valueId': 'metric-local-authority-value',
+    'noAction': true,
+    'show': true
+  },
+  {
+    'text': 'Planning reference',
+    'value': metric.planningRef,
+    'valueDataTestId': 'metric-planning-ref-value',
+    'valueId': 'metric-planning-ref-value',
+    'noAction': true,
+    'show': true
+  }
+] %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-      <h2 class="govuk-heading-m">Submit your information</h2>
-      <p>By submitting the above information, you agree that it is complete and correct.</p>
-      <p>Submitting this information also confirms the planning permission referenced in your application has been granted.</p>
-      {{ govukButton({
-        text: "Confirm and submit",
-        attributes: {
-          id: "continue",
-          "data-testid": "continue"
-        }
-      }) }}
+{% set creditsTierARowList = [
+  {
+    'text': 'A1',
+    'value': credits.amounts.a1,
+    'valueDataTestId': 'credits-a1-value',
+    'valueId': 'credits-a1-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier A1 amount',
+    'show': true
+  },
+  {
+    'text': 'A2',
+    'value': credits.amounts.a2,
+    'valueDataTestId': 'credits-a2-value',
+    'valueId': 'credits-a2-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier A2 amount',
+    'show': true
+  },
+  {
+    'text': 'A3',
+    'value': credits.amounts.a3,
+    'valueDataTestId': 'credits-a3-value',
+    'valueId': 'credits-a3-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier A3 amount',
+    'show': true
+  },
+  {
+    'text': 'A4',
+    'value': credits.amounts.a4,
+    'valueDataTestId': 'credits-a4-value',
+    'valueId': 'credits-a4-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier A4 amount',
+    'show': true
+  },
+  {
+    'text': 'A5',
+    'value': credits.amounts.a5,
+    'valueDataTestId': 'credits-a5-value',
+    'valueId': 'credits-a5-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier A5 amount',
+    'show': true
+  }
+] %}
+
+{% set creditsTierHRowList = [
+  {
+    'text': 'H',
+    'value': credits.amounts.h,
+    'valueDataTestId': 'credits-h-value',
+    'valueId': 'credits-h-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier H amount',
+    'show': true
+  }
+] %}
+
+{% set creditsTierWRowList = [
+  {
+    'text': 'W',
+    'value': credits.amounts.w,
+    'valueDataTestId': 'credits-w-value',
+    'valueId': 'credits-w-value',
+    'href': credits.changeUrl,
+    'visuallyHiddenText': ' credits tier W amount',
+    'show': true
+  }
+] %}
+
+{% set creditsCostRowList = [
+  {
+    'text': 'Total estimated cost',
+    'value': credits.total,
+    'valueDataTestId': 'credits-total-cost',
+    'valueId': 'credits-total-cost',
+    'noAction': true,
+    'show': true
+  }
+] %}
+
+{% set purchaseOrderRowList = [
+  {
+    'text': 'Will you be using a purchase order?',
+    'value': purchaseOrder.usingPurchaseOrder | capitalize,
+    'valueDataTestId': 'purchase-order-using-value',
+    'valueId': 'purchase-order-using-value',
+    'href': purchaseOrder.changeUrl,
+    'visuallyHiddenText': ' will you be using a purchase order',
+    'show': true
+  },
+  {
+    'text': 'Purchase order number',
+    'value': purchaseOrder.number,
+    'valueDataTestId': 'purchase-order-number-value',
+    'valueId': 'purchase-order-number-value',
+    'href': purchaseOrder.changeUrl,
+    'visuallyHiddenText': ' purchase order number',
+    'show': purchaseOrder.usingPurchaseOrder == 'yes'
+  }
+] %}
+
+{% set dueDiligenceRowList = [
+  {
+    'text': 'Are you purchasing statutory biodiversity credits as an individual or an organisation?',
+    'value': dueDiligence.individualOrOrg | capitalize,
+    'valueDataTestId': 'due-diligence-indiv-or-org-value',
+    'valueId': 'due-diligence-indiv-or-org-value',
+    'href': dueDiligence.individualOrOrgUrl,
+    'visuallyHiddenText': ' are you purchasing statutory biodiversity credits as an individual or an organisation',
+    'show': true
+  },
+  {
+    'text': 'Organisation',
+    'value': dueDiligence.organisationName,
+    'valueDataTestId': 'due-diligence-organisation-name-value',
+    'valueId': 'due-diligence-organisation-name-value',
+    'noAction': true,
+    'show': dueDiligence.individualOrOrg == 'organisation'
+  },
+  {
+    'text': 'Middle name',
+    'value': dueDiligence.middleName,
+    'valueDataTestId': 'due-diligence-middle-name-value',
+    'valueId': 'due-diligence-middle-name-value',
+    'href': dueDiligence.middleNameUrl,
+    'visuallyHiddenText': ' middle name',
+    'show': dueDiligence.individualOrOrg == 'individual'
+  },
+  {
+    'text': 'Date of birth',
+    'value': dueDiligence.dateOfBirth,
+    'valueDataTestId': 'due-diligence-date-of-birth-value',
+    'valueId': 'due-diligence-date-of-birth-value',
+    'href': dueDiligence.dateOfBirthUrl,
+    'visuallyHiddenText': ' date of birth',
+    'show': dueDiligence.individualOrOrg == 'individual'
+  },
+  {
+    'text': 'Nationality',
+    'value': dueDiligence.nationality,
+    'valueDataTestId': 'due-diligence-nationality-value',
+    'valueId': 'due-diligence-mnationality-value',
+    'href': dueDiligence.nationalityUrl,
+    'visuallyHiddenText': ' nationality',
+    'show': dueDiligence.individualOrOrg == 'individual'
+  }
+] %}
+
+{% block formContent %}
+  <div class="govuk-body">
+  {% if err %}
+      {% include "errorbanner.html" %}
+  {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+
+        <h2 class="govuk-heading-m">Statutory biodiversity metric calculation tool</h2>
+
+        {{ generateSummaryList({
+          rows: metricRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Statutory biodiversity credits</h2>
+        <h2 class="govuk-heading-m">Tier A</h2>
+
+        {{ generateSummaryList({
+          rows: creditsTierARowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Tier H</h2>
+
+        {{ generateSummaryList({
+          rows: creditsTierHRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Tier W</h2>
+
+        {{ generateSummaryList({
+          rows: creditsTierWRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Estimated cost of statutory biodiversity credits</h2>
+
+        {{ generateSummaryList({
+          rows: creditsCostRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Purchase Order</h2>
+
+        {{ generateSummaryList({
+          rows: purchaseOrderRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Customer due diligence</h2>
+
+        {{ generateSummaryList({
+          rows: dueDiligenceRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Submit your information</h2>
+
+        <p>By submitting the above information, you agree that it is complete and correct.</p>
+
+        <p>Submitting this information also confirms the planning permission referenced in your application has been granted.</p>
+
+        {{ govukButton({
+          text: "Confirm and submit",
+          classes: 'govuk-!-margin-top-3',
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+      </div>
     </div>
   </div>
 {% endblock %}
