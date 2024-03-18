@@ -1,17 +1,10 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
-const getApplicationReference = request => {
-  let reference = null
-  reference = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
-  return reference
-}
-
 const handlers = {
   get: async (request, h) => {
-    const applicationReference = getApplicationReference(request)
-    return applicationReference !== null
-      ? h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRMATION, { applicationReference })
-      : h.view(creditsPurchaseConstants.views.MANAGE_BIODIVERSITY_GAINS)
+    const applicationReference = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
+    request.yar.reset()
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRMATION, { applicationReference })
   }
 }
 

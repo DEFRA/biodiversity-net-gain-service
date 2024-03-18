@@ -1,4 +1,5 @@
 import constants from '../utils/constants.js'
+import creditsPurchaseConstants from '../utils/credits-purchase-constants.js'
 import getApplicantContext from '../utils/get-applicant-context.js'
 import getOrganisationDetails from '../utils/get-organisation-details.js'
 
@@ -75,10 +76,16 @@ const saveApplicationSession = async request => {
   cacheApplicationTypeIfNeeded(request)
 
   // Use the correct Redis key for the application type.
-  const applicationReferenceRedisKey =
-    request.yar.get(constants.redisKeys.APPLICATION_TYPE) === constants.applicationTypes.REGISTRATION
-      ? constants.redisKeys.APPLICATION_REFERENCE
-      : constants.redisKeys.DEVELOPER_APP_REFERENCE
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  let applicationReferenceRedisKey = constants.redisKeys.APPLICATION_REFERENCE
+
+  if (applicationType === constants.applicationTypes.ALLOCATION) {
+    applicationReferenceRedisKey = constants.redisKeys.DEVELOPER_APP_REFERENCE
+  }
+
+  if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
+    applicationReferenceRedisKey = creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
+  }
 
   if (request.yar.get(applicationReferenceRedisKey)) {
     // Persist the session data asynchronously and allow the user to progress without waiting.
@@ -110,6 +117,7 @@ const isApplicationSessionSaveNeeded = request => {
     isRouteIncludedInApplicationSave(request) &&
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.APPLICATION_SUBMITTED &&
+    request?.response?.headers?.location !== creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRMATION &&
     request?.auth?.isAuthenticated
 }
 
@@ -139,6 +147,8 @@ const cacheApplicationTypeIfNeeded = request => {
       applicationType = constants.applicationTypes.ALLOCATION
       // Default to the application type for registations as
       // no other routes accept HTTP POSTS that cause this funcion to be called.
+    } else if (journeyType === 'credits-purchase') {
+      applicationType = constants.applicationTypes.CREDITS_PURCHASE
     } else {
       applicationType = constants.applicationTypes.REGISTRATION
     }
