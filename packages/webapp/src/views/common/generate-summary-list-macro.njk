@@ -18,6 +18,7 @@
     - classes: Additional classes applied to the row.
     - error: Boolean flag to indicate if there's an error related to the row.
     - show: Boolean flag to determine if the row should be displayed.
+    - subList: Boolean flag to indicate value should be rendered as a sublist.
 
 #}
 {% macro generateSummaryList(summary) %}
@@ -35,6 +36,16 @@
 
         {# Only process rows which are flagged for display #}
         {% if item.show == true %}
+            {# Set the value HTML #}
+            {% if item.subList == true %}
+                {% set valueHtml %}
+                  {% include "common/summary-sub-list.html" %}
+                {% endset %}
+            {% else %}
+                {% set valueHtml %}
+                  <span id="{{item.valueId}}}" data-testid="{{item.valueDataTestId}}" {{errorHtmlAttribute}}>{{item.value}}</span>
+                {% endset %}
+            {% endif %}
             {# Construct each row and append to rows array #}
             {% if item.noAction == true %}
                 {% set rows = (rows.push({
@@ -42,7 +53,7 @@
                         text: item.text
                     },
                     value: {
-                        html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
+                        html: valueHtml
                     },
                     classes: classes
                 }), rows) %}
@@ -52,7 +63,7 @@
                         text: item.text
                     },
                     value: {
-                        html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
+                        html: valueHtml
                     },
                     actions: {
                         items: [
