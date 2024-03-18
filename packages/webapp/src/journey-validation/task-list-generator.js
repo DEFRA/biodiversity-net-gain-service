@@ -35,12 +35,7 @@ const sessionMismatches = (part, session) => {
   const checkSessionMismatch = ([k, v]) => v === ANY ? false : session.get(k) !== null && session.get(k) !== v
   return Object.entries(part.sessionDataRequired).some(checkSessionMismatch)
 }
-/*
-const getIndividualTaskStatus = (session, registrationTask) => {
-  const individualTask = getTaskListSectionStatus(JOURNEYS.REGISTRATION, registrationTask, session)
-  return individualTask.status
-}
-*/
+
 const getTaskStatuses = (schema, session) => {
   const statuses = schema.journeyParts.map(journey => {
     for (const part of journey) {
