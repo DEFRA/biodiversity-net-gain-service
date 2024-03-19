@@ -7,6 +7,7 @@ import constants from '../../../utils/constants.js'
 const checkAnswers = require('../../developer/check-and-submit.js').default
 const url = constants.routes.DEVELOPER_CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
+jest.mock('../../utils/helpers.js')
 
 const auth = {
   credentials: {
@@ -38,6 +39,18 @@ describe(url, () => {
             return {
               applicationReference: 'test-reference'
             }
+          })
+          jest.mock('../../utils/helpers.js')
+          const helpers = require('../../utils/helpers.js')
+          helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(()=>{
+            return [{
+              items: [{
+                header: 'testHeader',
+                description: 'testDescription',
+                condition: 'testCondition',
+                amount: 'testAmount'
+              }]
+            }]
           })
 
           let viewArgs = ''
