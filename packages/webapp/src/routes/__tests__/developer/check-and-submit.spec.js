@@ -1,3 +1,5 @@
+import { submitGetRequest } from '../helpers/server.js'
+import developerApplicationData from '../../../__mocks__/developer-application-data.js'
 import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
@@ -14,6 +16,26 @@ const auth = {
 }
 
 describe(url, () => {
+  describe('GET', () => {
+    it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
+      jest.mock('../../../utils/helpers.js')
+      const helpers = require('../../../utils/helpers.js')
+      helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(() => {
+        return [{
+          items: [{
+            header: 'testHeader',
+            description: 'testDescription',
+            condition: 'testCondition',
+            amount: 'testAmount'
+          }]
+        }]
+      })
+
+      const res = await submitGetRequest({ url }, 200, developerApplicationData)
+      expect(res.payload).not.toContain('Geoff')
+    })
+  })
+
   describe('POST', () => {
     it('should process a valid application correctly', done => {
       jest.isolateModules(async () => {
