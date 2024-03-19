@@ -50,7 +50,6 @@ const getApplicationDetails = (session, currentOrganisation) => {
       planningRef: metricData?.startPage?.planningApplicationReference || '',
       habitats
     }
-
   }
 }
 
