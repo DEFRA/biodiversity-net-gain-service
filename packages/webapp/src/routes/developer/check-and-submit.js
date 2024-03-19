@@ -33,7 +33,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
 
   return {
     applicantInfo: {
-      actingForClient: session.get(constants.redisKeys.IS_AGENT),
+      actingForClient: session.get(constants.redisKeys.DEVELOPER_IS_AGENT),
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS
