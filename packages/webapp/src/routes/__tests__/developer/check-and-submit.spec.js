@@ -42,7 +42,7 @@ describe(url, () => {
           })
           jest.mock('../../utils/helpers.js')
           const helpers = require('../../utils/helpers.js')
-          helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(()=>{
+          helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(() => {
             return [{
               items: [{
                 header: 'testHeader',
