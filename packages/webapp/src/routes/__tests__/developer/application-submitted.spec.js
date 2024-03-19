@@ -4,7 +4,7 @@ import constants from '../../../utils/constants.js'
 
 const url = constants.routes.DEVELOPER_CONFIRMATION
 
-const creditReference = 'BNGCRD-GH67D-AJK25'
+const creditReference = 'BNGREG-FH67D-AJK25'
 
 describe(url, () => {
   describe('GET', () => {
