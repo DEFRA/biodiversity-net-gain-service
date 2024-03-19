@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
   processDeveloperTask,
+  redirectDeveloperClient,
   validateFirstLastNameOfDeveloperClient
 } from '../../utils/helpers.js'
 
@@ -44,7 +45,8 @@ const handlers = {
         taskTitle: 'Your details',
         title: 'Add your details'
       }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+
+    return redirectDeveloperClient(h, request.yar)
   }
 }
 export default [{
