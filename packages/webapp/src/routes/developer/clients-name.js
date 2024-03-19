@@ -1,5 +1,9 @@
 import constants from '../../utils/constants.js'
-import { redirectDeveloperClient, validateFirstLastNameOfDeveloperClient } from '../../utils/helpers.js'
+import {
+  processDeveloperTask,
+  redirectDeveloperClient,
+  validateFirstLastNameOfDeveloperClient
+} from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -36,7 +40,15 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
 
-    return redirectDeveloperClient(h, request.yar)
+    // return redirectDeveloperClient(h, request.yar)
+
+    processDeveloperTask(request,
+      {
+        taskTitle: 'Your details',
+        title: 'Add your details'
+      }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+    return h.redirect(constants.routes.DEVELOPER_TASKLIST)
   }
 }
 export default [{
