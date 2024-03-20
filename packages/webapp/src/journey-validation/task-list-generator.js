@@ -7,6 +7,10 @@ import {
   taskSections as creditsPurchaseTaskSections,
   checkYourAnswers as creditsPurchaseCheckYourAnswers
 } from './credits-purchase/task-sections.js'
+import {
+  taskSections as allocationTaskSections,
+  checkYourAnswers as allocationCheckYourAnswers
+} from './allocation/task-sections.js'
 
 const ANY = 'any'
 
@@ -110,6 +114,10 @@ const getTaskList = (journey, session) => {
     case constants.applicationTypes.CREDITS_PURCHASE:
       taskList = generateTaskList(creditsPurchaseTaskSections, session)
       taskList.push(creditsPurchaseCheckYourAnswers)
+      break
+    case constants.applicationTypes.ALLOCATION:
+      taskList = generateTaskList(allocationTaskSections, session)
+      taskList.push(allocationCheckYourAnswers)
       break
     default:
       taskList = []
