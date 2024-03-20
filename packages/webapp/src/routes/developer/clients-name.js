@@ -40,6 +40,8 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
 
+    // TODO remove: this is to allow completing the task to test out task list and should be removed
+    // when tasklist is updated to the latest design.
     processDeveloperTask(request,
       {
         taskTitle: 'Your details',
