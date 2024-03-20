@@ -47,10 +47,10 @@ const handlers = {
   post: async (request, h) => {
     const userType = request.payload.userType
     if (userType) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, userType)
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
       if ((userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL && !organisation) || (userType === creditsPurchaseConstants.applicantTypes.ORGANISATION && organisation)) {
+        request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, userType)
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
       } else if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
         return getErrorView(h, request, organisationSignInErrorMessage)
