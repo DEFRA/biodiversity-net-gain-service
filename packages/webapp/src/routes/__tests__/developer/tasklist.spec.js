@@ -43,7 +43,7 @@ describe(url, () => {
             status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
             completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
             startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            inProgressUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+            inProgressUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
             id: 'add-your-details'
           }
         ]
@@ -129,7 +129,7 @@ describe(url, () => {
             status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
             completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
             startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            inProgressUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+            inProgressUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
             id: 'add-your-details'
           }
         ]

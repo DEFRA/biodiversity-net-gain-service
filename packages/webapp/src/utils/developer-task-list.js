@@ -10,7 +10,7 @@ const developerTaskList = {
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
           completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
           startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-          inProgressUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+          inProgressUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
           id: 'add-your-details'
         }
       ]
@@ -63,9 +63,9 @@ const developerTaskList = {
         {
           title: 'Check your answers before you submit them to us',
           status: 'CANNOT START YET',
-          completedTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          startTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          inProgressUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
+          completedTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          startTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          inProgressUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
           id: 'check-your-answer'
         }
       ]

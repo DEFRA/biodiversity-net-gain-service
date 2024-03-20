@@ -33,6 +33,8 @@ const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-aut
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
+const DEVELOPER_CHECK_AND_SUBMIT = 'developer/check-and-submit'
+const DEVELOPER_CONFIRMATION = 'developer/application-submitted'
 
 // ./Routes constants
 
@@ -147,7 +149,9 @@ export default {
     DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION,
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE
+    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+    DEVELOPER_CHECK_AND_SUBMIT,
+    DEVELOPER_CONFIRMATION
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
