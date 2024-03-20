@@ -1,4 +1,7 @@
 import { createServer, init } from './server.js'
+import * as applicationInsights from './insights.js'
+
+applicationInsights.setup()
 
 createServer()
   .then(server =>

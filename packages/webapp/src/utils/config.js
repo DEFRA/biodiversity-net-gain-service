@@ -10,6 +10,8 @@ export const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'htt
 export const NODE_ENV = process.env.NODE_ENV
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prd'
 export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'http://localhost:3000'
+export const APPLICATIONINSIGHTS_CONNECTION_STRING = process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || ''
+export const APPINSIGHTS_CLOUDROLE = process.env.APPINSIGHTS_CLOUDROLE || ''
 
 // DefraId Config
 export const DEFRA_ID = {
