@@ -3,6 +3,7 @@ import {
   boolToYesNo,
   dateToString,
   hideClass,
+  getFileHeaderPrefix,
   getAllLandowners,
   getHumanReadableFileSize,
   emailValidator,
@@ -513,7 +514,17 @@ describe('validateDate', () => {
     expect(result.context.err[0].text).toBe('Start date must include a month')
   })
 })
+describe('getLandownershipProofFileText', () => {
+  it('should return "files" for multiple file names ', () => {
+    const fileNames = ['proof1.pdf', 'proof2.pdf']
+    expect(getFileHeaderPrefix(fileNames)).toEqual('files')
+  })
 
+  it('should return "file" for a single file name', () => {
+    const singleFileName = ['proof1.pdf']
+    expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
+  })
+})
 describe('validateAddress', () => {
   it('should add addressLine1Error when length of chars is above 50', () => {
     const result = validateAddress({

@@ -81,9 +81,9 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType =
   }
 }
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
+  if (!legalAgreementFiles) return []
   const filenames = legalAgreementFiles.map(file => getFileName(file.location))
-  return filenames.join('<br>')
+  return filenames
 }
 
 const getLocalPlanningAuthorities = lpas => {
@@ -735,6 +735,10 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
+const getFileHeaderPrefix = (fileNames) => {
+  const fileCount = fileNames.length
+  return fileCount > 1 ? 'files' : 'file'
+}
 
 const redirectDeveloperClient = (h, yar) => {
   const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
@@ -825,6 +829,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  getFileHeaderPrefix,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
