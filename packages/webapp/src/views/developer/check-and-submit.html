@@ -5,97 +5,97 @@
 {% set pageHeading = "Check your answers before submitting your information" %}
 
 {% set applicantInfoRowList = [
-{
-'text': 'Acting on behalf of a client',
-'value': ('Yes' if applicantInfo.actingForClient else 'No'),
-'valueDataTestId': 'acting-for-client-value',
-'href': applicantInfo.actingForClientChangeUrl,
-'visuallyHiddenText': ' acting on behalf of a client',
-'classes': '',
-'show': true
-},
-{
-'text': 'Defra account details are up to date',
-'value': ('Yes' if applicantInfo.confirmed else 'No'),
-'valueDataTestId': 'account-details-up-to-date-value',
-'href': applicantInfo.confirmedChangeUrl,
-'visuallyHiddenText': ' Defra account details are up to date',
-'classes': '',
-'show': true
-}
-] %}
+  {
+    'text': 'Acting on behalf of a client',
+    'value': ('Yes' if applicantInfo.actingForClient else 'No'),
+    'valueDataTestId': 'acting-for-client-value',
+    'href': applicantInfo.actingForClientChangeUrl,
+    'visuallyHiddenText': ' acting on behalf of a client',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Defra account details are up to date',
+    'value': ('Yes' if applicantInfo.confirmed else 'No'),
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.confirmedChangeUrl,
+    'visuallyHiddenText': ' Defra account details are up to date',
+    'classes': '',
+    'show': true
+  }
+  ] %}
 
-{% set developmentInfoRowList = [
-{
-'text': 'Planning decision notice file',
-'value': developmentInfo.planningDecisionNoticeFile,
-'valueDataTestId': 'planning-decision-notice-file-value',
-'valueId': 'planning-decision-notice-file-value',
-'href': developmentInfo.planningDecisionNoticeFileChangeUrl,
-'visuallyHiddenText': ' planning decision notice file',
-'show': true
-},
-{
-'text': 'Statutory biodiversity metric file',
-'value': developmentInfo.metricFileName,
-'valueDataTestId': 'metric-file-value',
-'valueId': 'metric-file-value',
-'href': developmentInfo.metricFileNameUrl,
-'visuallyHiddenText': ' metric file name',
-'show': true
-},
-{
-'text': 'Biodiversity gain site number',
-'value': developmentInfo.bngNumber,
-'valueDataTestId': 'bng-number-value',
-'valueId': 'bng-number-value',
-'href': developmentInfo.bngNumberChangeUrl,
-'visuallyHiddenText': ' biodiversity gain site number',
-'show': true
-},
-{
-'text': 'Development project name',
-'value': developmentInfo.projectName,
-'valueDataTestId': 'development-project-name-value',
-'valueId': 'development-project-name-value',
-'visuallyHiddenText': ' development project name',
-'show': true,
-'noAction': true
-},
-{
-'text': 'Local planning authority',
-'value': developmentInfo.localAuthority,
-'valueDataTestId': 'local-planning-authority-value',
-'valueId': 'local-planning-authority-value',
-'noAction': true,
-'visuallyHiddenText': ' local planning authority',
-'show': true
-},
-{
-'text': 'Planning application reference',
-'value': developmentInfo.planningRef,
-'valueDataTestId': 'planning-application-reference-value',
-'valueId': 'planning-application-reference-value',
-'noAction': true,
-'visuallyHiddenText': ' planning application reference value',
-'show': true
-},
-{
-'text': 'Habitat being used',
-'value': developmentInfo.habitats,
-'valueDataTestId': 'habitats-value',
-'valueId': 'habitats-value',
-'noAction': true,
-'visuallyHiddenText': ' habitats',
-'show': true,
-'subList': true
-}
+  {% set developmentInfoRowList = [
+  {
+    'text': 'Planning decision notice file',
+    'value': developmentInfo.planningDecisionNoticeFile,
+    'valueDataTestId': 'planning-decision-notice-file-value',
+    'valueId': 'planning-decision-notice-file-value',
+    'href': developmentInfo.planningDecisionNoticeFileChangeUrl,
+    'visuallyHiddenText': ' planning decision notice file',
+    'show': true
+  },
+  {
+    'text': 'Statutory biodiversity metric file',
+    'value': developmentInfo.metricFileName,
+    'valueDataTestId': 'metric-file-value',
+    'valueId': 'metric-file-value',
+    'href': developmentInfo.metricFileNameUrl,
+    'visuallyHiddenText': ' metric file name',
+    'show': true
+  },
+  {
+    'text': 'Biodiversity gain site number',
+    'value': developmentInfo.bngNumber,
+    'valueDataTestId': 'bng-number-value',
+    'valueId': 'bng-number-value',
+    'href': developmentInfo.bngNumberChangeUrl,
+    'visuallyHiddenText': ' biodiversity gain site number',
+    'show': true
+  },
+  {
+    'text': 'Development project name',
+    'value': developmentInfo.projectName,
+    'valueDataTestId': 'development-project-name-value',
+    'valueId': 'development-project-name-value',
+    'visuallyHiddenText': ' development project name',
+    'show': true,
+    'noAction': true
+  },
+  {
+    'text': 'Local planning authority',
+    'value': developmentInfo.localAuthority,
+    'valueDataTestId': 'local-planning-authority-value',
+    'valueId': 'local-planning-authority-value',
+    'noAction': true,
+    'visuallyHiddenText': ' local planning authority',
+    'show': true
+  },
+  {
+    'text': 'Planning application reference',
+    'value': developmentInfo.planningRef,
+    'valueDataTestId': 'planning-application-reference-value',
+    'valueId': 'planning-application-reference-value',
+    'noAction': true,
+    'visuallyHiddenText': ' planning application reference value',
+    'show': true
+  },
+  {
+    'text': 'Habitat being used',
+    'value': developmentInfo.habitats,
+    'valueDataTestId': 'habitats-value',
+    'valueId': 'habitats-value',
+    'noAction': true,
+    'visuallyHiddenText': ' habitats',
+    'show': true,
+    'subList': true
+  }
 ] %}
 
 {% block formContent %}
 <div class="govuk-body">
   {% if err %}
-  {% include "errorbanner.html" %}
+    {% include "errorbanner.html" %}
   {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -104,29 +104,29 @@
       <h2 class="govuk-heading-m">Applicant information</h2>
 
       {{ generateSummaryList({
-      rows: applicantInfoRowList,
-      classes: 'govuk-!-margin-bottom-9'
+        rows: applicantInfoRowList,
+        classes: 'govuk-!-margin-bottom-9'
       }) }}
 
       <h2 class="govuk-heading-m">Development information</h2>
 
       {{ generateSummaryList({
-      rows: developmentInfoRowList,
-      classes: 'govuk-!-margin-bottom-9'
+        rows: developmentInfoRowList,
+        classes: 'govuk-!-margin-bottom-9'
       }) }}
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>
 
       <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
       {{ govukCheckboxes({
-      name: "termsAndConditionsConfirmed",
-      errorMessage: err[0],
-      items: [
-      {
-      value: "Yes",
-      html: "I confirm I have read the terms and conditions"
-      }
-      ]
+        name: "termsAndConditionsConfirmed",
+        errorMessage: err[0],
+        items: [
+          {
+          value: "Yes",
+          html: "I confirm I have read the terms and conditions"
+          }
+        ]
       }) }}
 
       <h2 class="govuk-heading-m">Submit your information</h2>
@@ -136,12 +136,12 @@
       <p>Submitting this information also confirms the planning permission referenced in your application has been granted.</p>
 
       {{ govukButton({
-      text: "Confirm and submit",
-      classes: 'govuk-!-margin-top-3',
-      attributes: {
-      id: "continue",
-      "data-testid": "continue"
-      }
+        text: "Confirm and submit",
+        classes: 'govuk-!-margin-top-3',
+        attributes: {
+        id: "continue",
+          "data-testid": "continue"
+        }
       }) }}
     </div>
   </div>
