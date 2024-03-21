@@ -33,7 +33,7 @@ const handlers = {
       middleNameOption,
       middleName
     })
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
+    return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
   }
 }
 

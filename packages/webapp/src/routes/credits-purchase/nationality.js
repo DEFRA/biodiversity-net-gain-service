@@ -39,7 +39,7 @@ const handlers = {
 
     if (Object.values(nationalities).some(nationality => nationality !== '')) {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     } else {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
         nationalitySelects: getNationalitySelects(),

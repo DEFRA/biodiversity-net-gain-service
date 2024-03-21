@@ -2,6 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -234,13 +235,15 @@ const uploadTypes = {
 // to return to from a "check your answers" page
 const setReferer = [
   ...lojConstants.setLojReferer,
-  ...developerConstants.setDeveloperReferer
+  ...developerConstants.setDeveloperReferer,
+  ...creditsPurchaseConstants.setCreditReferer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
   ...lojConstants.clearLojReferer,
-  ...developerConstants.clearDeveloperReferer
+  ...developerConstants.clearDeveloperReferer,
+  ...creditsPurchaseConstants.clearCreditReferer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }

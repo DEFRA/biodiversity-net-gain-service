@@ -24,7 +24,7 @@ const handlers = {
       request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
     } else if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.YES) {
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     } else {
       const metricData = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS, {

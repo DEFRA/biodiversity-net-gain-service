@@ -32,7 +32,7 @@ const handlers = {
       })
     }
     request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, dateAsISOString)
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
+    return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
   }
 }
 

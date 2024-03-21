@@ -50,7 +50,8 @@ const redisKeys = {
   CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED: 'credits-purchase-metric-details-confirmed',
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
   CREDITS_PURCHASE_PURCHASE_ORDER_USED: 'credits-purchase-purchase-order-used',
-  CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER: 'credits-purchase-purchase-order-number'
+  CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER: 'credits-purchase-purchase-order-number',
+  REFERER: 'referer'
 }
 
 const NO = 'no'
@@ -72,6 +73,12 @@ export default {
   uploadTypes: {
     CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-metric-upload'
   },
+  setCreditReferer: [
+    'credits-purchase/check-and-submit'
+  ],
+  clearCreditReferer: [
+    'credits-purchase/buy-statutory-biodiversity-credits'
+  ],
   metricFileExt: [
     '.xlsm',
     '.xlsx'
