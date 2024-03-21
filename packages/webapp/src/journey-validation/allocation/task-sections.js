@@ -4,6 +4,7 @@ import { applicantDetailsJourneys } from './applicant-details.js'
 import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-habitat-details.js'
 import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
 import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
+import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -13,13 +14,12 @@ const applicantDetails = taskDefinition(
   applicantDetailsJourneys
 )
 
-//todo add route for this page
 const planningDecisionNotice = taskDefinition(
   'planning-decision-notice',
   'Add planning decision notice',
-  constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  applicantDetailsJourneys
+  constants.routes.DEVELOPER_PLANNING_DECISION_UPLOAD,
+  constants.routes.DEVELOPER_PLANNING_DECISION_UPLOAD,
+  planningDecisionNoticeJourneys
 )
 
 const biodiversityGainSiteNumber = taskDefinition(
