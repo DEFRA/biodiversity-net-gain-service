@@ -11,7 +11,7 @@ import { DuplicateApplicationReferenceError } from '@defra/bng-errors-lib'
 const buildConfig = body => {
   return {
     serviceBusConfig: {
-      queueName: 'ne.bng.credits-purchase.inbound',
+      queueName: 'ne.bng.order.inbound',
       message: body
     },
     res: {
