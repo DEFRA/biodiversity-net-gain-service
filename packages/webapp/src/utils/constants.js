@@ -242,8 +242,7 @@ const setReferer = [
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
   ...lojConstants.clearLojReferer,
-  ...developerConstants.clearDeveloperReferer,
-  ...creditsPurchaseConstants.clearCreditReferer
+  ...developerConstants.clearDeveloperReferer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }

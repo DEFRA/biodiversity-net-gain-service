@@ -76,9 +76,6 @@ export default {
   setCreditReferer: [
     'credits-purchase/check-and-submit'
   ],
-  clearCreditReferer: [
-    'credits-purchase/buy-statutory-biodiversity-credits'
-  ],
   metricFileExt: [
     '.xlsm',
     '.xlsx'
