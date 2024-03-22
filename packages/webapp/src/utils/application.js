@@ -147,26 +147,42 @@ const getHabitats = session => {
     }
   }
 
+  const verifiedHabitatType = (details, properties, separator = ' - ') => {
+    const extractedData = []
+
+    let found = false
+    for (const property of properties) {
+      if (property in details) {
+        found = true
+        extractedData.push(details[property])
+      }
+    }
+
+    if (!found) {
+      return null
+    }
+
+    return extractedData.join(separator)
+  }
+
   const getHabitatType = (identifier, details) => {
     switch (identifier) {
       case 'd1':
-        return `${details['Broad habitat']} - ${details['Habitat type']}`
+        return verifiedHabitatType(details, ['Broad habitat', 'Habitat type'])
       case 'd2':
-        return `${details['Broad habitat']} - ${details['Proposed habitat']}`
+        return verifiedHabitatType(details, ['Broad habitat', 'Proposed habitat'])
       case 'd3':
-        return `${details['Proposed Broad Habitat']} - ${details['Proposed habitat']}`
+        return verifiedHabitatType(details, ['Proposed Broad Habitat', 'Proposed habitat'])
       case 'e1':
-        return details['Habitat type']
       case 'e2':
-        return details['Habitat type']
+        return verifiedHabitatType(details, ['Habitat type'])
       case 'e3':
-        return details['Proposed habitat']
+        return verifiedHabitatType(details, ['Proposed habitat'])
       case 'f1':
-        return details['Watercourse type']
       case 'f2':
-        return details['Watercourse type']
+        return verifiedHabitatType(details, ['Watercourse type'])
       case 'f3':
-        return details['Proposed habitat']
+        return verifiedHabitatType(details, ['Proposed habitat'])
     }
   }
 
@@ -183,7 +199,9 @@ const getHabitats = session => {
       },
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
-  )
+  ).filter(habitat => habitat?.habitatType || (
+    habitat?.area?.beforeEnhancement || habitat?.area?.afterEnhancement
+  ))
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
@@ -200,7 +218,7 @@ const getHabitats = session => {
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
       ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
       ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
-    }))
+    })).filter(habitat => habitat?.habitatType)
   )
 
   return { baseline, proposed }
