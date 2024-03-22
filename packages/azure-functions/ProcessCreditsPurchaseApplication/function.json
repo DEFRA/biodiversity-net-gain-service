@@ -1,4 +1,4 @@
-{ 
+{
   "disabled": false,
   "bindings": [
     {
@@ -12,7 +12,7 @@
     {
       "name": "outputSbQueue",
       "type": "serviceBus",
-      "queueName": "ne.bng.credits-purchase.inbound",
+      "queueName": "ne.bng.order.inbound",
       "connection": "OPERATOR_SB_CONNECTION_STRING",
       "direction": "out"
     },
