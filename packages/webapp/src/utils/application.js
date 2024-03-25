@@ -191,7 +191,7 @@ const getHabitats = session => {
   const baseline = baselineIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
       habitatType: getHabitatType(identifier, details),
-      baselineReference: String(details['Baseline ref']),
+      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : null,
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,
@@ -203,13 +203,14 @@ const getHabitats = session => {
     }))
   ).filter(habitat => habitat?.habitatType &&
     habitat?.area?.beforeEnhancement &&
-    habitat?.area?.afterEnhancement)
+    habitat?.area?.afterEnhancement &&
+    habitat?.baselineReference)
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
       proposedHabitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
       habitatType: getHabitatType(identifier, details),
-      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : null,
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,
@@ -220,7 +221,8 @@ const getHabitats = session => {
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
       ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
       ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
-    })).filter(habitat => habitat?.habitatType)
+    })).filter(habitat => habitat?.habitatType &&
+      habitat?.baselineReference)
   )
 
   return { baseline, proposed }
