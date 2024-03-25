@@ -18,7 +18,8 @@ const processSuccessfulUpload = async (result, request, h) => {
     fileName: path.parse(result.config.blobConfig.blobName).base,
     fileLocation: result.config.blobConfig.blobName,
     fileSize: result.fileSize,
-    fileType: result.fileType,
+    fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+    contentMediaType: result.fileType,
     confirmed: false
   }
   request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
