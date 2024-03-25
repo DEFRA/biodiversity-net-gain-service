@@ -34,7 +34,12 @@ const getFiles = session => {
 
 const application = (session, account) => {
   const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
-  const planningAuthorityName = metricData.startPage.planningAuthority
+
+  const stringOrNull = value => value ? String(value) : null
+
+  const developmentName = stringOrNull(metricData.startPage.projectName)
+  const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
+  const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
 
   const applicationDetails = {
     creditsPurchase: {
@@ -42,11 +47,11 @@ const application = (session, account) => {
         id: account.idTokenClaims.contactId
       },
       development: {
-        name: metricData.startPage.projectName ?? null,
-        planningReference: metricData.startPage.planningApplicationReference ?? null,
+        planningReference,
+        name: developmentName,
         localPlanningAuthority: {
           code: getLpaCode(planningAuthorityName),
-          name: planningAuthorityName ?? null
+          name: planningAuthorityName
         }
       },
       products: getCreditAmounts(session),
