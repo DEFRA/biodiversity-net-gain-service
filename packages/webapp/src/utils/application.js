@@ -150,11 +150,13 @@ const getHabitats = session => {
   const verifiedHabitatType = (details, properties, separator = ' - ') => {
     const extractedData = []
 
-    let found = false
+    let found = true
     for (const property of properties) {
       if (property in details) {
-        found = true
         extractedData.push(details[property])
+      } else {
+        found = false
+        break
       }
     }
 
@@ -199,9 +201,9 @@ const getHabitats = session => {
       },
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
-  ).filter(habitat => habitat?.habitatType || (
-    habitat?.area?.beforeEnhancement || habitat?.area?.afterEnhancement
-  ))
+  ).filter(habitat => habitat?.habitatType &&
+    habitat?.area?.beforeEnhancement &&
+    habitat?.area?.afterEnhancement)
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({

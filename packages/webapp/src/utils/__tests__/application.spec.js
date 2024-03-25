@@ -463,4 +463,40 @@ describe('application', () => {
       }
     })
   })
+  it('Should not add broad habitat to habitat type for metric baseline and proposed habitats', () => {
+    const session = applicationSession()
+    const app = application(session, applicant)
+
+    const allHabitats = [
+      ...app.landownerGainSiteRegistration.habitats.baseline,
+      ...app.landownerGainSiteRegistration.habitats.proposed
+    ]
+
+    const session2 = applicationSession()
+    delete session2.values['metric-data'].d1[0]['Broad habitat']
+
+    const app2 = application(session2, applicant)
+
+    const allHabitats2 = [
+      ...app2.landownerGainSiteRegistration.habitats.baseline,
+      ...app2.landownerGainSiteRegistration.habitats.proposed
+    ]
+    console.log(allHabitats)
+    console.log(allHabitats2)
+
+    allHabitats.forEach(habitat => {
+      if (habitat.state === 'Habitat') {
+        expect(habitat.habitatType).toContain(' - ')
+      }
+    })
+
+    expect(allHabitats2).not.toHaveLength(allHabitats.length)
+    expect(allHabitats2).not.toEqual(allHabitats)
+    expect(allHabitats2.length).toBeLessThan(allHabitats.length)
+    const habitatType = 'Cropland - Cereal crops'
+    const hasHabitatType = allHabitats.some(habitat => habitat.habitatType === habitatType)
+    expect(hasHabitatType).toBe(true)
+    const notHasHabitatType = allHabitats2.some(habitat => habitat.habitatType === habitatType)
+    expect(notHasHabitatType).toBe(false)
+  })
 })
