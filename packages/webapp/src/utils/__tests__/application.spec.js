@@ -498,7 +498,7 @@ describe('application', () => {
     expect(notHasHabitatType).toBe(false)
   })
 
-  it.only('Should not add habitat if no baselineReference', () => {
+  it('Should not add habitat if no baselineReference', () => {
     const session = applicationSession()
     const app = application(session, applicant)
 
