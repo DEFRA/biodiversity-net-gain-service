@@ -36,7 +36,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'yes')
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
+      return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
