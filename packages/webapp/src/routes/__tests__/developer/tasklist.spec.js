@@ -33,7 +33,7 @@ describe(url, () => {
 
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
-      expect(viewResult).toEqual('developer/tasklist')
+      expect(viewResult).toEqual('developer/record-gains-task-list')
       expect(contextResult.developerTasks.taskList.length).toEqual(4)
       expect(contextResult.developerTasks.taskList[0]).toEqual({
         taskTitle: 'Your details',
@@ -119,7 +119,7 @@ describe(url, () => {
 
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
-      expect(viewResult).toEqual('developer/tasklist')
+      expect(viewResult).toEqual('developer/record-gains-task-list')
       expect(contextResult.developerTasks.taskList.length).toEqual(4)
       expect(contextResult.developerTasks.taskList[0]).toEqual({
         taskTitle: 'Your details',
@@ -209,7 +209,7 @@ describe(url, () => {
 
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
-      expect(viewResult).toEqual('developer/tasklist')
+      expect(viewResult).toEqual('developer/record-gains-task-list')
       expect(contextResult.developerTasks.taskList.length).toEqual(1)
       expect(contextResult.developerTasks).toEqual(developerTasks)
     })

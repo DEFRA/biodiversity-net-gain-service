@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% set pageHeading = "Record allocation of off-site biodiversity gains to a development" %}
+{% set hideBackLink = true %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
+        <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks}} of {{totalSections}} sections.</p>
+        <ol class="app-task-list govuk-!-padding-top-3">
+            {% for task in tasks.taskList %}
+            <li>
+                <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
+                <ul class="app-task-list__items">
+                    {% for taskItem in task.tasks %}
+                    {% if task.taskTitle !== 'Submit your biodiversity gain information' %}
+                    <li class="app-task-list__item">
+                                      <span class="app-task-list__task-name">
+                                        <a href="{{ taskItem.url }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
+                                          {{ taskItem.title }}
+                                        </a>
+                                      </span>
+                        <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif taskItem.status === 'NOT STARTED' %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">
+                            {{ taskItem.status }}
+                        </strong>
+                    </li>
+                    {% else %}
+                    <li>
+                        <ul class="app-task-list__items">
+                            <li class="app-task-list__item">
+                                {% if canSubmit  %}
+                                <span class="app-task-list__task-name" id="check-your-answers">
+                                                            <a href="{{ taskItem.url }}" aria-describedby="{{ tasks.taskList[tasks.taskList.length - 1].tasks[0].id }}">
+                                                                {{ tasks.taskList[tasks.taskList.length - 1].tasks[0].title }}
+                                                            </a>
+                                                    </span>
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">Not started yet</strong>
+                                {% else %}
+                                <span id="check-your-answers">
+                                                          {{ tasks.taskList[tasks.taskList.length - 1].tasks[0].title }}
+                                                    </span>
+                                <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">{{ taskItem.status }}</strong>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+{% include "common/assisted-digital-helpline.html" %}
+{% endblock %}
