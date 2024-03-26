@@ -33,10 +33,9 @@ const getFiles = session => {
 }
 
 const application = (session, account) => {
-  const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
-
   const stringOrNull = value => value ? String(value) : null
 
+  const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
   const developmentName = stringOrNull(metricData.startPage.projectName)
   const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
   const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
@@ -73,7 +72,7 @@ const application = (session, account) => {
     applicant.middleName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)?.middleName ?? null
     applicant.dateOfBirth = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)?.split('T')[0] ?? null
     const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
-    applicant.nationality = nationality ? Object.values(nationality).filter(n => n !== '') : null
+    applicant.nationality = nationality ? Object.values(nationality).filter(n => n !== '') : []
   }
 
   return applicationDetails
