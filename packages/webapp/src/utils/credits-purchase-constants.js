@@ -18,7 +18,7 @@ const routes = {
   CREDITS_PURCHASE_CHECK_YOUR_ANSWERS: '/credits-purchase/check-and-submit',
   CREDITS_PURCHASE_CREDITS_SELECTION: '/credits-purchase/add-statutory-biodiversity-credits',
   CREDITS_PURCHASE_CREDITS_COST: '/credits-purchase/estimated-cost-statutory-biodiversity-credits',
-  CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/buy-statutory-biodiversity-credits',
+  CREDITS_PURCHASE_TASK_LIST: '/credits-purchase/tasklist',
   CREDITS_PURCHASE_INDIVIDUAL_OR_ORG: '/credits-purchase/purchasing-individual-organisation',
   CREDITS_PURCHASE_UPLOAD_METRIC: '/credits-purchase/upload-metric-file',
   CREDITS_PURCHASE_CHECK_UPLOAD_METRIC: '/credits-purchase/check-metric-file',
