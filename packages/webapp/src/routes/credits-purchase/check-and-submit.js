@@ -58,8 +58,6 @@ const handlers = {
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
-    // test comment
-
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS, {
       ...getApplicationDetails(request.yar, currentOrganisation),
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
