@@ -6,75 +6,75 @@
 {% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 
 {% set dueDiligenceRowList = [
-{
-'text': 'Are you purchasing statutory biodiversity credits as an individual or an organisation?',
-'value': dueDiligence.individualOrOrg | capitalize,
-'valueDataTestId': 'due-diligence-indiv-or-org-value',
-'valueId': 'due-diligence-indiv-or-org-value',
-'href': dueDiligence.individualOrOrgUrl,
-'visuallyHiddenText': ' are you purchasing statutory biodiversity credits as an individual or an organisation',
-'show': true
-},
-{
-'text': 'Confirm your Defra account details are up to date',
-'value': dueDiligence.checkDefraAccount | capitalize,
-'valueDataTestId': 'due-diligence-check-defra-account-value',
-'valueId': 'due-diligence-check-defra-account-value',
-'href': dueDiligence.checkDefraAccountUrl,
-'visuallyHiddenText': ' confirm your Defra account details are up to date',
-'show': true
-},
-{
-'text': 'Do you have a middle name?',
-'value': dueDiligence.middleName,
-'valueDataTestId': 'due-diligence-middle-name-value',
-'valueId': 'due-diligence-middle-name-value',
-'href': dueDiligence.middleNameUrl,
-'visuallyHiddenText': ' middle name',
-'show': dueDiligence.individualOrOrg == 'individual'
-},
-{
-'text': 'What is your date of birth?',
-'value': dueDiligence.dateOfBirth,
-'valueDataTestId': 'due-diligence-date-of-birth-value',
-'valueId': 'due-diligence-date-of-birth-value',
-'href': dueDiligence.dateOfBirthUrl,
-'visuallyHiddenText': ' date of birth',
-'show': dueDiligence.individualOrOrg == 'individual'
-},
-{
-'text': 'What is your nationality?',
-'value': dueDiligence.nationality,
-'valueDataTestId': 'due-diligence-nationality-value',
-'valueId': 'due-diligence-mnationality-value',
-'href': dueDiligence.nationalityUrl,
-'visuallyHiddenText': ' nationality',
-'show': dueDiligence.individualOrOrg == 'individual'
-}
+    {
+        'text': 'Are you purchasing statutory biodiversity credits as an individual or an organisation?',
+        'value': dueDiligence.individualOrOrg | capitalize,
+        'valueDataTestId': 'due-diligence-indiv-or-org-value',
+        'valueId': 'due-diligence-indiv-or-org-value',
+        'href': dueDiligence.individualOrOrgUrl,
+        'visuallyHiddenText': ' are you purchasing statutory biodiversity credits as an individual or an organisation',
+        'show': true
+    },
+    {
+        'text': 'Confirm your Defra account details are up to date',
+        'value': dueDiligence.checkDefraAccount | capitalize,
+        'valueDataTestId': 'due-diligence-check-defra-account-value',
+        'valueId': 'due-diligence-check-defra-account-value',
+        'href': dueDiligence.checkDefraAccountUrl,
+        'visuallyHiddenText': ' confirm your Defra account details are up to date',
+        'show': true
+    },
+    {
+        'text': 'Do you have a middle name?',
+        'value': dueDiligence.middleName,
+        'valueDataTestId': 'due-diligence-middle-name-value',
+        'valueId': 'due-diligence-middle-name-value',
+        'href': dueDiligence.middleNameUrl,
+        'visuallyHiddenText': ' middle name',
+        'show': dueDiligence.individualOrOrg == 'individual'
+    },
+    {
+        'text': 'What is your date of birth?',
+        'value': dueDiligence.dateOfBirth,
+        'valueDataTestId': 'due-diligence-date-of-birth-value',
+        'valueId': 'due-diligence-date-of-birth-value',
+        'href': dueDiligence.dateOfBirthUrl,
+        'visuallyHiddenText': ' date of birth',
+        'show': dueDiligence.individualOrOrg == 'individual'
+    },
+    {
+        'text': 'What is your nationality?',
+        'value': dueDiligence.nationality,
+        'valueDataTestId': 'due-diligence-nationality-value',
+        'valueId': 'due-diligence-mnationality-value',
+        'href': dueDiligence.nationalityUrl,
+        'visuallyHiddenText': ' nationality',
+        'show': dueDiligence.individualOrOrg == 'individual'
+    }
 ] %}
 
 {% block formContent %}
-<div class="govuk-body">
-    {% if err %}
-    {% include "errorbanner.html" %}
-    {% endif %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
 
-            {{ generateSummaryList({
-            rows: dueDiligenceRowList,
-            classes: 'govuk-!-margin-bottom-9'
-            }) }}
+                {{ generateSummaryList({
+                    rows: dueDiligenceRowList,
+                    classes: 'govuk-!-margin-bottom-9'
+                }) }}
 
-            {{ govukButton({
-            text: "Save and continue",
-            attributes: {
-            id: "continue",
-            "data-testid": "continue"
-            }
-            }) }}
+                {{ govukButton({
+                    text: "Save and continue",
+                    attributes: {
+                        id: "continue",
+                        "data-testid": "continue"
+                    }
+                }) }}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
