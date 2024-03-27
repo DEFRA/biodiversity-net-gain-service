@@ -7,7 +7,7 @@ const creditsApplicationValidation = Joi.object({
       middleName: Joi.string().allow(null, '').optional(),
       dateOfBirth: Joi.string().allow(null, '').optional(),
       nationality: Joi.array().items(
-        Joi.string().allow(null, '').required()
+        Joi.string().allow(null, '').optional()
       ).optional()
     }),
     organisation: Joi.object({
