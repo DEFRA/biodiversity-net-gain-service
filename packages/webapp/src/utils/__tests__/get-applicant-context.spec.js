@@ -29,6 +29,8 @@ describe('get-applicant-context', () => {
         )
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
+          applicationSpecificGuidance:
+            'must be named as a landowner or leaseholder on the legal agreement to apply.',
           confirmationText:
             'My Defra account details are up to date and I will be applying as John Smith',
           noOrganisationsLinkedToDefraAccount: true,

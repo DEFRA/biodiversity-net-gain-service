@@ -19,6 +19,7 @@ const getApplicantContext = (account, session) => {
     representing,
     subject
   }
+
   if (!isAgent && !isNonRelevantPerson) {
     applicantContext.applicationSpecificGuidance = getApplicantSpecificGuidance(currentOrganisation)
   }
@@ -50,7 +51,7 @@ const getApplicantSpecificGuidance = organisation => {
 const isApplicantAnAgent = session => {
   const applicationType = session.get(constants.redisKeys.APPLICATION_TYPE)
   const redisKey =
-    applicationType === constants.applicantTypes.REGISTRATION
+    applicationType === constants.applicationTypes.REGISTRATION
       ? constants.redisKeys.IS_AGENT
       : constants.redisKeys.DEVELOPER_IS_AGENT
 
