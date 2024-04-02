@@ -1,7 +1,8 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
-
+import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
+import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -11,6 +12,10 @@ const handlers = {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_METRIC_DETAILS
     })
+    const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.HABITAT_INFO)
+    if (registrationTaskStatus !== 'COMPLETED') {
+      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    }
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     return h.view(constants.views.CHECK_METRIC_DETAILS, {
       filename: path.basename(metricUploadLocation)
