@@ -56,7 +56,7 @@ function processErrorUpload (err, h) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, constants.views.UPLOAD_LAND_BOUNDARY).takeover()
+      return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, constants.views.UPLOAD_LAND_BOUNDARY)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {

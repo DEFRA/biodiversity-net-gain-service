@@ -34,7 +34,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, WRITTEN_AUTHORISATION_ID, constants.views.UPLOAD_WRITTEN_AUTHORISATION).takeover()
+      return maximumFileSizeExceeded(h, WRITTEN_AUTHORISATION_ID, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
