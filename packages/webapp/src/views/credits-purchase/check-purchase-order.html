@@ -4,6 +4,7 @@
 
 {% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Will you be using a purchase order?" %}
+{% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 
 {% block formContent %}
     <div class="govuk-body">
@@ -17,8 +18,8 @@
             <div class="govuk-grid-column-two-thirds">
                 {{ govukRadios({
                     idPrefix: prefix,
-                    name: "willPOInUse",
-                    id: "willPOInUse",
+                    name: "purchaseOrderUsed",
+                    id: "purchaseOrderUsed",
                     fieldset: {
                         legend: {
                             text: pageHeading,
@@ -34,8 +35,8 @@
                         {
                             value: "yes",
                             text: "Yes",
-                            id: "willPOInUseYes",
-                            checked: checked(willPOInUse, "yes"),
+                            id: "purchaseOrderUsedYes",
+                            checked: checked(purchaseOrderUsed, "yes"),
                             conditional: {
                                 html: govukInput({
                                     label: {
@@ -52,8 +53,8 @@
                         {
                             value: "no",
                             text: "No",
-                            id: "willPOInUseNo",
-                            checked: checked(willPOInUse, "no")
+                            id: "purchaseOrderUsedNo",
+                            checked: checked(purchaseOrderUsed, "no")
                         }
                     ]
                 }) }}

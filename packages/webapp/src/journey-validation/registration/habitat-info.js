@@ -1,10 +1,10 @@
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import {
   ANY,
   routeDefinition,
   journeyStep,
   journeyStepFromRoute
-} from './utils.js'
+} from '../utils.js'
 
 const UPLOAD_METRIC = routeDefinition(
   constants.routes.UPLOAD_METRIC,

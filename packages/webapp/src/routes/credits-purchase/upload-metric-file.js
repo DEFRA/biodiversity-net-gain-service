@@ -6,12 +6,16 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
+const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 
 const processSuccessfulCreditUpload = async (result, request, h) => {
   const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation)
   if (creditsValidationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, creditsValidationError)
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+      ...creditsValidationError,
+      backLink
+    })
   }
 
   request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, result.config.blobConfig.blobName)
@@ -27,6 +31,7 @@ const processCreditsErrorUpload = (err, h) => {
   switch (err.message) {
     case creditsPurchaseConstants.uploadErrors.emptyFile:
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        backLink,
         err: [{
           text: 'The selected file is empty',
           href: UPLOAD_CREDIT_METRIC_ID
@@ -34,15 +39,15 @@ const processCreditsErrorUpload = (err, h) => {
       })
     case creditsPurchaseConstants.uploadErrors.noFile:
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        backLink,
         err: [{
-          text: `Upload the statutory biodiversity
-          metric file with the ‘unit shortfall
-          summary’ tab`,
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })
     case creditsPurchaseConstants.uploadErrors.unsupportedFileExt:
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        backLink,
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
           href: UPLOAD_CREDIT_METRIC_ID
@@ -53,6 +58,7 @@ const processCreditsErrorUpload = (err, h) => {
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+          backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.malwareScanFailed,
             href: UPLOAD_CREDIT_METRIC_ID
@@ -60,6 +66,7 @@ const processCreditsErrorUpload = (err, h) => {
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+          backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.threatDetected,
             href: UPLOAD_CREDIT_METRIC_ID
@@ -67,6 +74,7 @@ const processCreditsErrorUpload = (err, h) => {
         })
       } else {
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+          backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.uploadFailure,
             href: UPLOAD_CREDIT_METRIC_ID
@@ -77,7 +85,7 @@ const processCreditsErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC),
+  get: async (request, h) => h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, { backLink }),
   post: async (request, h) => {
     // Get upload config object from common code
     const creditsUploadConfig = buildConfig({

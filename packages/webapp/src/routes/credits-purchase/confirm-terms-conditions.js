@@ -2,7 +2,8 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_TERMS_AND_CONDITIONS)
+    const confirmed = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED) === 'true'
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_TERMS_AND_CONDITIONS, { confirmed })
   },
   post: async (request, h) => {
     const consent = request.payload.termsAndConditions
@@ -15,7 +16,7 @@ const handlers = {
       })
     } else {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED, consent)
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS)
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }
 }

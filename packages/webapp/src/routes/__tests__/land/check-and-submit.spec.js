@@ -43,9 +43,7 @@ describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       redisMap.set(constants.redisKeys.APPLICATION_REFERENCE, '')
-
       const session = applicationSession()
-
       session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
       session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
       session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
@@ -91,18 +89,17 @@ describe(url, () => {
         auth
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
     })
-
     it('should redirect to REGISTER_LAND_TASK_LIST if application progress is not complete', async () => {
       const request = {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: false })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
@@ -115,7 +112,7 @@ describe(url, () => {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskListWithStatusCounts').mockReturnValue({ canSubmit: true })
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual('/')

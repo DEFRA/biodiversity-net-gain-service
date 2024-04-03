@@ -23,7 +23,7 @@ describe('developer-application', () => {
 
   it('Should handle nullable fields if session data not exists', () => {
     const session = setDeveloperApplicationSession()
-    session.clear(constants.redisKeys.APPLICATION_REFERENCE)
+    session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
     session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
 
     const app = developerApplication(session, applicant)
