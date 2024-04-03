@@ -41,9 +41,7 @@ const processCreditsErrorUpload = (err, h) => {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         backLink,
         err: [{
-          text: `Upload the statutory biodiversity
-          metric file with the ‘unit shortfall
-          summary’ tab`,
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_CREDIT_METRIC_ID
         }]
       })

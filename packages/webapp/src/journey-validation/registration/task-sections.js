@@ -7,8 +7,17 @@ import { localLandChargeJourneys } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
 import { legalAgreementJourneys } from './legal-agreement.js'
 
+const REGISTRATIONCONSTANTS = {
+  APPLICANT_INFO: 'add-applicant-information',
+  LAND_OWNERSHIP: 'add-land-ownership',
+  SITE_BOUNDARY: 'add-land-boundary',
+  HABITAT_INFO: 'add-habitat-information',
+  LEGAL_AGREEMENT: 'add-legal-agreement',
+  LOCAL_LAND_CHARGE: 'add-local-land-charge-search-certificate'
+}
+
 const applicantInfo = taskDefinition(
-  'add-applicant-information',
+  REGISTRATIONCONSTANTS.APPLICANT_INFO,
   'Add details about the applicant',
   constants.routes.AGENT_ACTING_FOR_CLIENT,
   constants.routes.CHECK_APPLICANT_INFORMATION,
@@ -16,7 +25,7 @@ const applicantInfo = taskDefinition(
 )
 
 const landOwnership = taskDefinition(
-  'add-land-ownership',
+  REGISTRATIONCONSTANTS.LAND_OWNERSHIP,
   'Add land ownership details',
   constants.routes.UPLOAD_LAND_OWNERSHIP,
   constants.routes.LAND_OWNERSHIP_PROOF_LIST,
@@ -24,7 +33,7 @@ const landOwnership = taskDefinition(
 )
 
 const siteBoundary = taskDefinition(
-  'add-land-boundary',
+  REGISTRATIONCONSTANTS.SITE_BOUNDARY,
   'Add biodiversity gain site boundary details',
   constants.routes.UPLOAD_LAND_BOUNDARY,
   constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
@@ -32,7 +41,7 @@ const siteBoundary = taskDefinition(
 )
 
 const habitatInfo = taskDefinition(
-  'add-habitat-information',
+  REGISTRATIONCONSTANTS.HABITAT_INFO,
   'Add habitat baseline, creation and enhancements',
   constants.routes.UPLOAD_METRIC,
   constants.routes.CHECK_METRIC_DETAILS,
@@ -40,7 +49,7 @@ const habitatInfo = taskDefinition(
 )
 
 const legalAgreement = taskDefinition(
-  'add-legal-agreement',
+  REGISTRATIONCONSTANTS.LEGAL_AGREEMENT,
   'Add legal agreement details',
   constants.routes.LEGAL_AGREEMENT_TYPE,
   constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
@@ -48,13 +57,20 @@ const legalAgreement = taskDefinition(
 )
 
 const localLandCharge = taskDefinition(
-  'add-local-land-charge-search-certificate',
+  REGISTRATIONCONSTANTS.LOCAL_LAND_CHARGE,
   'Add local land charge search certificate',
   constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
   localLandChargeJourneys
 )
-
+const tasksById = {
+  [REGISTRATIONCONSTANTS.APPLICANT_INFO]: applicantInfo,
+  [REGISTRATIONCONSTANTS.LAND_OWNERSHIP]: landOwnership,
+  [REGISTRATIONCONSTANTS.SITE_BOUNDARY]: siteBoundary,
+  [REGISTRATIONCONSTANTS.HABITAT_INFO]: habitatInfo,
+  [REGISTRATIONCONSTANTS.LEGAL_AGREEMENT]: legalAgreement,
+  [REGISTRATIONCONSTANTS.LOCAL_LAND_CHARGE]: localLandCharge
+}
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain site information',
   tasks: [{
@@ -70,8 +86,11 @@ const taskSections = [
   taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo]),
   taskSectionDefinition('Legal information', [legalAgreement, localLandCharge])
 ]
+const getTaskById = (taskId) => {
+  return tasksById[taskId] || null
+}
 
 Object.freeze(taskSections)
 Object.freeze(checkYourAnswers)
 
-export { taskSections, checkYourAnswers }
+export { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS }
