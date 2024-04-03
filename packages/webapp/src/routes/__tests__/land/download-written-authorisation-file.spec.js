@@ -18,7 +18,7 @@ describe(url, () => {
         })
       })
       const sessionData = JSON.parse(application.dataString)
-      sessionData[constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION] = 'written-authorisation.pdf'
+      sessionData[constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION] = 'written-authorisation.pdf'
       await submitGetRequest({ url }, 200, sessionData)
     })
   })

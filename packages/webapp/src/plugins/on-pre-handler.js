@@ -8,7 +8,7 @@ const onPostAuthHandler = {
         // Ignore public asset requests
         if (!request.path.includes('/public/')) {
           // Do not allow users to change the application type part way through a journey without using the dashboards.
-          const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+          const applicationType = request.yar.get(constants.cacheKeys.APPLICATION_TYPE)
           if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
               isBlockedCreditsJourneyRouteOnLandownerJourney(request.path, applicationType)) {
             return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()

@@ -52,7 +52,7 @@ const handlers = {
       inProgressUrl: constants.routes.CHECK_LANDOWNERS
     })
 
-    const landOwnerConservationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landOwnerConservationConvenants = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landOwnerConservationConvenants.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
     }
@@ -60,7 +60,7 @@ const handlers = {
 
     const { ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, REMOVE_LANDOWNER } = constants.routes
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.CHECK_LANDOWNERS, {
       landOwnerConservationConvenantsWithAction,
@@ -72,8 +72,8 @@ const handlers = {
   post: async (request, h) => {
     const { addAnotherLandowner } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const landOwnerConservationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const landOwnerConservationConvenants = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (!addAnotherLandowner) {
       const landOwnerConservationConvenantsWithAction = landOwnerConservationConvenants.map((currElement, index) => getCustomizedHTML(currElement, index))
 
@@ -90,8 +90,8 @@ const handlers = {
     }
 
     if (addAnotherLandowner === 'yes') {
-      request.yar.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
+      request.yar.set(constants.cacheKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     }
 
     return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)

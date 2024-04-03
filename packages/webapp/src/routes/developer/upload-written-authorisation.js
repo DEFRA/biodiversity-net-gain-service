@@ -8,8 +8,8 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
 const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) => {
-  const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  const isAgent = yar.get(constants.cacheKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const clientIsNotLandownerOrLeaseholder = yar.get(constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
   if (isAgent && clientIsNotLandownerOrLeaseholder) {
     context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = true
   }
@@ -17,9 +17,9 @@ const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) 
 }
 
 const processSuccessfulUpload = (result, request, h) => {
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, result.fileType)
+  request.yar.set(constants.cacheKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.cacheKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.cacheKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, result.fileType)
   logger.info(`${new Date().toUTCString()} Received written authorisation data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE)
 }
@@ -93,9 +93,9 @@ const handlers = {
       inProgressUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
     })
 
-    const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
-    const clientsName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME_KEY)
-    const clientsOrganisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME_KEY)
+    const isIndividualOrOrganisation = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+    const clientsName = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_NAME_KEY)
+    const clientsOrganisationName = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME_KEY)
     const isIndividual = isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
 
     const context = {

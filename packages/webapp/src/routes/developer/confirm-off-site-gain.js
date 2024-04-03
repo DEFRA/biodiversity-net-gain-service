@@ -10,11 +10,11 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmOffsiteGain = request.payload.confirmOffsiteGain
-    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.set(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmOffsiteGain)
+    const metricUploadLocation = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
+    request.yar.set(constants.cacheKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmOffsiteGain)
     if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      request.yar.clear(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.YES) {
       processDeveloperTask(request,
@@ -22,7 +22,7 @@ const handlers = {
           taskTitle: 'Biodiversity 4.1 Metric calculations',
           title: 'Confirm off-site gain'
         }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
     } else {
       const context = getContext(request)
       return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
@@ -46,9 +46,9 @@ const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item)
 }, 0)
 
 const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
+  String(row['Off-site reference']) === String(request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 const getContext = request => {
-  const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const metricData = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_DATA)
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
   const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1, request)
   const noOfHabitatUnits = getNumOfUnits(
@@ -68,7 +68,7 @@ const getContext = request => {
       items: e1OffSiteHedgeBaseline,
       total: noOfHedgerowUnits
     },
-    gainSiteNumber: request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    gainSiteNumber: request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   }
 }
 

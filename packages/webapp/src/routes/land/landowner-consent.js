@@ -24,8 +24,8 @@ const handlers = {
         }]
       })
     } else {
-      request.yar.set(constants.redisKeys.LANDOWNER_CONSENT_KEY, consent)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      request.yar.set(constants.cacheKeys.LANDOWNER_CONSENT_KEY, consent)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     }
   }
 }

@@ -10,9 +10,9 @@ const handlers = {
       inProgressUrl: constants.routes.LEGAL_PARTY_ADD_TYPE
     })
 
-    const legalAgreementAddType = request.yar.get(constants.redisKeys.LEGAL_PARTY_ADD_TYPE)
+    const legalAgreementAddType = request.yar.get(constants.cacheKeys.LEGAL_PARTY_ADD_TYPE)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.LEGAL_PARTY_ADD_TYPE, { legalAgreementAddType, legalAgreementType })
   },
@@ -28,7 +28,7 @@ const handlers = {
         }]
       })
     }
-    request.yar.set(constants.redisKeys.LEGAL_PARTY_ADD_TYPE, legalAgreementAddType)
+    request.yar.set(constants.cacheKeys.LEGAL_PARTY_ADD_TYPE, legalAgreementAddType)
 
     if (legalAgreementAddType === 'individual') {
       return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL)

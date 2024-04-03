@@ -213,7 +213,7 @@ const PLANNING_AUTHORITIES_CHECKED = 'planning-authorities-checked'
 const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 
 export default {
-  redisKeys: {
+  cacheKeys: {
     ADD_LEGAL_AGREEMENT_PARTIES,
     APPLICATION_REFERENCE,
     ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,

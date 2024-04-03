@@ -3,7 +3,7 @@ import { emailValidator, getErrById, validateName } from '../../utils/helpers.js
 
 const handlers = {
   get: async (request, h) => {
-    const emailAddresses = request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+    const emailAddresses = request.yar.get(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS)
     return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { getErrById, emailAddresses, ...getContext(request) })
   },
   post: async (request, h) => {
@@ -12,7 +12,7 @@ const handlers = {
       return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { emailAddresses, err, getErrById })
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [...emailAddresses])
+    request.yar.set(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS, [...emailAddresses])
     return h.redirect(constants.routes.DEVELOPER_CHECK_ANSWERS)
   }
 }
@@ -35,7 +35,7 @@ const getEmailAddressFromPayload = request => {
 }
 
 const getContext = request => ({
-  emailAddresses: request.yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+  emailAddresses: request.yar.get(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS)
 })
 
 const validateEmail = (emailAddresses, email, err, index) => {

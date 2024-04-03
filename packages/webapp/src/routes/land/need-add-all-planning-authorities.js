@@ -10,13 +10,13 @@ const handlers = {
       inProgressUrl: constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES
     })
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.NEED_ADD_ALL_PLANNING_AUTHORITIES, {
       legalAgreementType
     })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED, true)
+    request.yar.set(constants.cacheKeys.NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED, true)
     return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
   }
 }

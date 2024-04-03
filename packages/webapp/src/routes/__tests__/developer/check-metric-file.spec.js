@@ -8,12 +8,12 @@ const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
-    const redisMap = new Map()
+    const cacheMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkMetricFile = require('../../developer/check-metric-file.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -27,17 +27,17 @@ describe(url, () => {
     })
 
     it('should redirect to the landowner journey task list if a landowner journey is in progress', async () => {
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
-      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
+      const cacheMap = new Map()
+      cacheMap.set(constants.cacheKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
+      const response = await submitGetRequest({ url }, 302, Object.fromEntries(cacheMap))
       expect(response.headers.location).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
       const checkMetricFile = require('../../developer/check-metric-file.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, null)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_LOCATION, null)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -53,9 +53,9 @@ describe(url, () => {
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap, postOptions
+    let cacheMap, postOptions
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
       postOptions = {
         url,
         payload: {}
@@ -67,10 +67,10 @@ describe(url, () => {
         try {
           let viewResult
           const checkMetricFile = require('../../developer/check-metric-file.js')
-          redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
+          cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.NO
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               checkUploadMetric: constants.confirmLandBoundaryOptions.NO
             }

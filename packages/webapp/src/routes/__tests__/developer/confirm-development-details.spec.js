@@ -65,8 +65,8 @@ describe(url, () => {
         try {
           const postHandler = confirmDevDetails[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData.startPage)
-          session.set('filename', constants.redisKeys.METRIC_LOCATION)
+          session.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, mockMetricData.startPage)
+          session.set('filename', constants.cacheKeys.METRIC_LOCATION)
           const payload = {
             confirmDevDetails: constants.CONFIRM_DEVELOPMENT_DETAILS.YES
           }

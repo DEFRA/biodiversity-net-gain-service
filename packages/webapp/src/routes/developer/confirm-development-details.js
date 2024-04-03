@@ -11,11 +11,11 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmDevDetails = request.payload.confirmDevDetails
-    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
+    const metricUploadLocation = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
+    request.yar.set(constants.cacheKeys.METRIC_FILE_CHECKED, confirmDevDetails)
     if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      request.yar.clear(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
     } else if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.YES) {
       processDeveloperTask(request,
@@ -39,7 +39,7 @@ const handlers = {
   }
 }
 
-const getContext = request => request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+const getContext = request => request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_DATA)
 
 export default [{
   method: 'GET',

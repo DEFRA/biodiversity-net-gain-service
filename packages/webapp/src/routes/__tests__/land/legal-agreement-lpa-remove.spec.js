@@ -5,7 +5,7 @@ const url = constants.routes.LEGAL_AGREEMENT_LPA_REMOVE
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let legalAgreementLpaRemove
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST, [
       { type: 'organisation', value: 'org1' },
       { type: 'organisation', value: 'org2' },
       { type: 'organisation', value: 'org3' },
@@ -38,7 +38,7 @@ describe(url, () => {
 
     it('should show correct party to be removed', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
 
@@ -52,7 +52,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to LEGAL_AGREEMENT_LPA_LIST if yes is chosen and remove 1 legal party', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { lpaRemove: 'yes' },
         query: { orgId: '1' }
       }
@@ -60,12 +60,12 @@ describe(url, () => {
       await legalAgreementLpaRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST).length).toEqual(3)
+      expect(cacheMap.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST).length).toEqual(3)
     })
 
     it('Should continue journey to LEGAL_AGREEMENT_LPA_LIST if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { lpaRemove: 'no' },
         query: { orgId: '1' }
       }
@@ -73,12 +73,12 @@ describe(url, () => {
       await legalAgreementLpaRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST).length).toEqual(4)
+      expect(cacheMap.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST).length).toEqual(4)
     })
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { },
         query: { orgId: '1' }
       }

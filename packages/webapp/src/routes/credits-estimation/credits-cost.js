@@ -17,7 +17,7 @@ export default [
       auth: false
     },
     handler: (request, h) => {
-      const creditCosts = request.yar.get(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)
+      const creditCosts = request.yar.get(creditsEstimationConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION)
 
       if (!creditCosts) {
         return h.redirect(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_TIER)

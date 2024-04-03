@@ -7,10 +7,10 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
 
 const processSuccessfulUpload = (result, request, h) => {
-  request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, result.fileType)
-  request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME, result.filename)
+  request.yar.set(constants.cacheKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.cacheKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.cacheKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, result.fileType)
+  request.yar.set(constants.cacheKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received consent written consent to allocate off-site gains file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE)
 }

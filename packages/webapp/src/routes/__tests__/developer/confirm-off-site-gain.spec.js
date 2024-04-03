@@ -29,12 +29,12 @@ const mockMetricData = {
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
-    const redisMap = new Map()
+    const cacheMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, mockMetricData)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -94,10 +94,10 @@ describe(url, () => {
           total: 3
         }
       }
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -141,10 +141,10 @@ describe(url, () => {
           total: 0
         }
       }
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -160,9 +160,9 @@ describe(url, () => {
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap
+    let cacheMap
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
     })
 
     it('should redirect to legal agreement upload screen if selected Yes', (done) => {
@@ -171,9 +171,9 @@ describe(url, () => {
           let viewResult
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'yes'
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
+          cacheMap.set(constants.cacheKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmOffsiteGain
             }
@@ -201,9 +201,9 @@ describe(url, () => {
           let viewResult
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = 'no'
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
+          cacheMap.set(constants.cacheKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmOffsiteGain
             }
@@ -231,9 +231,9 @@ describe(url, () => {
           let viewResult, resultContext
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const confirmOffsiteGain = undefined
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
+          cacheMap.set(constants.cacheKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmOffsiteGain
             }

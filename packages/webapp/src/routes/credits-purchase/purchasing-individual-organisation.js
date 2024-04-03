@@ -13,7 +13,7 @@ const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 
 const getContext = request => {
   return {
-    userType: request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
+    userType: request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE)
   }
 }
 
@@ -38,7 +38,7 @@ const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDe
 
 const handlers = {
   get: async (request, h) => {
-    const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
+    const userType = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE)
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG, {
       backLink,
       userType
@@ -50,7 +50,7 @@ const handlers = {
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
       if ((userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL && !organisation) || (userType === creditsPurchaseConstants.applicantTypes.ORGANISATION && organisation)) {
-        request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, userType)
+        request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, userType)
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
       } else if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
         return getErrorView(h, request, organisationSignInErrorMessage)

@@ -8,7 +8,7 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
+  String(row['Off-site reference']) === String(request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 
 const processSuccessfulUpload = async (result, request, h) => {
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID)
@@ -24,11 +24,11 @@ const processSuccessfulUpload = async (result, request, h) => {
     }, {
       status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
     })
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
-  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
+  request.yar.set(constants.cacheKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.cacheKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.cacheKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
+  request.yar.set(constants.cacheKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   if (Array.isArray(result.postProcess.metricData?.d1) && filterByBGN(result.postProcess.metricData?.d1, request).length === 0 &&
     Array.isArray(result.postProcess.metricData?.e1) && filterByBGN(result.postProcess.metricData?.e1, request).length === 0) {

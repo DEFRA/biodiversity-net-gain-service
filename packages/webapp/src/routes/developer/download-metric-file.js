@@ -3,7 +3,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 
 const downloadUploadedFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  const blobName = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
   const config = {
     blobName,
     containerName: 'customer-uploads'

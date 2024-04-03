@@ -5,7 +5,7 @@ const url = constants.routes.REMOVE_RESPONSIBLE_BODY
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let responsibleBodyRemove
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
     {
@@ -47,7 +47,7 @@ describe(url, () => {
     })
     it('should show correct responsible body to be removed', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
 
@@ -59,9 +59,9 @@ describe(url, () => {
       )
     })
     it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if all responsible bodies removed', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [])
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
       await responsibleBodyRemove.default[0].handler(request, h)
@@ -72,7 +72,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to CHECK_RESPONSIBLE_BODIES if yes is chosen and remove  responsible body', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { legalPartyBodyToRemove: 'yes' },
         query: { id: '1' }
       }
@@ -80,7 +80,7 @@ describe(url, () => {
       await responsibleBodyRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_RESPONSIBLE_BODIES)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(1)
+      expect(cacheMap.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(1)
     })
 
     it('should return an error for empty id in query string', async () => {
@@ -95,7 +95,7 @@ describe(url, () => {
     })
     it('Should continue journey to CHECK_RESPONSIBLE_BODIES if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { legalPartyBodyToRemove: 'no' },
         query: { id: '1' }
       }
@@ -103,12 +103,12 @@ describe(url, () => {
       await responsibleBodyRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_RESPONSIBLE_BODIES)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(2)
+      expect(cacheMap.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(2)
     })
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { },
         query: { id: '1' }
       }
@@ -121,19 +121,19 @@ describe(url, () => {
     })
     it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if all responsible bodies are removed', async () => {
       let request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { legalPartyBodyToRemove: 'yes' },
         query: { id: '0' }
       }
       await responsibleBodyRemove.default[1].handler(request, h)
       request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { legalPartyBodyToRemove: 'yes' },
         query: { id: '0' }
       }
       await responsibleBodyRemove.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
-      expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(0)
+      expect(cacheMap.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES).length).toEqual(0)
     })
   })
 })

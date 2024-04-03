@@ -8,12 +8,12 @@ const mockFileLocation = `${mockDataPath}/metric-file.xlsx`
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
-    const redisMap = new Map()
+    const cacheMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
+      cacheMap.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -28,9 +28,9 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} without file info`, async () => {
       const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-      redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, null)
+      cacheMap.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION, null)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -46,9 +46,9 @@ describe(url, () => {
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap, postOptions
+    let cacheMap, postOptions
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
       postOptions = {
         url,
         payload: {}
@@ -60,10 +60,10 @@ describe(url, () => {
         try {
           let viewResult
           const checkMetricFile = require('../../credits-purchase/check-metric-file.js')
-          redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
+          cacheMap.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadMetric = creditsPurchaseConstants.creditsCheckUploadMetric.NO
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               checkUploadMetric: creditsPurchaseConstants.creditsCheckUploadMetric.NO
             }

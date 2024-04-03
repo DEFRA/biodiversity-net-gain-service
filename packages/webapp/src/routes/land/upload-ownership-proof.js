@@ -8,7 +8,7 @@ import path from 'path'
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
 const processSuccessfulUpload = (result, request, h) => {
-  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  const lopFiles = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
   const location = result.config.blobConfig.blobName
   const fileName = path.parse(location).base
   let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
@@ -24,7 +24,7 @@ const processSuccessfulUpload = (result, request, h) => {
     })
   }
   request.logger.info(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+  request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
   return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 

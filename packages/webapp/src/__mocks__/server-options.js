@@ -4,7 +4,7 @@ import { Engine } from '@hapi/catbox-memory'
 const serverOptions = {
   cache: [
     {
-      name: 'redis_cache',
+      name: 'memory_cache',
       provider: {
         constructor: Engine
       }

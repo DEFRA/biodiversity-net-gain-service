@@ -20,10 +20,10 @@ const handlers = {
     const { id } = request.query
     const lpaNames = getLpaNames(filePathAndName)
 
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
+    request.yar.set(constants.cacheKeys.REF_LPA_NAMES, lpaNames)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const lpaList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
 
     let localPlanningAuthority
     if (id) {
@@ -40,11 +40,11 @@ const handlers = {
     const { id } = request.query
     const { localPlanningAuthority } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
+    const lpaList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST) ?? []
     let localPlanningAuthorityNameErr
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = request.yar.get(constants.cacheKeys.REF_LPA_NAMES) ?? []
 
     if (!selectedLpa) {
       localPlanningAuthorityNameErr = [{
@@ -94,7 +94,7 @@ const handlers = {
     } else {
       lpaList.push(selectedLpa)
     }
-    request.yar.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, lpaList)
+    request.yar.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, lpaList)
     return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)
   }
 }

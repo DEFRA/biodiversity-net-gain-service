@@ -43,8 +43,8 @@ describe(url, () => {
         try {
           const postHandler = checkLandBoundaryFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, 'ST123456')
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE, 'ST123456')
           const payload = {
             checkLandBoundary: 'yes'
           }
@@ -73,7 +73,7 @@ describe(url, () => {
         try {
           const postHandler = checkLandBoundaryFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
           const payload = {
             checkLandBoundary: 'yes'
           }

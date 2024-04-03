@@ -6,7 +6,7 @@ import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const { id } = request.query
-    const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+    const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
     const legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
     const blobName = legalAgreementFile.location
     const config = {

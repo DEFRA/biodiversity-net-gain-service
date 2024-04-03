@@ -12,7 +12,7 @@ describe(url, () => {
 
     it('should render the view with previous values if in cache', async () => {
       const sessionData = {}
-      sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME] = {
+      sessionData[creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME] = {
         middleNameOption: 'yes',
         middleName: mockMiddleName
       }

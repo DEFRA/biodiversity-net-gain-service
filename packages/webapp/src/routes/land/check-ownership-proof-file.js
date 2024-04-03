@@ -21,17 +21,17 @@ const handlers = {
   post: async (request, h) => {
     const checkLandOwnership = request.payload.checkLandOwnership
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
+    request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
 
     if (checkLandOwnership === 'no') {
       const { id } = request.query
-      const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+      const lopFiles = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
       await deleteBlobFromContainers(context.fileLocation)
       const updatedLopFiles = lopFiles.filter(item => item.id !== id)
-      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
+      request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
@@ -49,7 +49,7 @@ const getContext = request => {
   let fileName = ''
   let fileSize = null
   let humanReadableFileSize = ''
-  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+  const lopFiles = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
   if (id) {
     lopFile = lopFiles.find(item => item.id === id)
     if (lopFile) {

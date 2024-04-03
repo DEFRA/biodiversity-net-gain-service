@@ -12,10 +12,10 @@ const handlers = {
         }]
       })
     }
-    request.yar.set(constants.redisKeys.REGISTERED_LANDOWNER_ONLY, selection)
+    request.yar.set(constants.cacheKeys.REGISTERED_LANDOWNER_ONLY, selection)
     if (JSON.parse(selection)) {
-      request.yar.set(constants.redisKeys.LANDOWNERS, [])
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      request.yar.set(constants.cacheKeys.LANDOWNERS, [])
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       return h.redirect(constants.routes.ADD_LANDOWNERS)
     }

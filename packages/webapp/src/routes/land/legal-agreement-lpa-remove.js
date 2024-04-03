@@ -11,7 +11,7 @@ const handlers = {
 
     const { id } = request.query
 
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST) || []
+    const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST) || []
     const item = lpaList[id]
     let lpaToRemove
     if (item?.type === 'individual') {
@@ -26,7 +26,7 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
     const { lpaRemove } = request.payload
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
+    const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST)
 
     if (!lpaRemove) {
       const lpaToRemove = lpaList[id]
@@ -42,7 +42,7 @@ const handlers = {
 
     if (lpaRemove === 'yes') {
       lpaList.splice(id, 1)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, lpaList)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES, lpaList)
     }
     return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
   }

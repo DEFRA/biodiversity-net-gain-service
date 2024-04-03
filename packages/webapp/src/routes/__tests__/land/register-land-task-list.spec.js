@@ -29,9 +29,9 @@ describe(url, () => {
               contextResult = context
             }
           }
-          const redisMap = new Map()
+          const cacheMap = new Map()
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
 
           const registerTaskList = require('../../../routes/land/register-land-task-list')
@@ -110,9 +110,9 @@ describe(url, () => {
               contextResult = context
             }
           }
-          const redisMap = new Map()
+          const cacheMap = new Map()
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
 
           const registerTaskList = require('../../../routes/land/register-land-task-list')
@@ -180,9 +180,9 @@ describe(url, () => {
               contextResult = context
             }
           }
-          const redisMap = new Map()
+          const cacheMap = new Map()
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
 
           const registerTaskList = require('../../../routes/land/register-land-task-list')
@@ -251,12 +251,12 @@ describe(url, () => {
           }
 
           session.reset()
-          session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, testString)
-          session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, testString)
-          session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, testString)
-          session.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, 'yes')
-          session.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, testString)
-          session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, testString)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, testString)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, testString)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, testString)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_CHECKED, 'yes')
+          session.set(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE, testString)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, testString)
 
           const request = {
             yar: session

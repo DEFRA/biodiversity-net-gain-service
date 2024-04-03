@@ -32,7 +32,7 @@ describe(url, () => {
 
     it('should render the view with previous values if in cache', async () => {
       const sessionData = {}
-      sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY] = mockNationalities
+      sessionData[creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY] = mockNationalities
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).toContain(mockNationalities.nationality1)
       expect(res.payload).toContain(mockNationalities.nationality2)

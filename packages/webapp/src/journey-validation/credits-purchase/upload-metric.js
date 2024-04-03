@@ -9,22 +9,22 @@ import {
 const UPLOAD_METRIC = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   [
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION,
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE,
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE,
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA,
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_NAME
   ]
 )
 
 const CHECK_METRIC_FILE = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
-  [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_CHECKED]
+  [creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_CHECKED]
 )
 
 const CONFIRM_DEVELOPMENT_DETAILS = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
-  [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED]
+  [creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED]
 )
 
 const uploadMetricJourneys = [

@@ -5,7 +5,7 @@ const url = constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let clientIndividualOrganisation
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     clientIndividualOrganisation = require('../../land/client-individual-organisation.js')
   })
 
@@ -47,9 +47,9 @@ describe(url, () => {
 
   describe('POST', () => {
     it('Should continue journey to CLIENTS_NAME if individualOrOrganisation is individual', async () => {
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      cacheMap.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'individual' }
       }
 
@@ -59,7 +59,7 @@ describe(url, () => {
     })
     it('Should continue journey to CLIENTS_ORGANISATION_NAME if individualOrOrganisation is organisation', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'organisation' }
       }
 
@@ -70,7 +70,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

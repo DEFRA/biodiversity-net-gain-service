@@ -9,7 +9,7 @@ const getLpaCode = name => {
 }
 
 const getCreditAmounts = session => {
-  const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
+  const credits = session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION)
   return credits.tierCosts.map(credit => ({ code: credit.tier, qty: credit.unitAmount }))
 }
 
@@ -25,9 +25,9 @@ const getFiles = session => {
   return [
     getFile(
       session,
-      creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE,
-      creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE,
-      creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION
+      creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_TYPE,
+      creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE,
+      creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION
     )
   ]
 }
@@ -35,7 +35,7 @@ const getFiles = session => {
 const application = (session, account) => {
   const stringOrNull = value => value ? String(value) : null
 
-  const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
+  const metricData = session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA)
   const developmentName = stringOrNull(metricData.startPage.projectName)
   const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
   const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
@@ -54,24 +54,24 @@ const application = (session, account) => {
         }
       },
       products: getCreditAmounts(session),
-      purchaseOrderNumber: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER),
+      purchaseOrderNumber: session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER),
       files: getFiles(session),
-      creditReference: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE) ?? null,
+      creditReference: session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE) ?? null,
       submittedOn: new Date().toISOString()
     }
   }
 
-  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
+  if (session.get(constants.cacheKeys.ORGANISATION_ID)) {
     applicationDetails.creditsPurchase.organisation = {
-      id: session.get(constants.redisKeys.ORGANISATION_ID)
+      id: session.get(constants.cacheKeys.ORGANISATION_ID)
     }
   }
 
-  if (session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE) === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
+  if (session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE) === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
     const applicant = applicationDetails.creditsPurchase.applicant
-    applicant.middleName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)?.middleName ?? null
-    applicant.dateOfBirth = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)?.split('T')[0] ?? null
-    const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
+    applicant.middleName = session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME)?.middleName ?? null
+    applicant.dateOfBirth = session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)?.split('T')[0] ?? null
+    const nationality = session.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY)
     applicant.nationality = nationality ? Object.values(nationality).filter(n => n !== '') : []
   }
 

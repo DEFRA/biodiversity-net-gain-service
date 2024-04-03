@@ -14,8 +14,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ENHANCEMENT_WORKS_START_DATE
     })
-    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY))
-    const enhancementWorkStartDateOption = request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
+    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY))
+    const enhancementWorkStartDateOption = request.yar.get(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
     return h.view(constants.views.ENHANCEMENT_WORKS_START_DATE, {
       dateClasses,
       day,
@@ -52,12 +52,12 @@ const handlers = {
           ...context
         })
       }
-      request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, dateAsISOString)
+      request.yar.set(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY, dateAsISOString)
     } else {
-      request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
+      request.yar.set(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
     }
-    request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
+    request.yar.set(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
   }
 }
 

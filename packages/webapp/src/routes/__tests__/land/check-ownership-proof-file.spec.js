@@ -10,9 +10,9 @@ jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
-    let h, redisMap, viewResult, resultContext
+    let h, cacheMap, viewResult, resultContext
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
       h = {
         view: (view, context) => {
           viewResult = view
@@ -24,7 +24,7 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
         fileName: 'file-1.doc',
         fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
         fileSize: 0.01,
@@ -54,7 +54,7 @@ describe(url, () => {
 
     it('should show correct land ownership proofs', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -65,7 +65,7 @@ describe(url, () => {
     })
 
     it('should not show land ownership proofs if file location is null', async () => {
-      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
         fileName: '',
         fileLocation: null,
         fileSize: 0.01,
@@ -74,7 +74,7 @@ describe(url, () => {
       }])
 
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -84,9 +84,9 @@ describe(url, () => {
     })
 
     it('should redirect to the register task list if required data is not found', async () => {
-      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '2' }
       }
 
@@ -127,10 +127,10 @@ describe(url, () => {
         try {
           const postHandler = checkOwnershipProofFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
+          session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [])
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -161,10 +161,10 @@ describe(url, () => {
         try {
           const postHandler = checkOwnershipProofFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -195,9 +195,9 @@ describe(url, () => {
         try {
           const postHandler = checkOwnershipProofFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.ROLE_KEY, 'Other')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.cacheKeys.ROLE_KEY, 'Other')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -228,10 +228,10 @@ describe(url, () => {
         try {
           const postHandler = checkOwnershipProofFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.ROLE_KEY, 'Other')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.ROLE_KEY, 'Other')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -262,10 +262,10 @@ describe(url, () => {
         try {
           const postHandler = checkOwnershipProofFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, ['test.doc'])
+          session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
+          session.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, ['test.doc'])
 
           let viewArgs = ''
           let redirectArgs = ''

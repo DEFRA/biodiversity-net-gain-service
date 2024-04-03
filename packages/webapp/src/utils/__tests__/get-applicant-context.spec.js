@@ -24,7 +24,7 @@ describe('get-applicant-context', () => {
         })
         const session = new Session()
         session.set(
-          constants.redisKeys.IS_AGENT,
+          constants.cacheKeys.IS_AGENT,
           constants.APPLICANT_IS_AGENT.YES
         )
         const applicantContext = getApplicantContext(account, session)
@@ -52,7 +52,7 @@ describe('get-applicant-context', () => {
         })
         const session = new Session()
         session.set(
-          constants.redisKeys.LANDOWNER_TYPE,
+          constants.cacheKeys.LANDOWNER_TYPE,
           constants.individualOrOrganisationTypes.INDIVIDUAL
         )
         const applicantContext = getApplicantContext(account, session)
@@ -84,7 +84,7 @@ describe('get-applicant-context', () => {
         })
         const session = new Session()
         session.set(
-          constants.redisKeys.LANDOWNER,
+          constants.cacheKeys.LANDOWNER,
           constants.individualOrOrganisationTypes.ORGANISATION
         )
         const applicantContext = getApplicantContext(account, session)
@@ -116,7 +116,7 @@ describe('get-applicant-context', () => {
         })
         const session = new Session()
         session.set(
-          constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
+          constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
           constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
         )
         const applicantContext = getApplicantContext(account, session)
@@ -145,9 +145,9 @@ describe('get-applicant-context', () => {
         })
         const session = new Session()
         session.set(
-          constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
+          constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
           constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO,
-          constants.redisKeys.LANDOWNER,
+          constants.cacheKeys.LANDOWNER,
           constants.individualOrOrganisationTypes.ORGANISATION
         )
         const applicantContext = getApplicantContext(account, session)

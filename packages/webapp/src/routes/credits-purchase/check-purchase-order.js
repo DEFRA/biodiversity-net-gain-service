@@ -24,8 +24,8 @@ const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
 
 const handlers = {
   get: (request, h) => {
-    const purchaseOrderUsed = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
-    const purchaseOrderNumber = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
+    const purchaseOrderUsed = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
+    const purchaseOrderNumber = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
       purchaseOrderUsed,
@@ -37,7 +37,7 @@ const handlers = {
   post: async (request, h) => {
     const purchaseOrderUsed = request.payload.purchaseOrderUsed
     const purchaseOrderNumber = request.payload.purchaseOrderNumber
-    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED, purchaseOrderUsed)
+    request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED, purchaseOrderUsed)
 
     const error = validateData(purchaseOrderUsed, purchaseOrderNumber)
     if (error) {
@@ -49,9 +49,9 @@ const handlers = {
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
       })
     } else if (purchaseOrderUsed === 'yes') {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
+      request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
     } else {
-      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
+      request.yar.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
     }
 
     return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)

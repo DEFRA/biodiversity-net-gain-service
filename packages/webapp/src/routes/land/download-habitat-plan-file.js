@@ -3,7 +3,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 
 const downloadHabitatPlanFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
+  const blobName = request.yar.get(constants.cacheKeys.HABITAT_PLAN_LOCATION)
   const config = {
     blobName,
     containerName: 'trusted'

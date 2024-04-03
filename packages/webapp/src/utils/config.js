@@ -1,8 +1,4 @@
 export const SERVER_PORT = process.env.PORT || 3000
-export const REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1'
-export const REDIS_PORT = process.env.REDIS_PORT || '6379'
-export const REDIS_TLS = process.env.REDIS_TLS || false
-export const REDIS_PASSWORD = process.env.REDIS_PASSWORD || ''
 export const SESSION_COOKIE_PASSWORD = process.env.SESSION_COOKIE_PASSWORD || 'the-password-must-be-at-least-32-characters-long'
 export const COOKIE_IS_SECURE = process.env.COOKIE_IS_SECURE ? JSON.parse(process.env.COOKIE_IS_SECURE) : false
 export const KEEP_ALIVE_TIMEOUT_MS = process.env.KEEP_ALIVE_TIMEOUT_MS || undefined
@@ -10,6 +6,9 @@ export const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'htt
 export const NODE_ENV = process.env.NODE_ENV
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prd'
 export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'http://localhost:3000'
+export const CACHE_MAX_BYTE_SIZE = process.env.CACHE_MAX_BYTE_SIZE
+export const CACHE_CLEANUP_INT_MIN_SEC = process.env.CACHE_CLEANUP_INT_MIN_SEC
+export const CACHE_CLONE_BUFFER_ON = process.env.CACHE_CLONE_BUFFER_ON
 
 // DefraId Config
 export const DEFRA_ID = {

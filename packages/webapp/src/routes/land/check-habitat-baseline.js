@@ -10,7 +10,7 @@ const handlers = {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_HABITAT_BASELINE
     })
-    const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
+    const metricData = request.yar.get(constants.cacheKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d1', 'e1', 'f1'], metricData)
     return h.view(constants.views.CHECK_HABITAT_BASELINE, {
       habitatTypeAndCondition,
@@ -18,8 +18,8 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_CREATED)
+    request.yar.set(constants.cacheKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_HABITAT_CREATED)
   }
 }
 

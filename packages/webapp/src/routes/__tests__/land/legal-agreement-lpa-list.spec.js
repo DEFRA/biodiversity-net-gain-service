@@ -5,7 +5,7 @@ const url = constants.routes.LEGAL_AGREEMENT_LPA_LIST
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let legalAgreementLpaList
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST, [
       {
         type: 'individual',
         value: { firstName: 'Tom', lastName: 'Smith' }
@@ -39,7 +39,7 @@ describe(url, () => {
 
     it('should show all legal parties that are added', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await legalAgreementLpaList.default[0].handler(request, h)
@@ -52,7 +52,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to ADD_LEGAL_AGREEMENT_PARTIES if yes is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { allLpa: 'yes' }
       }
 
@@ -63,7 +63,7 @@ describe(url, () => {
 
     it('Should continue journey to LEGAL_AGREEMENT_CONCOV_LANDOWNER_ORG if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { allLpa: 'no' }
       }
 
@@ -74,7 +74,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

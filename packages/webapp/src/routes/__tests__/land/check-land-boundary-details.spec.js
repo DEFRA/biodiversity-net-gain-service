@@ -13,10 +13,10 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view if geospatial enabled`, async () => {
       process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
       const sessionData = {}
-      sessionData[`${constants.redisKeys.FULL_NAME}`] = 'Test User'
-      sessionData[`${constants.redisKeys.ROLE_KEY}`] = 'test'
-      sessionData[`${constants.redisKeys.EMAIL_VALUE}`] = 'test@example.com'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE}`] = 'geospatialData'
+      sessionData[`${constants.cacheKeys.FULL_NAME}`] = 'Test User'
+      sessionData[`${constants.cacheKeys.ROLE_KEY}`] = 'test'
+      sessionData[`${constants.cacheKeys.EMAIL_VALUE}`] = 'test@example.com'
+      sessionData[`${constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE}`] = 'geospatialData'
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).toContain('Geospatial file')
     })
@@ -26,10 +26,10 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const redisMap = new Map()
+          const cacheMap = new Map()
           const checkLandBoundary = require('../../land/check-land-boundary-details')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: undefined
             }

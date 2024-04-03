@@ -28,13 +28,13 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_RESPONSIBLE_BODIES
     })
-    const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    const legalAgreementResponsibleBodies = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     if (legalAgreementResponsibleBodies.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
     }
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, REMOVE_RESPONSIBLE_BODY } = constants.routes
     return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
       legalAgreementResponsibleBodiesWithAction,
@@ -45,10 +45,10 @@ const handlers = {
   },
   post: async (request, h) => {
     const { addAnotherResponsibleBody } = request.payload
-    const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    const legalAgreementResponsibleBodies = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     if (!addAnotherResponsibleBody) {
       return h.view(constants.views.CHECK_RESPONSIBLE_BODIES, {
         legalAgreementResponsibleBodies,
@@ -62,8 +62,8 @@ const handlers = {
       })
     }
     if (addAnotherResponsibleBody === 'yes') {
-      request.yar.set(constants.redisKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
+      request.yar.set(constants.cacheKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }

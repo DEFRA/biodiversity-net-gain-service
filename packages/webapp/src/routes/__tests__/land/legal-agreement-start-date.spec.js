@@ -12,13 +12,13 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} view date selected`, async () => {
-      const redisMap = new Map()
+      const cacheMap = new Map()
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
+        cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-start-date.js')
         const request = {
-          yar: redisMap
+          yar: cacheMap
         }
         const h = {
           view: (view, context) => {
@@ -230,7 +230,7 @@ describe(url, () => {
         try {
           const postHandler = legalAgreementStartDate[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.cacheKeys.REFERER, '/land/check-and-submit')
           const payload = {
             'legalAgreementStartDate-day': '01',
             'legalAgreementStartDate-month': '12',

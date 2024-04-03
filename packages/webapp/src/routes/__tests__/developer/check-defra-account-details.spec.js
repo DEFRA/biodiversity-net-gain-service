@@ -20,7 +20,7 @@ describe(url, () => {
     it('Should continue the journey when acting as an agent and Defra account details are confirmed', async () => {
       postOptions.payload.defraAccountDetailsConfirmed = 'true'
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      sessionData[constants.cacheKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     })
@@ -44,8 +44,8 @@ describe(url, () => {
       }
       postOptions.payload.defraAccountDetailsConfirmed = 'true'
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      sessionData[constants.cacheKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_BNG_NUMBER)
     })
@@ -69,8 +69,8 @@ describe(url, () => {
       }
       postOptions.payload.defraAccountDetailsConfirmed = 'true'
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      sessionData[constants.cacheKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE)
     })

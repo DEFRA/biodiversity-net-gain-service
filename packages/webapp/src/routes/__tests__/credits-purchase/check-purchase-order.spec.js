@@ -50,7 +50,7 @@ describe(url, () => {
 const processCreditsPurchaseOrder = (payload, done) => jest.isolateModules(async () => {
   try {
     const session = new Session()
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, payload.purchaseOrderNumber)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, payload.purchaseOrderNumber)
     let viewArgs = ''
     let redirectArgs = ''
     const h = {

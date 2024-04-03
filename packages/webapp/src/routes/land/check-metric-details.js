@@ -11,7 +11,7 @@ const handlers = {
       status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
       inProgressUrl: constants.routes.CHECK_METRIC_DETAILS
     })
-    const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+    const metricUploadLocation = request.yar.get(constants.cacheKeys.METRIC_LOCATION)
     return h.view(constants.views.CHECK_METRIC_DETAILS, {
       filename: path.basename(metricUploadLocation)
     })

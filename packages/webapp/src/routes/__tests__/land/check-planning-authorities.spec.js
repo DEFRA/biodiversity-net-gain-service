@@ -5,7 +5,7 @@ const url = constants.routes.CHECK_PLANNING_AUTHORITIES
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let localPlanningAuthorities
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
 
     localPlanningAuthorities = require('../../land/check-planning-authorities.js')
   })
@@ -33,7 +33,7 @@ describe(url, () => {
 
     it('should show all local planning authorities that are added', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await localPlanningAuthorities.default[0].handler(request, h)
@@ -44,7 +44,7 @@ describe(url, () => {
 
     it('should redirect to NEED_ADD_ALL_PLANNING_AUTHORITIES when planning authority list is empty', async () => {
       const request = {
-        yar: redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, [])
+        yar: cacheMap.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, [])
       }
 
       await localPlanningAuthorities.default[0].handler(request, h)
@@ -56,7 +56,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if yes is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherPlanningAuthority: 'yes' }
       }
 
@@ -67,7 +67,7 @@ describe(url, () => {
 
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherPlanningAuthority: 'no' }
       }
 
@@ -78,7 +78,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

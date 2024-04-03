@@ -6,7 +6,7 @@ const url = constants.routes.ADD_LEGAL_AGREEMENT_PARTIES
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let addLegalAgreementParties
 
@@ -21,8 +21,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES, [
       {
         organisationName: 'org1',
         organisationRole: 'Developer',
@@ -45,7 +45,7 @@ describe(url, () => {
     })
     it(`should render the ${url.substring(1)} view with organisation that use wants to change`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { orgId: '0' }
       }
       await addLegalAgreementParties.default[0].handler(request, h)
@@ -59,7 +59,7 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view without party details`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: {}
       }
       await addLegalAgreementParties.default[0].handler(request, h)
@@ -70,7 +70,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should add legal party to legal agreement and redirect to LEGAL_PARTY_LIST page', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org3',
           organisationOtherRole: 'undefined',
@@ -86,7 +86,7 @@ describe(url, () => {
 
     it('should edit legal party to legal agreement and redirect to LEGAL_PARTY_LIST page by using orgId', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org3',
           organisationOtherRole: 'undefined',
@@ -102,7 +102,7 @@ describe(url, () => {
 
     it('should fail to add legal party to legal agreement without organisation name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: '',
           organisationOtherRole: 'undefined',
@@ -119,7 +119,7 @@ describe(url, () => {
     it('should fail to add legal party to legal agreement with organisation name length > 50', async () => {
       const longOrganisationName = 'x'.repeat(51)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: longOrganisationName,
           organisationRole: 'Developer',
@@ -137,7 +137,7 @@ describe(url, () => {
 
     it('should fail to add legal party to legal agreement without organisation role', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org3',
           organisationOtherRole: 'undefined',
@@ -154,7 +154,7 @@ describe(url, () => {
 
     it('should fail to add legal party to legal agreement without organisation name and organisation role', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: '',
           organisationOtherRole: 'undefined',
@@ -172,7 +172,7 @@ describe(url, () => {
 
     it('should fail to add legal party to legal agreement without organisation other role', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'Test',
           organisationOtherRole: '',

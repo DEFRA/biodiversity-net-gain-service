@@ -16,7 +16,7 @@ describe('credits-application', () => {
 
   it('Should handle nullable fields if session data not exists', () => {
     const session = setCreditsApplicationSession()
-    session.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
+    session.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.creditReference).toEqual(null)
@@ -24,7 +24,7 @@ describe('credits-application', () => {
 
   it('Should handle missing values from the metric', async () => {
     const session = setCreditsApplicationSession()
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.development.name).toEqual(null)
@@ -38,7 +38,7 @@ describe('credits-application', () => {
     const mockNumber = 1234
     const mockNumberString = String(mockNumber)
 
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, {
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA, {
       startPage: {
         projectName: mockNumber,
         planningApplicationReference: mockNumber,
@@ -57,8 +57,8 @@ describe('credits-application', () => {
   it('Should include organisation id if organisation purchasing credits', () => {
     const session = setCreditsApplicationSession()
     const mockOrgId = 'testorg123'
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
-    session.set(constants.redisKeys.ORGANISATION_ID, mockOrgId)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
+    session.set(constants.cacheKeys.ORGANISATION_ID, mockOrgId)
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.organisation.id).toEqual(mockOrgId)
@@ -71,10 +71,10 @@ describe('credits-application', () => {
     const mockDateOfBirthIso = `${mockDateOfBirth}Tabc`
     const mockSingleNationality = 'American'
     const mockNationalityArray = [mockSingleNationality, '', '', '']
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME, mockMiddleName)
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, mockDateOfBirthIso)
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, mockNationalityArray)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME, mockMiddleName)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, mockDateOfBirthIso)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY, mockNationalityArray)
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.applicant.middleName).toEqual(mockMiddleName.middleName)
@@ -84,10 +84,10 @@ describe('credits-application', () => {
 
   it('Should handle missing due diligence details if individual purchasing credits', () => {
     const session = setCreditsApplicationSession()
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
-    session.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)
-    session.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)
-    session.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
+    session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
+    session.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME)
+    session.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH)
+    session.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY)
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.applicant.middleName).toEqual(null)

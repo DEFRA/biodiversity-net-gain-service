@@ -10,7 +10,7 @@ const newCreditsPurchase = async (request, h) => newApplication(request, h, cons
 
 const newApplication = async (request, h, applicationType) => {
   await saveApplicationSessionIfNeeded(request.yar, true)
-  request.yar.set(constants.redisKeys.APPLICATION_TYPE, applicationType)
+  request.yar.set(constants.cacheKeys.APPLICATION_TYPE, applicationType)
 
   if (applicationType === constants.applicationTypes.REGISTRATION) {
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)

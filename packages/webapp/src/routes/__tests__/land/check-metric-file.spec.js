@@ -12,9 +12,9 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
     it('should redirect to the developer journey task list if a developer journey is in progress', async () => {
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.ALLOCATION)
-      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
+      const cacheMap = new Map()
+      cacheMap.set(constants.cacheKeys.APPLICATION_TYPE, constants.applicationTypes.ALLOCATION)
+      const response = await submitGetRequest({ url }, 302, Object.fromEntries(cacheMap))
       expect(response.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
   })
@@ -49,7 +49,7 @@ describe(url, () => {
         try {
           const postHandler = checkMetricFile[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.cacheKeys.REFERER, '/land/check-and-submit')
           const payload = {
             checkUploadMetric: 'yes'
           }

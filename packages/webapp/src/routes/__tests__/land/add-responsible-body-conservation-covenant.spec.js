@@ -6,7 +6,7 @@ const url = constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let addConcovResponsibleParties
 
@@ -21,8 +21,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
     {
@@ -40,7 +40,7 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with responsible body that user wants to change`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
       await addConcovResponsibleParties.default[0].handler(request, h)
@@ -59,7 +59,7 @@ describe(url, () => {
     })
     it(`should render the ${url.substring(1)} view without responsibleBody`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: {}
       }
       await addConcovResponsibleParties.default[0].handler(request, h)
@@ -70,7 +70,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should add responsibleBody to legal agreement and redirect to CHECK_RESPONSIBLE_BODIES page', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           responsibleBodyName: 'test3'
         },
@@ -93,7 +93,7 @@ describe(url, () => {
     })
     it('should edit responsibleBody to legal agreement and redirect to CHECK_RESPONSIBLE_BODIES page by using id', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           responsibleBodyName: 'test1'
         },
@@ -107,7 +107,7 @@ describe(url, () => {
 
     it('should fail to add responsibleBody to legal agreement without responsibleBody name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           responsibleBody: ''
         },
@@ -122,7 +122,7 @@ describe(url, () => {
     })
     it('should fail to add responsibleBody to legal agreement with duplicate responsibleBody name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           responsibleBodyName: 'test2'
         },
@@ -135,7 +135,7 @@ describe(url, () => {
     })
     it('should fail to edit responsibleBody to legal agreement with duplicate responsibleBody name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           responsibleBodyName: 'test2'
         },

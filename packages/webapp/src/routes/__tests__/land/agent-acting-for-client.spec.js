@@ -5,7 +5,7 @@ const url = constants.routes.AGENT_ACTING_FOR_CLIENT
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let isApplicantAgent
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.IS_AGENT, 'yes')
 
     isApplicantAgent = require('../../land/agent-acting-for-client.js')
   })
@@ -35,7 +35,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to applicant-details-confirm if yes is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { isApplicantAgent: 'yes' }
       }
 
@@ -46,7 +46,7 @@ describe(url, () => {
 
     it('Should continue journey to applying-individual-organisation if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { isApplicantAgent: 'no' }
       }
 
@@ -57,7 +57,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { }
       }
 

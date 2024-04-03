@@ -1,16 +1,14 @@
-import { Engine as CatboxRedis } from '@hapi/catbox-redis'
-import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_TLS } from '../utils/config.js'
+import { Engine as CatboxMemory } from '@hapi/catbox-memory'
+import { CACHE_MAX_BYTE_SIZE, CACHE_CLEANUP_INT_MIN_SEC, CACHE_CLONE_BUFFER_ON } from '../utils/config.js'
 
 const cache = [{
-  name: 'redis_cache',
+  name: 'memory_cache',
   provider: {
-    constructor: CatboxRedis,
+    constructor: CatboxMemory,
     options: {
-      partition: 'webapp',
-      host: REDIS_HOST,
-      port: REDIS_PORT,
-      password: REDIS_PASSWORD,
-      tls: JSON.parse(REDIS_TLS) ? { checkServerIdentity: () => undefined } : undefined
+      maxByteSize: CACHE_MAX_BYTE_SIZE,
+      minCleanupIntervalMsec: CACHE_CLEANUP_INT_MIN_SEC,
+      cloneBuffersOnGet: CACHE_CLONE_BUFFER_ON
     }
   }
 }]

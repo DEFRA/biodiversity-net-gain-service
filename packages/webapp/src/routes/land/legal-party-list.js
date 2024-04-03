@@ -29,10 +29,10 @@ const handlers = {
       inProgressUrl: constants.routes.LEGAL_PARTY_LIST
     })
 
-    const legalAgreementParties = getNameAndRoles(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES))
+    const legalAgreementParties = getNameAndRoles(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES))
     const legalAgreementPartiesWithAction = legalAgreementParties.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_LEGAL_AGREEMENT_PARTIES, LEGAL_PARTY_REMOVE } = constants.routes
 
     return h.view(constants.views.LEGAL_PARTY_LIST, {
@@ -45,9 +45,9 @@ const handlers = {
   post: async (request, h) => {
     const { addAnotherLegalParty } = request.payload
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     if (!addAnotherLegalParty) {
       return h.view(constants.views.LEGAL_PARTY_LIST, {

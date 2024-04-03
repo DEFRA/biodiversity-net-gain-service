@@ -3,7 +3,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import applicationSession from '../../../__mocks__/application-session.js'
 const url = constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
 describe('Legal Agreement controller tests', () => {
-  const redisMap = applicationSession()
+  const cacheMap = applicationSession()
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -53,15 +53,15 @@ describe('Legal Agreement controller tests', () => {
       jest.isolateModules(async () => {
         try {
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
-          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
+          cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, undefined)
           let redirectArgs = ''
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
-          redisMap.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
-          redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, undefined)
-          redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
-          redisMap.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
+          cacheMap.set(constants.cacheKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
+          cacheMap.set(constants.cacheKeys.HABITAT_PLAN_LOCATION, undefined)
+          cacheMap.set(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
+          cacheMap.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
           const h = {
             redirect: (...args) => {
               redirectArgs = args
@@ -83,7 +83,7 @@ describe('Legal Agreement controller tests', () => {
           let viewResult
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
           const h = {
             redirect: (view, context) => {

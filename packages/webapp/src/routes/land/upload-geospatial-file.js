@@ -34,9 +34,9 @@ const performUpload = async (request, h) => {
   config.fileValidationConfig.maximumDecimalPlaces = 4
 
   try {
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, true))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, true))
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, true))
+    await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, true))
 
     const geospatialData = await uploadFile(request.logger, request, config)
     processGeospatialLandBoundaryEvent(geospatialData.postProcess)
@@ -48,32 +48,32 @@ const performUpload = async (request, h) => {
     if (!geospatialData.filename.endsWith('.geojson')) {
       // A GeoJSON file was not uploaded.
       // Store the location of the uploaded file so it and the transformed GeoJSON file can be removed if needed.
-      request.yar.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
+      request.yar.set(constants.cacheKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, uploadedFileLocation)
     }
 
     if (geospatialData.postProcess.reprojectedLocation) {
       // A geospatial upload using the WGS84 Coordinate Reference System has been uploaded.
       // Store the location of the GeoJSON file that has been reprojected to the OSGB36 Coordinate Reference System
       // and its size so that they can be part of the application submission.
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.reprojectedLocation)
-      request.yar.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData.postProcess.reprojectedFileSize)
+      request.yar.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.reprojectedLocation)
+      request.yar.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, geospatialData.postProcess.reprojectedFileSize)
     }
 
-    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.location)
-    request.yar.set(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData.postProcess.mapConfig)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
-    request.yar.set(constants.redisKeys.GEOSPATIAL_HECTARES, geospatialData.postProcess.mapConfig.hectares.toFixed(2))
-    request.yar.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData.postProcess.mapConfig.gridRef)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, geospatialData.postProcess.location)
+    request.yar.set(constants.cacheKeys.LAND_BOUNDARY_MAP_CONFIG, geospatialData.postProcess.mapConfig)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_FILE_NAME, geospatialData.filename)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_FILE_SIZE, geospatialData.fileSize)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_FILE_TYPE, geospatialData.fileType)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_HECTARES, geospatialData.postProcess.mapConfig.hectares.toFixed(2))
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_GRID_REFERENCE, geospatialData.postProcess.mapConfig.gridRef)
 
     // Clear out any land boundary data
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE)
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_HECTARES)
-    await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION))
-    request.yar.clear(constants.redisKeys.LAND_BOUNDARY_LOCATION)
+    request.yar.clear(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE)
+    request.yar.clear(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE)
+    request.yar.clear(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE)
+    request.yar.clear(constants.cacheKeys.LAND_BOUNDARY_HECTARES)
+    await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.LAND_BOUNDARY_LOCATION))
+    request.yar.clear(constants.cacheKeys.LAND_BOUNDARY_LOCATION)
     return h.redirect(process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' ? constants.routes.CHECK_GEOSPATIAL_FILE : constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
   } catch (err) {
     const errorContext = getErrorContext(err)

@@ -6,8 +6,8 @@ import { checked } from '../../utils/helpers.js'
 const href = '#dev-details-checked-yes'
 const handlers = {
   get: (request, h) => {
-    const metricData = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
-    const confirmDevDetails = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED)
+    const metricData = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA)
+    const confirmDevDetails = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED)
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS, {
       ...metricData,
       confirmDevDetails,
@@ -17,16 +17,16 @@ const handlers = {
   },
   post: async (request, h) => {
     const confirmDevDetails = request.payload.confirmDevDetails
-    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
-    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED, confirmDevDetails)
+    const metricUploadLocation = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION)
+    request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED, confirmDevDetails)
     if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
+      request.yar.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION)
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
     } else if (confirmDevDetails === creditsPurchaseConstants.creditsCheckDetails.YES) {
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     } else {
-      const metricData = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
+      const metricData = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA)
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS, {
         ...metricData,
         confirmDevDetails,

@@ -9,8 +9,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_LANDOWNERS
     })
-    const landowners = request.yar.get(constants.redisKeys.LANDOWNERS)
-    const role = request.yar.get(constants.redisKeys.ROLE_KEY)
+    const landowners = request.yar.get(constants.cacheKeys.LANDOWNERS)
+    const role = request.yar.get(constants.cacheKeys.ROLE_KEY)
     return h.view(constants.views.ADD_LANDOWNERS, {
       landowners,
       role,
@@ -28,8 +28,8 @@ const handlers = {
         landownersJSON: JSON.stringify(landowners)
       })
     } else {
-      request.yar.set(constants.redisKeys.LANDOWNERS, landowners)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LANDOWNER_CONSENT)
+      request.yar.set(constants.cacheKeys.LANDOWNERS, landowners)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.LANDOWNER_CONSENT)
     }
   }
 }

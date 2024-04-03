@@ -9,7 +9,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.ADD_HECTARES
     })
-    const hectares = request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+    const hectares = request.yar.get(constants.cacheKeys.LAND_BOUNDARY_HECTARES)
     return h.view(constants.views.ADD_HECTARES, {
       hectares
     })
@@ -26,8 +26,8 @@ const handlers = {
         }]
       })
     } else {
-      request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
+      request.yar.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
     }
   }
 }

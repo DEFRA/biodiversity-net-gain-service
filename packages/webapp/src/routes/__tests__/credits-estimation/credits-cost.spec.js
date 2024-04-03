@@ -17,7 +17,7 @@ const calculationResult = {
 }
 
 const redisCalculation = {
-  [creditsConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
+  [creditsConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
 }
 
 describe(url, () => {

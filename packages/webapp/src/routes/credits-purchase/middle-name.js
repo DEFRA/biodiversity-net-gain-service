@@ -2,7 +2,7 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const handlers = {
   get: (request, h) => {
-    const values = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)
+    const values = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME)
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, values)
   },
   post: (request, h) => {
@@ -29,7 +29,7 @@ const handlers = {
         }]
       })
     }
-    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME, {
+    request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_MIDDLE_NAME, {
       middleNameOption,
       middleName
     })

@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { logger } from '@defra/bng-utils-lib'
 
 const downloadFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
+  const blobName = request.yar.get(constants.cacheKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
   const config = {
     blobName,
     containerName: constants.BLOB_STORAGE_CONTAINER

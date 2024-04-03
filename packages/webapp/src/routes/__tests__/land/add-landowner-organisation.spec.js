@@ -5,7 +5,7 @@ const url = constants.routes.ADD_LANDOWNER_ORGANISATION
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let addLandownerOrganisation
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST, [
       {
         type: 'individual',
         value: { firstName: 'Tom', lastName: 'Smith' }
@@ -39,7 +39,7 @@ describe(url, () => {
 
     it('should render the organisation view with organisation data to change', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 

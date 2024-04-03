@@ -12,13 +12,13 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} view date selected`, async () => {
-      const redisMap = new Map()
+      const cacheMap = new Map()
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
+        cacheMap.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2020-03-11T00:00:00.000Z')
         let viewResult, contextResult
         const habitatEnhancementsDetails = require('../../land/habitat-enhancements-end-date.js')
         const request = {
-          yar: redisMap
+          yar: cacheMap
         }
         const h = {
           view: (view, context) => {
@@ -50,16 +50,16 @@ describe(url, () => {
       postOptions.payload['habitatEnhancementsEndDate-year'] = '2023'
       postOptions.payload.habitatEnhancementsEndDateOption = 'yes'
       const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toEqual('2023-01-01T00:00:00.000Z')
-      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('yes')
+      expect(response.request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toEqual('2023-01-01T00:00:00.000Z')
+      expect(response.request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('yes')
       expect(response.headers.location).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
     it('Should continue to check page if no option selected with blank date', async () => {
       postOptions.payload.habitatEnhancementsEndDateOption = 'no'
       const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toBeNull()
-      expect(response.request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('no')
+      expect(response.request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)).toBeNull()
+      expect(response.request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)).toEqual('no')
       expect(response.headers.location).toBe(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
@@ -145,7 +145,7 @@ describe(url, () => {
         try {
           const postHandler = habitatEnhancementsEndDate[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.cacheKeys.REFERER, '/land/check-and-submit')
           const payload = {
             'habitatEnhancementsEndDate-day': '01',
             'habitatEnhancementsEndDate-month': '12',

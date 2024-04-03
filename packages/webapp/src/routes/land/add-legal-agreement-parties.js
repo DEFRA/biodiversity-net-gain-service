@@ -47,9 +47,9 @@ const handlers = {
 
     const { orgId } = request.query
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let organisation = {}
     if (orgId) {
       organisation = legalAgreementParties[orgId]
@@ -66,7 +66,7 @@ const handlers = {
     const { orgId } = request.query
 
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     const legalAgreementPartiesError = validateOrganisation(organisation)
 
@@ -81,7 +81,7 @@ const handlers = {
       })
     }
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES) ?? []
+    const legalAgreementParties = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES) ?? []
 
     if (orgId) {
       legalAgreementParties.splice(orgId, 1, organisation)
@@ -89,7 +89,7 @@ const handlers = {
       legalAgreementParties.push(organisation)
     }
 
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, legalAgreementParties)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES, legalAgreementParties)
     return h.redirect(constants.routes.LEGAL_PARTY_LIST)
   }
 }

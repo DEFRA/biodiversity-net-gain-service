@@ -6,10 +6,10 @@ import applicant from '../../__mocks__/applicant'
 describe('developer-application', () => {
   it('Should set the metric file has been uploaded', () => {
     const session = setDeveloperApplicationSession()
-    session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, 5131037)
-    session.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'mock/developer-upload-metric/Sample Metric File.xlsm')
-    session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, 'developer-upload-metric')
-    session.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [
+    session.set(constants.cacheKeys.DEVELOPER_METRIC_FILE_SIZE, 5131037)
+    session.set(constants.cacheKeys.DEVELOPER_METRIC_LOCATION, 'mock/developer-upload-metric/Sample Metric File.xlsm')
+    session.set(constants.cacheKeys.DEVELOPER_METRIC_FILE_TYPE, 'developer-upload-metric')
+    session.set(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS, [
       {
         fullName: 'Test User',
         email: 'test@example.com'
@@ -23,8 +23,8 @@ describe('developer-application', () => {
 
   it('Should handle nullable fields if session data not exists', () => {
     const session = setDeveloperApplicationSession()
-    session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
-    session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+    session.clear(constants.cacheKeys.DEVELOPER_APP_REFERENCE)
+    session.clear(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS)
 
     const app = developerApplication(session, applicant)
     expect(app.developerAllocation.gainSiteReference).toEqual('')

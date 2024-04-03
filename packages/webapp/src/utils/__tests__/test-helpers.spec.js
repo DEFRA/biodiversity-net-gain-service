@@ -77,33 +77,33 @@ describe('helpers file', () => {
   describe('getAllLandowners', () => {
     it('should just return list of landowners if applicant is not a landowner', () => {
       const session = new Session()
-      session.set(constants.redisKeys.LANDOWNERS, ['Jane Smith'])
-      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
-      session.set(constants.redisKeys.ROLE_KEY, 'Other')
+      session.set(constants.cacheKeys.LANDOWNERS, ['Jane Smith'])
+      session.set(constants.cacheKeys.FULL_NAME, 'John Smith')
+      session.set(constants.cacheKeys.ROLE_KEY, 'Other')
       const list = getAllLandowners(session)
       expect(list).toEqual(['Jane Smith'])
     })
     it('should return a list of landowners with applicant at start if is a landowner', () => {
       const session = new Session()
-      session.set(constants.redisKeys.LANDOWNERS, ['Jane Smith'])
-      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
-      session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+      session.set(constants.cacheKeys.LANDOWNERS, ['Jane Smith'])
+      session.set(constants.cacheKeys.FULL_NAME, 'John Smith')
+      session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
       const list = getAllLandowners(session)
       expect(list).toEqual(['John Smith', 'Jane Smith'])
     })
     it('should return an array of just the applicant if landowner and no others', () => {
       const session = new Session()
-      session.set(constants.redisKeys.LANDOWNERS, [])
-      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
-      session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
+      session.set(constants.cacheKeys.LANDOWNERS, [])
+      session.set(constants.cacheKeys.FULL_NAME, 'John Smith')
+      session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
       const list = getAllLandowners(session)
       expect(list).toEqual(['John Smith'])
     })
     it('should return an empty array if not landowner and no others', () => {
       const session = new Session()
-      session.set(constants.redisKeys.LANDOWNERS, [])
-      session.set(constants.redisKeys.FULL_NAME, 'John Smith')
-      session.set(constants.redisKeys.ROLE_KEY, 'Other')
+      session.set(constants.cacheKeys.LANDOWNERS, [])
+      session.set(constants.cacheKeys.FULL_NAME, 'John Smith')
+      session.set(constants.cacheKeys.ROLE_KEY, 'Other')
       const list = getAllLandowners(session)
       expect(list).toEqual([])
     })
@@ -361,7 +361,7 @@ describe('checkForDuplicateConcatenated', () => {
 })
 
 describe('processRegistrationTask', () => {
-  const redisMap = new Map()
+  const cacheMap = new Map()
   const taskDetails = {
     taskTitle: 'Land information',
     title: 'Add land ownership details'
@@ -387,13 +387,13 @@ describe('processRegistrationTask', () => {
       revert: true
     }
 
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    cacheMap.set(constants.cacheKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
     const request = {
-      yar: redisMap
+      yar: cacheMap
     }
     processRegistrationTask(request, taskDetails, options)
 
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    const expectedTaskDetails = cacheMap.get(constants.cacheKeys.REGISTRATION_TASK_DETAILS)
     expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
   })
 
@@ -404,13 +404,13 @@ describe('processRegistrationTask', () => {
       revert: true
     }
 
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    cacheMap.set(constants.cacheKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
     const request = {
-      yar: redisMap
+      yar: cacheMap
     }
     processRegistrationTask(request, taskDetails, options)
 
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    const expectedTaskDetails = cacheMap.get(constants.cacheKeys.REGISTRATION_TASK_DETAILS)
     expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
   })
 
@@ -419,13 +419,13 @@ describe('processRegistrationTask', () => {
       status: constants.COMPLETE_REGISTRATION_TASK_STATUS
     }
 
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+    cacheMap.set(constants.cacheKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
     const request = {
-      yar: redisMap
+      yar: cacheMap
     }
     processRegistrationTask(request, taskDetails, options)
 
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+    const expectedTaskDetails = cacheMap.get(constants.cacheKeys.REGISTRATION_TASK_DETAILS)
     expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
   })
 })

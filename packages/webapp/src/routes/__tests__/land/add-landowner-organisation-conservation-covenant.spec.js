@@ -6,7 +6,7 @@ const url = constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let addLandownerOrganisations
 
@@ -21,8 +21,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1'
     }, {
       organisationName: 'org2'
@@ -47,7 +47,7 @@ describe(url, () => {
     })
     it(`should render the ${url.substring(1)} view with landowner organisation that user wants to change`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
       await addLandownerOrganisations.default[0].handler(request, h)
@@ -57,7 +57,7 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view without landowners`, async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: {}
       }
       await addLandownerOrganisations.default[0].handler(request, h)
@@ -68,7 +68,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should add landowner to legal agreement and redirect to CHECK_LANDOWNERS page', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org3'
         },
@@ -91,7 +91,7 @@ describe(url, () => {
     })
     it('should edit landowner to legal agreement and redirect to CHECK_LANDOWNERS page by using id', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org4'
 
@@ -106,7 +106,7 @@ describe(url, () => {
 
     it('should fail to add landowner to legal agreement without landowner organisation name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: ''
         },
@@ -121,7 +121,7 @@ describe(url, () => {
     })
     it('should fail to add landowner to legal agreement with duplicate organisation name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org1'
         },
@@ -136,7 +136,7 @@ describe(url, () => {
     })
     it('should fail to edit landowner to legal agreement with duplicate organisation name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           organisationName: 'org2'
         },

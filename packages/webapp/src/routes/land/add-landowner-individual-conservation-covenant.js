@@ -39,7 +39,7 @@ const handlers = {
       inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT
     })
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { id } = request.query
     let individual = {
       firstName: '',
@@ -47,7 +47,7 @@ const handlers = {
       lastName: '',
       emailAddress: ''
     }
-    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landownerIndividuals = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
       individual = landownerIndividuals[id]
     }
@@ -62,8 +62,8 @@ const handlers = {
     const { id } = request.query
     const errors = {}
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const landownerIndividuals = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
     const individualError = validateIndividual(individual)
     if (isEmpty(individualError)) {
       const excludeIndex = id !== undefined ? parseInt(id, 10) : null
@@ -105,8 +105,8 @@ const handlers = {
     } else {
       landownerIndividuals.push(individual)
     }
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
 
 }

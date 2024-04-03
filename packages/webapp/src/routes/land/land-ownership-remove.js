@@ -12,7 +12,7 @@ const handlers = {
 
     const { id } = request.query
 
-    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+    const landOwnershipProofs = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
     const ownershipProofToRemove = landOwnershipProofs[id]?.fileName
 
     if (!ownershipProofToRemove) {
@@ -26,7 +26,7 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
     let { ownershipProofToRemove } = request.payload
-    const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+    const landOwnershipProofs = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
 
     if (!ownershipProofToRemove) {
       ownershipProofToRemove = landOwnershipProofs[id].fileName
@@ -41,7 +41,7 @@ const handlers = {
 
     if (landOwnershipProofs.length > 0 && ownershipProofToRemove === 'yes') {
       landOwnershipProofs.splice(id, 1)
-      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, landOwnershipProofs)
+      request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, landOwnershipProofs)
     }
     return h.redirect(landOwnershipProofs.length > 0 ? constants.routes.LAND_OWNERSHIP_PROOF_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
   }

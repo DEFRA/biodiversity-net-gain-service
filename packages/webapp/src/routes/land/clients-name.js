@@ -14,7 +14,7 @@ const handlers = {
       inProgressUrl: constants.routes.CLIENTS_NAME
     })
 
-    const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
+    const individual = request.yar.get(constants.cacheKeys.CLIENTS_NAME_KEY)
     return h.view(constants.views.CLIENTS_NAME, {
       individual: individual?.value
     })
@@ -47,9 +47,9 @@ const handlers = {
       })
     }
 
-    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, middleNames, lastName } })
+    request.yar.set(constants.cacheKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, middleNames, lastName } })
 
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
   }
 }
 export default [{

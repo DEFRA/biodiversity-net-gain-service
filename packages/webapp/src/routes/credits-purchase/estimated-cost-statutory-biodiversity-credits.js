@@ -23,7 +23,7 @@ const getRow = ({ tier, unitAmount, cost }) => [
 
 const handlers = {
   get: async (request, h) => {
-    const creditCosts = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
+    const creditCosts = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION)
 
     if (!creditCosts) {
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION)

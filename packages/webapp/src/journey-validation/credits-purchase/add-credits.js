@@ -6,7 +6,7 @@ import {
 
 const ADD_CREDITS = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
-  [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION]
+  [creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION]
 )
 
 const addCreditsJourneys = [

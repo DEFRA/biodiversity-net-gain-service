@@ -8,71 +8,71 @@ import {
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.AGENT_ACTING_FOR_CLIENT,
-  [constants.redisKeys.IS_AGENT]
+  [constants.cacheKeys.IS_AGENT]
 )
 
 const CHECK_DEFRA_ACCOUNT_DETAILS = routeDefinition(
   constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS,
-  [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED]
+  [constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED]
 )
 
 const CLIENT_INDIVIDUAL_ORGANISATION = routeDefinition(
   constants.routes.CLIENT_INDIVIDUAL_ORGANISATION,
-  [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY]
+  [constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY]
 )
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
   constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
-  [constants.redisKeys.LANDOWNER_TYPE]
+  [constants.cacheKeys.LANDOWNER_TYPE]
 )
 
 const IS_ADDRESS_UK = routeDefinition(
   constants.routes.IS_ADDRESS_UK,
-  [constants.redisKeys.IS_ADDRESS_UK_KEY]
+  [constants.cacheKeys.IS_ADDRESS_UK_KEY]
 )
 
 const UK_ADDRESS = routeDefinition(
   constants.routes.UK_ADDRESS,
-  [constants.redisKeys.UK_ADDRESS_KEY]
+  [constants.cacheKeys.UK_ADDRESS_KEY]
 )
 
 const NON_UK_ADDRESS = routeDefinition(
   constants.routes.NON_UK_ADDRESS,
-  [constants.redisKeys.NON_UK_ADDRESS_KEY]
+  [constants.cacheKeys.NON_UK_ADDRESS_KEY]
 )
 
 const CLIENTS_ORGANISATION_NAME = routeDefinition(
   constants.routes.CLIENTS_ORGANISATION_NAME,
-  [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY]
+  [constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY]
 )
 
 const UPLOAD_WRITTEN_AUTHORISATION = routeDefinition(
   constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
   [
-    constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION,
-    constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE,
-    constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE
+    constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION,
+    constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_SIZE,
+    constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_TYPE
   ]
 )
 
 const CHECK_WRITTEN_AUTHORISATION_FILE = routeDefinition(
   constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE,
-  [constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED]
+  [constants.cacheKeys.WRITTEN_AUTHORISATION_CHECKED]
 )
 
 const CLIENTS_NAME = routeDefinition(
   constants.routes.CLIENTS_NAME,
-  [constants.redisKeys.CLIENTS_NAME_KEY]
+  [constants.cacheKeys.CLIENTS_NAME_KEY]
 )
 
 const CLIENTS_EMAIL_ADDRESS = routeDefinition(
   constants.routes.CLIENTS_EMAIL_ADDRESS,
-  [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY]
+  [constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY]
 )
 
 const CLIENTS_PHONE_NUMBER = routeDefinition(
   constants.routes.CLIENTS_PHONE_NUMBER,
-  [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY]
+  [constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY]
 )
 
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)

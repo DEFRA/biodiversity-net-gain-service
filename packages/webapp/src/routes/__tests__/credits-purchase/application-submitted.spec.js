@@ -11,7 +11,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted credits application reference`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
-      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, creditReference)
+      session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, creditReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {

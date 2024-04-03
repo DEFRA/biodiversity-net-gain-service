@@ -12,7 +12,7 @@ const handlers = {
 
     const { orgId } = request.query
 
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES)
     const orgToRemove = legalAgreementParties[orgId]
 
     return h.view(constants.views.LEGAL_PARTY_REMOVE, {
@@ -22,7 +22,7 @@ const handlers = {
   post: async (request, h) => {
     const { orgId } = request.query
     const { legalPartyRemove } = request.payload
-    const legalAgreementParties = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_PARTIES)
+    const legalAgreementParties = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES)
 
     if (!legalPartyRemove) {
       const orgToRemove = legalAgreementParties[orgId]
@@ -38,7 +38,7 @@ const handlers = {
 
     if (legalPartyRemove === 'yes') {
       legalAgreementParties.splice(orgId, 1)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, legalAgreementParties)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES, legalAgreementParties)
     }
     return h.redirect(constants.routes.LEGAL_PARTY_LIST)
   }

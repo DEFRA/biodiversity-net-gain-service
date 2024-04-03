@@ -7,7 +7,7 @@ import {
 const PURCHASE_ORDER = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
   [
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED
+    creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED
     // Ignore purchase order number for now
   ]
 )

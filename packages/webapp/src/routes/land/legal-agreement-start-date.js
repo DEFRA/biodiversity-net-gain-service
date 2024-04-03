@@ -16,8 +16,8 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.LEGAL_AGREEMENT_START_DATE
     })
-    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY))
-    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_START_DATE_KEY))
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.LEGAL_AGREEMENT_START_DATE, {
       dateClasses,
@@ -43,8 +43,8 @@ const handlers = {
         ...context
       })
     } else {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_START_DATE_KEY, dateAsISOString)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_START_DATE_KEY, dateAsISOString)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     }
   }
 }

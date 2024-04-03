@@ -8,17 +8,17 @@ import {
 
 const UPLOAD_LAND_OWNERSHIP = routeDefinition(
   constants.routes.UPLOAD_LAND_OWNERSHIP,
-  [constants.redisKeys.LAND_OWNERSHIP_PROOFS]
+  [constants.cacheKeys.LAND_OWNERSHIP_PROOFS]
 )
 
 const CHECK_PROOF_OF_OWNERSHIP = routeDefinition(
   constants.routes.CHECK_PROOF_OF_OWNERSHIP,
-  [constants.redisKeys.LAND_OWNERSHIP_CHECKED]
+  [constants.cacheKeys.LAND_OWNERSHIP_CHECKED]
 )
 
 const LAND_OWNERSHIP_PROOF_LIST = routeDefinition(
   constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-  [constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY]
+  [constants.cacheKeys.LAND_OWNERSHIP_PROOF_LIST_KEY]
 )
 
 const landOwnershipJourneys = [

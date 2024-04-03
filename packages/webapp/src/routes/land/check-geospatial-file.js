@@ -9,24 +9,24 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
     })
-    const fileSize = request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE)
+    const fileSize = request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_SIZE)
     const humanReadableFileSize = getHumanReadableFileSize(fileSize)
     const mapConfig = {
       mapConfig: {
-        ...request.yar.get(constants.redisKeys.LAND_BOUNDARY_MAP_CONFIG)
+        ...request.yar.get(constants.cacheKeys.LAND_BOUNDARY_MAP_CONFIG)
       },
-      filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
+      filename: request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_NAME),
       fileSize: humanReadableFileSize
     }
     return h.view(constants.views.CHECK_GEOSPATIAL_FILE, mapConfig)
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
+    request.yar.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
     let route
 
     switch (request.payload.confirmGeospatialLandBoundary) {
       case constants.confirmLandBoundaryOptions.YES:
-        route = request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
+        route = request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
         break
       case constants.confirmLandBoundaryOptions.NO:
         route = constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
@@ -37,9 +37,9 @@ const handlers = {
             text: 'Select yes if this is the correct file',
             href: '#check-upload-correct-yes'
           }],
-          filename: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
-          fileSize: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
-          humanReadableFileSize: parseFloat(parseFloat(request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE) / 1024 / 1024).toFixed(4))
+          filename: request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_NAME),
+          fileSize: request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_SIZE),
+          humanReadableFileSize: parseFloat(parseFloat(request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_SIZE) / 1024 / 1024).toFixed(4))
         })
     }
     return h.redirect(route)

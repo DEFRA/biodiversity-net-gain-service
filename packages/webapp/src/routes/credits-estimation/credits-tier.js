@@ -9,14 +9,14 @@ const inputSchema = Joi.string().max(10).regex(/^\d*(\.\d{1,2})?$/).allow('')
 
 const handlers = {
   get: async (request, h) => {
-    const previousCostCalculation = request.yar.get(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION)
+    const previousCostCalculation = request.yar.get(creditsEstimationConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION)
     const inputValues = (previousCostCalculation)
       ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
       : {}
     return h.view(creditsEstimationConstants.views.ESTIMATOR_CREDITS_TIER, { inputValues })
   },
   post: async (request, h) => {
-    request.yar.set(creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
+    request.yar.set(creditsEstimationConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION, calculateCost(request.payload))
     return h.redirect(creditsEstimationConstants.routes.ESTIMATOR_CREDITS_COST)
   }
 }

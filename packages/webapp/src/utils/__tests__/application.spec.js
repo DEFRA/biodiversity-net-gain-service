@@ -6,16 +6,16 @@ import applicant from '../../__mocks__/applicant.js'
 describe('application', () => {
   it('Should set the geojson file if a WGS84 geospatial file has been uploaded', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
-    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'test-location/reprojectedToOsgb36/file.geojson')
-    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, '0.051')
-    session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+    session.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
+    session.set(constants.cacheKeys.GEOSPATIAL_FILE_SIZE, '0.05')
+    session.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'test-location/reprojectedToOsgb36/file.geojson')
+    session.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, '0.051')
+    session.set(constants.cacheKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
+    session.set(constants.cacheKeys.GEOSPATIAL_HECTARES, 5)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[4].fileType).toEqual('geojson')
     expect(app.landownerGainSiteRegistration.files[4].fileSize).toEqual('0.051')
@@ -25,7 +25,7 @@ describe('application', () => {
   })
   it('Should set the legal agreement files', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    session.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
         fileSize: 0.01,
@@ -49,14 +49,14 @@ describe('application', () => {
   })
   it('Should set the geojson file if an OSGB36 geospatial file has been uploaded', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
-    session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, undefined)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+    session.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
+    session.set(constants.cacheKeys.GEOSPATIAL_FILE_SIZE, '0.05')
+    session.set(constants.cacheKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
+    session.set(constants.cacheKeys.GEOSPATIAL_HECTARES, 5)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[4].fileType).toEqual('geojson')
     expect(app.landownerGainSiteRegistration.files[4].fileSize).toEqual('0.05')
@@ -76,7 +76,7 @@ describe('application', () => {
   })
   it('Should correctly show planningObligationLPAs and should not include conservationCovernantResponsibleBodies when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150000', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+    session.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration).not.toHaveProperty('conservationCovernantResponsibleBodies')
     expect(app.landownerGainSiteRegistration).toHaveProperty('planningObligationLPAs')
@@ -85,7 +85,7 @@ describe('application', () => {
   })
   it('Should correctly show legalAgreementResponsibleBodies and should not include planningObligationLPAs  when LEGAL_AGREEMENT_DOCUMENT_TYPE 759150001', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+    session.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration).not.toHaveProperty('planningObligationLPAs')
     expect(app.landownerGainSiteRegistration).toHaveProperty('conservationCovernantResponsibleBodies')
@@ -94,9 +94,9 @@ describe('application', () => {
   })
   it('Should set land boundary file if no geospatial file is uploaded', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, 'application/pdf')
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, '0.01')
-    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, 'test-location/legal-agreement.doc')
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, 'application/pdf')
+    session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, '0.01')
+    session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, 'test-location/legal-agreement.doc')
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[4].fileType).toEqual('land-boundary')
     expect(app.landownerGainSiteRegistration.files[4].fileSize).toEqual('0.01')
@@ -104,36 +104,36 @@ describe('application', () => {
   })
   it('Should correctly handle getLegalAgreementFiles when there are no legal agreement files', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    session.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
     ])
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.filter(file => file.fileType === 'legal-agreement')).toEqual([])
   })
   it('Should correctly handle getHectares when geospatial data is not uploaded', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'otherType')
-    session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, 3)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'otherType')
+    session.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, 3)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(3)
   })
   it('Should correctly handle getHectares when geospatial data is uploaded', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
+    session.set(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+    session.set(constants.cacheKeys.GEOSPATIAL_HECTARES, 5)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
   })
 
   it('Should correctly handle getLandOwnershipFiles when there are no land ownerships', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
+    session.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [
     ])
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.filter(file => file.fileType === 'land-ownership')).toEqual([])
   })
   it('Should set the land ownership files', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
+    session.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [
       {
         contentMediaType: 'application/pdf',
         fileLocation: '627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf',
@@ -161,7 +161,7 @@ describe('application', () => {
 
   it('Should correctly handle ownership proofs when land ownership files', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    session.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
     ])
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.filter(file => file.fileType === 'land-ownership')).toEqual([
@@ -214,13 +214,13 @@ describe('application', () => {
 
     delete expectedClientAddress.addressLine1
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
-    session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
-    session.set(constants.redisKeys.UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
-    session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
+    session.set(constants.cacheKeys.CLIENTS_NAME_KEY, clientNameIndividual)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
+    session.set(constants.cacheKeys.UK_ADDRESS_KEY, clientAddress)
+    session.set(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
+    session.set(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
 
@@ -257,11 +257,11 @@ describe('application', () => {
     delete expectedClientAddress.addressLine2
     delete expectedClientAddress.addressLine3
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
-    session.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, clientNameOrganisation)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
-    session.set(constants.redisKeys.UK_ADDRESS_KEY, clientAddress)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
+    session.set(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY, clientNameOrganisation)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
+    session.set(constants.cacheKeys.UK_ADDRESS_KEY, clientAddress)
 
     const app = application(session, applicant)
 
@@ -303,13 +303,13 @@ describe('application', () => {
 
     delete expectedClientAddress.addressLine1
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
-    session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
-    session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
-    session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
+    session.set(constants.cacheKeys.CLIENTS_NAME_KEY, clientNameIndividual)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
+    session.set(constants.cacheKeys.NON_UK_ADDRESS_KEY, clientAddress)
+    session.set(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
+    session.set(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
 
@@ -359,13 +359,13 @@ describe('application', () => {
     delete expectedClientAddress.addressLine2
     delete expectedClientAddress.addressLine3
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
-    session.set(constants.redisKeys.CLIENTS_NAME_KEY, clientNameIndividual)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
-    session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, clientAddress)
-    session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
-    session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, clientType)
+    session.set(constants.cacheKeys.CLIENTS_NAME_KEY, clientNameIndividual)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
+    session.set(constants.cacheKeys.NON_UK_ADDRESS_KEY, clientAddress)
+    session.set(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY, clientEmail)
+    session.set(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY, clientPhoneNumber)
 
     const app = application(session, applicant)
 
@@ -393,10 +393,10 @@ describe('application', () => {
 
     delete expectedAddress.addressLine1
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
-    session.set(constants.redisKeys.IN, constants.APPLICANT_IS_AGENT.NO)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
-    session.set(constants.redisKeys.UK_ADDRESS_KEY, address)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+    session.set(constants.cacheKeys.IN, constants.APPLICANT_IS_AGENT.NO)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
+    session.set(constants.cacheKeys.UK_ADDRESS_KEY, address)
 
     const app = application(session, applicant)
 
@@ -419,10 +419,10 @@ describe('application', () => {
 
     delete expectedAddress.addressLine1
 
-    session.set(constants.redisKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
-    session.set(constants.redisKeys.ORGANISATION_ID, organisationId)
-    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
-    session.set(constants.redisKeys.UK_ADDRESS_KEY, address)
+    session.set(constants.cacheKeys.IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+    session.set(constants.cacheKeys.ORGANISATION_ID, organisationId)
+    session.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
+    session.set(constants.cacheKeys.UK_ADDRESS_KEY, address)
 
     const app = application(session, applicant)
 
@@ -434,17 +434,17 @@ describe('application', () => {
   })
   it('Should set written authorisation file if is-agent', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.IS_AGENT, 'yes')
+    session.set(constants.cacheKeys.IS_AGENT, 'yes')
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[8].fileType).toEqual('written-authorisation')
     expect(app.landownerGainSiteRegistration.files[8].optional).toEqual(false)
   })
   it('Should delete written authorisation file if not is-agent and file is blank', () => {
     const session = applicationSession()
-    session.set(constants.redisKeys.IS_AGENT, 'no')
-    session.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, null)
-    session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, null)
-    session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, null)
+    session.set(constants.cacheKeys.IS_AGENT, 'no')
+    session.set(constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION, null)
+    session.set(constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_SIZE, null)
+    session.set(constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_TYPE, null)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.length).toEqual(8)
   })

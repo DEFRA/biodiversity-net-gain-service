@@ -14,11 +14,11 @@ const handlers = {
       inProgressUrl: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT
     })
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT, { legalAgreementType })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED, true)
+    request.yar.set(constants.cacheKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED, true)
     return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
   }
 }

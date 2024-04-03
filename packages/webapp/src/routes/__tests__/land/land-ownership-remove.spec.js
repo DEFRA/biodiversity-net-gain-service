@@ -5,7 +5,7 @@ const url = constants.routes.LAND_OWNERSHIP_REMOVE
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let landOwnershipRemove
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
       fileName: 'file-1.doc',
       location: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
       fileSize: 0.01,
@@ -45,9 +45,9 @@ describe(url, () => {
     })
 
     it('should redirect to land ownership list page if there is no data', async () => {
-      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      cacheMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: 'NA' }
       }
 
@@ -58,7 +58,7 @@ describe(url, () => {
 
     it('should show correct land ownership proofs to be removed', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -72,7 +72,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should continue journey to land ownership list if yes is chosen and more than one proof of land ownership document has been uploaded', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { ownershipProofToRemove: 'yes' },
         query: { id: '1' }
       }
@@ -80,13 +80,13 @@ describe(url, () => {
       await landOwnershipRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
-      expect(redisMap.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(1)
+      expect(cacheMap.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(1)
     })
 
     it('should continue journey to upload land ownership proof if yes is chosen and only one proof of land ownership document has been uploaded', async () => {
-      redisMap.clear(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
+      cacheMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { ownershipProofToRemove: 'yes' },
         query: { id: '1' }
       }
@@ -94,12 +94,12 @@ describe(url, () => {
       await landOwnershipRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.UPLOAD_LAND_OWNERSHIP)
-      expect(redisMap.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)).toBeUndefined()
+      expect(cacheMap.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)).toBeUndefined()
     })
 
     it('should continue journey to land ownership list if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { ownershipProofToRemove: 'no' },
         query: { id: '1' }
       }
@@ -107,12 +107,12 @@ describe(url, () => {
       await landOwnershipRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
-      expect(redisMap.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(2)
+      expect(cacheMap.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS).length).toEqual(2)
     })
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { },
         query: { id: '1' }
       }

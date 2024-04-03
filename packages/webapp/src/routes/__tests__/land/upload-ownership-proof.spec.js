@@ -38,7 +38,7 @@ describe('Proof of ownership upload controller tests', () => {
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
-          uploadConfig.sessionData[`${constants.redisKeys.LAND_OWNERSHIP_PROOFS}`] = [{
+          uploadConfig.sessionData[`${constants.cacheKeys.LAND_OWNERSHIP_PROOFS}`] = [{
             fileName: 'legal-agreement.pdf',
             fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/legal-agreement.pdf',
             fileSize: 0.01,

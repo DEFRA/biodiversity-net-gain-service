@@ -3,7 +3,7 @@ import constants from '../../utils/constants.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, {
-      individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+      individualOrOrganisation: request.yar.get(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     })
   },
   post: async (request, h) => {
@@ -19,16 +19,16 @@ const handlers = {
     }
 
     // Force replay of full journey if switching between individual and organisation client types
-    if (request.yar.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION) !== individualOrOrganisation) {
-      request.yar.clear(constants.redisKeys.REFERER)
+    if (request.yar.get(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION) !== individualOrOrganisation) {
+      request.yar.clear(constants.cacheKeys.REFERER)
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, individualOrOrganisation)
+    request.yar.set(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, individualOrOrganisation)
 
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CLIENTS_NAME)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_CLIENTS_NAME)
     } else {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME)
     }
   }
 }

@@ -11,7 +11,7 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 const legalAgreementId = '#legalAgreement'
 
 const processSuccessfulUpload = (result, request, h) => {
-  const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
+  const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES) ?? []
   const location = result.config.blobConfig.blobName
   let id = legalAgreementFiles.find(file => file.location === location)?.id
   if (!id) {
@@ -25,7 +25,7 @@ const processSuccessfulUpload = (result, request, h) => {
   }
   request.logger.info(`${new Date().toUTCString()} Received legal agreement data for ${location.substring(location.lastIndexOf('/') + 1)}`)
   if (legalAgreementFiles.length > 0) {
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
   return h.redirect(`${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`)
 }
@@ -92,7 +92,7 @@ const handlers = {
     }, {
       inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
     })
-    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
       legalAgreementType
     })
@@ -104,7 +104,7 @@ const handlers = {
       fileExt: constants.legalAgreementFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     try {
       const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
@@ -134,7 +134,7 @@ export default [{
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
-        const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+        const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h, legalAgreementType).takeover()
         } else {

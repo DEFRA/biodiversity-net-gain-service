@@ -15,9 +15,9 @@ const handlers = {
   post: async (request, h) => {
     const legalAgreementType = request.payload.legalAgreementType
     if (legalAgreementType) {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
       if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+        return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
       } else {
         return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
       }
@@ -35,7 +35,7 @@ const handlers = {
 
 const getContext = request => {
   return {
-    documentType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+    documentType: request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
     types: constants.LEGAL_AGREEMENT_DOCUMENTS
   }
 }

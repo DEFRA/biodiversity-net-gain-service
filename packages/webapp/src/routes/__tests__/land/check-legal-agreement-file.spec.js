@@ -7,7 +7,7 @@ jest.mock('../../../utils/azure-storage.js')
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let legalAgreementFileCheck
 
@@ -22,8 +22,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-qwww.doc',
         fileSize: 0.01,
@@ -57,7 +57,7 @@ describe(url, () => {
     })
     it('should show correct legal Agreement file to be check', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -69,9 +69,9 @@ describe(url, () => {
       )
     })
     it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES if all files removed', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [])
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
       await legalAgreementFileCheck.default[0].handler(request, h)
@@ -83,7 +83,7 @@ describe(url, () => {
     let request
     beforeEach(() => {
       request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { checkLegalAgreement: 'yes' },
         query: { id: '1' }
       }

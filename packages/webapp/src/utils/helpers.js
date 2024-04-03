@@ -130,7 +130,7 @@ const listArray = array => {
 }
 
 const getRegistrationTasks = request => {
-  const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
+  const registrationTasks = request.yar.get(constants.cacheKeys.REGISTRATION_TASK_DETAILS)
   if (!registrationTasks) {
     return JSON.parse(JSON.stringify(registerTaskList))
   }
@@ -138,7 +138,7 @@ const getRegistrationTasks = request => {
 }
 
 const getDeveloperTasks = request => {
-  const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
+  const developersTasks = request.yar.get(constants.cacheKeys.DEVELOPER_TASK_DETAILS)
   if (!developersTasks) {
     return JSON.parse(JSON.stringify(developerTaskList))
   }
@@ -171,7 +171,7 @@ const processRegistrationTask = (request, taskDetails, options) => {
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
-  request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
+  request.yar.set(constants.cacheKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
 }
 
 const processDeveloperTask = (request, taskDetails, options) => {
@@ -186,7 +186,7 @@ const processDeveloperTask = (request, taskDetails, options) => {
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
-  request.yar.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
+  request.yar.set(constants.cacheKeys.DEVELOPER_TASK_DETAILS, developerTasks)
 }
 const initialCapitalization = text => text[0].toUpperCase() + text.slice(1)
 
@@ -268,12 +268,12 @@ const validateEmail = (emailAddress, ID) => {
 }
 
 const getAllLandowners = session => {
-  const landowners = JSON.parse(JSON.stringify(session.get(constants.redisKeys.LANDOWNERS))) || []
-  if (session.get(constants.redisKeys.ROLE_KEY) === 'Landowner') {
+  const landowners = JSON.parse(JSON.stringify(session.get(constants.cacheKeys.LANDOWNERS))) || []
+  if (session.get(constants.cacheKeys.ROLE_KEY) === 'Landowner') {
     if (landowners.length === 0) {
-      landowners.push(session.get(constants.redisKeys.FULL_NAME))
+      landowners.push(session.get(constants.cacheKeys.FULL_NAME))
     } else {
-      landowners.unshift(session.get(constants.redisKeys.FULL_NAME))
+      landowners.unshift(session.get(constants.cacheKeys.FULL_NAME))
     }
   }
   return landowners
@@ -302,18 +302,18 @@ const getEligibilityResults = session => {
     no: [],
     'not sure': []
   }
-  session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BOUNDARY)].push(constants.redisKeys.ELIGIBILITY_BOUNDARY)
-  session.get(constants.redisKeys.ELIGIBILITY_CONSENT) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_CONSENT)].push(constants.redisKeys.ELIGIBILITY_CONSENT)
-  session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)].push(constants.redisKeys.ELIGIBILITY_OWNERSHIP_PROOF)
-  session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)].push(constants.redisKeys.ELIGIBILITY_BIODIVERSITY_METRIC)
-  session.get(constants.redisKeys.ELIGIBILITY_HMMP) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_HMMP)].push(constants.redisKeys.ELIGIBILITY_HMMP)
-  session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
-    eligibilityResults[session.get(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.redisKeys.ELIGIBILITY_LEGAL_AGREEMENT)
+  session.get(constants.cacheKeys.ELIGIBILITY_BOUNDARY) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_BOUNDARY)].push(constants.cacheKeys.ELIGIBILITY_BOUNDARY)
+  session.get(constants.cacheKeys.ELIGIBILITY_CONSENT) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_CONSENT)].push(constants.cacheKeys.ELIGIBILITY_CONSENT)
+  session.get(constants.cacheKeys.ELIGIBILITY_OWNERSHIP_PROOF) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_OWNERSHIP_PROOF)].push(constants.cacheKeys.ELIGIBILITY_OWNERSHIP_PROOF)
+  session.get(constants.cacheKeys.ELIGIBILITY_BIODIVERSITY_METRIC) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_BIODIVERSITY_METRIC)].push(constants.cacheKeys.ELIGIBILITY_BIODIVERSITY_METRIC)
+  session.get(constants.cacheKeys.ELIGIBILITY_HMMP) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_HMMP)].push(constants.cacheKeys.ELIGIBILITY_HMMP)
+  session.get(constants.cacheKeys.ELIGIBILITY_LEGAL_AGREEMENT) &&
+    eligibilityResults[session.get(constants.cacheKeys.ELIGIBILITY_LEGAL_AGREEMENT)].push(constants.cacheKeys.ELIGIBILITY_LEGAL_AGREEMENT)
   return eligibilityResults
 }
 
@@ -634,8 +634,8 @@ const checkDeveloperDetails = (request, h) => {
 }
 
 const areDeveloperDetailsPresent = session => (
-  session.get(constants.redisKeys.DEVELOPER_FULL_NAME) &&
-  session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
+  session.get(constants.cacheKeys.DEVELOPER_FULL_NAME) &&
+  session.get(constants.cacheKeys.DEVELOPER_EMAIL_VALUE)
 )
 
 const buildFullName = (item) => {
@@ -730,9 +730,9 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
   if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+    return h.redirect(yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(yar.get(constants.cacheKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 const getFileHeaderPrefix = (fileNames) => {
@@ -741,11 +741,11 @@ const getFileHeaderPrefix = (fileNames) => {
 }
 
 const redirectDeveloperClient = (h, yar) => {
-  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  const clientIsLandownerOrLeaseholder = yar.get(constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
   if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+    return h.redirect(yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
   }
 }
 

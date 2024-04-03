@@ -21,11 +21,11 @@ const handlers = {
     })
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let organisation = {
       organisationName: ''
     }
-    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    const landownerOrganisations = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
       organisation = landownerOrganisations[id]
     }
@@ -39,9 +39,9 @@ const handlers = {
     organisation.type = constants.individualOrOrganisationTypes.ORGANISATION
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let errors = {}
-    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
+    const landownerOrganisations = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
     const excludeIndex = id !== undefined ? parseInt(id, 10) : null
 
     errors = validateOrganisation(organisation)
@@ -72,8 +72,8 @@ const handlers = {
     } else {
       landownerOrganisations.push(organisation)
     }
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
   }
 }
 

@@ -23,7 +23,7 @@ describe(url, () => {
 
     it('should render the view with previous values if in cache', async () => {
       const sessionData = {}
-      sessionData[creditsEstimationConstants.redisKeys.ESTIMATOR_CREDITS_CALCULATION] = mockCostCalculation
+      sessionData[creditsEstimationConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION] = mockCostCalculation
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).toContain('2.3')
       expect(res.payload).toContain('0.4')

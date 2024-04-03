@@ -11,8 +11,8 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
-      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+    return request.yar.get(constants.cacheKeys.APPLICATION_REFERENCE) !== undefined &&
+      request.yar.get(constants.cacheKeys.APPLICATION_REFERENCE) !== null
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
       })
@@ -28,7 +28,7 @@ const handlers = {
     delete value.developerAllocation.confirmOffsiteGainDetails
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
+    request.yar.set(constants.cacheKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
