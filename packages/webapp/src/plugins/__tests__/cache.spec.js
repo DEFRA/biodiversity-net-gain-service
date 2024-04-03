@@ -1,5 +1,3 @@
-import { CACHE_MAX_BYTE_SIZE } from '../../utils/config.js'
-
 describe('cache', () => {
   let cache
   beforeEach(() => {
