@@ -7,21 +7,21 @@ describe('cache', () => {
     cache = await import('../cache.js')
     expect(cache.default[0].name).toEqual('memory_cache')
   })
-  it('it has default maxByteSize of 104857600 if maxByteSize is undefined', async () => {
+  it('it has undefined maxByteSize if maxByteSize env var is undefined', async () => {
     cache = await import('../cache.js')
     expect(cache.default[0].name).toEqual('memory_cache')
-    expect(cache.default[0].provider.options.maxByteSize).toEqual(104857600)
+    expect(cache.default[0].provider.options.maxByteSize).toEqual(undefined)
   })
-  it('it has default minCleanupIntervalMsec of 1000 if minCleanupIntervalMsec is undefined', async () => {
+  it('it has undefined minCleanupIntervalMsec if minCleanupIntervalMsec env var is undefined', async () => {
     process.env.REDIS_TLS = 'false'
     cache = await import('../cache.js')
     expect(cache.default[0].name).toEqual('memory_cache')
-    expect(cache.default[0].provider.options.minCleanupIntervalMsec).toEqual(1000)
+    expect(cache.default[0].provider.options.minCleanupIntervalMsec).toEqual(undefined)
   })
-  it('it has default cloneBuffersOnGet of false if cloneBuffersOnGet is undefined', async () => {
+  it('it has undefined cloneBuffersOnGet if cloneBuffersOnGet env var is undefined', async () => {
     cache = await import('../cache.js')
     expect(cache.default[0].name).toEqual('memory_cache')
-    expect(cache.default[0].provider.options.cloneBuffersOnGet).toEqual(false)
+    expect(cache.default[0].provider.options.cloneBuffersOnGet).toEqual(undefined)
   })
   it('it has maxByteSize set by CACHE_MAX_BYTE_SIZE', async () => {
     const byteSize = 2000
