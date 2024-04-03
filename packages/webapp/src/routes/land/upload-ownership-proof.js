@@ -128,7 +128,8 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.UPLOAD_LAND_OWNERSHIP).takeover()
+          return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_OWNERSHIP)
+            .takeover()
         } else {
           throw err
         }

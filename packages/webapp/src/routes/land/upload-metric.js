@@ -2,7 +2,8 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
+import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
 import { MalwareDetectedError, ThreatScreeningError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
@@ -52,7 +53,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
+      return maximumFileSizeExceeded(h, UPLOAD_METRIC_ID, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_METRIC, {
@@ -128,7 +129,8 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h).takeover()
+          return maximumFileSizeExceeded(h, UPLOAD_METRIC_ID, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
+            .takeover()
         } else {
           throw err
         }
@@ -137,12 +139,3 @@ export default [{
   }
 }
 ]
-
-const maximumFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: UPLOAD_METRIC_ID,
-    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view: constants.views.UPLOAD_METRIC
-  })
-}
