@@ -1,7 +1,8 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -33,7 +34,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumSizeExceeded(h)
+      return maximumFileSizeExceeded(h, WRITTEN_AUTHORISATION_ID, constants.views.UPLOAD_WRITTEN_AUTHORISATION).takeover()
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
@@ -65,15 +66,6 @@ const processErrorUpload = (err, h) => {
         })
       }
   }
-}
-
-const maximumSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: WRITTEN_AUTHORISATION_ID,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.UPLOAD_WRITTEN_AUTHORISATION
-  })
 }
 
 const handlers = {
@@ -132,7 +124,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumSizeExceeded(h).takeover()
+          return maximumFileSizeExceeded(h, WRITTEN_AUTHORISATION_ID, constants.views.UPLOAD_WRITTEN_AUTHORISATION).takeover()
         } else {
           throw err
         }

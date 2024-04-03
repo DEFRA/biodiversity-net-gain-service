@@ -2,7 +2,8 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { processRegistrationTask, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
@@ -55,7 +56,7 @@ function processErrorUpload (err, h) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h)
+      return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, constants.views.UPLOAD_LAND_BOUNDARY).takeover()
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
@@ -130,7 +131,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h).takeover()
+          return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, constants.views.UPLOAD_LAND_BOUNDARY).takeover()
         } else {
           throw err
         }
@@ -139,12 +140,3 @@ export default [{
   }
 }
 ]
-
-const maximumFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: LAND_BOUNDARY_ID,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.UPLOAD_LAND_BOUNDARY
-  })
-}
