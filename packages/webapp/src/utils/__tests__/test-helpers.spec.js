@@ -3,6 +3,7 @@ import {
   boolToYesNo,
   dateToString,
   hideClass,
+  getFileHeaderPrefix,
   getAllLandowners,
   getHumanReadableFileSize,
   emailValidator,
@@ -429,6 +430,41 @@ describe('processRegistrationTask', () => {
 })
 
 describe('validateDate', () => {
+  it('should return numeric error when day is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': 'aa',
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a day that is a number')
+  })
+
+  it('should return numeric error when month is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': 'aa',
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a month that is a number')
+  })
+
+  it('should return numeric error when year is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': 'abcd'
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a year that is a number')
+  })
   it('should return date error when day is not included', () => {
     const result = validateDate(
       {
@@ -468,7 +504,17 @@ describe('validateDate', () => {
     expect(result.context.err[0].text).toBe('Start date must include a month')
   })
 })
+describe('getLandownershipProofFileText', () => {
+  it('should return "files" for multiple file names ', () => {
+    const fileNames = ['proof1.pdf', 'proof2.pdf']
+    expect(getFileHeaderPrefix(fileNames)).toEqual('files')
+  })
 
+  it('should return "file" for a single file name', () => {
+    const singleFileName = ['proof1.pdf']
+    expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
+  })
+})
 describe('validateAddress', () => {
   it('should add addressLine1Error when length of chars is above 50', () => {
     const result = validateAddress({
