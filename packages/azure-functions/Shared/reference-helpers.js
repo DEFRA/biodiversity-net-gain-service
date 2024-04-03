@@ -10,7 +10,7 @@ const randomReferenceString = (length) => {
   return result
 }
 
-const retry = async (query, options, retries = 5) => {
+const retryDbOperation = async (query, options, retries = 5) => {
   for (let i = 1; i <= retries; i++) {
     try {
       return await query(...options)
@@ -24,5 +24,5 @@ const retry = async (query, options, retries = 5) => {
 
 export {
   randomReferenceString,
-  retry
+  retryDbOperation
 }

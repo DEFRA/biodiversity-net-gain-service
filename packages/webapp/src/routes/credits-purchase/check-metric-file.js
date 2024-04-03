@@ -7,7 +7,10 @@ const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, context)
+    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, {
+      ...context,
+      backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC
+    })
   },
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
@@ -23,6 +26,7 @@ const handlers = {
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
       ...getContext(request),
+      backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
       err: [
         {
           text: 'Select yes if this is the statutory biodiversity metric file your local planning authority reviewed with your biodiversity net gain statement',

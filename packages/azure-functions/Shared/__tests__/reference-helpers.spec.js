@@ -1,4 +1,4 @@
-import { randomReferenceString, retry } from '../reference-helpers.js'
+import { randomReferenceString, retryDbOperation } from '../reference-helpers.js'
 
 describe('randomReferenceString', () => {
   test('returns a string of specified length', () => {
@@ -26,7 +26,7 @@ describe('retry', () => {
     const mockResult = 'success'
     mockQuery.mockResolvedValue(mockResult)
     const options = ['param1', 'param2']
-    const result = await retry(mockQuery, options)
+    const result = await retryDbOperation(mockQuery, options)
     expect(mockQuery).toHaveBeenCalledTimes(1)
     expect(mockQuery).toHaveBeenCalledWith(...options)
     expect(result).toBe(mockResult)
@@ -36,7 +36,7 @@ describe('retry', () => {
     const mockError = new Error('Query failed')
     mockQuery.mockRejectedValue(mockError)
     const options = ['param1', 'param2']
-    await expect(retry(mockQuery, options)).rejects.toThrow(mockError)
+    await expect(retryDbOperation(mockQuery, options)).rejects.toThrow(mockError)
     expect(mockQuery).toHaveBeenCalledTimes(5)
     expect(mockQuery).toHaveBeenNthCalledWith(5, ...options)
   })
@@ -47,7 +47,7 @@ describe('retry', () => {
     mockQuery.mockRejectedValueOnce(new Error('Attempt 2 failed'))
     mockQuery.mockResolvedValueOnce(mockResult)
     const options = ['param1', 'param2']
-    const result = await retry(mockQuery, options, 3)
+    const result = await retryDbOperation(mockQuery, options, 3)
     expect(mockQuery).toHaveBeenCalledTimes(3)
     expect(result).toBe(mockResult)
   })

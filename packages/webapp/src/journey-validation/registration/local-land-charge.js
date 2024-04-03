@@ -1,9 +1,9 @@
-import constants from '../utils/constants.js'
+import constants from '../../utils/constants.js'
 import {
   ANY,
   routeDefinition,
   journeyStep
-} from './utils.js'
+} from '../utils.js'
 
 const UPLOAD_LOCAL_LAND_CHARGE = routeDefinition(
   constants.routes.UPLOAD_LOCAL_LAND_CHARGE,

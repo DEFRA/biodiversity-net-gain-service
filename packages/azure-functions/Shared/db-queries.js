@@ -1,4 +1,4 @@
-import { retry, randomReferenceString } from './reference-helpers.js'
+import { retryDbOperation, randomReferenceString } from './reference-helpers.js'
 
 const applicationStatuses = Object.freeze({
   inProgress: 'IN PROGRESS',
@@ -146,7 +146,7 @@ const createUniqueApplicationReference = (prefix, db, values) => {
   return db.query(insertApplicationReferenceStatement, [...[referenceString], ...values])
 }
 
-const createApplicationReference = (db, values) => retry(createUniqueApplicationReference, [registrationAppPrefix, db, values])
+const createApplicationReference = (db, values) => retryDbOperation(createUniqueApplicationReference, [registrationAppPrefix, db, values])
 
 const saveApplicationSession = (db, values) => db.query(insertApplicationSessionStatement, values)
 
@@ -172,7 +172,7 @@ const insertApplicationStatus = (db, values) => db.query(insertApplicationStatus
 
 const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
-const createCreditsAppReference = (db, values) => retry(createUniqueApplicationReference, [creditsAppPrefix, db, values])
+const createCreditsAppReference = (db, values) => retryDbOperation(createUniqueApplicationReference, [creditsAppPrefix, db, values])
 
 export {
   createApplicationReference,
