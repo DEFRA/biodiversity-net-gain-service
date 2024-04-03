@@ -46,7 +46,12 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.UPLOAD_LAND_OWNERSHIP)
+      return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
+        err: [{
+          text: `The selected file must be less than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
+          href: LAND_OWNERSHIP_ID
+        }]
+      })
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
         err: [{
@@ -128,7 +133,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_OWNERSHIP)
+          return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_OWNERSHIP)
             .takeover()
         } else {
           throw err
