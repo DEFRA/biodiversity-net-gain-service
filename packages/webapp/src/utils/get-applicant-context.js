@@ -49,12 +49,12 @@ const getApplicantSpecificGuidance = organisation => {
 
 const isApplicantAnAgent = session => {
   const applicationType = session.get(constants.cacheKeys.APPLICATION_TYPE)
-  const redisKey =
+  const memoryKey =
     applicationType === constants.applicantTypes.REGISTRATION
       ? constants.cacheKeys.IS_AGENT
       : constants.cacheKeys.DEVELOPER_IS_AGENT
 
-  const isAgent = session.get(redisKey)
+  const isAgent = session.get(memoryKey)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
 }
 

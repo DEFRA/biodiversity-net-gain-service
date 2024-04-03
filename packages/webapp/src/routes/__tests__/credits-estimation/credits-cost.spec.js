@@ -16,14 +16,14 @@ const calculationResult = {
   total: 52800
 }
 
-const redisCalculation = {
+const cacheCalculation = {
   [creditsConstants.cacheKeys.ESTIMATOR_CREDITS_CALCULATION]: calculationResult
 }
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${creditsConstants.views.ESTIMATOR_CREDITS_COST} view with correct content`, async () => {
-      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      const res = await submitGetRequest({ url }, 200, cacheCalculation)
       expect(res.result).toContain(
         calculationResult.total.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
       )
@@ -35,7 +35,7 @@ describe(url, () => {
     })
 
     it(`should render header link with href set to ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
-      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      const res = await submitGetRequest({ url }, 200, cacheCalculation)
       const escapeHref = creditsConstants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
       const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Estimate the cost of statutory biodiversity credits\\s+</a>`)
       expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(

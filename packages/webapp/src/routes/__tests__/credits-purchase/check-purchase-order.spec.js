@@ -1,10 +1,10 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import credisPurchaseOrder from '../../credits-purchase/check-purchase-order.js'
+import creditsPurchaseOrder from '../../credits-purchase/check-purchase-order.js'
 import Session from '../../../__mocks__/session.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER
-const postHandler = credisPurchaseOrder[1].handler
+const postHandler = creditsPurchaseOrder[1].handler
 
 describe(url, () => {
   describe('GET', () => {

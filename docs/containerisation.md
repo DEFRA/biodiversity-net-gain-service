@@ -22,8 +22,6 @@ to include the following entries:
 127.0.0.1       geoserver
 127.0.0.1       pgadmin
 127.0.0.1       postgis
-127.0.0.1       redis
-127.0.0.1       redis_commander
 ```
 
 ### Secrets
@@ -53,10 +51,6 @@ Note that this secrets template is prepopulated with variables necessary for loc
 
 ```bash
 export SERVER_PORT=3000
-export REDIS_HOST=redis
-export REDIS_PORT=6379
-export REDIS_PASSWORD=
-export REDIS_TLS=false
 export SESSION_COOKIE_PASSWORD=the-password-must-be-at-least-32-characters-long
 export AZURE_STORAGE_ACCOUNT=devstoreaccount1
 export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
@@ -163,10 +157,6 @@ docker rm {container id or container name}
 Alternaively, see the docker related NPM scripts in [package.json](../package.json) for additional stop commands includng `npm run docker:stop` to stop all containers
 
 ## Cloud Service Containers
-
-### Redis
-
-A [Redis container](https://hub.docker.com/_/redis/) provides a substitute for [Azure Cache For Redis](https://azure.microsoft.com/en-gb/services/cache/). A [Redis Commander container](https://hub.docker.com/r/rediscommander/redis-commander/#!) provides a Graphical User Interface for the Redis container.
 
 ### Postgres
 
