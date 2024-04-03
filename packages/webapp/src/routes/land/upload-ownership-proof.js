@@ -1,7 +1,8 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { generateUniqueId, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import path from 'path'
 
@@ -45,7 +46,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumOwnershipProofFileSizeExceeded(h)
+      return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.UPLOAD_LAND_OWNERSHIP)
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
         err: [{
@@ -127,7 +128,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumOwnershipProofFileSizeExceeded(h).takeover()
+          return maximumFileSizeExceeded(h, LAND_OWNERSHIP_ID, constants.views.UPLOAD_LAND_OWNERSHIP).takeover()
         } else {
           throw err
         }
@@ -136,12 +137,3 @@ export default [{
   }
 }
 ]
-
-const maximumOwnershipProofFileSizeExceeded = h => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: LAND_OWNERSHIP_ID,
-    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-    view: constants.views.UPLOAD_LAND_OWNERSHIP
-  })
-}
