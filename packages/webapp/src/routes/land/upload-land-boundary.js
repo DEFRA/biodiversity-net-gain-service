@@ -56,12 +56,7 @@ function processErrorUpload (err, h) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: `The selected file must be less than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-          href: LAND_BOUNDARY_ID
-        }]
-      })
+      return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
