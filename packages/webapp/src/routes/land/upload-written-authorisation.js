@@ -34,12 +34,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-        err: [{
-          text: `The selected file must be less than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-          href: WRITTEN_AUTHORISATION_ID
-        }]
-      })
+      return maximumFileSizeExceeded(h, WRITTEN_AUTHORISATION_ID, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
