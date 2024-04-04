@@ -58,7 +58,7 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, { legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
+      return maximumFileSizeExceeded(h, { fileId: legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
@@ -137,7 +137,7 @@ export default [{
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, { legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
+          return maximumFileSizeExceeded(h, { fileId: legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
             .takeover()
         } else {
           throw err
