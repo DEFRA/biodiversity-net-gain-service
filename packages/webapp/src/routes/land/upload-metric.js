@@ -53,12 +53,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: `The selected file must be less than ${process.env.MAX_METRIC_UPLOAD_MB}MB`,
-          href: UPLOAD_METRIC_ID
-        }]
-      })
+      return maximumFileSizeExceeded(h, UPLOAD_METRIC_ID, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_METRIC, {
