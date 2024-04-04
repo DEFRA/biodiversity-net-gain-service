@@ -53,7 +53,7 @@ const processErrorUpload = (err, h) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, UPLOAD_METRIC_ID, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
+      return maximumFileSizeExceeded(h, { fileId: UPLOAD_METRIC_ID }, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_METRIC, {
@@ -129,7 +129,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, UPLOAD_METRIC_ID, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
+          return maximumFileSizeExceeded(h, { fileId: UPLOAD_METRIC_ID }, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
             .takeover()
         } else {
           throw err

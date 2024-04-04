@@ -1,6 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
+import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
@@ -57,7 +58,7 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, legalAgreementType)
+      return maximumFileSizeExceeded(h, { legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
@@ -136,7 +137,8 @@ export default [{
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, legalAgreementType).takeover()
+          return maximumFileSizeExceeded(h, { legalAgreementType }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB)
+            .takeover()
         } else {
           throw err
         }
@@ -145,15 +147,3 @@ export default [{
   }
 }
 ]
-
-const maximumFileSizeExceeded = (h, legalAgreementType) => {
-  return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
-    legalAgreementType,
-    err: [
-      {
-        text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-        href: legalAgreementId
-      }
-    ]
-  })
-}

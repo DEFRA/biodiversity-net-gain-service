@@ -56,7 +56,7 @@ function processErrorUpload (err, h) {
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
+      return maximumFileSizeExceeded(h, { fileId: LAND_BOUNDARY_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
     default:
       if (err instanceof ThreatScreeningError) {
         return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
@@ -131,7 +131,7 @@ export default [{
       failAction: (request, h, err) => {
         request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, LAND_BOUNDARY_ID, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
+          return maximumFileSizeExceeded(h, { fileId: LAND_BOUNDARY_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
             .takeover()
         } else {
           throw err
