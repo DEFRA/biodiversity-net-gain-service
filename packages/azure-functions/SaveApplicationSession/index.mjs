@@ -1,6 +1,8 @@
 import {
   createApplicationReference,
   createCreditsAppReference,
+  getProjectNameByApplicationReference,
+  updateProjectName,
   saveApplicationSession
 } from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
@@ -46,7 +48,6 @@ export default async function (context, req) {
       if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
         createApplicationRefFunction = createCreditsAppReference
       }
-
       const result = await createApplicationRefFunction(db, [
         applicationSession[redisKeys.contactId],
         applicationSession[redisKeys.applicationType],
@@ -59,7 +60,12 @@ export default async function (context, req) {
 
       context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
-
+    const applicationReferenceResult = await getProjectNameByApplicationReference(db, [applicationSession[redisKeys.applicationReference]])
+    const projectName = applicationReferenceResult.rows[0]?.project_name
+    const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
+    if ((sessionProjectName || projectName) && sessionProjectName !== projectName) {
+      await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
+    }
     // Save the applicationSession to database
     const savedApplicationSessionResult =
       await saveApplicationSession(db, [

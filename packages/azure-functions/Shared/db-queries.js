@@ -54,6 +54,7 @@ const getApplicationCountByContactIdAndOrganisationIdStatement = `
 const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement = `
   (SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.received}' AS application_status
   FROM
@@ -67,6 +68,7 @@ const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatem
   UNION
   SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.inProgress}' AS application_status
   FROM
@@ -124,6 +126,22 @@ const getApplicationStatusStatement = `
     date_modified DESC
   LIMIT 1;
 `
+const getProjectNameByApplicationReferenceStatement = `
+  SELECT
+    project_name
+  FROM
+    bng.application_reference
+  WHERE
+    application_reference = $1;  -- $1 
+`
+const updateProjectNameStatement = `
+  UPDATE
+    bng.application_reference
+  SET
+    project_name = $2  
+  WHERE
+    application_reference = $1;  
+`
 
 const createApplicationReference = (db, values) => db.query('SELECT bng.fn_create_application_reference($1, $2, $3);', values)
 
@@ -151,6 +169,10 @@ const insertApplicationStatus = (db, values) => db.query(insertApplicationStatus
 
 const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
+const updateProjectName = (db, values) => db.query(updateProjectNameStatement, values)
+
+const getProjectNameByApplicationReference = (db, values) => db.query(getProjectNameByApplicationReferenceStatement, values)
+
 const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3);', values)
 
 export {
@@ -161,6 +183,7 @@ export {
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
   getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
+  getProjectNameByApplicationReference,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,
@@ -168,5 +191,6 @@ export {
   insertApplicationStatus,
   getApplicationStatus,
   applicationStatuses,
+  updateProjectName,
   createCreditsAppReference
 }
