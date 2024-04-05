@@ -1,12 +1,12 @@
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const LAND_BOUNDARY_ID = '#landBoundary'
+const landBoundaryId = '#landBoundary'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LAND_BOUNDARY_LOCATION, true))
@@ -32,53 +32,32 @@ async function processSuccessfulUpload (result, request, h) {
   return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
 }
 
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
+    err: [{
+      text: message,
+      href: landBoundaryId
+    }]
+  })
+}
+
 function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: 'The selected file is empty',
-          href: LAND_BOUNDARY_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: 'Select a file showing the land boundary',
-          href: LAND_BOUNDARY_ID
-        }]
-      })
+      return buildErrorResponse(h, 'Select a file showing the land boundary')
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-        err: [{
-          text: 'The selected file must be a DOC, DOCX, JPG, PNG or PDF',
-          href: LAND_BOUNDARY_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX, JPG, PNG or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, { fileId: LAND_BOUNDARY_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
+      return maximumFileSizeExceeded(h, { fileId: landBoundaryId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-          err: [{
-            text: constants.uploadErrors.malwareScanFailed,
-            href: LAND_BOUNDARY_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-          err: [{
-            text: constants.uploadErrors.threatDetected,
-            href: LAND_BOUNDARY_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
       } else {
-        return h.view(constants.views.UPLOAD_LAND_BOUNDARY, {
-          err: [{
-            text: constants.uploadErrors.uploadFailure,
-            href: LAND_BOUNDARY_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
 }
@@ -120,24 +99,6 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LAND_BOUNDARY,
   handler: handlers.post,
-  options: {
-    payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024) + 250,
-      multipart: true,
-      timeout: false,
-      output: 'stream',
-      parse: false,
-      allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
-        if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, { fileId: LAND_BOUNDARY_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
-            .takeover()
-        } else {
-          throw err
-        }
-      }
-    }
-  }
+  options: generatePayloadOptions({ fileId: landBoundaryId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_BOUNDARY)
 }
 ]

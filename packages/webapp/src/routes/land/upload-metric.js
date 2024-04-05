@@ -2,15 +2,15 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
 import { MalwareDetectedError, ThreatScreeningError } from '@defra/bng-errors-lib'
 
-const UPLOAD_METRIC_ID = '#uploadMetric'
+const uploadMetricId = '#uploadMetric'
 
-const processSuccessfulUpload = async (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, uploadMetricId, true)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -22,60 +22,34 @@ const processSuccessfulUpload = async (result, request, h) => {
   return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
 }
 
-const processErrorUpload = (err, h) => {
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.UPLOAD_METRIC, {
+    err: [{
+      text: message,
+      href: uploadMetricId
+    }]
+  })
+}
+
+function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.notValidMetric:
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file is not a valid Metric',
-          href: UPLOAD_METRIC_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is not a valid Metric')
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file is empty',
-          href: UPLOAD_METRIC_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: 'Select a statutory biodiversity metric',
-          href: UPLOAD_METRIC_ID
-        }]
-      })
+      return buildErrorResponse(h, 'Select a statutory biodiversity metric')
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.UPLOAD_METRIC, {
-        err: [{
-          text: 'The selected file must be an XLSM or XLSX',
-          href: UPLOAD_METRIC_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file must be an XLSM or XLSX')
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, { fileId: UPLOAD_METRIC_ID }, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
+      return maximumFileSizeExceeded(h, uploadMetricId, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.UPLOAD_METRIC, {
-          err: [{
-            text: constants.uploadErrors.malwareScanFailed,
-            href: UPLOAD_METRIC_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.UPLOAD_METRIC, {
-          err: [{
-            text: constants.uploadErrors.threatDetected,
-            href: UPLOAD_METRIC_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
       } else {
-        return h.view(constants.views.UPLOAD_METRIC, {
-          err: [{
-            text: constants.uploadErrors.uploadFailure,
-            href: UPLOAD_METRIC_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
 }
@@ -117,25 +91,7 @@ export default [{
 {
   method: 'POST',
   path: constants.routes.UPLOAD_METRIC,
-  config: {
-    handler: handlers.post,
-    payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
-      output: 'stream',
-      timeout: false,
-      parse: false,
-      multipart: true,
-      allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
-        if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, { fileId: UPLOAD_METRIC_ID }, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
-            .takeover()
-        } else {
-          throw err
-        }
-      }
-    }
-  }
+  handler: handlers.post,
+  options: generatePayloadOptions(uploadMetricId, process.env.MAX_METRIC_UPLOAD_MB, constants.views.UPLOAD_METRIC)
 }
 ]

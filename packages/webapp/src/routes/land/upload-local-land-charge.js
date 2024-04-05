@@ -34,7 +34,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+      return maximumFileSizeExceeded(h, { fileId: localLandChargeId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
     default:
       if (err instanceof ThreatScreeningError) {
         return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
@@ -84,6 +84,6 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   handler: handlers.post,
-  options: generatePayloadOptions(localLandChargeId, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+  options: generatePayloadOptions({ fileId: localLandChargeId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
 }
 ]

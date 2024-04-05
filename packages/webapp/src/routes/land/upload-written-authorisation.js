@@ -1,14 +1,14 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { maximumFileSizeExceeded } from '../../utils/upload-helpers.js'
+import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
 import { processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
+const writtenAuthorisationId = '#writtenAuthorisation'
 
-const processSuccessfulUpload = async (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, true))
   request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
@@ -17,53 +17,32 @@ const processSuccessfulUpload = async (result, request, h) => {
   return h.redirect(constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE)
 }
 
-const processErrorUpload = (err, h) => {
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
+    err: [{
+      text: message,
+      href: writtenAuthorisationId
+    }]
+  })
+}
+
+function processErrorUpload (err, h) {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-        err: [{
-          text: 'The selected file is empty',
-          href: WRITTEN_AUTHORISATION_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-        err: [{
-          text: 'Select the written authorisation file',
-          href: WRITTEN_AUTHORISATION_ID
-        }]
-      })
-    case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, { fileId: WRITTEN_AUTHORISATION_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
+      return buildErrorResponse(h, 'Select the written authorisation file')
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-        err: [{
-          text: 'The selected file must be a DOC, DOCX or PDF',
-          href: WRITTEN_AUTHORISATION_ID
-        }]
-      })
+      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumFileSizeExceeded(h, { fileId: writtenAuthorisationId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-          err: [{
-            text: constants.uploadErrors.malwareScanFailed,
-            href: WRITTEN_AUTHORISATION_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-          err: [{
-            text: constants.uploadErrors.threatDetected,
-            href: WRITTEN_AUTHORISATION_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
       } else {
-        return h.view(constants.views.UPLOAD_WRITTEN_AUTHORISATION, {
-          err: [{
-            text: constants.uploadErrors.uploadFailure,
-            href: WRITTEN_AUTHORISATION_ID
-          }]
-        })
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
       }
   }
 }
@@ -113,23 +92,5 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
   handler: handlers.post,
-  options: {
-    payload: {
-      maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
-      multipart: true,
-      timeout: false,
-      output: 'stream',
-      parse: false,
-      allow: 'multipart/form-data',
-      failAction: (request, h, err) => {
-        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
-        if (err.output.statusCode === 413) { // Request entity too large
-          return maximumFileSizeExceeded(h, { fileId: WRITTEN_AUTHORISATION_ID }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
-            .takeover()
-        } else {
-          throw err
-        }
-      }
-    }
-  }
+  options: generatePayloadOptions({ fileId: writtenAuthorisationId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
 }]
