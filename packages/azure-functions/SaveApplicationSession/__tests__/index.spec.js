@@ -46,6 +46,15 @@ describe('Save Application Session', () => {
             ]
           }
         })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
+              }
+            ]
+          }
+        })
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
@@ -82,6 +91,16 @@ describe('Save Application Session', () => {
             ]
           }
         })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
+              }
+            ]
+          }
+        })
+
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
@@ -115,6 +134,15 @@ describe('Save Application Session', () => {
             rows: [
               {
                 application_session_id: applicationSessionId
+              }
+            ]
+          }
+        })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
               }
             ]
           }
@@ -211,6 +239,15 @@ it('Should generate an allocation reference and notification when notifications 
           rows: [
             {
               application_session_id: applicationSessionId
+            }
+          ]
+        }
+      })
+      dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+        return {
+          rows: [
+            {
+              project_name: 'project 1'
             }
           ]
         }

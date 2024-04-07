@@ -76,6 +76,7 @@ const expectedGetExpiringApplicationSessionsStatement = `
 const expectedGetApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement = `
   (SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.received}' AS application_status
   FROM
@@ -89,6 +90,7 @@ const expectedGetApplicationStatusesByContactIdAndOrganisationIdAndApplicationTy
   UNION
   SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.inProgress}' AS application_status
   FROM

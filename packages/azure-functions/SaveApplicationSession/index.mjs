@@ -40,7 +40,7 @@ export default async function (context, req) {
     }
 
     context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
-
+    const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
       let createApplicationRefFunction = createApplicationReference
@@ -51,20 +51,22 @@ export default async function (context, req) {
       const result = await createApplicationRefFunction(db, [
         applicationSession[redisKeys.contactId],
         applicationSession[redisKeys.applicationType],
-        applicationSession[redisKeys.organisationId]
+        applicationSession[redisKeys.organisationId],
+        sessionProjectName
       ])
-
       applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
         ? result.rows[0].fn_create_credits_app_reference
         : result.rows[0].fn_create_application_reference
 
       context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
-    const applicationReferenceResult = await getProjectNameByApplicationReference(db, [applicationSession[redisKeys.applicationReference]])
-    const projectName = applicationReferenceResult.rows[0]?.project_name
-    const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
-    if ((sessionProjectName || projectName) && sessionProjectName !== projectName) {
-      await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
+    if (applicationSession[redisKeys.applicationReference] && applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
+      const applicationReferenceResult = await getProjectNameByApplicationReference(db, [applicationSession[redisKeys.applicationReference]])
+      const projectName = applicationReferenceResult.rows[0]?.project_name
+
+      if ((sessionProjectName || projectName) && sessionProjectName !== projectName) {
+        await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
+      }
     }
     // Save the applicationSession to database
     const savedApplicationSessionResult =
