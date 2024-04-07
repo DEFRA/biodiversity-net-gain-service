@@ -13,7 +13,14 @@ const redisKeys = {
   applicationType: 'application-type',
   organisationId: 'organisation-id'
 }
-
+const setApplicationReference = (applicationType) => {
+  const referenceMap = {
+    registration: 'application-reference',
+    allocation: 'developer-app-reference',
+    creditspurchase: 'credits-purchase-application-reference'
+  }
+  return referenceMap[applicationType.toLowerCase()] || redisKeys.applicationReference
+}
 export default async function (context, req) {
   let db
   try {
@@ -27,18 +34,7 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Ensure the application reference keys stay up to date with webapp constants file.
-    if (applicationSession[redisKeys.applicationType] === 'Registration') {
-      redisKeys.applicationReference = 'application-reference'
-    }
-
-    if (applicationSession[redisKeys.applicationType] === 'Allocation') {
-      redisKeys.applicationReference = 'developer-app-reference'
-    }
-
-    if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
-      redisKeys.applicationReference = 'credits-purchase-application-reference'
-    }
-
+    redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
     context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
     // Generate gain site reference if not already present
