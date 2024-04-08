@@ -173,7 +173,7 @@ const updateProjectName = (db, values) => db.query(updateProjectNameStatement, v
 
 const getProjectNameByApplicationReference = (db, values) => db.query(getProjectNameByApplicationReferenceStatement, values)
 
-const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3 , $4);', values)
+const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3 );', values)
 
 export {
   createApplicationReference,

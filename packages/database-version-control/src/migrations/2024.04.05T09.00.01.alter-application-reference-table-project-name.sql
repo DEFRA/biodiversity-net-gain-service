@@ -1,2 +1,2 @@
 ALTER TABLE bng.application_reference
-ADD project_name VARCHAR(32) DEFAULT NULL;
+ADD project_name text DEFAULT NULL;

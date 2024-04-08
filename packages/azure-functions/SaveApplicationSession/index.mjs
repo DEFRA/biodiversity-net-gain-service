@@ -22,7 +22,7 @@ export default async function (context, req) {
     }
     db = await getDBConnection(context)
     const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
-    const params = prepareParams(applicationSession, isCreditsPurchase)
+    const params = prepareParams(applicationSession)
     const createApplicationRefFunction = isCreditsPurchase ? createCreditsAppReference : createApplicationReference
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
