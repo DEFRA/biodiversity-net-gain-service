@@ -32,24 +32,20 @@ export default async function (context, req) {
     }
 
     db = await getDBConnection(context)
+    const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
     const params = [
       applicationSession[redisKeys.contactId],
       applicationSession[redisKeys.applicationType],
-      applicationSession[redisKeys.organisationId]
+      applicationSession[redisKeys.organisationId],
+      ...(isCreditsPurchase ? [applicationSession['credits-purchase-metric-data']?.startPage?.projectName] : [])
     ]
-
+    const createApplicationRefFunction = isCreditsPurchase ? createCreditsAppReference : createApplicationReference
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
     context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
-      let createApplicationRefFunction = createApplicationReference
-
-      if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
-        createApplicationRefFunction = createCreditsAppReference
-        params.push(sessionProjectName)
-      }
       const result = await createApplicationRefFunction(db, params)
       applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
         ? result.rows[0].fn_create_credits_app_reference
