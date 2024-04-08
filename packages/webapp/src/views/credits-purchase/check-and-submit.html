@@ -3,6 +3,7 @@
 
 {% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Check your answers before you submit your information" %}
+{% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 
 {% set metricRowList = [
   {
@@ -21,6 +22,7 @@
     'valueId': 'metric-development-details-confirmed-value',
     'href': metric.detailsConfirmedUrl,
     'visuallyHiddenText': ' confirm development details',
+    'noAction': true,
     'show': true
   },
   {

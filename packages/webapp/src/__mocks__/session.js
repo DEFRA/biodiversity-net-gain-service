@@ -1,7 +1,7 @@
 // Class to be used to mock the yar session value
 class Session {
   constructor () {
-    this.values = []
+    this.values = {}
   }
 
   get (name) {
@@ -13,11 +13,11 @@ class Session {
   }
 
   reset () {
-    this.values = []
+    this.values = {}
   }
 
   clear (name) {
-    this.values = this.values.filter((_val, key) => key !== name)
+    delete (this.values[name])
   }
 }
 
