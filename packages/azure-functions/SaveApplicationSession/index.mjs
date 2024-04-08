@@ -32,6 +32,11 @@ export default async function (context, req) {
     }
 
     db = await getDBConnection(context)
+    const params = [
+      applicationSession[redisKeys.contactId],
+      applicationSession[redisKeys.applicationType],
+      applicationSession[redisKeys.organisationId]
+    ]
 
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
@@ -43,13 +48,9 @@ export default async function (context, req) {
 
       if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
         createApplicationRefFunction = createCreditsAppReference
+        params.push(sessionProjectName)
       }
-      const result = await createApplicationRefFunction(db, [
-        applicationSession[redisKeys.contactId],
-        applicationSession[redisKeys.applicationType],
-        applicationSession[redisKeys.organisationId],
-        sessionProjectName
-      ])
+      const result = await createApplicationRefFunction(db, params)
       applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
         ? result.rows[0].fn_create_credits_app_reference
         : result.rows[0].fn_create_application_reference
