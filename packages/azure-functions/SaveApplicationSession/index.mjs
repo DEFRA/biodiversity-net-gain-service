@@ -25,12 +25,9 @@ export default async function (context, req) {
   let db
   try {
     const applicationSession = req.body
-    if (!applicationSession[redisKeys.contactId]) {
-      throw new Error('Contact ID missing from request')
-    } else if (!applicationSession[redisKeys.applicationType]) {
-      throw new Error('Application type missing from request')
+    if (!applicationSession[redisKeys.contactId] || !applicationSession[redisKeys.applicationType]) {
+      throw new Error(`Missing required session data: ${!applicationSession[redisKeys.contactId] ? 'Contact ID' : 'Application type'} missing from request`)
     }
-
     db = await getDBConnection(context)
     const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
     const params = [
