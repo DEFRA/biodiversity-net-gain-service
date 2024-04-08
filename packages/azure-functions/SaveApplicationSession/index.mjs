@@ -1,26 +1,18 @@
 import {
   createApplicationReference,
   createCreditsAppReference,
-  getProjectNameByApplicationReference,
-  updateProjectName,
   saveApplicationSession
 } from '../Shared/db-queries.js'
+
+import {
+  redisKeys,
+  setApplicationReference,
+  prepareParams,
+  checkAndUpdateProjectName
+} from '../Shared/application-session-helper.js'
+
 import { getDBConnection } from '@defra/bng-utils-lib'
 
-// Ensure these stay up to date with webapp constants file.
-const redisKeys = {
-  contactId: 'contact-id',
-  applicationType: 'application-type',
-  organisationId: 'organisation-id'
-}
-const setApplicationReference = (applicationType) => {
-  const referenceMap = {
-    registration: 'application-reference',
-    allocation: 'developer-app-reference',
-    creditspurchase: 'credits-purchase-application-reference'
-  }
-  return referenceMap[applicationType.toLowerCase()] || redisKeys.applicationReference
-}
 export default async function (context, req) {
   let db
   try {
@@ -30,12 +22,7 @@ export default async function (context, req) {
     }
     db = await getDBConnection(context)
     const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
-    const params = [
-      applicationSession[redisKeys.contactId],
-      applicationSession[redisKeys.applicationType],
-      applicationSession[redisKeys.organisationId],
-      ...(isCreditsPurchase ? [applicationSession['credits-purchase-metric-data']?.startPage?.projectName] : [])
-    ]
+    const params = prepareParams(applicationSession, isCreditsPurchase)
     const createApplicationRefFunction = isCreditsPurchase ? createCreditsAppReference : createApplicationReference
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
@@ -50,14 +37,8 @@ export default async function (context, req) {
 
       context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
-    if (applicationSession[redisKeys.applicationReference] && applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
-      const applicationReferenceResult = await getProjectNameByApplicationReference(db, [applicationSession[redisKeys.applicationReference]])
-      const projectName = applicationReferenceResult.rows[0]?.project_name
+    await checkAndUpdateProjectName(db, applicationSession, sessionProjectName)
 
-      if ((sessionProjectName || projectName) && sessionProjectName !== projectName) {
-        await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
-      }
-    }
     // Save the applicationSession to database
     const savedApplicationSessionResult =
       await saveApplicationSession(db, [
