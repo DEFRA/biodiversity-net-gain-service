@@ -126,21 +126,10 @@ const getApplicationStatusStatement = `
     date_modified DESC
   LIMIT 1;
 `
-const getProjectNameByApplicationReferenceStatement = `
-  SELECT
-    project_name
-  FROM
-    bng.application_reference
-  WHERE
-    application_reference = $1;  -- $1 
-`
 const updateProjectNameStatement = `
-  UPDATE
-    bng.application_reference
-  SET
-    project_name = $2  
-  WHERE
-    application_reference = $1;  
+  UPDATE bng.application_reference
+  SET project_name = $2
+  WHERE application_reference = $1 AND project_name IS DISTINCT FROM $2;
 `
 
 const createApplicationReference = (db, values) => db.query('SELECT bng.fn_create_application_reference($1, $2, $3);', values)
@@ -171,8 +160,6 @@ const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatem
 
 const updateProjectName = (db, values) => db.query(updateProjectNameStatement, values)
 
-const getProjectNameByApplicationReference = (db, values) => db.query(getProjectNameByApplicationReferenceStatement, values)
-
 const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3 );', values)
 
 export {
@@ -183,7 +170,6 @@ export {
   getApplicationSessionById,
   getApplicationSessionByReferenceContactIdAndApplicationType,
   getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
-  getProjectNameByApplicationReference,
   getExpiringApplicationSessions,
   clearApplicationSession,
   recordExpiringApplicationSessionNotification,

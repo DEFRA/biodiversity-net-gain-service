@@ -174,6 +174,7 @@ describe('Save Application Session', () => {
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual(`"${creditReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.updateProjectName.mock.calls).toHaveLength(1)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
         done()

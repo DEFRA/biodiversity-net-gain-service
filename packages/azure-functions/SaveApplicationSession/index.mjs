@@ -1,15 +1,9 @@
 import {
   createApplicationReference,
   createCreditsAppReference,
-  saveApplicationSession
+  saveApplicationSession,
+  updateProjectName
 } from '../Shared/db-queries.js'
-
-import {
-  redisKeys,
-  setApplicationReference,
-  prepareParams,
-  checkAndUpdateProjectName
-} from '../Shared/application-session-helper.js'
 
 import { getDBConnection } from '@defra/bng-utils-lib'
 
@@ -17,13 +11,32 @@ export default async function (context, req) {
   let db
   try {
     const applicationSession = req.body
+    const redisKeys = {
+      contactId: 'contact-id',
+      applicationType: 'application-type',
+      organisationId: 'organisation-id'
+    }
     if (!applicationSession[redisKeys.contactId] || !applicationSession[redisKeys.applicationType]) {
       throw new Error(`Missing required session data: ${!applicationSession[redisKeys.contactId] ? 'Contact ID' : 'Application type'} missing from request`)
     }
     db = await getDBConnection(context)
+
     const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
-    const params = prepareParams(applicationSession)
+    const params = [
+      applicationSession[redisKeys.contactId],
+      applicationSession[redisKeys.applicationType],
+      applicationSession[redisKeys.organisationId]
+    ]
     const createApplicationRefFunction = isCreditsPurchase ? createCreditsAppReference : createApplicationReference
+
+    const setApplicationReference = (applicationType) => {
+      const referenceMap = {
+        registration: 'application-reference',
+        allocation: 'developer-app-reference',
+        creditspurchase: 'credits-purchase-application-reference'
+      }
+      return referenceMap[applicationType.toLowerCase()] || redisKeys.applicationReference
+    }
     // Ensure the application reference keys stay up to date with webapp constants file.
     redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
     context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
@@ -37,7 +50,9 @@ export default async function (context, req) {
 
       context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
-    await checkAndUpdateProjectName(db, applicationSession, sessionProjectName)
+    if (isCreditsPurchase) {
+      await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
+    }
 
     // Save the applicationSession to database
     const savedApplicationSessionResult =
