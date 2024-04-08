@@ -13,7 +13,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { firstName, middleNames, lastName } = request.payload
+    const { firstName, lastName } = request.payload
     const errors = {
       firstNameError: validateFirstLastNameOfDeveloperClient(firstName, 'first name', '#firstName'),
       lastNameError: validateFirstLastNameOfDeveloperClient(lastName, 'last name', '#lastName')
@@ -32,13 +32,12 @@ const handlers = {
         lastNameError: errors.lastNameError?.err[0],
         individual: {
           firstName,
-          middleNames,
           lastName
         }
       })
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, middleNames, lastName } })
+    request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, lastName } })
 
     // TODO remove: this is to allow completing the task to test out task list and should be removed
     // when tasklist is updated to the latest design.
