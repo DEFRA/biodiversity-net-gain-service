@@ -341,10 +341,12 @@ const dataString = `
   },
   "metric-file-checked": "yes",
   "check-uploaded-metric": true,
+  "metric-habitat-baseline-checked": true,
+  "metric-habitat-created-checked": true,
   "legal-agreement-type": "759150001",
   "legal-agreement-checked": "yes",
   "legal-agreement-file-option": "yes",
-  "la-any-other-landowners-checked":"No",
+  "need-add-all-legal-files-checked": true,
   "legal-agreement-files": [
     {
       "location": "800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc",
@@ -372,6 +374,8 @@ const dataString = `
       "organisationOtherRole": "undefined"
     }
   ],
+  "need-add-all-responsible-bodies-checked": true,
+  "responsible-bodies-checked": "yes",
   "legal-agreement-reponsible-bodies":[
     {
       "responsibleBodyName": "test1"
@@ -381,6 +385,8 @@ const dataString = `
     }
   ],
   "planning-authority-list":["County Durham LPA", "Secretary of State"],
+  "la-any-other-landowners-checked": "yes",
+  "landowners-checked": "yes",
   "legal-agreement-landowner-conservation-convenants": [{
     "organisationName": "org1",
     "type": "organisation"
@@ -391,17 +397,23 @@ const dataString = `
     "emailAddress": "me@me.com",
     "type": "individual"
   }],
-  "habitat-plan-legal-agreement-document-included-yes-no": "No",
+  "habitat-plan-legal-agreement-document-included-yes-no": "Yes",
   "enhancement-works-start-date": "2022-01-01T00:00:00.000Z",
+  "enhancement-works-start-date-option": "yes",
   "habitat-enhancements-end-date": "2023-01-01T00:00:00.000Z",
+  "legal-agreement-end-date-option": "yes",
   "local-land-charge-location": "800376c7-8652-4906-8848-70a774578dfe/local-land-charge/local-land-charge.doc",
   "local-land-charge-file-size": 0.01,
   "local-land-charge-file-type": "application/msword",
+  "local-land-charge-checked": "yes",
+  "habitat-plan-file-option": "yes",
+  "habitat-plan-file-size": 154703,
+  "habitat-plan-file-type": "application/pdf",
   "habitat-plan-location": "800376c7-8652-4906-8848-70a774578dfe/habitat-plan/habitat-plan.doc",
-  "habitat-plan-file-size": 0.01,
-  "habitat-plan-file-type": "application/msword",
+  "habitat-plan-checked": "yes",
   "application-reference": "",
   "is-agent": "yes",
+  "defra-account-details-confirmed": "true",
   "client-individual-organisation": "individual",
   "clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
   "is-address-uk": "yes",
@@ -414,6 +426,7 @@ const dataString = `
   "written-authorisation-checked": "yes",
   "landowner-type": "individual",
   "defraAccountDetailsConfirmed": "true",
+  "land-ownership-proof-list-key": "yes",
   "land-ownership-proofs": [
       {
         "contentMediaType": "application/pdf",
@@ -431,7 +444,10 @@ const dataString = `
         "fileName": "lopfile1.pdf",
         "optional": false
       }
-  ]
+  ],
+  "landowner-individual-organisation-key": "individual",
+  "legal-agreement-files-checked": "yes",
+  "land-ownership-checked": "yes"
 }`
 
 export default {

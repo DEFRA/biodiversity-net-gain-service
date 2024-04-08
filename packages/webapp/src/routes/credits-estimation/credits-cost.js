@@ -5,7 +5,7 @@ const getLocaleString = num =>
 
 const getRow = ({ tier, unitAmount, cost }) => [
   { text: tier.toUpperCase() },
-  { text: unitAmount, format: 'numeric' },
+  { text: Number(unitAmount).toFixed(2), format: 'numeric' },
   { text: getLocaleString(cost), format: 'numeric' }
 ]
 

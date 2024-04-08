@@ -3,6 +3,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% set pageHeading = "Confirm the development details" %}
+{% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -21,8 +22,6 @@
                   isPageHeading: true
               }
           }) }}
-
-          {{ confirmDevDetails }}
 
           <p>These details have been taken from the statutory biodiversity metric calculation tool your local planning authority reviewed.</p>
           {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
