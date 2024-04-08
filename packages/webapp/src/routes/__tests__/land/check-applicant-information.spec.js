@@ -25,7 +25,6 @@ describe(url, () => {
       type: 'individual',
       value: {
         firstName: 'Joe',
-        middleNames: 'George',
         lastName: 'Smith'
       }
     })
@@ -113,7 +112,7 @@ describe(url, () => {
       expect(contextResult.addressIsUK).toBe(false)
       expect(contextResult.clientIsIndividual).toBe(true)
       expect(contextResult.clientAddress).toEqual('123 Le Street<br>Paris<br>France')
-      expect(contextResult.clientName).toEqual('Joe George Smith')
+      expect(contextResult.clientName).toEqual('Joe Smith')
       expect(contextResult.clientEmail).toEqual('me@me.com')
       expect(contextResult.clientPhone).toEqual('07000000000')
       expect(contextResult.authorisationFile).toEqual('authfile.pdf')

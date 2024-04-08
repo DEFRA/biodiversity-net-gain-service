@@ -2,8 +2,7 @@ import constants from '../../utils/constants.js'
 import {
   processRegistrationTask,
   getLegalAgreementDocumentType,
-  validateFirstLastNameOfLandownerOrLeaseholder,
-  validateLengthOfCharsLessThan50
+  validateFirstLastNameOfLandownerOrLeaseholder
 } from '../../utils/helpers.js'
 import isEmpty from 'lodash/isEmpty.js'
 
@@ -35,24 +34,22 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { firstName, middleName, lastName } = request.payload
+    const { firstName, lastName } = request.payload
 
     const firstNameError = validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', 'firstNameId')
     const lastNameError = validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', 'lastNameId')
-    const middleNameError = validateLengthOfCharsLessThan50(middleName, 'middle name', 'middleNameId')
 
-    if (!isEmpty(firstNameError) || !isEmpty(lastNameError) || !isEmpty(middleNameError)) {
+    if (!isEmpty(firstNameError) || !isEmpty(lastNameError)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL, {
-        err: Object.values({ ...firstNameError, ...lastNameError, ...middleNameError }),
+        err: Object.values({ ...firstNameError, ...lastNameError }),
         firstNameError: firstNameError?.err[0],
-        lastNameError: lastNameError?.err[0],
-        middleNameError: middleNameError?.err[0]
+        lastNameError: lastNameError?.err[0]
       })
     }
 
     const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST) ?? []
 
-    lpaList.push({ type: 'individual', value: { firstName, middleName, lastName } })
+    lpaList.push({ type: 'individual', value: { firstName, lastName } })
     request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST, lpaList)
 
     return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)

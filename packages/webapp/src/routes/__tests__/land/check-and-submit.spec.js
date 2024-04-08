@@ -71,7 +71,6 @@ describe(url, () => {
         type: 'organisation'
       }, {
         firstName: 'Crishn',
-        middleNames: '',
         lastName: 'P',
         emailAddress: 'me@me.com',
         type: 'individual'

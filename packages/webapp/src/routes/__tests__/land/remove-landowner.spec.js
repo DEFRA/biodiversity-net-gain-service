@@ -26,7 +26,6 @@ describe(url, () => {
       type: 'organisation'
     }, {
       firstName: 'Crishn',
-      middleNames: '',
       lastName: 'P',
       type: 'individual'
     }])
