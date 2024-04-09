@@ -3,8 +3,8 @@ import {
   boolToYesNo,
   dateToString,
   hideClass,
+  getFileHeaderPrefix,
   getAllLandowners,
-  getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
   checkForDuplicate,
@@ -108,40 +108,6 @@ describe('helpers file', () => {
     })
   })
 
-  describe('getDeveloperEligibilityResults', () => {
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'yes')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(2)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(1)
-      expect(results['not-sure'].length).toEqual(0)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'not-sure')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(0)
-      expect(results['not-sure'].length).toEqual(1)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'no')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.no.length).toEqual(2)
-    })
-  })
   describe('getHumamReadableFileSize', () => {
     it('should convert a file size below 1MB to kilobytes', () => {
       expect(getHumanReadableFileSize(512)).toEqual('0.5 kB')
@@ -400,9 +366,43 @@ describe('validateLengthOfCharsLessThan50', () => {
       'middle name', 'middleNameId')
     expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
   })
-})
 
 describe('validateDate', () => {
+  it('should return numeric error when day is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': 'aa',
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a day that is a number')
+  })
+
+  it('should return numeric error when month is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': 'aa',
+        'legalAgreementStartDate-year': undefined
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a month that is a number')
+  })
+
+  it('should return numeric error when year is non-numeric', () => {
+    const result = validateDate(
+      {
+        'legalAgreementStartDate-day': undefined,
+        'legalAgreementStartDate-month': undefined,
+        'legalAgreementStartDate-year': 'abcd'
+      },
+      'legalAgreementStartDate'
+    )
+    expect(result.context.err[0].text).toBe('Start date must include a year that is a number')
+  })
   it('should return date error when day is not included', () => {
     const result = validateDate(
       {
@@ -442,7 +442,17 @@ describe('validateDate', () => {
     expect(result.context.err[0].text).toBe('Start date must include a month')
   })
 })
+describe('getLandownershipProofFileText', () => {
+  it('should return "files" for multiple file names ', () => {
+    const fileNames = ['proof1.pdf', 'proof2.pdf']
+    expect(getFileHeaderPrefix(fileNames)).toEqual('files')
+  })
 
+  it('should return "file" for a single file name', () => {
+    const singleFileName = ['proof1.pdf']
+    expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
+  })
+})
 describe('validateAddress', () => {
   it('should add addressLine1Error when length of chars is above 50', () => {
     const result = validateAddress({

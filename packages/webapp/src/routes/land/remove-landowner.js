@@ -13,7 +13,7 @@ const handlers = {
     if (id) {
       landownerToRemove = landownerConversationConvenants[id]
       if (landownerToRemove.type === 'individual') {
-        landownerToRemoveText = `${landownerToRemove.firstName} ${landownerToRemove.middleNames ? landownerToRemove.middleNames + ' ' : ''}${landownerToRemove.lastName}`
+        landownerToRemoveText = `${landownerToRemove.firstName} ${landownerToRemove.lastName}`
       } else {
         landownerToRemoveText = landownerToRemove.organisationName
       }
@@ -30,7 +30,7 @@ const handlers = {
     if (!landownerToRemove) {
       const idToRemove = landownerConversationConvenants[id]
       if (idToRemove.type === 'individual') {
-        landownerToRemoveText = `${idToRemove.firstName} ${idToRemove.middleNames ? idToRemove.middleNames + ' ' : ''}${idToRemove.lastName}`
+        landownerToRemoveText = `${idToRemove.firstName} ${idToRemove.lastName}`
       } else {
         landownerToRemoveText = idToRemove.organisationName
       }

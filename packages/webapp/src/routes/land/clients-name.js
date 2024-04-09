@@ -1,8 +1,5 @@
 import constants from '../../utils/constants.js'
-import {
-  validateFirstLastNameOfLandownerOrLeaseholder,
-  validateLengthOfCharsLessThan50
-} from '../../utils/helpers.js'
+import validateFirstLastNameOfLandownerOrLeaseholder from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -12,14 +9,13 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { firstName, middleNames, lastName } = request.payload
+    const { firstName, lastName } = request.payload
     const errors = {
       firstNameError: validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', '#firstName'),
-      lastNameError: validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', '#lastName'),
-      middleNameError: validateLengthOfCharsLessThan50(middleNames, 'middle name', 'middleNameId')
+      lastNameError: validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', '#lastName')
     }
 
-    if (errors.firstNameError || errors.lastNameError || errors.middleNameError) {
+    if (errors.firstNameError || errors.lastNameError) {
       const err = []
       Object.keys(errors).forEach(item => {
         if (errors[item]) {
@@ -30,16 +26,14 @@ const handlers = {
         err,
         firstNameError: errors.firstNameError?.err[0],
         lastNameError: errors.lastNameError?.err[0],
-        middleNameError: errors.middleNameError?.err[0],
         individual: {
           firstName,
-          middleNames,
           lastName
         }
       })
     }
 
-    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, middleNames, lastName } })
+    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
 
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
   }

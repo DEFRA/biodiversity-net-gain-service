@@ -3,7 +3,7 @@ import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    const textToDisplay = `${item.firstName} ${item.middleNames ? item.middleNames + ' ' : ''}${item.lastName} (${item.emailAddress})`
+    const textToDisplay = `${item.firstName} ${item.lastName} (${item.emailAddress})`
     return {
       key: {
         text: textToDisplay,

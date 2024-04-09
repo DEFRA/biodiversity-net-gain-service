@@ -151,6 +151,8 @@ const insertApplicationStatus = (db, values) => db.query(insertApplicationStatus
 
 const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
+const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3);', values)
+
 export {
   createApplicationReference,
   saveApplicationSession,
@@ -165,5 +167,6 @@ export {
   isPointInEngland,
   insertApplicationStatus,
   getApplicationStatus,
-  applicationStatuses
+  applicationStatuses,
+  createCreditsAppReference
 }

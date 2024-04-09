@@ -15,7 +15,7 @@ const defaults = {
     type: 'Hedgerow',
     unitKey: lengthKm,
     unit: lengthKm,
-    description: 'Hedgerow type',
+    description: habitatType,
     dataTestId: 'hedgeTotal'
   },
   river: {
@@ -39,10 +39,7 @@ const habitatTypeMap = {
     description: proposedHabitat
   },
   e1: defaults.hedgerow,
-  e2: {
-    ...defaults.hedgerow,
-    description: habitatType
-  },
+  e2: defaults.hedgerow,
   e3: {
     ...defaults.hedgerow,
     description: proposedHabitat

@@ -125,14 +125,7 @@ class BngMetricSingleDataExtractor {
       })
     })
 
-    data = data
-      .map(content => {
-        delete content.Ref
-        return content
-      })
-      .filter(content =>
-        Object.values(content).some(value => value !== null && value !== '')
-      )
+    data = data.filter(content => Object.values(content).some(value => value !== null && value !== ''))
 
     return data
   }
