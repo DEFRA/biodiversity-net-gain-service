@@ -15,6 +15,10 @@ import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/tas
 import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
+    const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
+    if (registrationTaskStatus !== 'COMPLETED') {
+      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    }
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
       listArray,
       ...getContext(request)
