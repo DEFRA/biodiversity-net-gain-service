@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import validateFirstLastNameOfLandownerOrLeaseholder from '../../utils/helpers.js'
+import { validateFirstLastNameOfLandownerOrLeaseholder } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
