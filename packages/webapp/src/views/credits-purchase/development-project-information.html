@@ -1,0 +1,44 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "Add a local planning authority listed on the " + legalAgreementType %}
+
+{% block formContent %}
+  {% include "common/select-local-planning-authority.html" %}
+
+    <label class="govuk-label"> Planning application reference </label>
+    <p class="govuk-hint">This is the reference the LPA sent after receiving your development project's planning application.</p>
+         
+    {{ 
+      govukInput({
+        id: "firstName",
+        name: "firstName",
+        errorMessage: firstNameError,
+        label: {
+        text: "First name"
+        },
+        autocomplete: "given-name",
+        spellcheck: false,
+        value: individual.firstName
+      }) 
+    }}
+
+    <label class="govuk-label"> Development name </label>
+    <p class="govuk-hint">Your development name helps identify your project.</p>
+        
+    {{ 
+      govukInput({
+        id: "firstName",
+        name: "firstName",
+        errorMessage: firstNameError,
+        label: {
+        text: "First name"
+        },
+        autocomplete: "given-name",
+        spellcheck: false,
+        value: individual.firstName
+      }) 
+    }}
+{% endblock %}
+{% block pageScripts %}
+  <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
+{% endblock %}
