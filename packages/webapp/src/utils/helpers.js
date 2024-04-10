@@ -12,70 +12,61 @@ const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
-  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
-  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
-  const year = payload[`${ID}-year`]
-  return {
-    day,
-    month,
-    year
+  const isNonNumericInput = value => {
+    if (value === undefined) return undefined
+    return value !== null && value !== '' && isNaN(value)
   }
-}
-
-const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
-  const { day, month, year } = parsePayload(payload, ID)
-  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
-  const context = {}
-  if (!day && !month && !year) {
-    context.err = [{
-      text: `Enter the ${desc}`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (!day) {
-    context.err = [{
-      text: `${fieldType} must include a day`,
-      href: `#${ID}-day`,
-      dayError: true
-    }]
-  } else if (!month) {
-    context.err = [{
-      text: `${fieldType} must include a month`,
-      href: `#${ID}-month`,
-      monthError: true
-    }]
-  } else if (!year) {
-    context.err = [{
-      text: `${fieldType} must include a year`,
-      href: `#${ID}-year`,
-      yearError: true
-    }]
-  } else if (!date.isValid()) {
-    context.err = [{
-      text: `${fieldType} must be a real date`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (checkFuture === true) {
-    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-    const format = 'DD/MM/YYYY, HH:mm:ss'
-    const currentMomentInBritish = moment(dateString, format)
-    if (date.isAfter(currentMomentInBritish)) {
-      context.err = [{
-        text: `${fieldType} cannot be in the future`,
-        href: `#${ID}-day`,
-        dateError: true
-      }]
-    }
-  }
-  const dateAsISOString = !context.err && date.toISOString()
+  const dayRaw = payload[`${ID}-day`]
+  const monthRaw = payload[`${ID}-month`]
+  const yearRaw = payload[`${ID}-year`]
+  const day = dayRaw && !isNaN(dayRaw) ? dayRaw.padStart(2, '0') : dayRaw
+  const month = monthRaw && !isNaN(monthRaw) ? monthRaw.padStart(2, '0') : monthRaw
+  const year = yearRaw
   return {
     day,
     month,
     year,
-    dateAsISOString,
-    context
+    isNonNumeric: {
+      day: isNonNumericInput(dayRaw),
+      month: isNonNumericInput(monthRaw),
+      year: isNonNumericInput(yearRaw)
+    }
   }
+}
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
+  const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
+  const context = {}
+  const setErrorAndReturn = (condition, errorText, errorField, errorFlag) => {
+    if (condition) {
+      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, [errorFlag]: true }]
+      return true
+    }
+    return false
+  }
+  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day', 'dateError')) {
+    return { day, month, year, context }
+  }
+  if (!day || !month || !year) {
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a day that is a number`, 'day', 'dayError') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a month that is a number`, 'month', 'monthError') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a year that is a number`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+
+    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day', 'dayError') ||
+    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month', 'monthError') ||
+    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+  }
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
+  if (!date.isValid()) {
+    context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
+  } else if (checkFuture && date.isAfter(moment())) {
+    context.err = [{ text: `${fieldType} cannot be in the future`, href: `#${ID}-day`, dateError: true }]
+  }
+  const dateAsISOString = !context.err ? date.toISOString() : undefined
+  return { day, month, year, dateAsISOString, context }
 }
 
 const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
@@ -90,9 +81,9 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType =
   }
 }
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
+  if (!legalAgreementFiles) return []
   const filenames = legalAgreementFiles.map(file => getFileName(file.location))
-  return filenames.join('<br>')
+  return filenames
 }
 
 const getLocalPlanningAuthorities = lpas => {
@@ -744,6 +735,10 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
+const getFileHeaderPrefix = (fileNames) => {
+  const fileCount = fileNames.length
+  return fileCount > 1 ? 'files' : 'file'
+}
 
 const redirectDeveloperClient = (h, yar) => {
   const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
@@ -834,6 +829,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  getFileHeaderPrefix,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
