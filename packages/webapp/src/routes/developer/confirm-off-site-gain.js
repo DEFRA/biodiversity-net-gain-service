@@ -7,9 +7,6 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
-    const confirmOffsiteGain = request.payload.confirmOffsiteGain
-    request.yar.set(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmOffsiteGain)
-
     processDeveloperTask(request,
       {
         taskTitle: 'Biodiversity 4.1 Metric calculations',
