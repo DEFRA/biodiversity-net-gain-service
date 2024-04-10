@@ -90,6 +90,7 @@ const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
+const TEMP_LAND_OWNERSHIP_PROOF = 'temp_land_ownership_proof'
 const HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO = 'habitat-plan-legal-agreement-document-included-yes-no'
 const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
 const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
@@ -206,6 +207,7 @@ export default {
     REPROJECTED_GEOSPATIAL_FILE_SIZE,
     LOCAL_LAND_CHARGE_FILE_SIZE,
     HABITAT_PLAN_FILE_SIZE,
+    TEMP_LAND_OWNERSHIP_PROOF,
     HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO,
     GEOSPATIAL_FILE_TYPE,
     GEOSPATIAL_HECTARES,
