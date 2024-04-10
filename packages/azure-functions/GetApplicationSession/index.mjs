@@ -5,9 +5,11 @@ export default async function (context, req) {
   context.log('Processing', JSON.stringify(req.body))
   let db
   try {
-    const applicationReference = req.body.applicationReference
-    const contactId = req.body.contactId
-    const applicationType = req.body.applicationType
+    const {
+      applicationReference,
+      contactId,
+      applicationType
+    } = req.body
     let body
     if (!applicationReference || !contactId || !applicationType) {
       throw new Error('Contact ID, application type or application reference is missing')

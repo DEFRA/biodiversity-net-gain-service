@@ -7,74 +7,66 @@ import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
-  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
-  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
-  const year = payload[`${ID}-year`]
-  return {
-    day,
-    month,
-    year
+  const isNonNumericInput = value => {
+    if (value === undefined) return undefined
+    return value !== null && value !== '' && isNaN(value)
   }
-}
-
-const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
-  const { day, month, year } = parsePayload(payload, ID)
-  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
-  const context = {}
-  if (!day && !month && !year) {
-    context.err = [{
-      text: `Enter the ${desc}`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (!day) {
-    context.err = [{
-      text: `${fieldType} must include a day`,
-      href: `#${ID}-day`,
-      dayError: true
-    }]
-  } else if (!month) {
-    context.err = [{
-      text: `${fieldType} must include a month`,
-      href: `#${ID}-month`,
-      monthError: true
-    }]
-  } else if (!year) {
-    context.err = [{
-      text: `${fieldType} must include a year`,
-      href: `#${ID}-year`,
-      yearError: true
-    }]
-  } else if (!date.isValid()) {
-    context.err = [{
-      text: `${fieldType} must be a real date`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (checkFuture === true) {
-    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-    const format = 'DD/MM/YYYY, HH:mm:ss'
-    const currentMomentInBritish = moment(dateString, format)
-    if (date.isAfter(currentMomentInBritish)) {
-      context.err = [{
-        text: `${fieldType} cannot be in the future`,
-        href: `#${ID}-day`,
-        dateError: true
-      }]
-    }
-  }
-  const dateAsISOString = !context.err && date.toISOString()
+  const dayRaw = payload[`${ID}-day`]
+  const monthRaw = payload[`${ID}-month`]
+  const yearRaw = payload[`${ID}-year`]
+  const day = dayRaw && !isNaN(dayRaw) ? dayRaw.padStart(2, '0') : dayRaw
+  const month = monthRaw && !isNaN(monthRaw) ? monthRaw.padStart(2, '0') : monthRaw
+  const year = yearRaw
   return {
     day,
     month,
     year,
-    dateAsISOString,
-    context
+    isNonNumeric: {
+      day: isNonNumericInput(dayRaw),
+      month: isNonNumericInput(monthRaw),
+      year: isNonNumericInput(yearRaw)
+    }
   }
+}
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
+  const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
+  const context = {}
+  const setErrorAndReturn = (condition, errorText, errorField, errorFlag) => {
+    if (condition) {
+      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, [errorFlag]: true }]
+      return true
+    }
+    return false
+  }
+  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day', 'dateError')) {
+    return { day, month, year, context }
+  }
+  if (!day || !month || !year) {
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a day that is a number`, 'day', 'dayError') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a month that is a number`, 'month', 'monthError') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a year that is a number`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+
+    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day', 'dayError') ||
+    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month', 'monthError') ||
+    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+  }
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
+  if (!date.isValid()) {
+    context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
+  } else if (checkFuture && date.isAfter(moment())) {
+    context.err = [{ text: `${fieldType} cannot be in the future`, href: `#${ID}-day`, dateError: true }]
+  }
+  const dateAsISOString = !context.err ? date.toISOString() : undefined
+  return { day, month, year, dateAsISOString, context }
 }
 
 const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
@@ -89,9 +81,9 @@ const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType =
   }
 }
 const getLegalAgreementFileNames = (legalAgreementFiles) => {
-  if (!legalAgreementFiles) return ''
+  if (!legalAgreementFiles) return []
   const filenames = legalAgreementFiles.map(file => getFileName(file.location))
-  return filenames.join('<br>')
+  return filenames
 }
 
 const getLocalPlanningAuthorities = lpas => {
@@ -168,6 +160,14 @@ const processRegistrationTask = (request, taskDetails, options) => {
       if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
         task.status = options.status
       }
+
+      // Added this condition to revert the completed task based on the flag.
+      // And assigning given value of options.status to the selected task
+      // Ref: BNGP-4124
+      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
+        task.status = options.status
+      }
+
       task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
     }
   })
@@ -226,6 +226,10 @@ const validateIdGetSchemaOptional = {
   }
 }
 const getLandowners = landOwners => {
+  if (!landOwners) {
+    return null
+  }
+
   const organisationNames = []
   const individualNames = []
 
@@ -234,7 +238,8 @@ const getLandowners = landOwners => {
       organisationNames.push(item.organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
-      individualNames.push(nameParts.join(' '))
+      const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
+      individualNames.push(individualName)
     }
   })
 
@@ -312,19 +317,6 @@ const getEligibilityResults = session => {
   return eligibilityResults
 }
 
-const getDeveloperEligibilityResults = session => {
-  const developerEligibilityResults = {
-    yes: [],
-    no: [],
-    'not-sure': []
-  }
-  session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)].push(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE)
-  session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE) &&
-  developerEligibilityResults[session.get(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)].push(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE)
-  return developerEligibilityResults
-}
-
 const formatSortCode = sortCode => `${sortCode.substring(0, 2)} ${sortCode.substring(2, 4)} ${sortCode.substring(4, 6)}`
 
 const habitatTypeAndConditionMapper = (sheets, metricData) => {
@@ -336,12 +328,16 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
       metricData[key].forEach((item, index) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
-          items.push({
+          const habitatItems = {
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
             amount: item[habitatTypeMap[key].unitKey]
-          })
+          }
+          const isObjectWithEmptyValues = Object.values(habitatItems).every(value => value === null || value === '' || value === undefined)
+          if (!isObjectWithEmptyValues) {
+            items.push(habitatItems)
+          }
         }
       })
 
@@ -392,14 +388,33 @@ const validateName = (fullName, hrefId) => {
   return error.err ? error : null
 }
 
-const validateFirstLastName = (name, text, hrefId) => {
+const validateFirstLastNameOfLandownerOrLeaseholder = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId, ' of the landowner or leaseholder')
+}
+
+const validateFirstLastNameOfDeveloperClient = (name, text, hrefId) => {
+  return validateFirstLastName(name, text, hrefId)
+}
+
+const validateFirstLastName = (name, text, hrefId, noValueErrorSuffix) => {
   const error = {}
   if (!name) {
     error.err = [{
-      text: `Enter the ${text} of the landowner or leaseholder`,
+      text: `Enter ${noValueErrorSuffix ? 'the ' : ''}${text}${noValueErrorSuffix ?? ''}`,
       href: hrefId
     }]
   } else if (name.length > 50) {
+    error.err = [{
+      text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
+      href: hrefId
+    }]
+  }
+  return error.err ? error : null
+}
+
+const validateLengthOfCharsLessThan50 = (input, text, hrefId) => {
+  const error = {}
+  if (input?.length > 50) {
     error.err = [{
       text: `${text.charAt(0).toUpperCase() + text.slice(1)} must be 50 characters or fewer`,
       href: hrefId
@@ -604,14 +619,16 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
-    error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    // error.err[0].text = 'The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site'
+    return null
   }
   return error.err[0].text ? error : null
 }
 
 const checkDeveloperDetails = (request, h) => {
   if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect(constants.routes.START).takeover()
+    return h.redirect('/').takeover()
   }
   return h.continue
 }
@@ -645,39 +662,147 @@ const validateAddress = (address, isUkAddress) => {
       href: '#town'
     }
   }
-  if (isUkAddress) {
-    if (!address.postcode || address.postcode.length === 0) {
-      errors.postcodeError = {
-        text: 'Enter postcode',
-        href: '#postcode'
-      }
-    } else if (!isValidPostcode(address.postcode)) {
-      errors.postcodeError = {
-        text: 'Enter a full UK postcode',
-        href: '#postcode'
-      }
-    }
+  const addressLine1Validation = validateLengthOfCharsLessThan50(address?.addressLine1, 'addressLine1', 'addressLine1Id')
+  if (addressLine1Validation) {
+    errors.addressLine1Error = addressLine1Validation.err[0]
   }
-  if (!isUkAddress) {
-    if (!address.country || address.country.length === 0) {
-      errors.countryError = {
-        text: 'Enter country',
-        href: '#country'
-      }
-    }
+  const addressLine2Validation = validateLengthOfCharsLessThan50(address?.addressLine2, 'addressLine2', 'addressLine2Id')
+  if (addressLine2Validation) {
+    errors.addressLine2Error = addressLine2Validation.err[0]
+  }
+  const addressLine3Validation = validateLengthOfCharsLessThan50(address?.addressLine3, 'addressLine3', 'addressLine3Id')
+  if (addressLine3Validation) {
+    errors.addressLine3Error = addressLine3Validation.err[0]
+  }
+
+  const townValidation = validateLengthOfCharsLessThan50(address?.town, 'town', 'townId')
+  if (townValidation) {
+    errors.townError = townValidation.err[0]
+  }
+  const countyValidation = validateLengthOfCharsLessThan50(address?.county, 'county', 'countyId')
+  if (countyValidation) {
+    errors.countyError = countyValidation.err[0]
+  }
+  if (isUkAddress) {
+    validateUkAddress(address, errors)
+  } else {
+    validateNonUkAddress(address, errors)
   }
   return Object.keys(errors).length > 0 ? errors : null
+}
+
+const validateUkAddress = (address, errors) => {
+  if (!address.postcode || address.postcode.length === 0) {
+    errors.postcodeError = {
+      text: 'Enter postcode',
+      href: '#postcode'
+    }
+  } else if (!isValidPostcode(address.postcode)) {
+    errors.postcodeError = {
+      text: 'Enter a full UK postcode',
+      href: '#postcode'
+    }
+  }
+}
+
+const validateNonUkAddress = (address, errors) => {
+  if (!address.country || address.country.length === 0) {
+    errors.countryError = {
+      text: 'Enter country',
+      href: '#country'
+    }
+  }
+  if (address?.postcode?.length > 14) {
+    errors.postcodeError = {
+      text: 'Postal code must be 14 characters or fewer',
+      href: '#postcode'
+    }
+  }
+
+  const countryValidation = validateLengthOfCharsLessThan50(address?.country, 'country', 'countryId')
+  if (countryValidation) {
+    errors.countryError = countryValidation.err[0]
+  }
 }
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
-  if (isIndividualOrOrganisation === constants.landownerTypes.INDIVIDUAL) {
+  if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
+}
+const getFileHeaderPrefix = (fileNames) => {
+  const fileCount = fileNames.length
+  return fileCount > 1 ? 'files' : 'file'
+}
+
+const redirectDeveloperClient = (h, yar) => {
+  const clientIsLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
+  } else {
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+  }
+}
+
+const getAuthenticatedUserRedirectUrl = () => {
+  // BNGP- 4368 - Simplify the redirection logic for authenticated users.
+  // For MVP, only registrations are enabled so redirect to the dashboard for registrations.
+  // When two or more journey types are enabled, redirect the user to select the dashboard for
+  // the required journey type.
+
+  return process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y' || process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y'
+    ? constants.routes.MANAGE_BIODIVERSITY_GAINS
+    : constants.routes.BIODIVERSITY_GAIN_SITES
+}
+
+const creditsValidationSchema = (inputSchema) => {
+  return Joi.object({
+    a1: inputSchema,
+    a2: inputSchema,
+    a3: inputSchema,
+    a4: inputSchema,
+    a5: inputSchema,
+    h: inputSchema,
+    w: inputSchema
+  }).custom((value, helpers) => {
+    if (Object.values(value).every(v => v === '' || Number(v) === 0)) {
+      throw new Error('at least one credit unit input should have a value')
+    }
+  })
+}
+
+const creditsValidationFailAction = ({
+  err,
+  defaultErrorMessage,
+  charLengthErrorMessage
+}) => {
+  const errorMessages = {}
+  const errorList = []
+
+  if (err.details.some(e => e.type === 'any.custom')) {
+    const errorId = 'custom-err'
+    errorMessages[errorId] = defaultErrorMessage
+    errorList.push({
+      ...defaultErrorMessage,
+      href: `#${errorId}`
+    })
+  } else {
+    err.details.forEach(e => {
+      const errorMessage = e.type === 'string.max' ? charLengthErrorMessage : defaultErrorMessage
+      errorMessages[e.context.key] = errorMessage
+      errorList.push({
+        ...errorMessage,
+        href: `#${e.context.key}-units`
+      })
+    })
+  }
+
+  return { errorMessages, errorList }
 }
 
 export {
@@ -704,6 +829,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  getFileHeaderPrefix,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
@@ -715,10 +841,10 @@ export {
   getLocalPlanningAuthorities,
   getFileName,
   validateName,
-  validateFirstLastName,
+  validateFirstLastNameOfDeveloperClient,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  getDeveloperEligibilityResults,
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
@@ -731,5 +857,10 @@ export {
   buildFullName,
   isValidPostcode,
   redirectAddress,
-  validateAddress
+  validateAddress,
+  redirectDeveloperClient,
+  validateLengthOfCharsLessThan50,
+  getAuthenticatedUserRedirectUrl,
+  creditsValidationSchema,
+  creditsValidationFailAction
 }

@@ -1,4 +1,4 @@
-{# 
+{#
     Macro: generateSummaryList
     Purpose:
     This macro creates a summary list component using the GOV.UK Design System's `summary-list` component. The component displays key-value pairs in a table format and provides an optional "Change" link for each row.
@@ -22,11 +22,11 @@
 #}
 {% macro generateSummaryList(summary) %}
     {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-    {% set rows= []%}
+    {% set rows = [] %}
     {% for item in summary.rows %}
         {# Default classes for each row, can be overridden #}
         {% set classes = item.classes | default('govuk-!-margin-bottom-7') %}
-        
+
         {# Handle error message class if error flag is set #}
         {% set errorHtmlAttribute = '' %}
         {% if item.error %}
@@ -36,29 +36,42 @@
         {# Only process rows which are flagged for display #}
         {% if item.show == true %}
             {# Construct each row and append to rows array #}
-            {% set rows = (rows.push({
-                key: {
-                    text: item.text
-                },
-                value: {
-                    html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
-                },
-                actions: {
-                    items: [
-                        {
-                            href: item.href,
-                            text: 'Change',
-                            visuallyHiddenText: item.visuallyHiddenText,
-                            classes: item.actionClasses
-                        }
-                    ]
-                },
-                classes: classes
-            }), rows) %}
+            {% if item.noAction == true %}
+                {% set rows = (rows.push({
+                    key: {
+                        text: item.text
+                    },
+                    value: {
+                        html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
+                    },
+                    classes: classes
+                }), rows) %}
+            {% else %}
+                {% set rows = (rows.push({
+                    key: {
+                        text: item.text
+                    },
+                    value: {
+                        html: "<span id='" ~ item.valueId ~ "'  data-testid='" ~ item.valueDataTestId ~ "' " ~ errorHtmlAttribute ~ ">" ~ item.value ~ "</span>"
+                    },
+                    actions: {
+                        items: [
+                            {
+                                href: item.href,
+                                text: 'Change',
+                                visuallyHiddenText: item.visuallyHiddenText,
+                                classes: item.actionClasses
+                            }
+                        ]
+                    },
+                    classes: classes
+                }), rows) %}
+            {% endif %}
         {% endif %}
     {% endfor %}
 
     {{ govukSummaryList({
-        rows: rows 
+        rows: rows,
+        classes: summary.classes
     }) }}
 {% endmacro %}

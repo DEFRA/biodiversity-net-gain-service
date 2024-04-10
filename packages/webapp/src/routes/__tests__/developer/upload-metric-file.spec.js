@@ -6,6 +6,10 @@ import * as azureStorage from '../../../utils/azure-storage.js'
 const UPLOAD_METRIC_FORM_ELEMENT_NAME = 'uploadMetric'
 const url = constants.routes.DEVELOPER_UPLOAD_METRIC
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
+const metricFiles = [
+  `${mockDataPath}/metric-file-4.1.xlsm`,
+  `${mockDataPath}/metric-file-4.1-feb24.xlsm`
+]
 
 describe('Metric file upload controller tests', () => {
   describe('GET', () => {
@@ -37,63 +41,69 @@ describe('Metric file upload controller tests', () => {
       await recreateContainers()
     })
 
-    it('should display error if off-site reference is not matching', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = getBaseConfig()
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
-          uploadConfig.hasError = true
-          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
-          const res = await uploadFile(uploadConfig)
-          expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
+    metricFiles.forEach(file => {
+      it(`should display error if off-site reference is not matching for ${file}`, (done) => {
+        jest.isolateModules(async () => {
+          try {
+            const uploadConfig = getBaseConfig()
+            uploadConfig.filePath = file
+            uploadConfig.hasError = true
+            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+            const res = await uploadFile(uploadConfig)
+            expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
+            setImmediate(() => {
+              done()
+            })
+          } catch (err) {
+            done(err)
+          }
+        })
       })
     })
 
-    it('should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails. ', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          jest.resetAllMocks()
-          jest.mock('../../../utils/http.js')
-          const http = require('../../../utils/http.js')
-          // Ensure the call to persist journey data fails.
-          http.postJson = jest.fn().mockImplementation(() => {
-            return Promise.reject(new Error('Error'))
-          })
-          const uploadConfig = getBaseConfig()
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
-          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
-          uploadConfig.sessionData[`${constants.redisKeys.CONTACT_ID}`] = 'mock contact ID'
-          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
-          uploadConfig.sessionData[`${constants.redisKeys.DEVELOPER_APP_REFERENCE}`] = 'mock developer app reference'
-          await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
+    metricFiles.forEach(file => {
+      it(`should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails for ${file}`, (done) => {
+        jest.isolateModules(async () => {
+          try {
+            jest.resetAllMocks()
+            jest.mock('../../../utils/http.js')
+            const http = require('../../../utils/http.js')
+            // Ensure the call to persist journey data fails.
+            http.postJson = jest.fn().mockImplementation(() => {
+              return Promise.reject(new Error('Error'))
+            })
+            const uploadConfig = getBaseConfig()
+            uploadConfig.filePath = file
+            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+            uploadConfig.sessionData[`${constants.redisKeys.CONTACT_ID}`] = 'mock contact ID'
+            uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
+            uploadConfig.sessionData[`${constants.redisKeys.DEVELOPER_APP_REFERENCE}`] = 'mock developer app reference'
+            await uploadFile(uploadConfig)
+            setImmediate(() => {
+              done()
+            })
+          } catch (err) {
+            done(err)
+          }
+        })
       })
     })
 
-    it('should upload metric document less than 50MB', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = getBaseConfig()
-          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
-          uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
-          await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
+    metricFiles.forEach(file => {
+      it(`should upload metric ${file} document less than 50MB`, (done) => {
+        jest.isolateModules(async () => {
+          try {
+            const uploadConfig = getBaseConfig()
+            uploadConfig.filePath = file
+            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+            await uploadFile(uploadConfig)
+            setImmediate(() => {
+              done()
+            })
+          } catch (err) {
+            done(err)
+          }
+        })
       })
     })
 
@@ -268,8 +278,8 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
-
-    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+    /// / BNGP-4219 METRIC Validation: Suppress total area calculations
+    it.skip('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')

@@ -57,7 +57,7 @@ const getContext = request => {
     'Area (hectares)')
   const noOfHedgerowUnits = getNumOfUnits(
     e1OffSiteHedgeBaseline,
-    'Hedgerow type',
+    'Habitat type',
     'Length (km)')
   return {
     offSiteHabitats: {

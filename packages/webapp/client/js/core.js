@@ -204,6 +204,26 @@ if (!calledGTag) {
     }
   }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const backLink = document.querySelector('.govuk-back-link')
+  if (backLink && backLink.getAttribute('href') === '#') {
+    backLink.addEventListener('click', (e) => {
+      e.preventDefault()
+      window.history.back()
+    })
+  }
+  window.addEventListener('pageshow', function (event) {
+    let navigationType
+    const navigationEntries = performance.getEntriesByType('navigation')
+    if (navigationEntries.length > 0 && 'type' in navigationEntries[0]) {
+      navigationType = navigationEntries[0].type
+    }
+    const historyTraversal = (event.persisted || navigationType === 'back_forward')
+    if (historyTraversal) {
+      window.location.reload()
+    }
+  })
+})
 
 document.addEventListener('DOMContentLoaded', (event) => {
   const button = document.querySelector('.govuk-button')

@@ -1,7 +1,9 @@
 import constants from './constants.js'
+import getOrganisationDetails from './get-organisation-details.js'
 
 const getApplicantContext = (account, session) => {
   const isAgent = isApplicantAnAgent(session)
+  const isNonRelevantPerson = isApplicantNonRelevantPerson(session)
   const claims = account.idTokenClaims
   const { noOrganisationsLinkedToDefraAccount, currentOrganisationId, currentOrganisation } = getOrganisationDetails(claims)
   const currentUser = `${claims.firstName} ${claims.lastName}`
@@ -18,7 +20,7 @@ const getApplicantContext = (account, session) => {
     subject
   }
 
-  if (!isAgent) {
+  if (!isAgent && !isNonRelevantPerson) {
     applicantContext.applicationSpecificGuidance = getApplicantSpecificGuidance(currentOrganisation)
   }
 
@@ -45,35 +47,21 @@ const getApplicantSpecificGuidance = organisation => {
   }
   return applicationSpecificGuidance
 }
+
 const isApplicantAnAgent = session => {
-  const isAgent = session.get(constants.redisKeys.IS_AGENT)
+  const applicationType = session.get(constants.redisKeys.APPLICATION_TYPE)
+  const redisKey =
+    applicationType === constants.applicationTypes.REGISTRATION
+      ? constants.redisKeys.IS_AGENT
+      : constants.redisKeys.DEVELOPER_IS_AGENT
+
+  const isAgent = session.get(redisKey)
   return isAgent === constants.APPLICANT_IS_AGENT.YES
 }
 
-const getOrganisationDetails = claims => {
-  const currentRelationshipDetails = claims?.relationships?.find(r => r?.toLowerCase()?.startsWith(claims?.currentRelationshipId?.toLowerCase()))?.split(':')
-  const currentOrganisationId = currentRelationshipDetails[1]
-  const currentOrganisation = currentRelationshipDetails[2]
-  const enrolmentCount = claims.enrolmentCount
-  const signInType = currentRelationshipDetails[4]
-
-  // If the user has not signed in as an employee of an organisation and has only one enrolment then no organisations are
-  // associated with their Defra account.
-  const noOrganisationsLinkedToDefraAccount = signInType !== constants.signInTypes.EMPLOYEE && enrolmentCount === 1
-
-  const organisationDetails = {
-    noOrganisationsLinkedToDefraAccount
-  }
-
-  if (currentOrganisationId) {
-    organisationDetails.currentOrganisationId = currentOrganisationId
-  }
-
-  if (currentOrganisation) {
-    organisationDetails.currentOrganisation = currentOrganisation
-  }
-
-  return organisationDetails
+const isApplicantNonRelevantPerson = session => {
+  const isNonRelevantPerson = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+  return isNonRelevantPerson === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
 }
 
 export default getApplicantContext

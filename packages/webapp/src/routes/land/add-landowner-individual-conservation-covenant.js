@@ -1,9 +1,18 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, checkForDuplicateConcatenated, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import {
+  processRegistrationTask,
+  validateTextInput,
+  checkForDuplicateConcatenated,
+  getLegalAgreementDocumentType,
+  validateIdGetSchemaOptional,
+  emailValidator
+} from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
 const lastNameID = '#lastName'
+const emailID = '#emailAddress'
+
 const validateIndividual = individual => {
   const errors = {}
   const firstNameError = validateTextInput(individual.firstName, firstNameID, 'First name', 50, 'landowner or leaseholder')
@@ -13,6 +22,10 @@ const validateIndividual = individual => {
   const lastNameError = validateTextInput(individual.lastName, lastNameID, 'Last name', 50, 'landowner or leaseholder')
   if (lastNameError) {
     errors.lastNameError = lastNameError.err[0]
+  }
+  const emailAddressError = emailValidator(individual.emailAddress, emailID)
+  if (emailAddressError?.err?.length > 0) {
+    errors.emailAddressError = emailAddressError.err[0]
   }
   return errors
 }
@@ -29,8 +42,8 @@ const handlers = {
     const { id } = request.query
     let individual = {
       firstName: '',
-      middleNames: '',
-      lastName: ''
+      lastName: '',
+      emailAddress: ''
     }
     const landownerIndividuals = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
@@ -43,7 +56,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const individual = request.payload
-    individual.type = constants.landownerTypes.INDIVIDUAL
+    individual.type = constants.individualOrOrganisationTypes.INDIVIDUAL
     const { id } = request.query
     const errors = {}
     const legalAgreementType = getLegalAgreementDocumentType(
@@ -54,7 +67,7 @@ const handlers = {
       const excludeIndex = id !== undefined ? parseInt(id, 10) : null
       const personDuplicateError = checkForDuplicateConcatenated(
         landownerIndividuals,
-        ['firstName', 'middleNames', 'lastName'],
+        ['firstName', 'lastName'],
         individual,
         '#personName',
         'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
@@ -66,6 +79,7 @@ const handlers = {
     } else {
       errors.individualError = individualError
     }
+
     if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
         individual,
@@ -73,7 +87,8 @@ const handlers = {
         err: !isEmpty(errors.individualError) ? Object.values(errors.individualError) : Object.values(errors.fullNameError),
         fullNameError: errors.fullNameError,
         firstNameError: errors.individualError?.firstNameError,
-        lastNameError: errors.individualError?.lastNameError
+        lastNameError: errors.individualError?.lastNameError,
+        emailAddressError: errors.individualError?.emailAddressError
       })
     }
     if (id) {

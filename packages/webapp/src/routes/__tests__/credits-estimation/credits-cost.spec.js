@@ -1,6 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
-import constants from '../.../../../../utils/constants.js'
-import creditsConstants from '../../../credits/constants.js'
+import creditsConstants from '../../../utils/credits-estimation-constants.js'
 
 const url = creditsConstants.routes.ESTIMATOR_CREDITS_COST
 
@@ -35,18 +34,13 @@ describe(url, () => {
       expect(res.headers.location).toEqual(creditsConstants.routes.ESTIMATOR_CREDITS_TIER)
     })
 
-    it('should redirect to the developer journey task list if a developer journey is in progress', async () => {
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.ALLOCATION)
-      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
-      expect(response.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
-    })
-
-    it('should redirect to the landowner journey task list if a landowner journey is in progress', async () => {
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
-      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
-      expect(response.headers.location).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
+    it(`should render header link with href set to ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
+      const res = await submitGetRequest({ url }, 200, redisCalculation)
+      const escapeHref = creditsConstants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
+      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Estimate the cost of statutory biodiversity credits\\s+</a>`)
+      expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(
+        new RegExp(pattern)
+      )
     })
   })
 })

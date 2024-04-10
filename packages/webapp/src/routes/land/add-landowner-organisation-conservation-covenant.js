@@ -5,7 +5,7 @@ import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegal
 const organisationNameID = '#organisationName'
 const validateOrganisation = organisation => {
   const errors = {}
-  const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', null, 'landowner or leaseholder')
+  const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', 50, 'landowner or leaseholder')
   if (organisationNameError) {
     errors.organisationNameError = organisationNameError.err[0]
   }
@@ -36,7 +36,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const organisation = request.payload
-    organisation.type = constants.landownerTypes.ORGANISATION
+    organisation.type = constants.individualOrOrganisationTypes.ORGANISATION
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()

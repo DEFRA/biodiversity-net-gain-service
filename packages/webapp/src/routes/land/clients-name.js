@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import {
-  validateFirstLastName,
+  validateFirstLastNameOfLandownerOrLeaseholder,
   processRegistrationTask
 } from '../../utils/helpers.js'
 
@@ -19,10 +19,10 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const { firstName, middleNames, lastName } = request.payload
+    const { firstName, lastName } = request.payload
     const errors = {
-      firstNameError: validateFirstLastName(firstName, 'first name', '#firstName'),
-      lastNameError: validateFirstLastName(lastName, 'last name', '#lastName')
+      firstNameError: validateFirstLastNameOfLandownerOrLeaseholder(firstName, 'first name', '#firstName'),
+      lastNameError: validateFirstLastNameOfLandownerOrLeaseholder(lastName, 'last name', '#lastName')
     }
 
     if (errors.firstNameError || errors.lastNameError) {
@@ -38,13 +38,12 @@ const handlers = {
         lastNameError: errors.lastNameError?.err[0],
         individual: {
           firstName,
-          middleNames,
           lastName
         }
       })
     }
 
-    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, middleNames, lastName } })
+    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
 
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
   }

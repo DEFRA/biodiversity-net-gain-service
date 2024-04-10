@@ -1,4 +1,3 @@
-import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
@@ -12,7 +11,7 @@ const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME, result.filename)
-  logger.log(`${new Date().toUTCString()} Received consent file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
+  request.logger.info(`${new Date().toUTCString()} Received consent file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   processDeveloperTask(request,
     {
       taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
@@ -77,13 +76,13 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.DEVELOPER_CONSENT_UPLOAD_TYPE,
       fileExt: constants.consentFileExt,
-      maxFileSize: parseInt(process.env.MAX_CONSENT_UPLOAD_MB) * 1024 * 1024
+      maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }
@@ -122,7 +121,7 @@ const maximumFileSizeExceeded = h => {
   return getMaximumFileSizeExceededView({
     h,
     href: DEVELOPER_WRITTEN_CONSENT_ID,
-    maximumFileSize: process.env.MAX_CONSENT_UPLOAD_MB,
+    maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
     view: constants.views.DEVELOPER_CONSENT_AGREEMENT_UPLOAD
   })
 }

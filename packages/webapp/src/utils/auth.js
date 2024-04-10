@@ -28,7 +28,8 @@ const getAuthenticationUrl = () => {
   const authCodeUrlParameters = {
     scopes: ['openid', 'offline_access', authConfig.clientId],
     extraQueryParameters: {
-      serviceId: DEFRA_ID.DEFRA_ID_SERVICE_ID
+      serviceId: DEFRA_ID.DEFRA_ID_SERVICE_ID,
+      forceReselection: true
     },
     redirectUri: authConfig.redirectUri
   }

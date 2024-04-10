@@ -1,32 +1,29 @@
-import { logger } from 'defra-logging-facade'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { generateUniqueId, getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import path from 'path'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
-const processSuccessfulUpload = (result, request, h) => {
-  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-  const location = result.config.blobConfig.blobName
-  const fileName = path.parse(location).base
-  let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
-  if (!id) {
-    id = generateUniqueId()
-    lopFiles.push({
-      fileName,
-      fileLocation: location,
-      fileSize: result.fileSize,
-      fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
-      contentMediaType: result.fileType,
-      id
-    })
+const processSuccessfulUpload = async (result, request, h) => {
+  const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+  if (tempFile && !tempFile.confirmed) {
+    await deleteBlobFromContainers(tempFile.fileLocation)
   }
-  logger.log(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
-  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
+  const tempFileDetails = {
+    id: generateUniqueId(),
+    fileName: path.parse(result.config.blobConfig.blobName).base,
+    fileLocation: result.config.blobConfig.blobName,
+    fileSize: result.fileSize,
+    fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+    contentMediaType: result.fileType,
+    confirmed: false
+  }
+  request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
+  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${tempFileDetails.id}`)
 }
 
 const processErrorUpload = (err, h) => {
@@ -99,10 +96,10 @@ const handlers = {
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
-      const result = await uploadFile(logger, request, config)
+      const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      logger.log(`${new Date().toUTCString()} Problem uploading file ${err}`)
+      request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
       return processErrorUpload(err, h)
     }
   }
@@ -126,7 +123,7 @@ export default [{
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        logger.log(`${new Date().toUTCString()} File upload too large ${request.path}`)
+        request.logger.info(`${new Date().toUTCString()} File upload too large ${request.path}`)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumOwnershipProofFileSizeExceeded(h).takeover()
         } else {

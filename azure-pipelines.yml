@@ -15,13 +15,13 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '18.x'
   displayName: 'Install Node.js'
 
 - script: |
     npm ci --ignore-scripts && npm run lerna:i
 # TODO: there is currently a bug with lerna version that means npm packagelock v2 files
-# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock 
+# are not updated correctly, and our CI build will need an npm I instead of npm ci as lock
 # files don't match package files correctly.
   displayName: 'npm install package dependencies'
 
@@ -32,7 +32,7 @@ steps:
   displayName: 'Create function artifact'
 
 - script: |
-    docker-compose -f docker/services.build.azure.yml build
+    docker compose -f docker/services.build.azure.yml build
     docker save ${CONTAINER_REGISTRY}/webapp:${TAG} > web.tar
     cp web.tar $(Build.ArtifactStagingDirectory)/webapp.tar
   displayName: 'Build webapp image and output to tar'

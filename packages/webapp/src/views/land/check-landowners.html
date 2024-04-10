@@ -7,7 +7,7 @@
 {% endif %}
 
 {% block formContent %}
-<div class="govuk-body">
+
     {% if err %}
         {% include "errorbanner.html" %}
     {% endif %}
@@ -16,11 +16,13 @@
             <h1 class="govuk-heading-l" tabindex="-1">
               {{ pageHeading }}
             </h1>
+            <div class="govuk-summary-list-visible-values">
                 {{ govukSummaryList({
                     rows: landOwnerConservationConvenantsWithAction,
                     classes: "govuk-summary-list hmrc-list-with-actions hmrc-list-with-actions--short"
                     }) 
                 }}
+            </div>
             {{ govukRadios({
                 idPrefix: "addAnotherLandowner",
                 name: "addAnotherLandowner",
@@ -61,5 +63,5 @@
             }) }}
         </div>
     </div>
-</div>
+
 {% endblock %}

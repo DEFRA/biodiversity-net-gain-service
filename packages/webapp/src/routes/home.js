@@ -6,7 +6,7 @@ const home = {
   options: {
     auth: false
   },
-  handler: (_request, h) => h.redirect(constants.routes.START)
+  handler: (_request, h) => h.redirect(constants.routes.SIGNIN)
 }
 
 export default home

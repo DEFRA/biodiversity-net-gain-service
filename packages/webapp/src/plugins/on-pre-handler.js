@@ -5,17 +5,19 @@ const onPostAuthHandler = {
     name: 'on-pre-handler',
     register: (server, _options) => {
       server.ext('onPreHandler', async function (request, h) {
-        // Do not allow users to change the application type part way through a journey without using the dashboards.
-        const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
-        if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
-            isBlockedCreditsEstimationRouteOnLandownerJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
-        } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
-                   isBlockedCreditsEstimationRouteOnDeveloperJourney(request.path, applicationType)) {
-          return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
-        } else {
-          return h.continue
+        // Ignore public asset requests
+        if (!request.path.includes('/public/')) {
+          // Do not allow users to change the application type part way through a journey without using the dashboards.
+          const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+          if (isBlockedDeveloperJourneyRouteOnLandownerJourney(request.path, applicationType) ||
+              isBlockedCreditsJourneyRouteOnLandownerJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
+          } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
+                    isBlockedCreditsJourneyRouteOnDeveloperJourney(request.path, applicationType)) {
+            return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
+          }
         }
+        return h.continue
       })
     }
   }
@@ -39,13 +41,13 @@ const isBlockedLandownerJourneyRouteOnDeveloperJourney = (path, applicationType)
          path !== constants.routes.REGISTER_LAND_TASK_LIST
 }
 
-const isBlockedCreditsEstimationRouteOnDeveloperJourney = (path, applicationType) => {
+const isBlockedCreditsJourneyRouteOnDeveloperJourney = (path, applicationType) => {
   return applicationType === constants.applicationTypes.ALLOCATION &&
-         path.startsWith(constants.creditsEstimationPath)
+         path.startsWith('/credits/')
 }
 
-const isBlockedCreditsEstimationRouteOnLandownerJourney = (path, applicationType) => {
+const isBlockedCreditsJourneyRouteOnLandownerJourney = (path, applicationType) => {
   return applicationType === constants.applicationTypes.REGISTRATION &&
-         path.startsWith(constants.creditsEstimationPath)
+         path.startsWith('/credits/')
 }
 export default onPostAuthHandler

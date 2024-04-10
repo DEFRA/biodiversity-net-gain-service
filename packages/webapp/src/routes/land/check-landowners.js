@@ -2,8 +2,8 @@ import constants from '../../utils/constants.js'
 import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
-  if (item.type === constants.landownerTypes.INDIVIDUAL) {
-    const textToDisplay = `${item.firstName} ${item.middleNames ? item.middleNames + ' ' : ''}${item.lastName}`
+  if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+    const textToDisplay = `${item.firstName} ${item.lastName} (${item.emailAddress})`
     return {
       key: {
         text: textToDisplay,
@@ -90,6 +90,7 @@ const handlers = {
     }
 
     if (addAnotherLandowner === 'yes') {
+      request.yar.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     }
 

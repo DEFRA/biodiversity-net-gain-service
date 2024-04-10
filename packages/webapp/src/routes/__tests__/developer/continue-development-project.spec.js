@@ -57,5 +57,23 @@ describe(url, () => {
         }
       })
     })
+    it('should return a HTTP 400 status code if application returned but organisation doesn\'t match current login', done => {
+      jest.isolateModules(async () => {
+        try {
+          jest.resetAllMocks()
+          jest.mock('../../../utils/http.js')
+          const http = require('../../../utils/http.js')
+          http.postJson = jest.fn().mockImplementation(() => {
+            return {
+              'organisation-id': 'random-org-id'
+            }
+          })
+          await submitGetRequest({ url }, 400, null, { expectedNumberOfPostJsonCalls: 1 })
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 })

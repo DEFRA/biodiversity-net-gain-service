@@ -4,7 +4,7 @@ import constants from '../../../utils/constants.js'
 const getClientName = (session, isIndividual) => {
   if (isIndividual) {
     const name = session.get(constants.redisKeys.CLIENTS_NAME_KEY)?.value
-    return `${name?.firstName} ${name?.middleNames} ${name?.lastName}`
+    return `${name?.firstName} ${name?.lastName}`
   }
 
   return session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
@@ -39,7 +39,7 @@ const applicationInformationContext = session => {
   context.addressIsUK = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === 'yes'
 
   if (context.actingForClient) {
-    context.clientIsIndividual = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) === constants.landownerTypes.INDIVIDUAL
+    context.clientIsIndividual = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) === constants.individualOrOrganisationTypes.INDIVIDUAL
     context.clientName = getClientName(session, context.clientIsIndividual)
     context.clientAddress = getAddress(session, context.addressIsUK)
     context.authorisationFile = path.basename(session.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION) ?? '')
@@ -49,7 +49,7 @@ const applicationInformationContext = session => {
       context.clientPhone = session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
     }
   } else {
-    context.applicantIsIndividual = session.get(constants.redisKeys.LANDOWNER_TYPE) === constants.landownerTypes.INDIVIDUAL
+    context.applicantIsIndividual = session.get(constants.redisKeys.LANDOWNER_TYPE) === constants.individualOrOrganisationTypes.INDIVIDUAL
     context.applicantAddress = getAddress(session, context.addressIsUK)
   }
 

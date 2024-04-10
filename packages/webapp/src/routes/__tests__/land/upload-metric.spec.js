@@ -56,6 +56,27 @@ describe('Metric file upload controller tests', () => {
       })
     }, 300000)
 
+    it('should upload feb24 format metric file to cloud storage', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const uploadConfig = getBaseConfig()
+          uploadConfig.hasError = false
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1-feb24.xlsm`
+          uploadConfig.headers = {
+            referer: 'http://localhost:30000/land/register-land-task-list'
+          }
+          await uploadFile(uploadConfig)
+          expect(spy).toHaveBeenCalledTimes(1)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    }, 300000)
+
     it('should upload metric document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
@@ -240,8 +261,8 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
-
-    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+    // BNGP-4219 METRIC Validation: Suppress total area calculations
+    it.skip('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
@@ -254,7 +275,6 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
-
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
           expect(spy).toHaveBeenCalledTimes(2)

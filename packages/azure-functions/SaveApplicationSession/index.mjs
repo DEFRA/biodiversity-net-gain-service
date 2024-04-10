@@ -1,14 +1,18 @@
-import { createApplicationReference, saveApplicationSession } from '../Shared/db-queries.js'
+import {
+  createApplicationReference,
+  createCreditsAppReference,
+  saveApplicationSession
+} from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
 // Ensure these stay up to date with webapp constants file.
 const redisKeys = {
   contactId: 'contact-id',
-  applicationType: 'application-type'
+  applicationType: 'application-type',
+  organisationId: 'organisation-id'
 }
 
 export default async function (context, req) {
-  context.log('Processing', JSON.stringify(req.body))
   let db
   try {
     const applicationSession = req.body
@@ -21,16 +25,39 @@ export default async function (context, req) {
     db = await getDBConnection(context)
 
     // Ensure the application reference keys stay up to date with webapp constants file.
-    redisKeys.applicationReference =
-      applicationSession[redisKeys.applicationType] === 'Registration' ? 'application-reference' : 'developer-app-reference'
+    if (applicationSession[redisKeys.applicationType] === 'Registration') {
+      redisKeys.applicationReference = 'application-reference'
+    }
+
+    if (applicationSession[redisKeys.applicationType] === 'Allocation') {
+      redisKeys.applicationReference = 'developer-app-reference'
+    }
+
+    if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
+      redisKeys.applicationReference = 'credits-purchase-application-reference'
+    }
+
+    context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
 
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
-      const result = await createApplicationReference(db, [
+      let createApplicationRefFunction = createApplicationReference
+
+      if (applicationSession[redisKeys.applicationType] === 'CreditsPurchase') {
+        createApplicationRefFunction = createCreditsAppReference
+      }
+
+      const result = await createApplicationRefFunction(db, [
         applicationSession[redisKeys.contactId],
-        applicationSession[redisKeys.applicationType]
+        applicationSession[redisKeys.applicationType],
+        applicationSession[redisKeys.organisationId]
       ])
-      applicationSession[redisKeys.applicationReference] = result.rows[0].fn_create_application_reference
+
+      applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
+        ? result.rows[0].fn_create_credits_app_reference
+        : result.rows[0].fn_create_application_reference
+
+      context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }
 
     // Save the applicationSession to database
@@ -51,7 +78,6 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(applicationSession[redisKeys.applicationReference])
     }
-    context.log(`Saved application session ${applicationSession[redisKeys.applicationReference]}`)
   } catch (err) {
     context.log.error(err)
     context.res = {

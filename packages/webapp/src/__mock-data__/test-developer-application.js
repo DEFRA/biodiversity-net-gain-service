@@ -1,4 +1,5 @@
 const data = `{
+  "contact-id": "mock contact id",
   "metric-file-checked": "yes",
   "application-reference": "",
   "biodiversity-net-gain-number": "BGS-111 222 333",
@@ -199,7 +200,7 @@ const data = `{
     "e1": [
       {
         "Hedge number": 1,
-        "Hedgerow type": "Native hedgerow - associated with bank or ditch",
+        "Habitat type": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
         "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Total hedgerow units": 1.2,
@@ -208,7 +209,7 @@ const data = `{
       },
       {
         "Hedge number": 2,
-        "Hedgerow type": "Native hedgerow",
+        "Habitat type": "Native hedgerow",
         "Length (km)": 0.3,
         "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
         "Total hedgerow units": 0.6,

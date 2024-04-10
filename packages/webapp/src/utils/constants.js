@@ -1,7 +1,6 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsConstants from '../credits/constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -17,12 +16,14 @@ const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const CANNOT_START_YET_STATUS = 'CANNOT START YET'
 const YES = 'yes'
 const AWAITING_PROCESSING = 'AwaitingProcessing'
 const SUCCESS = 'Success'
 const FILE_INACCESSIBLE = 'FileInaccessible'
 const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
+const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
@@ -32,6 +33,7 @@ const CONTACT_ID = 'contact-id'
 const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -44,10 +46,17 @@ const LANDOWNER = 'landowner'
 const REPRESENTATIVE = 'representative'
 const INTERNATIONAL = 'international'
 const UK = 'uk'
+const INDIVIDUAL = 'individual'
+const ORGANISATION = 'organisation'
+const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
+const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const COOKIES = 'cookies'
+const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
@@ -153,6 +162,12 @@ const ADDRESS_IS_UK = {
   NO,
   YES
 }
+
+const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
+  NO,
+  YES
+}
+
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
@@ -171,13 +186,16 @@ let routes = {
   SIGNIN_CALLBACK,
   SIGNOUT,
   SIGNED_OUT,
-  APPLICATION_SUBMITTED
+  APPLICATION_SUBMITTED,
+  ACCESSIBILITY_STATEMENT,
+  COOKIES
 }
 
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_CREDITS_PURCHASE_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -203,7 +221,8 @@ const threatScreeningStatusValues = {
   SUCCESS,
   FILE_INACCESSIBLE,
   QUARANTINED,
-  FAILED_TO_VIRUS_SCAN
+  FAILED_TO_VIRUS_SCAN,
+  XSS_VULNERABILITY_FOUND
 }
 
 const uploadTypes = {
@@ -236,8 +255,9 @@ const minStartDates = {
   MANAGEMENT_MONITORING_MIN_START_DATE
 }
 
-const landownerTypes = {
-  ...lojConstants.landownerTypes
+const individualOrOrganisationTypes = {
+  INDIVIDUAL,
+  ORGANISATION
 }
 
 const signInTypes = {
@@ -255,7 +275,7 @@ const applicantTypes = {
 export default Object.freeze({
   applicationTypes,
   applicantTypes,
-  landownerTypes,
+  individualOrOrganisationTypes,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
@@ -278,6 +298,7 @@ export default Object.freeze({
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
   LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
+  CANNOT_START_YET_STATUS,
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
@@ -288,10 +309,11 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
   signInTypes,
   APPLICANT_IS_AGENT,
   ADDRESS_IS_UK,
-  ADDRESS_TYPES
+  ADDRESS_TYPES,
+  DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
 })

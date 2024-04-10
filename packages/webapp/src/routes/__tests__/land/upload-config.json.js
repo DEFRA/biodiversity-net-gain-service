@@ -1,4 +1,6 @@
 import constants from '../../../utils/constants'
+import creditsPurchaseConstants from '../../../utils/credits-purchase-constants'
+
 const uploadTestConfig = [{
   uploadType: 'land-ownership',
   url: constants.routes.UPLOAD_LAND_OWNERSHIP,
@@ -9,6 +11,11 @@ const uploadTestConfig = [{
   url: constants.routes.UPLOAD_METRIC,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
+}, {
+  uploadType: 'metric-upload',
+  url: constants.routes.UPLOAD_METRIC,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1-feb24.xlsm'
 }, {
   uploadType: 'metric-upload',
   url: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
@@ -40,6 +47,11 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
 }, {
+  uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
+  url: constants.routes.DEVELOPER_UPLOAD_METRIC,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1-feb24.xlsm'
+}, {
   uploadType: constants.uploadTypes.HABITAT_PLAN_UPLOAD_TYPE,
   url: constants.routes.UPLOAD_HABITAT_PLAN,
   hasError: true,
@@ -49,6 +61,16 @@ const uploadTestConfig = [{
   url: constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
+}, {
+  uploadType: creditsPurchaseConstants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
+  url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1.xlsm'
+}, {
+  uploadType: creditsPurchaseConstants.uploadTypes.CREDITS_PURCHASE_METRIC_UPLOAD_TYPE,
+  url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+  hasError: true,
+  filePath: 'packages/webapp/src/__mock-data__/uploads/metric-file/metric-file-4.1-feb24.xlsm'
 }
 ]
 
