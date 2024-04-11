@@ -36,7 +36,7 @@ function buildErrorResponse (h, message, href) {
   })
 }
 
-function maximumFileSizeExceededNew (h, href, maximumFileSize, view) {
+function maximumFileSizeExceeded (h, href, maximumFileSize, view) {
   // TODO: delete console.log when you have tested the new function
   console.log('Hello from maximumFileSizeExceeded')
   return getMaximumFileSizeExceededView({
@@ -50,5 +50,5 @@ function maximumFileSizeExceededNew (h, href, maximumFileSize, view) {
 export {
   processErrorUpload,
   buildErrorResponse,
-  maximumFileSizeExceededNew
+  maximumFileSizeExceeded
 }
