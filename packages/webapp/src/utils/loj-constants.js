@@ -136,7 +136,6 @@ const METRIC_HABITAT_CREATED_CHECKED = 'metric-habitat-created-checked'
 const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
 const LANDOWNERS = 'landowners'
-const REGISTRATION_TASK_DETAILS = 'registrationTaskDetails'
 const REFERER = 'referer'
 const EMAIL_VALUE = 'email-value'
 const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
@@ -259,7 +258,6 @@ export default {
     ENHANCEMENT_WORKS_START_DATE_KEY,
     METRIC_FILE_CHECKED,
     HABITAT_ENHANCEMENTS_END_DATE_OPTION,
-    REGISTRATION_TASK_DETAILS,
     METRIC_UPLOADED_ANSWER,
     REFERER,
     EMAIL_VALUE,
