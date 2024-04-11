@@ -23,10 +23,12 @@ function processErrorUpload (err, h, viewPath, href) {
   }
 }
 
-function buildErrorResponse (h, message, href, viewPath) {
+function buildErrorResponse (h, message, href) {
   // TODO: delete console.log when you have tested the new function
   console.log('Hello from buildErrorResponse')
-  return h.view(viewPath, {
+  console.log('message: ', message)
+  console.log('href: ', href)
+  return h.view(href, {
     err: [{
       text: message,
       href

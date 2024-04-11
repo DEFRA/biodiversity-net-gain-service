@@ -1,9 +1,9 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { generatePayloadOptions, maximumFileSizeExceeded } from '../../utils/generate-payload-options.js'
+import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
+import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId, processRegistrationTask } from '../../utils/helpers.js'
-import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import path from 'path'
 
 const landOwnershipId = '#landOwnership'
@@ -29,36 +29,6 @@ async function processSuccessfulUpload (result, request, h) {
   return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
 }
 
-function buildErrorResponse (h, message) {
-  return h.view(constants.views.UPLOAD_LAND_OWNERSHIP, {
-    err: [{
-      text: message,
-      href: landOwnershipId
-    }]
-  })
-}
-
-function processErrorUpload (err, h) {
-  switch (err.message) {
-    case constants.uploadErrors.emptyFile:
-      return buildErrorResponse(h, 'The selected file is empty')
-    case constants.uploadErrors.noFile:
-      return buildErrorResponse(h, 'Select a proof of land ownership file')
-    case constants.uploadErrors.maximumFileSizeExceeded:
-      return maximumFileSizeExceeded(h, { fileId: landOwnershipId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_OWNERSHIP)
-    case constants.uploadErrors.unsupportedFileExt:
-      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
-    default:
-      if (err instanceof ThreatScreeningError) {
-        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
-      } else if (err instanceof MalwareDetectedError) {
-        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
-      } else {
-        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
-      }
-  }
-}
-
 const handlers = {
   get: async (request, h) => {
     processRegistrationTask(request, {
@@ -82,7 +52,7 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h)
+      return processErrorUpload(err, h, constants.views.UPLOAD_LAND_OWNERSHIP)
     }
   }
 }
@@ -96,6 +66,11 @@ export default [{
   method: 'POST',
   path: constants.routes.UPLOAD_LAND_OWNERSHIP,
   handler: handlers.post,
-  options: generatePayloadOptions({ fileId: landOwnershipId }, process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB, constants.views.UPLOAD_LAND_OWNERSHIP)
+  options:
+    generatePayloadOptions(
+      landOwnershipId,
+      process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+      constants.views.UPLOAD_LAND_OWNERSHIP
+    )
 }
 ]

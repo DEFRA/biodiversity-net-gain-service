@@ -50,8 +50,9 @@ const handlers = {
       const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
+      console.log('Hello from postHandler err catch')
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_WRITTEN_AUTHORISATION, constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+      return processErrorUpload(err, h, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
     }
   }
 }
@@ -68,8 +69,6 @@ export default [{
     generatePayloadOptions(
       writtenAuthorisationId,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-      constants.views.UPLOAD_WRITTEN_AUTHORISATION,
-      constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
-      writtenAuthorisationId
+      constants.views.UPLOAD_WRITTEN_AUTHORISATION
     )
 }]
