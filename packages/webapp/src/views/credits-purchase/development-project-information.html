@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Add a local planning authority listed on the " + legalAgreementType %}
+{% set pageHeading = "Development project information" %}
 
 {% block formContent %}
   {% include "common/select-local-planning-authority.html" %}
@@ -13,9 +13,6 @@
         id: "firstName",
         name: "firstName",
         errorMessage: firstNameError,
-        label: {
-        text: "First name"
-        },
         autocomplete: "given-name",
         spellcheck: false,
         value: individual.firstName
@@ -30,14 +27,21 @@
         id: "firstName",
         name: "firstName",
         errorMessage: firstNameError,
-        label: {
-        text: "First name"
-        },
         autocomplete: "given-name",
         spellcheck: false,
         value: individual.firstName
       }) 
     }}
+
+    <div class="moj-button-action">
+      {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+              id: "continue",
+              "data-testid": "continue"
+          }
+      }) }}
+    </div>
 {% endblock %}
 {% block pageScripts %}
   <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>

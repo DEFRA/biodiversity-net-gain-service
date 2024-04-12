@@ -4,6 +4,16 @@
 
 {% block formContent %}
   {% include "common/select-local-planning-authority.html" %}
+
+  <div class="moj-button-action">
+      {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+              id: "continue",
+              "data-testid": "continue"
+          }
+      }) }}
+  </div>
 {% endblock %}
 {% block pageScripts %}
   <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>

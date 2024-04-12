@@ -1,8 +1,7 @@
-import constants from '../../utils/constants.js'
+import creditsConstants from '../../utils/credits-purchase-constants.js'
+import constants from '../../utils/loj-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  processRegistrationTask,
-  getLegalAgreementDocumentType,
   checkForDuplicate,
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
@@ -10,39 +9,29 @@ const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
   get: (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_PLANNING_AUTHORITY
-    })
-
     const { id } = request.query
     const lpaNames = getLpaNames(filePathAndName)
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
-    const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+
+    const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
 
     let localPlanningAuthority
     if (id) {
       localPlanningAuthority = lpaList[id]
     }
 
-    return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
+    return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
       localPlanningAuthority,
-      legalAgreementType,
       lpaNames
     })
   },
   post: (request, h) => {
     const { id } = request.query
     const { localPlanningAuthority } = request.payload
-    const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
+    const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST) ?? []
     let localPlanningAuthorityNameErr
     const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
 
@@ -51,10 +40,9 @@ const handlers = {
         text: 'Enter a local planning authority',
         href: 'localPlanningAuthority'
       }]
-      return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
+      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err: Object.values(localPlanningAuthorityNameErr),
         localPlanningAuthorityNameErr,
-        legalAgreementType,
         lpaNames: refLpaNames
       })
     }
@@ -64,10 +52,9 @@ const handlers = {
         text: 'Enter a valid local planning authority',
         href: 'localPlanningAuthority'
       }]
-      return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
+      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err: Object.values(localPlanningAuthorityNameErr),
         localPlanningAuthorityNameErr,
-        legalAgreementType,
         lpaNames: refLpaNames
       })
     }
@@ -82,10 +69,9 @@ const handlers = {
       excludeIndex
     )
     if (duplicateError) {
-      return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
+      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err: Object.values(duplicateError),
         localPlanningAuthorityNameErr,
-        legalAgreementType,
         lpaNames: refLpaNames
       })
     }
@@ -94,19 +80,19 @@ const handlers = {
     } else {
       lpaList.push(selectedLpa)
     }
-    request.yar.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, lpaList)
-    return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)
+    request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
+    return h.redirect(creditsConstants.routes.CHECK_PLANNING_AUTHORITIES)
   }
 }
 
 export default [{
   method: 'GET',
-  path: constants.routes.ADD_PLANNING_AUTHORITY,
+  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.get,
   options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
-  path: constants.routes.ADD_PLANNING_AUTHORITY,
+  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.post,
   options: validateIdGetSchemaOptional
 }]
