@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { getMetricFileValidationErrors, processRegistrationTask } from '../../utils/helpers.js'
+import { getMetricFileValidationErrors } from '../../utils/helpers.js'
 
 const uploadMetricId = '#uploadMetric'
 
@@ -24,13 +24,6 @@ async function processSuccessfulUpload (result, request, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add habitat baseline, creation and enhancements'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.UPLOAD_METRIC
-    })
     return h.view(constants.views.UPLOAD_METRIC)
   },
   post: async (request, h) => {

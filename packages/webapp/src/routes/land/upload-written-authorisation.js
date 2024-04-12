@@ -3,7 +3,6 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const writtenAuthorisationId = '#writtenAuthorisation'
@@ -19,14 +18,6 @@ async function processSuccessfulUpload (result, request, h) {
 
 const handlers = {
   get: async (request, h) => {
-    console.log('Hello from getHandler')
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_WRITTEN_AUTHORISATION
-    })
-
     const isIndividualOrOrganisation = request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const clientsName = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
     const clientsOrganisationName = request.yar.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)

@@ -6,7 +6,7 @@ jest.mock('@defra/bng-connectors-lib')
 jest.mock('../../Shared/db-queries.js')
 
 const gainSiteReference = 'BNGREG-JDSJ3-A4LI9'
-
+const creditReference = 'BNGCRD-TEST1-T3ST2'
 describe('Save Application Session', () => {
   it('Should generate a registration reference and notification when notifications are enabled and a valid request\'s session is saved using a contact ID and application type', done => {
     jest.isolateModules(async () => {
@@ -46,11 +46,135 @@ describe('Save Application Session', () => {
             ]
           }
         })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
+              }
+            ]
+          }
+        })
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.res.body).toEqual(`"${gainSiteReference}"`)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
+        expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
+        expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+  it('Should generate a credit reference and notification when notifications are enabled and a valid request\'s session is saved using a contact ID and application type Credit Purchase', done => {
+    jest.isolateModules(async () => {
+      process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED = 'true'
+      try {
+        const applicationSessionId = randomUUID()
+
+        const req = {
+          body: {
+            'contact-id': 'mock-contact-id',
+            'application-type': 'CreditsPurchase',
+            'application-reference': ''
+          }
+        }
+
+        const expectedNotificationMessage = {
+          id: applicationSessionId,
+          notificationType: 'email'
+        }
+
+        const dbQueries = require('../../Shared/db-queries.js')
+        dbQueries.createCreditsAppReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                fn_create_credits_app_reference: creditReference
+              }
+            ]
+          }
+        })
+        dbQueries.saveApplicationSession = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                application_session_id: applicationSessionId
+              }
+            ]
+          }
+        })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
+              }
+            ]
+          }
+        })
+        await saveApplicationSession(getContext(), req)
+        const context = getContext()
+        expect(context.res.status).toEqual(200)
+        expect(context.res.body).toEqual(`"${creditReference}"`)
+        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.createCreditsAppReference.mock.calls).toHaveLength(1)
+        expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
+        expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
+        done()
+      } catch (err) {
+        done(err)
+      }
+    })
+  })
+
+  it('Should update a project name and notification when notifications are enabled and a valid request\'s session is saved using a contact ID and application type Credit Purchase', done => {
+    jest.isolateModules(async () => {
+      process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED = 'true'
+      try {
+        const applicationSessionId = randomUUID()
+
+        const req = {
+          body: {
+            'contact-id': 'mock-contact-id',
+            'application-type': 'CreditsPurchase',
+            'credits-purchase-application-reference': creditReference
+          }
+        }
+
+        const expectedNotificationMessage = {
+          id: applicationSessionId,
+          notificationType: 'email'
+        }
+
+        const dbQueries = require('../../Shared/db-queries.js')
+
+        dbQueries.saveApplicationSession = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                application_session_id: applicationSessionId
+              }
+            ]
+          }
+        })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 2'
+              }
+            ]
+          }
+        })
+        await saveApplicationSession(getContext(), req)
+        const context = getContext()
+        expect(context.res.status).toEqual(200)
+        expect(context.res.body).toEqual(`"${creditReference}"`)
+        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
+        expect(dbQueries.updateProjectName.mock.calls).toHaveLength(1)
         expect(dbQueries.saveApplicationSession.mock.calls).toHaveLength(1)
         expect(context.bindings.savedApplicationSessionNotificationQueue).toStrictEqual(expectedNotificationMessage)
         done()
@@ -82,6 +206,16 @@ describe('Save Application Session', () => {
             ]
           }
         })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
+              }
+            ]
+          }
+        })
+
         await saveApplicationSession(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
@@ -95,6 +229,7 @@ describe('Save Application Session', () => {
       }
     })
   })
+
   it('Should save a valid session with contact ID, application type and reference. A notification should not be sent if disabled through configuration', done => {
     jest.isolateModules(async () => {
       process.env.SEND_NOTIFICATION_WHEN_APPLICATION_SESSION_SAVED = 'false'
@@ -115,6 +250,15 @@ describe('Save Application Session', () => {
             rows: [
               {
                 application_session_id: applicationSessionId
+              }
+            ]
+          }
+        })
+        dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+          return {
+            rows: [
+              {
+                project_name: 'project 1'
               }
             ]
           }
@@ -211,6 +355,15 @@ it('Should generate an allocation reference and notification when notifications 
           rows: [
             {
               application_session_id: applicationSessionId
+            }
+          ]
+        }
+      })
+      dbQueries.getProjectNameByApplicationReference = jest.fn().mockImplementation(() => {
+        return {
+          rows: [
+            {
+              project_name: 'project 1'
             }
           ]
         }

@@ -3,7 +3,6 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const localLandChargeId = '#localLandChargeId'
@@ -18,13 +17,6 @@ async function processSuccessfulUpload (result, request, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add local land charge search certificate'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS
-    })
     return h.view(constants.views.UPLOAD_LOCAL_LAND_CHARGE)
   },
   post: async (request, h) => {

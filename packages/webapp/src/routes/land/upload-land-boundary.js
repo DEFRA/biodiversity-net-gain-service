@@ -3,7 +3,6 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const landBoundaryId = '#landBoundary'
@@ -34,13 +33,6 @@ async function processSuccessfulUpload (result, request, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.UPLOAD_LAND_BOUNDARY
-    })
     return h.view(constants.views.UPLOAD_LAND_BOUNDARY)
   },
   post: async (request, h) => {

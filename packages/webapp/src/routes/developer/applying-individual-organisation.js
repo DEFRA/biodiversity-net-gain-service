@@ -1,6 +1,5 @@
 import getApplicantContext from '../../utils/get-applicant-context.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const individualSignInErrorMessage = `
   You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
@@ -12,13 +11,6 @@ const organisationSignInErrorMessage = `
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
-    })
-
     return h.view(constants.views.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, getContext(request))
   },
   post: async (request, h) => {

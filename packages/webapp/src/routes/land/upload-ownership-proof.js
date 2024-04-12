@@ -1,14 +1,15 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { generateUniqueId, processRegistrationTask } from '../../utils/helpers.js'
+import { generateUniqueId } from '../../utils/helpers.js'
 import path from 'path'
 
 const landOwnershipId = '#landOwnership'
 
-async function processSuccessfulUpload (result, request, h) {
+const processSuccessfulUpload = (result, request, h) => {
   const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
   const location = result.config.blobConfig.blobName
   const fileName = path.parse(location).base
@@ -31,13 +32,6 @@ async function processSuccessfulUpload (result, request, h) {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add land ownership details'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.UPLOAD_LAND_OWNERSHIP
-    })
     return h.view(constants.views.UPLOAD_LAND_OWNERSHIP)
   },
   post: async (request, h) => {
