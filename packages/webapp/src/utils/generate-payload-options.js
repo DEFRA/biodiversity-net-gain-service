@@ -24,6 +24,7 @@ function generatePayloadOptions (href, maximumFileSize, view) {
           console.log('Hello from failAction: err')
           return processErrorUpload(err, h, href, maximumFileSize, view).takeover()
         } else {
+          console.log('Hello from failAction: else')
           throw err
         }
       }

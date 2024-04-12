@@ -4,29 +4,27 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId } from '../../utils/helpers.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
 
 const landOwnershipId = '#landOwnership'
 
-const processSuccessfulUpload = (result, request, h) => {
-  const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
-  const location = result.config.blobConfig.blobName
-  const fileName = path.parse(location).base
-  let id = lopFiles.length > 0 && lopFiles.find(file => path.basename(file.fileLocation) === path.basename(location))?.id
-  if (!id) {
-    id = generateUniqueId()
-    lopFiles.push({
-      fileName,
-      fileLocation: location,
-      fileSize: result.fileSize,
-      fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
-      contentMediaType: result.fileType,
-      id
-    })
+const processSuccessfulUpload = async (result, request, h) => {
+  const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+  if (tempFile && !tempFile.confirmed) {
+    await deleteBlobFromContainers(tempFile.fileLocation)
   }
-  request.logger.info(`${new Date().toUTCString()} Received land ownership data for ${location.substring(location.lastIndexOf('/') + 1)}`)
-  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
-  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${id}`)
+  const tempFileDetails = {
+    id: generateUniqueId(),
+    fileName: path.parse(result.config.blobConfig.blobName).base,
+    fileLocation: result.config.blobConfig.blobName,
+    fileSize: result.fileSize,
+    fileType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
+    contentMediaType: result.fileType,
+    confirmed: false
+  }
+  request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
+  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${tempFileDetails.id}`)
 }
 
 const handlers = {
