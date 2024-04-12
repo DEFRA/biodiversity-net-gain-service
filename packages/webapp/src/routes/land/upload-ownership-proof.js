@@ -1,7 +1,6 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId } from '../../utils/helpers.js'
