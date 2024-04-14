@@ -1,0 +1,21 @@
+const routes = {
+  COMBINED_CASE_REGISTRATION_UPLOAD_METRIC: '/combined-case/upload-registration-metric',
+  COMBINED_CASE_ALLOCATION_UPLOAD_METRIC: '/combined-case/upload-allocation-metric',
+  COMBINED_CASE_CHOOSE_HABITATS: '/combined-case/choose-habitats'
+}
+
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
+)
+
+const redisKeys = {
+  COMBINED_CASE_REGISTRATION_METRIC_DATA: 'combined-case-registration-metric-data',
+  COMBINED_CASE_ALLOCATION_METRIC_DATA: 'combined-case-allocation-metric-data'
+}
+
+export default {
+  routes,
+  views,
+  redisKeys,
+  BLOB_STORAGE_CONTAINER: 'customer-uploads'
+}
