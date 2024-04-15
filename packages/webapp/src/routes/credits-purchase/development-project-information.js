@@ -28,13 +28,40 @@ const handlers = {
   post: (request, h) => {
     const { id } = request.query
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
+    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
 
-    console.log('request.payload', request.payload)
+    const { lpaList, errors } = lpaHandler(localPlanningAuthority, id, refLpaNames, request, h)
 
-    const lpaList = lpaHandler(localPlanningAuthority, id, request, h)
+    if (!planningApplicationRef) {
+      errors.planningApplicationRefError = {
+        text: 'Enter a planning application reference',
+        href: 'planningApplicationRef'
+      }
+    }
 
-    request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
-    return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+    if (!developmentName) {
+      errors.developmentNameError = {
+        text: 'Enter a development reference',
+        href: 'developmentName'
+      }
+    }
+
+    if (errors && Object.values(errors).some((el) => el !== undefined)) {
+      const err = []
+      Object.keys(errors).forEach(item => {
+        err.push(errors[item])
+      })
+
+      console.log('err--->', err)
+      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
+        err,
+        errors,
+        lpaNames: refLpaNames
+      })
+    } else {
+      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
+      return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+    }
   }
 }
 
@@ -58,34 +85,23 @@ export default [{
  * @param {Object} h
  * @returns {Array<Object>} List of Local planning authorities selected
  */
-const lpaHandler = (localPlanningAuthority, id, request, h) => {
+const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
   const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
   const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST) ?? []
-  let localPlanningAuthorityNameErr
-  const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+  const errors = {}
 
   if (!selectedLpa) {
-    localPlanningAuthorityNameErr = [{
+    errors.emptyLocalPlanningAuthority = [{
       text: 'Enter a local planning authority',
       href: 'localPlanningAuthority'
     }]
-    return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-      err: Object.values(localPlanningAuthorityNameErr),
-      localPlanningAuthorityNameErr,
-      lpaNames: refLpaNames
-    })
   }
 
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
-    const localPlanningAuthorityNameErr = [{
+    errors.invalidLocalPlanningAuthorityError = [{
       text: 'Enter a valid local planning authority',
       href: 'localPlanningAuthority'
     }]
-    return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-      err: Object.values(localPlanningAuthorityNameErr),
-      localPlanningAuthorityNameErr,
-      lpaNames: refLpaNames
-    })
   }
 
   if (id) {
@@ -94,5 +110,5 @@ const lpaHandler = (localPlanningAuthority, id, request, h) => {
     lpaList.push(selectedLpa)
   }
 
-  return lpaList
+  return { lpaList, errors }
 }
