@@ -1,16 +1,10 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add habitat baseline, creation and enhancements'
-    }, {
-      inProgressUrl: constants.routes.CHECK_UPLOAD_METRIC
-    })
     return h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request))
   },
   post: async (request, h) => {

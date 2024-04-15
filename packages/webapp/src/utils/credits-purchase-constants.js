@@ -25,7 +25,9 @@ const routes = {
   CREDITS_PURCHASE_CONFIRM_DEV_DETAILS: '/credits-purchase/confirm-development-details',
   CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
   CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
-  CREDITS_PURCHASE_CHECK_PURCHASE_ORDER: '/credits-purchase/check-purchase-order'
+  CREDITS_PURCHASE_CHECK_PURCHASE_ORDER: '/credits-purchase/check-purchase-order',
+  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: '/credits-purchase/cdd-cya'
+
 }
 
 const views = Object.fromEntries(
@@ -51,7 +53,8 @@ const redisKeys = {
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
   CREDITS_PURCHASE_PURCHASE_ORDER_USED: 'credits-purchase-purchase-order-used',
   CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER: 'credits-purchase-purchase-order-number',
-  REFERER: 'referer'
+  REFERER: 'referer',
+  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: 'credits-purchase-customer-due-diligence'
 }
 
 const NO = 'no'
