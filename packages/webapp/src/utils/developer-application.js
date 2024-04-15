@@ -54,8 +54,6 @@ const getHabitats = session => {
   const allocatedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
   const getModule = identifier => {
     switch (identifier.charAt(identifier.length - 1)) {
-      case '1':
-        return 'Baseline'
       case '2':
         return 'Created'
       case '3':
