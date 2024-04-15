@@ -1,7 +1,7 @@
 const routes = {
   COMBINED_CASE_REGISTRATION_UPLOAD_METRIC: '/combined-case/upload-registration-metric',
   COMBINED_CASE_ALLOCATION_UPLOAD_METRIC: '/combined-case/upload-allocation-metric',
-  COMBINED_CASE_CHOOSE_HABITATS: '/combined-case/choose-habitats'
+  COMBINED_CASE_CHOOSE_HABITAT: '/combined-case/choose-habitat'
 }
 
 const views = Object.fromEntries(
@@ -10,7 +10,9 @@ const views = Object.fromEntries(
 
 const redisKeys = {
   COMBINED_CASE_REGISTRATION_METRIC_DATA: 'combined-case-registration-metric-data',
-  COMBINED_CASE_ALLOCATION_METRIC_DATA: 'combined-case-allocation-metric-data'
+  COMBINED_CASE_ALLOCATION_METRIC_DATA: 'combined-case-allocation-metric-data',
+  COMBINED_CASE_ALLOCATION_HABITATS: 'combined-case-allocation-habitats',
+  COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats'
 }
 
 export default {

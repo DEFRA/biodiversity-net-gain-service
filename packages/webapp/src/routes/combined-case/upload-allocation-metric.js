@@ -19,7 +19,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
 
   request.yar.set(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA, result.postProcess.metricData)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(combinedCaseConstants.routes.COMBINED_CASE_CHOOSE_HABITATS)
+  return h.redirect(combinedCaseConstants.routes.COMBINED_CASE_CHOOSE_HABITAT)
 }
 
 const handlers = {

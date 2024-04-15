@@ -23,7 +23,12 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
 }
 
 const handlers = {
-  get: async (request, h) => h.view(thisView),
+  get: async (request, h) => {
+    request.yar.clear(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    request.yar.clear(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
+
+    return h.view(thisView)
+  },
   post: async (request, h) => {
     const uploadConfig = buildConfig({
       sessionId: request.yar.id,
