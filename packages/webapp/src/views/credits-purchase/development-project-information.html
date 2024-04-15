@@ -3,19 +3,34 @@
 {% set pageHeading = "Development project information" %}
 
 {% block formContent %}
-  {% include "common/select-local-planning-authority.html" %}
+  <div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+        </h1>
+        <form method="post" >
+          {% include "common/select-local-planning-authority.html" %}
+        </form>
+      </div>
+    </div>
 
     <label class="govuk-label"> Planning application reference </label>
     <p class="govuk-hint">This is the reference the LPA sent after receiving your development project's planning application.</p>
          
     {{ 
       govukInput({
-        id: "firstName",
-        name: "firstName",
-        errorMessage: firstNameError,
-        autocomplete: "given-name",
+        id: "planningApplicationRef",
+        name: "planningApplicationRef",
+        errorMessage: planningApplicationRefError,
+        autocomplete: "planning-application-reference",
         spellcheck: false,
-        value: individual.firstName
+        value: planningApplicationRef,
+        classes: 'govuk-input--width-20'
       }) 
     }}
 
@@ -24,12 +39,13 @@
         
     {{ 
       govukInput({
-        id: "firstName",
-        name: "firstName",
-        errorMessage: firstNameError,
-        autocomplete: "given-name",
+        id: "developmentName",
+        name: "developmentName",
+        errorMessage: developmentNameError,
+        autocomplete: "developmentame",
         spellcheck: false,
-        value: individual.firstName
+        value: developmentName,
+        classes: 'govuk-input--width-20'
       }) 
     }}
 
@@ -42,7 +58,9 @@
           }
       }) }}
     </div>
+  </div>
 {% endblock %}
+
 {% block pageScripts %}
   <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
 {% endblock %}

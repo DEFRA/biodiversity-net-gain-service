@@ -3,9 +3,23 @@
 {% set pageHeading = "Add a local planning authority listed on the " + legalAgreementType %}
 
 {% block formContent %}
-  {% include "common/select-local-planning-authority.html" %}
+  <div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
 
-  <div class="moj-button-action">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+        </h1>
+        <form method="post" >
+          {% include "common/select-local-planning-authority.html" %}
+        </form>
+      </div>
+    </div>
+    
+    <div class="moj-button-action">
       {{ govukButton({
           text: "Save and continue",
           attributes: {
@@ -13,8 +27,10 @@
               "data-testid": "continue"
           }
       }) }}
+    </div>
   </div>
 {% endblock %}
+
 {% block pageScripts %}
   <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
 {% endblock %}
