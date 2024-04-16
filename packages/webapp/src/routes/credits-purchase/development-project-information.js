@@ -92,7 +92,7 @@ const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
   if (!selectedLpa) {
     errors.emptyLocalPlanningAuthority = {
       text: 'Enter a local planning authority',
-      href: 'localPlanningAuthority'
+      href: 'localPlanningAuthorityErr'
     }
 
     return { lpaList, errors }
@@ -101,7 +101,7 @@ const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
-      href: 'localPlanningAuthority'
+      href: 'localPlanningAuthorityErr'
     }
 
     return { lpaList, errors }
