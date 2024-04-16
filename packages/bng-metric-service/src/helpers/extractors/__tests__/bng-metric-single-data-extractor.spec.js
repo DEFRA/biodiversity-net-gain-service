@@ -13,7 +13,7 @@ const options = {
 
 describe('BNG data extractor test', () => {
   it('should extract a valid metric v4.1', async () => {
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1.xlsm')
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-file-4.1-feb24.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(7)
