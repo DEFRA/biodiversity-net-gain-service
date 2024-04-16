@@ -2,7 +2,7 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { maximumSizeExceeded, processRegistrationTask, handleFileUploadOperation } from '../../utils/helpers.js'
+import { maximumSizeExceeded, handleFileUploadOperation } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
@@ -49,16 +49,7 @@ function processErrorUpload (err, h) {
 }
 
 const handlers = {
-  get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
-    })
-
-    return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE)
-  },
+  get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE),
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,
