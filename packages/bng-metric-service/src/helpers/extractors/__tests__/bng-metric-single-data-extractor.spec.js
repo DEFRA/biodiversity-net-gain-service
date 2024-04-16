@@ -18,7 +18,7 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(7)
     expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(10)
-    expect(response.d1OffSiteHabitatBaseline[0]['\'Ref\'']).toEqual(1)
+    expect(response.d1OffSiteHabitatBaseline[0].Ref).toEqual(1)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
     expect((response.d1OffSiteHabitatBaseline[0]['Area (hectares)']).toFixed(2)).toEqual('1.00')
