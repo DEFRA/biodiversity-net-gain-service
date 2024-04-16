@@ -52,7 +52,6 @@ const handlers = {
         err.push(errors[item])
       })
 
-      console.log('err--->', err)
       return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
@@ -95,6 +94,8 @@ const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
       text: 'Enter a local planning authority',
       href: 'localPlanningAuthority'
     }
+
+    return { lpaList, errors }
   }
 
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
@@ -102,6 +103,8 @@ const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
       text: 'Enter a valid local planning authority',
       href: 'localPlanningAuthority'
     }
+
+    return { lpaList, errors }
   }
 
   if (id) {
