@@ -3,7 +3,6 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
@@ -12,70 +11,61 @@ const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
 
 const parsePayload = (payload, ID) => {
-  const day = (payload[`${ID}-day`] && payload[`${ID}-day`].length === 1) ? payload[`${ID}-day`].padStart(2, '0') : payload[`${ID}-day`]
-  const month = (payload[`${ID}-month`] && payload[`${ID}-month`].length === 1) ? payload[`${ID}-month`].padStart(2, '0') : payload[`${ID}-month`]
-  const year = payload[`${ID}-year`]
-  return {
-    day,
-    month,
-    year
+  const isNonNumericInput = value => {
+    if (value === undefined) return undefined
+    return value !== null && value !== '' && isNaN(value)
   }
-}
-
-const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
-  const { day, month, year } = parsePayload(payload, ID)
-  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
-  const context = {}
-  if (!day && !month && !year) {
-    context.err = [{
-      text: `Enter the ${desc}`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (!day) {
-    context.err = [{
-      text: `${fieldType} must include a day`,
-      href: `#${ID}-day`,
-      dayError: true
-    }]
-  } else if (!month) {
-    context.err = [{
-      text: `${fieldType} must include a month`,
-      href: `#${ID}-month`,
-      monthError: true
-    }]
-  } else if (!year) {
-    context.err = [{
-      text: `${fieldType} must include a year`,
-      href: `#${ID}-year`,
-      yearError: true
-    }]
-  } else if (!date.isValid()) {
-    context.err = [{
-      text: `${fieldType} must be a real date`,
-      href: `#${ID}-day`,
-      dateError: true
-    }]
-  } else if (checkFuture === true) {
-    const dateString = new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-    const format = 'DD/MM/YYYY, HH:mm:ss'
-    const currentMomentInBritish = moment(dateString, format)
-    if (date.isAfter(currentMomentInBritish)) {
-      context.err = [{
-        text: `${fieldType} cannot be in the future`,
-        href: `#${ID}-day`,
-        dateError: true
-      }]
-    }
-  }
-  const dateAsISOString = !context.err && date.toISOString()
+  const dayRaw = payload[`${ID}-day`]
+  const monthRaw = payload[`${ID}-month`]
+  const yearRaw = payload[`${ID}-year`]
+  const day = dayRaw && !isNaN(dayRaw) ? dayRaw.padStart(2, '0') : dayRaw
+  const month = monthRaw && !isNaN(monthRaw) ? monthRaw.padStart(2, '0') : monthRaw
+  const year = yearRaw
   return {
     day,
     month,
     year,
-    dateAsISOString,
-    context
+    isNonNumeric: {
+      day: isNonNumericInput(dayRaw),
+      month: isNonNumericInput(monthRaw),
+      year: isNonNumericInput(yearRaw)
+    }
   }
+}
+const validateDate = (payload, ID, desc, fieldType = 'Start date', checkFuture = false) => {
+  const { day, month, year, isNonNumeric } = parsePayload(payload, ID)
+  const context = {}
+  const setErrorAndReturn = (condition, errorText, errorField, errorFlag) => {
+    if (condition) {
+      context.err = [{ text: errorText, href: `#${ID}-${errorField}`, [errorFlag]: true }]
+      return true
+    }
+    return false
+  }
+  if (setErrorAndReturn(!day && !month && !year, `Enter the ${desc}`, 'day', 'dateError')) {
+    return { day, month, year, context }
+  }
+  if (!day || !month || !year) {
+    if (setErrorAndReturn(isNonNumeric.day, `${fieldType} must include a day that is a number`, 'day', 'dayError') ||
+      setErrorAndReturn(isNonNumeric.month, `${fieldType} must include a month that is a number`, 'month', 'monthError') ||
+      setErrorAndReturn(isNonNumeric.year, `${fieldType} must include a year that is a number`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+
+    if (setErrorAndReturn(!day, `${fieldType} must include a day`, 'day', 'dayError') ||
+    setErrorAndReturn(!month, `${fieldType} must include a month`, 'month', 'monthError') ||
+    setErrorAndReturn(!year, `${fieldType} must include a year`, 'year', 'yearError')) {
+      return { day, month, year, context }
+    }
+  }
+  const date = moment.utc(`${year}-${month}-${day}`, isoDateFormat, true)
+  if (!date.isValid()) {
+    context.err = [{ text: `${fieldType} must be a real date`, href: `#${ID}-day`, dateError: true }]
+  } else if (checkFuture && date.isAfter(moment())) {
+    context.err = [{ text: `${fieldType} cannot be in the future`, href: `#${ID}-day`, dateError: true }]
+  }
+  const dateAsISOString = !context.err ? date.toISOString() : undefined
+  return { day, month, year, dateAsISOString, context }
 }
 
 const getMinDateCheckError = (dateAsISOString, ID, minDateISOString, fieldType = 'Start date') => {
@@ -138,14 +128,6 @@ const listArray = array => {
   return html
 }
 
-const getRegistrationTasks = request => {
-  const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-  if (!registrationTasks) {
-    return JSON.parse(JSON.stringify(registerTaskList))
-  }
-  return registrationTasks
-}
-
 const getDeveloperTasks = request => {
   const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
   if (!developersTasks) {
@@ -161,27 +143,6 @@ const getDeveloperTasks = request => {
     inProgressUrl: constants.ADD_HECTARES
   }
 */
-const processRegistrationTask = (request, taskDetails, options) => {
-  const registrationTasks = getRegistrationTasks(request)
-  const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
-  affectedTask.tasks.forEach(task => {
-    if (task.title === taskDetails.title) {
-      if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
-        task.status = options.status
-      }
-
-      // Added this condition to revert the completed task based on the flag.
-      // And assigning given value of options.status to the selected task
-      // Ref: BNGP-4124
-      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
-        task.status = options.status
-      }
-
-      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
-    }
-  })
-  request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-}
 
 const processDeveloperTask = (request, taskDetails, options) => {
   const developerTasks = getDeveloperTasks(request)
@@ -817,8 +778,6 @@ const creditsValidationFailAction = ({
 export {
   validateDate,
   dateClasses,
-  getRegistrationTasks,
-  processRegistrationTask,
   listArray,
   boolToYesNo,
   dateToString,

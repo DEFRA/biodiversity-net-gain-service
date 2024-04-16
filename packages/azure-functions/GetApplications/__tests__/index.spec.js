@@ -17,12 +17,12 @@ describe('Get Applications', () => {
           applicationReference: 'mock application reference 1',
           lastUpdated: 'mock last updated 1',
           applicationStatus: 'mock application status 1',
-          projectName: ''
+          projectName: undefined
         }, {
           applicationReference: 'mock application reference 2',
           lastUpdated: 'mock last updated 2',
           applicationStatus: 'mock application status 2',
-          projectName: ''
+          projectName: undefined
         }]
 
         const dbQueries = require('../../Shared/db-queries.js')
@@ -91,20 +91,8 @@ describe('Get Applications', () => {
             rows: [{
               application_reference: 'mock application reference 1',
               date_modified: 'mock last updated 1',
-              application_status: 'mock application status 1'
-            }]
-          }
-        })
-        dbQueries.getApplicationSessionByReferenceContactIdAndApplicationType = jest.fn().mockImplementation(() => {
-          return {
-            rows: [{
-              application_session: {
-                'credits-purchase-metric-data': {
-                  startPage: {
-                    projectName: mockProjectName
-                  }
-                }
-              }
+              application_status: 'mock application status 1',
+              project_name: 'mock project name'
             }]
           }
         })

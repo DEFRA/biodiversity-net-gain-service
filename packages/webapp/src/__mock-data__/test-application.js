@@ -392,7 +392,6 @@ const dataString = `
     "type": "organisation"
   }, {
     "firstName": "Crishn",
-    "middleNames": "",
     "lastName": "P",
     "emailAddress": "me@me.com",
     "type": "individual"
@@ -415,7 +414,7 @@ const dataString = `
   "is-agent": "yes",
   "defra-account-details-confirmed": "true",
   "client-individual-organisation": "individual",
-  "clients-name": {"type":"individual","value":{"firstName":"test","middleNames":"test","lastName":"test"}},
+  "clients-name": {"type":"individual","value":{"firstName":"test","lastName":"test"}},
   "is-address-uk": "yes",
   "uk-address": {"addressLine1":"test","addressLine2":"test","town":"test","county":"test","postcode":"m11mm"},
   "clients-email-address": "test@Test.com",
