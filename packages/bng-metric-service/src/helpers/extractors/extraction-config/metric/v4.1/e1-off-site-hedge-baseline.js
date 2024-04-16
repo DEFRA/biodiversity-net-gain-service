@@ -1,4 +1,4 @@
-const baselineRef = 'Baseline ref'
+const baselineRef = 'Ref'
 const totalUnits = 'Total hedgerow units'
 
 const headers = [
@@ -25,8 +25,7 @@ const e1OffSiteHedgeBaseline = {
   substitutions: {
     'Condition ': 'Condition',
     'Habitat reference': 'Habitat reference Number',
-    'Hedgerow type': 'Habitat type',
-    Ref: baselineRef
+    'Hedgerow type': 'Habitat type'
   }
 }
 
