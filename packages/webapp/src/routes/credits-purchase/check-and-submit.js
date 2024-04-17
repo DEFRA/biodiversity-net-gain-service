@@ -21,7 +21,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
   return {
     metric: {
       fileName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME),
-      fileNameUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+      fileNameUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
       fileSize: metricFileSize,
       detailsConfirmed: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED),
       detailsConfirmedUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,

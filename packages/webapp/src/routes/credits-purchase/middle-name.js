@@ -31,7 +31,7 @@ const handlers = {
     }
     request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME, {
       middleNameOption,
-      middleName
+      middleName: middleNameOption === 'no' ? '' : middleName
     })
     return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
   }
