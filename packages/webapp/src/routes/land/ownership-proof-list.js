@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -20,13 +19,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add land ownership details'
-    }, {
-      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST
-    })
-
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
     const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index))
 
@@ -34,15 +26,6 @@ const handlers = {
     // And to avoid looping back navigation from upload ownership proof.
     const { referer } = request.headers || ''
     if (landOwnershipsList.length === 0) {
-      processRegistrationTask(request, {
-        taskTitle: 'Land information',
-        title: 'Add land ownership details'
-      }, {
-        status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-        inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-        revert: true
-      })
-
       if (referer && referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
         return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
       } else {
@@ -72,7 +55,6 @@ const handlers = {
 
     if (addAnotherOwnershipProof === 'yes' && landOwnershipProofs.length > 0) {
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY, addAnotherOwnershipProof)
-      processRegistrationTask(request, { taskTitle: 'Land information', title: 'Add land ownership details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
 
