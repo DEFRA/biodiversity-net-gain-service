@@ -204,30 +204,30 @@
 
 {% set developmentInformationRowList = [
   {
-    'text': 'H',
+    'text': 'Local planning authority(LPA)',
     'value': developmentInformation.localPlanningAuthority,
-    'valueDataTestId': 'localPlanningAuthority-h-value',
-    'valueId': 'localPlanningAuthority-h-value',
-    'href': developmentInformation.localPlanningAuthorityUrl,
-    'visuallyHiddenText': ' localPlanningAuthority',
+    'valueDataTestId': 'local-planning-authority-value',
+    'valueId': 'local-planning-authority-value',
+    'href': developmentInformation.developmentInformationUrl,
+    'visuallyHiddenText': ' local planning authority(LPA)',
     'show': true
   },
   {
-    'text': 'H',
+    'text': 'Planning application reference',
     'value': developmentInformation.planningApplicationReference,
-    'valueDataTestId': 'planningApplicationReference-h-value',
-    'valueId': 'planningApplicationReference-h-value',
-    'href': developmentInformation.planningApplicationReferenceUrl,
-    'visuallyHiddenText': ' planningApplicationReference',
+    'valueDataTestId': 'planning-application-reference-value',
+    'valueId': 'planning-application-reference-value',
+    'href': developmentInformation.developmentInformationUrl,
+    'visuallyHiddenText': ' planning application reference',
     'show': true
   },
   {
-    'text': 'H',
+    'text': 'Development name',
     'value': developmentInformation.developmentName,
-    'valueDataTestId': 'developmentName-h-value',
-    'valueId': 'developmentName-h-value',
-    'href': developmentInformation.developmentNameUrl,
-    'visuallyHiddenText': ' developmentName',
+    'valueDataTestId': 'development-name-value',
+    'valueId': 'development-name-value',
+    'href': developmentInformation.developmentInformationUrl,
+    'visuallyHiddenText': ' development name',
     'show': true
   }
 ] %}
@@ -251,7 +251,7 @@
         <h2 class="govuk-heading-m">Development information</h2>
 
         {{ generateSummaryList({
-          rows: metricRowList,
+          rows: developmentInformationRowList,
           classes: 'govuk-!-margin-bottom-9'
         }) }}
 

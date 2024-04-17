@@ -52,11 +52,9 @@ const getApplicationDetails = (session, currentOrganisation) => {
     },
     developmentInformation: {
       localPlanningAuthority: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST),
-      localPlanningAuthorityUrl: session.get(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION),
       planningApplicationReference: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF),
-      planningApplicationReferenceUrl: session.get(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION),
       developmentName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME),
-      developmentNameUrl: session.get(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
+      developmentInformationUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION
     }
   }
 }

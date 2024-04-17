@@ -7,9 +7,7 @@ import {
 const ADD_DEVELOPMENT_PROJECT_INFORMATION = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
   [
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF,
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME
+    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST
   ]
 )
 
