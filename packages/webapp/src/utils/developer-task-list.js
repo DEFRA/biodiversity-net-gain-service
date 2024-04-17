@@ -8,9 +8,9 @@ const developerTaskList = {
         {
           title: 'Add your details',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: constants.routes.DEVELOPER_DETAILS_CONFIRM,
-          startTaskUrl: constants.routes.DEVELOPER_DETAILS_NAME,
-          inProgressUrl: constants.routes.DEVELOPER_DETAILS_NAME,
+          completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+          startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+          inProgressUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
           id: 'add-your-details'
         }
       ]

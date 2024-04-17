@@ -4,10 +4,12 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set serviceName = "Estimate the cost of statutory biodiversity credits" %}
+{% set serviceUrl = "/credits-estimation/credits-tier" %}
 {% set pageHeading = "Add statutory biodiversity credits" %}
 {% set hideBackLink = true %}
 {% set hideSigninNav = true %}
 {% set bannerFeedbackLink = "https://defragroup.eu.qualtrics.com/jfe/form/SV_0fiTBJJKOjORLFk" %}
+{% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 
 {% set creditText = "Enter number of credits" %}
 
@@ -101,7 +103,7 @@
             }) }}
           </div>
           <div class="govuk-grid-column-one-third">
-            <span class="govuk-caption-m">Headgerow</span>
+            <span class="govuk-caption-m">Hedgerow</span>
             <h2 class="govuk-heading-l">Tier H</h2>
             {{ govukInput({
               id: "h-units",

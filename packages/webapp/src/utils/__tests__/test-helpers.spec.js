@@ -3,8 +3,8 @@ import {
   boolToYesNo,
   dateToString,
   hideClass,
+  getFileHeaderPrefix,
   getAllLandowners,
-  getDeveloperEligibilityResults,
   getHumanReadableFileSize,
   emailValidator,
   checkForDuplicate,
@@ -12,7 +12,6 @@ import {
   getErrById,
   initialCapitalization,
   isValidPostcode,
-  processRegistrationTask,
   validateLengthOfCharsLessThan50,
   validateDate,
   validateAddress
@@ -109,40 +108,6 @@ describe('helpers file', () => {
     })
   })
 
-  describe('getDeveloperEligibilityResults', () => {
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'yes')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(2)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(1)
-      expect(results['not-sure'].length).toEqual(0)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'yes')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'not-sure')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.yes.length).toEqual(1)
-      expect(results.no.length).toEqual(0)
-      expect(results['not-sure'].length).toEqual(1)
-    })
-    it('should organise eligibility results correctly', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_WRITTEN_CONTENT_VALUE, 'no')
-      session.set(constants.redisKeys.DEVELOPER_ELIGIBILITY_METRIC_VALUE, 'no')
-      const results = getDeveloperEligibilityResults(session)
-      expect(results.no.length).toEqual(2)
-    })
-  })
   describe('getHumamReadableFileSize', () => {
     it('should convert a file size below 1MB to kilobytes', () => {
       expect(getHumanReadableFileSize(512)).toEqual('0.5 kB')
@@ -394,76 +359,6 @@ describe('checkForDuplicateConcatenated', () => {
   })
 })
 
-describe('processRegistrationTask', () => {
-  const redisMap = new Map()
-  const taskDetails = {
-    taskTitle: 'Land information',
-    title: 'Add land ownership details'
-  }
-  const registrationTasks = {
-    taskList: [{
-      taskTitle: 'Land information',
-      tasks: [{
-        title: 'Add land ownership details',
-        status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
-        completedTaskUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-        startTaskUrl: constants.routes.UPLOAD_LAND_OWNERSHIP,
-        inProgressUrl: '',
-        id: 'add-land-ownership'
-      }]
-    }]
-  }
-
-  it('should revert completed status to in progress based on flag', () => {
-    const options = {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-      revert: true
-    }
-
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-    const request = {
-      yar: redisMap
-    }
-    processRegistrationTask(request, taskDetails, options)
-
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
-  })
-
-  it('should revert the completed status of the task to inprogress if a revert flag is true', () => {
-    const options = {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
-      revert: true
-    }
-
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-    const request = {
-      yar: redisMap
-    }
-    processRegistrationTask(request, taskDetails, options)
-
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
-  })
-
-  it('should not revert the completed status of the task if a revert flag is false or undefined', () => {
-    const options = {
-      status: constants.COMPLETE_REGISTRATION_TASK_STATUS
-    }
-
-    redisMap.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-    const request = {
-      yar: redisMap
-    }
-    processRegistrationTask(request, taskDetails, options)
-
-    const expectedTaskDetails = redisMap.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-    expect(expectedTaskDetails.taskList[0].tasks[0].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
-  })
-})
-
 describe('validateLengthOfCharsLessThan50', () => {
   it('should return error if input character length is more than 50', () => {
     const middleNameError = validateLengthOfCharsLessThan50(
@@ -471,120 +366,167 @@ describe('validateLengthOfCharsLessThan50', () => {
       'middle name', 'middleNameId')
     expect(middleNameError.err[0].text).toEqual('Middle name must be 50 characters or fewer')
   })
-})
 
-describe('validateDate', () => {
-  it('should return date error when day is not included', () => {
-    const result = validateDate(
-      {
-        'legalAgreementStartDate-day': '',
-        'legalAgreementStartDate-month': '01',
-        'legalAgreementStartDate-year': '2023'
-      },
-      'legalAgreementStartDate'
-    )
-
-    expect(result.context.err[0].text).toBe('Start date must include a day')
-  })
-
-  it('should return date  when day is not included', () => {
-    const result = validateDate(
-      {
-        'legalAgreementStartDate-day': '01',
-        'legalAgreementStartDate-month': '01',
-        'legalAgreementStartDate-year': '2023'
-      },
-      'legalAgreementStartDate'
-    )
-
-    expect(result.dateAsISOString).toBe('2023-01-01T00:00:00.000Z')
-  })
-
-  it('should return date error when month is not included', () => {
-    const result = validateDate(
-      {
-        'legalAgreementStartDate-day': '01',
-        'legalAgreementStartDate-month': '',
-        'legalAgreementStartDate-year': '2023'
-      },
-      'legalAgreementStartDate'
-    )
-
-    expect(result.context.err[0].text).toBe('Start date must include a month')
-  })
-})
-
-describe('validateAddress', () => {
-  it('should add addressLine1Error when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1address line 1address line 1address line 1address line 1address line 1',
-      addressLine2: 'address line 2',
-      town: 'town',
-      county: 'county',
-      postcode: 'WA4 1HT'
+  describe('validateDate', () => {
+    it('should return numeric error when day is non-numeric', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': 'aa',
+          'legalAgreementStartDate-month': undefined,
+          'legalAgreementStartDate-year': undefined
+        },
+        'legalAgreementStartDate'
+      )
+      expect(result.context.err[0].text).toBe('Start date must include a day that is a number')
     })
 
-    expect(result.addressLine1Error.text).toBe('AddressLine1 must be 50 characters or fewer')
-  })
-
-  it('should add address line 2Error when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1',
-      addressLine2: 'address line 2address line 2address line 2address line 2address line 2address line 2address line 2address line 2',
-      town: 'town',
-      county: 'county',
-      postcode: 'WA4 1HT'
+    it('should return numeric error when month is non-numeric', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': undefined,
+          'legalAgreementStartDate-month': 'aa',
+          'legalAgreementStartDate-year': undefined
+        },
+        'legalAgreementStartDate'
+      )
+      expect(result.context.err[0].text).toBe('Start date must include a month that is a number')
     })
 
-    expect(result.addressLine2Error.text).toBe('AddressLine2 must be 50 characters or fewer')
-  })
+    it('should return numeric error when year is non-numeric', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': undefined,
+          'legalAgreementStartDate-month': undefined,
+          'legalAgreementStartDate-year': 'abcd'
+        },
+        'legalAgreementStartDate'
+      )
+      expect(result.context.err[0].text).toBe('Start date must include a year that is a number')
+    })
+    it('should return date error when day is not included', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': '',
+          'legalAgreementStartDate-month': '01',
+          'legalAgreementStartDate-year': '2023'
+        },
+        'legalAgreementStartDate'
+      )
 
-  it('should add addressLine3Error when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1',
-      addressLine2: 'address line 2',
-      addressLine3: 'address line 3address line 3address line 3address line 3address line 3address line 3address line 3address line 3',
-      town: 'town',
-      county: 'county',
-      postcode: 'WA4 1HT'
+      expect(result.context.err[0].text).toBe('Start date must include a day')
     })
 
-    expect(result.addressLine3Error.text).toBe('AddressLine3 must be 50 characters or fewer')
-  })
+    it('should return date  when day is not included', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': '01',
+          'legalAgreementStartDate-month': '01',
+          'legalAgreementStartDate-year': '2023'
+        },
+        'legalAgreementStartDate'
+      )
 
-  it('should add townError when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1',
-      addressLine2: 'address line 2',
-      town: 'towntowntowntowntowntowntowntowntowntowntowntowntowntowntowntowntown',
-      county: 'county',
-      postcode: 'WA4 1HT'
+      expect(result.dateAsISOString).toBe('2023-01-01T00:00:00.000Z')
     })
 
-    expect(result.townError.text).toBe('Town must be 50 characters or fewer')
-  })
+    it('should return date error when month is not included', () => {
+      const result = validateDate(
+        {
+          'legalAgreementStartDate-day': '01',
+          'legalAgreementStartDate-month': '',
+          'legalAgreementStartDate-year': '2023'
+        },
+        'legalAgreementStartDate'
+      )
 
-  it('should add countyError when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1',
-      addressLine2: 'address line 2',
-      town: 'town',
-      county: 'countycountycountycountycountycountycountycountycountycountycounty',
-      postcode: 'WA4 1HT'
+      expect(result.context.err[0].text).toBe('Start date must include a month')
+    })
+  })
+  describe('getLandownershipProofFileText', () => {
+    it('should return "files" for multiple file names ', () => {
+      const fileNames = ['proof1.pdf', 'proof2.pdf']
+      expect(getFileHeaderPrefix(fileNames)).toEqual('files')
     })
 
-    expect(result.countyError.text).toBe('County must be 50 characters or fewer')
+    it('should return "file" for a single file name', () => {
+      const singleFileName = ['proof1.pdf']
+      expect(getFileHeaderPrefix(singleFileName)).toEqual('file')
+    })
   })
+  describe('validateAddress', () => {
+    it('should add addressLine1Error when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1address line 1address line 1address line 1address line 1address line 1',
+        addressLine2: 'address line 2',
+        town: 'town',
+        county: 'county',
+        postcode: 'WA4 1HT'
+      })
 
-  it('should add countryError when length of chars is above 50', () => {
-    const result = validateAddress({
-      addressLine1: 'address line 1',
-      addressLine2: 'address line 2',
-      town: 'town',
-      country: 'countycountycountycountycountycountycountycountycountycountycounty',
-      postcode: 'WA4 1HT'
+      expect(result.addressLine1Error.text).toBe('AddressLine1 must be 50 characters or fewer')
     })
 
-    expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
-  })
-})
+    it('should add address line 2Error when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2address line 2address line 2address line 2address line 2address line 2address line 2address line 2',
+        town: 'town',
+        county: 'county',
+        postcode: 'WA4 1HT'
+      })
+
+      expect(result.addressLine2Error.text).toBe('AddressLine2 must be 50 characters or fewer')
+    })
+
+    it('should add addressLine3Error when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2',
+        addressLine3: 'address line 3address line 3address line 3address line 3address line 3address line 3address line 3address line 3',
+        town: 'town',
+        county: 'county',
+        postcode: 'WA4 1HT'
+      })
+
+      expect(result.addressLine3Error.text).toBe('AddressLine3 must be 50 characters or fewer')
+    })
+
+    it('should add townError when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2',
+        town: 'towntowntowntowntowntowntowntowntowntowntowntowntowntowntowntowntown',
+        county: 'county',
+        postcode: 'WA4 1HT'
+      })
+
+      expect(result.townError.text).toBe('Town must be 50 characters or fewer')
+    })
+
+    it('should add countyError when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2',
+        town: 'town',
+        county: 'countycountycountycountycountycountycountycountycountycountycounty',
+        postcode: 'WA4 1HT'
+      })
+
+      expect(result.countyError.text).toBe('County must be 50 characters or fewer')
+    })
+
+    it('should add countryError when length of chars is above 50', () => {
+      const result = validateAddress({
+        addressLine1: 'address line 1',
+        addressLine2: 'address line 2',
+        town: 'town',
+        country: 'countycountycountycountycountycountycountycountycountycountycounty',
+        postcode: 'WA4 1HT'
+      })
+
+      expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
+    })
+  }
+  )
+}
+)

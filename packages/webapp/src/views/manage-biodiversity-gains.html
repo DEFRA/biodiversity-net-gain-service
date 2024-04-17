@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% set hideBackLink = true %}
+{% set serviceName = "Manage biodiversity gains" %}
 {% set pageHeading = "Manage biodiversity gains" %}
 {% block content %}
   <div class="govuk-width-container">
@@ -41,7 +42,19 @@
                 <li>continue a saved record</li>
               </ul>
             </div>
-             {% endif %}
+            {% endif %}
+            {% if enableCredits %}
+            <div class="dashboard-panel">
+              <h2 class="govuk-heading-m govuk-!-padding-top-4">
+                <a href="/credits-purchase/check-statutory-biodiversity-credits">Buy statutory biodiversity credits</a>
+              </h2>
+              <p class="govuk-body-s">You can:</p>
+              <ul class="govuk-list govuk-list--bullet govuk-body-s">
+                <li>buy statutory biodiversity credits</li>
+                <li>continue a saved record</li>
+              </ul>
+            </div>
+            {% endif %}
           </div>
         </div>
       </div>

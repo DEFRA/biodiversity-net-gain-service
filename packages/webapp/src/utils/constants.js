@@ -1,7 +1,6 @@
 import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
-import creditsEstimationConstants from './credits-estimation-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -17,6 +16,7 @@ const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const CANNOT_START_YET_STATUS = 'CANNOT START YET'
 const YES = 'yes'
 const AWAITING_PROCESSING = 'AwaitingProcessing'
 const SUCCESS = 'Success'
@@ -33,6 +33,7 @@ const CONTACT_ID = 'contact-id'
 const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
+const CREDITS_PURCHASE = 'CreditsPurchase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -50,10 +51,12 @@ const ORGANISATION = 'organisation'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
+const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
 
 const applicationTypes = {
   REGISTRATION,
-  ALLOCATION
+  ALLOCATION,
+  CREDITS_PURCHASE
 }
 
 const ADDRESS_TYPES = {
@@ -191,7 +194,8 @@ let routes = {
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
-  TEST_DEVELOPER_SEED_DATA
+  TEST_DEVELOPER_SEED_DATA,
+  TEST_CREDITS_PURCHASE_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -235,7 +239,6 @@ const setReferer = [
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...lojConstants.clearLojReferer,
   ...developerConstants.clearDeveloperReferer
 ]
 
@@ -294,6 +297,7 @@ export default Object.freeze({
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
   LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
+  CANNOT_START_YET_STATUS,
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
@@ -304,7 +308,6 @@ export default Object.freeze({
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
-  creditsEstimationPath: creditsEstimationConstants.CREDITS_ESTIMATION_PATH,
   BLOB_STORAGE_CONTAINER,
   signInTypes,
   APPLICANT_IS_AGENT,

@@ -6,6 +6,8 @@ const getContextForAllocations = (contactId, organisationId) => getContext(conta
 
 const getContextForRegistrations = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.REGISTRATION)
 
+const getContextForCreditsPurchase = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
+
 const getContext = async (contactId, organisationId, applicationType) => {
   return {
     applications: await getApplications(contactId, organisationId, applicationType)
@@ -25,7 +27,11 @@ const getApplications = async (contactId, organisationId, applicationType) => {
     organisationId,
     applicationType
   })
-  return applications.map(application => formatApplication(application))
+  return Array.isArray(applications) && applications.map(application => formatApplication(application))
 }
 
-export { getContextForAllocations, getContextForRegistrations }
+export {
+  getContextForAllocations,
+  getContextForRegistrations,
+  getContextForCreditsPurchase
+}

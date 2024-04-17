@@ -49,13 +49,16 @@ export default async function (context, req) {
 const getApplicationData = async (db, contactId, organisationId, applicationType) => {
   const applicationData = []
   const applicationStatusesResult = await getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType(db, [contactId, organisationId, applicationType])
-
   for (const row of applicationStatusesResult.rows) {
+    const applicationReference = row.application_reference
+    const projectName = row.project_name
     applicationData.push({
-      applicationReference: row.application_reference,
+      projectName,
+      applicationReference,
       lastUpdated: row.date_modified,
       applicationStatus: row.application_status
     })
   }
+
   return applicationData
 }

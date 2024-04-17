@@ -11,9 +11,17 @@ const journeyStep = (startUrl, sessionKeys, sessionValues, sessionMismatchWillIn
 const journeyStepFromRoute = (route, sessionValues = [ANY], sessionMismatchWillInvalidate = false) =>
   journeyStep(route.startUrl, route.sessionKeys, sessionValues, sessionMismatchWillInvalidate)
 
+const taskDefinition = (id, title, startUrl, completeUrl, journeyParts) => ({
+  id, title, startUrl, completeUrl, journeyParts
+})
+
+const taskSectionDefinition = (title, tasks) => ({ title, tasks })
+
 export {
   ANY,
   routeDefinition,
   journeyStep,
-  journeyStepFromRoute
+  journeyStepFromRoute,
+  taskDefinition,
+  taskSectionDefinition
 }
