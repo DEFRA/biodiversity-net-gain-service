@@ -12,11 +12,15 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
-    const localPlanningAuthority = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+    const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+    const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
+    const developmentName = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
 
     return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-      localPlanningAuthority,
-      lpaNames
+      selectedLpa,
+      lpaNames,
+      planningApplicationRef,
+      developmentName
     })
   },
   post: (request, h) => {
@@ -60,6 +64,8 @@ const handlers = {
       })
     } else {
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
+      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
+      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
       return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }

@@ -51,7 +51,9 @@ const redisKeys = {
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
   CREDITS_PURCHASE_PURCHASE_ORDER_USED: 'credits-purchase-purchase-order-used',
   CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER: 'credits-purchase-purchase-order-number',
-  CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST: 'credits-purchase-planning-authority-list'
+  CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST: 'credits-purchase-planning-authority-list',
+  CREDITS_PURCHASE_PLANNING_APPLICATION_REF: 'credits-purchase-planning-application-ref',
+  CREDITS_PURCHASE_DEVELOPMENT_NAME: 'credits-purchase-planning-development-name'
 }
 
 const NO = 'no'

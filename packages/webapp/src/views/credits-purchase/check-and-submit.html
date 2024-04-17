@@ -202,6 +202,36 @@
   }
 ] %}
 
+{% set developmentInformationRowList = [
+  {
+    'text': 'H',
+    'value': developmentInformation.localPlanningAuthority,
+    'valueDataTestId': 'localPlanningAuthority-h-value',
+    'valueId': 'localPlanningAuthority-h-value',
+    'href': developmentInformation.localPlanningAuthorityUrl,
+    'visuallyHiddenText': ' localPlanningAuthority',
+    'show': true
+  },
+  {
+    'text': 'H',
+    'value': developmentInformation.planningApplicationReference,
+    'valueDataTestId': 'planningApplicationReference-h-value',
+    'valueId': 'planningApplicationReference-h-value',
+    'href': developmentInformation.planningApplicationReferenceUrl,
+    'visuallyHiddenText': ' planningApplicationReference',
+    'show': true
+  },
+  {
+    'text': 'H',
+    'value': developmentInformation.developmentName,
+    'valueDataTestId': 'developmentName-h-value',
+    'valueId': 'developmentName-h-value',
+    'href': developmentInformation.developmentNameUrl,
+    'visuallyHiddenText': ' developmentName',
+    'show': true
+  }
+] %}
+
 {% block formContent %}
   <div class="govuk-body">
   {% if err %}
@@ -212,6 +242,13 @@
         <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
 
         <h2 class="govuk-heading-m">Statutory biodiversity metric calculation tool</h2>
+
+        {{ generateSummaryList({
+          rows: metricRowList,
+          classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+        <h2 class="govuk-heading-m">Development information</h2>
 
         {{ generateSummaryList({
           rows: metricRowList,
