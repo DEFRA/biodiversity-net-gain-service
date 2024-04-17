@@ -6,7 +6,11 @@
         <span class="govuk-visually-hidden">Error:</span> {{ errors.emptyLocalPlanningAuthority.text }}
     </p>
     <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
-        <option value=''></option>
+        {% if selectedLpa %}
+            <option>{{ selectedLpa }}</option>
+        {% else %}
+            <option value=''></option>
+        {% endif %}
         {% for lpa in lpaNames %}
         <option>{{ lpa }}</option>
         {% endfor %}

@@ -8,17 +8,11 @@ const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
   get: (request, h) => {
-    const { id } = request.query
     const lpaNames = getLpaNames(filePathAndName)
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
-    const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
-
-    let localPlanningAuthority
-    if (id) {
-      localPlanningAuthority = lpaList[id]
-    }
+    const localPlanningAuthority = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
 
     return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
       localPlanningAuthority,
@@ -26,11 +20,9 @@ const handlers = {
     })
   },
   post: (request, h) => {
-    const { id } = request.query
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
     const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
-
-    const { lpaList, errors } = lpaHandler(localPlanningAuthority, id, refLpaNames, request, h)
+    const { lpaList, errors } = lpaHandler(localPlanningAuthority, refLpaNames, request, h)
 
     if (!planningApplicationRef) {
       errors.planningApplicationRefError = {
@@ -52,10 +44,19 @@ const handlers = {
         err.push(errors[item])
       })
 
+      // If there are errors existing cache should be cleared
+      const selectedLpa = lpaList[0]
+      if (!selectedLpa) {
+        request.yar.clear(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+      }
+
       return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
-        lpaNames: refLpaNames
+        lpaNames: refLpaNames,
+        selectedLpa,
+        planningApplicationRef,
+        developmentName
       })
     } else {
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
@@ -82,9 +83,9 @@ export default [{
  * @param {string} id
  * @param {Object} request
  * @param {Object} h
- * @returns {Array<Object>} List of Local planning authorities selected
+ * @returns {Object} Object containing List of Local planning authorities selected and errors
  */
-const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
+const lpaHandler = (localPlanningAuthority, refLpaNames, request, h) => {
   const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
   const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST) ?? []
   const errors = {}
@@ -107,11 +108,7 @@ const lpaHandler = (localPlanningAuthority, id, refLpaNames, request, h) => {
     return { lpaList, errors }
   }
 
-  if (id) {
-    lpaList.splice(id, 1, selectedLpa)
-  } else {
-    lpaList.push(selectedLpa)
-  }
+  lpaList[0] = selectedLpa
 
   return { lpaList, errors }
 }
