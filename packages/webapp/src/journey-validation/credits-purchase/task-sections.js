@@ -6,6 +6,7 @@ import { termsAndConditionsJourneys } from './terms-and-conditions.js'
 import { purchaseOrderJourneys } from './purchase-order.js'
 import { uploadMetricJourneys } from './upload-metric.js'
 import { dueDiligenceJourneys } from './due-diligence.js'
+import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 
 const uploadMetric = taskDefinition(
   'upload-metric',
@@ -13,6 +14,14 @@ const uploadMetric = taskDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
   uploadMetricJourneys
+)
+
+const addDevlopmentProjectInformation = taskDefinition(
+  'add-devlopment-project-information',
+  'Add development project information',
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+  addDevelopmentProjectInformationJourneys
 )
 
 const addCredits = taskDefinition(
@@ -59,6 +68,7 @@ const checkYourAnswers = {
 
 const taskSections = [
   taskSectionDefinition('Statutory biodiversity metric', [uploadMetric]),
+  taskSectionDefinition('Development information', [addDevlopmentProjectInformation]),
   taskSectionDefinition('Statutory biodiversity credits', [addCredits]),
   taskSectionDefinition('Purchase order', [purchaseOrder]),
   taskSectionDefinition('Customer due diligence (CDD)', [customerDueDiligence]),
