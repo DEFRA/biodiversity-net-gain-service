@@ -14,20 +14,21 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>a document confirming
         {% if isIndividual %}
-          {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}'s
+          {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}’s
         {% else %}
-          {{ clientsOrganisationName }}'s
+          {{ clientsOrganisationName }}’s
         {% endif %}
         authorisation for you to apply on their behalf
       </li>
       <li>the landowner or leaseholder’s consent to allocate off-site gains from their biodiversity gain site</li>
-      {{ govukButton({
-        text: 'Continue',
-        attributes: {
-          id: "continue",
-          "data-testid": "continue"
-        }
-      }) }}
+    </ul>
+    {{ govukButton({
+      text: 'Continue',
+      attributes: {
+        id: "continue",
+        "data-testid": "continue"
+      }
+    }) }}
   </div>
 </div>
 {% endblock %}
