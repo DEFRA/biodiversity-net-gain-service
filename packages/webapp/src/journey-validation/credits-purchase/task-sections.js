@@ -12,7 +12,7 @@ const uploadMetric = taskDefinition(
   'upload-metric',
   'Upload statutory biodiversity metric',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
-  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
   uploadMetricJourneys
 )
 
