@@ -13,7 +13,7 @@ const options = {
 
 describe('BNG data extractor test', () => {
   it('should extract a valid metric v4.1', async () => {
-    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-file-4.1-feb24.xlsm')
+    const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(6)
@@ -231,7 +231,7 @@ describe('BNG data extractor test', () => {
   it('Should remove unwanted rows that only have data for the headers detailed in template', async () => {
     const readableStreamv4 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1.xlsm')
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
-    const baselineRef = 'Baseline ref'
+    const baselineRef = 'Ref'
     const habitatType = 'Habitat type'
     const extractionConfiguration = {
       test: {
@@ -244,7 +244,7 @@ describe('BNG data extractor test', () => {
     }
 
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
-    expect(response.test.length).toEqual(6)
+    expect(response.test.length).toEqual(5)
     response.test.forEach(element => expect(Object.keys(element)).toEqual([baselineRef, habitatType]))
   })
 
