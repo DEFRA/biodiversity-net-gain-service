@@ -48,10 +48,10 @@ const handlers = {
         err.push(errors[item])
       })
 
-      // If there are errors existing cache should be cleared
-      const selectedLpa = lpaList[0]
-      if (!selectedLpa) {
-        request.yar.clear(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+      // If there are no errors in local planning authority then we want to show what user selected
+      let selectedLpa
+      if (!errors?.emptyLocalPlanningAuthority || !errors?.invalidLocalPlanningAuthorityError) {
+        selectedLpa = lpaList[0]
       }
 
       return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
@@ -114,6 +114,8 @@ const lpaHandler = (localPlanningAuthority, refLpaNames, request, h) => {
     return { lpaList, errors }
   }
 
+  /* lpaList in this case always has only 1 item.
+  The reason its an array is because view(select-local-planning-authority.html) is reused and other place its used requires it to be an array */
   lpaList[0] = selectedLpa
 
   return { lpaList, errors }
