@@ -1,14 +1,7 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      inProgressUrl: constants.routes.ADD_HECTARES
-    })
     const hectares = request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
     return h.view(constants.views.ADD_HECTARES, {
       hectares

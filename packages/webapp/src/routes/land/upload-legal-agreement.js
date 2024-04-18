@@ -2,7 +2,6 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType,
   generateUniqueId
 } from '../../utils/helpers.js'
@@ -86,12 +85,6 @@ const processErrorUpload = (err, h, legalAgreementType) => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
-    })
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
       legalAgreementType
