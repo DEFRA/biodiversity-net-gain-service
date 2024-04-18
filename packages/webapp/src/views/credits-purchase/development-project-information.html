@@ -19,11 +19,16 @@
       </div>
     </div>
 
-    <label class="govuk-label"> Planning application reference </label>
-    <p class="govuk-hint">This is the reference the LPA sent after receiving your development project's planning application.</p>
-         
     {{ 
       govukInput({
+        label: {
+          text: "Planning application reference",
+          classes: "govuk-label"
+        },
+        hint: {
+          text: "This is the reference the LPA sent after receiving your development project's planning application.",
+          classes: "govuk-hint"
+        },
         id: "planning-application-reference-value",
         name: "planningApplicationRef",
         errorMessage: errors.planningApplicationRefError,
@@ -33,12 +38,17 @@
         classes: 'govuk-input--width-20'
       }) 
     }}
-
-    <label class="govuk-label"> Development name </label>
-    <p class="govuk-hint">Your development name helps identify your project.</p>
-        
+   
     {{ 
       govukInput({
+        label: {
+          text: "Development name",
+          classes: "govuk-label"
+        },
+        hint: {
+          text: "Your development name helps identify your project.",
+          classes: "govuk-hint"
+        },
         id: "development-name-value",
         name: "developmentName",
         errorMessage: errors.developmentNameError,
