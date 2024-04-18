@@ -85,5 +85,37 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
       expect(resultContext.errors.invalidLocalPlanningAuthorityError.text).toEqual('Enter a valid local planning authority')
     })
+
+    it('Should show error message if planningApplicationRef is not provided', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          localPlanningAuthority: 'Planning Authority 1',
+          planningApplicationRef: undefined,
+          developmentName: 'dev name'
+        }
+      }
+
+      await developmentProjectInformation.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
+      expect(resultContext.errors.planningApplicationRefError.text).toEqual('Enter a planning application reference')
+    })
+
+    it('Should show error message if developmentName is not provided', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          localPlanningAuthority: 'Planning Authority 1',
+          planningApplicationRef: 'ref',
+          developmentName: undefined
+        }
+      }
+
+      await developmentProjectInformation.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
+      expect(resultContext.errors.developmentNameError.text).toEqual('Enter a development reference')
+    })
   })
 })
