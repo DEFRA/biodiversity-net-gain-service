@@ -24,8 +24,7 @@ const e1OffSiteHedgeBaseline = {
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
     'Condition ': 'Condition',
-    'Habitat reference': 'Habitat reference Number',
-    'Hedgerow type': 'Habitat type'
+    'Habitat reference': 'Habitat reference Number'
   }
 }
 
