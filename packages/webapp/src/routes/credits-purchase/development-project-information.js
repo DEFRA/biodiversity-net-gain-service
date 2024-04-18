@@ -25,8 +25,11 @@ const handlers = {
   },
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
+
     const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
-    const { lpaList, errors } = lpaHandler(localPlanningAuthority, refLpaNames, request, h)
+    const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
+
+    const errors = lpaErrorHandler(selectedLpa, refLpaNames)
 
     if (!planningApplicationRef) {
       errors.planningApplicationRefError = {
@@ -48,12 +51,6 @@ const handlers = {
         err.push(errors[item])
       })
 
-      // If there are no errors in local planning authority then we want to show what user selected
-      let selectedLpa
-      if (!errors?.emptyLocalPlanningAuthority || !errors?.invalidLocalPlanningAuthorityError) {
-        selectedLpa = lpaList[0]
-      }
-
       return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
@@ -63,7 +60,7 @@ const handlers = {
         developmentName
       })
     } else {
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, lpaList)
+      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
       return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
@@ -84,16 +81,12 @@ export default [{
 }]
 
 /**
- * Handles Local Planning Authority by validating request payload
- * @param {Object} localPlanningAuthority
- * @param {string} id
- * @param {Object} request
- * @param {Object} h
- * @returns {Object} Object containing List of Local planning authorities selected and errors
+ * Handles Local Planning Authority errors
+ * @param {string} selectedLpa
+ * @param {Array<string>} refLpaNames
+ * @returns {Object} Local planning authority errors object
  */
-const lpaHandler = (localPlanningAuthority, refLpaNames, request, h) => {
-  const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
-  const lpaList = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST) ?? []
+const lpaErrorHandler = (selectedLpa, refLpaNames) => {
   const errors = {}
 
   if (!selectedLpa) {
@@ -102,7 +95,7 @@ const lpaHandler = (localPlanningAuthority, refLpaNames, request, h) => {
       href: 'localPlanningAuthorityErr'
     }
 
-    return { lpaList, errors }
+    return errors
   }
 
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
@@ -111,12 +104,8 @@ const lpaHandler = (localPlanningAuthority, refLpaNames, request, h) => {
       href: 'localPlanningAuthorityErr'
     }
 
-    return { lpaList, errors }
+    return errors
   }
 
-  /* lpaList in this case always has only 1 item.
-  The reason its an array is because view(select-local-planning-authority.html) is reused and other place its used requires it to be an array */
-  lpaList[0] = selectedLpa
-
-  return { lpaList, errors }
+  return errors
 }
