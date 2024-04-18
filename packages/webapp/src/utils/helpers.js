@@ -586,6 +586,8 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
     error.err[0].text = useStatutoryMetric
       ? 'The selected file must use the statutory biodiversity metric'
       : 'The selected file must use Biodiversity Metric version 4.1'
+  } else if (metricValidation.isDraftVersion) {
+    error.err[0].text = 'The selected file must not be a draft version'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {

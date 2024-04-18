@@ -286,4 +286,11 @@ describe('BNG data extractor test', () => {
     const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
     await expect(bngMetricDataExtractor.extractContent(readableStreamv3, {})).rejects.toEqual(new Error('Workbook is not a valid metric'))
   })
+
+  it('Should reject if metric-4.1 is draft version', async () => {
+    const readableStreamv3 = fs.createReadStream('packages/bng-metric-service/src/__mock-data__/metric-file/metric-4.1-draft.xlsm')
+    const bngMetricDataExtractor = new BngMetricSingleDataExtractor()
+    const response = await bngMetricDataExtractor.extractContent(readableStreamv3, options)
+    await expect(response.validation.isDraftVersion).toBe(true)
+  })
 })
