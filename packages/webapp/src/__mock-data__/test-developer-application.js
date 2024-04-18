@@ -78,72 +78,254 @@ const data = `{
   "developer-metric-file-location": "fb69298f-fbae-4a53-a691-64cd6540ba41/metric-upload/data.xlsm",
   "developer-metric-filesize": 5016056,
   "developer-metric-filetype": "application/vnd.ms-excel.sheet.macroEnabled.12",
-  "gainSite": {
-    "reference": "BNGREG-0001",
-    "offsiteUnitChange": {
-      "habitat": 16.717164037912525,
-      "hedge": -0.020917119698400044,
-      "watercourse": 0
+  "developer-metric-data": {
+    "startPage": {
+      "planningAuthority": "County Council",
+      "projectName": "Project",
+      "planningApplicationReference": "REF-1234",
+      "targetNetGain": 0.1,
+      "irreplaceableHabitatPresentOnSiteAtBaseline": "You must specify if irreplaceable habitats are on-site at baseline ▲",
+      "totalSiteAreaIncludingIrreplaceableHabitatArea": 3.5,
+      "containsDeviationsFromTheStatutoryMetricThisMustBeAgreedWithConsentingBody": "",
+      "⚠": "Attention required",
+      "▲": "Input error/rules and principles not met",
+      "onSiteBaselineMapReferenceNumber": "On-site post-intervention map reference number",
+      "offSiteBaselineMapReferenceNumber": "Off-site post-intervention reference number",
+      "cells": { "version": 4 }
+    },
+    "d1": [
+      {
+        "Broad habitat": "Cropland",
+        "Habitat type": "Cereal crops",
+        "Area (hectares)": 1,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total habitat units": 2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Condition Assessment N/A"
+      },
+      {
+        "Broad habitat": "Grassland",
+        "Habitat type": "Modified grassland",
+        "Area (hectares)": 1,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total habitat units": 4,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Moderate"
+      },
+      {
+        "Broad habitat": "Woodland and forest",
+        "Habitat type": "Other woodland; mixed",
+        "Area (hectares)": 0.5,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total habitat units": 2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      },
+      {
+        "Broad habitat": "Grassland",
+        "Habitat type": "Modified grassland",
+        "Area (hectares)": 1,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total habitat units": 2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      }
+    ],
+    "d2": [
+      {
+        "Delay in starting habitat creation (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Broad habitat": "Grassland",
+        "Proposed habitat": "Other neutral grassland",
+        "Area (hectares)": 0.9,
+        "Condition": "Fairly Good",
+        "Habitat units delivered": 7.0134822603,
+        "Habitat created in advance (years)": 0
+      },
+      {
+        "Delay in starting habitat creation (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Broad habitat": "Heathland and shrub",
+        "Proposed habitat": "Bramble scrub",
+        "Area (hectares)": 0.1,
+        "Condition": "Condition Assessment N/A",
+        "Habitat units delivered": 0.386,
+        "Habitat created in advance (years)": 0
+      }
+    ],
+    "d3": [
+      {
+        "Baseline habitat": "Grassland - Modified grassland",
+        "Total habitat area": 1,
+        "Proposed Broad Habitat": "Wetland",
+        "Condition change": "Lower Distinctiveness Habitat - Good",
+        "Habitat enhanced in advance (years)": 0,
+        "Delay in starting habitat enhancement (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Area (hectares)": 1,
+        "Condition": "Good",
+        "Habitat units delivered": 7.027257226998999,
+        "Proposed habitat": "Lowland raised bog",
+        "Distinctiveness change": "Low - V.High"
+      },
+      {
+        "Baseline habitat": "Woodland and forest - Other woodland; mixed",
+        "Total habitat area": 0.5,
+        "Proposed Broad Habitat": "Woodland and forest",
+        "Condition change": "Poor - Good",
+        "Habitat enhanced in advance (years)": 0,
+        "Delay in starting habitat enhancement (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Area (hectares)": 0.5,
+        "Condition": "Good",
+        "Habitat units delivered": 4.555818212099999,
+        "Proposed habitat": "Other woodland; mixed",
+        "Distinctiveness change": "Medium - Medium"
+      },
+      {
+        "Baseline habitat": "Grassland - Modified grassland",
+        "Total habitat area": 1,
+        "Proposed Broad Habitat": "Grassland",
+        "Condition change": "Poor - Good",
+        "Habitat enhanced in advance (years)": 0,
+        "Delay in starting habitat enhancement (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Area (hectares)": 1,
+        "Condition": "Good",
+        "Habitat units delivered": 4.9956750053,
+        "Proposed habitat": "Modified grassland",
+        "Distinctiveness change": "Low - Low"
+      }
+    ],
+    "e1": [
+      {
+        "Hedge number": 1,
+        "Habitat type": "Native hedgerow - associated with bank or ditch",
+        "Length (km)": 0.3,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total hedgerow units": 1.2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      },
+      {
+        "Hedge number": 2,
+        "Habitat type": "Native hedgerow",
+        "Length (km)": 0.3,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Total hedgerow units": 0.6,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      }
+    ],
+    "e2": [
+      {
+        "Habitat type": "Native hedgerow with trees",
+        "Length (km)": 0.3,
+        "Delay in starting habitat creation (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Hedge units delivered": 1.7654229486,
+        "Condition": "Good",
+        "Habitat created in advance (years)": 0
+      }
+    ],
+    "e3": [
+      {
+        "Baseline habitat": "Native hedgerow - associated with bank or ditch",
+        "Length (km)": 0.3,
+        "Habitat enhanced in advance (years)": 0,
+        "Off-site reference": "BGS-111 222 333",
+        "Hedge units delivered": 2.27835855,
+        "Condition": "Moderate"
+      }
+    ],
+    "f1": [
+      {
+        "Watercourse type": "Ditches",
+        "Length (km)": 0.3,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Extent of encroachment": "No Encroachment",
+        "Extent of encroachment for both banks": "No Encroachment/ No Encroachment",
+        "Total watercourse units": 1.2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      },
+      {
+        "Watercourse type": "Ditches",
+        "Length (km)": 0.3,
+        "Strategic significance": "Area/compensation not in local strategy/ no local strategy",
+        "Extent of encroachment": "No Encroachment",
+        "Extent of encroachment for both banks": "No Encroachment/ No Encroachment",
+        "Total watercourse units": 1.2,
+        "Off-site reference": "BGS-111 222 333",
+        "Condition": "Poor"
+      }
+    ],
+    "f2": [
+      {
+        "Habitat created in advance (years)": 0,
+        "Delay in starting habitat creation (years)": 0,
+        "Extent of encroachment for both banks": "No Encroachment/ No Encroachment",
+        "Off-site reference": "BGS-111 222 333",
+        "Watercourse units delivered": 2.594403979575,
+        "Condition": "Fairly Good",
+        "Length (km)": 0.3
+      }
+    ],
+    "f3": [
+      {
+        "Baseline habitat": "Ditches",
+        "Length (km)": 0.3,
+        "Habitat enhanced in advance (years)": 0,
+        "Delay in starting habitat enhancement (years)": 0,
+        "Extent of encroachment": "No Encroachment",
+        "Extent of encroachment for both banks": "No Encroachment/ No Encroachment",
+        "Off-site reference": "BGS-111 222 333",
+        "Proposed habitat": "Ditches",
+        "Watercourse units delivered": 2.409217854828,
+        "Condition": "Good"
+      }
+    ],
+    "habitatOffSiteGainSiteSummary": [
+      {
+        "Gain site reference": 1234,
+        "Habitat Offsite unit change per gain site (Post SRM)": 2.7706089322595426
+      },
+      {
+        "Gain site reference": "BNGREG-0001",
+        "Habitat Offsite unit change per gain site (Post SRM)": 11.7927807827911
+      },
+      {
+        "Gain site reference": "BNGREG-0002",
+        "Habitat Offsite unit change per gain site (Post SRM)": 10.19391249922896
+      },
+      {
+        "Gain site reference": "BNGREG-0003",
+        "Habitat Offsite unit change per gain site (Post SRM)": 11.092471223327998
+      }
+    ],
+    "hedgeOffSiteGainSiteSummary": [
+      {
+        "Gain site reference": 1234,
+        "Hedge Offsite unit change per gain site (Post SRM)": 1.1017262107027603
+      },
+      {
+        "Gain site reference": "BNGREG-0001",
+        "Hedge Offsite unit change per gain site (Post SRM)": 0.5790828803015999
+      }
+    ],
+    "waterCourseOffSiteGainSiteSummary": [
+      {
+        "Gain site reference": 1234,
+        "Watercourse Offsite unit change per gain site (Post SRM)": "0"
+      }
+    ],
+    "validation": {
+      "isMetricWorkbook": true,
+      "isSupportedVersion": true,
+      "isOffsiteDataPresent": true,
+      "areOffsiteTotalsCorrect": {}
     }
   },
-  "habitats": [
-    {
-      "habitatId": "H1",
-      "area": 2,
-      "module": "Created",
-      "state": "Habitat",
-      "measurementUnits": "hectares"
-    },
-    {
-      "habitatId": "H2",
-      "area": 2,
-      "module": "Created",
-      "state": "Habitat",
-      "measurementUnits": "hectares"
-    },
-    {
-      "habitatId": "H3",
-      "area": 0.04,
-      "module": "Created",
-      "state": "Habitat",
-      "measurementUnits": "hectares"
-    },
-    {
-      "habitatId": "H1",
-      "area": 0.074,
-      "module": "Created",
-      "state": "Hedge",
-      "measurementUnits": "kilometres"
-    },
-    {
-      "habitatId": "H3",
-      "area": 0.4004,
-      "module": "Enhanced",
-      "state": "Habitat",
-      "measurementUnits": "hectares"
-    },
-    {
-      "habitatId": "H1",
-      "area": 0.3673,
-      "module": "Enhanced",
-      "state": "Habitat",
-      "measurementUnits": "hectares"
-    },
-    {
-      "habitatId": "E3",
-      "area": 0.226,
-      "module": "Enhanced",
-      "state": "Hedge",
-      "measurementUnits": "kilometres"
-    },
-    {
-      "habitatId": "F3",
-      "area": 1,
-      "module": "Enhanced",
-      "state": "Watercourse",
-      "measurementUnits": "kilometres"
-    }
-  ],
   "developer-metric-filename": "data.xlsm",
   "developer-fullname": "Test Name",
   "developer-role-key": "Developer",
