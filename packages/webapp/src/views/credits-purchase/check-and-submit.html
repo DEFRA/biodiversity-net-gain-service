@@ -55,6 +55,7 @@
   {
     'text': 'A1',
     'value': credits.amounts.a1,
+    'value': credits.cost.a1,
     'valueDataTestId': 'credits-a1-value',
     'valueId': 'credits-a1-value',
     'href': credits.changeUrl,
@@ -63,6 +64,7 @@
   },
   {
     'text': 'A2',
+    'value': credits.amounts.a2,
     'value': credits.amounts.a2,
     'valueDataTestId': 'credits-a2-value',
     'valueId': 'credits-a2-value',
@@ -73,6 +75,7 @@
   {
     'text': 'A3',
     'value': credits.amounts.a3,
+    'value': credits.amounts.a3,
     'valueDataTestId': 'credits-a3-value',
     'valueId': 'credits-a3-value',
     'href': credits.changeUrl,
@@ -82,6 +85,7 @@
   {
     'text': 'A4',
     'value': credits.amounts.a4,
+    'value': credits.amounts.a4,
     'valueDataTestId': 'credits-a4-value',
     'valueId': 'credits-a4-value',
     'href': credits.changeUrl,
@@ -90,6 +94,7 @@
   },
   {
     'text': 'A5',
+    'value': credits.amounts.a5,
     'value': credits.amounts.a5,
     'valueDataTestId': 'credits-a5-value',
     'valueId': 'credits-a5-value',
@@ -259,6 +264,18 @@
         {{ generateSummaryList({
           rows: dueDiligenceRowList,
           classes: 'govuk-!-margin-bottom-9'
+        }) }}
+
+
+        {{ govukTable({
+          firstCellIsHeader: true,
+          head: [
+            { text: "Tier" },
+            { text: "Credits", format: "numeric" },
+            { text: "Estimated cost", format: "numeric" },
+            { href: " "}
+          ],
+          rows: credits.tierRows
         }) }}
 
         <h2 class="govuk-heading-m">Submit your information</h2>
