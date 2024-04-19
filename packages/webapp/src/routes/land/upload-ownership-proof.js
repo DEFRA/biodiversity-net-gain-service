@@ -43,7 +43,13 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_LAND_OWNERSHIP)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_LAND_OWNERSHIP,
+        noFileErrorMessage: 'Select a proof of land ownership file',
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
+      })
     }
   }
 }

@@ -39,8 +39,14 @@ const handlers = {
       return await processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      console.log('Hello from post handler catch err block')
-      return processErrorUpload(err, h, constants.views.UPLOAD_METRIC)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_METRIC,
+        noFileErrorMessage: 'Select a Biodiversity Metric',
+        unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
+        maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
+      })
     }
   }
 }

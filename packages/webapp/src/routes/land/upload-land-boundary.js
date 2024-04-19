@@ -47,7 +47,14 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_LAND_BOUNDARY)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_LAND_BOUNDARY,
+        noFileErrorMessage: 'Select a file showing the land boundary',
+        unsupportedFileExtErrorMessage: 'The selected file must be a DOC, DOCX, JPG, PNG or PDF',
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
+      })
     }
   }
 }

@@ -6,6 +6,7 @@ import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const localLandChargeId = '#localLandChargeId'
+
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, true))
   request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
@@ -32,7 +33,13 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_LOCAL_LAND_CHARGE)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_LOCAL_LAND_CHARGE,
+        noFileErrorMessage: 'Select a local land charge search certificate file',
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
+      })
     }
   }
 }

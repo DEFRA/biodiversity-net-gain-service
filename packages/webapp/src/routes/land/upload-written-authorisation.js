@@ -30,7 +30,6 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    console.log('Hello from postHandler')
     const config = buildConfig({
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.WRITTEN_AUTHORISATION_UPLOAD_TYPE,
@@ -41,9 +40,14 @@ const handlers = {
       const result = await uploadFile(request.logger, request, config)
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
-      console.log('Hello from postHandler err catch')
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_WRITTEN_AUTHORISATION)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_WRITTEN_AUTHORISATION,
+        noFileErrorMessage: 'Select the written authorisation file',
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
+      })
     }
   }
 }

@@ -32,7 +32,13 @@ const handlers = {
       return processSuccessfulUpload(result, request, h)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload(err, h, constants.views.UPLOAD_HABITAT_PLAN)
+      return processErrorUpload({
+        err,
+        h,
+        href: constants.views.UPLOAD_HABITAT_PLAN,
+        noFileErrorMessage: 'Select a habitat management and monitoring plan',
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
+      })
     }
   }
 }
@@ -50,5 +56,6 @@ export default [{
     generatePayloadOptions(
       uploadHabitatPlanId,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-      constants.views.UPLOAD_HABITAT_PLAN)
+      constants.views.UPLOAD_HABITAT_PLAN
+    )
 }]

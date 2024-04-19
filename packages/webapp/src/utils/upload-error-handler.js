@@ -2,16 +2,18 @@ import constants from './constants.js'
 import { getMaximumFileSizeExceededView } from './helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-function processErrorUpload (err, h, href) {
-  // TODO: delete console.log when you have tested the new function
-  console.log('Hello from processErrorUpload, href: ', href)
+function processErrorUpload ({ err, h, href, noFileErrorMessage, unsupportedFileExtErrorMessage, maximumFileSize }) {
   switch (err.message) {
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return buildErrorResponse(h, `The selected file must not be larger than ${maximumFileSize}MB`, href)
     case constants.uploadErrors.emptyFile:
       return buildErrorResponse(h, 'The selected file is empty', href)
     case constants.uploadErrors.noFile:
-      return buildErrorResponse(h, 'Select the written authorisation file', href)
+      return buildErrorResponse(h, noFileErrorMessage, href)
     case constants.uploadErrors.unsupportedFileExt:
-      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF', href)
+      return buildErrorResponse(h, unsupportedFileExtErrorMessage || 'The selected file must be a DOC, DOCX or PDF', href)
+    case constants.uploadErrors.notValidMetric:
+      return buildErrorResponse(h, 'The selected file is not a valid Metric', href)
     default:
       if (err instanceof ThreatScreeningError) {
         return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed, href)
@@ -24,8 +26,6 @@ function processErrorUpload (err, h, href) {
 }
 
 function buildErrorResponse (h, message, href) {
-  // TODO: delete console.log when you have tested the new function
-  console.log('Hello from buildErrorResponse, message: ', message, 'href: ', href)
   return h.view(href, {
     err: [{
       text: message,
@@ -35,8 +35,6 @@ function buildErrorResponse (h, message, href) {
 }
 
 function maximumFileSizeExceeded (h, href, maximumFileSize, view) {
-  // TODO: delete console.log when you have tested the new function
-  console.log('Hello from maximumFileSizeExceeded')
   return getMaximumFileSizeExceededView({
     h,
     href,
