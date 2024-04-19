@@ -16,12 +16,27 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
   console.log('Credits: ', credits)
   const tierCosts = credits.tierCosts.reduce((obj, item) => ({ ...obj, [item.tier]: item.cost }), {})
+
   const getRow = ({ tier, unitAmount, cost, changeUrl1 }) => [
     { text: tier.toUpperCase() },
     { text: Number(unitAmount).toFixed(2), format: 'numeric' },
     { text: getLocaleString(cost), format: 'numeric' },
-    { text: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION }
+    { html: `<a href='${creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION}'>change</a>` }
   ]
+  const tierData = (tier) => {
+    return credits.tierCosts
+      .filter(item => item.tier.startsWith(tier))
+      .map(getRow)
+  }
+  const allTierData = {
+    tierA: tierData('a'),
+    tierH: tierData('h'),
+    tierW: tierData('w')
+  }
+  console.log(allTierData.tierA)
+  console.log(allTierData.tierH)
+  console.log(allTierData.tierW)
+
   const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, Number(element.unitAmount).toFixed(2)]))
   console.log('tierCosts: ', tierCosts)
   const usingPurchaseOrder = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
@@ -42,8 +57,8 @@ const getApplicationDetails = (session, currentOrganisation) => {
     credits: {
       amounts: creditsAmounts,
       cost: tierCosts,
-      tierRows: [...credits.tierCosts.map(item => getRow(item)), [
-        { text: 'Some text about cost' }, { text: '' }, { text: tierCosts, format: 'numeric' }]],
+      allTierData,
+      // tierRows: [...credits.tierCosts.map(item => getRow(item))],
       total: credits.total.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 }),
       changeUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION
     },

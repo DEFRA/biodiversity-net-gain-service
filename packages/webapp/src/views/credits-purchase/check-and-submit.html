@@ -266,18 +266,49 @@
           classes: 'govuk-!-margin-bottom-9'
         }) }}
 
-
+      <br>
         {{ govukTable({
+          caption: "Area",
+          captionClasses:"govuk-table__caption--m",
           firstCellIsHeader: true,
           head: [
             { text: "Tier" },
             { text: "Credits", format: "numeric" },
             { text: "Estimated cost", format: "numeric" },
-            { href: " "}
+            { text: " "}
           ],
-          rows: credits.tierRows
+          rows: credits.allTierData.tierA
         }) }}
-
+      <br>
+        {{ govukTable({
+          caption: "Hegderow",
+          captionClasses:"govuk-table__caption--m",
+          firstCellIsHeader: true,
+          firstCellIsHeader: true,
+          head: [
+            { text: "Tier" },
+            { text: "Credits", format: "numeric" },
+            { text: "Estimated cost", format: "numeric" },
+            { text: " "
+          }
+          ],
+          rows: credits.allTierData.tierH
+        }) }}
+      <br>
+        {{ govukTable({
+          caption: "Watercourse",
+          captionClasses:"govuk-table__caption--m",
+          firstCellIsHeader: true,
+          firstCellIsHeader: true,
+          head: [
+            { text: "Tier" },
+            { text: "Credits", format: "numeric" },
+            { text: "Estimated cost", format: "numeric" },
+            { text: " "}
+          ],
+          rows: credits.allTierData.tierW
+        }) }}
+       <br>
         <h2 class="govuk-heading-m">Submit your information</h2>
 
         <p>By submitting the above information, you agree that it is complete and correct.</p>
