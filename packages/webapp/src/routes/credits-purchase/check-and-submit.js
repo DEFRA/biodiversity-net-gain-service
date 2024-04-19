@@ -14,10 +14,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
   const metricFileSize = getHumanReadableFileSize(session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE), 1)
   const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
-  console.log('Credits: ', credits)
-  const tierCosts = credits.tierCosts.reduce((obj, item) => ({ ...obj, [item.tier]: item.cost }), {})
-
-  const getRow = ({ tier, unitAmount, cost, changeUrl1 }) => [
+  const getRow = ({ tier, unitAmount, cost }) => [
     { text: tier.toUpperCase() },
     { text: Number(unitAmount).toFixed(2), format: 'numeric' },
     { text: getLocaleString(cost), format: 'numeric' },
@@ -33,12 +30,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     tierH: tierData('h'),
     tierW: tierData('w')
   }
-  console.log(allTierData.tierA)
-  console.log(allTierData.tierH)
-  console.log(allTierData.tierW)
-
-  const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, Number(element.unitAmount).toFixed(2)]))
-  console.log('tierCosts: ', tierCosts)
+  const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, Number(element.unitAmount).toFixed(2), element.cost]))
   const usingPurchaseOrder = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
   const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
   const nationalityHtml = nationality ? Object.values(nationality).filter(n => n !== '').join('<br/>') : ''
@@ -56,9 +48,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     },
     credits: {
       amounts: creditsAmounts,
-      cost: tierCosts,
       allTierData,
-      // tierRows: [...credits.tierCosts.map(item => getRow(item))],
       total: credits.total.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 }),
       changeUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION
     },
