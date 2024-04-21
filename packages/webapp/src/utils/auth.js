@@ -38,7 +38,7 @@ const getAuthenticationUrl = () => {
 }
 
 const setCookie = (cookieAuth, token) => cookieAuth.set({
-  account: { idTokenClaims: token.account.idTokenClaims }
+  account: { idTokenClaims: token?.account?.idTokenClaims }
 })
 
 const authenticate = async (code, cookieAuth) => {
