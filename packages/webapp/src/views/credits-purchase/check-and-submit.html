@@ -153,10 +153,17 @@
           captionClasses:"govuk-table__caption--m",
           firstCellIsHeader: true,
           head: [
-            { text: "Tier"},
-            { text: "Credits", format: "numeric"},
-            { text: "Estimated cost", format: "numeric"},
-            { text: " "}
+            { 
+              text: "Tier",
+              classes: "govuk-!-width-one-quarter"},
+            { 
+              text: "Credits", format: "numeric",
+              classes: "govuk-!-width-one-quarter"},
+            { 
+              text: "Estimated cost", format: "numeric",
+              classes: "govuk-!-width-full"},
+            { 
+              text: ""            }
           ],
           rows: credits.allTierData.tierA
         }) }}
@@ -168,10 +175,19 @@
         firstCellIsHeader: true,
         firstCellIsHeader: true,
         head: [
-          { text: "Tier" },
-          { text: "Credits", format: "numeric" },
-          { text: "Estimated cost", format: "numeric" },
-          { text: " "
+          { 
+            text: "Tier",
+            classes: "govuk-!-width-one-quarter"
+         },
+          { 
+            text: "Credits", format: "numeric",
+            classes: "govuk-!-width-one-quarter" 
+          },
+          { 
+            text: "Estimated cost", format: "numeric",
+            classes: "govuk-!-width-full" 
+          },
+          { text: ""
         }
         ],
         rows: credits.allTierData.tierH
@@ -184,9 +200,18 @@
           firstCellIsHeader: true,
           firstCellIsHeader: true,
           head: [
-            { text: "Tier" },
-            { text: "Credits", format: "numeric" },
-            { text: "Estimated cost", format: "numeric" },
+            { 
+              text: "Tier",
+              classes: "govuk-!-width-one-quarter"
+            },
+            { 
+              text: "Credits", format: "numeric",
+              classes: "govuk-!-width-one-quarter"
+            },
+            { 
+              text: "Estimated cost", format: "numeric",
+              classes: "govuk-!-width-full"
+            },
             { text: " "}
           ],
           rows: credits.allTierData.tierW
