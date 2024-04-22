@@ -51,79 +51,6 @@
   }
 ] %}
 
-{% set creditsTierARowList = [
-  {
-    'text': 'A1',
-    'value': credits.amounts.a1,
-    'valueDataTestId': 'credits-a1-value',
-    'valueId': 'credits-a1-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier A1 amount',
-    'show': true
-  },
-  {
-    'text': 'A2',
-    'value': credits.amounts.a2,
-    'valueDataTestId': 'credits-a2-value',
-    'valueId': 'credits-a2-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier A2 amount',
-    'show': true
-  },
-  {
-    'text': 'A3',
-    'value': credits.amounts.a3,
-    'valueDataTestId': 'credits-a3-value',
-    'valueId': 'credits-a3-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier A3 amount',
-    'show': true
-  },
-  {
-    'text': 'A4',
-    'value': credits.amounts.a4,
-    'valueDataTestId': 'credits-a4-value',
-    'valueId': 'credits-a4-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier A4 amount',
-    'show': true
-  },
-  {
-    'text': 'A5',
-    'value': credits.amounts.a5,
-    'value': credits.amounts.a5,
-    'valueDataTestId': 'credits-a5-value',
-    'valueId': 'credits-a5-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier A5 amount',
-    'show': true
-  }
-] %}
-
-{% set creditsTierHRowList = [
-  {
-    'text': 'H',
-    'value': credits.amounts.h,
-    'valueDataTestId': 'credits-h-value',
-    'valueId': 'credits-h-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier H amount',
-    'show': true
-  }
-] %}
-
-{% set creditsTierWRowList = [
-  {
-    'text': 'W',
-    'value': credits.amounts.w,
-    'valueDataTestId': 'credits-w-value',
-    'valueId': 'credits-w-value',
-    'href': credits.changeUrl,
-    'visuallyHiddenText': ' credits tier W amount',
-    'show': true
-  }
-] %}
-
 {% set creditsCostRowList = [
   {
     'text': 'Total estimated cost',
@@ -220,28 +147,20 @@
         }) }}
 
         <h2 class="govuk-heading-m">Statutory biodiversity credits</h2>
-        <h2 class="govuk-heading-m">Tier A</h2>
-
         <br>
         {{ govukTable({
           caption: "Area",
           captionClasses:"govuk-table__caption--m",
           firstCellIsHeader: true,
           head: [
-            { text: "Tier" },
-            { text: "Credits", format: "numeric" },
-            { text: "Estimated cost", format: "numeric" },
+            { text: "Tier"},
+            { text: "Credits", format: "numeric"},
+            { text: "Estimated cost", format: "numeric"},
             { text: " "}
           ],
           rows: credits.allTierData.tierA
         }) }}
       <br>
-        {{ generateSummaryList({
-          rows: creditsTierARowList,
-          classes: 'govuk-!-margin-bottom-9'
-        }) }}
-
-
       <br>
       {{ govukTable({
         caption: "Hegderow",
@@ -257,21 +176,8 @@
         ],
         rows: credits.allTierData.tierH
       }) }}
+    <br>    
     <br>
-
-
-        <h2 class="govuk-heading-m">Tier H</h2>
-
-        {{ generateSummaryList({
-          rows: creditsTierHRowList,
-          classes: 'govuk-!-margin-bottom-9'
-        }) }}
-
-    
-        <h2 class="govuk-heading-m">Tier W</h2>
-        
-        <br>
-
         {{ govukTable({
           caption: "Watercourse",
           captionClasses:"govuk-table__caption--m",
@@ -286,12 +192,7 @@
           rows: credits.allTierData.tierW
         }) }}
        <br>
-
-        {{ generateSummaryList({
-          rows: creditsTierWRowList,
-          classes: 'govuk-!-margin-bottom-9'
-        }) }}
-
+       <br>
         <h2 class="govuk-heading-m">Estimated cost of statutory biodiversity credits</h2>
 
         {{ generateSummaryList({

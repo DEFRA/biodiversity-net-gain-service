@@ -18,7 +18,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     { text: tier.toUpperCase() },
     { text: Number(unitAmount).toFixed(2), format: 'numeric' },
     { text: getLocaleString(cost), format: 'numeric' },
-    { html: `<a href='${creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION}'>change</a>` }
+    { html: `<a href='${creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION}'>Change</a>` }
   ]
   const tierData = (tier) => {
     return credits.tierCosts
@@ -30,7 +30,6 @@ const getApplicationDetails = (session, currentOrganisation) => {
     tierH: tierData('h'),
     tierW: tierData('w')
   }
-  const creditsAmounts = Object.fromEntries(credits.tierCosts.map(element => [element.tier, Number(element.unitAmount).toFixed(2), element.cost]))
   const usingPurchaseOrder = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
   const nationality = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
   const nationalityHtml = nationality ? Object.values(nationality).filter(n => n !== '').join('<br/>') : ''
@@ -47,7 +46,6 @@ const getApplicationDetails = (session, currentOrganisation) => {
       planningRef: metricData.startPage.planningApplicationReference ?? ''
     },
     credits: {
-      amounts: creditsAmounts,
       allTierData,
       total: credits.total.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 }),
       changeUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION
