@@ -1,13 +1,11 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   validateTextInput,
   checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
   validateIdGetSchemaOptional,
-  emailValidator,
-  validateLengthOfCharsLessThan50
+  emailValidator
 } from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
@@ -32,18 +30,11 @@ const validateIndividual = individual => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT
-    })
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { id } = request.query
     let individual = {
       firstName: '',
-      middleNames: '',
       lastName: '',
       emailAddress: ''
     }
@@ -69,7 +60,7 @@ const handlers = {
       const excludeIndex = id !== undefined ? parseInt(id, 10) : null
       const personDuplicateError = checkForDuplicateConcatenated(
         landownerIndividuals,
-        ['firstName', 'middleNames', 'lastName'],
+        ['firstName', 'lastName'],
         individual,
         '#personName',
         'This landowner or leaseholder has already been added - enter a different landowner or leaseholder, if there is one',
@@ -82,12 +73,6 @@ const handlers = {
       errors.individualError = individualError
     }
 
-    const middleNameError = validateLengthOfCharsLessThan50(individual.middleNames, 'middle name', 'middleNameId')
-
-    if (middleNameError) {
-      errors.individualError = { ...individualError, ...{ middleNameError: middleNameError?.err[0] } }
-    }
-
     if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT, {
         individual,
@@ -96,7 +81,6 @@ const handlers = {
         fullNameError: errors.fullNameError,
         firstNameError: errors.individualError?.firstNameError,
         lastNameError: errors.individualError?.lastNameError,
-        middleNameError: errors.individualError?.middleNameError,
         emailAddressError: errors.individualError?.emailAddressError
       })
     }

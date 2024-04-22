@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'landowner remove'
-    }, {
-      inProgressUrl: constants.routes.REMOVE_LANDOWNER
-    })
     const { id } = request.query
     const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landownerConversationConvenants.length === 0) {
@@ -19,7 +13,7 @@ const handlers = {
     if (id) {
       landownerToRemove = landownerConversationConvenants[id]
       if (landownerToRemove.type === 'individual') {
-        landownerToRemoveText = `${landownerToRemove.firstName} ${landownerToRemove.middleNames ? landownerToRemove.middleNames + ' ' : ''}${landownerToRemove.lastName}`
+        landownerToRemoveText = `${landownerToRemove.firstName} ${landownerToRemove.lastName}`
       } else {
         landownerToRemoveText = landownerToRemove.organisationName
       }
@@ -36,7 +30,7 @@ const handlers = {
     if (!landownerToRemove) {
       const idToRemove = landownerConversationConvenants[id]
       if (idToRemove.type === 'individual') {
-        landownerToRemoveText = `${idToRemove.firstName} ${idToRemove.middleNames ? idToRemove.middleNames + ' ' : ''}${idToRemove.lastName}`
+        landownerToRemoveText = `${idToRemove.firstName} ${idToRemove.lastName}`
       } else {
         landownerToRemoveText = idToRemove.organisationName
       }
