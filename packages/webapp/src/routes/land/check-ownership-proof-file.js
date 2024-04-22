@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
 
@@ -9,13 +9,6 @@ const handlers = {
     if (!context.fileName || !context.fileSize) {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
-
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add land ownership details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_PROOF_OF_OWNERSHIP
-    })
     return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },
   post: async (request, h) => {
