@@ -18,7 +18,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     { text: tier.toUpperCase() },
     { text: Number(unitAmount).toFixed(2), format: 'numeric' },
     { text: getLocaleString(cost), format: 'numeric' },
-    { html: `<a href='${creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION}'>Change</a>` }
+    { html: `<a href='${creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION}'>Change</a>`, format: 'numeric' }
   ]
   const tierData = (tier) => {
     return credits.tierCosts
