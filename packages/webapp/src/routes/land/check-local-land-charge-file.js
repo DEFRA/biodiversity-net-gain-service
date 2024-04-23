@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getHumanReadableFileSize, getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, getContext(request))
@@ -14,7 +14,8 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalLandCharge === 'yes') {
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
-      const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
+      const referrerUrl = getValidReferrerUrl(request, ['/land/check-and-submit'])
+      const redirectUrl = referrerUrl ||
                           constants.routes.REGISTER_LAND_TASK_LIST
       return h.redirect(redirectUrl)
     } else {

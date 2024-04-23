@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.LEGAL_AGREEMENT_TYPE, getContext(request))
@@ -9,7 +9,8 @@ const handlers = {
     if (legalAgreementType) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
       if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
+        const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
       } else {
         return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
       }

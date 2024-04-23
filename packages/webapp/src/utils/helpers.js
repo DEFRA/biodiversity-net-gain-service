@@ -694,6 +694,11 @@ const validateNonUkAddress = (address, errors) => {
     errors.countryError = countryValidation.err[0]
   }
 }
+const getValidReferrerUrl = (request, validReferrers) => {
+  const referrerUrl = request.yar.get(constants.redisKeys.REFERER)
+  const isReferrerValid = validReferrers.includes(referrerUrl)
+  return isReferrerValid ? referrerUrl : null
+}
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
   if (isApplicantAgent === 'no') {
@@ -798,6 +803,7 @@ export {
   habitatTypeAndConditionMapper,
   combineHabitats,
   getFileHeaderPrefix,
+  getValidReferrerUrl,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,

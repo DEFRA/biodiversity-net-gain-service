@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { habitatTypeAndConditionMapper, combineHabitats } from '../../utils/helpers.js'
+import { habitatTypeAndConditionMapper, combineHabitats, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -12,7 +12,8 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED, true)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_METRIC_DETAILS)
+    const referrerUrl = getValidReferrerUrl(request, constants.LAND_METRIC_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_METRIC_DETAILS)
   }
 }
 

@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
@@ -57,7 +58,8 @@ const handlers = {
     }
     if (addAnotherPlanningAuthority === 'yes') {
       request.yar.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
+      const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     if (addAnotherPlanningAuthority === 'no') {
       return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)

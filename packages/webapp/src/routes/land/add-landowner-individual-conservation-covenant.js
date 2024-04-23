@@ -5,7 +5,8 @@ import {
   checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
   validateIdGetSchemaOptional,
-  emailValidator
+  emailValidator,
+  getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
@@ -90,7 +91,8 @@ const handlers = {
       landownerIndividuals.push(individual)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
+    const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
   }
 
 }
