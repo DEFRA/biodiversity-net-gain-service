@@ -67,7 +67,7 @@ const handlers = {
       landownerOrganisations.push(organisation)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
   }
 }

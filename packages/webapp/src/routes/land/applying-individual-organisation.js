@@ -24,7 +24,7 @@ const handlers = {
 
       if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
           (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
-        const referrerUrl = getValidReferrerUrl(request, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+        const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
         return h.redirect(referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {

@@ -14,7 +14,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalLandCharge === 'yes') {
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
-      const referrerUrl = getValidReferrerUrl(request, ['/land/check-and-submit'])
+      const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
       const redirectUrl = referrerUrl ||
                           constants.routes.REGISTER_LAND_TASK_LIST
       return h.redirect(redirectUrl)

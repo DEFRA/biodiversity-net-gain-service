@@ -12,7 +12,7 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_METRIC_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CHECK_HABITAT_CREATED)
   }
 }

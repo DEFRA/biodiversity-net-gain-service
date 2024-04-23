@@ -24,7 +24,7 @@ const handlers = {
       await deleteBlobFromContainers(habitatPlanLocation)
       request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
-      const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.ENHANCEMENT_WORKS_START_DATE)
     }
     request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')

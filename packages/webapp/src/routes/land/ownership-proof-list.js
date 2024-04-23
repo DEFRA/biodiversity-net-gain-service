@@ -56,7 +56,7 @@ const handlers = {
 
     if (addAnotherOwnershipProof === 'yes' && landOwnershipProofs.length > 0) {
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY, addAnotherOwnershipProof)
-      const referrerUrl = getValidReferrerUrl(request, ['/land/check-and-submit'])
+      const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
       return h.redirect(referrerUrl || constants.routes.REGISTER_LAND_TASK_LIST)
     }
 

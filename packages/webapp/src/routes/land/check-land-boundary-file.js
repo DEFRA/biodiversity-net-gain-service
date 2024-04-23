@@ -15,7 +15,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
       // to use referer we must have a LAND_BOUNDARY_GRID_REFERENCE set
-      const referrerUrl = getValidReferrerUrl(request, constants.LAND_BOUNDARY_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
       return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) ||
         constants.routes.ADD_GRID_REFERENCE)
     } else {

@@ -51,7 +51,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
     }
     request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
   }
 }

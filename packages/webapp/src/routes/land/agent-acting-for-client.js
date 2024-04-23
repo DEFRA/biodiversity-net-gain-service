@@ -16,7 +16,7 @@ const handlers = {
       request.yar.clear(constants.redisKeys.REFERER)
     }
     request.yar.set(constants.redisKeys.IS_AGENT, isApplicantAgent)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (isApplicantAgent === 'yes') {
       return h.redirect(referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {

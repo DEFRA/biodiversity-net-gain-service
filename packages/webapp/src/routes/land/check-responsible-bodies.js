@@ -57,7 +57,7 @@ const handlers = {
     }
     if (addAnotherResponsibleBody === 'yes') {
       request.yar.set(constants.redisKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
-      const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)

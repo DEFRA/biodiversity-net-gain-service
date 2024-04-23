@@ -694,8 +694,8 @@ const validateNonUkAddress = (address, errors) => {
     errors.countryError = countryValidation.err[0]
   }
 }
-const getValidReferrerUrl = (request, validReferrers) => {
-  const referrerUrl = request.yar.get(constants.redisKeys.REFERER)
+const getValidReferrerUrl = (yar, validReferrers) => {
+  const referrerUrl = yar.get(constants.redisKeys.REFERER)
   const isReferrerValid = validReferrers.includes(referrerUrl)
   return isReferrerValid ? referrerUrl : null
 }
@@ -704,10 +704,11 @@ const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) =
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
+  const referrerUrl = getValidReferrerUrl(yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
   if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+    return h.redirect(referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 const getFileHeaderPrefix = (fileNames) => {

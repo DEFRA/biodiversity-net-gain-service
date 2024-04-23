@@ -19,7 +19,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, phone)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }

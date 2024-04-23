@@ -21,7 +21,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
-    const referrerUrl = getValidReferrerUrl(request, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER)
   }
 }

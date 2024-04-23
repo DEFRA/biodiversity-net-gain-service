@@ -9,7 +9,7 @@ const handlers = {
     if (legalAgreementType) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
       if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
-        const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+        const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
         return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
       } else {
         return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)

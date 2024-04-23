@@ -51,7 +51,7 @@ const handlers = {
         legalAgreementResponsibleBodies.splice(id, 1, responsibleBody)
       } else { legalAgreementResponsibleBodies.push(responsibleBody) }
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
-      const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.CHECK_RESPONSIBLE_BODIES)
     }
   }

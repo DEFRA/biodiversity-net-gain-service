@@ -58,7 +58,7 @@ const handlers = {
     }
     if (addAnotherPlanningAuthority === 'yes') {
       request.yar.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
-      const referrerUrl = getValidReferrerUrl(request, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     if (addAnotherPlanningAuthority === 'no') {
