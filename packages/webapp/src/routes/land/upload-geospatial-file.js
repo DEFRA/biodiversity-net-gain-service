@@ -4,19 +4,12 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const invalidUploadErrorText = 'The selected file must be a GeoJSON, Geopackage or Shape file'
 const uploadGeospatialFileId = '#geospatialLandBoundary'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
-    })
     return h.view(constants.views.UPLOAD_GEOSPATIAL_LAND_BOUNDARY, { maxFileSize: process.env.MAX_GEOSPATIAL_FILE_UPLOAD_MB })
   },
   post: async (request, h) => performUpload(request, h)

@@ -2,7 +2,7 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
@@ -86,13 +86,6 @@ const maximumSizeExceeded = h => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
-    })
-
     const isIndividualOrOrganisation = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     const clientsName = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_NAME_KEY)
     const clientsOrganisationName = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME_KEY)

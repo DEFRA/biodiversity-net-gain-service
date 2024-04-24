@@ -1,16 +1,8 @@
 import constants from '../../utils/constants.js'
-import {
-  processRegistrationTask, getLegalAgreementDocumentType
-} from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.NEED_ADD_ALL_LEGAL_FILES
-    })
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 

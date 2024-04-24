@@ -3,7 +3,6 @@ import constants from '../../utils/constants.js'
 
 import {
   getHumanReadableFileSize,
-  processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
@@ -32,12 +31,6 @@ const getCustomizedHTML = (item, index) => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_FILES
-    })
     const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)

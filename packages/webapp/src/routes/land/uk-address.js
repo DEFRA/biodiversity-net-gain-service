@@ -1,15 +1,8 @@
 import constants from '../../utils/constants.js'
-import { redirectAddress, validateAddress, processRegistrationTask } from '../../utils/helpers.js'
+import { redirectAddress, validateAddress } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.UK_ADDRESS
-    })
-
     const isApplicantAgent = request.yar.get(constants.cacheKeys.IS_AGENT)
     const address = request.yar.get(constants.cacheKeys.UK_ADDRESS_KEY)
     return h.view(constants.views.UK_ADDRESS, {

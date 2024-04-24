@@ -1,7 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processRegistrationTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
@@ -78,13 +78,6 @@ const maximumSizeExceeded = h => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_WRITTEN_AUTHORISATION
-    })
-
     const isIndividualOrOrganisation = request.yar.get(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const clientsName = request.yar.get(constants.cacheKeys.CLIENTS_NAME_KEY)
     const clientsOrganisationName = request.yar.get(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY)

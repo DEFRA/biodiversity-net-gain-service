@@ -1,16 +1,9 @@
 import ngrToBng from '@defra/ngr-to-bng'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      inProgressUrl: constants.routes.ADD_GRID_REFERENCE
-    })
     const gridReference = request.yar.get(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE)
     return h.view(constants.views.ADD_GRID_REFERENCE, {
       gridReference

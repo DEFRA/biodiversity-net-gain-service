@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const getContext = request => {
@@ -16,12 +16,6 @@ const getContext = request => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE
-    })
     return h.view(constants.views.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE, getContext(request))
   },
   post: async (request, h) => {

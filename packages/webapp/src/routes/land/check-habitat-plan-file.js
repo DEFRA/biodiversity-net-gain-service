@@ -1,15 +1,9 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_HABITAT_PLAN_FILE
-    })
     return h.view(constants.views.CHECK_HABITAT_PLAN_FILE, getContext(request))
   },
   post: async (request, h) => {

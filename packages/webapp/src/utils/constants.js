@@ -239,7 +239,6 @@ const setReferer = [
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...lojConstants.clearLojReferer,
   ...developerConstants.clearDeveloperReferer
 ]
 

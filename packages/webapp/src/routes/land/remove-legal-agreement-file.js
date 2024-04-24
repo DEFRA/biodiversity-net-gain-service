@@ -1,16 +1,10 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Legal Agreement File remove'
-    }, {
-      inProgressUrl: constants.routes.REMOVE_LEGAL_AGREEMENT_FILE
-    })
     const { id } = request.query
     let filenameText
     if (id) {

@@ -1,19 +1,12 @@
 import constants from '../../utils/constants.js'
 import {
   dateClasses,
-  processRegistrationTask,
   validateAndParseISOString,
   validateDate
 } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.HABITAT_ENHANCEMENTS_END_DATE
-    })
     const { day, month, year } = validateAndParseISOString(request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY))
     const habitatEnhancementsEndDateOption = request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
     return h.view(constants.views.HABITAT_ENHANCEMENTS_END_DATE, {

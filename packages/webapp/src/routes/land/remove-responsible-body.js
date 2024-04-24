@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Responsible body remove'
-    }, {
-      inProgressUrl: constants.routes.REMOVE_RESPONSIBLE_BODY
-    })
     const { id } = request.query
     const legalAgreementResponsibleBodies = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     if (legalAgreementResponsibleBodies.length === 0) {

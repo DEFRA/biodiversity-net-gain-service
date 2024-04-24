@@ -1,12 +1,11 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-import * as helpers from '../../../utils/helpers.js'
 const url = constants.routes.LAND_OWNERSHIP_PROOF_LIST
 
 describe(url, () => {
   let viewResult
   let h
-  let cacheMap
+  let redisMap
   let resultContext
   let landOwnershipProofs
 
@@ -21,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    cacheMap = new Map()
-    cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [
+    redisMap = new Map()
+    redisMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [
       'mock-file-1',
       'mock-file-2'
     ])
@@ -37,7 +36,7 @@ describe(url, () => {
 
     it('should show all land ownership proofs that are added', async () => {
       const request = {
-        yar: cacheMap
+        yar: redisMap
       }
 
       await landOwnershipProofs.default[0].handler(request, h)
@@ -47,9 +46,9 @@ describe(url, () => {
     })
 
     it(`should render the ${url.substring(1)} view without list`, async () => {
-      cacheMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
+      redisMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
       const request = {
-        yar: cacheMap
+        yar: redisMap
       }
 
       await landOwnershipProofs.default[0].handler(request, h)
@@ -58,12 +57,10 @@ describe(url, () => {
     })
 
     it('should redirect to the register land task list if the list is empty, and to avoid loopback navigation from uploading ownership proof', async () => {
-      cacheMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
+      redisMap.clear(constants.cacheKeys.LAND_OWNERSHIP_PROOFS)
       jest.mock('../../../utils/helpers.js')
 
-      const mockProcessRegistrationTask = jest.spyOn(helpers, 'processRegistrationTask')
-      await landOwnershipProofs.default[0].handler({ headers: { referer: 'http://localhost/land/ownership-proof-list' }, yar: cacheMap }, h)
-      expect(mockProcessRegistrationTask).toHaveBeenCalledTimes(2)
+      await landOwnershipProofs.default[0].handler({ headers: { referer: 'http://localhost/land/ownership-proof-list' }, yar: redisMap }, h)
       expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })
@@ -71,7 +68,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should continue journey to register task list if yes is chosen', async () => {
       const request = {
-        yar: cacheMap,
+        yar: redisMap,
         payload: { addAnotherOwnershipProof: 'yes' }
       }
 
@@ -82,7 +79,7 @@ describe(url, () => {
 
     it('should continue journey to upload ownership proof if no is chosen', async () => {
       const request = {
-        yar: cacheMap,
+        yar: redisMap,
         payload: { addAnotherOwnershipProof: 'no' }
       }
 
@@ -93,7 +90,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: cacheMap,
+        yar: redisMap,
         payload: {}
       }
 

@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
@@ -25,12 +24,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_PLANNING_AUTHORITIES
-    })
     const lpaList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
     if (lpaList && lpaList.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)

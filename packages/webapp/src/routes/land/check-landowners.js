@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
@@ -45,13 +45,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LANDOWNERS
-    })
-
     const landOwnerConservationConvenants = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landOwnerConservationConvenants.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)

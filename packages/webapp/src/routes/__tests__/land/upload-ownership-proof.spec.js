@@ -45,6 +45,14 @@ describe('Proof of ownership upload controller tests', () => {
             fileType: 'application/pdf',
             id: '1'
           }]
+          uploadConfig.sessionData[`${constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF}`] = [{
+            fileName: 'file-1.doc',
+            fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
+            fileSize: 0.01,
+            fileType: 'application/msword',
+            id: '1',
+            confirmed: false
+          }]
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()

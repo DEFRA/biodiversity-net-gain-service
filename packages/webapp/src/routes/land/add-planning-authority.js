@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType,
   checkForDuplicate,
   validateIdGetSchemaOptional
@@ -10,13 +9,6 @@ const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
   get: (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_PLANNING_AUTHORITY
-    })
-
     const { id } = request.query
     const lpaNames = getLpaNames(filePathAndName)
 

@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType,
   buildFullName
 } from '../../utils/helpers.js'
@@ -32,13 +31,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.LEGAL_AGREEMENT_LPA_LIST
-    })
-
     const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST)
 
     const lpaListItems = []

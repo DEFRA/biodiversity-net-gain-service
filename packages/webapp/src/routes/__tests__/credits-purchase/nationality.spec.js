@@ -51,13 +51,13 @@ describe(url, () => {
     it('Should continue journey if user enters nationalities', async () => {
       postOptions.payload = mockNationalities
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
     })
 
     it('Should continue journey if user enters nationality in any drop down', async () => {
       postOptions.payload = mockNationalitiesAlt
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
     })
 
     it('Should fail journey if user doesnt select a nationality', async () => {

@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_GEOSPATIAL_FILE
-    })
     const fileSize = request.yar.get(constants.cacheKeys.GEOSPATIAL_FILE_SIZE)
     const humanReadableFileSize = getHumanReadableFileSize(fileSize)
     const mapConfig = {
