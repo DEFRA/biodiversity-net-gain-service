@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add biodiversity gain site boundary details'
-    }, {
-      inProgressUrl: constants.routes.ADD_HECTARES
-    })
     const hectares = request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
     return h.view(constants.views.ADD_HECTARES, {
       hectares
@@ -27,7 +21,8 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
     }
   }
 }

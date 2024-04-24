@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const organisationNameID = '#organisationName'
 const validateOrganisation = organisation => {
@@ -13,12 +13,6 @@ const validateOrganisation = organisation => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT
-    })
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
@@ -73,7 +67,8 @@ const handlers = {
       landownerOrganisations.push(organisation)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
   }
 }
 

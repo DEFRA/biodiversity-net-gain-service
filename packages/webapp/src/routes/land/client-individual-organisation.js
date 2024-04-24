@@ -1,14 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
-    })
     return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, {
       individualOrOrganisation: request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     })
@@ -31,11 +25,11 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, individualOrOrganisation)
-
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_NAME)
+      return h.redirect(referrerUrl || constants.routes.CLIENTS_NAME)
     } else {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_ORGANISATION_NAME)
+      return h.redirect(referrerUrl || constants.routes.CLIENTS_ORGANISATION_NAME)
     }
   }
 }

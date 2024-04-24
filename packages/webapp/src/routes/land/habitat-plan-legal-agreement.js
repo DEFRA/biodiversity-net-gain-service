@@ -1,15 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT
-    })
     const isHabitatIncludeLegalAgreement = request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
     return h.view(constants.views.HABITAT_PLAN_LEGAL_AGREEMENT, { isHabitatIncludeLegalAgreement })
   },
@@ -31,7 +24,8 @@ const handlers = {
       await deleteBlobFromContainers(habitatPlanLocation)
       request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ENHANCEMENT_WORKS_START_DATE)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.ENHANCEMENT_WORKS_START_DATE)
     }
     request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
     return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)

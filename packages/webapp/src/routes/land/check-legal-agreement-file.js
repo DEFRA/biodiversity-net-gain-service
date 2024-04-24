@@ -2,20 +2,12 @@ import path from 'path'
 import constants from '../../utils/constants.js'
 import {
   getHumanReadableFileSize,
-  processRegistrationTask,
   getLegalAgreementDocumentType, validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
-    const { id } = request.query
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
-    })
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
@@ -36,7 +28,7 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'yes')
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
+      return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

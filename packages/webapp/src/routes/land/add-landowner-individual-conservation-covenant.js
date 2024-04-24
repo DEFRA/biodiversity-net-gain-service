@@ -1,12 +1,12 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   validateTextInput,
   checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
   validateIdGetSchemaOptional,
-  emailValidator
+  emailValidator,
+  getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const firstNameID = '#firstName'
@@ -31,12 +31,6 @@ const validateIndividual = individual => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT
-    })
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { id } = request.query
@@ -97,7 +91,8 @@ const handlers = {
       landownerIndividuals.push(individual)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LANDOWNERS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
   }
 
 }

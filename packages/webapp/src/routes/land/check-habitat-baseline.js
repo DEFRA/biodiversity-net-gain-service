@@ -1,15 +1,8 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, checked, habitatTypeAndConditionMapper } from '../../utils/helpers.js'
+import { getValidReferrerUrl, checked, habitatTypeAndConditionMapper } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Land information',
-      title: 'Add habitat baseline, creation and enhancements'
-    }, {
-      status: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
-      inProgressUrl: constants.routes.CHECK_HABITAT_BASELINE
-    })
     const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d1', 'e1', 'f1'], metricData)
     return h.view(constants.views.CHECK_HABITAT_BASELINE, {
@@ -19,7 +12,8 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_HABITAT_CREATED)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_HABITAT_CREATED)
   }
 }
 
