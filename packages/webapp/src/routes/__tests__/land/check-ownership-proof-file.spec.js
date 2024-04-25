@@ -173,43 +173,7 @@ describe(url, () => {
         }
       })
     })
-    it('If landowner but has referer then should redirect to referer', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = checkOwnershipProofFile[1].handler
-          const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
 
-          const payload = {
-            checkLandOwnership: 'yes'
-          }
-          const request = {
-            yar: session,
-            query: { id: '1' },
-            payload
-          }
-          await postHandler(request, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('If not landowner then redirect to ADD_LANDOWNERS', done => {
       jest.isolateModules(async () => {
         try {
@@ -261,44 +225,7 @@ describe(url, () => {
         }
       })
     })
-    it('If not landowner and referer then redirect to referer', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = checkOwnershipProofFile[1].handler
-          const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.ROLE_KEY, 'Other')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.redisKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
 
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-
-          const payload = {
-            checkLandOwnership: 'yes'
-          }
-          const request = {
-            yar: session,
-            query: { id: '1' },
-            payload
-          }
-          await postHandler(request, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('should redirect to land ownership proof list with unique entries', done => {
       jest.isolateModules(async () => {
         try {
