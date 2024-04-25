@@ -1,0 +1,34 @@
+{% extends 'form-layout.html' %}
+
+{% set pageHeading = "You need to add proof you have permission to apply" %}
+{% block formContent %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      {{ pageHeading }}
+    </h1>
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <p>You will need to upload:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>a document confirming
+        {% if isIndividual %}
+         <b> {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}’s</b>
+        {% else %}
+        <b> {{ clientsOrganisationName }}’s</b>
+        {% endif %}
+        authorisation for you to apply on their behalf
+      </li>
+      <li>the landowner or leaseholder’s consent to allocate off-site gains from their biodiversity gain site</li>
+    </ul>
+    {{ govukButton({
+      text: 'Continue',
+      attributes: {
+        id: "continue",
+        "data-testid": "continue"
+      }
+    }) }}
+  </div>
+</div>
+{% endblock %}
