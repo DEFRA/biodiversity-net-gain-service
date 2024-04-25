@@ -26,9 +26,9 @@
                 <ul class='govuk-list govuk-list--bullet'>
                   <li>a written statement confirming 
                     {% if isIndividual %}
-                      {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}'s
+                      <b>{{ clientsName.value.firstName }} {{ clientsName.value.lastName }}'s</b>
                     {% else %}
-                      {{ clientsOrganisationName }}'s
+                    <b>{{ clientsOrganisationName }}'s</b>
                     {% endif %}
                     authorisation for you to act on their behalf
                   </li>
