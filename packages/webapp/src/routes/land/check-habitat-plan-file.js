@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -15,7 +15,8 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
     } else if (checkHabitatPlan === 'yes') {
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
-      const redirectUrl = request.yar.get(constants.redisKeys.REFERER, true) ||
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const redirectUrl = referrerUrl ||
                           constants.routes.ENHANCEMENT_WORKS_START_DATE
       return h.redirect(redirectUrl)
     } else {
