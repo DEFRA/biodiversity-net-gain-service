@@ -39,6 +39,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       fileName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME),
       fileNameUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
       fileSize: metricFileSize,
+      detailsConfirmed: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED),
       detailsConfirmedUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
       projectName: metricData.startPage.projectName ?? '',
       localAuthority: metricData.startPage.planningAuthority ?? '',
@@ -64,12 +65,6 @@ const getApplicationDetails = (session, currentOrganisation) => {
       dateOfBirthUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
       nationality: nationalityHtml,
       nationalityUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY
-    },
-    developmentInformation: {
-      localPlanningAuthority: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST),
-      planningApplicationReference: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF),
-      developmentName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME),
-      developmentInformationUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION
     }
   }
 }
