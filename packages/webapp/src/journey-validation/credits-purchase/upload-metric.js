@@ -1,6 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import {
   routeDefinition,
+  journeyStepFromRoute,
   journeyStep,
   ANY
 } from '../utils.js'
@@ -21,6 +22,11 @@ const CHECK_METRIC_FILE = routeDefinition(
   [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_CHECKED]
 )
 
+const CONFIRM_DEVELOPMENT_DETAILS = routeDefinition(
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
+  [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DETAILS_CONFIRMED]
+)
+
 const uploadMetricJourneys = [
   [
     journeyStep(
@@ -30,7 +36,8 @@ const uploadMetricJourneys = [
         ...CHECK_METRIC_FILE.sessionKeys
       ],
       [ANY, ANY, ANY, ANY, ANY, 'yes']
-    )
+    ),
+    journeyStepFromRoute(CONFIRM_DEVELOPMENT_DETAILS, ['yes'])
   ]
 ]
 
