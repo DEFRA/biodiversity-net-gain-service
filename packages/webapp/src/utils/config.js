@@ -27,3 +27,7 @@ export const BACS_ACCOUNT_NAME = process.env.BACS_ACCOUNT_NAME || 'Natural Engla
 export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'
 export const BACS_ACCOUNT_NUMBER = process.env.BACS_ACCOUNT_NUMBER || '12345678'
 export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'
+
+export const PAYMENT_API_URL = process.env.PAYMENT_API_URL || 'https://publicapi.payments.service.gov.uk/v1/payments'
+export const REFUND_API_URL = process.env.REFUND_API_URL || 'https://publicapi.payments.service.gov.uk/v1/refunds'
+export const PAYMENT_API_KEY = process.env.PAYMENT_API_KEY
