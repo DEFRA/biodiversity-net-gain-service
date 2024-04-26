@@ -16,6 +16,16 @@
     'show': true
   },
   {
+    'text': 'Confirm development details',
+    'value': metric.detailsConfirmed | capitalize,
+    'valueDataTestId': 'metric-development-details-confirmed-value',
+    'valueId': 'metric-development-details-confirmed-value',
+    'href': metric.detailsConfirmedUrl,
+    'visuallyHiddenText': ' confirm development details',
+    'noAction': true,
+    'show': true
+  },
+  {
     'text': 'Project name',
     'value': metric.projectName,
     'valueDataTestId': 'metric-project-name-value',
@@ -192,36 +202,6 @@
   }
 ] %}
 
-{% set developmentInformationRowList = [
-  {
-    'text': 'Local planning authority(LPA)',
-    'value': developmentInformation.localPlanningAuthority,
-    'valueDataTestId': 'local-planning-authority-value',
-    'valueId': 'localPlanningAuthority',
-    'href': developmentInformation.developmentInformationUrl,
-    'visuallyHiddenText': ' local planning authority(LPA)',
-    'show': true
-  },
-  {
-    'text': 'Planning application reference',
-    'value': developmentInformation.planningApplicationReference,
-    'valueDataTestId': 'planning-application-reference-value',
-    'valueId': 'planning-application-reference-value',
-    'href': developmentInformation.developmentInformationUrl,
-    'visuallyHiddenText': ' planning application reference',
-    'show': true
-  },
-  {
-    'text': 'Development name',
-    'value': developmentInformation.developmentName,
-    'valueDataTestId': 'development-name-value',
-    'valueId': 'development-name-value',
-    'href': developmentInformation.developmentInformationUrl,
-    'visuallyHiddenText': ' development name',
-    'show': true
-  }
-] %}
-
 {% block formContent %}
   <div class="govuk-body">
   {% if err %}
@@ -235,13 +215,6 @@
 
         {{ generateSummaryList({
           rows: metricRowList,
-          classes: 'govuk-!-margin-bottom-9'
-        }) }}
-
-        <h2 class="govuk-heading-m">Development information</h2>
-
-        {{ generateSummaryList({
-          rows: developmentInformationRowList,
           classes: 'govuk-!-margin-bottom-9'
         }) }}
 
