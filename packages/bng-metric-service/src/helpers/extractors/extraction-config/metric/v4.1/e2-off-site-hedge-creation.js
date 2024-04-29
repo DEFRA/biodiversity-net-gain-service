@@ -7,7 +7,8 @@ const headers = [
   'Hedge units delivered',
   'Habitat reference Number',
   'Off-site reference',
-  'Strategic significance'
+  'Strategic significance',
+  'User baseline ref'
 ]
 
 const e2OffSiteHedgeCreation = {
@@ -22,7 +23,8 @@ const e2OffSiteHedgeCreation = {
     __EMPTY: 'Hedge units delivered',
     'Condition ': 'Condition',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
-    'Habitat reference ': 'Habitat reference Number'
+    'Habitat reference ': 'Habitat reference Number',
+    'Baseline ref_1': 'User baseline ref'
   }
 }
 

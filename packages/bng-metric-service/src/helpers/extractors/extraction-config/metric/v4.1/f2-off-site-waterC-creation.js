@@ -9,7 +9,8 @@ const headers = [
   'Off-site reference',
   'Extent of encroachment for both banks',
   'Extent of encroachment',
-  'Strategic significance'
+  'Strategic significance',
+  'User baseline ref'
 ]
 
 const f2OffSiteWaterCCreation = {
@@ -25,7 +26,8 @@ const f2OffSiteWaterCCreation = {
     'Condition ': 'Condition',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
     'Length km': 'Length (km)',
-    'Habitat reference number': 'Habitat reference Number'
+    'Habitat reference number': 'Habitat reference Number',
+    'Baseline ref_1': 'User baseline ref'
   }
 }
 

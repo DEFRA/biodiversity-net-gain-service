@@ -122,8 +122,11 @@ const getAddress = session => {
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
+  console.log('metricData: ', metricData)
   const baselineIdentifiers = ['d1', 'e1', 'f1']
+  console.log('baselineIdentifiers: ', baselineIdentifiers)
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
+  console.log('proposedIdentifiers: ', proposedIdentifiers)
 
   const getState = identifier => {
     switch (identifier.charAt(0)) {
@@ -181,7 +184,8 @@ const getHabitats = session => {
         beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
         afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
       },
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+      userBaselineRef: details['User baseline ref']
     }))
   )
 
@@ -189,7 +193,7 @@ const getHabitats = session => {
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
       proposedHabitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
       habitatType: getHabitatType(identifier, details),
-      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      // baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,
@@ -198,6 +202,7 @@ const getHabitats = session => {
       delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
       area: details['Length (km)'] ?? details['Area (hectares)'],
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+      userBaselineRef: details['User baseline ref'],
       ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
       ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
     }))
