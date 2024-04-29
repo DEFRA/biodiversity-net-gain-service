@@ -37,7 +37,7 @@ const handlers = {
         request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
         request.yar.clear(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
       }
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
