@@ -89,14 +89,16 @@ describe('Local Land Charge upload controller tests', () => {
       })
     })
 
-    it('should not upload local charge  document more than 50MB', (done) => {
+    it('should not upload local charge document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -132,7 +134,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -149,7 +153,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })
@@ -165,7 +171,9 @@ describe('Local Land Charge upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           baseConfig.referer = `'http://localhost:30000${url}`
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a local land charge search certificate file')
           setImmediate(() => {
             done()
           })
@@ -175,7 +183,7 @@ describe('Local Land Charge upload controller tests', () => {
       })
     })
 
-    it('should  upload local land charge document 50 MB file', (done) => {
+    it('should upload local land charge document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -193,7 +201,7 @@ describe('Local Land Charge upload controller tests', () => {
       })
     })
 
-    it('should  upload local land charge document 49 MB file when coming from a referer', (done) => {
+    it('should upload local land charge document 49 MB file when coming from a referer', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
