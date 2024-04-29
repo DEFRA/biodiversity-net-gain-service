@@ -1,5 +1,5 @@
-const { post } = require('./base')
-const { SERVICE_HOME_URL, PAYMENT_API_KEY, PAYMENT_API_URL } = require('../../utils/config.js')
+import { post } from './base.js'
+import { SERVICE_HOME_URL, PAYMENT_API_KEY, PAYMENT_API_URL } from '../../utils/config.js'
 
 const createPayment = async (payload) => {
   const payment = {
@@ -10,11 +10,11 @@ const createPayment = async (payload) => {
       cardholder_name: payload.cardholder_name
     },
     email: payload.email,
-    return_url: `${SERVICE_HOME_URL}/payment-return`,
+    return_url: payload.return_url || `${SERVICE_HOME_URL}/payment-return`,
     language: 'en'
   }
 
   return post(PAYMENT_API_URL, payment, PAYMENT_API_KEY)
 }
 
-module.exports = createPayment
+export default createPayment
