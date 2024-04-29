@@ -22,12 +22,11 @@ const routes = {
   CREDITS_PURCHASE_INDIVIDUAL_OR_ORG: '/credits-purchase/purchasing-individual-organisation',
   CREDITS_PURCHASE_UPLOAD_METRIC: '/credits-purchase/upload-metric-file',
   CREDITS_PURCHASE_CHECK_UPLOAD_METRIC: '/credits-purchase/check-metric-file',
-  CREDITS_PURCHASE_CONFIRM_DEV_DETAILS: '/credits-purchase/confirm-development-details',
   CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
   CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
   CREDITS_PURCHASE_CHECK_PURCHASE_ORDER: '/credits-purchase/check-purchase-order',
-  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: '/credits-purchase/cdd-cya'
-
+  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: '/credits-purchase/cdd-cya',
+  CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION: '/credits-purchase/development-project-information'
 }
 
 const views = Object.fromEntries(
@@ -53,7 +52,10 @@ const redisKeys = {
   CREDITS_PURCHASE_USER_TYPE: 'credits-purchase-user-type',
   CREDITS_PURCHASE_PURCHASE_ORDER_USED: 'credits-purchase-purchase-order-used',
   CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER: 'credits-purchase-purchase-order-number',
-  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: 'credits-purchase-customer-due-diligence'
+  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: 'credits-purchase-customer-due-diligence',
+  CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST: 'credits-purchase-planning-authority-list',
+  CREDITS_PURCHASE_PLANNING_APPLICATION_REF: 'credits-purchase-planning-application-ref',
+  CREDITS_PURCHASE_DEVELOPMENT_NAME: 'credits-purchase-planning-development-name'
 }
 
 const NO = 'no'
