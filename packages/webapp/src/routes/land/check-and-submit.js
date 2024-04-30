@@ -53,7 +53,6 @@ const handlers = {
     value.organisationId = organisationId
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
     request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
-    //todo payment
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
