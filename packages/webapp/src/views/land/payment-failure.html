@@ -1,1 +1,56 @@
-payment failure
+{% extends 'form-layout.html' %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set hideBackLink = true %}
+
+{% set pageHeading = "Your payment was unsuccessful" %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            <h1 class="govuk-heading-l">
+                {{ pageHeading }}
+            </h1>
+
+            <p>No money has been taken from your account. You can try making your payment again. You can also contact us to find another way to pay.</p>
+
+            <h2 class="govuk-heading-m">Payment summary</h2>
+
+
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Payment for:
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="payment-reference-value">
+                        {{ description }}
+                    </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Total amount:
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="account-name-value">
+                        £{{ amount }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    {% block formContent %}
+
+        {{ govukButton({
+            text: "Try payment again",
+            attributes: {
+                id: "try-payment-again",
+                "data-testid": "try-payment-again"
+            },
+            href:'/land/payment'
+        }) }}
+
+    {% endblock %}
+
+{% endblock %}
