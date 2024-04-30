@@ -3,16 +3,16 @@
       <caption class="govuk-visually-hidden">Hedgerow</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Habitat type and condition</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Watercourse type and condition</th>
           <th scope="col" class="govuk-table__header">Length(km)</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        {% for item in offSiteHedgerows.items %}
-          {% if item['Habitat type'] and item['Length (km)'] is number %}
+        {% for item in offSiteWatercourses.items %}
+          {% if item['Watercourse type'] and item['Length (km)'] is number %}
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-              {{ item['Habitat type'] }}
+              {{ item['Watercourse type'] }}
               <span class="govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">{{ item.Condition }}</span>
             </td>
             <td class="govuk-table__cell">
@@ -27,7 +27,7 @@
             Total
           </th>
           <td class="govuk-table__cell" data-testid="hedgeTotal">
-            {{ offSiteHedgerows.total }}
+            {{ offSiteWatercourses.total }}
           </td>
         </tr>
       </tbody>
