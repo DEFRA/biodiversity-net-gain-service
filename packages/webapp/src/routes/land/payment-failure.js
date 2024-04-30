@@ -9,7 +9,7 @@ export default [
       handler: async (request, h) => {
         const paymentId = request.yar.get(constants.redisKeys.LAND_PAYMENT_REFERENCE)
         const payment = await paymentDetails(paymentId)
-        const amount = (payment.amount/100).toFixed(2)
+        const amount = (payment.amount / 100).toFixed(2)
         const description = payment.description
 
         return h.view(constants.views.LAND_PAYMENT_FAILURE, { message: payment.state.message, amount, description })

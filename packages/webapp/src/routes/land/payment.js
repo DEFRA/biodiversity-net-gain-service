@@ -7,7 +7,6 @@ import fees from '../../payment/fees.js'
 
 const handlers = {
   get: async (request, h) => {
-
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)

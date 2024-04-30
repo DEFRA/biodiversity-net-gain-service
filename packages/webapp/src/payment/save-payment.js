@@ -3,7 +3,7 @@ import { setPayment } from './payment-session.js'
 
 const savePayment = (session, caseType, reference) => {
   const fee = fees.find(x => x.caseType === caseType)
-
+//todo?
   fee.reference = reference
   fee.type = 'BACS'
 
