@@ -35,30 +35,30 @@ const handlers = {
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
-    let localPlanningAuthorityNameErr
+    const errors = {}
     const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
 
     if (!selectedLpa) {
-      localPlanningAuthorityNameErr = [{
+      errors.emptyLocalPlanningAuthority = {
         text: 'Enter a local planning authority',
-        href: 'localPlanningAuthority'
-      }]
+        href: '#localPlanningAuthorityErr'
+      }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
-        err: Object.values(localPlanningAuthorityNameErr),
-        localPlanningAuthorityNameErr,
+        err: Object.values(errors),
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })
     }
 
     if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
-      const localPlanningAuthorityNameErr = [{
+      errors.invalidLocalPlanningAuthorityError = {
         text: 'Enter a valid local planning authority',
-        href: 'localPlanningAuthority'
-      }]
+        href: '#localPlanningAuthorityErr'
+      }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
-        err: Object.values(localPlanningAuthorityNameErr),
-        localPlanningAuthorityNameErr,
+        err: Object.values(errors),
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })
@@ -69,14 +69,14 @@ const handlers = {
       lpaList,
       null,
       selectedLpa,
-      '#localPlanningAuthority',
+      '#localPlanningAuthorityErr',
       'This local planning authority has already been added - enter a different local planning authority, if there is one',
       excludeIndex
     )
     if (duplicateError) {
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
         err: Object.values(duplicateError),
-        localPlanningAuthorityNameErr,
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })
