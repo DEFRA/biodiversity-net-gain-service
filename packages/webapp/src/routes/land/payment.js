@@ -14,7 +14,7 @@ const handlers = {
     const payload = {
       amount: ((fees.find(f => f.caseType === 'registration').fee) * 100),
       reference: value.landownerGainSiteRegistration.payment.reference,
-      description: 'Register a biodiversity gain site',
+      description: 'Register a Gain Site',
       return_url: `${SERVICE_HOME_URL}/land/payment-return`,
       language: 'en'
     }

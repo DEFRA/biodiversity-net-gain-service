@@ -18,7 +18,6 @@
 
             <h2 class="govuk-heading-m">Payment summary</h2>
 
-
             <dl class="govuk-summary-list">
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key">
@@ -37,20 +36,20 @@
                     </dd>
                 </div>
             </dl>
+
+            {% block formContent %}
+
+                {{ govukButton({
+                    text: "Try payment again",
+                    attributes: {
+                        id: "try-payment-again",
+                        "data-testid": "try-payment-again"
+                    },
+                    href:'/land/payment'
+                }) }}
+
+            {% endblock %}
         </div>
     </div>
-
-    {% block formContent %}
-
-        {{ govukButton({
-            text: "Try payment again",
-            attributes: {
-                id: "try-payment-again",
-                "data-testid": "try-payment-again"
-            },
-            href:'/land/payment'
-        }) }}
-
-    {% endblock %}
 
 {% endblock %}
