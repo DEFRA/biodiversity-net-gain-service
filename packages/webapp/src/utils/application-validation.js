@@ -88,7 +88,8 @@ const applicationValidation = Joi.object({
             beforeEnhancement: Joi.number(),
             afterEnhancement: Joi.number()
           }),
-          measurementUnits: Joi.string().valid('hectares', 'kilometres')
+          measurementUnits: Joi.string().valid('hectares', 'kilometres'),
+          userBaselineRef: Joi.string()
         })
       ),
       proposed: Joi.array().items(
@@ -110,7 +111,8 @@ const applicationValidation = Joi.object({
           encroachmentExtent: Joi.string(),
           encroachmentExtentBothBanks: Joi.string(),
           area: Joi.number(),
-          measurementUnits: Joi.string().valid('hectares', 'kilometres')
+          measurementUnits: Joi.string().valid('hectares', 'kilometres'),
+          userBaselineRef: Joi.string()
         })
       )
     }),

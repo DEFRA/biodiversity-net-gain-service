@@ -30,7 +30,7 @@ describe('BNG data extractor test', () => {
     expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.d2OffSiteHabitatCreation.length).toEqual(4)
-    expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(10)
+    expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(11)
     expect(response.d2OffSiteHabitatCreation[0]['Broad habitat']).toEqual('Grassland')
     expect(response.d2OffSiteHabitatCreation[0]['Proposed habitat']).toEqual('Other neutral grassland')
     expect((response.d2OffSiteHabitatCreation[0]['Area (hectares)']).toFixed(2)).toEqual('2.00')
@@ -41,6 +41,7 @@ describe('BNG data extractor test', () => {
     expect(response.d2OffSiteHabitatCreation[0]['Habitat reference Number']).toEqual('H1')
     expect(response.d2OffSiteHabitatCreation[0]['Off-site reference']).toEqual('BNGREG-0001')
     expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.d2OffSiteHabitatCreation[0]['User baseline ref']).toEqual(1)
 
     expect(response.d3OffSiteHabitatEnhancement.length).toEqual(3)
     expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(15)
@@ -73,7 +74,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
-    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(9)
+    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(10)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Species-rich native hedgerow')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.074)
     expect(response.e2OffSiteHedgeCreation[0].Condition).toEqual('Good')
@@ -83,6 +84,7 @@ describe('BNG data extractor test', () => {
     expect(response.e2OffSiteHedgeCreation[0]['Habitat reference Number']).toEqual('H1')
     expect(response.e2OffSiteHedgeCreation[0]['Off-site reference']).toEqual('BNGREG-0001')
     expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
+    expect(response.e2OffSiteHedgeCreation[0]['User baseline ref']).toEqual(1)
 
     expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(12)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline ref']).toEqual(1)
