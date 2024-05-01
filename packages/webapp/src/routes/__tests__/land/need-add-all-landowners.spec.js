@@ -1,13 +1,13 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-const url = constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT
+const url = constants.routes.NEED_ADD_ALL_LANDOWNERS
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({
         headers: {
-          referer: constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT
+          referer: constants.routes.NEED_ADD_ALL_LANDOWNERS
         },
         url
       })

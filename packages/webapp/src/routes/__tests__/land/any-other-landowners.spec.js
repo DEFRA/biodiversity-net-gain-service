@@ -17,10 +17,10 @@ describe(url, () => {
         payload: {}
       }
     })
-    it('Should continue journey to LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION if yes is chosen', async () => {
+    it('Should continue journey to LANDOWNER_INDIVIDUAL_ORGANISATION if yes is chosen', async () => {
       postOptions.payload.anyOtherLOValue = 'yes'
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
+      expect(res.headers.location).toEqual(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
     })
 
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if no is chosen', async () => {
