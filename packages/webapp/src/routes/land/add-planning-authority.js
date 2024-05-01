@@ -54,7 +54,7 @@ const handlers = {
     if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
       errors.invalidLocalPlanningAuthorityError = {
         text: 'Enter a valid local planning authority',
-        href: '#localPlanningAuthorityErr'
+        href: '#invalidLocalPlanningAuthorityError'
       }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
         err: Object.values(errors),
@@ -69,7 +69,7 @@ const handlers = {
       lpaList,
       null,
       selectedLpa,
-      '#localPlanningAuthorityErr',
+      '#duplicateLocalPlanningAuthorityErr',
       'This local planning authority has already been added - enter a different local planning authority, if there is one',
       excludeIndex
     )

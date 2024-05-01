@@ -101,7 +101,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
-      href: '#localPlanningAuthorityErr'
+      href: '#invalidLocalPlanningAuthorityError'
     }
 
     return errors
