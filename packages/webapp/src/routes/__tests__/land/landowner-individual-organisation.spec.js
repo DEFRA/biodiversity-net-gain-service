@@ -21,7 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
-    landOwnerConservation = require('../../land/landowner-conservation-covenant-individual-organisation.js')
+    landOwnerConservation = require('../../land/landowner-individual-organisation.js')
   })
 
   describe('GET', () => {
