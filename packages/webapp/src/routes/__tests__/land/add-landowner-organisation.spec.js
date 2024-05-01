@@ -1,7 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 
-const url = constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT
+const url = constants.routes.ADD_LANDOWNER_ORGANISATION
 
 describe(url, () => {
   let viewResult
@@ -51,7 +51,7 @@ describe(url, () => {
         query: { id: '0' }
       }
       await addLandownerOrganisations.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
       expect(resultContext.organisation.organisationName).toEqual('org1')
     })
 
@@ -61,7 +61,7 @@ describe(url, () => {
         query: {}
       }
       await addLandownerOrganisations.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
     })
   })
 
@@ -115,7 +115,7 @@ describe(url, () => {
 
       await addLandownerOrganisations.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
 
       expect(resultContext.err[0]).toEqual({ text: 'Enter the organisation name of the landowner or leaseholder', href: '#organisationName' })
     })
@@ -130,7 +130,7 @@ describe(url, () => {
 
       await addLandownerOrganisations.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
 
       expect(resultContext.err).toEqual([{ href: '#organisationName', text: 'This organisation has already been added - enter a different organisation, if there is one' }])
     })
@@ -145,7 +145,7 @@ describe(url, () => {
 
       await addLandownerOrganisations.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
 
       expect(resultContext.err).toEqual([{ href: '#organisationName', text: 'This organisation has already been added - enter a different organisation, if there is one' }])
     })
