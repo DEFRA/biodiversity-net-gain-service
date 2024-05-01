@@ -15,14 +15,5 @@ export default [
         return h.view(constants.views.LAND_PAYMENT_FAILURE, { message: payment.state.message, amount, description })
       }
     }
-  },
-  {
-    method: 'POST',
-    path: constants.routes.LAND_PAYMENT_FAILURE,
-    options: {
-      handler: async (request, h) => {
-        return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
-      }
-    }
   }
 ]
