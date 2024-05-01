@@ -105,7 +105,7 @@ describe(url, () => {
 
       await addPlanningAuthority.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
-      expect(resultContext.err).toEqual([{ href: '#localPlanningAuthorityErr', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
+      expect(resultContext.err).toEqual([{ href: '#duplicateLocalPlanningAuthorityErr', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
     })
     it('should fail to edit planning authority  to legal agreement with duplicate planning authority name', async () => {
       const request = {
@@ -116,7 +116,7 @@ describe(url, () => {
 
       await addPlanningAuthority.default[1].handler(request, h)
       expect(viewResult).toEqual(constants.views.ADD_PLANNING_AUTHORITY)
-      expect(resultContext.err).toEqual([{ href: '#localPlanningAuthorityErr', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
+      expect(resultContext.err).toEqual([{ href: '#duplicateLocalPlanningAuthorityErr', text: 'This local planning authority has already been added - enter a different local planning authority, if there is one' }])
     })
 
     it('Should show error message if invalid lpa is provided', async () => {
