@@ -27,7 +27,7 @@ describe(url, () => {
     }, {
       organisationName: 'org2'
     }])
-    addLandownerOrganisations = require('../../land/add-landowner-organisation-conservation-covenant.js')
+    addLandownerOrganisations = require('../../land/add-landowner-organisation.js')
   })
 
   describe('GET', () => {
