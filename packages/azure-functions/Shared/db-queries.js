@@ -131,6 +131,11 @@ const updateProjectNameStatement = `
   SET project_name = $2
   WHERE application_reference = $1 AND project_name IS DISTINCT FROM $2;
 `
+const insertApplicationStatusPayment = `
+  INSERT INTO
+    bng.application_payment (application_reference, payment_reference, payment_status, payment_amount)
+  VALUES ($1, $2, $3, $4);
+`
 
 const createApplicationReference = (db, values) => db.query('SELECT bng.fn_create_application_reference($1, $2, $3);', values)
 
@@ -162,6 +167,8 @@ const updateProjectName = (db, values) => db.query(updateProjectNameStatement, v
 
 const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3 );', values)
 
+const insertApplicationPayment = (db, values) => db.query(insertApplicationStatusPayment, values)
+
 export {
   createApplicationReference,
   saveApplicationSession,
@@ -178,5 +185,6 @@ export {
   getApplicationStatus,
   applicationStatuses,
   updateProjectName,
-  createCreditsAppReference
+  createCreditsAppReference,
+  insertApplicationPayment
 }
