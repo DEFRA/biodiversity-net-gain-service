@@ -8,12 +8,12 @@ export default [
     options: {
       handler: async (request, h) => {
         const reference = request.yar.get(constants.redisKeys.LAND_PAYMENT_REFERENCE)
-        const app_reference = request.yar.get(constants.redisKeys.APPLICATION_REFERENCE)
+        const appReference = request.yar.get(constants.redisKeys.APPLICATION_REFERENCE)
         const payment = await paymentDetails(reference)
         const amount = (payment.amount / 100).toFixed(2)
         const description = payment.description
 
-        return h.view(constants.views.LAND_PAYMENT_SUCCESS, { reference: app_reference, amount, description })
+        return h.view(constants.views.LAND_PAYMENT_SUCCESS, { reference: appReference, amount, description })
       }
     }
   }

@@ -28,10 +28,10 @@ export default async function (context, req) {
     const exists = await getApplicationPayment(db, [
       req.body.landownerGainSiteRegistration.gainSiteReference
     ])
-    if(exists?.rowCount) {
+    if (exists?.rowCount) {
       await updateApplicationPaymentStatus(db, [
         req.body.landownerGainSiteRegistration.gainSiteReference,
-        req.body.payment_status,
+        req.body.payment_status
       ])
     } else {
       await insertApplicationPayment(db, [

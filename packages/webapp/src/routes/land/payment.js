@@ -27,7 +27,7 @@ const handlers = {
         ...{
           payment_reference: res.payment_id,
           payment_status: res.state.status,
-          payment_amount: res.amount/100
+          payment_amount: res.amount / 100
         }
       })
     } catch (e) {
