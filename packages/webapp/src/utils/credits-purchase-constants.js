@@ -4,7 +4,7 @@ const applicantTypes = {
   INDIVIDUAL,
   ORGANISATION
 }
-
+const CREDITS_PURCHASE_CDD_VALID_REFERRERS = ['/credits-purchase/cdd-cya', '/credits-purchase/check-and-submit']
 const routes = {
   CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS: '/credits-purchase/check-defra-account-details',
   CREDITS_PURCHASE_CONFIRMATION: '/credits-purchase/application-submitted',
@@ -67,6 +67,7 @@ export default {
   views,
   redisKeys,
   applicantTypes,
+  CREDITS_PURCHASE_CDD_VALID_REFERRERS,
   creditsCheckUploadMetric: {
     NO,
     YES
@@ -79,7 +80,7 @@ export default {
     CREDITS_PURCHASE_METRIC_UPLOAD_TYPE: 'credits-metric-upload'
   },
   setCreditReferer: [
-    'credits-purchase/check-and-submit'
+    'credits-purchase/check-and-submit', 'credits-purchase/cdd-cya'
   ],
   metricFileExt: [
     '.xlsm',

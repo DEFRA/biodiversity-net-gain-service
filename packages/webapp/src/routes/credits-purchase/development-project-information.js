@@ -2,7 +2,7 @@ import creditsConstants from '../../utils/credits-purchase-constants.js'
 import constants from '../../utils/loj-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  validateIdGetSchemaOptional
+  validateIdGetSchemaOptional, getValidReferrerUrl
 } from '../../utils/helpers.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
@@ -63,7 +63,8 @@ const handlers = {
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
-      return h.redirect(request.yar.get(creditsConstants.redisKeys.REFERER, true) || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+      return h.redirect(referrerUrl || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }
 }

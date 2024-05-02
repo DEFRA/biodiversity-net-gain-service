@@ -1,4 +1,4 @@
-import { checked, validateLengthOfCharsLessThan50 } from '../../utils/helpers.js'
+import { checked, validateLengthOfCharsLessThan50, getValidReferrerUrl } from '../../utils/helpers.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
@@ -53,7 +53,8 @@ const handlers = {
     } else {
       request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
     }
-    return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+    const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+    return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   }
 }
 
