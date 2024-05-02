@@ -21,7 +21,7 @@ const handlers = {
       request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
       return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
     } else if (checkUploadMetric === creditsPurchaseConstants.creditsCheckUploadMetric.YES) {
-      return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS)
+      return h.redirect(request.yar.get(creditsPurchaseConstants.redisKeys.REFERER, true) || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
