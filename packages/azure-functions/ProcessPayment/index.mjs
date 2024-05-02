@@ -1,5 +1,7 @@
 import {
-  insertApplicationPayment
+  getApplicationPayment,
+  insertApplicationPayment,
+  updateApplicationPaymentStatus
 } from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
@@ -23,12 +25,22 @@ export default async function (context, req) {
   try {
     db = await getDBConnection(context)
     // record application payment
-    await insertApplicationPayment(db, [
-      req.body.landownerGainSiteRegistration.gainSiteReference,
-      req.body.payment_reference,
-      req.body.payment_status,
-      req.body.payment_amount
+    const exists = await getApplicationPayment(db, [
+      req.body.landownerGainSiteRegistration.gainSiteReference
     ])
+    if(exists?.rowCount) {
+      await updateApplicationPaymentStatus(db, [
+        req.body.landownerGainSiteRegistration.gainSiteReference,
+        req.body.payment_status,
+      ])
+    } else {
+      await insertApplicationPayment(db, [
+        req.body.landownerGainSiteRegistration.gainSiteReference,
+        req.body.payment_reference,
+        req.body.payment_status,
+        req.body.payment_amount
+      ])
+    }
 
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message

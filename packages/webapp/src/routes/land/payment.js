@@ -4,6 +4,7 @@ import createPayment from '../../payment/gov-pay-api/payment-create.js'
 import applicationValidation from '../../utils/application-validation.js'
 import application from '../../utils/application.js'
 import fees from '../../payment/fees.js'
+import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -20,6 +21,19 @@ const handlers = {
     }
     const res = await createPayment(payload)
     request.yar.set(constants.redisKeys.LAND_PAYMENT_REFERENCE, res.payment_id)
+    try {
+      await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processpayment`, {
+        ...value,
+        ...{
+          payment_reference: res.payment_id,
+          payment_status: res.state.status,
+          payment_amount: res.amount/100
+        }
+      })
+    } catch (e) {
+      console.log(e)
+    }
+
     return h.redirect(res._links.next_url.href, 301)
   }
 }

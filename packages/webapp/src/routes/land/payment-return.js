@@ -21,14 +21,18 @@ export default [
         const status = payment.state.status
         const amount = (payment.amount / 100).toFixed(2)
 
-        await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processpayment`, {
-          ...value,
-          ...{
-            payment_reference: paymentId,
-            payment_status: status,
-            payment_amount: amount
-          }
-        })
+        try {
+          await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processpayment`, {
+            ...value,
+            ...{
+              payment_reference: paymentId,
+              payment_status: status,
+              payment_amount: amount
+            }
+          })
+        } catch (e) {
+          console.log(e)
+        }
 
         if (status === constants.paymentStatus.FAILED ||
           status === constants.paymentStatus.CANCELLED ||

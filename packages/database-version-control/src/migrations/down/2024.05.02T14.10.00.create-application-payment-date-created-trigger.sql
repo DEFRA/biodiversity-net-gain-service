@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS trigger_bng_set_default_date_application_payment_created ON bng.application_payment;
