@@ -63,7 +63,7 @@ const handlers = {
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
-      return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      return h.redirect(request.yar.get(creditsConstants.redisKeys.REFERER, true) || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }
 }
