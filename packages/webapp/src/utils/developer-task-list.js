@@ -45,6 +45,21 @@ const developerTaskList = {
       ]
     },
     {
+      taskTitle: 'Development project information',
+      tasks: [
+        {
+          title: 'Add development project information',
+          status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
+          completedTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          startTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          inProgressUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          id: 'add-devlopment-project-information'
+
+        }
+      ]
+    },
+
+    {
       taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
       tasks: [
         {
