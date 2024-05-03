@@ -14,7 +14,7 @@ describe(url, () => {
           status: 'status'
         }
       })
-      await submitGetRequest({ url }, 302)
+      await submitGetRequest({ url }, 302, null, { expectedNumberOfPostJsonCalls: 1 })
     })
     it('should redirect to failure', async () => {
       paymentDetails.mockResolvedValue({
@@ -22,7 +22,7 @@ describe(url, () => {
           status: constants.paymentStatus.FAILED
         }
       })
-      const response = await submitGetRequest({ url }, 302)
+      const response = await submitGetRequest({ url }, 302, null, { expectedNumberOfPostJsonCalls: 1 })
       expect(response.headers.location).toEqual(constants.routes.LAND_PAYMENT_FAILURE)
     })
     it('should redirect to success', async () => {
@@ -31,7 +31,7 @@ describe(url, () => {
           status: 'status'
         }
       })
-      const response = await submitGetRequest({ url }, 302)
+      const response = await submitGetRequest({ url }, 302, null, { expectedNumberOfPostJsonCalls: 1 })
       expect(response.headers.location).toEqual(constants.routes.LAND_PAYMENT_SUCCESS)
     })
   })
