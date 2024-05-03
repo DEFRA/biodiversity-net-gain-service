@@ -43,7 +43,7 @@ const handlers = {
         err,
         h,
         href: constants.views.UPLOAD_METRIC,
-        noFileErrorMessage: 'Select a Biodiversity Metric',
+        noFileErrorMessage: 'Select a statutory biodiversity metric',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
       })
