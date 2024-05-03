@@ -1,5 +1,5 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: (request, h) => {
     const values = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)
@@ -31,9 +31,10 @@ const handlers = {
     }
     request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME, {
       middleNameOption,
-      middleName
+      middleName: middleNameOption === 'no' ? '' : middleName
     })
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
+    const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+    return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
   }
 }
 
