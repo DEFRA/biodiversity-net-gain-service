@@ -50,7 +50,7 @@ export default async function (context, req) {
     }
     context.log(`Processed ${req.body.landownerGainSiteRegistration.gainSiteReference}`)
   } catch (err) {
-    context.log.error(err)
+    context.error(err)
     context.res = {
       status: 400,
       body: err

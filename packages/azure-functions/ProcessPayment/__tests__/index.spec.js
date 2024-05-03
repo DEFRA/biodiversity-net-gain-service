@@ -1,165 +1,72 @@
-import processApplication from '../index.mjs'
-import { getContext } from '../../.jest/setup.js'
-import applicationStatuses from '../../Shared/application-statuses.js'
+import processPayment from '../index.mjs'
+import { getDBConnection } from '@defra/bng-utils-lib'
+import {
+  getApplicationPayment,
+  insertApplicationPayment
+} from '../../Shared/db-queries.js'
 
-jest.mock('@defra/bng-connectors-lib')
+jest.mock('@defra/bng-utils-lib')
 jest.mock('../../Shared/db-queries.js')
 
-const req = {
-  body: {
-    landownerGainSiteRegistration: {
-      applicant: {
-        firstName: null,
-        lastName: null,
-        role: null
-      },
-      landBoundaryGridReference: null,
-      landBoundaryHectares: null,
-      submittedOn: '2022-10-03T09:29:14.909Z',
-      files: [{
-        contentMediaType: 'application/msword',
-        fileType: 'legal-agreement',
-        fileSize: '0.01',
-        fileLocation: '09e857da-e63a-4ef7-adab-e422682b0267/legal-agreement/legal-agreement.doc',
-        fileName: 'legal-agreement.doc'
-      }, {
-        contentMediaType: null,
-        fileType: 'land-boundary',
-        fileSize: null,
-        fileLocation: null,
-        fileName: null
-      }, {
-        contentMediaType: null,
-        fileType: 'habitat-plan',
-        fileSize: null,
-        fileLocation: null,
-        fileName: null
-      }, {
-        contentMediaType: null,
-        fileType: 'metric',
-        fileSize: null,
-        fileLocation: null,
-        fileName: null
-      }],
-      payment: {
-        caseType: 'registration',
-        fee: 639,
-        reference: '',
-        type: 'BACS'
+describe('Process Payment Function', () => {
+  let mockContext
+  let mockReq
+
+  beforeEach(() => {
+    mockContext = {
+      error: jest.fn(),
+      log: jest.fn(),
+      bindings: {},
+      res: {}
+    }
+
+    mockReq = {
+      body: {
+        landownerGainSiteRegistration: {
+          gainSiteReference: 'testReference',
+          payment_status: 'testPaymentStatus'
+        }
       }
     }
-  }
-}
-
-const gainSiteReference = 'BNGREF-JDSJ3-A4LI9'
-
-describe('Processing an application', () => {
-  /*
-    Happy paths
-      Should process valid application without a reference successfully
-      Should process valid application with a reference successfully
-
-    Sad paths
-      application process fails due to malformed content
-  */
-  it('Should process valid application without a reference successfully', done => {
-    jest.isolateModules(async () => {
-      try {
-        const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.createApplicationReference = jest.fn().mockImplementation(() => {
-          return {
-            rows: [
-              {
-                fn_create_application_reference: gainSiteReference
-              }
-            ]
-          }
-        })
-        // execute function
-        await processApplication(getContext(), req)
-        const context = getContext()
-        expect(context.res.status).toEqual(200)
-        expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual(gainSiteReference)
-        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
-        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
-        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
   })
 
-  it('Should process valid application with a reference successfully', done => {
-    jest.isolateModules(async () => {
-      try {
-        const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
-          return {
-            rows: []
-          }
-        })
-        req.body.landownerGainSiteRegistration.gainSiteReference = gainSiteReference
-        // execute function
-        await processApplication(getContext(), req)
-        const context = getContext()
-        expect(context.res.status).toEqual(200)
-        expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.landownerGainSiteRegistration.gainSiteReference).toEqual(gainSiteReference)
-        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
-        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
-        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
-  it('Should fail to process an application with a submitted status', done => {
-    jest.isolateModules(async () => {
-      try {
-        const dbQueries = require('../../Shared/db-queries.js')
-        dbQueries.getApplicationStatus = jest.fn().mockImplementation(() => {
-          return {
-            rows: [
-              {
-                application_status: applicationStatuses.submitted
-              }
-            ]
-          }
-        })
-        req.body.landownerGainSiteRegistration.gainSiteReference = gainSiteReference
-        // execute function
-        await processApplication(getContext(), req)
-        const context = getContext()
-        expect(context.res.status).toEqual(400)
-        expect(context.res.body.applicationReference).toEqual(gainSiteReference)
-        expect(context.res.body.message).toEqual('Application reference has already been processed')
-        expect(context.bindings.outputSbQueue).toBeFalsy()
-        expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
-        expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
-        expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
+  it('should process a new payment with successful insertion', async () => {
+    const mockDBConnection = {
+      end: jest.fn()
+    }
+    getDBConnection.mockResolvedValueOnce(mockDBConnection)
+    getApplicationPayment.mockResolvedValueOnce({ rowCount: 0 })
+    insertApplicationPayment.mockResolvedValueOnce()
+
+    await processPayment(mockContext, mockReq)
+
+    expect(mockContext.res.status).toBe(200)
+    expect(mockContext.bindings.outputSbQueue).toBeDefined()
   })
 
-  it('Should return 400 response if malformed content', done => {
-    jest.isolateModules(async () => {
-      try {
-        // execute function
-        await processApplication(getContext(), 'sdvcsdgdsgf')
+  it('should process an existing payment with successful update', async () => {
+    const mockDBConnection = {
+      end: jest.fn()
+    }
+    getDBConnection.mockResolvedValueOnce(mockDBConnection)
+    getApplicationPayment.mockResolvedValueOnce({ rowCount: 1 })
+    insertApplicationPayment.mockResolvedValueOnce()
+    await processPayment(mockContext, mockReq)
 
-        const context = getContext()
-        expect(context.res.status).toEqual(400)
-        done()
-      } catch (err) {
-        done(err)
-      }
-    })
+    expect(mockContext.res.status).toBe(200)
+    expect(mockContext.bindings.outputSbQueue).toBeDefined()
+  })
+
+  it('should handle errors during payment saving', async () => {
+    getDBConnection.mockRejectedValueOnce(new Error('Database error'))
+
+    await processPayment(mockContext, mockReq)
+
+    expect(mockContext.res.status).toBe(400)
+    expect(mockContext.res.body.toString()).toEqual('Error: Database error')
   })
 })
