@@ -44,9 +44,7 @@ export default async function (context, req) {
     // Generate gain site reference if not already present
     if (!applicationSession[redisKeys.applicationReference]) {
       const result = await createApplicationRefFunction(db, params)
-      applicationSession[redisKeys.applicationReference] = applicationSession[redisKeys.applicationType] === 'CreditsPurchase'
-        ? result.rows[0].fn_create_credits_app_reference
-        : result.rows[0].fn_create_application_reference
+      applicationSession[redisKeys.applicationReference] = result.rows[0].application_reference
 
       context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
     }

@@ -70,7 +70,7 @@ describe('Processing an application', () => {
           return {
             rows: [
               {
-                fn_create_application_reference: gainSiteReference
+                application_reference: gainSiteReference
               }
             ]
           }
