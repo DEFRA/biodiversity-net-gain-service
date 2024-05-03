@@ -1,5 +1,5 @@
 // import developerConstants from '../../utils/developer-constants.js'
-import constants from '../../utils/loj-constants.js'
+import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional
