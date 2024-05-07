@@ -14,7 +14,8 @@ import {
   isValidPostcode,
   validateLengthOfCharsLessThan50,
   validateDate,
-  validateAddress
+  validateAddress,
+  formatDate
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -526,7 +527,24 @@ describe('validateLengthOfCharsLessThan50', () => {
 
       expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
     })
-  }
-  )
+  })
+  describe('formatDate', () => {
+    it('should format date fields in the array correctly', () => {
+      const arr = [
+        { id: 1, dateField: '2024-01-07T12:00:00Z' },
+        { id: 2, dateField: '2024-01-08T08:30:00Z' }
+      ]
+      const formattedArr = formatDate(arr, 'dateField')
+      expect(formattedArr).toHaveLength(arr.length)
+      expect(formattedArr[0].date).toBe('07-01-2024 12:00:00')
+      expect(formattedArr[1].date).toBe('08-01-2024 08:30:00')
+    })
+
+    it('should return an empty array if input array is empty', () => {
+      const arr = []
+      const formattedArr = formatDate(arr, 'dateField')
+      expect(formattedArr).toHaveLength(0)
+    })
+  })
 }
 )
