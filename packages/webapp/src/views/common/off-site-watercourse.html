@@ -1,0 +1,35 @@
+<div class="app-table-responsive">
+    <table class="govuk-table">
+      <caption class="govuk-visually-hidden">Hedgerow</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Watercourse type and condition</th>
+          <th scope="col" class="govuk-table__header">Length(km)</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for item in offSiteWatercourses.items %}
+          {% if item['Watercourse type'] and item['Length (km)'] is number %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              {{ item['Watercourse type'] }}
+              <span class="govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">{{ item.Condition }}</span>
+            </td>
+            <td class="govuk-table__cell">
+              {{ item['Length (km)'] }}
+            </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+        <!-- Total -->
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__cell govuk-!-font-weight-bold">
+            Total
+          </th>
+          <td class="govuk-table__cell" data-testid="hedgeTotal">
+            {{ offSiteWatercourses.total }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

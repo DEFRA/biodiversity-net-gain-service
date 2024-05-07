@@ -37,9 +37,12 @@ const getAuthenticationUrl = () => {
   return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
 }
 
-const setCookie = (cookieAuth, token) => cookieAuth.set({
-  account: { idTokenClaims: token?.account?.idTokenClaims }
-})
+const setCookie = (cookieAuth, token) => {
+  delete token?.account?.idToken
+  cookieAuth.set({
+    account: token?.account
+  })
+}
 
 const authenticate = async (code, cookieAuth) => {
   const { redirectUri } = authConfig
