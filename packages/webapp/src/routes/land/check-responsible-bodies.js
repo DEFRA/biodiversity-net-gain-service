@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -57,7 +57,8 @@ const handlers = {
     }
     if (addAnotherResponsibleBody === 'yes') {
       request.yar.set(constants.cacheKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }

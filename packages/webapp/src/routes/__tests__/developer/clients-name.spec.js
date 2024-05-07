@@ -32,7 +32,7 @@ describe(url, () => {
       postOptions.payload.firstName = 'Tom'
       postOptions.payload.lastName = 'Smith'
       const res = await submitPostRequest(postOptions, 302, sessionData)
-      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION)
     })
 
     it('Should fail journey if no first name and no last name are provided', async () => {

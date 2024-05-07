@@ -1,5 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
-
+import {
+  getValidReferrerUrl
+} from '../../utils/helpers.js'
 const getLocaleString = num =>
   num.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
 
@@ -50,7 +52,8 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+    const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+    return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   }
 }
 

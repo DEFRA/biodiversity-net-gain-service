@@ -26,7 +26,7 @@ const DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'developer/applying-
 const DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION = 'developer/client-individual-organisation'
 const DEVELOPER_CLIENTS_NAME = 'developer/clients-name'
 const DEVELOPER_CLIENTS_ORGANISATION_NAME = 'developer/clients-organisation-name'
-const DEVELOPER_NEED_ADD_PERMISSION = 'developer/need-add-permission'
+const DEVELOPER_NEED_PROOF_OF_PERMISSION = 'developer/need-proof-of-permission'
 const DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION = 'developer/upload-written-authorisation'
 const DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE = 'developer/check-written-authorisation-file'
 const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-authorisation-file'
@@ -36,7 +36,7 @@ const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-f
 
 // ./Routes constants
 
-// RedisKeys constants
+// cacheKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
@@ -75,7 +75,7 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
 
-// ./RedisKeys constants
+// ./cacheKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
 
@@ -141,7 +141,7 @@ export default {
     DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
     DEVELOPER_CLIENTS_NAME,
     DEVELOPER_CLIENTS_ORGANISATION_NAME,
-    DEVELOPER_NEED_ADD_PERMISSION,
+    DEVELOPER_NEED_PROOF_OF_PERMISSION,
     DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
     DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
     DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION,

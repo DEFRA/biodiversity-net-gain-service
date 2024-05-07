@@ -32,7 +32,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_application_reference: gainSiteReference
+                application_reference: gainSiteReference
               }
             ]
           }
@@ -92,7 +92,7 @@ describe('Save Application Session', () => {
           return {
             rows: [
               {
-                fn_create_credits_app_reference: creditReference
+                application_reference: creditReference
               }
             ]
           }
@@ -345,7 +345,7 @@ it('Should generate an allocation reference and notification when notifications 
         return {
           rows: [
             {
-              fn_create_application_reference: gainSiteReference
+              application_reference: gainSiteReference
             }
           ]
         }

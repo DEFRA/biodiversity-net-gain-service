@@ -64,7 +64,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
-          text: 'Select a Biodiversity Metric',
+          text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })

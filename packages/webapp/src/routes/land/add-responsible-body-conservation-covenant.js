@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { getValidReferrerUrl, validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const ID = '#responsibleBody'
 const handlers = {
@@ -51,7 +51,8 @@ const handlers = {
         legalAgreementResponsibleBodies.splice(id, 1, responsibleBody)
       } else { legalAgreementResponsibleBodies.push(responsibleBody) }
       request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_RESPONSIBLE_BODIES)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.CHECK_RESPONSIBLE_BODIES)
     }
   }
 }

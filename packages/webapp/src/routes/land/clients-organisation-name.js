@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const organisationName = request.yar.get(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY)
@@ -31,7 +31,8 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY, organisationName)
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.IS_ADDRESS_UK)
     }
   }
 }

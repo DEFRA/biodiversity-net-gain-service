@@ -10,9 +10,9 @@ jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
-    let h, redisMap, viewResult, resultContext
+    let h, cacheMap, viewResult, resultContext
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
       h = {
         view: (view, context) => {
           viewResult = view
@@ -24,7 +24,7 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
         fileName: 'file-1.doc',
         fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
         fileSize: 0.01,
@@ -53,7 +53,7 @@ describe(url, () => {
     })
 
     it('should show correct land ownership proofs', async () => {
-      redisMap.set(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF, {
+      cacheMap.set(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF, {
         fileName: 'file-1.doc',
         fileLocation: '800376c7-8652-4906-8848-70a774578dfe/land-ownership/file-1.doc',
         fileSize: 0.01,
@@ -61,7 +61,7 @@ describe(url, () => {
         id: '1'
       })
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -72,7 +72,7 @@ describe(url, () => {
     })
 
     it('should not show land ownership proofs if file location is null', async () => {
-      redisMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [{
         fileName: '',
         fileLocation: null,
         fileSize: 0.01,
@@ -81,7 +81,7 @@ describe(url, () => {
       }])
 
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
 
@@ -91,9 +91,9 @@ describe(url, () => {
     })
 
     it('should redirect to the register task list if required data is not found', async () => {
-      redisMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [])
+      cacheMap.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '2' }
       }
 
@@ -173,43 +173,7 @@ describe(url, () => {
         }
       })
     })
-    it('If landowner but has referer then should redirect to referer', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = checkOwnershipProofFile[1].handler
-          const session = new Session()
-          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.cacheKeys.ROLE_KEY, 'Landowner')
-          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
 
-          const payload = {
-            checkLandOwnership: 'yes'
-          }
-          const request = {
-            yar: session,
-            query: { id: '1' },
-            payload
-          }
-          await postHandler(request, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('If not landowner then redirect to ADD_LANDOWNERS', done => {
       jest.isolateModules(async () => {
         try {
@@ -261,44 +225,7 @@ describe(url, () => {
         }
       })
     })
-    it('If not landowner and referer then redirect to referer', done => {
-      jest.isolateModules(async () => {
-        try {
-          const postHandler = checkOwnershipProofFile[1].handler
-          const session = new Session()
-          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.cacheKeys.ROLE_KEY, 'Other')
-          session.set(constants.cacheKeys.LAND_OWNERSHIP_LOCATION, 'test/test.doc')
-          session.set(constants.cacheKeys.LAND_OWNERSHIP_FILE_SIZE, '2.5')
 
-          let viewArgs = ''
-          let redirectArgs = ''
-          const h = {
-            view: (...args) => {
-              viewArgs = args
-            },
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-
-          const payload = {
-            checkLandOwnership: 'yes'
-          }
-          const request = {
-            yar: session,
-            query: { id: '1' },
-            payload
-          }
-          await postHandler(request, h)
-          expect(viewArgs).toEqual('')
-          expect(redirectArgs).toEqual([constants.routes.CHECK_AND_SUBMIT])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('should redirect to land ownership proof list with unique entries', done => {
       jest.isolateModules(async () => {
         try {

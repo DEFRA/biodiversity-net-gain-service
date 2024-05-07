@@ -2,7 +2,7 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import {
   dateClasses,
   validateAndParseISOString,
-  validateDate
+  validateDate, getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const handlers = {
@@ -32,7 +32,8 @@ const handlers = {
       })
     }
     request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, dateAsISOString)
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
+    const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+    return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
   }
 }
 

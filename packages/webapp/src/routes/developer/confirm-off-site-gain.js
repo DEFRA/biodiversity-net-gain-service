@@ -1,40 +1,18 @@
 import constants from '../../utils/constants.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { processDeveloperTask } from '../../utils/helpers.js'
 
-const href = '#offsite-details-checked-yes'
 const handlers = {
   get: (request, h) => {
     const context = getContext(request)
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
-    const confirmOffsiteGain = request.payload.confirmOffsiteGain
-    const metricUploadLocation = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.set(constants.cacheKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmOffsiteGain)
-    if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.NO) {
-      await deleteBlobFromContainers(metricUploadLocation)
-      request.yar.clear(constants.cacheKeys.DEVELOPER_METRIC_LOCATION)
-      return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
-    } else if (confirmOffsiteGain === constants.DEVELOPER_CONFIRM_OFF_SITE_GAIN.YES) {
-      processDeveloperTask(request,
-        {
-          taskTitle: 'Biodiversity 4.1 Metric calculations',
-          title: 'Confirm off-site gain'
-        }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
-    } else {
-      const context = getContext(request)
-      return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, {
-        context,
-        err: [
-          {
-            text: 'Select yes if this is the correct file',
-            href
-          }
-        ]
-      })
-    }
+    processDeveloperTask(request,
+      {
+        taskTitle: 'Biodiversity 4.1 Metric calculations',
+        title: 'Confirm off-site gain'
+      }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
   }
 }
 
@@ -49,8 +27,12 @@ const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
   String(row['Off-site reference']) === String(request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 const getContext = request => {
   const metricData = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_DATA)
+  const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
+
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
   const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1, request)
+  const f1OffSiteHedgeBaseline = filterByBGN(metricData?.f1, request)
+
   const noOfHabitatUnits = getNumOfUnits(
     d1OffSiteHabitatBaseline,
     'Broad habitat',
@@ -59,6 +41,11 @@ const getContext = request => {
     e1OffSiteHedgeBaseline,
     'Habitat type',
     'Length (km)')
+  const noOfWaterCourseUnits = getNumOfUnits(
+    f1OffSiteHedgeBaseline,
+    'Watercourse type',
+    'Length (km)')
+
   return {
     offSiteHabitats: {
       items: d1OffSiteHabitatBaseline,
@@ -68,7 +55,12 @@ const getContext = request => {
       items: e1OffSiteHedgeBaseline,
       total: noOfHedgerowUnits
     },
-    gainSiteNumber: request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    offSiteWatercourses: {
+      items: f1OffSiteHedgeBaseline,
+      total: noOfWaterCourseUnits
+    },
+    gainSiteNumber: request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER),
+    uploadMetricFileRoute
   }
 }
 

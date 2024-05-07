@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
 
 const handlers = {
@@ -12,7 +13,8 @@ const handlers = {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || redirect(request.yar, h))
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return h.redirect(referrerUrl || redirect(request.yar, h))
     } else {
       return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),

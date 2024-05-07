@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -15,7 +15,8 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.cacheKeys.METRIC_UPLOADED_ANSWER, true)
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_HABITAT_BASELINE)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.CHECK_HABITAT_BASELINE)
     } else {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),

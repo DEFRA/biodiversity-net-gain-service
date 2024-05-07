@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION)
@@ -24,7 +24,8 @@ const handlers = {
     if (checkWrittenAuthorisation === 'no') {
       return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {
-      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.CHECK_APPLICANT_INFORMATION)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.CHECK_APPLICANT_INFORMATION)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

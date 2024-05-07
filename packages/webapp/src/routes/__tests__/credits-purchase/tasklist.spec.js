@@ -22,9 +22,9 @@ describe(url, () => {
           contextResult = context
         }
       }
-      const redisMap = new Map()
+      const cacheMap = new Map()
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       const developerTasklist = require('../../../routes/credits-purchase/tasklist')
@@ -33,7 +33,7 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('credits-purchase/tasklist')
-      expect(contextResult.tasks.taskList.length).toEqual(6)
+      expect(contextResult.tasks.taskList.length).toEqual(7)
       expect(contextResult.tasks.taskList[0]).toEqual({
         taskTitle: 'Statutory biodiversity metric',
         tasks: [
@@ -46,6 +46,17 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
+        taskTitle: 'Development information',
+        tasks: [
+          {
+            title: 'Add development project information',
+            status: 'NOT STARTED',
+            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
+          }
+        ]
+      })
+      expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Statutory biodiversity credits',
         tasks: [
           {
@@ -56,7 +67,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.tasks.taskList[2]).toEqual({
+      expect(contextResult.tasks.taskList[3]).toEqual({
         taskTitle: 'Purchase order',
         tasks: [
           {
@@ -67,7 +78,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.tasks.taskList[3]).toEqual({
+      expect(contextResult.tasks.taskList[4]).toEqual({
         taskTitle: 'Customer due diligence (CDD)',
         tasks: [
           {
@@ -78,7 +89,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.tasks.taskList[4]).toEqual({
+      expect(contextResult.tasks.taskList[5]).toEqual({
         taskTitle: 'Terms and conditions',
         tasks: [
           {
