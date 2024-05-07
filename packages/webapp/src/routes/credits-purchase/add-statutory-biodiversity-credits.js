@@ -10,7 +10,7 @@ const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 
 const handlers = {
   get: async (request, h) => {
-    const previousCostCalculation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
+    const previousCostCalculation = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION)
     const inputValues = (previousCostCalculation)
       ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
       : {}
@@ -20,7 +20,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION, calculateCost(request.payload))
+    request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION, calculateCost(request.payload))
     return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_COST)
   }
 }

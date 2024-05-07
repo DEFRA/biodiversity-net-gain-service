@@ -18,7 +18,7 @@ describe(url, () => {
         })
       })
       const sessionData = JSON.parse(application.dataString)
-      sessionData[constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION] = './test-location/dummy-file.doc'
+      sessionData[constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION] = './test-location/dummy-file.doc'
       await submitGetRequest({ url }, 200, sessionData)
     })
   })

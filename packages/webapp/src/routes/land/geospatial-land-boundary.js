@@ -5,7 +5,7 @@ import constants from '../../utils/constants.js'
 const downloadLandBoundary = async request => {
   const config = {
     containerName: 'customer-uploads',
-    blobName: request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+    blobName: request.yar.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION)
   }
 
   const buffer = await blobStorageConnector.downloadToBufferIfExists(request.logger, config)

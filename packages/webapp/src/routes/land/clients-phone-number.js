@@ -4,7 +4,7 @@ const phoneRegex = /^[\d-+()#]*$/ // Very basic regex authored by tmason (ergo i
 
 const handlers = {
   get: async (request, h) => {
-    const phone = request.yar.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+    const phone = request.yar.get(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY)
     return h.view(constants.views.CLIENTS_PHONE_NUMBER, {
       phone
     })
@@ -18,7 +18,7 @@ const handlers = {
         phone
       })
     }
-    request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, phone)
+    request.yar.set(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY, phone)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }

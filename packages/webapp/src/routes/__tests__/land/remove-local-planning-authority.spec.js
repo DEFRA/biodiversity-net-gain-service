@@ -5,7 +5,7 @@ const url = constants.routes.REMOVE_LOCAL_PLANNING_AUTHORITY
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let localPlanningAuthorityRemove
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
 
     localPlanningAuthorityRemove = require('../../land/remove-local-planning-authority.js')
   })
@@ -42,7 +42,7 @@ describe(url, () => {
     })
     it('should show correct local planning authority to be removed', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
 
@@ -57,7 +57,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to CHECK_PLANNING_AUTHORITIES if yes is chosen and remove 1 local planning authority', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { planningAuthToRemove: 'yes' },
         query: { id: '1' }
       }
@@ -65,7 +65,7 @@ describe(url, () => {
       await localPlanningAuthorityRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
-      expect(redisMap.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST).length).toEqual(1)
+      expect(cacheMap.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST).length).toEqual(1)
     })
     it('should return an error for empty id in query string', async () => {
       const queryUrl = url + '?id='
@@ -79,7 +79,7 @@ describe(url, () => {
     })
     it('Should continue journey to CHECK_PLANNING_AUTHORITIES if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { planningAuthToRemove: 'no' },
         query: { id: '1' }
       }
@@ -87,12 +87,12 @@ describe(url, () => {
       await localPlanningAuthorityRemove.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
-      expect(redisMap.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST).length).toEqual(2)
+      expect(cacheMap.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST).length).toEqual(2)
     })
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { },
         query: { id: '0' }
       }

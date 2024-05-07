@@ -12,7 +12,7 @@ const handlers = {
         taskTitle: 'Biodiversity 4.1 Metric calculations',
         title: 'Confirm off-site gain'
       }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+    return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
   }
 }
 
@@ -24,9 +24,9 @@ const getNumOfUnits = (data, field1, field2) => (data || []).reduce((prev, item)
 }, 0)
 
 const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
+  String(row['Off-site reference']) === String(request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
 const getContext = request => {
-  const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const metricData = request.yar.get(constants.cacheKeys.DEVELOPER_METRIC_DATA)
   const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
 
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
@@ -59,7 +59,7 @@ const getContext = request => {
       items: f1OffSiteHedgeBaseline,
       total: noOfWaterCourseUnits
     },
-    gainSiteNumber: request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
+    gainSiteNumber: request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER),
     uploadMetricFileRoute
   }
 }

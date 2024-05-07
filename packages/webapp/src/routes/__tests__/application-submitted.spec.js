@@ -10,7 +10,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted land owner application reference`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, gainSiteReference)
+      session.set(constants.cacheKeys.APPLICATION_REFERENCE, gainSiteReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
@@ -24,7 +24,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted sort code`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, gainSiteReference)
+      session.set(constants.cacheKeys.APPLICATION_REFERENCE, gainSiteReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
@@ -38,7 +38,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view with formatted developer reference`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, gainSiteReference)
+      session.set(constants.cacheKeys.DEVELOPER_APP_REFERENCE, gainSiteReference)
       let viewArgs = ''
       const h = {
         view: (...args) => {
@@ -52,7 +52,7 @@ describe(url, () => {
     it('should render payment fee details', async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, gainSiteReference)
+      session.set(constants.cacheKeys.APPLICATION_REFERENCE, gainSiteReference)
       session.set('payment', {
         caseType: 'registration',
         fee: 600,

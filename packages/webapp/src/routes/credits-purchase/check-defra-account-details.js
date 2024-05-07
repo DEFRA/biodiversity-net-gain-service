@@ -4,7 +4,7 @@ import { getValidReferrerUrl } from '../../utils/helpers.js'
 const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
 const getUserDetails = request => {
-  const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
+  const userType = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE)
   const claims = request.auth.credentials.account.idTokenClaims
   const { currentOrganisation } = getOrganisationDetails(claims)
   const currentUser = `${claims.firstName} ${claims.lastName}`
@@ -21,7 +21,7 @@ const handlers = {
   get: async (request, h) => {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
-    request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED)
+    request.yar.clear(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED)
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
       ...getUserDetails(request),
@@ -31,8 +31,8 @@ const handlers = {
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
+      request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+      const userType = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE)
       const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
       if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
         return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)

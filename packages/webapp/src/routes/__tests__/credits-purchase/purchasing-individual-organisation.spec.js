@@ -14,7 +14,7 @@ const organisationSignInErrorMessage = `
 const creditsIndividualOrOganisation = require('../../credits-purchase/purchasing-individual-organisation.js')
 
 describe(url, () => {
-  const redisMap = new Map()
+  const cacheMap = new Map()
   describe('GET', () => {
     let viewResult, contextResult
 
@@ -31,9 +31,9 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with individual selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
+        cacheMap.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
 
-        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        await creditsIndividualOrOganisation.default[0].handler({ yar: cacheMap }, h)
         expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
       })
@@ -41,9 +41,9 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with organisation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
+        cacheMap.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
 
-        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        await creditsIndividualOrOganisation.default[0].handler({ yar: cacheMap }, h)
         expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.applicantTypes.ORGANISATION)
       })

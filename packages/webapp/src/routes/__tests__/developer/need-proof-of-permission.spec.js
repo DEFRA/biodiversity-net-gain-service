@@ -15,16 +15,16 @@ describe(url, () => {
         }
       }
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.INDIVIDUAL
-      sessionData[constants.redisKeys.DEVELOPER_CLIENTS_NAME] = mockIndividualClientName
+      sessionData[constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.INDIVIDUAL
+      sessionData[constants.cacheKeys.DEVELOPER_CLIENTS_NAME] = mockIndividualClientName
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.payload).toContain(mockIndividualClientName.value.firstName + ' ' + mockIndividualClientName.value.lastName)
     })
     it(`should render the ${url.substring(1)} view with details for a client organisation`, async () => {
       const mockClientOrganisationName = 'Some Organisation'
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.ORGANISATION
-      sessionData[constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME] = mockClientOrganisationName
+      sessionData[constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.ORGANISATION
+      sessionData[constants.cacheKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME] = mockClientOrganisationName
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.payload).toContain(mockClientOrganisationName)
     })

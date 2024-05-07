@@ -33,7 +33,7 @@ const views = Object.fromEntries(
   Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
 )
 
-const redisKeys = {
+const cacheKeys = {
   CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED: 'credits-purchase-defra-account-details-confirmed',
   CREDITS_PURCHASE_APPLICATION_REFERENCE: 'credits-purchase-application-reference',
   CREDITS_PURCHASE_MIDDLE_NAME: 'credits-purchase-middle-name',
@@ -65,7 +65,7 @@ const YES = 'yes'
 export default {
   routes,
   views,
-  redisKeys,
+  cacheKeys,
   applicantTypes,
   CREDITS_PURCHASE_CDD_VALID_REFERRERS,
   creditsCheckUploadMetric: {

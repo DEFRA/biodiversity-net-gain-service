@@ -8,15 +8,15 @@ import {
 const UPLOAD_LOCAL_LAND_CHARGE = routeDefinition(
   constants.routes.UPLOAD_LOCAL_LAND_CHARGE,
   [
-    constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION,
-    constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE,
-    constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE
+    constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION,
+    constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_SIZE,
+    constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_TYPE
   ]
 )
 
 const CHECK_LOCAL_LAND_CHARGE_FILE = routeDefinition(
   constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
-  [constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED]
+  [constants.cacheKeys.LOCAL_LAND_CHARGE_CHECKED]
 )
 
 const localLandChargeJourneys = [

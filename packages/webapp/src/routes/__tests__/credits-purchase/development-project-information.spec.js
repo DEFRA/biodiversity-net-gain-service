@@ -6,7 +6,7 @@ const url = constants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let developmentProjectInformation
 
@@ -21,9 +21,9 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
-    redisMap.set(lojConstants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
+    cacheMap.set(lojConstants.cacheKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
 
     developmentProjectInformation = require('../../credits-purchase/development-project-information.js')
   })
@@ -72,7 +72,7 @@ describe(url, () => {
 
     it('Should show error message if invalid lpa is provided', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           localPlanningAuthority: ['invalid lpa'],
           planningApplicationRef: 'ref',
@@ -88,7 +88,7 @@ describe(url, () => {
 
     it('Should show error message if planningApplicationRef is not provided', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           localPlanningAuthority: 'Planning Authority 1',
           planningApplicationRef: undefined,
@@ -104,7 +104,7 @@ describe(url, () => {
 
     it('Should show error message if developmentName is not provided', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           localPlanningAuthority: 'Planning Authority 1',
           planningApplicationRef: 'ref',

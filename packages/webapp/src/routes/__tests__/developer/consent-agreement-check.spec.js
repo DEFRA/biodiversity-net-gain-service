@@ -7,12 +7,12 @@ const mockFileLocation = `${mockDataPath}/sample.docx`
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
-    const redisMap = new Map()
+    const cacheMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const checkConsentFile = require('../../developer/consent-agreement-check.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -27,9 +27,9 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} without file info from cache`, async () => {
       const checkConsentFile = require('../../developer/consent-agreement-check.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, null)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_CONSENT_FILE_LOCATION, null)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -45,9 +45,9 @@ describe(url, () => {
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap, postOptions
+    let cacheMap, postOptions
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
       postOptions = {
         url,
         payload: {}
@@ -59,10 +59,10 @@ describe(url, () => {
         try {
           let viewResult
           const checkConsentFile = require('../../developer/consent-agreement-check.js')
-          redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+          cacheMap.set(constants.cacheKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadConsent = constants.CHECK_UPLOAD_METRIC_OPTIONS.NO
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               checkUploadConsent: constants.CHECK_UPLOAD_METRIC_OPTIONS.NO
             }
@@ -96,10 +96,10 @@ describe(url, () => {
         try {
           let viewResult
           const checkConsentFile = require('../../developer/consent-agreement-check.js')
-          redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+          cacheMap.set(constants.cacheKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadConsent = constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               checkUploadConsent: constants.CHECK_UPLOAD_METRIC_OPTIONS.YES
             }
@@ -126,10 +126,10 @@ describe(url, () => {
         try {
           let viewResult
           const checkConsentFile = require('../../developer/consent-agreement-check.js')
-          redisMap.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
+          cacheMap.set(constants.cacheKeys.DEVELOPER_CONSENT_FILE_LOCATION, mockFileLocation)
           postOptions.payload.checkUploadConsent = undefined
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               checkUploadConsent: undefined
             }

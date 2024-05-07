@@ -3,7 +3,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 
 const downloadGeospatialLandBoundaryFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
+  const blobName = request.yar.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION)
   const config = {
     blobName,
     containerName: constants.BLOB_STORAGE_CONTAINER

@@ -23,9 +23,9 @@ describe(url, () => {
           contextResult = context
         }
       }
-      const redisMap = new Map()
+      const cacheMap = new Map()
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       const developerTasklist = require('../../../routes/developer/tasklist')
@@ -100,9 +100,9 @@ describe(url, () => {
           contextResult = context
         }
       }
-      const redisMap = new Map()
+      const cacheMap = new Map()
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const developerTasks = getDeveloperTasks(request)
       developerTasks.taskList.forEach(task => {
@@ -113,7 +113,7 @@ describe(url, () => {
           task.tasks[0].status = 'COMPLETED'
         }
       })
-      redisMap.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_TASK_DETAILS, developerTasks)
       const developerTasklist = require('../../../routes/developer/tasklist')
       await developerTasklist.default[0].handler(request, h)
 
@@ -198,10 +198,10 @@ describe(url, () => {
           ]
         }]
       }
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
+      const cacheMap = new Map()
+      cacheMap.set(constants.cacheKeys.DEVELOPER_TASK_DETAILS, developerTasks)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       getDeveloperTasks(request)
       const developerTasklist = require('../../../routes/developer/tasklist')

@@ -3,8 +3,8 @@ import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpe
 import path from 'path'
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE)
+  const fileLocation = request.yar.get(constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION)
+  const fileSize = request.yar.get(constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
@@ -20,7 +20,7 @@ const handlers = {
   post: async (request, h) => {
     const checkWrittenAuthorisation = request.payload.checkWrittenAuthorisation
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED, checkWrittenAuthorisation)
+    request.yar.set(constants.cacheKeys.WRITTEN_AUTHORISATION_CHECKED, checkWrittenAuthorisation)
     if (checkWrittenAuthorisation === 'no') {
       return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {

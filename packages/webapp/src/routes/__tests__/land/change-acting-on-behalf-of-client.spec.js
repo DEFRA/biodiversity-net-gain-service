@@ -5,7 +5,7 @@ const url = constants.routes.CHANGE_ACTING_ON_BEHALF_OF_CLIENT
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let changeActingOnBehalfOfClient
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     changeActingOnBehalfOfClient = require('../../land/change-acting-on-behalf-of-client.js')
   })
 
@@ -33,7 +33,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to AGENT_ACTING_FOR_CLIENT if user confirms to change acting on behalf of client', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeActingOnBehalfOfClient: 'yes' }
       }
 
@@ -43,7 +43,7 @@ describe(url, () => {
     })
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change acting on behalf of client', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeActingOnBehalfOfClient: 'no' }
       }
 
@@ -54,7 +54,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

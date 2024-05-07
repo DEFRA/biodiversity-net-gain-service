@@ -19,7 +19,7 @@ describe(url, () => {
 
     it('Should continue journey if first and last name are provided for a client who is a landowner or leaseholder', async () => {
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
       postOptions.payload.firstName = 'Tom'
       postOptions.payload.lastName = 'Smith'
       const res = await submitPostRequest(postOptions, 302, sessionData)
@@ -28,7 +28,7 @@ describe(url, () => {
 
     it('Should continue journey if first and last name are provided for a client who is not a landowner or leaseholder', async () => {
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
       postOptions.payload.firstName = 'Tom'
       postOptions.payload.lastName = 'Smith'
       const res = await submitPostRequest(postOptions, 302, sessionData)

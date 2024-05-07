@@ -5,7 +5,7 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    const gridReference = request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
+    const gridReference = request.yar.get(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE)
     return h.view(constants.views.ADD_GRID_REFERENCE, {
       gridReference
     })
@@ -32,10 +32,10 @@ const handlers = {
           }]
         })
       } else {
-        request.yar.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, gridReference)
+        request.yar.set(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE, gridReference)
         // to use referer we must have a value for LAND_BOUNDARY_HECTARES
         const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
-        return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES) && referrerUrl) || constants.routes.ADD_HECTARES)
+        return h.redirect((request.yar.get(constants.cacheKeys.LAND_BOUNDARY_HECTARES) && referrerUrl) || constants.routes.ADD_HECTARES)
       }
     }
   }

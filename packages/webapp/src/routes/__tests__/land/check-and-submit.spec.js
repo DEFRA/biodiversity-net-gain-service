@@ -23,7 +23,7 @@ const auth = {
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let checkAndSubmitGet
 
   beforeEach(() => {
@@ -36,20 +36,20 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     checkAndSubmitGet = require('../../../routes/land/check-and-submit.js')
   })
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      redisMap.set(constants.redisKeys.APPLICATION_REFERENCE, '')
+      cacheMap.set(constants.cacheKeys.APPLICATION_REFERENCE, '')
       const session = applicationSession()
-      session.set(constants.redisKeys.CONTACT_ID, 'mock contact ID')
-      session.set(constants.redisKeys.APPLICATION_TYPE, 'mock application type')
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
-      session.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
-      session.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+      session.set(constants.cacheKeys.CONTACT_ID, 'mock contact ID')
+      session.set(constants.cacheKeys.APPLICATION_TYPE, 'mock application type')
+      session.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+      session.set(constants.cacheKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'Yes')
+      session.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1'])
+      session.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
         {
           location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
           fileSize: 0.01,
@@ -64,9 +64,9 @@ describe(url, () => {
           id: '2'
         }
       ])
-      session.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
-      session.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+      session.set(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY, '2020-03-11T00:00:00.000Z')
+      session.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, '2024-03-11T00:00:00.000Z')
+      session.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
         organisationName: 'org1',
         type: 'organisation'
       }, {
@@ -75,13 +75,13 @@ describe(url, () => {
         emailAddress: 'me@me.com',
         type: 'individual'
       }])
-      session.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+      session.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
         responsibleBodyName: 'test1'
       },
       {
         responsibleBodyName: 'test2'
       }])
-      session.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, 'Yes')
+      session.set(constants.cacheKeys.ANY_OTHER_LANDOWNERS_CHECKED, 'Yes')
 
       const request = {
         yar: session,
@@ -95,7 +95,7 @@ describe(url, () => {
     })
     it('should redirect to REGISTER_LAND_TASK_LIST if application progress is not complete', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
@@ -105,10 +105,10 @@ describe(url, () => {
     })
 
     it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
-      redisMap.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      cacheMap.set(constants.cacheKeys.APPLICATION_REFERENCE, null)
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })

@@ -9,16 +9,16 @@ import { getMetricFileValidationErrors } from '../../utils/helpers.js'
 const uploadMetricId = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
+  await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.METRIC_LOCATION, true))
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, uploadMetricId, true)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
   }
-  request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
-  request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
+  request.yar.set(constants.cacheKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.cacheKeys.METRIC_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.cacheKeys.METRIC_FILE_TYPE, result.fileType)
+  request.yar.set(constants.cacheKeys.METRIC_DATA, result.postProcess.metricData)
   return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
 }
 

@@ -3,7 +3,7 @@ import { getValidReferrerUrl } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    const hectares = request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+    const hectares = request.yar.get(constants.cacheKeys.LAND_BOUNDARY_HECTARES)
     return h.view(constants.views.ADD_HECTARES, {
       hectares
     })
@@ -20,7 +20,7 @@ const handlers = {
         }]
       })
     } else {
-      request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
+      request.yar.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
     }

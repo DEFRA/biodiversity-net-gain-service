@@ -7,7 +7,7 @@ jest.mock('@defra/bng-connectors-lib')
 
 describe(url, () => {
   let h
-  let redisMap
+  let cacheMap
   let downloadLegalAgreementFile
   let responseMock
   beforeEach(() => {
@@ -19,8 +19,8 @@ describe(url, () => {
       response: jest.fn(() => responseMock)
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
         fileSize: 0.01,
@@ -41,7 +41,7 @@ describe(url, () => {
   describe('GET', () => {
     it('It should download the mocked document from blobStorageConnector', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '2' }
       }
       const { blobStorageConnector } = require('@defra/bng-connectors-lib')

@@ -7,7 +7,7 @@ jest.mock('../../../utils/azure-storage.js')
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let legalAgreementFilesList
 
@@ -22,8 +22,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
         fileSize: 0.01,
@@ -46,7 +46,7 @@ describe(url, () => {
     })
     it('should show all legal agreement files that are added', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await legalAgreementFilesList.default[0].handler(request, h)
@@ -55,9 +55,9 @@ describe(url, () => {
       expect(resultContext.filesListWithAction.length).toEqual(2)
     })
     it('Should continue journey to NEED_ADD_ALL_LEGAL_FILES if all files removed', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [])
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '1' }
       }
       await legalAgreementFilesList.default[0].handler(request, h)
@@ -87,16 +87,16 @@ describe(url, () => {
 
     it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if yes is chosen and legalAgreementType=conservation covenant', async () => {
       let viewResult
-      const redisMap = new Map()
+      const cacheMap = new Map()
       const h = {
         redirect: (view, context) => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           checkLegalAgreement: 'yes'
         }

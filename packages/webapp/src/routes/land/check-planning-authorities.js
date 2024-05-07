@@ -25,7 +25,7 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+    const lpaList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
     if (lpaList && lpaList.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
     }
@@ -33,7 +33,7 @@ const handlers = {
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
     const lpaListWithAction = lpaListItems.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.CHECK_PLANNING_AUTHORITIES, {
       lpaList,
       lpaListWithAction,
@@ -42,9 +42,9 @@ const handlers = {
   },
   post: async (request, h) => {
     const { addAnotherPlanningAuthority } = request.payload
-    const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+    const lpaList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     if (!addAnotherPlanningAuthority) {
       return h.view(constants.views.CHECK_PLANNING_AUTHORITIES, {
         lpaList,
@@ -57,7 +57,7 @@ const handlers = {
       })
     }
     if (addAnotherPlanningAuthority === 'yes') {
-      request.yar.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
+      request.yar.set(constants.cacheKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }

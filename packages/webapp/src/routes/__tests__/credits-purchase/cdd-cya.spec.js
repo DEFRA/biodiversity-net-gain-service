@@ -23,7 +23,7 @@ describe(url, () => {
 
     it('should handle missing values from the metric', async () => {
       const session = setCreditsApplicationSession()
-      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
+      session.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
       await submitGetRequest({ url }, 200, session.values)
     })
   })

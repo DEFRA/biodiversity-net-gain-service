@@ -10,9 +10,9 @@ const handlers = {
     const { id } = request.query
 
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
+    const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST)
 
     let individual
 
@@ -39,10 +39,10 @@ const handlers = {
       })
     }
 
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST) ?? []
+    const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST) ?? []
 
     lpaList.push({ type: 'individual', value: { firstName, lastName } })
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, lpaList)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST, lpaList)
 
     return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
   }

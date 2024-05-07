@@ -6,9 +6,9 @@ const ID = '#responsibleBody'
 const handlers = {
   get: async (request, h) => {
     const { id } = request.query
-    const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+    const legalAgreementResponsibleBodies = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let responsibleBody = {
       responsibleBodyName: ''
     }
@@ -22,9 +22,9 @@ const handlers = {
     const responsibleBody = request.payload
     const { id } = request.query
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let errors = {}
-    const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) ?? []
+    const legalAgreementResponsibleBodies = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) ?? []
     const excludeIndex = id !== undefined ? parseInt(id, 10) : null
     errors = validateTextInput(responsibleBody.responsibleBodyName, ID, 'name', 50, 'responsible body')
     if (isEmpty(errors)) {
@@ -50,7 +50,7 @@ const handlers = {
       if (id) {
         legalAgreementResponsibleBodies.splice(id, 1, responsibleBody)
       } else { legalAgreementResponsibleBodies.push(responsibleBody) }
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       return h.redirect(referrerUrl || constants.routes.CHECK_RESPONSIBLE_BODIES)
     }

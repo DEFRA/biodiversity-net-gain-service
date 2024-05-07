@@ -8,8 +8,8 @@ import {
 
 const handlers = {
   get: async (request, h) => {
-    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY))
-    const habitatEnhancementsEndDateOption = request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
+    const { day, month, year } = validateAndParseISOString(request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY))
+    const habitatEnhancementsEndDateOption = request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
     return h.view(constants.views.HABITAT_ENHANCEMENTS_END_DATE, {
       dateClasses,
       day,
@@ -46,11 +46,11 @@ const handlers = {
           ...context
         })
       }
-      request.yar.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, dateAsISOString)
+      request.yar.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, dateAsISOString)
     } else {
-      request.yar.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
+      request.yar.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
     }
-    request.yar.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION, habitatEnhancementsEndDateOption)
+    request.yar.set(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION, habitatEnhancementsEndDateOption)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
   }

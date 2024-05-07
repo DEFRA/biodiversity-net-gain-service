@@ -5,7 +5,7 @@ const url = constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let clientIndividualOrganisation
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     clientIndividualOrganisation = require('../../developer/client-individual-organisation.js')
   })
 
@@ -48,9 +48,9 @@ describe(url, () => {
 
   describe('POST', () => {
     it('Should continue journey to CLIENTS_NAME if individualOrOrganisation is individual', async () => {
-      redisMap.set(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, constants.individualOrOrganisationTypes.INDIVIDUAL)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'individual' }
       }
 
@@ -60,7 +60,7 @@ describe(url, () => {
     })
     it('Should continue journey to CLIENTS_ORGANISATION_NAME if individualOrOrganisation is organisation', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'organisation' }
       }
 
@@ -71,7 +71,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 
@@ -88,8 +88,8 @@ describe(url, () => {
       }
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.INDIVIDUAL
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.ORGANISATION
-      sessionData[constants.redisKeys.REFERER] = 'http://localhost:30000/mock-referer-url'
+      sessionData[constants.cacheKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.ORGANISATION
+      sessionData[constants.cacheKeys.REFERER] = 'http://localhost:30000/mock-referer-url'
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_CLIENTS_NAME)
     })

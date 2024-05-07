@@ -6,13 +6,13 @@ const handlers = {
   get: async (request, h) => {
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
-    request.yar.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
+    request.yar.get(constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
     return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, getApplicantContext(request.auth.credentials.account, request.yar))
   },
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
-      request.yar.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+      request.yar.set(constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
       return h.redirect(referrerUrl || redirect(request.yar, h))
     } else {
@@ -28,7 +28,7 @@ const handlers = {
 }
 
 const redirect = (session, h) => {
-  if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
+  if (session.get(constants.cacheKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
     return constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
   } else {
     return constants.routes.IS_ADDRESS_UK

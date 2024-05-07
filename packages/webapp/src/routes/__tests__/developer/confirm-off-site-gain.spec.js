@@ -44,12 +44,12 @@ const mockMetricData = {
 describe(url, () => {
   describe('GET', () => {
     let viewResult, contextResult
-    const redisMap = new Map()
+    const cacheMap = new Map()
     it(`should render the ${url.substring(1)} view`, async () => {
       const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, mockMetricData)
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -129,10 +129,10 @@ describe(url, () => {
           total: 1
         }
       }
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -176,10 +176,10 @@ describe(url, () => {
           total: 0
         }
       }
-      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
+      cacheMap.set(constants.cacheKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
       const h = {
         view: (view, context) => {
@@ -195,9 +195,9 @@ describe(url, () => {
 
   describe('POST', () => {
     jest.mock('@defra/bng-connectors-lib')
-    let redisMap
+    let cacheMap
     beforeEach(() => {
-      redisMap = new Map()
+      cacheMap = new Map()
     })
 
     it('should redirect to task list page', (done) => {
@@ -206,7 +206,7 @@ describe(url, () => {
           let viewResult
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
           const request = {
-            yar: redisMap
+            yar: cacheMap
           }
           const h = {
             redirect: (view) => {

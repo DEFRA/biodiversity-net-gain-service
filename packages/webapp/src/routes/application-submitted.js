@@ -10,11 +10,11 @@ const getApplicationReference = request => {
   let reference = null
 
   if (path === constants.routes.CHECK_AND_SUBMIT) {
-    reference = session.get(constants.redisKeys.APPLICATION_REFERENCE)
+    reference = session.get(constants.cacheKeys.APPLICATION_REFERENCE)
   }
 
   if (path === constants.routes.DEVELOPER_CHECK_ANSWERS) {
-    reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
+    reference = session.get(constants.cacheKeys.DEVELOPER_APP_REFERENCE)
   }
 
   return reference

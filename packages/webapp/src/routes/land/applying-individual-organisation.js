@@ -16,7 +16,7 @@ const handlers = {
   post: async (request, h) => {
     const individualOrOrganisation = request.payload.individualOrOrganisation
     if (individualOrOrganisation) {
-      request.yar.set(constants.redisKeys.LANDOWNER_TYPE, individualOrOrganisation)
+      request.yar.set(constants.cacheKeys.LANDOWNER_TYPE, individualOrOrganisation)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } =
@@ -44,7 +44,7 @@ const handlers = {
 
 const getContext = request => {
   return {
-    individualOrOrganisation: request.yar.get(constants.redisKeys.LANDOWNER_TYPE)
+    individualOrOrganisation: request.yar.get(constants.cacheKeys.LANDOWNER_TYPE)
   }
 }
 

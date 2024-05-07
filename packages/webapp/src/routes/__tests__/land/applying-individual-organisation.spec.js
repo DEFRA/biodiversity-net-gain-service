@@ -12,7 +12,7 @@ const organisationSignInErrorMessage = `
   Register for or sign into a Defra account as yourself before continuing this application`
 
 describe(url, () => {
-  const redisMap = new Map()
+  const cacheMap = new Map()
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view without any selection`, async () => {
       await submitGetRequest({ url })
@@ -20,11 +20,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with individual selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
+        cacheMap.set(constants.cacheKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
         let viewResult, contextResult
         const applicationByIndividualOrOganisation = require('../../land/applying-individual-organisation.js')
         const request = {
-          yar: redisMap
+          yar: cacheMap
         }
         const h = {
           view: (view, context) => {
@@ -40,11 +40,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with organisation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
+        cacheMap.set(constants.cacheKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
         let viewResult, contextResult
         const applicationByIndividualOrOganisation = require('../../land/applying-individual-organisation.js')
         const request = {
-          yar: redisMap
+          yar: cacheMap
         }
         const h = {
           view: (view, context) => {

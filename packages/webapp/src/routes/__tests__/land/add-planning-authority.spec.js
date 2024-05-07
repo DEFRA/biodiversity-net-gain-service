@@ -5,7 +5,7 @@ const url = constants.routes.ADD_PLANNING_AUTHORITY
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let addPlanningAuthority
 
@@ -20,9 +20,9 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
-    redisMap.set(constants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
+    cacheMap.set(constants.cacheKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
   })
@@ -45,7 +45,7 @@ describe(url, () => {
     })
     it('should render ADD_PLANNING_AUTHORITY view with localPlanningAuthority data to change', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
 
@@ -80,7 +80,7 @@ describe(url, () => {
     })
     it('should edit planning authority and redirect to CHECK_PLANNING_AUTHORITIES page by using id', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { localPlanningAuthority: 'Planning Authority 3' },
         query: { id: '0' }
       }
@@ -88,7 +88,7 @@ describe(url, () => {
       await addPlanningAuthority.default[1].handler(request, h)
 
       expect(viewResult).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
-      expect(redisMap.get('planning-authority-list').length).toEqual(2)
+      expect(cacheMap.get('planning-authority-list').length).toEqual(2)
     })
 
     it('Should show error message if no lpa name is provided', async () => {
@@ -98,7 +98,7 @@ describe(url, () => {
     })
     it('should fail to add planning authority  to legal agreement with duplicate planning authority name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { localPlanningAuthority: 'Planning Authority 1' },
         query: { }
       }
@@ -109,7 +109,7 @@ describe(url, () => {
     })
     it('should fail to edit planning authority  to legal agreement with duplicate planning authority name', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { localPlanningAuthority: 'Planning Authority 2' },
         query: { id: '0' }
       }
@@ -121,7 +121,7 @@ describe(url, () => {
 
     it('Should show error message if invalid lpa is provided', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { localPlanningAuthority: 'Invalid lpa' },
         query: { id: '0' }
       }

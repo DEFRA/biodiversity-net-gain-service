@@ -36,7 +36,7 @@ const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-f
 
 // ./Routes constants
 
-// RedisKeys constants
+// cacheKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
@@ -75,7 +75,7 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
 
-// ./RedisKeys constants
+// ./cacheKeys constants
 const HABITAT = 'HABITAT'
 const HEDGEROW = 'HEDGEROW'
 
@@ -149,7 +149,7 @@ export default {
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
     DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE
   },
-  redisKeys: {
+  cacheKeys: {
     DEVELOPER_METRIC_DATA,
     DEV_DETAILS_CHECKED,
     DEVELOPER_METRIC_LOCATION,

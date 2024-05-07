@@ -22,9 +22,9 @@ describe(url, () => {
           contextResult = context
         }
       }
-      const redisMap = new Map()
+      const cacheMap = new Map()
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       const developerTasklist = require('../../../routes/credits-purchase/tasklist')

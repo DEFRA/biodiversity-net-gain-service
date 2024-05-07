@@ -15,27 +15,27 @@ const handlers = {
     const checkLandOwnership = request.payload.checkLandOwnership
     const { id } = request.query
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
+    request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_CHECKED, checkLandOwnership)
     if (checkLandOwnership === 'no') {
-      const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+      const lopFiles = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
       await deleteBlobFromContainers(context.fileLocation)
       const updatedLopFiles = lopFiles.filter(item => item.id !== id)
-      request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
+      request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
       return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
     } else if (checkLandOwnership === 'yes') {
-      const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+      const tempFile = request.yar.get(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF)
       if (tempFile && tempFile.id === id) {
-        const lopFiles = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+        const lopFiles = request.yar.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
         const duplicateIndex = lopFiles.findIndex(file => path.basename(file.fileLocation) === path.basename(tempFile.fileLocation))
         tempFile.confirmed = true
         if (duplicateIndex === -1) {
           tempFile.confirmed = true
           const { confirmed, ...fileToAdd } = tempFile
           lopFiles.push(fileToAdd)
-          request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+          request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
         }
-        request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
-        request.yar.clear(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+        request.yar.set(constants.cacheKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
+        request.yar.clear(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF)
       }
       return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     } else {
@@ -49,7 +49,7 @@ const handlers = {
 }
 
 const getContext = request => {
-  const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+  const tempFile = request.yar.get(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF)
   let fileDetails = {
     fileName: '',
     fileSize: '',

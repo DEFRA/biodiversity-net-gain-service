@@ -3,7 +3,7 @@ import { redirectDeveloperClient } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    const organisationName = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
+    const organisationName = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
     return h.view(constants.views.DEVELOPER_CLIENTS_ORGANISATION_NAME, { organisationName })
   },
   post: async (request, h) => {
@@ -31,7 +31,7 @@ const handlers = {
         organisationNameErr
       })
     } else {
-      request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME, organisationName)
+      request.yar.set(constants.cacheKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME, organisationName)
       return redirectDeveloperClient(h, request.yar)
     }
   }

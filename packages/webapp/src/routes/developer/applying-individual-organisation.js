@@ -16,7 +16,7 @@ const handlers = {
   post: async (request, h) => {
     const individualOrOrganisation = request.payload.individualOrOrganisation
     if (individualOrOrganisation) {
-      request.yar.set(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE, individualOrOrganisation)
+      request.yar.set(constants.cacheKeys.DEVELOPER_LANDOWNER_TYPE, individualOrOrganisation)
       // Check that the selected applicant type matches whether the user has signed in to represent themselves
       // or an organisation.
       const { noOrganisationsLinkedToDefraAccount, organisation } =
@@ -24,7 +24,7 @@ const handlers = {
 
       if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
           (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
+        return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
         // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
@@ -43,7 +43,7 @@ const handlers = {
 
 const getContext = request => {
   return {
-    individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
+    individualOrOrganisation: request.yar.get(constants.cacheKeys.DEVELOPER_LANDOWNER_TYPE)
   }
 }
 

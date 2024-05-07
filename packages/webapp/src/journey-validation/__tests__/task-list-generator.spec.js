@@ -91,10 +91,10 @@ describe('journey validation task list', () => {
     jest.isolateModules(async () => {
       try {
         session.reset()
-        session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, 'yes')
+        session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_CHECKED, 'yes')
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
         expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
@@ -110,12 +110,12 @@ describe('journey validation task list', () => {
     jest.isolateModules(async () => {
       try {
         session.reset()
-        session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, 'yes')
-        session.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, testString)
-        session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_LOCATION, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_CHECKED, 'yes')
+        session.set(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE, testString)
+        session.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, testString)
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
         expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)

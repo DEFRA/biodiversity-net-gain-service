@@ -5,7 +5,7 @@ const url = constants.routes.CHANGE_APPLYING_INDIVIDUAL_ORGANISATION
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let changeApplyingIndividualOrganisation
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     changeApplyingIndividualOrganisation = require('../../land/change-applying-individual-organisation.js')
   })
 
@@ -33,7 +33,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION if the client is individual or organisation', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeApplyingIndividualOrganisation: 'yes' }
       }
 
@@ -43,7 +43,7 @@ describe(url, () => {
     })
     it('Should continue journey to CHECK_APPLICANT_INFORMATION if user does not want to change applying as individual or organisation', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeApplyingIndividualOrganisation: 'no' }
       }
 
@@ -54,7 +54,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

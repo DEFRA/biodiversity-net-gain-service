@@ -8,7 +8,7 @@ const handlers = {
     const { id } = request.query
     let filenameText
     if (id) {
-      const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
       if (legalAgreementFiles.length === 0) {
         return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
       }
@@ -26,7 +26,7 @@ const handlers = {
     let legalAgreementFiles
     let legalAgreementFile
     if (id) {
-      legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
       legalAgreementFile = legalAgreementFiles.find(item => item.id === id)
       filenameText = legalAgreementFile.location === null ? '' : path.parse(legalAgreementFile.location).base
     }
@@ -43,7 +43,7 @@ const handlers = {
     if (legalAgreementFileToRemove === 'yes') {
       await deleteBlobFromContainers(legalAgreementFile.location)
       updatedLegalAgreementFiles = legalAgreementFiles.filter(item => item.id !== id)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
       if (updatedLegalAgreementFiles.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES) }
     }
     return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)

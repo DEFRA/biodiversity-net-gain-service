@@ -11,7 +11,7 @@ const handlers = {
   post: async (request, h) => {
     const context = getContext(request)
     if (request.payload.landBoundaryUploadType) {
-      request.yar.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
+      request.yar.set(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE, request.payload.landBoundaryUploadType)
       const route =
         request.payload.landBoundaryUploadType === constants.landBoundaryUploadTypes.GEOSPATIAL_DATA && process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y'
           ? constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
@@ -35,7 +35,7 @@ const handlers = {
 }
 
 const getContext = request => {
-  const landBoundaryUploadType = request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE)
+  const landBoundaryUploadType = request.yar.get(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE)
   const context = { checked }
   if (landBoundaryUploadType) {
     context.landBoundaryUploadType = landBoundaryUploadType

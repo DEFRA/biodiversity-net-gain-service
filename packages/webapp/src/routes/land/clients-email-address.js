@@ -3,7 +3,7 @@ import { getValidReferrerUrl, validateEmail } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    const email = request.yar.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+    const email = request.yar.get(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY)
     return h.view(constants.views.CLIENTS_EMAIL_ADDRESS, {
       email
     })
@@ -20,7 +20,7 @@ const handlers = {
         email
       })
     }
-    request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
+    request.yar.set(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER)
   }

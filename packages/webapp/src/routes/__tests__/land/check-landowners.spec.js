@@ -5,7 +5,7 @@ const url = constants.routes.CHECK_LANDOWNERS
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let landownersList
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation'
     }, {
@@ -38,7 +38,7 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
     it('should format individual landowner names and email addresses correctly', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
         firstName: 'John',
         lastName: 'Doe',
         emailAddress: 'john.doe@example.com',
@@ -46,7 +46,7 @@ describe(url, () => {
       }])
 
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await landownersList.default[0].handler(request, h)
@@ -55,7 +55,7 @@ describe(url, () => {
     })
     it('should show all landowners that are added', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await landownersList.default[0].handler(request, h)
@@ -64,9 +64,9 @@ describe(url, () => {
       expect(resultContext.landOwnerConservationConvenants.length).toEqual(2)
     })
     it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners removed', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
       await landownersList.default[0].handler(request, h)
@@ -77,7 +77,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if yes is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherLandowner: 'yes' }
       }
 
@@ -88,7 +88,7 @@ describe(url, () => {
 
     it('Should continue journey to LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherLandowner: 'no' }
       }
 
@@ -99,7 +99,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

@@ -22,12 +22,12 @@ describe(url, () => {
     })
     it(`should render the ${url.substring(1)} view `, async () => {
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      session.set(constants.cacheKeys.APPLICATION_REFERENCE, null)
       await submitGetRequest({ url }, 302, { ...developerApplicationData, 'application-reference': null })
     })
     it(`should render the ${url.substring(1)} view `, async () => {
       const session = new Session()
-      session.set(constants.redisKeys.APPLICATION_REFERENCE, '')
+      session.set(constants.cacheKeys.APPLICATION_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual('/')
     })
@@ -97,7 +97,7 @@ describe(url, () => {
         try {
           const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
-          session.set(constants.redisKeys.DEVELOPER_FULL_NAME, undefined)
+          session.set(constants.cacheKeys.DEVELOPER_FULL_NAME, undefined)
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -127,7 +127,7 @@ describe(url, () => {
         try {
           const postHandler = checkAnswers[1].handler
           const session = setDeveloperApplicationSession()
-          session.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, undefined)
+          session.set(constants.cacheKeys.DEVELOPER_CONSENT_ANSWER, undefined)
 
           jest.resetAllMocks()
           jest.mock('../../../utils/http.js')

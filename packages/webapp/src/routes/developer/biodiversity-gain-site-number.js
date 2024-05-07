@@ -5,7 +5,7 @@ const ID = '#bngNumber'
 
 const handlers = {
   get: async (request, h) => {
-    const bngNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    const bngNumber = request.yar.get(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)
     return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
       bngNumber
     })
@@ -14,14 +14,14 @@ const handlers = {
     const bngNumber = request.payload.bngNumber
     const error = validateBNGNumber(bngNumber, ID)
     if (error) {
-      request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      request.yar.clear(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER)
       return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
         bngNumber,
         ...error
       })
     } else {
-      request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bngNumber)
-      return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
+      request.yar.set(constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER, bngNumber)
+      return h.redirect(request.yar.get(constants.cacheKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
     }
   }
 }

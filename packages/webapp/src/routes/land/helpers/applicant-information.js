@@ -3,18 +3,18 @@ import constants from '../../../utils/constants.js'
 
 const getClientName = (session, isIndividual) => {
   if (isIndividual) {
-    const name = session.get(constants.redisKeys.CLIENTS_NAME_KEY)?.value
+    const name = session.get(constants.cacheKeys.CLIENTS_NAME_KEY)?.value
     return `${name?.firstName} ${name?.lastName}`
   }
 
-  return session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+  return session.get(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY)
 }
 
 const addOptionalAddressLine = (line) => line?.trim() ? `${line}<br>` : ''
 
 const getAddress = (session, addressIsUK) => {
   if (addressIsUK) {
-    const ukAddress = session.get(constants.redisKeys.UK_ADDRESS_KEY)
+    const ukAddress = session.get(constants.cacheKeys.UK_ADDRESS_KEY)
     return `${ukAddress?.addressLine1}<br>` +
       addOptionalAddressLine(ukAddress?.addressLine2) +
       `${ukAddress?.town}<br>` +
@@ -22,7 +22,7 @@ const getAddress = (session, addressIsUK) => {
       `${ukAddress?.postcode}`
   }
 
-  const internationalAddress = session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
+  const internationalAddress = session.get(constants.cacheKeys.NON_UK_ADDRESS_KEY)
   return `${internationalAddress?.addressLine1}<br>` +
     addOptionalAddressLine(internationalAddress?.addressLine2) +
     addOptionalAddressLine(internationalAddress?.addressLine3) +
@@ -34,22 +34,22 @@ const getAddress = (session, addressIsUK) => {
 const applicationInformationContext = session => {
   const context = {}
 
-  context.actingForClient = session.get(constants.redisKeys.IS_AGENT) === 'yes'
-  context.accountDetailsUpToDate = session.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED) === 'true'
-  context.addressIsUK = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === 'yes'
+  context.actingForClient = session.get(constants.cacheKeys.IS_AGENT) === 'yes'
+  context.accountDetailsUpToDate = session.get(constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED) === 'true'
+  context.addressIsUK = session.get(constants.cacheKeys.IS_ADDRESS_UK_KEY) === 'yes'
 
   if (context.actingForClient) {
-    context.clientIsIndividual = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) === constants.individualOrOrganisationTypes.INDIVIDUAL
+    context.clientIsIndividual = session.get(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) === constants.individualOrOrganisationTypes.INDIVIDUAL
     context.clientName = getClientName(session, context.clientIsIndividual)
     context.clientAddress = getAddress(session, context.addressIsUK)
-    context.authorisationFile = path.basename(session.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION) ?? '')
+    context.authorisationFile = path.basename(session.get(constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION) ?? '')
 
     if (context.clientIsIndividual) {
-      context.clientEmail = session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
-      context.clientPhone = session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      context.clientEmail = session.get(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      context.clientPhone = session.get(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY)
     }
   } else {
-    context.applicantIsIndividual = session.get(constants.redisKeys.LANDOWNER_TYPE) === constants.individualOrOrganisationTypes.INDIVIDUAL
+    context.applicantIsIndividual = session.get(constants.cacheKeys.LANDOWNER_TYPE) === constants.individualOrOrganisationTypes.INDIVIDUAL
     context.applicantAddress = getAddress(session, context.addressIsUK)
   }
 

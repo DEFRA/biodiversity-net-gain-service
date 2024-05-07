@@ -10,7 +10,7 @@ import path from 'path'
 const landOwnershipId = '#landOwnership'
 
 const processSuccessfulUpload = async (result, request, h) => {
-  const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
+  const tempFile = request.yar.get(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF)
   if (tempFile && !tempFile.confirmed) {
     await deleteBlobFromContainers(tempFile.fileLocation)
   }
@@ -23,7 +23,7 @@ const processSuccessfulUpload = async (result, request, h) => {
     contentMediaType: result.fileType,
     confirmed: false
   }
-  request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
+  request.yar.set(constants.cacheKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
   return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${tempFileDetails.id}`)
 }
 

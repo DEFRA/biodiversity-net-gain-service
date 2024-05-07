@@ -5,7 +5,7 @@ const url = constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISA
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let landOwnerConservation
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     landOwnerConservation = require('../../land/landowner-conservation-covenant-individual-organisation.js')
   })
 
@@ -33,7 +33,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT if individualOrOrganisation is individual', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'individual' }
       }
 
@@ -43,7 +43,7 @@ describe(url, () => {
     })
     it('Should continue journey to ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT if individualOrOrganisation is organisation', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { individualOrOrganisation: 'organisation' }
       }
 
@@ -54,7 +54,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

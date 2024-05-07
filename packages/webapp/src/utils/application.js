@@ -11,8 +11,8 @@ const getApplicant = (account, session) => ({
 })
 
 const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
-  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
+  const applicantIsAgent = session.get(constants.cacheKeys.IS_AGENT)
+  const organisationId = session.get(constants.cacheKeys.ORGANISATION_ID)
   let applicantRole
 
   if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
@@ -28,7 +28,7 @@ const getApplicantRole = session => {
 
 const getClientDetails = session => {
   const clientType =
-    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+    session.get(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
   const clientAddress = getAddress(session)
 
   const clientDetails = {
@@ -47,13 +47,13 @@ const getClientDetails = session => {
 
 const getIndividualClientDetails = session => {
   const { firstName, lastName } =
-    session.get(constants.redisKeys.CLIENTS_NAME_KEY).value
+    session.get(constants.cacheKeys.CLIENTS_NAME_KEY).value
 
   const clientEmail =
-    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+    session.get(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY)
 
   const clientPhoneNumber =
-    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+    session.get(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY)
 
   return {
     clientNameIndividual: {
@@ -67,7 +67,7 @@ const getIndividualClientDetails = session => {
 
 const getOrganisationClientDetails = session => {
   const clientNameOrganisation =
-    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+    session.get(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY)
 
   return {
     clientNameOrganisation
@@ -75,21 +75,21 @@ const getOrganisationClientDetails = session => {
 }
 
 const getOrganisation = session => ({
-  id: session.get(constants.redisKeys.ORGANISATION_ID),
+  id: session.get(constants.cacheKeys.ORGANISATION_ID),
   address: getAddress(session)
 })
 
 const getAddress = session => {
   const isUkAddress =
-    session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
+    session.get(constants.cacheKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
 
   const addressType =
     isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
 
   const cachedAddress =
     isUkAddress
-      ? session.get(constants.redisKeys.UK_ADDRESS_KEY)
-      : session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
+      ? session.get(constants.cacheKeys.UK_ADDRESS_KEY)
+      : session.get(constants.cacheKeys.NON_UK_ADDRESS_KEY)
 
   const address = {
     type: addressType,
@@ -121,7 +121,7 @@ const getAddress = session => {
 }
 
 const getHabitats = session => {
-  const metricData = session.get(constants.redisKeys.METRIC_DATA)
+  const metricData = session.get(constants.cacheKeys.METRIC_DATA)
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
@@ -216,21 +216,21 @@ const getFile = (session, fileType, filesize, fileLocation, optional) => ({
 })
 
 const getFiles = session => {
-  const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
-  const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
+  const habitatPlanOptional = session.get(constants.cacheKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
+  const writtenAuthorisationOptional = session.get(constants.cacheKeys.IS_AGENT).toLowerCase() === 'no'
   return [
     ...getLandOwnershipFiles(session),
     ...getLegalAgreementFiles(session),
     getLandBoundaryFile(session),
-    getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION, false),
-    getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, false),
-    getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
-    getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
+    getFile(session, constants.cacheKeys.METRIC_FILE_TYPE, constants.cacheKeys.METRIC_FILE_SIZE, constants.cacheKeys.METRIC_LOCATION, false),
+    getFile(session, constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION, false),
+    getFile(session, constants.cacheKeys.HABITAT_PLAN_FILE_TYPE, constants.cacheKeys.HABITAT_PLAN_FILE_SIZE, constants.cacheKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
+    getFile(session, constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.cacheKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
 }
 
 const getLandOwnershipFiles = session => {
-  const lopFiles = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  const lopFiles = session.get(constants.cacheKeys.LAND_OWNERSHIP_PROOFS) || []
   return lopFiles.map(file => {
     delete file.id // Removing id because is excluded from application data validation
     return {
@@ -246,7 +246,7 @@ const getLocalPlanningAuthorities = lpas => {
   return lpas.map(e => { return { LPAName: e, LPAId: lpasReference.find(lpa => lpa.name === e).id } })
 }
 const getLegalAgreementFiles = session => {
-  const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
+  const legalAgreementFiles = session.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES) || []
   return legalAgreementFiles.map(file => ({
     contentMediaType: file.fileType,
     fileType: constants.uploadTypes.LEGAL_AGREEMENT_UPLOAD_TYPE,
@@ -257,7 +257,7 @@ const getLegalAgreementFiles = session => {
   }))
 }
 const getLandBoundaryFile = session => {
-  if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
+  if (session.get(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
     const { fileSize, fileLocation, fileName } = getGeospatialFileAttributes(session)
     return {
       contentMediaType: 'application/geo+json',
@@ -269,43 +269,43 @@ const getLandBoundaryFile = session => {
     }
   } else {
     return {
-      contentMediaType: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE),
+      contentMediaType: session.get(constants.cacheKeys.LAND_BOUNDARY_FILE_TYPE),
       fileType: 'land-boundary',
-      fileSize: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
-      fileLocation: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION),
-      fileName: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)),
+      fileSize: session.get(constants.cacheKeys.LAND_BOUNDARY_FILE_SIZE),
+      fileLocation: session.get(constants.cacheKeys.LAND_BOUNDARY_LOCATION),
+      fileName: session.get(constants.cacheKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.cacheKeys.LAND_BOUNDARY_LOCATION)),
       optional: false
     }
   }
 }
 
 const getGeospatialFileAttributes = session => {
-  if (session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)) {
+  if (session.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)) {
     return {
-      fileSize: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE),
-      fileLocation: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION),
-      fileName: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)),
+      fileSize: session.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)),
       optional: false
     }
   } else {
     return {
-      fileSize: session.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
-      fileLocation: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION),
-      fileName: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)),
+      fileSize: session.get(constants.cacheKeys.GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION)),
       optional: false
     }
   }
 }
 
-const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
-  ? session.get(constants.redisKeys.GEOSPATIAL_HECTARES)
-  : session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+const getHectares = session => session.get(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.cacheKeys.GEOSPATIAL_HECTARES)
+  : session.get(constants.cacheKeys.LAND_BOUNDARY_HECTARES)
 
-const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
-  ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
-  : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
+const getGridReference = session => session.get(constants.cacheKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.cacheKeys.GEOSPATIAL_GRID_REFERENCE)
+  : session.get(constants.cacheKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
-const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
+const getApplicationReference = session => session.get(constants.cacheKeys.APPLICATION_REFERENCE) || ''
 
 const getPayment = session => {
   const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
@@ -316,7 +316,7 @@ const getPayment = session => {
 }
 
 const getLandowners = session => {
-  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+  const sessionLandowners = session.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
   const landownersByType = {
     organisation: [],
     individual: []
@@ -338,7 +338,7 @@ const getLandowners = session => {
 }
 
 const application = (session, account) => {
-  const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
+  const isLegalAgreementTypeS106 = session.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
   const applicationJson = {
     landownerGainSiteRegistration: {
       applicant: getApplicant(account, session),
@@ -347,14 +347,14 @@ const application = (session, account) => {
       gainSiteReference: getApplicationReference(session),
       landBoundaryGridReference: getGridReference(session),
       landBoundaryHectares: getHectares(session),
-      legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
-      enhancementWorkStartDate: session.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
+      legalAgreementType: session.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
+      enhancementWorkStartDate: session.get(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY),
       // BNGP-3863, change legal agreement end date to habitat enhancements end date, but leave application as legalAgreementEndDate :facepalm:
-      legalAgreementEndDate: session.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY),
-      habitatPlanIncludedLegalAgreementYesNo: session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
+      legalAgreementEndDate: session.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY),
+      habitatPlanIncludedLegalAgreementYesNo: session.get(constants.cacheKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
       landowners: getLandowners(session),
-      ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
-      ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
+      ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
+      ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
       submittedOn: new Date().toISOString(),
       payment: getPayment(session)
     }
@@ -366,7 +366,7 @@ const application = (session, account) => {
     applicationJson.landownerGainSiteRegistration.landownerAddress = getAddress(session)
   }
 
-  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
+  if (session.get(constants.cacheKeys.ORGANISATION_ID)) {
     applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
   }
 

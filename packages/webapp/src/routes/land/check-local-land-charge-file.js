@@ -8,12 +8,12 @@ const handlers = {
   post: async (request, h) => {
     const checkLocalLandCharge = request.payload.checkLocalLandCharge
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalLandCharge)
+    request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalLandCharge)
     if (checkLocalLandCharge === 'no') {
-      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
+      request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
     } else if (checkLocalLandCharge === 'yes') {
-      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
+      request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
       const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
       const redirectUrl = referrerUrl ||
                           constants.routes.REGISTER_LAND_TASK_LIST
@@ -29,13 +29,13 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE)
+  const fileLocation = request.yar.get(constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION)
+  const fileSize = request.yar.get(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
 
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    selectedOption: request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION),
+    selectedOption: request.yar.get(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_OPTION),
     fileSize: humanReadableFileSize,
     fileLocation
   }

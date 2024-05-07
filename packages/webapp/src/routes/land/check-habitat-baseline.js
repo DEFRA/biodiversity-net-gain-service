@@ -3,7 +3,7 @@ import { getValidReferrerUrl, checked, habitatTypeAndConditionMapper } from '../
 
 const handlers = {
   get: async (request, h) => {
-    const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
+    const metricData = request.yar.get(constants.cacheKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d1', 'e1', 'f1'], metricData)
     return h.view(constants.views.CHECK_HABITAT_BASELINE, {
       habitatTypeAndCondition,
@@ -11,7 +11,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
+    request.yar.set(constants.cacheKeys.METRIC_HABITAT_BASELINE_CHECKED, true)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CHECK_HABITAT_CREATED)
   }

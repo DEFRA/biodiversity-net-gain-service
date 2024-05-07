@@ -9,12 +9,12 @@ const handlers = {
   post: async (request, h) => {
     const checkHabitatPlan = request.payload.checkHabitatPlan
     const context = getContext(request)
-    request.yar.set(constants.redisKeys.HABITAT_PLAN_CHECKED, checkHabitatPlan)
+    request.yar.set(constants.cacheKeys.HABITAT_PLAN_CHECKED, checkHabitatPlan)
     if (checkHabitatPlan === 'no') {
-      request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
+      request.yar.set(constants.cacheKeys.HABITAT_PLAN_FILE_OPTION, 'no')
       return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
     } else if (checkHabitatPlan === 'yes') {
-      request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
+      request.yar.set(constants.cacheKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       const redirectUrl = referrerUrl ||
                           constants.routes.ENHANCEMENT_WORKS_START_DATE
@@ -30,12 +30,12 @@ const handlers = {
 }
 
 const getContext = request => {
-  const fileLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.HABITAT_PLAN_FILE_SIZE)
+  const fileLocation = request.yar.get(constants.cacheKeys.HABITAT_PLAN_LOCATION)
+  const fileSize = request.yar.get(constants.cacheKeys.HABITAT_PLAN_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    selectedOption: request.yar.get(constants.redisKeys.HABITAT_PLAN_FILE_OPTION),
+    selectedOption: request.yar.get(constants.cacheKeys.HABITAT_PLAN_FILE_OPTION),
     fileSize: humanReadableFileSize,
     fileLocation
   }

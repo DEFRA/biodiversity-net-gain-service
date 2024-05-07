@@ -11,21 +11,21 @@ export default async function (context, req) {
   let db
   try {
     const applicationSession = req.body
-    const redisKeys = {
+    const cacheKeys = {
       contactId: 'contact-id',
       applicationType: 'application-type',
       organisationId: 'organisation-id'
     }
-    if (!applicationSession[redisKeys.contactId] || !applicationSession[redisKeys.applicationType]) {
-      throw new Error(`Missing required session data: ${!applicationSession[redisKeys.contactId] ? 'Contact ID' : 'Application type'} missing from request`)
+    if (!applicationSession[cacheKeys.contactId] || !applicationSession[cacheKeys.applicationType]) {
+      throw new Error(`Missing required session data: ${!applicationSession[cacheKeys.contactId] ? 'Contact ID' : 'Application type'} missing from request`)
     }
     db = await getDBConnection(context)
 
-    const isCreditsPurchase = applicationSession[redisKeys.applicationType].toLowerCase() === 'creditspurchase'
+    const isCreditsPurchase = applicationSession[cacheKeys.applicationType].toLowerCase() === 'creditspurchase'
     const params = [
-      applicationSession[redisKeys.contactId],
-      applicationSession[redisKeys.applicationType],
-      applicationSession[redisKeys.organisationId]
+      applicationSession[cacheKeys.contactId],
+      applicationSession[cacheKeys.applicationType],
+      applicationSession[cacheKeys.organisationId]
     ]
     const createApplicationRefFunction = isCreditsPurchase ? createCreditsAppReference : createApplicationReference
 
@@ -35,27 +35,27 @@ export default async function (context, req) {
         allocation: 'developer-app-reference',
         creditspurchase: 'credits-purchase-application-reference'
       }
-      return referenceMap[applicationType.toLowerCase()] || redisKeys.applicationReference
+      return referenceMap[applicationType.toLowerCase()] || cacheKeys.applicationReference
     }
     // Ensure the application reference keys stay up to date with webapp constants file.
-    redisKeys.applicationReference = setApplicationReference(applicationSession[redisKeys.applicationType])
-    context.log('Processing', JSON.stringify(applicationSession[redisKeys.applicationReference]))
+    cacheKeys.applicationReference = setApplicationReference(applicationSession[cacheKeys.applicationType])
+    context.log('Processing', JSON.stringify(applicationSession[cacheKeys.applicationReference]))
     const sessionProjectName = applicationSession['credits-purchase-metric-data']?.startPage?.projectName
     // Generate gain site reference if not already present
-    if (!applicationSession[redisKeys.applicationReference]) {
+    if (!applicationSession[cacheKeys.applicationReference]) {
       const result = await createApplicationRefFunction(db, params)
-      applicationSession[redisKeys.applicationReference] = result.rows[0].application_reference
+      applicationSession[cacheKeys.applicationReference] = result.rows[0].application_reference
 
-      context.log('Created', JSON.stringify(applicationSession[redisKeys.applicationReference]))
+      context.log('Created', JSON.stringify(applicationSession[cacheKeys.applicationReference]))
     }
     if (isCreditsPurchase) {
-      await updateProjectName(db, [applicationSession[redisKeys.applicationReference], sessionProjectName])
+      await updateProjectName(db, [applicationSession[cacheKeys.applicationReference], sessionProjectName])
     }
 
     // Save the applicationSession to database
     const savedApplicationSessionResult =
       await saveApplicationSession(db, [
-        applicationSession[redisKeys.applicationReference],
+        applicationSession[cacheKeys.applicationReference],
         JSON.stringify(applicationSession)
       ])
 
@@ -68,7 +68,7 @@ export default async function (context, req) {
     // Return application reference
     context.res = {
       status: 200,
-      body: JSON.stringify(applicationSession[redisKeys.applicationReference])
+      body: JSON.stringify(applicationSession[cacheKeys.applicationReference])
     }
   } catch (err) {
     context.log.error(err)

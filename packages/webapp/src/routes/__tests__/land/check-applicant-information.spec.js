@@ -5,33 +5,33 @@ import checkApplicantInfoDetails from '../../land/check-applicant-information.js
 const url = constants.routes.CHECK_APPLICANT_INFORMATION
 
 describe(url, () => {
-  let redisMap
+  let cacheMap
 
   beforeEach(() => {
-    redisMap = new Map()
+    cacheMap = new Map()
 
-    redisMap.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, 'true')
-    redisMap.set(constants.redisKeys.UK_ADDRESS_KEY, {
+    cacheMap.set(constants.cacheKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, 'true')
+    cacheMap.set(constants.cacheKeys.UK_ADDRESS_KEY, {
       addressLine1: '123 The Street',
       town: 'Townsville',
       postcode: 'AB12 3DE'
     })
-    redisMap.set(constants.redisKeys.NON_UK_ADDRESS_KEY, {
+    cacheMap.set(constants.cacheKeys.NON_UK_ADDRESS_KEY, {
       addressLine1: '123 Le Street',
       town: 'Paris',
       country: 'France'
     })
-    redisMap.set(constants.redisKeys.CLIENTS_NAME_KEY, {
+    cacheMap.set(constants.cacheKeys.CLIENTS_NAME_KEY, {
       type: 'individual',
       value: {
         firstName: 'Joe',
         lastName: 'Smith'
       }
     })
-    redisMap.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, 'Land Company Ltd')
-    redisMap.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, 'me@me.com')
-    redisMap.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, '07000000000')
-    redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, '/a-location/somewhere/authfile.pdf')
+    cacheMap.set(constants.cacheKeys.CLIENTS_ORGANISATION_NAME_KEY, 'Land Company Ltd')
+    cacheMap.set(constants.cacheKeys.CLIENTS_EMAIL_ADDRESS_KEY, 'me@me.com')
+    cacheMap.set(constants.cacheKeys.CLIENTS_PHONE_NUMBER_KEY, '07000000000')
+    cacheMap.set(constants.cacheKeys.WRITTEN_AUTHORISATION_LOCATION, '/a-location/somewhere/authfile.pdf')
   })
 
   describe('GET', () => {
@@ -51,11 +51,11 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.IS_AGENT, 'no')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
-      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      cacheMap.set(constants.cacheKeys.IS_AGENT, 'no')
+      cacheMap.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, 'yes')
+      cacheMap.set(constants.cacheKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.INDIVIDUAL)
 
-      await getHandler({ yar: redisMap }, h)
+      await getHandler({ yar: cacheMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
       expect(contextResult.actingForClient).toBe(false)
       expect(contextResult.accountDetailsUpToDate).toBe(true)
@@ -76,11 +76,11 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.IS_AGENT, 'no')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
-      redisMap.set(constants.redisKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
+      cacheMap.set(constants.cacheKeys.IS_AGENT, 'no')
+      cacheMap.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, 'no')
+      cacheMap.set(constants.cacheKeys.LANDOWNER_TYPE, constants.individualOrOrganisationTypes.ORGANISATION)
 
-      await getHandler({ yar: redisMap }, h)
+      await getHandler({ yar: cacheMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
       expect(contextResult.actingForClient).toBe(false)
       expect(contextResult.accountDetailsUpToDate).toBe(true)
@@ -101,11 +101,11 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'no')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      cacheMap.set(constants.cacheKeys.IS_AGENT, 'yes')
+      cacheMap.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, 'no')
+      cacheMap.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
 
-      await getHandler({ yar: redisMap }, h)
+      await getHandler({ yar: cacheMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
       expect(contextResult.actingForClient).toBe(true)
       expect(contextResult.accountDetailsUpToDate).toBe(true)
@@ -130,11 +130,11 @@ describe(url, () => {
         }
       }
 
-      redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
-      redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
-      redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
+      cacheMap.set(constants.cacheKeys.IS_AGENT, 'yes')
+      cacheMap.set(constants.cacheKeys.IS_ADDRESS_UK_KEY, 'yes')
+      cacheMap.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
 
-      await getHandler({ yar: redisMap }, h)
+      await getHandler({ yar: cacheMap }, h)
       expect(viewResult).toEqual(constants.views.CHECK_APPLICANT_INFORMATION)
       expect(contextResult.actingForClient).toBe(true)
       expect(contextResult.accountDetailsUpToDate).toBe(true)
@@ -156,7 +156,7 @@ describe(url, () => {
         }
       }
 
-      await postHandler({ yar: redisMap }, h)
+      await postHandler({ yar: cacheMap }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })

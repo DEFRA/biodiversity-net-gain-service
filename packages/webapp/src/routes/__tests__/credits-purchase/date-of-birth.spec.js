@@ -15,7 +15,7 @@ describe(url, () => {
 
     it('should render the view with session data', async () => {
       const sessionData = {}
-      sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH] = goodIsoDate
+      sessionData[creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH] = goodIsoDate
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).toContain(goodDay)
       expect(res.payload).toContain(goodMonth)

@@ -3,7 +3,7 @@ import { redirectDeveloperClient, validateFirstLastNameOfDeveloperClient } from 
 
 const handlers = {
   get: async (request, h) => {
-    const individual = request.yar.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)
+    const individual = request.yar.get(constants.cacheKeys.DEVELOPER_CLIENTS_NAME)
     return h.view(constants.views.DEVELOPER_CLIENTS_NAME, {
       individual: individual?.value
     })
@@ -33,7 +33,7 @@ const handlers = {
       })
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, lastName } })
+    request.yar.set(constants.cacheKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, lastName } })
 
     return redirectDeveloperClient(h, request.yar)
   }

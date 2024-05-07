@@ -3,7 +3,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const downloadMetricFile = async (request, h) => {
-  const blobName = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION)
+  const blobName = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_METRIC_LOCATION)
   const config = {
     blobName,
     containerName: creditsPurchaseConstants.BLOB_STORAGE_CONTAINER

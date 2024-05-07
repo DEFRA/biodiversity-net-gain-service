@@ -4,7 +4,7 @@ import { getValidReferrerUrl } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CLIENT_INDIVIDUAL_ORGANISATION, {
-      individualOrOrganisation: request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      individualOrOrganisation: request.yar.get(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     })
   },
   post: async (request, h) => {
@@ -20,11 +20,11 @@ const handlers = {
     }
 
     // Force replay of full journey if switching between individual and organisation client types
-    if (request.yar.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) !== individualOrOrganisation) {
-      request.yar.clear(constants.redisKeys.REFERER)
+    if (request.yar.get(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY) !== individualOrOrganisation) {
+      request.yar.clear(constants.cacheKeys.REFERER)
     }
 
-    request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, individualOrOrganisation)
+    request.yar.set(constants.cacheKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, individualOrOrganisation)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return h.redirect(referrerUrl || constants.routes.CLIENTS_NAME)

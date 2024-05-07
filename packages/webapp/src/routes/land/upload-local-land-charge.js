@@ -8,10 +8,10 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 const localLandChargeId = '#localLandChargeId'
 
 async function processSuccessfulUpload (result, request, h) {
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, true))
-  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
-  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
-  request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
+  await deleteBlobFromContainers(request.yar.get(constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION, true))
+  request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_SIZE, result.fileSize)
+  request.yar.set(constants.cacheKeys.LOCAL_LAND_CHARGE_FILE_TYPE, result.fileType)
   request.logger.info(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE)
 }

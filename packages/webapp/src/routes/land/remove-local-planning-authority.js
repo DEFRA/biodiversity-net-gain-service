@@ -4,7 +4,7 @@ import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const { id } = request.query
-    const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+    const planningAuthorityList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
     const planningAuthToRemove = id && planningAuthorityList[id]
     return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
       planningAuthToRemove
@@ -13,7 +13,7 @@ const handlers = {
   post: async (request, h) => {
     const { id } = request.query
     const { planningAuthToRemove } = request.payload
-    const planningAuthorityList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+    const planningAuthorityList = request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)
     if (!planningAuthToRemove) {
       const localAuthorityNameToRemove = planningAuthorityList[id]
       return h.view(constants.views.REMOVE_LOCAL_PLANNING_AUTHORITY, {
@@ -26,7 +26,7 @@ const handlers = {
     }
     if (planningAuthToRemove === 'yes') {
       planningAuthorityList.splice(id, 1)
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, planningAuthorityList)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_PARTIES, planningAuthorityList)
     }
     return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)
   }

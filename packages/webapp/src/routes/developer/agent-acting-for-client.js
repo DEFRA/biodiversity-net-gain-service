@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
-    const isApplicantAgent = request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+    const isApplicantAgent = request.yar.get(constants.cacheKeys.DEVELOPER_IS_AGENT)
     return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
       isApplicantAgent
     })
@@ -11,16 +11,16 @@ const handlers = {
     const { isApplicantAgent } = request.payload
 
     // Force replay of full journey if switching between agent and non-agent application
-    if (request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) !== isApplicantAgent) {
-      request.yar.clear(constants.redisKeys.REFERER)
+    if (request.yar.get(constants.cacheKeys.DEVELOPER_IS_AGENT) !== isApplicantAgent) {
+      request.yar.clear(constants.cacheKeys.REFERER)
     }
 
-    request.yar.set(constants.redisKeys.DEVELOPER_IS_AGENT, isApplicantAgent)
+    request.yar.set(constants.cacheKeys.DEVELOPER_IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     } else {
       return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,

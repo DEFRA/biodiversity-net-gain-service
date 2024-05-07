@@ -45,10 +45,10 @@ describe(url, () => {
           viewResult = view
         }
       }
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.DEVELOPER_REFERER, constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
+      const cacheMap = new Map()
+      cacheMap.set(constants.cacheKeys.DEVELOPER_REFERER, constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           bngNumber: 'BGS-111 222 333'
         }

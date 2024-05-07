@@ -4,7 +4,7 @@ import developerTaskList from '../../utils/developer-task-list.js'
 const handlers = {
   get: async (request, h) => {
     let completedTasks = 0
-    let dataContent = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
+    let dataContent = request.yar.get(constants.cacheKeys.DEVELOPER_TASK_DETAILS)
     if (!dataContent) {
       dataContent = JSON.parse(JSON.stringify(developerTaskList))
     } else {

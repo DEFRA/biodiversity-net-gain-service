@@ -22,16 +22,3 @@ services:
       - ./volumes/pgadmin:/var/lib/pgadmin
     ports:
       - "8083:8083"
-
-  ##############################################################################################################
-  # Redis commander on port 8081
-  ##############################################################################################################
-  redis_commander:
-    image: rediscommander/redis-commander
-    ports:
-      - "8081:8081"
-    env_file:
-      - ./env/rediscommander.env
-    deploy:
-      restart_policy:
-        condition: on-failure

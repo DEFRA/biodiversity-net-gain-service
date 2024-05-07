@@ -173,9 +173,9 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
   YES
 }
 
-const redisKeys = {
-  ...developerConstants.redisKeys,
-  ...lojConstants.redisKeys,
+const cacheKeys = {
+  ...developerConstants.cacheKeys,
+  ...lojConstants.cacheKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -293,7 +293,7 @@ export default Object.freeze({
   gridReferenceRegEx: GRID_REFERENCE_REGEX,
   metricFileExt: METRIC_FILE_EXT,
   landBoundaryUploadTypes,
-  redisKeys,
+  cacheKeys,
   routes,
   views,
   uploadErrors,

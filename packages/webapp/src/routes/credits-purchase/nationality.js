@@ -27,7 +27,7 @@ const getNationalitySelects = (enteredNationalities) => {
 
 const handlers = {
   get: (request, h) => {
-    const enteredNationalities = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
+    const enteredNationalities = request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY)
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
       nationalitySelects: getNationalitySelects(enteredNationalities),
@@ -38,7 +38,7 @@ const handlers = {
     const nationalities = request.payload
 
     if (Object.values(nationalities).some(nationality => nationality !== '')) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
+      request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
       const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
       return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
     } else {

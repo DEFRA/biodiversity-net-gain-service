@@ -25,12 +25,12 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
+          const cacheMap = new Map()
+          cacheMap.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          cacheMap.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
             }
@@ -62,11 +62,11 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          const cacheMap = new Map()
+          cacheMap.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
             }
@@ -94,13 +94,13 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
-          redisMap.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
+          const cacheMap = new Map()
+          cacheMap.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          cacheMap.set(constants.cacheKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
+          cacheMap.set(constants.cacheKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/reprojected/mock.geojson')
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
             }
@@ -130,12 +130,12 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
-          redisMap.set(constants.redisKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
+          const cacheMap = new Map()
+          cacheMap.set(constants.cacheKeys.GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.geojson')
+          cacheMap.set(constants.cacheKeys.ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION, 'path/to/mock.gpkg')
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: constants.confirmLandBoundaryOptions.NO
             }
@@ -167,10 +167,10 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           let viewResult, contextResult
-          const redisMap = new Map()
+          const cacheMap = new Map()
           const checkLandBoundary = require('../../land/check-geospatial-file')
           const request = {
-            yar: redisMap,
+            yar: cacheMap,
             payload: {
               confirmGeospatialLandBoundary: undefined
             }

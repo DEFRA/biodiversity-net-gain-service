@@ -19,7 +19,7 @@ describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view with correct values and formatting`, async () => {
       const sessionData = {}
-      sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION] = mockCostCalculation
+      sessionData[creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_COST_CALCULATION] = mockCostCalculation
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).toContain('£356,600')
       expect(res.payload).toContain('£96,600')

@@ -48,7 +48,7 @@ describe('Metric file upload controller tests', () => {
             const uploadConfig = getBaseConfig()
             uploadConfig.filePath = file
             uploadConfig.hasError = true
-            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+            uploadConfig.sessionData[`${constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
             const res = await uploadFile(uploadConfig)
             expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
             setImmediate(() => {
@@ -74,10 +74,10 @@ describe('Metric file upload controller tests', () => {
             })
             const uploadConfig = getBaseConfig()
             uploadConfig.filePath = file
-            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
-            uploadConfig.sessionData[`${constants.redisKeys.CONTACT_ID}`] = 'mock contact ID'
-            uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
-            uploadConfig.sessionData[`${constants.redisKeys.DEVELOPER_APP_REFERENCE}`] = 'mock developer app reference'
+            uploadConfig.sessionData[`${constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+            uploadConfig.sessionData[`${constants.cacheKeys.CONTACT_ID}`] = 'mock contact ID'
+            uploadConfig.sessionData[`${constants.cacheKeys.APPLICATION_TYPE}`] = constants.applicationTypes.ALLOCATION
+            uploadConfig.sessionData[`${constants.cacheKeys.DEVELOPER_APP_REFERENCE}`] = 'mock developer app reference'
             await uploadFile(uploadConfig)
             setImmediate(() => {
               done()
@@ -95,7 +95,7 @@ describe('Metric file upload controller tests', () => {
           try {
             const uploadConfig = getBaseConfig()
             uploadConfig.filePath = file
-            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
+            uploadConfig.sessionData[`${constants.cacheKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ12208461'
             await uploadFile(uploadConfig)
             setImmediate(() => {
               done()

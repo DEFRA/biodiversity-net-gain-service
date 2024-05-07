@@ -3,7 +3,7 @@ import { blobStorageConnector } from '@defra/bng-connectors-lib'
 import constants from '../../utils/constants.js'
 
 const downloadLocalLandChargeFile = async (request, h) => {
-  const blobName = request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION)
+  const blobName = request.yar.get(constants.cacheKeys.LOCAL_LAND_CHARGE_LOCATION)
   const config = {
     blobName,
     containerName: constants.BLOB_STORAGE_CONTAINER

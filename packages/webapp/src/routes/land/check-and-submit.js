@@ -29,8 +29,8 @@ const handlers = {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
 
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
-      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+    return request.yar.get(constants.cacheKeys.APPLICATION_REFERENCE) !== undefined &&
+      request.yar.get(constants.cacheKeys.APPLICATION_REFERENCE) !== null
       ? h.view(constants.views.CHECK_AND_SUBMIT, {
         ...getContext(request)
       })
@@ -52,7 +52,7 @@ const handlers = {
     const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     value.organisationId = organisationId
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
-    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
+    request.yar.set(constants.cacheKeys.APPLICATION_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
@@ -67,27 +67,27 @@ const getContext = request => {
     dateToString,
     hideClass,
     application: applicationDetails,
-    hideConsent: (request.yar.get(constants.redisKeys.LANDOWNERS)?.length === 0),
+    hideConsent: (request.yar.get(constants.cacheKeys.LANDOWNERS)?.length === 0),
     changeLandownersHref: constants.routes.ADD_LANDOWNERS,
     routes: constants.routes,
     landownerNames: getAllLandowners(request.yar),
-    legalAgreementType: request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
-    getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
+    legalAgreementType: request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) &&
+    getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)),
     legalAgreementFileNames: legalAgreementFileNames.join('<br>'),
     legalAgreementFileHeaderPrefix,
-    responsibleBodies: getResponsibleBodies(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
-    landowners: getLandowners(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
-    habitatPlanIncludedLegalAgreementYesNo: request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
+    responsibleBodies: getResponsibleBodies(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)),
+    landowners: getLandowners(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)),
+    habitatPlanIncludedLegalAgreementYesNo: request.yar.get(constants.cacheKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO),
     getFileNameByType,
     HabitatPlanFileName: getFileNameByType(applicationDetails.files, 'habitat-plan'),
     localLandChargeFileName: getFileNameByType(applicationDetails.files, 'local-land-charge'),
-    HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
-    HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
-    localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
+    HabitatWorksStartDate: getDateString(request.yar.get(constants.cacheKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
+    HabitatWorksEndDate: getDateString(request.yar.get(constants.cacheKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
+    localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.cacheKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
     landownershipFilesRows: getLandOwnershipRows(applicationDetails),
-    anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
+    anyOtherLO: request.yar.get(constants.cacheKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
 const getCombinedFileNamesByType = (legalAgreementFiles, fileType) => {

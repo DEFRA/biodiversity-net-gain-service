@@ -4,7 +4,7 @@ import constants from '../../../utils/constants'
 const url = constants.routes.LEGAL_AGREEMENT_TYPE
 
 describe(url, () => {
-  const redisMap = new Map()
+  const cacheMap = new Map()
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view without any selection`, async () => {
       await submitGetRequest({ url })
@@ -12,11 +12,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with conservation selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
+        cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap,
+          yar: cacheMap,
           headers: {
             referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
@@ -35,11 +35,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with planning selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+        cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap,
+          yar: cacheMap,
           headers: {
             referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
@@ -58,11 +58,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with dont have selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '-1')
+        cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '-1')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap,
+          yar: cacheMap,
           headers: {
             referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
@@ -81,11 +81,11 @@ describe(url, () => {
 
     it(`should render the ${url.substring(1)} view with nothing selected`, async () => {
       jest.isolateModules(async () => {
-        redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '')
+        cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '')
         let viewResult, contextResult
         const legalAgreementDetails = require('../../land/legal-agreement-type')
         const request = {
-          yar: redisMap,
+          yar: cacheMap,
           headers: {
             referer: 'http://localhost:3000/land/check-legal-agreement-details'
           }
@@ -130,9 +130,9 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {
           legalAgreementType: '759150000'
         }
@@ -152,10 +152,10 @@ describe(url, () => {
           viewResult = view
         }
       }
-      redisMap.set(constants.redisKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+      cacheMap.set(constants.cacheKeys.REFERER, constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         info: {
           referer: 'http://localhost:3000/land/check-legal-agreement-details'
         },

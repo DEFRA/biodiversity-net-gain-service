@@ -39,7 +39,7 @@ describe(url, () => {
       }
       const { viewResult, yar } = await processEmailAddressesSubmission(emailAddresses)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_ANSWERS)
-      expect(yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual([{ email: 'test@example.com', fullName: 'Test' }])
+      expect(yar.get(constants.cacheKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual([{ email: 'test@example.com', fullName: 'Test' }])
     })
     it('should display an errors if duplicate email address submitted', async () => {
       const emailAddresses = {
@@ -68,12 +68,12 @@ const processEmailAddressesSubmission = async (emailAddresses) => {
       resultContext = context
     }
   }
-  const redisMap = new Map()
+  const cacheMap = new Map()
   const request = {
-    yar: redisMap,
+    yar: cacheMap,
     payload: emailAddresses
   }
   const email = require('../../developer/email-entry.js')
   await email.default[1].handler(request, h)
-  return { viewResult, resultContext, yar: redisMap }
+  return { viewResult, resultContext, yar: cacheMap }
 }

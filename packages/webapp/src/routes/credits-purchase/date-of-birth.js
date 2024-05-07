@@ -7,7 +7,7 @@ import {
 
 const handlers = {
   get: (request, h) => {
-    const { day, month, year } = validateAndParseISOString(request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH))
+    const { day, month, year } = validateAndParseISOString(request.yar.get(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH))
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
       dateClasses,
@@ -31,7 +31,7 @@ const handlers = {
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME
       })
     }
-    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, dateAsISOString)
+    request.yar.set(creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, dateAsISOString)
     const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
     return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
   }

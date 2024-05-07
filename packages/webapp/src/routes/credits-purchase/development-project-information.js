@@ -10,11 +10,11 @@ const handlers = {
   get: (request, h) => {
     const lpaNames = getLpaNames(filePathAndName)
 
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
+    request.yar.set(constants.cacheKeys.REF_LPA_NAMES, lpaNames)
 
-    const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
-    const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
-    const developmentName = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
+    const selectedLpa = request.yar.get(creditsConstants.cacheKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+    const planningApplicationRef = request.yar.get(creditsConstants.cacheKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
+    const developmentName = request.yar.get(creditsConstants.cacheKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
 
     return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
       selectedLpa,
@@ -26,7 +26,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = request.yar.get(constants.cacheKeys.REF_LPA_NAMES) ?? []
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, refLpaNames)
@@ -60,9 +60,9 @@ const handlers = {
         developmentName
       })
     } else {
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
+      request.yar.set(creditsConstants.cacheKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
+      request.yar.set(creditsConstants.cacheKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
+      request.yar.set(creditsConstants.cacheKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
       const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
       return h.redirect(referrerUrl || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }

@@ -4,7 +4,7 @@ import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 const handlers = {
   get: async (request, h) => {
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION, {
       legalAgreementType
     })
@@ -12,7 +12,7 @@ const handlers = {
   post: async (request, h) => {
     const { individualOrOrganisation } = request.payload
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     if (!individualOrOrganisation) {
       return h.view(constants.views.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION, {
         legalAgreementType,
@@ -23,10 +23,10 @@ const handlers = {
       })
     }
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
+      request.yar.set(constants.cacheKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
       return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT)
     } else {
-      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
+      request.yar.set(constants.cacheKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
       return h.redirect(constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT)
     }
   }

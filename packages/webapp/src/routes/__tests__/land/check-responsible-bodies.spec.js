@@ -5,7 +5,7 @@ const url = constants.routes.CHECK_RESPONSIBLE_BODIES
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let responsibleBodiesList
 
@@ -20,8 +20,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
-    redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
+    cacheMap = new Map()
+    cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
     {
@@ -37,7 +37,7 @@ describe(url, () => {
 
     it('should show all responsible bodies that are added', async () => {
       const request = {
-        yar: redisMap
+        yar: cacheMap
       }
 
       await responsibleBodiesList.default[0].handler(request, h)
@@ -46,9 +46,9 @@ describe(url, () => {
       expect(resultContext.legalAgreementResponsibleBodies.length).toEqual(2)
     })
     it('Should continue journey to NEED_ADD_ALL_RESPONSIBLE_BODIES if all responsible bodies removed', async () => {
-      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [])
+      cacheMap.set(constants.cacheKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [])
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         query: { id: '0' }
       }
       await responsibleBodiesList.default[0].handler(request, h)
@@ -59,7 +59,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if yes is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherResponsibleBody: 'yes' }
       }
 
@@ -70,7 +70,7 @@ describe(url, () => {
 
     it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT if no is chosen', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { addAnotherResponsibleBody: 'no' }
       }
 
@@ -81,7 +81,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

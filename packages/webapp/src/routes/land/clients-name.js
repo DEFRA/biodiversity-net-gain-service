@@ -3,7 +3,7 @@ import { getValidReferrerUrl, validateFirstLastNameOfLandownerOrLeaseholder } fr
 
 const handlers = {
   get: async (request, h) => {
-    const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
+    const individual = request.yar.get(constants.cacheKeys.CLIENTS_NAME_KEY)
     return h.view(constants.views.CLIENTS_NAME, {
       individual: individual?.value
     })
@@ -33,7 +33,7 @@ const handlers = {
       })
     }
 
-    request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
+    request.yar.set(constants.cacheKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.IS_ADDRESS_UK)
   }

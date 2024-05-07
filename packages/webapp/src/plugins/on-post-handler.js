@@ -33,13 +33,13 @@ const handleReferer = request => {
     const setReferer = constants.setReferer.find(item => request.headers.referer.indexOf(item) > -1)
     const clearReferer = constants.clearReferer.find(item => request.headers.referer.indexOf(item) > -1)
     if (setReferer) {
-      request.yar.set(constants.redisKeys.REFERER, `/${setReferer}`)
+      request.yar.set(constants.cacheKeys.REFERER, `/${setReferer}`)
     } else if (clearReferer) {
-      request.yar.clear(constants.redisKeys.REFERER)
+      request.yar.clear(constants.cacheKeys.REFERER)
     }
   } else {
     // If no referer then clear referer key because user has broken the journey
-    request.yar.clear(constants.redisKeys.REFERER)
+    request.yar.clear(constants.cacheKeys.REFERER)
   }
 }
 
@@ -76,15 +76,15 @@ const saveApplicationSession = async request => {
   cacheApplicationTypeIfNeeded(request)
 
   // Use the correct Redis key for the application type.
-  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
-  let applicationReferenceRedisKey = constants.redisKeys.APPLICATION_REFERENCE
+  const applicationType = request.yar.get(constants.cacheKeys.APPLICATION_TYPE)
+  let applicationReferenceRedisKey = constants.cacheKeys.APPLICATION_REFERENCE
 
   if (applicationType === constants.applicationTypes.ALLOCATION) {
-    applicationReferenceRedisKey = constants.redisKeys.DEVELOPER_APP_REFERENCE
+    applicationReferenceRedisKey = constants.cacheKeys.DEVELOPER_APP_REFERENCE
   }
 
   if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
-    applicationReferenceRedisKey = creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
+    applicationReferenceRedisKey = creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
   }
 
   if (request.yar.get(applicationReferenceRedisKey)) {
@@ -95,14 +95,14 @@ const saveApplicationSession = async request => {
 
     // Ensure unsaved journey data is saved if the user signs out before this asynchronous
     // attempt to save data completes successfully.
-    request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
+    request.yar.set(constants.cacheKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
     postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
       .then(() => {
-        request.yar.clear(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE)
+        request.yar.clear(constants.cacheKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE)
       })
       .catch(error => {
         request.logger.error(error)
-        request.yar.set(constants.redisKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
+        request.yar.set(constants.cacheKeys.SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE, true)
       })
   } else {
     const applicationReference = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/saveapplicationsession`, request.yar._store)
@@ -127,20 +127,20 @@ const isRouteIncludedInApplicationSave = request => {
 }
 
 const cacheContactIdIfNeeded = request => {
-  if (!request.yar.get(constants.redisKeys.CONTACT_ID)) {
-    request.yar.set(constants.redisKeys.CONTACT_ID, request.auth.credentials.account.idTokenClaims.contactId)
+  if (!request.yar.get(constants.cacheKeys.CONTACT_ID)) {
+    request.yar.set(constants.cacheKeys.CONTACT_ID, request.auth.credentials.account.idTokenClaims.contactId)
   }
 }
 
 const cacheOrganisationIdIfNeeded = request => {
-  if (!request.yar.get(constants.redisKeys.ORGANISATION_ID)) {
+  if (!request.yar.get(constants.cacheKeys.ORGANISATION_ID)) {
     const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-    request.yar.set(constants.redisKeys.ORGANISATION_ID, organisationId)
+    request.yar.set(constants.cacheKeys.ORGANISATION_ID, organisationId)
   }
 }
 
 const cacheApplicationTypeIfNeeded = request => {
-  let applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  let applicationType = request.yar.get(constants.cacheKeys.APPLICATION_TYPE)
   const journeyType = request.path.split('/')[1]
   if (!applicationType) {
     if (journeyType === 'developer') {
@@ -152,7 +152,7 @@ const cacheApplicationTypeIfNeeded = request => {
     } else {
       applicationType = constants.applicationTypes.REGISTRATION
     }
-    request.yar.set(constants.redisKeys.APPLICATION_TYPE, applicationType)
+    request.yar.set(constants.cacheKeys.APPLICATION_TYPE, applicationType)
   }
 }
 

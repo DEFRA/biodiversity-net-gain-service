@@ -82,8 +82,8 @@ describe(url, () => {
           })
           const postHandler = addGridReference[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
-          session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, 2)
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.LAND_BOUNDARY_HECTARES, 2)
           const payload = {
             gridReference: 'ST123456'
           }
@@ -120,7 +120,7 @@ describe(url, () => {
           })
           const postHandler = addGridReference[1].handler
           const session = new Session()
-          session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.cacheKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
           const payload = {
             gridReference: 'ST123456'
           }

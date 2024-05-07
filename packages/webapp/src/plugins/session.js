@@ -10,7 +10,7 @@ const session = {
     },
     maxCookieSize: 0,
     cache: {
-      cache: 'redis_cache',
+      cache: 'memory_cache',
       expiresIn: 24 * 60 * 60 * 1000,
       segment: 'session'
     }

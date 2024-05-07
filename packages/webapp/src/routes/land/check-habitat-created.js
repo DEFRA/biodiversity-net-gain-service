@@ -3,7 +3,7 @@ import { habitatTypeAndConditionMapper, combineHabitats, getValidReferrerUrl } f
 
 const handlers = {
   get: async (request, h) => {
-    const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
+    const metricData = request.yar.get(constants.cacheKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], metricData)
     const combinedHabitatTypeAndCondition = combineHabitats(habitatTypeAndCondition)
     return h.view(constants.views.CHECK_HABITAT_CREATED, {
@@ -11,7 +11,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    request.yar.set(constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED, true)
+    request.yar.set(constants.cacheKeys.METRIC_HABITAT_CREATED_CHECKED, true)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
     return h.redirect(referrerUrl || constants.routes.CHECK_METRIC_DETAILS)
   }

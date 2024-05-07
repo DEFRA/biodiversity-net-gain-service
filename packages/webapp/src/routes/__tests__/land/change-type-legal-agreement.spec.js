@@ -5,7 +5,7 @@ const url = constants.routes.CHANGE_TYPE_LEGAL_AGREEMENT
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
+  let cacheMap
   let resultContext
   let changeTypeLegalAgreement
 
@@ -20,7 +20,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    cacheMap = new Map()
     changeTypeLegalAgreement = require('../../land/change-type-legal-agreement.js')
   })
 
@@ -33,7 +33,7 @@ describe(url, () => {
   describe('POST', () => {
     it('Should continue journey to LEGAL_AGREEMENT_TYPE if user confirms to changing legal agreement', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeLegalAgreementType: 'yes' }
       }
 
@@ -43,7 +43,7 @@ describe(url, () => {
     })
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change legal agreement', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: { changeLegalAgreementType: 'no' }
       }
 
@@ -54,7 +54,7 @@ describe(url, () => {
 
     it('Should fail journey if no answer', async () => {
       const request = {
-        yar: redisMap,
+        yar: cacheMap,
         payload: {}
       }
 

@@ -9,11 +9,11 @@ const handlers = {
   }),
   post: async (request, h) => {
     const anyOtherLOValue = request.payload.anyOtherLOValue
-    request.yar.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, anyOtherLOValue)
+    request.yar.set(constants.cacheKeys.ANY_OTHER_LANDOWNERS_CHECKED, anyOtherLOValue)
     if (anyOtherLOValue === 'yes') {
       return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
     } else if (anyOtherLOValue === 'no') {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
+      request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
       return h.redirect(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     } else {
       return h.view(constants.views.ANY_OTHER_LANDOWNERS, {
@@ -32,8 +32,8 @@ const handlers = {
 
 const getContext = request => ({
   legalAgreementType: getLegalAgreementDocumentType(
-    request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase(),
-  selectedAnyOtherLOValue: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
+    request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase(),
+  selectedAnyOtherLOValue: request.yar.get(constants.cacheKeys.ANY_OTHER_LANDOWNERS_CHECKED)
 })
 
 export default [{

@@ -31,14 +31,14 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
+    const lpaList = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_LPA_LIST)
 
     const lpaListItems = []
     lpaList && Object.values(lpaList).forEach(lpa => lpaListItems.push(lpa))
 
     const legalAgreementLpaListWithAction = lpaListItems.map((currElement, index) => getCustomizedHTML(currElement, index))
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     return h.view(constants.views.LEGAL_AGREEMENT_LPA_LIST, {
       lpaList,
@@ -49,9 +49,9 @@ const handlers = {
   post: async (request, h) => {
     const { allLpa } = request.payload
 
-    const legalAgreementLpaList = request.yar.get(constants.redisKeys.ALL_LPA)
+    const legalAgreementLpaList = request.yar.get(constants.cacheKeys.ALL_LPA)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
 
     if (!allLpa) {
       return h.view(constants.views.LEGAL_AGREEMENT_LPA_LIST, {
@@ -66,7 +66,7 @@ const handlers = {
     }
 
     if (allLpa === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
+      return h.redirect(request.yar.get(constants.cacheKeys.REFERER, true) || constants.routes.ADD_LEGAL_AGREEMENT_PARTIES)
     }
 
     if (allLpa === 'no') {

@@ -6,7 +6,7 @@ import {
 
 const TERMS_AND_CONDITIONS = routeDefinition(
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
-  [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED]
+  [creditsPurchaseConstants.cacheKeys.CREDITS_PURCHASE_TERMS_AND_CONDITIONS_CONFIRMED]
 )
 
 const termsAndConditionsJourneys = [

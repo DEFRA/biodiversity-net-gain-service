@@ -22,7 +22,7 @@ describe(url, () => {
 
     it('Should continue journey if org name is provided for a client who is a landowner or leaseholder', async () => {
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
       postOptions.payload.organisationName = 'ABC Organisation'
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
@@ -30,7 +30,7 @@ describe(url, () => {
 
     it('Should continue journey if org name is provided for a client who is not a landowner or leaseholder', async () => {
       const sessionData = {}
-      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      sessionData[constants.cacheKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
       postOptions.payload.organisationName = 'ABC Organisation'
       const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION)

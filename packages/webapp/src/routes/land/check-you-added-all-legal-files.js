@@ -31,14 +31,14 @@ const getCustomizedHTML = (item, index) => {
 
 const handlers = {
   get: async (request, h) => {
-    const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+    const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
     }
     const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
-    const selectedOption = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
+    const selectedOption = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILE_OPTION)
     const legalAgreementType = getLegalAgreementDocumentType(
-      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+      request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_FILES, {
       filesListWithAction,
       selectedOption,
@@ -50,10 +50,10 @@ const handlers = {
   },
   post: async (request, h) => {
     const checkLegalAgreement = request.payload.checkLegalAgreement
-    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))
-    const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+    const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))
+    const legalAgreementFiles = request.yar.get(constants.cacheKeys.LEGAL_AGREEMENT_FILES)
     const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED, checkLegalAgreement)
+    request.yar.set(constants.cacheKeys.LEGAL_AGREEMENT_FILES_CHECKED, checkLegalAgreement)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     if (checkLegalAgreement === 'no') {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
