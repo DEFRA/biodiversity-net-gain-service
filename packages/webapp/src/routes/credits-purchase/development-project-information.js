@@ -91,7 +91,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
 
   if (!selectedLpa) {
     errors.emptyLocalPlanningAuthority = {
-      text: 'Enter a local planning authority',
+      text: 'Enter and select a local planning authority',
       href: '#localPlanningAuthorityErr'
     }
 

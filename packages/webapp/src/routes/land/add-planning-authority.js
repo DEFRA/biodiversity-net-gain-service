@@ -40,7 +40,7 @@ const handlers = {
 
     if (!selectedLpa) {
       errors.emptyLocalPlanningAuthority = {
-        text: 'Enter a local planning authority',
+        text: 'Enter and select a local planning authority',
         href: '#localPlanningAuthorityErr'
       }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
