@@ -1,16 +1,9 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const phoneRegex = /^[\d-+()#]*$/ // Very basic regex authored by tmason (ergo its probably bad) checks string is numeric or special chars -+()#
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_PHONE_NUMBER
-    })
-
     const phone = request.yar.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
     return h.view(constants.views.CLIENTS_PHONE_NUMBER, {
       phone
@@ -26,7 +19,8 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, phone)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 

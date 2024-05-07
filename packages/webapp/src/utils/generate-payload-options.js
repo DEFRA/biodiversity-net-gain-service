@@ -1,6 +1,6 @@
-import { getMaximumFileSizeExceededView } from './helpers.js'
+import { maximumFileSizeExceeded } from './upload-error-handler.js'
 
-export function generatePayloadOptions (href, maximumFileSize, view) {
+function generatePayloadOptions (href, maximumFileSize, view) {
   return {
     payload: {
       maxBytes: (parseInt(maximumFileSize) + 1) * 1024 * 1024,
@@ -10,7 +10,6 @@ export function generatePayloadOptions (href, maximumFileSize, view) {
       parse: false,
       allow: 'multipart/form-data',
       failAction: (request, h, err) => {
-        console.log('File upload too large', request.path)
         if (err.output.statusCode === 413) { // Request entity too large
           return maximumFileSizeExceeded(h, href, maximumFileSize, view).takeover()
         } else {
@@ -21,11 +20,4 @@ export function generatePayloadOptions (href, maximumFileSize, view) {
   }
 }
 
-export const maximumFileSizeExceeded = (h, href, maximumFileSize, view) => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href,
-    maximumFileSize,
-    view
-  })
-}
+export { generatePayloadOptions }

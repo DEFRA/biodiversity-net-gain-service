@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
@@ -45,13 +45,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LANDOWNERS
-    })
-
     const landOwnerConservationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landOwnerConservationConvenants.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
@@ -91,7 +84,8 @@ const handlers = {
 
     if (addAnotherLandowner === 'yes') {
       request.yar.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     }
 
     return h.redirect(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)

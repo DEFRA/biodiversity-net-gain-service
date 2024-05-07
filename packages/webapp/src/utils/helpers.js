@@ -3,7 +3,6 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import registerTaskList from './register-task-list.js'
 import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
@@ -129,14 +128,6 @@ const listArray = array => {
   return html
 }
 
-const getRegistrationTasks = request => {
-  const registrationTasks = request.yar.get(constants.redisKeys.REGISTRATION_TASK_DETAILS)
-  if (!registrationTasks) {
-    return JSON.parse(JSON.stringify(registerTaskList))
-  }
-  return registrationTasks
-}
-
 const getDeveloperTasks = request => {
   const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
   if (!developersTasks) {
@@ -152,27 +143,6 @@ const getDeveloperTasks = request => {
     inProgressUrl: constants.ADD_HECTARES
   }
 */
-const processRegistrationTask = (request, taskDetails, options) => {
-  const registrationTasks = getRegistrationTasks(request)
-  const affectedTask = registrationTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
-  affectedTask.tasks.forEach(task => {
-    if (task.title === taskDetails.title) {
-      if (task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS && options.status) {
-        task.status = options.status
-      }
-
-      // Added this condition to revert the completed task based on the flag.
-      // And assigning given value of options.status to the selected task
-      // Ref: BNGP-4124
-      if (task.status === constants.COMPLETE_REGISTRATION_TASK_STATUS && options.revert === true) {
-        task.status = options.status
-      }
-
-      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
-    }
-  })
-  request.yar.set(constants.redisKeys.REGISTRATION_TASK_DETAILS, registrationTasks)
-}
 
 const processDeveloperTask = (request, taskDetails, options) => {
   const developerTasks = getDeveloperTasks(request)
@@ -724,15 +694,21 @@ const validateNonUkAddress = (address, errors) => {
     errors.countryError = countryValidation.err[0]
   }
 }
+const getValidReferrerUrl = (yar, validReferrers) => {
+  const referrerUrl = yar.get(constants.redisKeys.REFERER)
+  const isReferrerValid = validReferrers.includes(referrerUrl)
+  return isReferrerValid ? referrerUrl : null
+}
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
+  const referrerUrl = getValidReferrerUrl(yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
   if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+    return h.redirect(referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 const getFileHeaderPrefix = (fileNames) => {
@@ -745,7 +721,7 @@ const redirectDeveloperClient = (h, yar) => {
   if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION)
   }
 }
 
@@ -808,8 +784,6 @@ const creditsValidationFailAction = ({
 export {
   validateDate,
   dateClasses,
-  getRegistrationTasks,
-  processRegistrationTask,
   listArray,
   boolToYesNo,
   dateToString,
@@ -830,6 +804,7 @@ export {
   habitatTypeAndConditionMapper,
   combineHabitats,
   getFileHeaderPrefix,
+  getValidReferrerUrl,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,

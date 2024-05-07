@@ -33,7 +33,7 @@ describe(url, () => {
       sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
       postOptions.payload.organisationName = 'ABC Organisation'
       const res = await submitPostRequest(postOptions, 302, sessionData)
-      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION)
     })
 
     it('Should fail journey if no org name is provided', async () => {

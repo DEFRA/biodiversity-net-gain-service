@@ -1,15 +1,8 @@
 import constants from '../../utils/constants.js'
-import { validateEmail, processRegistrationTask } from '../../utils/helpers.js'
+import { getValidReferrerUrl, validateEmail } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_EMAIL_ADDRESS
-    })
-
     const email = request.yar.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
     return h.view(constants.views.CLIENTS_EMAIL_ADDRESS, {
       email
@@ -28,7 +21,8 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_PHONE_NUMBER)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER)
   }
 }
 

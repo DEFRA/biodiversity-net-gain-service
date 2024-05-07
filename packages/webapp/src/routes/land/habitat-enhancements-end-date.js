@@ -1,19 +1,13 @@
 import constants from '../../utils/constants.js'
 import {
   dateClasses,
-  processRegistrationTask,
   validateAndParseISOString,
-  validateDate
+  validateDate,
+  getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.HABITAT_ENHANCEMENTS_END_DATE
-    })
     const { day, month, year } = validateAndParseISOString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY))
     const habitatEnhancementsEndDateOption = request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
     return h.view(constants.views.HABITAT_ENHANCEMENTS_END_DATE, {
@@ -57,7 +51,8 @@ const handlers = {
       request.yar.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
     }
     request.yar.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION, habitatEnhancementsEndDateOption)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
   }
 }
 

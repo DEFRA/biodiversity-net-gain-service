@@ -1,18 +1,8 @@
 import constants from '../../utils/constants.js'
-import {
-  validateFirstLastNameOfLandownerOrLeaseholder,
-  processRegistrationTask
-} from '../../utils/helpers.js'
+import { getValidReferrerUrl, validateFirstLastNameOfLandownerOrLeaseholder } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CLIENTS_NAME
-    })
-
     const individual = request.yar.get(constants.redisKeys.CLIENTS_NAME_KEY)
     return h.view(constants.views.CLIENTS_NAME, {
       individual: individual?.value
@@ -44,8 +34,8 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
-
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.IS_ADDRESS_UK)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.IS_ADDRESS_UK)
   }
 }
 export default [{
