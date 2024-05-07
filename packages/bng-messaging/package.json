@@ -1,0 +1,31 @@
+{
+  "name": "bng-messaging",
+  "version": "1.66.0",
+  "description": "Messaging npm module for BNG services",
+  "keywords": [
+    "messaging",
+    "bng",
+    "servicebus"
+  ],
+  "author": "KiranVarma02 <varma.ap@gmail.com>",
+  "homepage": "https://github.com/DEFRA/biodiversity-net-gain-service#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/biodiversity-net-gain-service.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/bng-messaging.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/DEFRA/biodiversity-net-gain-service/issues"
+  }
+}
