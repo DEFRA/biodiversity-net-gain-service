@@ -1,15 +1,12 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import {
-  getLegalAgreementDocumentType,
-  generateUniqueId
-} from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, generateUniqueId } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const legalAgreementId = '#legalAgreement'
 
-const processSuccessfulUpload = (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
   const location = result.config.blobConfig.blobName
   let id = legalAgreementFiles.find(file => file.location === location)?.id

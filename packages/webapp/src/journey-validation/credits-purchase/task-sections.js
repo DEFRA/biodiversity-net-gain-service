@@ -44,7 +44,7 @@ const customerDueDiligence = taskDefinition(
   'customer-due-diligence',
   'Complete customer due diligence',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
-  creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
+  creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE,
   dueDiligenceJourneys
 )
 

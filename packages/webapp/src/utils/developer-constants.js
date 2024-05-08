@@ -3,7 +3,7 @@ const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
-const DEVELOPER_TASKLIST = 'developer/tasklist'
+const DEVELOPER_TASKLIST = 'developer/record-gains-task-list'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
@@ -29,11 +29,21 @@ const DEVELOPER_CLIENTS_ORGANISATION_NAME = 'developer/clients-organisation-name
 const DEVELOPER_NEED_PROOF_OF_PERMISSION = 'developer/need-proof-of-permission'
 const DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION = 'developer/upload-written-authorisation'
 const DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE = 'developer/check-written-authorisation-file'
+const DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE = 'developer/check-planning-decision-notice-file'
+const DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE = 'developer/upload-planning-decision-notice'
 const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-authorisation-file'
+const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-decision-file'
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
+<<<<<<< HEAD
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
+=======
+const DEVELOPER_PLANNING_DECISION_UPLOAD = 'developer/planning-decision-upload'
+
+// ./Routes constants
+
+>>>>>>> master
 // RedisKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
@@ -66,15 +76,28 @@ const DEVELOPER_WRITTEN_AUTHORISATION_LOCATION = 'written-authorisation-location
 const DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
 const DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
 const DEVELOPER_WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
+const DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE = 'planning-decision-notice'
+const DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION = 'planning-decision-notice-location'
+const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE = 'planning-decision-notice-file-size'
+const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE = 'planning-decision-notice-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE = 'consent-to-use-gain'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION = 'consent-to-use-gain-site-location'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-file-siz'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
+<<<<<<< HEAD
 const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-development-name'
+=======
+const DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE = 'planning-decision'
+const DEVELOPER_PLANNING_DECISION_FILE_LOCATION = 'planning-decision-location'
+const DEVELOPER_PLANNING_DECISION_FILE_SIZE = 'planning-decision-file-siz'
+const DEVELOPER_PLANNING_DECISION_FILE_TYPE = 'planning-decision-file-type'
+const DEVELOPER_PLANNING_DECISION_FILE_NAME = 'planning-decision-file-name'
+const DEVELOPER_PLANNING_DECISION_CHECKED = 'planning-decision-checked'
+>>>>>>> master
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -145,11 +168,18 @@ export default {
     DEVELOPER_NEED_PROOF_OF_PERMISSION,
     DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
     DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
+    DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
+    DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
     DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION,
+    DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE,
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
     DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+<<<<<<< HEAD
     DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
+=======
+    DEVELOPER_PLANNING_DECISION_UPLOAD
+>>>>>>> master
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -187,20 +217,34 @@ export default {
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE,
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE,
     DEVELOPER_WRITTEN_AUTHORISATION_CHECKED,
+    DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION,
+    DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE,
+    DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE,
+
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
+<<<<<<< HEAD
     DEVELOPER_PLANNING_AUTHORITY_LIST,
     DEVELOPER_PLANNING_APPLICATION_REF,
     DEVELOPER_DEVELOPMENT_NAME
+=======
+    DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE,
+    DEVELOPER_PLANNING_DECISION_FILE_LOCATION,
+    DEVELOPER_PLANNING_DECISION_FILE_SIZE,
+    DEVELOPER_PLANNING_DECISION_FILE_TYPE,
+    DEVELOPER_PLANNING_DECISION_FILE_NAME,
+    DEVELOPER_PLANNING_DECISION_CHECKED
+>>>>>>> master
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
     DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
     DEVELOPER_CONSENT_UPLOAD_TYPE,
     DEVELOPER_WRITTEN_AUTHORISATION_UPLOAD_TYPE,
+    DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE
   },
   options: {
