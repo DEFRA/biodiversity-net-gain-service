@@ -36,14 +36,11 @@ const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-d
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
-<<<<<<< HEAD
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
-=======
 const DEVELOPER_PLANNING_DECISION_UPLOAD = 'developer/planning-decision-upload'
 
 // ./Routes constants
 
->>>>>>> master
 // RedisKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
@@ -86,18 +83,17 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
-<<<<<<< HEAD
+
 const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-development-name'
-=======
+
 const DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE = 'planning-decision'
 const DEVELOPER_PLANNING_DECISION_FILE_LOCATION = 'planning-decision-location'
 const DEVELOPER_PLANNING_DECISION_FILE_SIZE = 'planning-decision-file-siz'
 const DEVELOPER_PLANNING_DECISION_FILE_TYPE = 'planning-decision-file-type'
 const DEVELOPER_PLANNING_DECISION_FILE_NAME = 'planning-decision-file-name'
 const DEVELOPER_PLANNING_DECISION_CHECKED = 'planning-decision-checked'
->>>>>>> master
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -175,11 +171,8 @@ export default {
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
     DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
-<<<<<<< HEAD
-    DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
-=======
+    DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
     DEVELOPER_PLANNING_DECISION_UPLOAD
->>>>>>> master
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -226,18 +219,16 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
-<<<<<<< HEAD
+
     DEVELOPER_PLANNING_AUTHORITY_LIST,
     DEVELOPER_PLANNING_APPLICATION_REF,
-    DEVELOPER_DEVELOPMENT_NAME
-=======
+    DEVELOPER_DEVELOPMENT_NAME,
     DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE,
     DEVELOPER_PLANNING_DECISION_FILE_LOCATION,
     DEVELOPER_PLANNING_DECISION_FILE_SIZE,
     DEVELOPER_PLANNING_DECISION_FILE_TYPE,
     DEVELOPER_PLANNING_DECISION_FILE_NAME,
     DEVELOPER_PLANNING_DECISION_CHECKED
->>>>>>> master
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
