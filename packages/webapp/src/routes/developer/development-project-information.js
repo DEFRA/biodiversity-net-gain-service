@@ -1,4 +1,5 @@
 import developerConstants from '../../utils/developer-constants.js'
+import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional
@@ -9,12 +10,12 @@ const handlers = {
   get: (request, h) => {
     const lpaNames = getLpaNames(filePathAndName)
 
-    request.yar.set(developerConstants.redisKeys.REF_LPA_NAMES, lpaNames)
+    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
     const selectedLpa = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
     const planningApplicationRef = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
     const developmentName = request.yar.get(developerConstants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
-
+    console.log(developerConstants)
     return h.view(developerConstants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
       selectedLpa,
       lpaNames,
@@ -25,7 +26,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = request.yar.get(developerConstants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, refLpaNames)

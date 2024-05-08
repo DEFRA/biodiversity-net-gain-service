@@ -68,7 +68,7 @@ const checkYourAnswers = {
 
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
-  taskSectionDefinition('Development information', [addDevlopmentProjectInformation]),
+  taskSectionDefinition('Development project information', [addDevlopmentProjectInformation]),
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
     biodiversityGainSiteNumber,

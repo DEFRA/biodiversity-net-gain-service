@@ -1,13 +1,13 @@
-import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import developerConstants from '../../utils/developer-constants.js'
 import {
   routeDefinition,
   journeyStepFromRoute
 } from '../utils.js'
 
 const ADD_DEVELOPMENT_PROJECT_INFORMATION = routeDefinition(
-  creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   [
-    creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST
+    developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST
   ]
 )
 
