@@ -3,7 +3,7 @@ const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
-const DEVELOPER_TASKLIST = 'developer/tasklist'
+const DEVELOPER_TASKLIST = 'developer/record-gains-task-list'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
@@ -36,6 +36,7 @@ const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-d
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
+const DEVELOPER_PLANNING_DECISION_UPLOAD = 'developer/planning-decision-upload'
 
 // ./Routes constants
 
@@ -81,6 +82,12 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
+const DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE = 'planning-decision'
+const DEVELOPER_PLANNING_DECISION_FILE_LOCATION = 'planning-decision-location'
+const DEVELOPER_PLANNING_DECISION_FILE_SIZE = 'planning-decision-file-siz'
+const DEVELOPER_PLANNING_DECISION_FILE_TYPE = 'planning-decision-file-type'
+const DEVELOPER_PLANNING_DECISION_FILE_NAME = 'planning-decision-file-name'
+const DEVELOPER_PLANNING_DECISION_CHECKED = 'planning-decision-checked'
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -157,7 +164,8 @@ export default {
     DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE,
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE
+    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+    DEVELOPER_PLANNING_DECISION_UPLOAD
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -203,7 +211,13 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
-    DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED
+    DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
+    DEVELOPER_PLANNING_DECISION_UPLOAD_TYPE,
+    DEVELOPER_PLANNING_DECISION_FILE_LOCATION,
+    DEVELOPER_PLANNING_DECISION_FILE_SIZE,
+    DEVELOPER_PLANNING_DECISION_FILE_TYPE,
+    DEVELOPER_PLANNING_DECISION_FILE_NAME,
+    DEVELOPER_PLANNING_DECISION_CHECKED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
