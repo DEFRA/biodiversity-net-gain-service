@@ -5,6 +5,8 @@ import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-
 import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
 import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
+import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
+import developerConstants from '../../utils/developer-constants.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -12,6 +14,14 @@ const applicantDetails = taskDefinition(
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   applicantDetailsJourneys
+)
+
+const addDevlopmentProjectInformation = taskDefinition(
+  'add-devlopment-project-information',
+  'Add development project information',
+  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  addDevelopmentProjectInformationJourneys
 )
 
 const planningDecisionNotice = taskDefinition(
@@ -58,6 +68,7 @@ const checkYourAnswers = {
 
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
+  taskSectionDefinition('Development project information', [addDevlopmentProjectInformation]),
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
     biodiversityGainSiteNumber,
