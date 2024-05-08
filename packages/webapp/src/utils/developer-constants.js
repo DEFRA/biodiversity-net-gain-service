@@ -1,45 +1,47 @@
 // Routes constants
-const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
-const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
-const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
-const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
-const DEVELOPER_TASKLIST = 'developer/record-gains-task-list'
-const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
-const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
-const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
-const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
-const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
-const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
-const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
-const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
-const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
-const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
-const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
-const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
-const DEVELOPER_NEED_METRIC = 'developer/need-metric'
-const DEVELOPER_AGENT_ACTING_FOR_CLIENT = 'developer/agent-acting-for-client'
-const DEVELOPER_IS_AGENT = 'developer-is-agent'
-const DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS = 'developer/check-defra-account-details'
-const DEVELOPER_LANDOWNER_OR_LEASEHOLDER = 'developer/landowner-or-leaseholder'
-const DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE = 'developer/upload-consent-to-use-gain-site'
-const DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'developer/applying-individual-organisation'
-const DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION = 'developer/client-individual-organisation'
-const DEVELOPER_CLIENTS_NAME = 'developer/clients-name'
-const DEVELOPER_CLIENTS_ORGANISATION_NAME = 'developer/clients-organisation-name'
-const DEVELOPER_NEED_PROOF_OF_PERMISSION = 'developer/need-proof-of-permission'
-const DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION = 'developer/upload-written-authorisation'
-const DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE = 'developer/check-written-authorisation-file'
-const DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE = 'developer/check-planning-decision-notice-file'
-const DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE = 'developer/upload-planning-decision-notice'
-const DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION = 'developer/download-written-authorisation-file'
-const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-decision-file'
-const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
-const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
-const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
-const DEVELOPER_PLANNING_DECISION_UPLOAD = 'developer/planning-decision-upload'
-const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = '/developer/development-project-information'
+const routes = {
+  DEVELOPER_UPLOAD_METRIC: 'developer/upload-metric-file',
+  DEVELOPER_CHECK_UPLOAD_METRIC: 'developer/check-metric-file',
+  DEVELOPER_CONFIRM_DEV_DETAILS: 'developer/confirm-development-details',
+  DEVELOPER_DOWNLOAD_METRIC_FILE: 'developer/download-metric-file',
+  DEVELOPER_TASKLIST: 'developer/record-gains-task-list',
+  DEVELOPER_ROUTING_REGISTER: 'developer/routing-register',
+  DEVELOPER_ROUTING_RESULT: 'developer/routing-result',
+  DEVELOPER_ROUTING_SOLD: 'developer/routing-sold',
+  DEVELOPER_BNG_NUMBER: 'developer/biodiversity-gain-site-number',
+  DEVELOPER_CHECK_ANSWERS: 'developer/check-answers',
+  DEVELOPER_CONFIRM_OFF_SITE_GAIN: 'developer/confirm-off-site-gain',
+  DEVELOPER_CONSENT_AGREEMENT_UPLOAD: 'developer/consent-agreement-upload',
+  DEVELOPER_AGREEMENT_CHECK: 'developer/consent-agreement-check',
+  DEVELOPER_DOWNLOAD_CONSENT_FILE: 'developer/download-consent-file',
+  DEVELOPER_DEVELOPMENT_PROJECTS: 'developer/development-projects',
+  DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT: 'developer/continue-development-project',
+  DEVELOPER_NEW_DEVELOPMENT_PROJECT: 'developer/new-development-project',
+  DEVELOPER_NEED_METRIC: 'developer/need-metric',
+  DEVELOPER_AGENT_ACTING_FOR_CLIENT: 'developer/agent-acting-for-client',
+  DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS: 'developer/check-defra-account-details',
+  DEVELOPER_LANDOWNER_OR_LEASEHOLDER: 'developer/landowner-or-leaseholder',
+  DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE: 'developer/upload-consent-to-use-gain-site',
+  DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION: 'developer/applying-individual-organisation',
+  DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION: 'developer/client-individual-organisation',
+  DEVELOPER_CLIENTS_NAME: 'developer/clients-name',
+  DEVELOPER_CLIENTS_ORGANISATION_NAME: 'developer/clients-organisation-name',
+  DEVELOPER_NEED_PROOF_OF_PERMISSION: 'developer/need-proof-of-permission',
+  DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION: 'developer/upload-written-authorisation',
+  DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE: 'developer/check-written-authorisation-file',
+  DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE: 'developer/check-planning-decision-notice-file',
+  DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE: 'developer/upload-planning-decision-notice',
+  DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION: 'developer/download-written-authorisation-file',
+  DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE: 'developer/download-planning-decision-file',
+  DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED: 'developer/defra-account-not-linked',
+  DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS: 'developer/upload-consent-to-allocate-gains',
+  DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE: 'developer/check-consent-file',
+  DEVELOPER_PLANNING_DECISION_UPLOAD: 'developer/planning-decision-upload',
+  DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION: '/developer/development-project-information'
+}
 
 // ./Routes constants
+const DEVELOPER_IS_AGENT = 'developer-is-agent'
 
 // RedisKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
@@ -103,13 +105,13 @@ const offSiteGainTypes = {
 }
 
 const setDeveloperReferer = [
-  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-  DEVELOPER_AGREEMENT_CHECK,
-  DEVELOPER_CHECK_ANSWERS
+  routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
+  routes.DEVELOPER_AGREEMENT_CHECK,
+  routes.DEVELOPER_CHECK_ANSWERS
 ]
 const clearDeveloperReferer = [
-  DEVELOPER_UPLOAD_METRIC,
-  DEVELOPER_TASKLIST
+  routes.DEVELOPER_UPLOAD_METRIC,
+  routes.DEVELOPER_TASKLIST
 ]
 // Other constants
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
@@ -131,47 +133,12 @@ const ROUTING_REGISTER_OPTIONS = {
   RECORD: 'record-off-site'
 }
 
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.startsWith('/') ? v.substring(1) : v])
+)
 export default {
-  routes: {
-    DEVELOPER_UPLOAD_METRIC,
-    DEVELOPER_CHECK_UPLOAD_METRIC,
-    DEVELOPER_CONFIRM_DEV_DETAILS,
-    DEVELOPER_DOWNLOAD_METRIC_FILE,
-    DEVELOPER_TASKLIST,
-    DEVELOPER_ROUTING_REGISTER,
-    DEVELOPER_ROUTING_RESULT,
-    DEVELOPER_ROUTING_SOLD,
-    DEVELOPER_BNG_NUMBER,
-    DEVELOPER_CHECK_ANSWERS,
-    DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-    DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-    DEVELOPER_AGREEMENT_CHECK,
-    DEVELOPER_DOWNLOAD_CONSENT_FILE,
-    DEVELOPER_DEVELOPMENT_PROJECTS,
-    DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
-    DEVELOPER_NEW_DEVELOPMENT_PROJECT,
-    DEVELOPER_NEED_METRIC,
-    DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-    DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-    DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-    DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE,
-    DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
-    DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
-    DEVELOPER_CLIENTS_NAME,
-    DEVELOPER_CLIENTS_ORGANISATION_NAME,
-    DEVELOPER_NEED_PROOF_OF_PERMISSION,
-    DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-    DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-    DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
-    DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
-    DEVELOPER_DOWNLOAD_WRITTEN_AUTHORISATION,
-    DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE,
-    DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
-    DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
-    DEVELOPER_PLANNING_DECISION_UPLOAD,
-    DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
-  },
+  views,
+  routes,
   redisKeys: {
     DEVELOPER_METRIC_DATA,
     DEV_DETAILS_CHECKED,
@@ -199,11 +166,11 @@ export default {
     DEVELOPER_ROLE_KEY,
     DEVELOPER_IS_AGENT,
     DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED,
-    DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
+    DEVELOPER_LANDOWNER_OR_LEASEHOLDER: routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
     DEVELOPER_LANDOWNER_TYPE,
-    DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
-    DEVELOPER_CLIENTS_NAME,
-    DEVELOPER_CLIENTS_ORGANISATION_NAME,
+    DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION: routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
+    DEVELOPER_CLIENTS_NAME: routes.DEVELOPER_CLIENTS_NAME,
+    DEVELOPER_CLIENTS_ORGANISATION_NAME: routes.DEVELOPER_CLIENTS_ORGANISATION_NAME,
     DEVELOPER_WRITTEN_AUTHORISATION_LOCATION,
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE,
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE,
