@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS bng.fn_create_credits_app_reference;

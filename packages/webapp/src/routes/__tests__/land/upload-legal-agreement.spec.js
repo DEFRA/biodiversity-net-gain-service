@@ -93,7 +93,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -129,7 +131,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -146,7 +150,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
           baseConfig.referer = `'http://localhost:30000${url}`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })
@@ -162,7 +168,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           baseConfig.referer = `'http://localhost:30000${url}`
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a legal agreement')
           setImmediate(() => {
             done()
           })
@@ -172,7 +180,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should  upload legal agreement document 50 MB file', (done) => {
+    it('should upload legal agreement document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -190,7 +198,7 @@ describe('Legal agreement upload controller tests', () => {
       })
     })
 
-    it('should  upload legal agreement document 49 MB file when coming from a referer', (done) => {
+    it('should upload legal agreement document 49 MB file when coming from a referer', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

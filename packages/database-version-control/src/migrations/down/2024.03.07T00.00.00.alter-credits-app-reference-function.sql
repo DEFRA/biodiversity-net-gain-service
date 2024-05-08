@@ -1,5 +1,5 @@
-DROP FUNCTION bng.fn_create_credits_app_reference (UUID, bng.APPLICATION_TYPE, UUID, INTEGER);
-CREATE FUNCTION bng.fn_create_credits_app_reference
+DROP FUNCTION IF EXISTS bng.fn_create_credits_app_reference (UUID, bng.APPLICATION_TYPE, UUID, INTEGER);
+CREATE OR REPLACE FUNCTION bng.fn_create_credits_app_reference
   (contact_id UUID,
 	 application_type bng.APPLICATION_TYPE,
 	 number_of_retries INTEGER DEFAULT 5)
