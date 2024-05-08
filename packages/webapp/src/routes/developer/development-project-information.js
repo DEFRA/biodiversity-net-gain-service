@@ -1,5 +1,4 @@
-// import developerConstants from '../../utils/developer-constants.js'
-import constants from '../../utils/constants.js'
+import developerConstants from '../../utils/developer-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional
@@ -10,13 +9,13 @@ const handlers = {
   get: (request, h) => {
     const lpaNames = getLpaNames(filePathAndName)
 
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
+    request.yar.set(developerConstants.redisKeys.REF_LPA_NAMES, lpaNames)
 
-    const selectedLpa = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
-    const planningApplicationRef = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
-    const developmentName = request.yar.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
+    const selectedLpa = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
+    const planningApplicationRef = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
+    const developmentName = request.yar.get(developerConstants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
 
-    return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
+    return h.view(developerConstants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
       selectedLpa,
       lpaNames,
       planningApplicationRef,
@@ -26,7 +25,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = request.yar.get(developerConstants.redisKeys.REF_LPA_NAMES) ?? []
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, refLpaNames)
@@ -51,7 +50,7 @@ const handlers = {
         err.push(errors[item])
       })
 
-      return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
+      return h.view(developerConstants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
         lpaNames: refLpaNames,
@@ -60,22 +59,22 @@ const handlers = {
         developmentName
       })
     } else {
-      request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
-      request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
-      request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
-      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+      request.yar.set(developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
+      request.yar.set(developerConstants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
+      request.yar.set(developerConstants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
+      return h.redirect(developerConstants.routes.DEVELOPER_TASKLIST)
     }
   }
 }
 
 export default [{
   method: 'GET',
-  path: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  path: developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.get,
   options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
-  path: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  path: developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.post,
   options: validateIdGetSchemaOptional
 }]
