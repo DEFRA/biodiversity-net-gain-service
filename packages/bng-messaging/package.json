@@ -1,5 +1,5 @@
 {
-  "name": "bng-messaging",
+  "name": "@defra/bng-messaging",
   "version": "1.66.0",
   "description": "Messaging npm module for BNG services",
   "keywords": [
@@ -7,23 +7,23 @@
     "bng",
     "servicebus"
   ],
-  "author": "KiranVarma02 <varma.ap@gmail.com>",
+  "author": "Department for Environment, Food and Rural Affairs https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs.",
   "homepage": "https://github.com/DEFRA/biodiversity-net-gain-service#readme",
   "license": "ISC",
-  "main": "index.js",
+  "main": "src/bng-messaging.js",
   "directories": {
-    "lib": "lib",
+    "src": "src",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "src"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DEFRA/biodiversity-net-gain-service.git"
   },
   "scripts": {
-    "test": "node ./__tests__/bng-messaging.test.js"
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/DEFRA/biodiversity-net-gain-service/issues"
