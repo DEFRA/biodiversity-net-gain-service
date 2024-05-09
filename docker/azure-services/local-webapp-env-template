@@ -24,3 +24,7 @@ export DEFRA_ID_REDIRECT_URI=""
 export DEFRA_ID_ACCOUNT_MANAGEMENT_URL=""
 export MAX_GEOSPATIAL_FILE_UPLOAD_MB="1"
 export DEFRA_ID_MOCK=false
+
+# Gov Pay
+export PAYMENT_API_KEY="api_test_ra5ug11grjpooriqp3crhog0chr8vjplqsv96mk33m48dk3pb3i0jqqnpl"
+export ENABLE_ROUTE_LAND_PAYMENT_JOURNEY="Y"
