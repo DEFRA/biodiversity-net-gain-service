@@ -1,3 +1,0 @@
-CREATE TRIGGER trigger_bng_set_default_date_application_payment_created
-BEFORE INSERT ON bng.application_payment
-FOR EACH ROW EXECUTE FUNCTION bng.fn_set_default_date_created();

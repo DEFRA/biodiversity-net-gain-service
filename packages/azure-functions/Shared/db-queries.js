@@ -153,7 +153,7 @@ const insertApplicationPaymentStatement = `
 `
 const updateApplicationPaymentStatusStatement = `
   UPDATE bng.application_payment
-  SET payment_status = $2
+  SET payment_status = $2, date_modified = NOW()
   WHERE application_reference = $1 AND payment_status IS DISTINCT FROM $2;
 `
 

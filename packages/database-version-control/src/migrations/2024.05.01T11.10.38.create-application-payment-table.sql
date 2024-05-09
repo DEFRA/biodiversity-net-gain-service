@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS bng.application_payment
     payment_reference VARCHAR(40),
     payment_status VARCHAR(20),
     payment_amount VARCHAR(20),
-	date_created TIMESTAMP WITH TIME ZONE,
+	date_created TIMESTAMP WITH TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
     date_modified TIMESTAMP WITH TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
     CONSTRAINT fk_application_reference
     FOREIGN KEY (application_reference)
