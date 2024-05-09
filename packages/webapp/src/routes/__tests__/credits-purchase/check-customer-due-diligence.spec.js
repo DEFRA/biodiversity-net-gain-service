@@ -3,7 +3,7 @@ import setCreditsApplicationSession from '../../../__mocks__/credits-application
 import applicant from '../../../__mocks__/applicant.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
-const checkYourAnswers = require('../../credits-purchase/cdd-cya.js').default
+const checkYourAnswers = require('../../credits-purchase/check-customer-due-diligence.js').default
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE
 jest.mock('../../../utils/http.js')
 
