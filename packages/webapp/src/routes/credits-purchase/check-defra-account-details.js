@@ -1,6 +1,6 @@
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
 const getUserDetails = request => {
@@ -33,11 +33,11 @@ const handlers = {
     if (defraAccountDetailsConfirmed) {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
       const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
-
+      const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
       if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
-        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
+        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
       } else {
-        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
       }
     } else {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
