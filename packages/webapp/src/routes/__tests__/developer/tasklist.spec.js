@@ -1,6 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-import { getDeveloperTasks } from '../../../utils/helpers'
 
 const url = constants.routes.DEVELOPER_TASKLIST
 
