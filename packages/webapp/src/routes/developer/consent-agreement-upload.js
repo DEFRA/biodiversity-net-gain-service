@@ -1,7 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView, processDeveloperTask } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const DEVELOPER_WRITTEN_CONSENT_ID = '#uploadWrittenConsent'
@@ -12,11 +12,6 @@ const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received consent file data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  processDeveloperTask(request,
-    {
-      taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
-      title: 'Upload the consent document'
-    }, { status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS })
   return h.redirect(constants.routes.DEVELOPER_AGREEMENT_CHECK)
 }
 

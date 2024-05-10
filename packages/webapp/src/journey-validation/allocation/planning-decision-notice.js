@@ -1,17 +1,34 @@
 import constants from '../../utils/constants.js'
 import {
   routeDefinition,
-  journeyStepFromRoute
+  journeyStep,
+  ANY
 } from '../utils.js'
 
 const PLANNING_DECISION_UPLOAD = routeDefinition(
-  constants.routes.DEVELOPER_PLANNING_DECISION_UPLOAD,
-  [constants.redisKeys.DEVELOPER_PLANNING_DECISION_CHECKED]
+  constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+  [
+    constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION,
+    constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE,
+    constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE
+  ]
+)
+
+const CHECK_PLANNING_DECISION = routeDefinition(
+  constants.routes.DEVELOPER_PLANNING_DECISION_CHECKED,
+  [constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED]
 )
 
 const planningDecisionNoticeJourneys = [
   [
-    journeyStepFromRoute(PLANNING_DECISION_UPLOAD)
+    journeyStep(
+      PLANNING_DECISION_UPLOAD.startUrl,
+      [
+        ...PLANNING_DECISION_UPLOAD.sessionKeys,
+        ...CHECK_PLANNING_DECISION.sessionKeys
+      ],
+      [ANY, ANY, ANY, 'yes']
+    )
   ]
 ]
 
