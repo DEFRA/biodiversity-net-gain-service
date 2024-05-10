@@ -7,7 +7,6 @@ export default [{
   path: constants.routes.SIGNOUT,
   options: {
     handler: async (request, h) => {
-      const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
       request.cookieAuth.clear()
       // Save unperisted journey data before signing out if needed but do not reset the session
       // until the user has signed out.
@@ -24,7 +23,7 @@ export default [{
         // application. If the session is not reset, data from multiple jouneys is merged in the same session.
         request.yar.reset()
       }
-      return h.redirect(auth.getLogoutUrl(applicationType).href)
+      return h.redirect(auth.getLogoutUrl().href)
     }
   }
 }]
