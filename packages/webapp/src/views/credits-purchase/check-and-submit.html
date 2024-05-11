@@ -1,9 +1,15 @@
 {% extends 'form-layout.html' %}
 {% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
 
 {% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Check your answers before you submit your information" %}
 {% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
+
+<style>
+  .left-aligned {text-align: left;}
+</style>
 
 {% set metricRowList = [
   {
@@ -37,78 +43,6 @@
     'valueDataTestId': 'metric-planning-ref-value',
     'valueId': 'metric-planning-ref-value',
     'noAction': true,
-    'show': true
-  }
-] %}
-
-{% set creditsTierARowList = [
-  {
-    'text': 'A1',
-    'value': credits.amounts.a1,
-    'valueDataTestId': 'credits-a1-value',
-    'valueId': 'credits-a1-value',
-    'href': credits.changeUrl + '?focus=a1-units',
-    'visuallyHiddenText': ' credits tier A1 amount',
-    'show': true
-  },
-  {
-    'text': 'A2',
-    'value': credits.amounts.a2,
-    'valueDataTestId': 'credits-a2-value',
-    'valueId': 'credits-a2-value',
-    'href': credits.changeUrl + '?focus=a2-units',
-    'visuallyHiddenText': ' credits tier A2 amount',
-    'show': true
-  },
-  {
-    'text': 'A3',
-    'value': credits.amounts.a3,
-    'valueDataTestId': 'credits-a3-value',
-    'valueId': 'credits-a3-value',
-    'href': credits.changeUrl + '?focus=a3-units',
-    'visuallyHiddenText': ' credits tier A3 amount',
-    'show': true
-  },
-  {
-    'text': 'A4',
-    'value': credits.amounts.a4,
-    'valueDataTestId': 'credits-a4-value',
-    'valueId': 'credits-a4-value',
-    'href': credits.changeUrl + '?focus=a4-units',
-    'visuallyHiddenText': ' credits tier A4 amount',
-    'show': true
-  },
-  {
-    'text': 'A5',
-    'value': credits.amounts.a5,
-    'valueDataTestId': 'credits-a5-value',
-    'valueId': 'credits-a5-value',
-    'href': credits.changeUrl + '?focus=a5-units',
-    'visuallyHiddenText': ' credits tier A5 amount',
-    'show': true
-  }
-] %}
-
-{% set creditsTierHRowList = [
-  {
-    'text': 'H',
-    'value': credits.amounts.h,
-    'valueDataTestId': 'credits-h-value',
-    'valueId': 'credits-h-value',
-    'href': credits.changeUrl + '?focus=h-units',
-    'visuallyHiddenText': ' credits tier H amount',
-    'show': true
-  }
-] %}
-
-{% set creditsTierWRowList = [
-  {
-    'text': 'W',
-    'value': credits.amounts.w,
-    'valueDataTestId': 'credits-w-value',
-    'valueId': 'credits-w-value',
-    'href': credits.changeUrl + '?focus=w-units',
-    'visuallyHiddenText': ' credits tier W amount',
     'show': true
   }
 ] %}
@@ -246,27 +180,69 @@
         }) }}
 
         <h2 class="govuk-heading-m">Statutory biodiversity credits</h2>
-        <h2 class="govuk-heading-m">Tier A</h2>
-
-        {{ generateSummaryList({
-          rows: creditsTierARowList,
-          classes: 'govuk-!-margin-bottom-9'
+        {{ govukTable({
+          caption: "Area",
+          captionClasses:"govuk-table__caption--s",
+          firstCellIsHeader: true,
+          head: [
+            { 
+              text: "Tier"},
+            { 
+              text: "Credits", format: "numeric",
+              classes: "govuk-!-width-one-third"},
+            { 
+              html: "Estimated<br>cost", format: "numeric"},
+            { 
+              text: "",
+              classes: "govuk-!-width-one-quarter"}
+          ],
+          rows: credits.allTierData.tierA,
+          cellStyle: "text-align: left;"
         }) }}
-
-        <h2 class="govuk-heading-m">Tier H</h2>
-
-        {{ generateSummaryList({
-          rows: creditsTierHRowList,
-          classes: 'govuk-!-margin-bottom-9'
+      <br>
+      <br>
+      {{ govukTable({
+        caption: "Hedgerow",
+        captionClasses:"govuk-table__caption--s",
+        firstCellIsHeader: true,
+        head: [
+          { 
+            text: "Tier"},
+          { 
+            text: "Credits", format: "numeric",
+            classes: "govuk-!-width-one-third"},
+          { 
+            html: "Estimated<br>cost", format: "numeric"},
+          { 
+            text: "",
+            classes: "govuk-!-width-one-quarter"}
+        ],
+        rows: credits.allTierData.tierH,
+        cellStyle: "text-align: left;"
+      }) }}
+    <br>    
+    <br>
+        {{ govukTable({
+          caption: "Watercourse",
+          captionClasses:"govuk-table__caption--s",
+          firstCellIsHeader: true,
+          head: [
+            { 
+              text: "Tier"},
+            { 
+              text: "Credits", format: "numeric",
+              classes: "govuk-!-width-one-third"},
+            { 
+              html: "Estimated<br>cost", format: "numeric"},
+            { 
+              text: "",
+              classes: "govuk-!-width-one-quarter"}
+            ],
+            rows: credits.allTierData.tierW,
+            cellStyle: "text-align: left;"
         }) }}
-
-        <h2 class="govuk-heading-m">Tier W</h2>
-
-        {{ generateSummaryList({
-          rows: creditsTierWRowList,
-          classes: 'govuk-!-margin-bottom-9'
-        }) }}
-
+       <br>
+       <br>
         <h2 class="govuk-heading-m">Estimated cost of statutory biodiversity credits</h2>
 
         {{ generateSummaryList({
@@ -288,6 +264,7 @@
           classes: 'govuk-!-margin-bottom-9'
         }) }}
 
+    
         <h2 class="govuk-heading-m">Submit your information</h2>
 
         <p>By submitting the above information, you agree that it is complete and correct.</p>
