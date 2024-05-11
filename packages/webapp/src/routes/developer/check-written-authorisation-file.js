@@ -7,7 +7,16 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
   const fileSize = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+
+  const proofOfPermission = {}
+  const isAgent = request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const clientIsNotLandownerOrLeaseholder = request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  if (isAgent && clientIsNotLandownerOrLeaseholder) {
+    proofOfPermission.preHeading = 'Proof of permission 1 of 2'
+  }
+
   return {
+    ...proofOfPermission,
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     fileSize: humanReadableFileSize,
     fileLocation
@@ -27,7 +36,10 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE)
+      const nextRoute = request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+        ? constants.routes.DEVELOPER_TASKLIST
+        : constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || nextRoute)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
