@@ -22,7 +22,7 @@ describe(url, () => {
     it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
       postOptions.payload.checkConsentToAllocateGains = 'yes'
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.DEVELOPER_BNG_NUMBER)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_TASKLIST)
     })
 
     it('should allow an alternative written authorisation file to be uploaded ', async () => {

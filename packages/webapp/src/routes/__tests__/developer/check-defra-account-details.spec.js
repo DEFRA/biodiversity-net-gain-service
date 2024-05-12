@@ -47,7 +47,7 @@ describe(url, () => {
       sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
       sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
       const res = await submitPostRequest(postOptions, 302, sessionData)
-      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_BNG_NUMBER)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
     it('Should continue the journey for a non-relevant person when Defra account details are confirmed', async () => {
       postOptions.auth = {
