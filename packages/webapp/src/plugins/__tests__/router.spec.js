@@ -2,6 +2,7 @@ import plugin from '../router'
 import developerConstants from '../../utils/developer-constants'
 import creditsEstimationConstants from '../../utils/credits-estimation-constants.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import combinedCaseConstants from '../../utils/combined-case/constants.js'
 
 const ORIGINAL_ENV = process.env
 let server
@@ -39,7 +40,8 @@ describe('Routes', () => {
       OS_API_TOKEN: 'land/os-api-token',
       ...developerConstants.routes,
       ...creditsEstimationConstants.routes,
-      ...creditsPurchaseConstants.routes
+      ...creditsPurchaseConstants.routes,
+      ...combinedCaseConstants.routes
     })
   })
 
@@ -53,6 +55,8 @@ describe('Routes', () => {
     jest.mock('../../utils/disabled-routes-constants')
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
-    expect(disabledRoutes).toStrictEqual({})
+    expect(disabledRoutes).toStrictEqual({
+      ...combinedCaseConstants.routes
+    })
   })
 })
