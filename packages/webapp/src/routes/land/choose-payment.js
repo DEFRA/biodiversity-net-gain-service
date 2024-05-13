@@ -34,7 +34,7 @@ const handlers = {
       // Should redirect to gov pay where constants.redisKeys.GOV_PAY_REFERENCE etc (below) can be set
       // using gov pay information from the database record
       request.yar.set(constants.redisKeys.GOV_PAY_REFERENCE, 'mocked-gov-pay-reference')
-      request.yar.set(constants.redisKeys.GOV_PAY_PAYMENT_DATE, new Date())
+      request.yar.set(constants.redisKeys.GOV_PAY_PAYMENT_DATE, new Date().toDateString())
       request.yar.set(constants.redisKeys.GOV_PAY_PAYMENT_STATUS, 'mocked-paid')
     }
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
