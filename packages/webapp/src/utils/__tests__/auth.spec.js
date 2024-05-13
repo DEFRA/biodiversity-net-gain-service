@@ -40,5 +40,9 @@ describe('auth util', () => {
       const response = await auth.getLogoutUrl()
       expect(response.href).toEqual('http://instance/domain/policyId/oauth2/v2.0/logout?post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fsigned-out')
     })
+    it('Should add application type get param', async () => {
+      const response = await auth.getLogoutUrl('test')
+      expect(response.href).toEqual('http://instance/domain/policyId/oauth2/v2.0/logout?post_logout_redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fsigned-out%3Fapp%3Dtest')
+    })
   })
 })

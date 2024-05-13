@@ -13,14 +13,14 @@ const REMOVE_LANDOWNER = 'land/remove-landowner'
 const CHECK_RESPONSIBLE_BODIES = 'land/check-responsible-bodies'
 const HABITAT_PLAN_LEGAL_AGREEMENT = 'land/habitat-plan-legal-agreement'
 const CHECK_LANDOWNERS = 'land/check-landowners'
-const LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION = 'land/landowner-conservation-covenant-individual-organisation'
+const LANDOWNER_INDIVIDUAL_ORGANISATION = 'land/landowner-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION = 'land/client-individual-organisation'
 const CLIENT_INDIVIDUAL_ORGANISATION_KEY = 'client-individual-organisation'
 const HABITAT_ENHANCEMENTS_END_DATE = 'land/habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE = 'land/enhancement-works-start-date'
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
-const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = 'land/need-add-all-landowners-conservation-covenant'
+const NEED_ADD_ALL_LANDOWNERS = 'land/need-add-all-landowners'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
@@ -40,8 +40,6 @@ const UPLOAD_LAND_OWNERSHIP = 'land/upload-ownership-proof'
 const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
-const ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT = 'land/add-landowner-individual-conservation-covenant'
-const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = 'land/add-landowner-organisation-conservation-covenant'
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
@@ -313,7 +311,7 @@ export default {
     CHECK_RESPONSIBLE_BODIES,
     HABITAT_PLAN_LEGAL_AGREEMENT,
     CHECK_LANDOWNERS,
-    LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION,
+    LANDOWNER_INDIVIDUAL_ORGANISATION,
     CLIENT_INDIVIDUAL_ORGANISATION,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
@@ -323,7 +321,7 @@ export default {
     ENHANCEMENT_WORKS_START_DATE,
     NEED_ADD_ALL_RESPONSIBLE_BODIES,
     NEED_ADD_ALL_LEGAL_FILES,
-    NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
+    NEED_ADD_ALL_LANDOWNERS,
     LEGAL_AGREEMENT_TYPE,
     CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
@@ -350,8 +348,6 @@ export default {
     UPLOAD_LAND_OWNERSHIP,
     HOME,
     ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
-    ADD_LANDOWNER_INDIVIDUAL_CONSERVATION_COVENANT,
-    ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
