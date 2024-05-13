@@ -3,7 +3,6 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 
@@ -128,14 +127,6 @@ const listArray = array => {
   return html
 }
 
-const getDeveloperTasks = request => {
-  const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
-  if (!developersTasks) {
-    return JSON.parse(JSON.stringify(developerTaskList))
-  }
-  return developersTasks
-}
-
 /*
   Helper function to set a task's status and inProgressUrl
   options = {
@@ -144,20 +135,6 @@ const getDeveloperTasks = request => {
   }
 */
 
-const processDeveloperTask = (request, taskDetails, options) => {
-  const developerTasks = getDeveloperTasks(request)
-  const affectedTask = developerTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
-  affectedTask.tasks.forEach(task => {
-    if (task.title === taskDetails.title) {
-      /* istanbul ignore else */
-      if (task.status !== constants.COMPLETE_DEVELOPER_TASK_STATUS && options.status) {
-        task.status = options.status
-      }
-      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
-    }
-  })
-  request.yar.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
-}
 const initialCapitalization = text => text[0].toUpperCase() + text.slice(1)
 
 const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
@@ -841,8 +818,6 @@ export {
   getMaximumFileSizeExceededView,
   maximumSizeExceeded,
   getHumanReadableFileSize,
-  processDeveloperTask,
-  getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,

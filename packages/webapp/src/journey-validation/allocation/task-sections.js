@@ -17,8 +17,8 @@ const applicantDetails = taskDefinition(
 const planningDecisionNotice = taskDefinition(
   'planning-decision-notice',
   'Add planning decision notice',
-  constants.routes.DEVELOPER_PLANNING_DECISION_UPLOAD,
-  constants.routes.DEVELOPER_PLANNING_DECISION_UPLOAD,
+  constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+  constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
   planningDecisionNoticeJourneys
 )
 

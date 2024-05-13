@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import { processDeveloperTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: (request, h) => {
@@ -7,11 +6,6 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
-    processDeveloperTask(request,
-      {
-        taskTitle: 'Biodiversity 4.1 Metric calculations',
-        title: 'Confirm off-site gain'
-      }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
   }
 }

@@ -2,7 +2,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { processDeveloperTask, getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
@@ -17,13 +17,6 @@ const processSuccessfulUpload = async (result, request, h) => {
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
   }
 
-  processDeveloperTask(request,
-    {
-      taskTitle: 'Biodiversity 4.1 Metric calculations',
-      title: 'Upload Metric 4.1 file'
-    }, {
-      status: constants.IN_PROGRESS_DEVELOPER_TASK_STATUS
-    })
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
