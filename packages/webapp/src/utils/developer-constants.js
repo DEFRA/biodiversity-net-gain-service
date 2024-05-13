@@ -2,7 +2,6 @@
 const routes = {
   DEVELOPER_UPLOAD_METRIC: 'developer/upload-metric-file',
   DEVELOPER_CHECK_UPLOAD_METRIC: 'developer/check-metric-file',
-  DEVELOPER_CONFIRM_DEV_DETAILS: 'developer/confirm-development-details',
   DEVELOPER_DOWNLOAD_METRIC_FILE: 'developer/download-metric-file',
   DEVELOPER_TASKLIST: 'developer/record-gains-task-list',
   DEVELOPER_ROUTING_REGISTER: 'developer/routing-register',

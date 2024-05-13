@@ -48,14 +48,6 @@ const biodiversityMetricCalculations = taskDefinition(
   addMetricCalculationsJourneys
 )
 
-const confirmDevelopmentHabitatDetails = taskDefinition(
-  'confirm-development-habitat-details',
-  'Confirm development and habitat details',
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  confirmDevelopmentHabitatDetailsJourneys
-)
-
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain information',
   tasks: [{
@@ -72,8 +64,7 @@ const taskSections = [
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
     biodiversityGainSiteNumber,
-    biodiversityMetricCalculations,
-    confirmDevelopmentHabitatDetails
+    biodiversityMetricCalculations
   ])
 ]
 

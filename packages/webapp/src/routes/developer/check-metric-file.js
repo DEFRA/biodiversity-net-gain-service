@@ -25,7 +25,7 @@ const handlers = {
         }, {
           status: constants.COMPLETE_DEVELOPER_TASK_STATUS
         })
-      return h.redirect(constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS)
+      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
     }
     return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
