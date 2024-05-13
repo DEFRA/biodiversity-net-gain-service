@@ -23,6 +23,21 @@ const mockMetricData = {
       Condition: 'Good'
     },
     { 'Length (km)': 3, 'Total hedgerow units': 27 }
+  ],
+  f1: [
+    {
+      'Baseline ref': 1,
+      'Watercourse type': 'Other rivers and streams',
+      'Length (km)': 1,
+      'Strategic significance': 'Location ecologically desirable but not in local strategy',
+      'Extent of encroachment': 'No Encroachment',
+      'Extent of encroachment for both banks': 'Minor/ Minor',
+      'Total watercourse units': 6.2700000000000005,
+      'Length enhanced': 1,
+      'Off-site reference': 1234,
+      Condition: 'Poor',
+      'Habitat reference Number': 'F1'
+    }
   ]
 }
 
@@ -65,6 +80,15 @@ describe(url, () => {
             'Total hedgerow units': 27,
             Condition: 'Good'
           }
+        ],
+        f1: [
+          {
+            'Watercourse type': 'Other rivers and streams',
+            'Length (km)': 1,
+            'Total watercourse units': 6.2700000000000005,
+            Condition: 'Poor',
+            'Habitat reference Number': 'F1'
+          }
         ]
       }
 
@@ -92,6 +116,17 @@ describe(url, () => {
             }
           ],
           total: 3
+        },
+        offSiteWatercourses: {
+          items: [
+            {
+              Condition: 'Poor',
+              'Watercourse type': 'Other rivers and streams',
+              'Length (km)': 1,
+              'Total watercourse units': 6.2700000000000005
+            }
+          ],
+          total: 1
         }
       }
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, _mockMetricData)
@@ -165,18 +200,13 @@ describe(url, () => {
       redisMap = new Map()
     })
 
-    it('should redirect to legal agreement upload screen if selected Yes', (done) => {
+    it('should redirect to task list page', (done) => {
       jest.isolateModules(async () => {
         try {
           let viewResult
           const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
-          const confirmOffsiteGain = 'yes'
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
           const request = {
-            yar: redisMap,
-            payload: {
-              confirmOffsiteGain
-            }
+            yar: redisMap
           }
           const h = {
             redirect: (view) => {
@@ -187,73 +217,7 @@ describe(url, () => {
             }
           }
           await confirmOffsiteGainOptions.default[1].handler(request, h)
-          expect(viewResult).toEqual('/developer/tasklist')
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should redirect back to metric upload screen if selected No', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult
-          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
-          const confirmOffsiteGain = 'no'
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
-          const request = {
-            yar: redisMap,
-            payload: {
-              confirmOffsiteGain
-            }
-          }
-          const h = {
-            redirect: (view) => {
-              viewResult = view
-            },
-            view: (view) => {
-              viewResult = view
-            }
-          }
-          await confirmOffsiteGainOptions.default[1].handler(request, h)
-          expect(viewResult).toEqual('/developer/upload-metric-file')
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should show error if none of the options selected', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult, resultContext
-          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
-          const confirmOffsiteGain = undefined
-          redisMap.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmOffsiteGain)
-          const request = {
-            yar: redisMap,
-            payload: {
-              confirmOffsiteGain
-            }
-          }
-          const h = {
-            redirect: (view, context) => {
-              viewResult = view
-              resultContext = context
-            },
-            view: (view, context) => {
-              viewResult = view
-              resultContext = context
-            }
-          }
-          await confirmOffsiteGainOptions.default[1].handler(request, h)
-          expect(viewResult).toEqual('developer/confirm-off-site-gain')
-          expect(resultContext.err[0]).toEqual({
-            href: '#offsite-details-checked-yes',
-            text: 'Select yes if this is the correct file'
-          })
+          expect(viewResult).toEqual('/developer/record-gains-task-list')
           done()
         } catch (err) {
           done(err)
