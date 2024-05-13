@@ -20,6 +20,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const checkPlanningDecisionNotice = request.payload.checkPlanningDecisionNotice
+    request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED, checkPlanningDecisionNotice)
     const context = getContext(request)
     if (checkPlanningDecisionNotice === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
