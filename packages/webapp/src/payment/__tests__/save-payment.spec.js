@@ -14,18 +14,22 @@ jest.mock('../fees.js', () => [
 
 jest.mock('../payment-session.js')
 
+const mockSession = {
+  get: () => 'BACS'
+}
+
 describe('save payment fee', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
   it('should call save payment', () => {
-    savePayment({}, 'registration', 'BNG-1234')
+    savePayment(mockSession, 'registration', 'BNG-1234')
 
     expect(paymentSession.setPayment).toHaveBeenCalledTimes(1)
   })
   describe('registration', () => {
     it('should return fee', () => {
-      const fee = savePayment({}, 'registration', 'BNG-1234')
+      const fee = savePayment(mockSession, 'registration', 'BNG-1234')
 
       expect(fee.caseType).toEqual('registration')
       expect(fee.fee).toEqual(500)
@@ -35,7 +39,7 @@ describe('save payment fee', () => {
   })
   describe('allocation', () => {
     it('should return fee', () => {
-      const fee = savePayment({}, 'allocation', 'BNG-1234')
+      const fee = savePayment(mockSession, 'allocation', 'BNG-1234')
 
       expect(fee.caseType).toEqual('allocation')
       expect(fee.fee).toEqual(20)
