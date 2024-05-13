@@ -1,19 +1,10 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
-
-const getMultipleProofsOfPermissionRequired = yar => {
-  const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
-  if (isAgent && clientIsNotLandownerOrLeaseholder) {
-    return { [constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED]: true }
-  }
-  return {}
-}
 
 const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, result.config.blobConfig.blobName)
@@ -74,7 +65,9 @@ const processErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, getMultipleProofsOfPermissionRequired(request.yar)),
+  get: async (request, h) => h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+    [constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED]: isAgentAndNotLandowner(request.yar)
+  }),
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,
