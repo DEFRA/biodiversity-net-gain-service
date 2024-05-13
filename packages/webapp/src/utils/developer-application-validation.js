@@ -37,7 +37,11 @@ const developerApplicationValidation = Joi.object({
       caseType: Joi.string().required(),
       fee: Joi.number().required(),
       reference: Joi.string().allow('', null).optional(),
-      type: Joi.string().required()
+      type: Joi.string().required(),
+      govPayReference: Joi.string().allow('', null).optional(),
+      method: Joi.string().allow('', null).optional(),
+      paymentDate: Joi.string().allow('', null).optional(),
+      paymentStatus: Joi.string().allow('', null).optional()
     }).required()
   })
 })

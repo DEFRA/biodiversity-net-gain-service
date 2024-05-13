@@ -84,5 +84,6 @@ export default {
   'developer-consent-answer': 'yes',
   'developer-additional-emails': [{ email: 'test1@example.com', fullName: 'Test1' }],
   'developer-app-reference': 'TEST-1234',
-  'developer-role-key': 'Developer'
+  'developer-role-key': 'Developer',
+  'payment-type': 'BACS'
 }
