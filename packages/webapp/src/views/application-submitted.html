@@ -35,6 +35,7 @@
 
     <h2 class="govuk-heading-m">Paying the application fee</h2>
 
+  {% if payment.type === 'bacs' %}
     <p>You need to pay:</p>
     <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}.00</p>
 
@@ -88,6 +89,23 @@
         </dd>
       </div>
     </dl>
+  {% else %}
+    <p>You have paid:</p>
+    <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}.00</p>
+
+    <h2 class="govuk-heading-m">Payment details</h2>
+
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Your payment reference
+        </dt>
+        <dd class="govuk-summary-list__value" data-testid="payment-reference-value">
+          {{ payment.govPayReference }}
+        </dd>
+      </div>
+    </dl>
+  {% endif %}
 
     <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
     <p>We will let you know within 6 weeks if:</p>

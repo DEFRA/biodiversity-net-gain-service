@@ -76,7 +76,7 @@ const checkYourAnswers = {
   tasks: [{
     id: 'check-your-answers',
     title: 'Check your answers and submit information',
-    url: constants.routes.CHECK_AND_SUBMIT,
+    url: constants.routes.LAND_CHOOSE_PAYMENT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }

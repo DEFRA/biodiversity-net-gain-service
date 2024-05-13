@@ -75,6 +75,7 @@ const IS_AGENT = 'is-agent'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const LAND_CHOOSE_PAYMENT = 'land/choose-payment'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -155,6 +156,10 @@ const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
+const PAYMENT_TYPE = 'payment-type'
+const GOV_PAY_REFERENCE = 'payment-reference'
+const GOV_PAY_PAYMENT_DATE = 'payment-date'
+const GOV_PAY_PAYMENT_STATUS = 'payment-status'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -293,7 +298,11 @@ export default {
     LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED,
-    ANY_OTHER_LANDOWNERS_CHECKED
+    ANY_OTHER_LANDOWNERS_CHECKED,
+    PAYMENT_TYPE,
+    GOV_PAY_REFERENCE,
+    GOV_PAY_PAYMENT_DATE,
+    GOV_PAY_PAYMENT_STATUS
   },
   routes: {
     ADD_GRID_REFERENCE,
@@ -382,7 +391,8 @@ export default {
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    ANY_OTHER_LANDOWNERS
+    ANY_OTHER_LANDOWNERS,
+    LAND_CHOOSE_PAYMENT
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
