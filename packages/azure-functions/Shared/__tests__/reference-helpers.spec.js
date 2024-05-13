@@ -1,15 +1,15 @@
 import { randomReferenceString, retryDbOperation } from '../reference-helpers.js'
 
 describe('randomReferenceString', () => {
-  test('returns a string of specified length', () => {
+  test('returns a string of specified length', async () => {
     const length = 10
-    const result = randomReferenceString(length)
+    const result = await randomReferenceString(length)
     expect(result.length).toBe(length)
   })
 
-  test('returns a string containing only valid characters', () => {
+  test('returns a string containing only valid characters', async () => {
     const length = 10
-    const result = randomReferenceString(length)
+    const result = await randomReferenceString(length)
     const validChars = /^[0-9A-Z]+$/
     expect(result).toMatch(validChars)
   })
