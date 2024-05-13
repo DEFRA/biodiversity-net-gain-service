@@ -6,6 +6,7 @@ import applicant from '../../__mocks__/applicant'
 describe('developer-application', () => {
   it('Should set the metric file has been uploaded', () => {
     const session = setDeveloperApplicationSession()
+    session.set(constants.redisKeys.PAYMENT_TYPE, 'BACS')
     session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, 5131037)
     session.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'mock/developer-upload-metric/Sample Metric File.xlsm')
     session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, 'developer-upload-metric')
@@ -25,6 +26,7 @@ describe('developer-application', () => {
     const session = setDeveloperApplicationSession()
     session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
     session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+    session.clear(constants.redisKeys.PAYMENT_TYPE)
 
     const app = developerApplication(session, applicant)
     expect(app.developerAllocation.gainSiteReference).toEqual('')

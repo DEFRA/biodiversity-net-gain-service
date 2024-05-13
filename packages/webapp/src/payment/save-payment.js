@@ -8,7 +8,7 @@ const savePayment = (session, caseType, reference) => {
   fee.reference = reference
   fee.type = session.get(constants.redisKeys.PAYMENT_TYPE)
   fee.govPayReference = session.get(constants.redisKeys.GOV_PAY_REFERENCE)
-  fee.method = fee.type.toLowerCase() === 'bacs' ? 'BACS' : 'Card'
+  fee.method = fee?.type?.toLowerCase() !== 'bacs' ? 'Card' : 'BACS'
   fee.paymentDate = session.get(constants.redisKeys.GOV_PAY_PAYMENT_DATE)
   fee.paymentStatus = session.get(constants.redisKeys.GOV_PAY_PAYMENT_STATUS)
 
