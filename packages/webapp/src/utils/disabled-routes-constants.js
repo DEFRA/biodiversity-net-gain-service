@@ -1,6 +1,8 @@
 import developerConstants from './developer-constants.js'
 import creditsEstimationConstants from './credits-estimation-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
+import combinedCaseConstants from './combined-case/constants.js'
+
 const {
   ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
   ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL,
@@ -8,7 +10,7 @@ const {
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY,
   ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY
 } = process.env
-let disabledRoutes = {}
+let disabledRoutes = { ...combinedCaseConstants.routes }
 
 // Disabled routes for MVP
 const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'

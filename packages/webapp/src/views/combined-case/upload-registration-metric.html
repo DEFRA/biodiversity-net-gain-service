@@ -1,0 +1,46 @@
+{% extends 'multipart-form-layout.html' %}
+{% set serviceName = "Combined case" %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Upload the registration metric" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+
+        <div id="location-upload-hint">
+          <p>The file should be:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>XLSM or XLSX</li>
+            <li>No larger than 50MB</li>
+          </ul>
+        </div>
+          {{ govukFileUpload({
+            id: "uploadMetric",
+            name: "uploadMetric",
+            errorMessage: err[0],
+            label: {
+              text: "Upload a file"
+            }
+          }) }}
+
+          {{ govukButton({
+            text: "Upload",
+            attributes: {
+              id: "Upload-File",
+              "data-testid": "continue"
+            }
+          }) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}

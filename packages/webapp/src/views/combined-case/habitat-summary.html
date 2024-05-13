@@ -1,0 +1,24 @@
+{% extends 'multipart-form-layout.html' %}
+{% set serviceName = "Combined case" %}
+
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{% set pageHeading = "Habitat summary" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+          {{ pageHeading }}
+        </h1>
+          {{ habitatMatches }}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
