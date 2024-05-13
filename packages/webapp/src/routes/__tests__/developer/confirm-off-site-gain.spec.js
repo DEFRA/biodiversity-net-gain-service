@@ -217,7 +217,7 @@ describe(url, () => {
             }
           }
           await confirmOffsiteGainOptions.default[1].handler(request, h)
-          expect(viewResult).toEqual('/developer/record-gains-task-list')
+          expect(viewResult).toEqual('/developer/tasklist')
           done()
         } catch (err) {
           done(err)
