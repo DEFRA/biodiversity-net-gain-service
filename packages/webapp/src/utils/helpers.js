@@ -774,6 +774,12 @@ const creditsValidationFailAction = ({
   return { errorMessages, errorList }
 }
 
+const isAgentAndNotLandowner = session => {
+  const isAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const clientIsNotLandownerOrLeaseholder = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  return isAgent && clientIsNotLandownerOrLeaseholder
+}
+
 export {
   validateDate,
   dateClasses,
@@ -830,5 +836,6 @@ export {
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,
   creditsValidationSchema,
-  creditsValidationFailAction
+  creditsValidationFailAction,
+  isAgentAndNotLandowner
 }

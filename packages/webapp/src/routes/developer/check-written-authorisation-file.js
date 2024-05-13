@@ -1,25 +1,16 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getHumanReadableFileSize, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
-  const fileSize = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE)
-  const humanReadableFileSize = getHumanReadableFileSize(fileSize)
-
-  const proofOfPermission = {}
-  const isAgent = request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsNotLandownerOrLeaseholder = request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
-  if (isAgent && clientIsNotLandownerOrLeaseholder) {
-    proofOfPermission.preHeading = 'Proof of permission 1 of 2'
-  }
 
   return {
-    ...proofOfPermission,
+    fileLocation,
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
-    fileSize: humanReadableFileSize,
-    fileLocation
+    fileSize: getHumanReadableFileSize(request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE)),
+    ...(isAgentAndNotLandowner(request.yar) ? { preHeading: 'Proof of permission 1 of 2' } : {})
   }
 }
 
