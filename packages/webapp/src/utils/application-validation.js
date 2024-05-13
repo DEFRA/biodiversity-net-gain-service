@@ -177,7 +177,12 @@ const applicationValidation = Joi.object({
     submittedOn: Joi.date().required(),
     payment: Joi.object({
       reference: Joi.string().allow(null, ''),
-      method: Joi.string().required()
+      method: Joi.string().required(),
+      type: Joi.string().required().optional(),
+      govPayReference: Joi.string().allow('', null).optional(),
+      paymentDate: Joi.string().allow('', null).optional(),
+      paymentStatus: Joi.string().allow('', null).optional(),
+      amount: Joi.number().optional()
     })
   })
 })
