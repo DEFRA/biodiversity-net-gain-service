@@ -217,7 +217,7 @@ describe(url, () => {
 
           const payload = {
             termsAndConditionsConfirmed: 'Yes',
-            paymentType: 'test'
+            paymentType: 'bacs'
           }
           await expect(postHandler({ yar: session, auth: authCopy, payload }, h)).rejects.toThrow('ValidationError: "landownerGainSiteRegistration.applicant.id" is not allowed to be empty')
           expect(viewArgs).toEqual('')
@@ -227,6 +227,18 @@ describe(url, () => {
           done(err)
         }
       })
+    })
+
+    it('should fail if there is no payment type', async () => {
+      const errorMock = new Error('You must choose a payment type')
+      const http = require('../../../utils/http.js')
+      http.postJson.mockRejectedValueOnce(errorMock)
+
+      const session = applicationSession()
+      const { handler } = choosePayment.find(route => route.method === 'POST')
+
+      const payload = {}
+      await expect(handler({ yar: session, auth, payload })).rejects.toEqual(errorMock)
     })
 
     it.skip('Should not fail if not is-agent and no written authoristation is provided', async () => {
