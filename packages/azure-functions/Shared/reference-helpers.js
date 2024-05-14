@@ -1,13 +1,22 @@
 import { randomBytes } from 'crypto'
 
 const randomReferenceString = (length) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(randomBytes(1)[0] / 255 * chars.length)
-    result += chars[randomIndex]
-  }
-  return result
+  return new Promise((resolve, reject) => {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let result = ''
+    for (let i = 0; i < length; i++) {
+      randomBytes(1, (error, randomByte) => {
+        if (error) {
+          reject(error)
+        }
+        const randomIndex = Math.floor(randomByte[0] / 255 * chars.length)
+        result += chars[randomIndex]
+        if (result.length === length) {
+          resolve(result)
+        }
+      })
+    }
+  })
 }
 
 const retryDbOperation = async (query, options, retries = 5) => {

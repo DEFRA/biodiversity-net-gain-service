@@ -140,7 +140,7 @@ describe('Database queries', () => {
     expect(isPointInEngland(db)).toEqual('select bng.fn_is_point_in_england_27700($1, $2)')
   })
   describe('createApplicationReference with retry and random reference string helpers', () => {
-    it('Should call helpers when calling createApplicationReference', () => {
+    it('Should call helpers when calling createApplicationReference', async () => {
       const helpers = require('../reference-helpers.js')
       const retrySpy = jest.spyOn(helpers, 'retryDbOperation')
       const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
@@ -148,11 +148,11 @@ describe('Database queries', () => {
       const db = {
         query: query => query
       }
-      createApplicationReference(db, [])
+      await createApplicationReference(db, [])
       expect(retrySpy).toHaveBeenCalledTimes(1)
       expect(randomReferenceStringSpy).toHaveBeenCalledTimes(2)
     })
-    it('Should call helpers when calling createCreditsAppReference', () => {
+    it('Should call helpers when calling createCreditsAppReference', async () => {
       const helpers = require('../reference-helpers.js')
       const retrySpy = jest.spyOn(helpers, 'retryDbOperation')
       const randomReferenceStringSpy = jest.spyOn(helpers, 'randomReferenceString')
@@ -160,7 +160,7 @@ describe('Database queries', () => {
       const db = {
         query: query => query
       }
-      createCreditsAppReference(db, [])
+      await createCreditsAppReference(db, [])
       expect(retrySpy).toHaveBeenCalledTimes(1)
       expect(randomReferenceStringSpy).toHaveBeenCalledTimes(2)
     })

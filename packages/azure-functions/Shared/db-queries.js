@@ -145,9 +145,9 @@ const insertApplicationReferenceStatement = `
 const registrationAppPrefix = 'BNGREG'
 const creditsAppPrefix = 'BNGCRD'
 
-const createUniqueApplicationReference = (prefix, db, values) => {
-  const firstRandomString = randomReferenceString(5)
-  const secondRandomString = randomReferenceString(4)
+const createUniqueApplicationReference = async (prefix, db, values) => {
+  const firstRandomString = await randomReferenceString(5)
+  const secondRandomString = await randomReferenceString(4)
   const referenceString = `${prefix}-${firstRandomString}-A${secondRandomString}`
 
   return db.query(insertApplicationReferenceStatement, [...[referenceString], ...values])
