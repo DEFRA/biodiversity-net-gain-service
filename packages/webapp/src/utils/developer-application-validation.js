@@ -21,7 +21,8 @@ const developerApplicationValidation = Joi.object({
     biodiversityGainSiteNumber: Joi.string().required(),
     confirmDevelopmentDetails: Joi.string().valid('yes'),
     confirmOffsiteGainDetails: Joi.string().valid('yes'),
-    metricData: Joi.object().allow(null),
+    gainSite: Joi.object().required(),
+    habitats: Joi.array().required(),
     gainSiteReference: Joi.string().allow(''),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
