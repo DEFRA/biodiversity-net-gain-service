@@ -84,7 +84,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -119,7 +121,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -135,7 +139,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })
@@ -150,7 +156,9 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig, 200)
+          const res = await uploadFile(uploadConfig, 200)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a proof of land ownership file')
           setImmediate(() => {
             done()
           })
@@ -160,7 +168,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should  upload land ownership document 50 MB file', (done) => {
+    it('should upload land ownership document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

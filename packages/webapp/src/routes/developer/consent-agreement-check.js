@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { getHumanReadableFileSize, processDeveloperTask } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -18,11 +18,6 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD)
     } else if (checkUploadConsent === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      processDeveloperTask(request,
-        {
-          taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
-          title: 'Upload the consent document'
-        }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, true)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
     }

@@ -99,7 +99,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be an XLSM or XLSX')
           setImmediate(() => {
             done()
           })
@@ -114,7 +116,9 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a statutory biodiversity metric')
           setImmediate(() => {
             done()
           })
@@ -130,7 +134,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -146,7 +152,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })

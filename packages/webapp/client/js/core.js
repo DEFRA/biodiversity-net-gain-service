@@ -243,3 +243,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 })
+document.addEventListener('DOMContentLoaded', function () {
+  const urlParams = new URLSearchParams(window.location.search)
+  const focusTargetId = urlParams.get('focus')
+  if (focusTargetId) {
+    const focusTarget = document.getElementById(focusTargetId)
+    if (focusTarget) {
+      focusTarget.focus()
+    }
+  }
+})

@@ -67,7 +67,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -102,7 +104,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-habitat-plan.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -118,7 +122,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })
@@ -133,7 +139,9 @@ describe('Habitat Plan upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a habitat management and monitoring plan')
           setImmediate(() => {
             done()
           })
