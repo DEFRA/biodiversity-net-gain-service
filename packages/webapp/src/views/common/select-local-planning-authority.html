@@ -1,0 +1,21 @@
+<div class="govuk-form-group {{ 'govuk-form-group--error' if errors.emptyLocalPlanningAuthority.text or errors.invalidLocalPlanningAuthorityError.text }}">
+    <label class="govuk-label" for="localPlanningAuthority"> Local planning authority (LPA)</label>
+    <p class="govuk-hint">Start typing, then select an LPA.</p>
+    <p id="localPlanningAuthorityErr" class="govuk-error-message"> 
+        <span class="govuk-visually-hidden">Error:</span> {{ errors.emptyLocalPlanningAuthority.text }}
+    </p>
+    <p id="localPlanningAuthorityErr" class="govuk-error-message"> 
+        <span class="govuk-visually-hidden">Error:</span> {{ errors.invalidLocalPlanningAuthorityError.text }}
+    </p>
+    <select class="govuk-select gouvk-!-width-two-thirds" id="localPlanningAuthority" name="localPlanningAuthority">
+        {% if selectedLpa %}
+            <option>{{ selectedLpa }}</option>
+        {% else %}
+            <option value=''></option>
+        {% endif %}
+        {% for lpa in lpaNames %}
+        <option>{{ lpa }}</option>
+        {% endfor %}
+    </select> 
+</div>
+        

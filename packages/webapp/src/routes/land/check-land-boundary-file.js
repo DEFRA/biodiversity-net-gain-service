@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -15,7 +15,8 @@ const handlers = {
       return h.redirect(constants.routes.UPLOAD_LAND_BOUNDARY)
     } else if (checkLandBoundary === 'yes') {
       // to use referer we must have a LAND_BOUNDARY_GRID_REFERENCE set
-      return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && request.yar.get(constants.redisKeys.REFERER, true)) ||
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
+      return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) ||
         constants.routes.ADD_GRID_REFERENCE)
     } else {
       return h.view(constants.views.CHECK_LAND_BOUNDARY, {
