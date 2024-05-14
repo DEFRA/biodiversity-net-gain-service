@@ -10,6 +10,8 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
+    console.log('HERE')
+    console.log(getContext(request))
     return request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) !== null
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)

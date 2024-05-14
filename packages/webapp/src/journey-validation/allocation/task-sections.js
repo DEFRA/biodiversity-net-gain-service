@@ -1,9 +1,7 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
-import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-habitat-details.js'
-import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
-import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
+import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
 
 const applicantDetails = taskDefinition(
@@ -22,28 +20,21 @@ const planningDecisionNotice = taskDefinition(
   planningDecisionNoticeJourneys
 )
 
-const biodiversityGainSiteNumber = taskDefinition(
-  'biodiversity-gain-site-number',
-  'Add biodiversity gain site number',
+// FIXME: placeholder until code for this is merged
+const developmentProjectDetails = taskDefinition(
+  'development-project-details',
+  'Add development project details',
   constants.routes.DEVELOPER_BNG_NUMBER,
   constants.routes.DEVELOPER_BNG_NUMBER,
-  bngNumberJourneys
+  []
 )
 
-const biodiversityMetricCalculations = taskDefinition(
-  'biodiversity-metric-calculations',
-  'Add statutory biodiversity metric calculations',
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  addMetricCalculationsJourneys
-)
-
-const confirmDevelopmentHabitatDetails = taskDefinition(
-  'confirm-development-habitat-details',
-  'Confirm development and habitat details',
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  confirmDevelopmentHabitatDetailsJourneys
+const gainSiteAllocationInformation = taskDefinition(
+  'gain-site-allocation-info',
+  'Add biodiversity gain site information',
+  constants.routes.DEVELOPER_BNG_NUMBER,
+  constants.routes.DEVELOPER_BNG_NUMBER,
+  allocationInformationJourneys
 )
 
 const checkYourAnswers = {
@@ -60,9 +51,8 @@ const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
-    biodiversityGainSiteNumber,
-    biodiversityMetricCalculations,
-    confirmDevelopmentHabitatDetails
+    developmentProjectDetails,
+    gainSiteAllocationInformation
   ])
 ]
 

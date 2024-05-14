@@ -1,7 +1,6 @@
 // Routes constants
 const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
-const DEVELOPER_CONFIRM_DEV_DETAILS = 'developer/confirm-development-details'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
@@ -53,7 +52,6 @@ const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
-const CONFIRM_OFFSITE_GAIN_CHECKED = 'offsite-details-checked'
 const DEVELOPER_ORIGINAL_CONSENT_LOCATION = 'developer-original-consent-location'
 const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
 const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
@@ -81,6 +79,7 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
+const DEVELOPER_OFF_SITE_GAIN_CONFIRMED = 'developer-off-site-gain-confirmed'
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -124,7 +123,6 @@ export default {
   routes: {
     DEVELOPER_UPLOAD_METRIC,
     DEVELOPER_CHECK_UPLOAD_METRIC,
-    DEVELOPER_CONFIRM_DEV_DETAILS,
     DEVELOPER_DOWNLOAD_METRIC_FILE,
     DEVELOPER_TASKLIST,
     DEVELOPER_ROUTING_REGISTER,
@@ -173,7 +171,6 @@ export default {
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
     DEVELOPER_ADDITIONAL_EMAILS,
-    CONFIRM_OFFSITE_GAIN_CHECKED,
     DEVELOPER_ORIGINAL_CONSENT_LOCATION,
     DEVELOPER_CONSENT_FILE_LOCATION,
     DEVELOPER_CONSENT_FILE_NAME,
@@ -202,7 +199,8 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
-    DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED
+    DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
+    DEVELOPER_OFF_SITE_GAIN_CONFIRMED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
