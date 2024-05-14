@@ -34,8 +34,7 @@ const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-d
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
-
-// ./Routes constants
+const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
 
 // RedisKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
@@ -80,6 +79,10 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
 const DEVELOPER_OFF_SITE_GAIN_CONFIRMED = 'developer-off-site-gain-confirmed'
+const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
+const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
+const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
+const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -154,7 +157,8 @@ export default {
     DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE,
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE
+    DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+    DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
   },
   redisKeys: {
     DEVELOPER_METRIC_DATA,
@@ -200,7 +204,11 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
-    DEVELOPER_OFF_SITE_GAIN_CONFIRMED
+    DEVELOPER_OFF_SITE_GAIN_CONFIRMED,
+    DEVELOPER_PLANNING_AUTHORITY_LIST,
+    DEVELOPER_PLANNING_APPLICATION_REF,
+    DEVELOPER_DEVELOPMENT_NAME,
+    DEVELOPER_PROOF_OF_PERMISSION_SEEN
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,

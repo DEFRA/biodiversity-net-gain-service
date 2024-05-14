@@ -3,6 +3,7 @@ import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
 import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
+import { developmentProjectDetailsJourneys } from './development-project-details.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -20,13 +21,12 @@ const planningDecisionNotice = taskDefinition(
   planningDecisionNoticeJourneys
 )
 
-// FIXME: placeholder until code for this is merged
 const developmentProjectDetails = taskDefinition(
   'development-project-details',
   'Add development project details',
-  constants.routes.DEVELOPER_BNG_NUMBER,
-  constants.routes.DEVELOPER_BNG_NUMBER,
-  []
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  developmentProjectDetailsJourneys
 )
 
 const gainSiteAllocationInformation = taskDefinition(
