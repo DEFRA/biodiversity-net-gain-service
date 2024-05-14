@@ -1,4 +1,5 @@
 import { randomReferenceString, retryDbOperation } from '../reference-helpers.js'
+import * as crypto from 'crypto'
 
 describe('randomReferenceString', () => {
   test('returns a string of specified length', async () => {
@@ -12,6 +13,19 @@ describe('randomReferenceString', () => {
     const result = await randomReferenceString(length)
     const validChars = /^[0-9A-Z]+$/
     expect(result).toMatch(validChars)
+  })
+
+  test('rejects promise on error', async () => {
+    const errorMessage = 'Oh no!'
+    jest.spyOn(crypto, 'randomBytes').mockImplementation((size, callback) => {
+      callback(new Error(errorMessage))
+    })
+    try {
+      await randomReferenceString(10)
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error)
+      expect(error.message).toBe(errorMessage)
+    }
   })
 })
 
