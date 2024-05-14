@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% set hideBackLink = true %}
+{% set pageHeading = "Combined case" %}
+{% set continueApplicationRouteStem = "/land/continue-registration" %}
+{% set newApplicationText = "Register a new biodiversity gain site" %}
+{% set newApplicationHref = "/land/new-registration" %}
+{% set newApplicationId = "create-registration" %}
+{% set newApplicationTestId = "create-registration" %}
+{% block content %}
+  {% include "common/applications.html" %}
+  
+  {% set isCustomRowClass= true %}
+  {% include "common/assisted-digital-helpline.html" %}
+{% endblock %}

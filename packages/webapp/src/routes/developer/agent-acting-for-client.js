@@ -18,6 +18,7 @@ const handlers = {
     request.yar.set(constants.redisKeys.DEVELOPER_IS_AGENT, isApplicantAgent)
 
     if (isApplicantAgent === 'yes') {
+      // todo hapi redirect
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
     } else if (isApplicantAgent === 'no') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)

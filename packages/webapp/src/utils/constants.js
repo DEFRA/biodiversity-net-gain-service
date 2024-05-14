@@ -35,6 +35,7 @@ const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
 const CREDITS_PURCHASE = 'CreditsPurchase'
+const COMBINED_CASE = 'CombinedCase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -61,7 +62,8 @@ const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-detai
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION,
-  CREDITS_PURCHASE
+  CREDITS_PURCHASE,
+  COMBINED_CASE
 }
 
 const ADDRESS_TYPES = {

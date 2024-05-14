@@ -8,6 +8,9 @@ const getContextForRegistrations = (contactId, organisationId) => getContext(con
 
 const getContextForCreditsPurchase = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.CREDITS_PURCHASE)
 
+const getContextForCombinedCase = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.COMBINED_CASE)
+
+
 const getContext = async (contactId, organisationId, applicationType) => {
   return {
     applications: await getApplications(contactId, organisationId, applicationType)
@@ -33,5 +36,6 @@ const getApplications = async (contactId, organisationId, applicationType) => {
 export {
   getContextForAllocations,
   getContextForRegistrations,
-  getContextForCreditsPurchase
+  getContextForCreditsPurchase,
+  getContextForCombinedCase
 }

@@ -64,6 +64,7 @@ const LEGAL_AGREEMENT_LPA_LIST = 'land/legal-agreement-lpa-list'
 const CHECK_PLANNING_AUTHORITIES = 'land/check-planning-authorities'
 const ERROR = 'error'
 const HOME = 'home'
+const COMBINED_CASE = 'land/combined-case'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
@@ -349,6 +350,7 @@ export default {
     CHECK_HABITAT_CREATED,
     CHECK_METRIC_DETAILS,
     BIODIVERSITY_GAIN_SITES,
+    COMBINED_CASE,
     CONTINUE_REGISTRATION,
     NEW_REGISTRATION,
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,

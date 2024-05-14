@@ -38,7 +38,8 @@ const isBlockedLandownerJourneyRouteOnDeveloperJourney = (path, applicationType)
          !path.startsWith(constants.routes.NEW_REGISTRATION) &&
          !path.startsWith(constants.routes.CONTINUE_REGISTRATION) &&
          path !== constants.routes.BIODIVERSITY_GAIN_SITES &&
-         path !== constants.routes.REGISTER_LAND_TASK_LIST
+         path !== constants.routes.REGISTER_LAND_TASK_LIST &&
+         path !== constants.routes.COMBINED_CASE
 }
 
 const isBlockedCreditsJourneyRouteOnDeveloperJourney = (path, applicationType) => {
