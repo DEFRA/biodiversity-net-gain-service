@@ -3,7 +3,6 @@ import path from 'path'
 import crypto from 'crypto'
 import Joi from 'joi'
 import constants from './constants.js'
-import developerTaskList from './developer-task-list.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
 
@@ -128,14 +127,6 @@ const listArray = array => {
   return html
 }
 
-const getDeveloperTasks = request => {
-  const developersTasks = request.yar.get(constants.redisKeys.DEVELOPER_TASK_DETAILS)
-  if (!developersTasks) {
-    return JSON.parse(JSON.stringify(developerTaskList))
-  }
-  return developersTasks
-}
-
 /*
   Helper function to set a task's status and inProgressUrl
   options = {
@@ -144,20 +135,6 @@ const getDeveloperTasks = request => {
   }
 */
 
-const processDeveloperTask = (request, taskDetails, options) => {
-  const developerTasks = getDeveloperTasks(request)
-  const affectedTask = developerTasks.taskList.find(task => task.taskTitle === taskDetails.taskTitle)
-  affectedTask.tasks.forEach(task => {
-    if (task.title === taskDetails.title) {
-      /* istanbul ignore else */
-      if (task.status !== constants.COMPLETE_DEVELOPER_TASK_STATUS && options.status) {
-        task.status = options.status
-      }
-      task.inProgressUrl = options.inProgressUrl || task.inProgressUrl
-    }
-  })
-  request.yar.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
-}
 const initialCapitalization = text => text[0].toUpperCase() + text.slice(1)
 
 const boolToYesNo = bool => JSON.parse(bool) ? 'Yes' : 'No'
@@ -546,10 +523,26 @@ const emailValidator = (email, id) => {
     }
   }
 }
-
+async function handleFileUploadOperation (operation, { logger, request, h, onSuccess, onError }) {
+  try {
+    const result = await operation()
+    return onSuccess(result, request, h)
+  } catch (err) {
+    logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
+    return onError(err, h)
+  }
+}
 // Nunjucks template function
 const getErrById = (err, fieldId) => (err || []).find(e => e.href === `#${fieldId}`)
 
+const maximumSizeExceeded = (h, { href, maximumFileSize, view }) => {
+  return getMaximumFileSizeExceededView({
+    h,
+    href,
+    maximumFileSize,
+    view
+  })
+}
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
@@ -696,15 +689,21 @@ const validateNonUkAddress = (address, errors) => {
     errors.countryError = countryValidation.err[0]
   }
 }
+const getValidReferrerUrl = (yar, validReferrers) => {
+  const referrerUrl = yar.get(constants.redisKeys.REFERER)
+  const isReferrerValid = validReferrers.includes(referrerUrl)
+  return isReferrerValid ? referrerUrl : null
+}
 
 const redirectAddress = (h, yar, isApplicantAgent, isIndividualOrOrganisation) => {
   if (isApplicantAgent === 'no') {
     return h.redirect(constants.routes.CHECK_APPLICANT_INFORMATION)
   }
+  const referrerUrl = getValidReferrerUrl(yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
   if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.CLIENTS_EMAIL_ADDRESS)
+    return h.redirect(referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
+    return h.redirect(referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
   }
 }
 const getFileHeaderPrefix = (fileNames) => {
@@ -717,7 +716,7 @@ const redirectDeveloperClient = (h, yar) => {
   if (clientIsLandownerOrLeaseholder === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
     return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
   } else {
-    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_ADD_PERMISSION)
+    return h.redirect(yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_NEED_PROOF_OF_PERMISSION)
   }
 }
 
@@ -800,6 +799,7 @@ export {
   habitatTypeAndConditionMapper,
   combineHabitats,
   getFileHeaderPrefix,
+  getValidReferrerUrl,
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
@@ -818,9 +818,8 @@ export {
   validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
+  maximumSizeExceeded,
   getHumanReadableFileSize,
-  processDeveloperTask,
-  getDeveloperTasks,
   getMetricFileValidationErrors,
   initialCapitalization,
   checkDeveloperDetails,
@@ -828,6 +827,7 @@ export {
   isValidPostcode,
   redirectAddress,
   validateAddress,
+  handleFileUploadOperation,
   redirectDeveloperClient,
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,

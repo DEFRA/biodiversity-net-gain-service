@@ -71,14 +71,14 @@ describe(url, () => {
         'Crishn P'
       )
     })
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners removed', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS if all landowners removed', async () => {
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
       const request = {
         yar: redisMap,
         query: { id: '0' }
       }
       await landownerRemove.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS)
     })
   })
 
@@ -156,7 +156,7 @@ describe(url, () => {
 
       expect(resultContext.err[0]).toEqual({ text: 'Select yes if you want to remove landowner or leaseholder', href: '#legalPartyBodyToRemove' })
     })
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners are removed', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS if all landowners are removed', async () => {
       let request = {
         yar: redisMap,
         payload: { landownerToRemove: 'yes' },
@@ -169,7 +169,7 @@ describe(url, () => {
         query: { id: '0' }
       }
       await landownerRemove.default[1].handler(request, h)
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS)
       expect(redisMap.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS).length).toEqual(0)
     })
   })

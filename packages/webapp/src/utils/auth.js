@@ -37,9 +37,12 @@ const getAuthenticationUrl = () => {
   return msalClientApplication.getAuthCodeUrl(authCodeUrlParameters)
 }
 
-const setCookie = (cookieAuth, token) => cookieAuth.set({
-  account: { idTokenClaims: token?.account?.idTokenClaims }
-})
+const setCookie = (cookieAuth, token) => {
+  delete token?.account?.idToken
+  cookieAuth.set({
+    account: token?.account
+  })
+}
 
 const authenticate = async (code, cookieAuth) => {
   const { redirectUri } = authConfig
@@ -62,9 +65,14 @@ const refresh = async (account, cookieAuth, forceRefresh = true) => {
 
 const logout = async request => msalClientApplication.getTokenCache().removeAccount(request.auth.credentials.account)
 
-const getLogoutUrl = () => {
+const getLogoutUrl = (applicationType = null) => {
   const signoutUrl = new URL(`${authConfig.authority}/oauth2/v2.0/logout`)
-  signoutUrl.searchParams.append('post_logout_redirect_uri', `${SERVICE_HOME_URL}${constants.routes.SIGNED_OUT}`)
+  const redirectUrl = `${SERVICE_HOME_URL}${constants.routes.SIGNED_OUT}`
+  let journey = ''
+  if (applicationType) {
+    journey = `?app=${applicationType.toLowerCase()}`
+  }
+  signoutUrl.searchParams.append('post_logout_redirect_uri', `${redirectUrl}${journey}`)
   return signoutUrl
 }
 
