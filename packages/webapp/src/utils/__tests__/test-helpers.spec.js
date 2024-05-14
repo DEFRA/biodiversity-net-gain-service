@@ -14,7 +14,8 @@ import {
   isValidPostcode,
   validateLengthOfCharsLessThan50,
   validateDate,
-  validateAddress
+  validateAddress,
+  isAgentAndNotLandowner
 } from '../helpers.js'
 
 import Session from '../../__mocks__/session.js'
@@ -526,7 +527,45 @@ describe('validateLengthOfCharsLessThan50', () => {
 
       expect(result.countryError.text).toBe('Country must be 50 characters or fewer')
     })
-  }
-  )
-}
-)
+  })
+
+  describe('isAgentAndNotLandowner', () => {
+    it('should return false if session variables not set', () => {
+      const session = new Session()
+      const res = isAgentAndNotLandowner(session)
+      expect(res).toBeFalsy()
+    })
+
+    it('should return false if not agent and not landowner', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
+      const res = isAgentAndNotLandowner(session)
+      expect(res).toBeFalsy()
+    })
+
+    it('should return false if agent and landowner', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
+      const res = isAgentAndNotLandowner(session)
+      expect(res).toBeFalsy()
+    })
+
+    it('should return false if not agent and landowner', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
+      const res = isAgentAndNotLandowner(session)
+      expect(res).toBeFalsy()
+    })
+
+    it('should return true if session variables are set', () => {
+      const session = new Session()
+      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
+      const res = isAgentAndNotLandowner(session)
+      expect(res).toBeTruthy()
+    })
+  })
+})

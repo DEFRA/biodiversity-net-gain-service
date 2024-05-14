@@ -9,6 +9,14 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+
+    it(`should render the ${url.substring(1)} view with sub heading if needed`, async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('Proof of permission 1 of 2')
+    })
   })
 
   describe('POST', () => {
