@@ -33,6 +33,20 @@ describe(url, () => {
       expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS)
     })
 
+    it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const response = await submitPostRequest(postOptions)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS)
+    })
+
+    it('should redirect to tasklist if is landowner', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_TASKLIST)
+    })
+
     it('should allow an alternative written authorisation file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkWrittenAuthorisation = 'no'
