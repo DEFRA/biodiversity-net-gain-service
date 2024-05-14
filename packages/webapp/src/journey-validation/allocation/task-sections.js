@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
-import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-habitat-details.js'
 import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
 import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
