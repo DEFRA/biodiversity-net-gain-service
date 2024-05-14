@@ -230,17 +230,21 @@ describe(url, () => {
     })
 
     it('should fail if there is no payment type', async () => {
-      const errorMock = new Error('You must choose a payment type')
-      const http = require('../../../utils/http.js')
-      http.postJson.mockRejectedValueOnce(errorMock)
+      let viewResult = ''
+      let errorResult = ''
+      const h = {
+        view: (view, error) => {
+          viewResult = view
+          errorResult = error
+        }
+      }
 
       const session = applicationSession()
       const { handler } = choosePayment.find(route => route.method === 'POST')
-
       const payload = {}
-      await expect(handler({ yar: session, auth, payload }, {
-        view: jest.fn().mockImplementation(() => {})
-      })).rejects.toEqual(errorMock)
+      await handler({ yar: session, auth, payload }, h)
+      expect(viewResult).toEqual(constants.views.LAND_CHOOSE_PAYMENT)
+      expect(errorResult?.err[0]?.text).toEqual('You must choose a payment type')
     })
 
     it.skip('Should not fail if not is-agent and no written authoristation is provided', async () => {
