@@ -63,14 +63,14 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.views.CHECK_LANDOWNERS)
       expect(resultContext.landOwnerConservationConvenants.length).toEqual(2)
     })
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if all landowners removed', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS if all landowners removed', async () => {
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [])
       const request = {
         yar: redisMap,
         query: { id: '0' }
       }
       await landownersList.default[0].handler(request, h)
-      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      expect(viewResult).toEqual(constants.routes.NEED_ADD_ALL_LANDOWNERS)
     })
   })
 
@@ -86,7 +86,7 @@ describe(url, () => {
       expect(viewResult).toEqual(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     })
 
-    it('Should continue journey to LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION if no is chosen', async () => {
+    it('Should continue journey to LANDOWNER_INDIVIDUAL_ORGANISATION if no is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherLandowner: 'no' }
@@ -94,7 +94,7 @@ describe(url, () => {
 
       await landownersList.default[1].handler(request, h)
 
-      expect(viewResult).toEqual(constants.routes.LANDOWNER_CONSERVATION_COVENANT_INDIVIDUAL_ORGANISATION)
+      expect(viewResult).toEqual(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
     })
 
     it('Should fail journey if no answer', async () => {

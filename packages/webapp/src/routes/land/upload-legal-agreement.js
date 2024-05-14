@@ -1,16 +1,12 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import {
-  processRegistrationTask,
-  getLegalAgreementDocumentType,
-  generateUniqueId
-} from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, generateUniqueId } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const legalAgreementId = '#legalAgreement'
 
-const processSuccessfulUpload = (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
   const location = result.config.blobConfig.blobName
   let id = legalAgreementFiles.find(file => file.location === location)?.id
@@ -86,12 +82,6 @@ const processErrorUpload = (err, h, legalAgreementType) => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.UPLOAD_LEGAL_AGREEMENT
-    })
     const legalAgreementType = getLegalAgreementDocumentType(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
       legalAgreementType

@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getHumanReadableFileSize, processRegistrationTask } from '../../utils/helpers.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)
@@ -15,12 +15,6 @@ const getContext = request => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE
-    })
     return h.view(constants.views.CHECK_WRITTEN_AUTHORISATION_FILE, getContext(request))
   },
   post: async (request, h) => {
@@ -30,7 +24,8 @@ const handlers = {
     if (checkWrittenAuthorisation === 'no') {
       return h.redirect(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     } else if (checkWrittenAuthorisation === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_APPLICANT_INFORMATION)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.CHECK_APPLICANT_INFORMATION)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

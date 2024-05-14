@@ -56,6 +56,7 @@ const getApplicationCountByContactIdAndOrganisationIdStatement = `
 const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement = `
   (SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.received}' AS application_status
   FROM
@@ -69,6 +70,7 @@ const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatem
   UNION
   SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.inProgress}' AS application_status
   FROM
@@ -126,6 +128,11 @@ const getApplicationStatusStatement = `
     date_modified DESC
   LIMIT 1;
 `
+const updateProjectNameStatement = `
+  UPDATE bng.application_reference
+  SET project_name = $2
+  WHERE application_reference = $1 AND project_name IS DISTINCT FROM $2;
+`
 
 const insertApplicationReferenceStatement = `
   INSERT INTO
@@ -172,6 +179,8 @@ const insertApplicationStatus = (db, values) => db.query(insertApplicationStatus
 
 const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
+const updateProjectName = (db, values) => db.query(updateProjectNameStatement, values)
+
 const createCreditsAppReference = (db, values) => retryDbOperation(createUniqueApplicationReference, [creditsAppPrefix, db, values])
 
 export {
@@ -189,5 +198,6 @@ export {
   insertApplicationStatus,
   getApplicationStatus,
   applicationStatuses,
+  updateProjectName,
   createCreditsAppReference
 }
