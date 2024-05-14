@@ -238,7 +238,9 @@ describe(url, () => {
       const { handler } = choosePayment.find(route => route.method === 'POST')
 
       const payload = {}
-      await expect(handler({ yar: session, auth, payload })).rejects.toEqual(errorMock)
+      await expect(handler({ yar: session, auth, payload }, {
+        view: jest.fn().mockImplementation(() => {})
+      })).rejects.toEqual(errorMock)
     })
 
     it.skip('Should not fail if not is-agent and no written authoristation is provided', async () => {
