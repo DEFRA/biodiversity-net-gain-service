@@ -589,18 +589,6 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   return error.err[0].text ? error : null
 }
 
-const checkDeveloperDetails = (request, h) => {
-  if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect('/').takeover()
-  }
-  return h.continue
-}
-
-const areDeveloperDetailsPresent = session => (
-  session.get(constants.redisKeys.DEVELOPER_FULL_NAME) &&
-  session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
-)
-
 const buildFullName = (item) => {
   return item.value.middleName
     ? item.value.firstName.concat(' ', item.value.middleName, ' ' + item.value.lastName)
@@ -826,7 +814,6 @@ export {
   getHumanReadableFileSize,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails,
   buildFullName,
   isValidPostcode,
   redirectAddress,
