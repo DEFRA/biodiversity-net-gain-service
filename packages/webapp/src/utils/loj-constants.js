@@ -67,7 +67,9 @@ const HOME = 'home'
 const COMBINED_CASE = 'land/combined-case'
 const BIODIVERSITY_GAIN_SITES = 'land/biodiversity-gain-sites'
 const CONTINUE_REGISTRATION = 'land/continue-registration'
+const CONTINUE_COMBINED_REGISTRATION = 'land/continue-combined-registration'
 const NEW_REGISTRATION = 'land/new-registration'
+const NEW_COMBINED_REGISTRATION = 'land/new-combined-registration'
 const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
 // const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
@@ -352,7 +354,9 @@ export default {
     BIODIVERSITY_GAIN_SITES,
     COMBINED_CASE,
     CONTINUE_REGISTRATION,
+    CONTINUE_COMBINED_REGISTRATION,
     NEW_REGISTRATION,
+    NEW_COMBINED_REGISTRATION,
     APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     CHECK_DEFRA_ACCOUNT_DETAILS,
     DEFRA_ACCOUNT_NOT_LINKED,
