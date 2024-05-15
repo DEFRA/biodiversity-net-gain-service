@@ -5,7 +5,6 @@ import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
 import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
 import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
-import developerConstants from '../../utils/developer-constants.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -18,8 +17,8 @@ const applicantDetails = taskDefinition(
 const addDevlopmentProjectInformation = taskDefinition(
   'add-devlopment-project-information',
   'Add development project information',
-  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   addDevelopmentProjectInformationJourneys
 )
 
