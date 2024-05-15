@@ -38,9 +38,9 @@ const redirect = (session, h) => {
   if (session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
     return constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER
   } else if (session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
-    return constants.routes.DEVELOPER_BNG_NUMBER
+    return constants.routes.DEVELOPER_TASKLIST
   } else {
-    return constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE
+    return constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
   }
 }
 
