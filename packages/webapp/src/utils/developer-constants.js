@@ -38,7 +38,6 @@ const DEVELOPER_PLANNING_DECISION_UPLOAD = 'developer/planning-decision-upload'
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
 
 // ./Routes constants
-const DEVELOPER_IS_AGENT = 'developer-is-agent'
 
 // RedisKeys constants
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
@@ -88,9 +87,10 @@ const DEVELOPER_PLANNING_DECISION_FILE_SIZE = 'planning-decision-file-siz'
 const DEVELOPER_PLANNING_DECISION_FILE_TYPE = 'planning-decision-file-type'
 const DEVELOPER_PLANNING_DECISION_FILE_NAME = 'planning-decision-file-name'
 const DEVELOPER_PLANNING_DECISION_CHECKED = 'planning-decision-checked'
-const DEVELOPER_PLANNING_AUTHORITY_LIST = 'planning-authority-list'
-const DEVELOPER_PLANNING_APPLICATION_REF = 'planning-application-ref'
-const DEVELOPER_DEVELOPMENT_NAME = 'planning-development-name'
+const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
+const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
+const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
+const DEVELOPER_IS_AGENT = 'developer-is-agent'
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
