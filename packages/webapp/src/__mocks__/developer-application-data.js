@@ -251,7 +251,7 @@ export default {
     }
   },
   'developer-biodiversity-net-gain-number': 'AZ12208461',
-  'developer-metric-file-checked': 'yes',
+  'metric-file-checked': 'yes',
   'developer-offsite-details-checked': 'yes',
   'developer-metric-filetype': 'developer-upload-metric',
   'developer-metric-filesize': 5131037,
