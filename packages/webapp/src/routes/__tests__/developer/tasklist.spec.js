@@ -55,22 +55,16 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
-            title: 'Add biodiversity gain site number',
+            title: 'Add development project details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'development-project-details'
+          },
+          {
+            title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
+            id: 'gain-site-allocation-info'
           }
         ]
       })
@@ -124,22 +118,16 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
-            title: 'Add biodiversity gain site number',
+            title: 'Add development project details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'development-project-details'
+          },
+          {
+            title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
+            id: 'gain-site-allocation-info'
           }
         ]
       })
