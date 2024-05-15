@@ -8,6 +8,8 @@ const newRegistration = async (request, h) => newApplication(request, h, constan
 
 const newCreditsPurchase = async (request, h) => newApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
 
+const newCombinedCase = async (request, h) => newApplication(request, h, constants.applicationTypes.COMBINED_CASE)
+
 const newApplication = async (request, h, applicationType) => {
   await saveApplicationSessionIfNeeded(request.yar, true)
   request.yar.set(constants.redisKeys.APPLICATION_TYPE, applicationType)
@@ -24,11 +26,16 @@ const newApplication = async (request, h, applicationType) => {
     return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   }
 
+  if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+    return h.redirect(creditsPurchaseConstants.routes.COMBINED_CASE_TASK_LIST)
+  }
+
   return h.redirect('/')
 }
 
 export {
   newDevelopmentProject,
   newRegistration,
-  newCreditsPurchase
+  newCreditsPurchase,
+  newCombinedCase
 }

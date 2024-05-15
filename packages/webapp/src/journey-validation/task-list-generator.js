@@ -11,6 +11,10 @@ import {
   taskSections as allocationTaskSections,
   checkYourAnswers as allocationCheckYourAnswers
 } from './allocation/task-sections.js'
+import {
+  taskSections as combinedCaseTaskSections,
+  checkYourAnswers as combinedCaseCheckYourAnswers
+} from './combined-case/task-sections.js'
 
 const ANY = 'any'
 
@@ -122,6 +126,11 @@ const getTaskList = (journey, session) => {
       taskList = generateTaskList(allocationTaskSections, session)
       taskList.push(allocationCheckYourAnswers)
       break
+    case constants.applicationTypes.COMBINED_CASE:
+      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList.push(combinedCaseCheckYourAnswers)
+      break
+
     default:
       taskList = []
   }

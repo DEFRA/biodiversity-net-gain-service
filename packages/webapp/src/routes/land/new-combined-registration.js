@@ -1,8 +1,8 @@
 import constants from '../../utils/constants.js'
-import { newRegistration } from '../../utils/new-application.js'
+import { newCombinedCase } from '../../utils/new-application.js'
 
 const handlers = {
-  get: async (request, h) => newRegistration(request, h)
+  get: async (request, h) => newCombinedCase(request, h)
 }
 
 export default [{
