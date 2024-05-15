@@ -1,4 +1,4 @@
-import developerConstants from '../../utils/developer-constants.js'
+// import developerConstants from '../../utils/developer-constants.js'
 import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
@@ -13,11 +13,10 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
-    const selectedLpa = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
-    const planningApplicationRef = request.yar.get(developerConstants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
-    const developmentName = request.yar.get(developerConstants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
-    console.log(developerConstants)
-    return h.view(developerConstants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
+    const selectedLpa = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
+    const planningApplicationRef = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
+    const developmentName = request.yar.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
+    return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
       selectedLpa,
       lpaNames,
       planningApplicationRef,
@@ -52,7 +51,7 @@ const handlers = {
         err.push(errors[item])
       })
 
-      return h.view(developerConstants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
+      return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
         lpaNames: refLpaNames,
@@ -61,9 +60,9 @@ const handlers = {
         developmentName
       })
     } else {
-      request.yar.set(developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
-      request.yar.set(developerConstants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
-      request.yar.set(developerConstants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
+      request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
+      request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
+      request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
       const referrerUrl = getValidReferrerUrl(request.yar, ['/developer/record-gains-task-list'])
       return h.redirect(referrerUrl || constants.routes.DEVELOPER_TASKLIST)
     }
@@ -72,12 +71,12 @@ const handlers = {
 
 export default [{
   method: 'GET',
-  path: developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  path: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.get,
   options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
-  path: developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  path: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   handler: handlers.post,
   options: validateIdGetSchemaOptional
 }]

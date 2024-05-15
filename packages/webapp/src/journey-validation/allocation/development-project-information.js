@@ -11,6 +11,8 @@ const ADD_DEVELOPMENT_PROJECT_INFORMATION = routeDefinition(
   ]
 )
 
+console.log(ADD_DEVELOPMENT_PROJECT_INFORMATION)
+
 const addDevelopmentProjectInformationJourneys = [
   [
     journeyStepFromRoute(ADD_DEVELOPMENT_PROJECT_INFORMATION)
