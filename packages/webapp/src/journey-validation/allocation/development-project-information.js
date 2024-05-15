@@ -1,13 +1,13 @@
-import developerConstants from '../../utils/developer-constants.js'
+import constants from '../../utils/constants.js'
 import {
   routeDefinition,
   journeyStepFromRoute
 } from '../utils.js'
 
 const ADD_DEVELOPMENT_PROJECT_INFORMATION = routeDefinition(
-  developerConstants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   [
-    developerConstants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST
+    constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST
   ]
 )
 
