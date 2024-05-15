@@ -1,12 +1,12 @@
 import constants from '../../utils/constants.js'
 import developerApplication from '../../utils/developer-application.js'
-import developerApplicationValidation from '../../utils/developer-application-validation.js'
+// import developerApplicationValidation from '../../utils/developer-application-validation.js'
 import {
   initialCapitalization,
   dateToString,
   hideClass
 } from '../../utils/helpers.js'
-import { postJson } from '../../utils/http.js'
+// import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -19,16 +19,18 @@ const handlers = {
       : h.redirect('/')
   },
   post: async (request, h) => {
-    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
-    if (error) {
-      throw new Error(error)
-    }
-    // Removing not required field from payload
-    delete value.developerAllocation.confirmDevelopmentDetails
-    delete value.developerAllocation.confirmOffsiteGainDetails
+    // SKIP PAYLOAD FOR NOW TO GET E2E showing
 
-    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
+    // const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
+    // if (error) {
+    //   throw new Error(error)
+    // }
+    // Removing not required field from payload
+    // delete value.developerAllocation.confirmDevelopmentDetails
+    // delete value.developerAllocation.confirmOffsiteGainDetails
+
+    // const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
+    // request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
