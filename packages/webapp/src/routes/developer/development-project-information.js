@@ -1,4 +1,3 @@
-// import developerConstants from '../../utils/developer-constants.js'
 import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
@@ -63,7 +62,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
-      const referrerUrl = getValidReferrerUrl(request.yar, ['/developer/record-gains-task-list'])
+      const referrerUrl = getValidReferrerUrl(request.yar, ['developer/tasklist'])
       return h.redirect(referrerUrl || constants.routes.DEVELOPER_TASKLIST)
     }
   }
