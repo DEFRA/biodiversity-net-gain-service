@@ -250,9 +250,9 @@ export default {
       areOffsiteTotalsCorrect: {}
     }
   },
-  'biodiversity-net-gain-number': 'AZ12208461',
-  'metric-file-checked': 'yes',
-  'offsite-details-checked': 'yes',
+  'developer-biodiversity-net-gain-number': 'AZ12208461',
+  'developer-metric-file-checked': 'yes',
+  'developer-offsite-details-checked': 'yes',
   'developer-metric-filetype': 'developer-upload-metric',
   'developer-metric-filesize': 5131037,
   'developer-metric-file-location': 'mock/developer-upload-metric/Sample Metric File.xlsm',
