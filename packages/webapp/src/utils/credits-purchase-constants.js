@@ -25,7 +25,7 @@ const routes = {
   CREDITS_PURCHASE_DOWNLOAD_METRIC_FILE: '/credits-purchase/credits-download-metric',
   CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED: '/credits-purchase/defra-account-not-linked',
   CREDITS_PURCHASE_CHECK_PURCHASE_ORDER: '/credits-purchase/check-purchase-order',
-  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: '/credits-purchase/cdd-cya',
+  CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE: '/credits-purchase/check-customer-due-diligence',
   CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION: '/credits-purchase/development-project-information'
 }
 
