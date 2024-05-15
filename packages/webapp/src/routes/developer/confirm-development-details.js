@@ -11,7 +11,8 @@ const handlers = {
   post: async (request, h) => {
     const confirmDevDetails = request.payload.confirmDevDetails
     const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, confirmDevDetails)
+    request.yar.set(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED, confirmDevDetails)
+
     if (confirmDevDetails === constants.CONFIRM_DEVELOPMENT_DETAILS.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
