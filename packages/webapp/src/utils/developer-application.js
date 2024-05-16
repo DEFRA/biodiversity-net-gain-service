@@ -1,6 +1,7 @@
 import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
+import { getLpaNamesAndCodes } from './get-lpas.js'
 import path from 'path'
 
 // Developer Application object schema must match the expected payload format for the Operator application
@@ -19,7 +20,7 @@ const getApplicantRole = session => {
   } else if (organisationId) {
     applicantRole = constants.applicantTypes.REPRESENTATIVE
   } else {
-    applicantRole = constants.applicantTypes.LANDOWNER
+    applicantRole = 'individual'
   }
 
   return applicantRole
@@ -61,6 +62,26 @@ const getHabitats = session => {
   return allocated
 }
 
+const getFile = (session, fileType, filesize, fileLocation, optional) => ({
+  contentMediaType: session.get(fileType),
+  fileType: fileType.replace('-file-type', ''),
+  fileSize: session.get(filesize),
+  fileLocation: session.get(fileLocation),
+  fileName: session.get(fileLocation) && path.basename(session.get(fileLocation)),
+  optional
+})
+
+const getFiles = session => {
+  // const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
+  return [
+    getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION),
+    getFile(session, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION),
+    getFile(session, constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
+    getFile(session, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
+    // getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
+  ]
+}
+
 const getGainSite = session => {
   const gainSiteReference = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -77,6 +98,11 @@ const getGainSite = session => {
   }
 }
 
+const getLpaCode = name => {
+  const foundLpa = getLpaNamesAndCodes().find(lpa => lpa.name === name)
+  return foundLpa ? foundLpa.id : null
+}
+
 const getPayment = session => {
   const payment = savePayment(session, paymentConstants.REGISTRATION, getDeveloperApplicationReference(session))
   return {
@@ -86,36 +112,25 @@ const getPayment = session => {
 }
 
 const application = (session, account) => {
+  const stringOrNull = value => value ? String(value) : null
+
+  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
+  const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
+  // console.log('session', session)
   const applicationDetails = {
     developerRegistration: {
       applicant: getApplicant(account, session),
-      isLandownerLeaseholder: session.get(constants.redisKeys.IS_LANDOWNER_LEASEHOLDER),
-      // confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
-      // confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
+      isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),
-      files: [
-        {
-          contentMediaType: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE),
-          fileType: 'developer-upload-metric',
-          fileSize: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE),
-          fileLocation: session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION),
-          fileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION))
-        },
-        {
-          contentMediaType: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE),
-          fileType: 'developer-upload-consent',
-          fileSize: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE),
-          fileLocation: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
-          fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
-        }
-      ],
+      files: getFiles(session),
       development: {
         localPlanningAuthority: {
-          code: session.get(constants.redisKeys.DEVELOPER_LOCAL_AUTHORITY_CODE),
-          name: session.get(constants.redisKeys.DEVELOPER_LOCAL_AUTHORITY_NAME)
+          code: getLpaCode(planningAuthorityName),
+          name: planningAuthorityName
         },
-        planningReference: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.planningApplicationReference,
+        planningReference,
         name: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName
       },
       payment: getPayment(session),

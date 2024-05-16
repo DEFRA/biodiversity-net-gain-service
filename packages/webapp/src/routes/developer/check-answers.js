@@ -21,9 +21,6 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    // Removing not required field from payload
-    delete value.developerAllocation.confirmDevelopmentDetails
-    delete value.developerAllocation.confirmOffsiteGainDetails
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
     request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
