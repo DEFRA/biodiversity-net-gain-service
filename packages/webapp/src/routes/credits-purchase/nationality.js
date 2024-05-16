@@ -1,6 +1,6 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const errorText = 'Start typing and enter a country from the list'
 
 const getNationalitySelects = (enteredNationalities) => {
@@ -39,7 +39,8 @@ const handlers = {
 
     if (Object.values(nationalities).some(nationality => nationality !== '')) {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
-      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
+      const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+      return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
     } else {
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
         nationalitySelects: getNationalitySelects(),

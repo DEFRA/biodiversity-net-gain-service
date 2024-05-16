@@ -4,15 +4,13 @@ import developerApplicationValidation from '../../utils/developer-application-va
 import {
   initialCapitalization,
   dateToString,
-  hideClass,
-  checkDeveloperDetails
+  hideClass
 } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
-      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+    return request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) !== null
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
       })
@@ -78,10 +76,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
-  handler: handlers.get,
-  config: {
-    pre: [checkDeveloperDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,

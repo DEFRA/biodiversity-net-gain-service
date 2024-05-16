@@ -67,7 +67,7 @@ describe(url, () => {
     it('Should show error message if no lpa name is provided', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter a local planning authority')
+      expect(res.payload).toContain('Enter and select a local planning authority')
     })
 
     it('Should show error message if invalid lpa is provided', async () => {

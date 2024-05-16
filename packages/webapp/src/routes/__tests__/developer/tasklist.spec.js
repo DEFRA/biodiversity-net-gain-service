@@ -1,6 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants'
-import { getDeveloperTasks } from '../../../utils/helpers'
 
 const url = constants.routes.DEVELOPER_TASKLIST
 
@@ -34,65 +33,61 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('developer/tasklist')
-      expect(contextResult.developerTasks.taskList.length).toEqual(4)
-      expect(contextResult.developerTasks.taskList[0]).toEqual({
-        taskTitle: 'Your details',
+      expect(contextResult.tasks.taskList.length).toEqual(3)
+      expect(contextResult.tasks.taskList[0]).toEqual({
+        taskTitle: 'Applicant information',
         tasks: [
           {
-            title: 'Add your details',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            inProgressUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-            id: 'add-your-details'
+            title: 'Add details about the applicant',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+            id: 'applicant-details'
           }
         ]
       })
-      expect(contextResult.developerTasks.taskList[1]).toEqual({
-        taskTitle: 'Biodiversity 4.1 Metric calculations',
+      expect(contextResult.tasks.taskList[1]).toEqual({
+        taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Upload Metric 4.1 file',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
-            startTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'upload-metric-file'
+            title: 'Add planning decision notice',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+            id: 'planning-decision-notice'
           },
           {
-            title: 'Confirm development details',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            startTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'confirm-development-details'
+            title: 'Add biodiversity gain site number',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'biodiversity-gain-site-number'
           },
           {
-            title: 'Confirm off-site gain',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-            startTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'confirm-off-site-gain'
+            title: 'Add statutory biodiversity metric calculations',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
+            id: 'biodiversity-metric-calculations'
+          },
+          {
+            title: 'Confirm development and habitat details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
+            id: 'confirm-development-habitat-details'
           }
         ]
       })
-      expect(contextResult.developerTasks.taskList[2]).toEqual({
-        taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
+      expect(contextResult.tasks.taskList[2]).toEqual({
+        taskTitle: 'Submit your biodiversity gain information',
         tasks: [
           {
-            title: 'Upload the consent document',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            id: 'upload-consent-document'
+            title: 'Check your answers before you submit them',
+            status: 'CANNOT START YET',
+            url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+            id: 'check-your-answers'
           }
         ]
       })
     })
 
-    it('should render view with Consent to use a biodiversity gain site for off-site gain completed task', async () => {
+    it('should render view with completed task when session variables set', async () => {
       let viewResult, contextResult
       const h = {
         view: (view, context) => {
@@ -104,114 +99,50 @@ describe(url, () => {
       const request = {
         yar: redisMap
       }
-      const developerTasks = getDeveloperTasks(request)
-      developerTasks.taskList.forEach(task => {
-        if (task.taskTitle === 'Consent to use a biodiversity gain site for off-site gain') {
-          task.tasks[0].status = 'COMPLETED'
-        }
-        if (task.taskTitle === 'Biodiversity 4.1 Metric calculations') {
-          task.tasks[0].status = 'COMPLETED'
-        }
-      })
-      redisMap.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
+
+      redisMap.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, 'mock')
+      redisMap.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, 'mock')
+      redisMap.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, 'mock')
+      redisMap.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED, 'yes')
+
       const developerTasklist = require('../../../routes/developer/tasklist')
       await developerTasklist.default[0].handler(request, h)
 
       const response = await submitGetRequest(getOptions)
+
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('developer/tasklist')
-      expect(contextResult.developerTasks.taskList.length).toEqual(4)
-      expect(contextResult.developerTasks.taskList[0]).toEqual({
-        taskTitle: 'Your details',
+      expect(contextResult.tasks.taskList.length).toEqual(3)
+
+      expect(contextResult.tasks.taskList[1]).toEqual({
+        taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Add your details',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            startTaskUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-            inProgressUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-            id: 'add-your-details'
-          }
-        ]
-      })
-      expect(contextResult.developerTasks.taskList[1]).toEqual({
-        taskTitle: 'Biodiversity 4.1 Metric calculations',
-        tasks: [
-          {
-            title: 'Upload Metric 4.1 file',
-            status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
-            startTaskUrl: constants.routes.DEVELOPER_BNG_NUMBER,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'upload-metric-file'
+            title: 'Add planning decision notice',
+            status: 'COMPLETED',
+            url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
+            id: 'planning-decision-notice'
           },
           {
-            title: 'Confirm development details',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            startTaskUrl: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'confirm-development-details'
+            title: 'Add biodiversity gain site number',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'biodiversity-gain-site-number'
           },
           {
-            title: 'Confirm off-site gain',
-            status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-            startTaskUrl: constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-            inProgressUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'confirm-off-site-gain'
-          }
-        ]
-      })
-      expect(contextResult.developerTasks.taskList[2]).toEqual({
-        taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
-        tasks: [
+            title: 'Add statutory biodiversity metric calculations',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
+            id: 'biodiversity-metric-calculations'
+          },
           {
-            title: 'Upload the consent document',
-            status: constants.COMPLETE_DEVELOPER_TASK_STATUS,
-            completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-            id: 'upload-consent-document'
+            title: 'Confirm development and habitat details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
+            id: 'confirm-development-habitat-details'
           }
         ]
       })
-    })
-
-    it('should fetch developer tasklist from cache', async () => {
-      let viewResult, contextResult
-      const h = {
-        view: (view, context) => {
-          viewResult = view
-          contextResult = context
-        }
-      }
-      const developerTasks = {
-        taskList: [{
-          taskTitle: 'Your details',
-          tasks: [
-            {
-              title: 'Add your details',
-              status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-              id: 'add-your-details'
-            }
-          ]
-        }]
-      }
-      const redisMap = new Map()
-      redisMap.set(constants.redisKeys.DEVELOPER_TASK_DETAILS, developerTasks)
-      const request = {
-        yar: redisMap
-      }
-      getDeveloperTasks(request)
-      const developerTasklist = require('../../../routes/developer/tasklist')
-      await developerTasklist.default[0].handler(request, h)
-
-      const response = await submitGetRequest(getOptions)
-      expect(response.statusCode).toBe(200)
-      expect(viewResult).toEqual('developer/tasklist')
-      expect(contextResult.developerTasks.taskList.length).toEqual(1)
-      expect(contextResult.developerTasks).toEqual(developerTasks)
     })
   })
 })

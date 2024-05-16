@@ -27,8 +27,8 @@ describe(url, () => {
         yar: redisMap
       }
 
-      const developerTasklist = require('../../../routes/credits-purchase/tasklist')
-      await developerTasklist.default[0].handler(request, h)
+      const creditsPurchaseTasklist = require('../../../routes/credits-purchase/tasklist')
+      await creditsPurchaseTasklist.default[0].handler(request, h)
 
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)

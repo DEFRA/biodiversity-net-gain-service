@@ -2,7 +2,7 @@ import creditsConstants from '../../utils/credits-purchase-constants.js'
 import constants from '../../utils/loj-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  validateIdGetSchemaOptional
+  validateIdGetSchemaOptional, getValidReferrerUrl
 } from '../../utils/helpers.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
@@ -34,14 +34,14 @@ const handlers = {
     if (!planningApplicationRef) {
       errors.planningApplicationRefError = {
         text: 'Enter a planning application reference',
-        href: 'planningApplicationRef'
+        href: '#planning-application-reference-value'
       }
     }
 
     if (!developmentName) {
       errors.developmentNameError = {
         text: 'Enter a development reference',
-        href: 'developmentName'
+        href: '#development-name-value'
       }
     }
 
@@ -63,7 +63,8 @@ const handlers = {
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
-      return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+      return h.redirect(referrerUrl || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }
 }
@@ -91,8 +92,8 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
 
   if (!selectedLpa) {
     errors.emptyLocalPlanningAuthority = {
-      text: 'Enter a local planning authority',
-      href: 'localPlanningAuthorityErr'
+      text: 'Enter and select a local planning authority',
+      href: '#localPlanningAuthorityErr'
     }
 
     return errors
@@ -101,7 +102,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
-      href: 'localPlanningAuthorityErr'
+      href: '#invalidLocalPlanningAuthorityError'
     }
 
     return errors
