@@ -44,4 +44,3 @@ export default [{
   path: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
   handler: handlers.post
 }]
-
