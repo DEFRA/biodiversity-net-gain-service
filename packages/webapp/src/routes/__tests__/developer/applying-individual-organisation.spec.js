@@ -119,7 +119,7 @@ describe(url, () => {
     it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.ORGANISATION
       const response = await submitPostRequest(postOptions, 302)
-      expect(response.request.response.headers.location).toBe(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
+      expect(response.request.response.headers.location).toBe(constants.routes.DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED)
     })
     it('should redisplay the applicant type page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.ORGANISATION
