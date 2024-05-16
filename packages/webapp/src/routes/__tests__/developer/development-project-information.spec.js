@@ -1,5 +1,5 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import constants from '../../../utils/developer-constants.js'
+import constants from '../../../utils/constants.js'
 import lojConstants from '../../../utils/loj-constants.js'
 const url = constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
 
@@ -61,7 +61,7 @@ describe(url, () => {
         developmentName: 'dev name'
       }
       const res = await submitPostRequest(postOptions)
-      expect(res.headers.location).toEqual(constants.routes.CREDITS_PURCHASE_TASK_LIST)
+      expect(res.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
 
     it('Should show error message if no lpa name is provided', async () => {
