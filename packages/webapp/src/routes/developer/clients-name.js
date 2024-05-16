@@ -1,9 +1,5 @@
 import constants from '../../utils/constants.js'
-import {
-  processDeveloperTask,
-  redirectDeveloperClient,
-  validateFirstLastNameOfDeveloperClient
-} from '../../utils/helpers.js'
+import { redirectDeveloperClient, validateFirstLastNameOfDeveloperClient } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -38,14 +34,6 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.DEVELOPER_CLIENTS_NAME, { type: 'individual', value: { firstName, lastName } })
-
-    // TODO remove: this is to allow completing the task to test out task list and should be removed
-    // when tasklist is updated to the latest design.
-    processDeveloperTask(request,
-      {
-        taskTitle: 'Your details',
-        title: 'Add your details'
-      }, { status: constants.COMPLETE_DEVELOPER_TASK_STATUS })
 
     return redirectDeveloperClient(h, request.yar)
   }
