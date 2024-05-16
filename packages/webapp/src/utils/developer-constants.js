@@ -19,7 +19,6 @@ const DEVELOPER_NEED_METRIC = 'developer/need-metric'
 const DEVELOPER_AGENT_ACTING_FOR_CLIENT = 'developer/agent-acting-for-client'
 const DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS = 'developer/check-defra-account-details'
 const DEVELOPER_LANDOWNER_OR_LEASEHOLDER = 'developer/landowner-or-leaseholder'
-const DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE = 'developer/upload-consent-to-use-gain-site'
 const DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'developer/applying-individual-organisation'
 const DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION = 'developer/client-individual-organisation'
 const DEVELOPER_CLIENTS_NAME = 'developer/clients-name'
@@ -146,7 +145,6 @@ export default {
     DEVELOPER_AGENT_ACTING_FOR_CLIENT,
     DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
     DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-    DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE,
     DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
     DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
     DEVELOPER_CLIENTS_NAME,
