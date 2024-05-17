@@ -40,17 +40,17 @@ const getApplicationDetails = (session, currentOrganisation) => {
     },
     developmentInfo: {
       planningDecisionNoticeFile: '',
-      planningDecisionNoticeFileChangeUrl: '',
+      planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
       metricFileNameUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
       bngNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
       projectName: metricData?.startPage?.projectName,
-      projectNameChangeUrl: '',
+      projectNameChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       localAuthority: metricData?.startPage?.planningAuthority,
-      localAuthorityChangeUrl: '',
+      localAuthorityChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       planningRef: metricData?.startPage?.planningApplicationReference,
-      planningRefChangeUrl: '',
+      planningRefChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       habitats
     }
   }
