@@ -4,6 +4,8 @@ import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import path from 'path'
 
+const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
+
 // Developer Application object schema must match the expected payload format for the Operator application
 const getApplicant = (account, session) => ({
   id: account.idTokenClaims.contactId,
@@ -25,8 +27,6 @@ const getApplicantRole = session => {
 
   return applicantRole
 }
-
-const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -117,7 +117,7 @@ const application = (session, account) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
   const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
-  // console.log('session', session)
+
   const applicationDetails = {
     developerRegistration: {
       applicant: getApplicant(account, session),
