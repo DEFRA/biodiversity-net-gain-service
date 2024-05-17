@@ -36,6 +36,7 @@ const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-f
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
 
 // RedisKeys constants
+const DEVELOPER_IS_AGENT = 'developer-is-agent'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'

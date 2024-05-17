@@ -29,14 +29,6 @@ const planningDecisionNotice = taskDefinition(
   planningDecisionNoticeJourneys
 )
 
-const developmentProjectDetails = taskDefinition(
-  'development-project-details',
-  'Add development project details',
-  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-  developmentProjectDetailsJourneys
-)
-
 const gainSiteAllocationInformation = taskDefinition(
   'gain-site-allocation-info',
   'Add biodiversity gain site information',
