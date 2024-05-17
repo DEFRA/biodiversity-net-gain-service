@@ -46,8 +46,11 @@ const getApplicationDetails = (session, currentOrganisation) => {
       bngNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
       projectName: metricData?.startPage?.projectName,
+      projectNameChangeUrl: '',
       localAuthority: metricData?.startPage?.planningAuthority,
+      localAuthorityChangeUrl: '',
       planningRef: metricData?.startPage?.planningApplicationReference,
+      planningRefChangeUrl: '',
       habitats
     }
   }
