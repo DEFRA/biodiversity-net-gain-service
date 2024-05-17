@@ -1,6 +1,10 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import {
+  getAllocationOrCombinedTaskListUrl,
+  getHumanReadableFileSize,
+  getValidReferrerUrl
+} from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const getContext = request => {
@@ -27,7 +31,8 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
       return h.redirect(constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE)
     } else if (checkPlanningDecisionNotice === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+      const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || getAllocationOrCombinedTaskListUrl(request.yar))
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

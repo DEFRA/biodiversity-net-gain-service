@@ -774,6 +774,24 @@ const creditsValidationFailAction = ({
   return { errorMessages, errorList }
 }
 
+const getAllocationOrCombinedTaskListUrl = (yar) => {
+  const applicationType = yar.get(constants.redisKeys.APPLICATION_TYPE)
+  if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+    return constants.routes.COMBINED_CASE_TASK_LIST
+  } else {
+    return constants.routes.DEVELOPER_TASKLIST
+  }
+}
+
+const getRegistrationOrCombinedTaskListUrl = (yar) => {
+  const applicationType = yar.get(constants.redisKeys.APPLICATION_TYPE)
+  if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+    return constants.routes.COMBINED_CASE_TASK_LIST
+  } else {
+    return constants.routes.REGISTER_LAND_TASK_LIST
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -830,5 +848,7 @@ export {
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,
   creditsValidationSchema,
-  creditsValidationFailAction
+  creditsValidationFailAction,
+  getAllocationOrCombinedTaskListUrl,
+  getRegistrationOrCombinedTaskListUrl
 }

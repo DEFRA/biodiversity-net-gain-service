@@ -22,6 +22,7 @@ const NEED_ADD_ALL_RESPONSIBLE_BODIES = 'land/need-add-all-responsible-bodies'
 const NEED_ADD_ALL_LEGAL_FILES = 'land/need-add-all-legal-files'
 const NEED_ADD_ALL_LANDOWNERS = 'land/need-add-all-landowners'
 const CHECK_AND_SUBMIT = 'land/check-and-submit'
+const COMBINED_CHECK_AND_SUBMIT = 'land/combined-check-and-submit'
 const CHECK_LOCAL_LAND_CHARGE_FILE = 'land/check-local-land-charge-file'
 const CHECK_HABITAT_PLAN_FILE = 'land/check-habitat-plan-file'
 const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
@@ -319,6 +320,7 @@ export default {
     NEED_ADD_ALL_LANDOWNERS,
     LEGAL_AGREEMENT_TYPE,
     CHECK_AND_SUBMIT,
+    COMBINED_CHECK_AND_SUBMIT,
     CHECK_LAND_BOUNDARY,
     CHECK_PROOF_OF_OWNERSHIP,
     CHECK_UPLOAD_METRIC,

@@ -16,7 +16,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
       const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
       const redirectUrl = referrerUrl ||
-                          constants.routes.REGISTER_LAND_TASK_LIST
+        getRegistrationOrCombinedTaskListUrl(request.yar)
       return h.redirect(redirectUrl)
     } else {
       context.err = [{

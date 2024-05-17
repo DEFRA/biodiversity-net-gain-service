@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { getAllocationOrCombinedTaskListUrl } from '../../utils/helpers.js'
 
 const handlers = {
   get: (request, h) => {
@@ -6,7 +7,7 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || getAllocationOrCombinedTaskListUrl(request.yar))
   }
 }
 

@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { getRegistrationOrCombinedTaskListUrl, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -28,7 +28,7 @@ const handlers = {
     const { referer } = request.headers || ''
     if (landOwnershipsList.length === 0) {
       if (referer && referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
-        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+        return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
       } else {
         return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
       }
@@ -57,7 +57,7 @@ const handlers = {
     if (addAnotherOwnershipProof === 'yes' && landOwnershipProofs.length > 0) {
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY, addAnotherOwnershipProof)
       const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
-      return h.redirect(referrerUrl || constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(referrerUrl || getRegistrationOrCombinedTaskListUrl(request.yar))
     }
 
     return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)

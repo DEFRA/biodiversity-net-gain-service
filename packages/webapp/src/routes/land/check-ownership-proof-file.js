@@ -7,7 +7,7 @@ const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
     if (!context.fileName || !context.fileSize) {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
     }
     return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },

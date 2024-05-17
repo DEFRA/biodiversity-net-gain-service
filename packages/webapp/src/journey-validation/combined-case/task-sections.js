@@ -122,7 +122,7 @@ const checkYourAnswers = {
   tasks: [{
     id: 'check-your-answers',
     title: 'Check your answers before you submit them',
-    url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+    url: constants.routes.COMBINED_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }

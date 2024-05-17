@@ -6,7 +6,7 @@ const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.HABITAT_INFO)
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
     }
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     return h.view(constants.views.CHECK_METRIC_DETAILS, {
@@ -14,7 +14,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
   }
 }
 

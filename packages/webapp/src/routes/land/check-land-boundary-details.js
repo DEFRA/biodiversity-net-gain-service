@@ -6,7 +6,7 @@ const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.SITE_BOUNDARY)
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
     }
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
@@ -15,7 +15,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    return h.redirect(getRegistrationOrCombinedTaskListUrl(request.yar))
   }
 }
 

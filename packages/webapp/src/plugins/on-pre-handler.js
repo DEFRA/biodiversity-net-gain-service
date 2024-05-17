@@ -14,7 +14,7 @@ const onPostAuthHandler = {
             return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST).takeover()
           } else if (isBlockedLandownerJourneyRouteOnDeveloperJourney(request.path, applicationType) ||
                     isBlockedCreditsJourneyRouteOnDeveloperJourney(request.path, applicationType)) {
-            return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()
+            return h.redirect(constants.routes.DEVELOPER_TASKLIST).takeover()//todo
           }
         }
         return h.continue
