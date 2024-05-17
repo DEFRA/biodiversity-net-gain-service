@@ -13,20 +13,62 @@ const getApplicant = (account, session) => ({
 })
 
 const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
+  console.log('session.clientType: ', session.clientType)
+  const applicantIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+  console.log('applicantIsAgent:::', applicantIsAgent)
   const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
   let applicantRole
 
-  if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
-    applicantRole = constants.applicantTypes.AGENT
+  if (applicantIsAgent === 'yes') {
+    applicantRole = 'agent'
   } else if (organisationId) {
-    applicantRole = constants.applicantTypes.REPRESENTATIVE
+    applicantRole = 'organisation'
   } else {
     applicantRole = 'individual'
   }
-
   return applicantRole
 }
+
+const getClientDetails = session => {
+  const clientType =
+    session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+  const clientDetails = {
+    clientType
+  }
+
+  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+    Object.assign(clientDetails, getIndividualClientDetails(session))
+  } else {
+    Object.assign(clientDetails, getOrganisationDetails(session))
+  }
+  console.log(JSON.stringify(clientDetails, null, 2))
+  return clientDetails
+}
+
+const getIndividualClientDetails = session => {
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
+
+  return {
+    clientNameIndividual: {
+      firstName,
+      lastName
+    }
+  }
+}
+
+const getOrganisationDetails = session => {
+  const clientNameOrganisation =
+    session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
+
+  return {
+    clientNameOrganisation
+  }
+}
+
+const getOrganisation = session => ({
+  id: session.get(constants.redisKeys.ORGANISATION_ID)
+})
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -118,10 +160,11 @@ const application = (session, account) => {
   const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
   const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
 
-  const applicationDetails = {
+  const applicationJson = {
     developerRegistration: {
       applicant: getApplicant(account, session),
       isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
+      agent: getApplicant(account, session),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),
       files: getFiles(session),
@@ -138,7 +181,18 @@ const application = (session, account) => {
       submittedOn: new Date().toISOString()
     }
   }
-  return applicationDetails
+
+  if (applicationJson.developerRegistration.applicant.role === constants.applicantTypes.AGENT) {
+    applicationJson.developerRegistration.agent = getClientDetails(session)
+  } else if (applicationJson.developerRegistration.applicant.role === constants.applicantTypes.ORGANISATION) {
+    applicationJson.developerRegistration.organisation.id = getOrganisationDetails(session)
+  }
+
+  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
+    applicationJson.developerRegistration.organisation = getOrganisation(session)
+  }
+
+  return applicationJson
 }
 
 export default application

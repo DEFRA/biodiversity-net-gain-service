@@ -7,18 +7,32 @@ const developerApplicationValidation = Joi.object({
       role: Joi.string().valid('agent', 'individual', 'organisation').required()
     }).required(),
     isLandownerLeaseholder: Joi.string().valid('yes', 'no').required(),
-    // needs conditional validation
-    organisation: Joi.object({
-      id: Joi.string().required()
-    }),
-    // needs conditional validation
-    agent: Joi.object({
-      clientType: Joi.string().valid('individual', 'organisation').required(),
-      clientNameIndividual: Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required()
+    organisation: Joi.when('applicant.role', {
+      is: 'organisation',
+      then: Joi.object({
+        id: Joi.string().required()
       }),
-      clientNameOrganisation: Joi.string()
+      otherwise: Joi.forbidden()
+    }),
+    agent: Joi.when('applicant.role', {
+      is: 'agent',
+      then: Joi.object({
+        clientType: Joi.string().valid('individual', 'organisation').required(),
+        clientNameIndividual: Joi.when('clientType', {
+          is: 'individual',
+          then: Joi.object({
+            firstName: Joi.string().required(),
+            lastName: Joi.string().required()
+          }),
+          otherwise: Joi.forbidden()
+        }),
+        clientNameOrganisation: Joi.when('clientType', {
+          is: 'organisation',
+          then: Joi.string().required(),
+          otherwise: Joi.forbidden()
+        })
+      }),
+      otherwise: Joi.forbidden()
     }),
     gainSite: Joi.object({
       reference: Joi.string().required(),
