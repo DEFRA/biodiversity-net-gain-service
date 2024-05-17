@@ -33,7 +33,7 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('developer/tasklist')
-      expect(contextResult.tasks.taskList.length).toEqual(4)
+      expect(contextResult.tasks.taskList.length).toEqual(3)
       expect(contextResult.tasks.taskList[0]).toEqual({
         taskTitle: 'Applicant information',
         tasks: [
@@ -46,17 +46,6 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
-        taskTitle: 'Development project information',
-        tasks: [
-          {
-            title: 'Add development project information',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'add-devlopment-project-information'
-          }
-        ]
-      })
-      expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Development information',
         tasks: [
           {
@@ -64,6 +53,12 @@ describe(url, () => {
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
             id: 'planning-decision-notice'
+          },
+          {
+            title: 'Add development project information',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
           },
           {
             title: 'Add biodiversity gain site number',
@@ -79,7 +74,7 @@ describe(url, () => {
           }
         ]
       })
-      expect(contextResult.tasks.taskList[3]).toEqual({
+      expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Submit your biodiversity gain information',
         tasks: [
           {
@@ -117,9 +112,9 @@ describe(url, () => {
 
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('developer/tasklist')
-      expect(contextResult.tasks.taskList.length).toEqual(4)
+      expect(contextResult.tasks.taskList.length).toEqual(3)
 
-      expect(contextResult.tasks.taskList[2]).toEqual({
+      expect(contextResult.tasks.taskList[1]).toEqual({
         taskTitle: 'Development information',
         tasks: [
           {
@@ -127,6 +122,12 @@ describe(url, () => {
             status: 'COMPLETED',
             url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
             id: 'planning-decision-notice'
+          },
+          {
+            title: 'Add development project information',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
           },
           {
             title: 'Add biodiversity gain site number',
