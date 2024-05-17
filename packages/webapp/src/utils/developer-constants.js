@@ -17,7 +17,6 @@ const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-p
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
 const DEVELOPER_NEED_METRIC = 'developer/need-metric'
 const DEVELOPER_AGENT_ACTING_FOR_CLIENT = 'developer/agent-acting-for-client'
-const DEVELOPER_IS_AGENT = 'developer-is-agent'
 const DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS = 'developer/check-defra-account-details'
 const DEVELOPER_LANDOWNER_OR_LEASEHOLDER = 'developer/landowner-or-leaseholder'
 const DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'developer/applying-individual-organisation'

@@ -15,7 +15,6 @@ const handlers = {
     const selectedLpa = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
     const planningApplicationRef = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
     const developmentName = request.yar.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
-
     return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
       selectedLpa,
       lpaNames,
@@ -63,7 +62,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
-      const referrerUrl = getValidReferrerUrl(request.yar, ['/developer/record-gains-task-list'])
+      const referrerUrl = getValidReferrerUrl(request.yar, ['developer/tasklist'])
       return h.redirect(referrerUrl || constants.routes.DEVELOPER_TASKLIST)
     }
   }

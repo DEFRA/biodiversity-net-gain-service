@@ -55,11 +55,11 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
-            title: 'Add development project details',
+            title: 'Add development project information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'development-project-details'
-          },
+            id: 'add-devlopment-project-information'
+          }
           {
             title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
@@ -118,16 +118,16 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
-            title: 'Add development project details',
+            title: 'Add development project information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'development-project-details'
+            id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add biodiversity gain site information',
+            title: 'Add development project information',
             status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'gain-site-allocation-info'
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
           }
         ]
       })

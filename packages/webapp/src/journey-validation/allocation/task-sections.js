@@ -3,7 +3,7 @@ import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
 import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
-import { developmentProjectDetailsJourneys } from './development-project-details.js'
+import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -11,6 +11,14 @@ const applicantDetails = taskDefinition(
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   applicantDetailsJourneys
+)
+
+const addDevlopmentProjectInformation = taskDefinition(
+  'add-devlopment-project-information',
+  'Add development project information',
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  addDevelopmentProjectInformationJourneys
 )
 
 const planningDecisionNotice = taskDefinition(
@@ -51,7 +59,7 @@ const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
-    developmentProjectDetails,
+    addDevlopmentProjectInformation,
     gainSiteAllocationInformation
   ])
 ]
