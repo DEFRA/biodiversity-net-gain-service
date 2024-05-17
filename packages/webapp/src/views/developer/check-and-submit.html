@@ -36,24 +36,6 @@
     'show': true
   },
   {
-    'text': 'Statutory biodiversity metric file',
-    'value': developmentInfo.metricFileName,
-    'valueDataTestId': 'metric-file-value',
-    'valueId': 'metric-file-value',
-    'href': developmentInfo.metricFileNameUrl,
-    'visuallyHiddenText': ' metric file name',
-    'show': true
-  },
-  {
-    'text': 'Biodiversity gain site number',
-    'value': developmentInfo.bngNumber,
-    'valueDataTestId': 'bng-number-value',
-    'valueId': 'bng-number-value',
-    'href': developmentInfo.bngNumberChangeUrl,
-    'visuallyHiddenText': ' biodiversity gain site number',
-    'show': true
-  },
-  {
     'text': 'Development project name',
     'value': developmentInfo.projectName,
     'valueDataTestId': 'development-project-name-value',
@@ -81,6 +63,15 @@
     'show': true
   },
   {
+    'text': 'Statutory biodiversity metric file',
+    'value': developmentInfo.metricFileName,
+    'valueDataTestId': 'metric-file-value',
+    'valueId': 'metric-file-value',
+    'href': developmentInfo.metricFileNameUrl,
+    'visuallyHiddenText': ' metric file name',
+    'show': true
+  },
+  {
     'text': 'Habitat being used',
     'value': developmentInfo.habitats,
     'valueDataTestId': 'habitats-value',
@@ -89,6 +80,15 @@
     'visuallyHiddenText': ' habitats',
     'show': true,
     'subList': true
+  },
+  {
+    'text': 'Biodiversity gain site number',
+    'value': developmentInfo.bngNumber,
+    'valueDataTestId': 'bng-number-value',
+    'valueId': 'bng-number-value',
+    'href': developmentInfo.bngNumberChangeUrl,
+    'visuallyHiddenText': ' biodiversity gain site number',
+    'show': true
   }
 ] %}
 
@@ -117,7 +117,7 @@
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>
 
-      <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
+      <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for recording allocation of off-site biodiversity gains to a development before you submit your information.</p>
       {{ govukCheckboxes({
         name: "termsAndConditionsConfirmed",
         errorMessage: err[0],
@@ -131,12 +131,15 @@
 
       <h2 class="govuk-heading-m">Submit your information</h2>
 
-      <p>By submitting the above information, you agree that it is complete and correct.</p>
+      <p>By submitting your information you agree that:</p>
 
-      <p>Submitting this information also confirms the planning permission referenced in your application has been granted.</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>it is true, to the best of your knowledge and belief</li>
+        <li>all landowners or leaseholders agree to allocate off-site gains from their biodiversity gain site</li>
+      </ul>
 
       {{ govukButton({
-        text: "Confirm and submit",
+        text: "Submit and continue to payment",
         classes: 'govuk-!-margin-top-3',
         attributes: {
         id: "continue",
