@@ -55,6 +55,12 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
+            title: 'Add development project information',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
+          },
+          {
             title: 'Add biodiversity gain site number',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
@@ -65,12 +71,6 @@ describe(url, () => {
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_UPLOAD_METRIC,
             id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
           }
         ]
       })
@@ -124,6 +124,12 @@ describe(url, () => {
             id: 'planning-decision-notice'
           },
           {
+            title: 'Add development project information',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
+          },
+          {
             title: 'Add biodiversity gain site number',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
@@ -134,12 +140,6 @@ describe(url, () => {
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_UPLOAD_METRIC,
             id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
           }
         ]
       })
