@@ -21,7 +21,7 @@ describe(url, () => {
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
 
-    it.skip('should redirect to START if APPLICATION_REFERENCE is null', async () => {
+    it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
       const session = setDeveloperApplicationSession()
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, null)
       const { handler } = checkAnswers.find(route => route.method === 'GET')
@@ -30,7 +30,7 @@ describe(url, () => {
       expect(h.redirect).toHaveBeenCalledWith('/')
     })
 
-    it.skip('should redirect to Start page if no develper data is available in session', async () => {
+    it('should redirect to Start page if no develper data is available in session', async () => {
       const response = await submitGetRequest({ url }, 302, {})
       expect(response.headers.location).toEqual('/')
     })
@@ -39,7 +39,7 @@ describe(url, () => {
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, 'some-reference')
       await submitGetRequest({ url }, 200, developerApplicationData)
     })
-    it.skip('should redirect to Start page when application reference is blank', async () => {
+    it('should redirect to Start page when application reference is blank', async () => {
       const session = new Session()
       session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, '')
       const response = await submitGetRequest({ url }, 302, {})
@@ -107,7 +107,7 @@ describe(url, () => {
         try {
           const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
-          session.set(constants.redisKeys.DEVELOPER_FULL_NAME, undefined)
+          session.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, undefined)
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -123,7 +123,7 @@ describe(url, () => {
           const authCopy = JSON.parse(JSON.stringify(auth))
           authCopy.credentials.account.idTokenClaims.lastName = ''
 
-          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.lastName" is not allowed to be empty')
+          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.developmentDetails.localAuthority" is required')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()

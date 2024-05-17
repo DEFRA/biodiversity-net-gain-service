@@ -124,10 +124,10 @@ describe(url, () => {
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add development project information',
+            title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'add-devlopment-project-information'
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'gain-site-allocation-info'
           }
         ]
       })

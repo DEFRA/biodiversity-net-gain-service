@@ -196,8 +196,6 @@ const applicantDetailsJourneys = [
   notAgentNotLandownerOrganisationJourney
 ]
 
-console.log(applicantDetailsJourneys)
-
 export {
   applicantDetailsJourneys
 }
