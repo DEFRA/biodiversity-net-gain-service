@@ -1,10 +1,10 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
-import { applicantDetailsJourneys } from './applicant-details.js'
-import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-habitat-details.js'
-import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
-import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
-import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
+import { applicantDetailsJourneys } from '../allocation/applicant-details.js'
+import { confirmDevelopmentHabitatDetailsJourneys } from '../allocation/confirm-development-habitat-details.js'
+import { bngNumberJourneys } from '../allocation/biodiversity-net-gain-number.js'
+import { addMetricCalculationsJourneys } from '../allocation/add-metric-calculations.js'
+import { planningDecisionNoticeJourneys } from '../allocation/planning-decision-notice.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
