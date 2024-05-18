@@ -14,9 +14,9 @@ describe('developer-application-validation', () => {
     it('Should fail validation if a .required() field is missing', () => {
       const session = developerApplicationSession()
       const applicantCopy = JSON.parse(JSON.stringify(applicant))
-      applicantCopy.idTokenClaims.lastName = ''
+      applicantCopy.idTokenClaims.contactId = ''
       const { value, error } = developerApplicationValidation.validate(developerApplication(session, applicantCopy))
-      expect(error.message).toEqual('"developerAllocation.applicant.lastName" is not allowed to be empty')
+      expect(error.message).toEqual('"developerAllocation.applicant.id" is not allowed to be empty')
       expect(value).not.toBeUndefined()
     })
   })
