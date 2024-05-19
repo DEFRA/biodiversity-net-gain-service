@@ -1,5 +1,17 @@
 import constants from '../../utils/constants.js'
 import { validateBNGNumber } from '../../utils/helpers.js'
+import wreck from '@hapi/wreck'
+
+const checkBGS = async bgsNumber => {
+  console.log('In checkBGS')
+
+  try {
+    const { payload } = await wreck.get(`http://localhost:3000/test/api/${bgsNumber}`, { json: true })
+    console.log(payload)
+  } catch (err) {
+    console.log(err.output.payload)
+  }
+}
 
 const ID = '#bngNumber'
 
@@ -12,6 +24,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const bngNumber = request.payload.bngNumber
+    await checkBGS(bngNumber)
     const error = validateBNGNumber(bngNumber, ID)
     if (error) {
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
