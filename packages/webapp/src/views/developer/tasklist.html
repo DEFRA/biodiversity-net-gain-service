@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 {% set pageHeading = "Record allocation of off-site biodiversity gains to a development" %}
 {% set hideBackLink = true %}
 
@@ -7,9 +9,12 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Allocation in progress</h2>
         <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks}} of {{totalSections}} sections.</p>
-        <ol class="app-task-list govuk-!-padding-top-3">
+        {{ govukInsetText({
+            text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
+        }) }}
+        <ol class="app-task-list">
             {% for task in tasks.taskList %}
             <li>
                 <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
