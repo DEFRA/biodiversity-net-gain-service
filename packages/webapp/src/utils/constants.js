@@ -57,7 +57,6 @@ const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information'
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
-const TEST_API_GAINSITE = 'test/api/gainsite'
 
 const applicationTypes = {
   REGISTRATION,
@@ -201,8 +200,7 @@ let routes = {
 const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
-  TEST_CREDITS_PURCHASE_DATA,
-  TEST_API_GAINSITE
+  TEST_CREDITS_PURCHASE_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
