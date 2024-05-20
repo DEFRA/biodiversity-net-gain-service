@@ -24,6 +24,9 @@ const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
 
+  console.log(metricData)
+
+  // FIXME: THIS IS ALL WRONG, SHOULD BE FROM 2 and 3 sheets
   const d1OffSiteHabitatBaseline = filterByBGN(metricData?.d1, request)
   const e1OffSiteHedgeBaseline = filterByBGN(metricData?.e1, request)
   const f1OffSiteHedgeBaseline = filterByBGN(metricData?.f1, request)
