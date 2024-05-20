@@ -128,7 +128,7 @@ describe(url, () => {
         const authCopy = JSON.parse(JSON.stringify(auth))
         authCopy.credentials.account.idTokenClaims.contactId = ''
 
-        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.contactId" is not allowed to be empty')
+        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.id" is not allowed to be empty')
         expect(viewArgs).toEqual('')
         expect(redirectArgs).toEqual('')
         done()
