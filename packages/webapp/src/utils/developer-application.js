@@ -4,18 +4,13 @@ import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import path from 'path'
 
-const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
-
-// Developer Application object schema must match the expected payload format for the Operator application
 const getApplicant = (account, session) => ({
   id: account.idTokenClaims.contactId,
   role: getApplicantRole(session)
 })
 
 const getApplicantRole = session => {
-  console.log('session.clientType: ', session.clientType)
   const applicantIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
-  console.log('applicantIsAgent:::', applicantIsAgent)
   const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
   let applicantRole
 
@@ -26,26 +21,47 @@ const getApplicantRole = session => {
   } else {
     applicantRole = 'individual'
   }
+  // console.log('applicantRole:::', applicantRole)
   return applicantRole
 }
 
 const getClientDetails = session => {
-  const clientType =
-    session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+  const clientType = getApplicantRole(session)
+  // console.log('clientType:::', clientType)
+
   const clientDetails = {
     clientType
   }
+  // console.log('clientDetails:::', clientDetails)
 
-  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+  if (clientType === 'agent') {
+    // console.log('Agent clientDetails inside 1st if statement:::', clientDetails)
+    Object.assign(clientDetails, getAgentClientDetails(session))
+    // console.log('Agent clientDetails inside 1st if statement:::', clientDetails)
+  } else if (clientType === 'individual') {
+    // console.log('Individual clientDetails inside 1st if statement:::', clientDetails)
     Object.assign(clientDetails, getIndividualClientDetails(session))
-  } else {
-    Object.assign(clientDetails, getOrganisationDetails(session))
   }
-  console.log(JSON.stringify(clientDetails, null, 2))
+
   return clientDetails
 }
 
+const getAgentClientDetails = session => {
+  // console.log('getAgentClientDetails:::', session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION))
+  const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
+  return {
+    clientType,
+    clientNameIndividual: {
+      firstName,
+      lastName
+    }
+  }
+}
+
 const getIndividualClientDetails = session => {
+  // console.log('getIndividualClientDetails:::', session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME))
   const { firstName, lastName } =
     session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
 
@@ -57,16 +73,7 @@ const getIndividualClientDetails = session => {
   }
 }
 
-const getOrganisationDetails = session => {
-  const clientNameOrganisation =
-    session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
-
-  return {
-    clientNameOrganisation
-  }
-}
-
-const getOrganisation = session => ({
+const getOrganisationId = session => ({
   id: session.get(constants.redisKeys.ORGANISATION_ID)
 })
 
@@ -101,7 +108,7 @@ const getHabitats = session => {
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
   )
-  return allocated
+  return { allocated }
 }
 
 const getFile = (session, fileType, filesize, fileLocation, optional) => ({
@@ -146,12 +153,14 @@ const getLpaCode = name => {
 }
 
 const getPayment = session => {
-  const payment = savePayment(session, paymentConstants.REGISTRATION, getDeveloperApplicationReference(session))
+  const payment = savePayment(session, paymentConstants.REGISTRATION, getAllocationReference(session))
   return {
     reference: payment.reference,
     method: payment.type
   }
 }
+
+const getAllocationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
 
 const application = (session, account) => {
   const stringOrNull = value => value ? String(value) : null
@@ -164,7 +173,6 @@ const application = (session, account) => {
     developerRegistration: {
       applicant: getApplicant(account, session),
       isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
-      agent: getApplicant(account, session),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),
       files: getFiles(session),
@@ -177,19 +185,25 @@ const application = (session, account) => {
         name: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName
       },
       payment: getPayment(session),
-      allocationReference: getDeveloperApplicationReference(session), // Need to get one after submitting application
+      allocationReference: getAllocationReference(session),
       submittedOn: new Date().toISOString()
     }
   }
 
-  if (applicationJson.developerRegistration.applicant.role === constants.applicantTypes.AGENT) {
+  // if (applicationJson.developerRegistration.applicant.role === 'agent') {
+  //   applicationJson.developerRegistration.agent = getClientDetails(session)
+  // }
+
+  console.log('applicantRole:::', applicationJson.developerRegistration.applicant.role)
+  console.log('organisationId:::', getOrganisationId(session))
+  console.log(getOrganisationId(session).id === null)
+
+  if (applicationJson.developerRegistration.applicant.role === 'agent' && (getOrganisationId(session).id) === null) {
     applicationJson.developerRegistration.agent = getClientDetails(session)
-  } else if (applicationJson.developerRegistration.applicant.role === constants.applicantTypes.ORGANISATION) {
-    applicationJson.developerRegistration.organisation.id = getOrganisationDetails(session)
   }
 
   if (session.get(constants.redisKeys.ORGANISATION_ID)) {
-    applicationJson.developerRegistration.organisation = getOrganisation(session)
+    applicationJson.developerRegistration.organisation = getOrganisationId(session)
   }
 
   return applicationJson
