@@ -14,17 +14,18 @@
     {% endif %}
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">
+        <h1 class="govuk-heading-xl">
           {{ pageHeading }}
         </h1>
 
         <div id="location-upload-hint">
-          <p>This is the metric file that the local planning authority reviewed.</p>
-          <p>It must be the statutory biodiversity metric file as it has the ‘unit shortfall summary’ tab. This can be found in the results menu.</p>
+          <p>You must upload a calculation made using the statutory (official) biodiversity metric tool for the development project. Do not use previous versions of the metric tool (4.0 or before).</p>
+          <p>It must be the same calculation the local planning authority reviewed with the development project's planning application.</p>
+          <p>You can <a href="https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development">find out more about completing a biodiversity metric calculation (opens in new tab)</a> on <a href="https://www.gov.uk/">GOV.UK.</a></p>
           <p>The file should be:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li>XLSM or XLSX</li>
-            <li>No larger than 50MB</li>
+            <li>an XLSM or XLSX</li>
+            <li>no larger than 50MB</li>
           </ul>
         </div>
           {{ govukFileUpload({

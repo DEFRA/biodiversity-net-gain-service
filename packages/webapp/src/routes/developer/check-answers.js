@@ -4,15 +4,13 @@ import developerApplicationValidation from '../../utils/developer-application-va
 import {
   initialCapitalization,
   dateToString,
-  hideClass,
-  checkDeveloperDetails
+  hideClass
 } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
-      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
+    return request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) !== null
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
       })
@@ -23,12 +21,9 @@ const handlers = {
     if (error) {
       throw new Error(error)
     }
-    // Removing not required field from payload
-    delete value.developerAllocation.confirmDevelopmentDetails
-    delete value.developerAllocation.confirmOffsiteGainDetails
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.allocationReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
@@ -78,10 +73,7 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,
-  handler: handlers.get,
-  config: {
-    pre: [checkDeveloperDetails]
-  }
+  handler: handlers.get
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_ANSWERS,

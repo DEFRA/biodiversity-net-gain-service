@@ -3,26 +3,15 @@ import Joi from 'joi'
 const developerApplicationValidation = Joi.object({
   developerAllocation: Joi.object({
     applicant: Joi.object({
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      emailAddress: Joi.string().required(),
-      role: Joi.string().valid('Developer').required(),
-      contactId: Joi.string().required()
+      id: Joi.string().required()
     }),
     developmentDetails: Joi.object({
       projectName: Joi.string().required(),
       localAuthority: Joi.string().required(),
       planningReference: Joi.string().required()
     }),
-    additionalEmailAddresses: Joi.array().items(Joi.object({
-      fullName: Joi.string().required(),
-      email: Joi.string().required()
-    })).required(),
-    biodiversityGainSiteNumber: Joi.string().required(),
-    confirmDevelopmentDetails: Joi.string().valid('yes'),
-    confirmOffsiteGainDetails: Joi.string().valid('yes'),
-    metricData: Joi.object().allow(null),
-    gainSiteReference: Joi.string().allow(''),
+    gainSite: Joi.object().required(),
+    habitats: Joi.array().required(),
     submittedOn: Joi.date().required(),
     files: Joi.array().items(
       Joi.object({
@@ -33,11 +22,10 @@ const developerApplicationValidation = Joi.object({
         fileName: Joi.string().required()
       })
     ).required(),
+    allocationReference: Joi.string().allow('', null).optional(),
     payment: Joi.object({
-      caseType: Joi.string().required(),
-      fee: Joi.number().required(),
       reference: Joi.string().allow('', null).optional(),
-      type: Joi.string().required()
+      method: Joi.string().required()
     }).required()
   })
 })

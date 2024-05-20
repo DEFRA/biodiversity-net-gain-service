@@ -3,19 +3,10 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import getDeveloperClientContext from '../../utils/get-developer-client-context.js'
-import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
-
-const addMultipleProofsOfPermissionIndicatorToContextIfRquired = (yar, context) => {
-  const isAgent = yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
-  const clientIsNotLandownerOrLeaseholder = yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
-  if (isAgent && clientIsNotLandownerOrLeaseholder) {
-    context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = true
-  }
-  return context
-}
 
 const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
@@ -88,7 +79,9 @@ const maximumSizeExceeded = h => {
 const handlers = {
   get: async (request, h) => {
     const context = getDeveloperClientContext(request.yar)
-    return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, addMultipleProofsOfPermissionIndicatorToContextIfRquired(request.yar, context))
+    context[constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED] = isAgentAndNotLandowner(request.yar)
+
+    return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, context)
   },
   post: async (request, h) => {
     const config = buildConfig({
