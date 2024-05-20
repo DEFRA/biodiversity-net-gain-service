@@ -61,16 +61,10 @@ describe(url, () => {
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add biodiversity gain site number',
+            title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
+            id: 'gain-site-allocation-info'
           }
         ]
       })
@@ -130,16 +124,10 @@ describe(url, () => {
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add biodiversity gain site number',
+            title: 'Add biodiversity gain site information',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
+            id: 'gain-site-allocation-info'
           }
         ]
       })

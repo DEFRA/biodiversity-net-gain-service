@@ -1,8 +1,7 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
-import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
-import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
+import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
 import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 
@@ -30,20 +29,12 @@ const planningDecisionNotice = taskDefinition(
   planningDecisionNoticeJourneys
 )
 
-const biodiversityGainSiteNumber = taskDefinition(
-  'biodiversity-gain-site-number',
-  'Add biodiversity gain site number',
+const gainSiteAllocationInformation = taskDefinition(
+  'gain-site-allocation-info',
+  'Add biodiversity gain site information',
   constants.routes.DEVELOPER_BNG_NUMBER,
   constants.routes.DEVELOPER_BNG_NUMBER,
-  bngNumberJourneys
-)
-
-const biodiversityMetricCalculations = taskDefinition(
-  'biodiversity-metric-calculations',
-  'Add statutory biodiversity metric calculations',
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  addMetricCalculationsJourneys
+  allocationInformationJourneys
 )
 
 const checkYourAnswers = {
@@ -61,8 +52,7 @@ const taskSections = [
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
     addDevlopmentProjectInformation,
-    biodiversityGainSiteNumber,
-    biodiversityMetricCalculations
+    gainSiteAllocationInformation
   ])
 ]
 
