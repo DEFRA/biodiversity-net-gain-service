@@ -159,7 +159,7 @@ const req = {
   }
 }
 
-const gainSiteReference = 'BNGREG-JDSJ3-A4LI9'
+const allocationReference = 'BNGREG-JDSJ3-A4LI9'
 
 describe('Processing an application', () => {
   it('should process valid application without a reference number successfully', done => {
@@ -170,7 +170,7 @@ describe('Processing an application', () => {
           return {
             rows: [
               {
-                application_reference: gainSiteReference
+                application_reference: allocationReference
               }
             ]
           }
@@ -180,7 +180,7 @@ describe('Processing an application', () => {
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.developerAllocation.gainSiteReference).toEqual(gainSiteReference)
+        expect(context.bindings.outputSbQueue.developerAllocation.allocationReference).toEqual(allocationReference)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(1)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(0)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(0)
@@ -200,13 +200,13 @@ describe('Processing an application', () => {
             rows: []
           }
         })
-        req.body.developerAllocation.gainSiteReference = gainSiteReference
+        req.body.developerAllocation.gainSiteReference = allocationReference
         // execute function
         await processDeveloperApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(200)
         expect(context.bindings.outputSbQueue).toEqual(req.body)
-        expect(context.bindings.outputSbQueue.developerAllocation.gainSiteReference).toEqual(gainSiteReference)
+        expect(context.bindings.outputSbQueue.developerAllocation.allocationReference).toEqual(allocationReference)
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
         expect(dbQueries.getApplicationStatus.mock.calls).toHaveLength(1)
         expect(dbQueries.deleteApplicationSession.mock.calls).toHaveLength(1)
@@ -230,12 +230,12 @@ describe('Processing an application', () => {
             ]
           }
         })
-        req.body.developerAllocation.gainSiteReference = gainSiteReference
+        req.body.developerAllocation.gainSiteReference = allocationReference
         // execute function
         await processDeveloperApplication(getContext(), req)
         const context = getContext()
         expect(context.res.status).toEqual(400)
-        expect(context.res.body.applicationReference).toEqual(gainSiteReference)
+        expect(context.res.body.applicationReference).toEqual(allocationReference)
         expect(context.res.body.message).toEqual('Application reference has already been processed')
         expect(context.bindings.outputSbQueue).toBeFalsy()
         expect(dbQueries.createApplicationReference.mock.calls).toHaveLength(0)
