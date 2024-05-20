@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import application from '../../utils/application.js'
-import applicationValidation from '../../utils/application-validation.js'
+import combinedApplicationValidation from '../../utils/combined-application-validation.js'
 import { postJson } from '../../utils/http.js'
 import {
   listArray,
@@ -45,7 +45,7 @@ const handlers = {
       return h.view(constants.views.COMBINED_CHECK_AND_SUBMIT, { ...getContext(request), err })
     }
 
-    const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
+    const { value, error } = combinedApplicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }

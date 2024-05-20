@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 {% set hideBackLink = true %}
-{% set pageHeading = "Tasks to complete - Register a biodiversity gain site" %}
+{% set pageHeading = "Tasks to complete - Register a biodiversity gain site and development project application" %}
 
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">Register a biodiversity gain site</h1>
-            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Registration in progress</h2>
+            <h1 class="govuk-heading-xl">Register a biodiversity gain site and development project application</h1>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Combined case in progress</h2>
             <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ registrationCompletedTasks}} of {{totalSections}} sections.</p>
             <ol class="app-task-list govuk-!-padding-top-3">
                 {% for task in registrationTasks.taskList %}
