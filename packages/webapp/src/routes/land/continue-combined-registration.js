@@ -1,8 +1,8 @@
 import constants from '../../utils/constants.js'
-import { getRegistration } from '../../utils/get-application.js'
+import { getCombinedCase } from '../../utils/get-application.js'
 
 const handlers = {
-  get: async (request, h) => getRegistration(request, h)
+  get: async (request, h) => getCombinedCase(request, h)
 }
 
 export default [{

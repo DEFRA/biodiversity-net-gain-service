@@ -11,6 +11,8 @@ const getRegistration = async (request, h) => getApplication(request, h, constan
 
 const getCreditsPurchase = async (request, h) => getApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
 
+const getCombinedCase = async (request, h) => getApplication(request, h, constants.applicationTypes.COMBINED_CASE)
+
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
     // Get session for values
@@ -46,7 +48,7 @@ const getApplication = async (request, h, applicationType) => {
       }
 
       if (applicationType === constants.applicationTypes.COMBINED_CASE) {
-        return h.redirect(creditsPurchaseConstants.routes.COMBINED_CASE_TASK_LIST)
+        return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
       }
 
       return h.redirect('/')
@@ -58,7 +60,7 @@ const getApplication = async (request, h, applicationType) => {
 
 const noSession = (request, h, applicationType) => {
   if (applicationType === constants.applicationTypes.REGISTRATION) {
-    return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)
+    return h.redirect(constants.routes.CANNOT_VIEW_APPLICATION)// todo why is this triggered?
   } else {
     return Boom.badRequest(`${applicationType} with reference ${request.params.path} does not exist`)
   }
@@ -89,5 +91,6 @@ export {
   getDevelopmentProject,
   getRegistration,
   getCreditsPurchase,
-  getApplicationSession
+  getApplicationSession,
+  getCombinedCase
 }
