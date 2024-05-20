@@ -25,6 +25,9 @@ const checkBGS = async bgsNumber => {
 
   const gainsiteUrl = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}?code=${BACKEND_API.CODE_QUERY_PARAMETER}`)
 
+  console.log(BACKEND_API)
+  console.log(gainsiteUrl)
+
   try {
     const { payload } = await wreck.get(gainsiteUrl.href, {
       json: true,
