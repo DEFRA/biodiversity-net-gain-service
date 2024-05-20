@@ -27,7 +27,7 @@ const newApplication = async (request, h, applicationType) => {
   }
 
   if (applicationType === constants.applicationTypes.COMBINED_CASE) {
-    return h.redirect(creditsPurchaseConstants.routes.COMBINED_CASE_TASK_LIST)
+    return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
   }
 
   return h.redirect('/')
