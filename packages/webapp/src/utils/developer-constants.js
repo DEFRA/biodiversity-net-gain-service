@@ -98,7 +98,7 @@ const offSiteGainTypes = {
 const setDeveloperReferer = [
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   DEVELOPER_AGREEMENT_CHECK,
-  DEVELOPER_CHECK_ANSWERS
+  DEVELOPER_CHECK_AND_SUBMIT
 ]
 const clearDeveloperReferer = [
   DEVELOPER_UPLOAD_METRIC,
