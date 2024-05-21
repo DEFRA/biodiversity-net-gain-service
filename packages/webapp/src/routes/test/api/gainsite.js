@@ -1,6 +1,6 @@
 import constants from '../../../utils/constants.js'
 
-const statuses = ['active', 'registered', 'rejected', 'removed', 'inactive', 'internally-removed']
+const statuses = ['active', 'registered', 'rejected', 'removed', 'inactive', 'internally-removed', 'default-error']
 
 export default [{
   method: 'GET',

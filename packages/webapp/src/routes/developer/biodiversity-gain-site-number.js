@@ -24,7 +24,7 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
   let errorText
 
   if (!bgsNumber.trim()) {
-    errorText = 'Enter your Biodiversity gain site number'
+    errorText = 'Enter your biodiversity gain site number'
   } else {
     const gainsiteUrl = getGainSiteApiUrl(bgsNumber)
 
