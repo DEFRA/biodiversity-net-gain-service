@@ -389,6 +389,7 @@ const dataString = `
   "landowners-checked": "yes",
   "legal-agreement-landowner-conservation-convenants": [{
     "organisationName": "org1",
+    "emailAddress": "me@me.com",
     "type": "organisation"
   }, {
     "firstName": "Crishn",

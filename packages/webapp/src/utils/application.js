@@ -323,7 +323,10 @@ const getLandowners = session => {
   }
   sessionLandowners?.forEach(landowner => {
     if (landowner.type === 'organisation') {
-      landownersByType.organisation.push({ organisationName: landowner.organisationName })
+      landownersByType.organisation.push({
+        organisationName: landowner.organisationName,
+        email: landowner.emailAddress
+      })
     } else if (landowner.type === 'individual') {
       landownersByType.individual.push({
         firstName: landowner.firstName,

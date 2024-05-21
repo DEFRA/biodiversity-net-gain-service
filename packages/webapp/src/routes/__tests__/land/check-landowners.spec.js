@@ -23,7 +23,8 @@ describe(url, () => {
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
-      type: 'organisation'
+      type: 'organisation',
+      emailAddress: 'me@me.com'
     }, {
       firstName: 'Crishn',
       lastName: 'P',
@@ -51,6 +52,21 @@ describe(url, () => {
 
       await landownersList.default[0].handler(request, h)
       const expectedText = 'John Doe (john.doe@example.com)'
+      expect(resultContext.landOwnerConservationConvenantsWithAction[0].key.text).toEqual(expectedText)
+    })
+    it('should format orgainization landowner names and email addresses correctly', async () => {
+      redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
+        organisationName: 'org1',
+        emailAddress: 'org1@example.com',
+        type: 'organisation'
+      }])
+
+      const request = {
+        yar: redisMap
+      }
+
+      await landownersList.default[0].handler(request, h)
+      const expectedText = 'org1 (org1@example.com)'
       expect(resultContext.landOwnerConservationConvenantsWithAction[0].key.text).toEqual(expectedText)
     })
     it('should show all landowners that are added', async () => {
