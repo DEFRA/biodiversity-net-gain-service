@@ -69,12 +69,12 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
-        taskTitle: 'Submit your biodiversity gain information',
+        taskTitle: 'Submit your off-site gains information',
         tasks: [
           {
             title: 'Check your answers before you submit them',
             status: 'CANNOT START YET',
-            url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+            url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
             id: 'check-your-answers'
           }
         ]
