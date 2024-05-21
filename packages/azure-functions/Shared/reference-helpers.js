@@ -4,7 +4,7 @@ const randomReferenceString = (length) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   let result = ''
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(randomBytes(1)[0] / 255 * chars.length)
+    const randomIndex = Math.floor(randomBytes(1)[0] / 256 * chars.length)
     result += chars[randomIndex]
   }
   return result
