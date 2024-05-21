@@ -7,7 +7,6 @@ const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
-const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
@@ -134,7 +133,6 @@ export default {
     DEVELOPER_ROUTING_RESULT,
     DEVELOPER_ROUTING_SOLD,
     DEVELOPER_BNG_NUMBER,
-    DEVELOPER_CHECK_ANSWERS,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
