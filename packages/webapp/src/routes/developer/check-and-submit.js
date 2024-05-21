@@ -7,6 +7,7 @@ import {
   habitatTypeAndConditionMapper
 } from '../../utils/helpers.js'
 import path from 'path'
+import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
 const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -61,6 +62,12 @@ const getApplicationDetails = (session, currentOrganisation) => {
 
 const handlers = {
   get: (request, h) => {
+    const { canSubmit } = getTaskList(constants.applicationTypes.ALLOCATION, request.yar)
+
+    if (!canSubmit) {
+      return h.redirect(constants.routes.DEVELOPER_TASKLIST)
+    }
+
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
