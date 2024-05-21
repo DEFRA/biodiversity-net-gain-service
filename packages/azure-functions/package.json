@@ -29,7 +29,9 @@
     "@defra/bng-geoprocessing-service": "1.84.0",
     "@defra/bng-metric-service": "1.84.0",
     "@defra/bng-utils-lib": "1.84.0",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "ip": ">=2.0.1"
+
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "1.84.0"
