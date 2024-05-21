@@ -23,7 +23,7 @@ const handlers = {
     }
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.allocationReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }

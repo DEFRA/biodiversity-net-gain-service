@@ -107,7 +107,7 @@ describe(url, () => {
         try {
           const session = setDeveloperApplicationSession()
           const postHandler = checkAnswers[1].handler
-          session.set(constants.redisKeys.DEVELOPER_FULL_NAME, undefined)
+          session.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, undefined)
 
           let viewArgs = ''
           let redirectArgs = ''
@@ -123,7 +123,7 @@ describe(url, () => {
           const authCopy = JSON.parse(JSON.stringify(auth))
           authCopy.credentials.account.idTokenClaims.lastName = ''
 
-          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.applicant.lastName" is not allowed to be empty')
+          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.developmentDetails.localAuthority" is required')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()

@@ -262,7 +262,8 @@ export default {
   'developer-consent-file-size': 13264,
   'developer-consent-file-type': 'developer-upload-consent',
   'developer-consent-answer': 'yes',
-  'developer-additional-emails': [{ email: 'test1@example.com', fullName: 'Test1' }],
   'developer-app-reference': 'TEST-1234',
-  'developer-role-key': 'Developer'
+  'developer-planning-authority-list': 'My LPA',
+  'developer-planning-application-ref': '12345',
+  'developer-planning-development-name': 'houses'
 }
