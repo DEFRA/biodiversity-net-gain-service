@@ -29,7 +29,9 @@
     "@defra/bng-geoprocessing-service": "1.85.0",
     "@defra/bng-metric-service": "1.85.0",
     "@defra/bng-utils-lib": "1.85.0",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "1.85.0"
