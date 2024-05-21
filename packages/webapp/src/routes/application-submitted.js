@@ -13,8 +13,7 @@ const getApplicationReference = request => {
     reference = session.get(constants.redisKeys.APPLICATION_REFERENCE)
   }
 
-  if (path === constants.routes.DEVELOPER_CHECK_ANSWERS) {
-    console.log('HERE')
+  if (path === constants.routes.DEVELOPER_CHECK_AND_SUBMIT) {
     reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
   }
 
