@@ -21,25 +21,19 @@ const getApplicantRole = session => {
   } else {
     applicantRole = 'individual'
   }
-  // console.log('applicantRole:::', applicantRole)
   return applicantRole
 }
 
 const getClientDetails = session => {
   const clientType = getApplicantRole(session)
-  // console.log('clientType:::', clientType)
 
   const clientDetails = {
     clientType
   }
-  // console.log('clientDetails:::', clientDetails)
 
   if (clientType === 'agent') {
-    // console.log('Agent clientDetails inside 1st if statement:::', clientDetails)
     Object.assign(clientDetails, getAgentClientDetails(session))
-    // console.log('Agent clientDetails inside 1st if statement:::', clientDetails)
   } else if (clientType === 'individual') {
-    // console.log('Individual clientDetails inside 1st if statement:::', clientDetails)
     Object.assign(clientDetails, getIndividualClientDetails(session))
   }
 
@@ -47,7 +41,6 @@ const getClientDetails = session => {
 }
 
 const getAgentClientDetails = session => {
-  // console.log('getAgentClientDetails:::', session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION))
   const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
   const { firstName, lastName } =
     session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
@@ -61,7 +54,6 @@ const getAgentClientDetails = session => {
 }
 
 const getIndividualClientDetails = session => {
-  // console.log('getIndividualClientDetails:::', session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME))
   const { firstName, lastName } =
     session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
 
@@ -108,7 +100,9 @@ const getHabitats = session => {
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
   )
-  return { allocated }
+  return {
+    allocated
+  }
 }
 
 const getFile = (session, fileType, filesize, fileLocation, optional) => ({
@@ -121,7 +115,6 @@ const getFile = (session, fileType, filesize, fileLocation, optional) => ({
 })
 
 const getFiles = session => {
-  console.log('session:::', session)
   const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED) === 'yes'
   const writtenAuthorisationOptional = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === 'no'
   return [
@@ -195,15 +188,7 @@ const application = (session, account) => {
     applicationJson.developerRegistration.organisation = getOrganisationId(session)
   }
 
-  // if (applicationJson.developerRegistration.applicant.role === 'agent') {
-  //   applicationJson.developerRegistration.agent = getClientDetails(session)
-  // }
-
-  console.log('applicantRole:::', applicationJson.developerRegistration.applicant.role)
-  console.log('organisationId:::', getOrganisationId(session))
-  console.log(getOrganisationId(session).id === null)
-
-  if (applicationJson.developerRegistration.applicant.role === 'agent' && (getOrganisationId(session).id) === null) {
+  if (applicationJson.developerRegistration.applicant.role === 'agent') {
     applicationJson.developerRegistration.agent = getClientDetails(session)
   }
 
