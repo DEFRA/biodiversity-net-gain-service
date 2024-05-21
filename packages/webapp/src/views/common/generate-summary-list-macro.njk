@@ -43,7 +43,7 @@
                 {% endset %}
             {% else %}
                 {% set valueHtml %}
-                  <span id="{{item.valueId}}}" data-testid="{{item.valueDataTestId}}" {{errorHtmlAttribute}}>{{item.value}}</span>
+                  <span id="{{item.valueId}}}" data-testid="{{item.valueDataTestId}}" {{errorHtmlAttribute}}>{{item.value | safe}}</span>
                 {% endset %}
             {% endif %}
             {# Construct each row and append to rows array #}
