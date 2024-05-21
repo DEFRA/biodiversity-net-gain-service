@@ -1,9 +1,10 @@
 import constants from '../../utils/constants.js'
-import { validateBNGNumber } from '../../utils/helpers.js'
 import { BACKEND_API } from '../../utils/config.js'
 import wreck from '@hapi/wreck'
 
-const getErrorMessage = status => {
+const getGainSiteApiUrl = bgsNumber => new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}?code=${BACKEND_API.CODE_QUERY_PARAMETER}`)
+
+const getStatusErrorMessage = status => {
   switch (status.toLowerCase()) {
     case 'active':
       return 'This gain site registration is not complete - wait until you have confirmation.'
@@ -19,56 +20,58 @@ const getErrorMessage = status => {
   }
 }
 
-const checkBGS = async bgsNumber => {
-  console.log('In checkBGS')
-  let errorMsg = ''
+const checkBGSNumber = async (bgsNumber, hrefId) => {
+  let errorText
 
-  const gainsiteUrl = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}?code=${BACKEND_API.CODE_QUERY_PARAMETER}`)
+  if (!bgsNumber.trim()) {
+    errorText = 'Enter your Biodiversity gain site number'
+  } else {
+    const gainsiteUrl = getGainSiteApiUrl(bgsNumber)
 
-  console.log(BACKEND_API)
-  console.log(gainsiteUrl)
+    try {
+      const { payload } = await wreck.get(gainsiteUrl.href, {
+        json: true,
+        headers: {
+          'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
+        }
+      })
 
-  try {
-    const { payload } = await wreck.get(gainsiteUrl.href, {
-      json: true,
-      headers: {
-        'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
+      if (payload.gainsiteStatus !== 'Registered') {
+        errorText = getStatusErrorMessage(payload.gainsiteStatus)
       }
-    })
-    console.log(payload)
-    if (payload.gainsiteStatus !== 'Registered') {
-      errorMsg = getErrorMessage(payload.gainsiteStatus)
+    } catch (err) {
+      errorText = 'The gain site reference was not recognised - enter a reference for an approved gain site.'
     }
-  } catch (err) {
-    console.log(err)
-    console.log(err.output.payload)
-    errorMsg = 'The gain site reference was not recognised'
   }
 
-  console.log(errorMsg)
-}
+  if (errorText) {
+    return [{
+      text: errorText,
+      href: hrefId
+    }]
+  }
 
-const ID = '#bngNumber'
+  return null
+}
 
 const handlers = {
   get: async (request, h) => {
-    const bngNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    const bgsNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
     return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
-      bngNumber
+      bgsNumber
     })
   },
   post: async (request, h) => {
-    const bngNumber = request.payload.bngNumber
-    await checkBGS(bngNumber)
-    const error = validateBNGNumber(bngNumber, ID)
+    const bgsNumber = request.payload.bgsNumber
+    const error = await checkBGSNumber(bgsNumber, '#bgsNumber')
     if (error) {
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
       return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
-        bngNumber,
-        ...error
+        bgsNumber,
+        err: error
       })
     } else {
-      request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bngNumber)
+      request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
     }
   }

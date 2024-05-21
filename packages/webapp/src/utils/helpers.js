@@ -446,16 +446,6 @@ const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, 
   }
   return null
 }
-const validateBNGNumber = (bngNumber, hrefId) => {
-  const error = {}
-  if (!bngNumber.trim()) {
-    error.err = [{
-      text: 'Enter your Biodiversity gain site number',
-      href: hrefId
-    }]
-  }
-  return error.err ? error : null
-}
 
 const emailValidator = (email, id) => {
   try {
@@ -807,7 +797,6 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
   maximumSizeExceeded,
