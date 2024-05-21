@@ -3,6 +3,7 @@ import developerApplicationData from '../../../__mocks__/developer-application-d
 import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
+import * as taskListUtil from '../../../journey-validation/task-list-generator.js'
 
 const checkAnswers = require('../../developer/check-and-submit.js').default
 const url = constants.routes.DEVELOPER_CHECK_AND_SUBMIT
@@ -30,6 +31,8 @@ describe(url, () => {
           }]
         }]
       })
+
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')
