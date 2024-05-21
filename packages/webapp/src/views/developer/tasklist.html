@@ -20,7 +20,7 @@
                 <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
                 <ul class="app-task-list__items">
                     {% for taskItem in task.tasks %}
-                    {% if task.taskTitle !== 'Submit your biodiversity gain information' %}
+                    {% if task.taskTitle !== 'Submit your off-site gains information' %}
                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
                                         <a href="{{ taskItem.url }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
