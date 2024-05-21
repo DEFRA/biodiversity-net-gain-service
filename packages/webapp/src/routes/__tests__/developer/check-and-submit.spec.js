@@ -37,6 +37,25 @@ describe(url, () => {
       const res = await submitGetRequest({ url }, 200, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')
     })
+    it('should redirect the view for an organisation application when canSubmit is false', async () => {
+      jest.mock('../../../utils/helpers.js')
+      const helpers = require('../../../utils/helpers.js')
+      helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(() => {
+        return [{
+          items: [{
+            header: 'testHeader',
+            description: 'testDescription',
+            condition: 'testCondition',
+            amount: 'testAmount'
+          }]
+        }]
+      })
+
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
+
+      const res = await submitGetRequest({ url }, 302, developerApplicationData)
+      expect(res.payload).not.toContain('Geoff')
+    })
   })
 
   describe('POST', () => {
