@@ -121,13 +121,14 @@ const getFile = (session, fileType, filesize, fileLocation, optional) => ({
 })
 
 const getFiles = session => {
-  // const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
+  console.log('session:::', session)
+  const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED) === 'yes'
+  const writtenAuthorisationOptional = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === 'no'
   return [
-    getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION),
-    getFile(session, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION),
-    getFile(session, constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE, constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE, constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
-    getFile(session, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
-    // getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
+    getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION, false),
+    getFile(session, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, false),
+    getFile(session, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, consentToUseGainSiteOptional),
+    getFile(session, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
 }
 
@@ -190,6 +191,10 @@ const application = (session, account) => {
     }
   }
 
+  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
+    applicationJson.developerRegistration.organisation = getOrganisationId(session)
+  }
+
   // if (applicationJson.developerRegistration.applicant.role === 'agent') {
   //   applicationJson.developerRegistration.agent = getClientDetails(session)
   // }
@@ -202,9 +207,8 @@ const application = (session, account) => {
     applicationJson.developerRegistration.agent = getClientDetails(session)
   }
 
-  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
-    applicationJson.developerRegistration.organisation = getOrganisationId(session)
-  }
+  // Filter blank files that are optional
+  applicationJson.developerRegistration.files = applicationJson.developerRegistration.files.filter(file => !(file.optional && !file.fileLocation))
 
   return applicationJson
 }
