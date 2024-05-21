@@ -13,7 +13,7 @@
         {% set id = 'offsite-details-checked-yes' %}
     </div>
     <div class="govuk-grid-row">
-      -	<div class="govuk-grid-column-two-thirds">
+      	<div class="govuk-grid-column-two-thirds">
           	{{ govukFieldset({
               legend: {
                   text: pageHeading,
@@ -22,16 +22,16 @@
               }
           	}) }}
           	<p>Confirm if these details match what your development project has agreed with the landowner or leaseholder.</p>
-        
+
         {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-       
+
         {% from "govuk/components/table/macro.njk" import govukTable %}
-        
+
         {% include "common/off-site-habitat.html" %}
         {% include "common/off-site-hedgerow.html" %}
         {% include "common/off-site-watercourse.html" %}
-  
-        {{ govukButton({ 
+
+        {{ govukButton({
             text: 'Save and continue',
             attributes: {
                 id: "continue",

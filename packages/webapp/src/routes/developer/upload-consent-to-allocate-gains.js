@@ -1,7 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMaximumFileSizeExceededView, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
@@ -65,7 +65,9 @@ const processErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS),
+  get: async (request, h) => h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+    [constants.MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED]: isAgentAndNotLandowner(request.yar)
+  }),
   post: async (request, h) => {
     const config = buildConfig({
       sessionId: request.yar.id,

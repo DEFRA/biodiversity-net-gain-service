@@ -6,6 +6,7 @@ const handlers = {
     return h.view(constants.views.DEVELOPER_CONFIRM_OFF_SITE_GAIN, context)
   },
   post: async (request, h) => {
+    request.yar.set(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED, true)
     return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
   }
 }

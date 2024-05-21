@@ -1,10 +1,9 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
-import { confirmDevelopmentHabitatDetailsJourneys } from './confirm-development-habitat-details.js'
-import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
-import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
+import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
+import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -12,6 +11,14 @@ const applicantDetails = taskDefinition(
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
   applicantDetailsJourneys
+)
+
+const addDevlopmentProjectInformation = taskDefinition(
+  'add-devlopment-project-information',
+  'Add development project information',
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  addDevelopmentProjectInformationJourneys
 )
 
 const planningDecisionNotice = taskDefinition(
@@ -22,28 +29,12 @@ const planningDecisionNotice = taskDefinition(
   planningDecisionNoticeJourneys
 )
 
-const biodiversityGainSiteNumber = taskDefinition(
-  'biodiversity-gain-site-number',
-  'Add biodiversity gain site number',
+const gainSiteAllocationInformation = taskDefinition(
+  'gain-site-allocation-info',
+  'Add biodiversity gain site information',
   constants.routes.DEVELOPER_BNG_NUMBER,
   constants.routes.DEVELOPER_BNG_NUMBER,
-  bngNumberJourneys
-)
-
-const biodiversityMetricCalculations = taskDefinition(
-  'biodiversity-metric-calculations',
-  'Add statutory biodiversity metric calculations',
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  addMetricCalculationsJourneys
-)
-
-const confirmDevelopmentHabitatDetails = taskDefinition(
-  'confirm-development-habitat-details',
-  'Confirm development and habitat details',
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-  confirmDevelopmentHabitatDetailsJourneys
+  allocationInformationJourneys
 )
 
 const checkYourAnswers = {
@@ -60,9 +51,8 @@ const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
   taskSectionDefinition('Development information', [
     planningDecisionNotice,
-    biodiversityGainSiteNumber,
-    biodiversityMetricCalculations,
-    confirmDevelopmentHabitatDetails
+    addDevlopmentProjectInformation,
+    gainSiteAllocationInformation
   ])
 ]
 
