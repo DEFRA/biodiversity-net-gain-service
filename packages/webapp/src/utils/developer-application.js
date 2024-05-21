@@ -5,29 +5,28 @@ import path from 'path'
 
 const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
 
+// {
+//   contentMediaType: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE),
+//   fileType: 'developer-upload-consent',
+//   fileSize: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE),
+//   fileLocation: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
+//   fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
+// }
+
 // Developer Application object schema must match the expected payload format for the Operator application
 export default (session, account) => {
   return {
     developerAllocation: {
       applicant: {
-        firstName: account.idTokenClaims.firstName,
-        lastName: account.idTokenClaims.lastName,
-        emailAddress: account.idTokenClaims.email,
-        role: session.get(constants.redisKeys.DEVELOPER_ROLE_KEY),
-        contactId: account.idTokenClaims.contactId
+        id: account.idTokenClaims.contactId
       },
       developmentDetails: {
-        projectName: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName,
-        localAuthority: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.planningAuthority,
-        planningReference: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.planningApplicationReference
+        projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
+        localAuthority: session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST),
+        planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
       },
-      additionalEmailAddresses: session.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS) || [],
-      biodiversityGainSiteNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
-      confirmDevelopmentDetails: session.get(constants.redisKeys.METRIC_FILE_CHECKED),
-      confirmOffsiteGainDetails: session.get(constants.redisKeys.CONFIRM_OFFSITE_GAIN_CHECKED),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),
-      gainSiteReference: getDeveloperApplicationReference(session), // Need to get one after submitting application
       submittedOn: new Date().toISOString(),
       files: [
         {
@@ -36,19 +35,22 @@ export default (session, account) => {
           fileSize: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE),
           fileLocation: session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION),
           fileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION))
-        },
-        {
-          contentMediaType: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE),
-          fileType: 'developer-upload-consent',
-          fileSize: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE),
-          fileLocation: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
-          fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
         }
       ],
-      payment: savePayment(session, paymentConstants.ALLOCATION, getDeveloperApplicationReference(session))
+      allocationReference: getDeveloperApplicationReference(session),
+      payment: getPayment(session)
     }
   }
 }
+
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.ALLOCATION, getDeveloperApplicationReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const allocatedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']

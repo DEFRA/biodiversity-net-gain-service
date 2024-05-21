@@ -35,9 +35,8 @@ const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
 
-// ./Routes constants
-
 // RedisKeys constants
+const DEVELOPER_IS_AGENT = 'developer-is-agent'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
 const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
@@ -52,7 +51,6 @@ const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
-const CONFIRM_OFFSITE_GAIN_CHECKED = 'offsite-details-checked'
 const DEVELOPER_ORIGINAL_CONSENT_LOCATION = 'developer-original-consent-location'
 const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
 const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
@@ -80,10 +78,11 @@ const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-f
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
 const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
+const DEVELOPER_OFF_SITE_GAIN_CONFIRMED = 'developer-off-site-gain-confirmed'
 const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
 const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
-const DEVELOPER_IS_AGENT = 'developer-is-agent'
+const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 
 // ./RedisKeys constants
 const HABITAT = 'HABITAT'
@@ -176,7 +175,6 @@ export default {
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
     DEVELOPER_ADDITIONAL_EMAILS,
-    CONFIRM_OFFSITE_GAIN_CHECKED,
     DEVELOPER_ORIGINAL_CONSENT_LOCATION,
     DEVELOPER_CONSENT_FILE_LOCATION,
     DEVELOPER_CONSENT_FILE_NAME,
@@ -206,9 +204,11 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED,
+    DEVELOPER_OFF_SITE_GAIN_CONFIRMED,
     DEVELOPER_PLANNING_AUTHORITY_LIST,
     DEVELOPER_PLANNING_APPLICATION_REF,
-    DEVELOPER_DEVELOPMENT_NAME
+    DEVELOPER_DEVELOPMENT_NAME,
+    DEVELOPER_PROOF_OF_PERMISSION_SEEN
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
