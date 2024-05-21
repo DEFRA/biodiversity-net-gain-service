@@ -6,6 +6,7 @@ import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import {
   habitatTypeAndConditionMapper
 } from '../../utils/helpers.js'
+import path from 'path'
 
 const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -30,6 +31,8 @@ const getApplicationDetails = (session, currentOrganisation) => {
       }
     ]
   })
+  const fileLocation = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
+  const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
 
   return {
     applicantInfo: {
@@ -39,17 +42,17 @@ const getApplicationDetails = (session, currentOrganisation) => {
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS
     },
     developmentInfo: {
-      planningDecisionNoticeFile: '',
+      planningDecisionNoticeFile: planningDecisionNoticeFileName,
       planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
       metricFileNameUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
       bngNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
-      projectName: metricData?.startPage?.projectName,
+      projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
       projectNameChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-      localAuthority: metricData?.startPage?.planningAuthority,
+      localAuthority: session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST),
       localAuthorityChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-      planningRef: metricData?.startPage?.planningApplicationReference,
+      planningRef: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
       planningRefChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       habitats
     }
