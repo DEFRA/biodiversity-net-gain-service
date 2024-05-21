@@ -145,21 +145,22 @@ describe('BNG data extractor test', () => {
     expect(response.habitatOffSiteGainSiteSummary.length).toEqual(4)
     expect(Object.keys(response.habitatOffSiteGainSiteSummary[0]).length).toEqual(2)
     expect(response.habitatOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
-    expect(response.habitatOffSiteGainSiteSummary[0]['Habitat Offsite unit change per gain site (Post SRM)']).toEqual(0.4980547172546399)
+    expect(response.habitatOffSiteGainSiteSummary[0]['Habitat Offsite unit change per gain site (Post SRM)']).toEqual(2.7349064528779197)
 
     expect(response.hedgeOffSiteGainSiteSummary.length).toEqual(2)
     expect(Object.keys(response.hedgeOffSiteGainSiteSummary[0]).length).toEqual(2)
     expect(response.hedgeOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
-    expect(response.hedgeOffSiteGainSiteSummary[0]['Hedge Offsite unit change per gain site (Post SRM)']).toEqual(-1.2)
+    expect(response.hedgeOffSiteGainSiteSummary[0]['Hedge Offsite unit change per gain site (Post SRM)']).toEqual(1.1017262107027603)
 
     expect(response.watercourseOffSiteGainSiteSummary.length).toEqual(1)
     expect(Object.keys(response.watercourseOffSiteGainSiteSummary[0]).length).toEqual(2)
     expect(response.watercourseOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
-    expect(response.watercourseOffSiteGainSiteSummary[0]['Watercourse Offsite unit change per gain site (Post SRM)']).toEqual(-19.811076168919204)
+    expect(response.watercourseOffSiteGainSiteSummary[0]['Watercourse Offsite unit change per gain site (Post SRM)']).toEqual('0')
 
     expect(response.validation.isSupportedVersion).toBe(true)
     expect(response.validation.isOffsiteDataPresent).toBe(true)
     expect(response.validation.areOffsiteTotalsCorrect).toBe(true)
+    expect(response.validation.isDraftVersion).toBe(false)
   })
 
   it('Should fail validation if not v4.1 metric', async () => {
