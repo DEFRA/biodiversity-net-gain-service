@@ -78,42 +78,6 @@
           ]
         }) }}
 
-        <!--Consent to use a biodiversity gain site for off-site gain-->
-        <h2 class="govuk-heading-l">Consent to use a biodiversity gain site for off-site gain</h2>
-
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: [
-            {
-              key: {
-                text: "File added"
-              },
-              value: {
-                html: '<span>'+files[1].fileName+'</span>'
-              },
-              actions: {
-                items: [
-                  {
-                    href: routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-                    text: "Change",
-                    visuallyHiddenText: " Consent to use a biodiversity gain site for off-site gain"
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
-
-        <!--Addtional email addresses-->
-        {% if additionalEmailAddresses.length > 0 %}
-        <h2 class="govuk-heading-l">Additional email addresses</h2>
-        {{ govukSummaryList({
-          classes: 'govuk-!-margin-bottom-7',
-          rows: additionalEmailAddresses
-        }) }}
-        {% endif %}
-
-
         <h2 class="govuk-heading-l">Submit your biodiversity gain site information</h2>
 
         <p class="govuk-body">By submitting you agree that the information you have given is complete and correct. </p>
