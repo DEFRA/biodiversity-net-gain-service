@@ -60,7 +60,7 @@ describe(url, () => {
         taskTitle: 'Statutory biodiversity credits',
         tasks: [
           {
-            title: 'Add a purchase order number, if you have one',
+            title: 'Add statutory biodiversity credits',
             status: 'NOT STARTED',
             url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
             id: 'add-credits'
@@ -71,7 +71,7 @@ describe(url, () => {
         taskTitle: 'Purchase order',
         tasks: [
           {
-            title: 'Add a purchase order number',
+            title: 'Add a purchase order number, if you have one',
             status: 'NOT STARTED',
             url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
             id: 'add-purchase-order'
