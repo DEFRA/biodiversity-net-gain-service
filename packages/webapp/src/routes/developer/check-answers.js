@@ -49,7 +49,6 @@ const getAdditionalEmailAddressArray = additionalEmailAddresses =>
 
 const getContext = request => {
   const applicationData = developerApplication(request.yar, request.auth.credentials.account)
-  console.log(JSON.stringify(applicationData, null, 2))
   const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
   const developmentDetails = applicationData.developerAllocation.developmentDetails
   const files = applicationData.developerAllocation.files

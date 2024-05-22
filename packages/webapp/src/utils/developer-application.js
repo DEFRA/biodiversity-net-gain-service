@@ -159,9 +159,7 @@ const getAllocationReference = session => session.get(constants.redisKeys.DEVELO
 const application = (session, account) => {
   const stringOrNull = value => value ? String(value) : null
 
-  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
-  const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
+  const planningAuthorityName = stringOrNull(session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST))
 
   const applicationJson = {
     developerRegistration: {
@@ -175,7 +173,7 @@ const application = (session, account) => {
           code: getLpaCode(planningAuthorityName),
           name: planningAuthorityName
         },
-        planningReference,
+        planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
         name: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName
       },
       payment: getPayment(session),
