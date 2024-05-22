@@ -89,7 +89,7 @@ const applicationValidation = Joi.object({
             afterEnhancement: Joi.number()
           }),
           measurementUnits: Joi.string().valid('hectares', 'kilometres'),
-          userBaselineRef: Joi.string()
+          userBaselineRef: Joi.string().allow('')
         })
       ),
       proposed: Joi.array().items(

@@ -122,11 +122,8 @@ const getAddress = session => {
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
-  console.log('metricData: ', metricData)
   const baselineIdentifiers = ['d1', 'e1', 'f1']
-  console.log('baselineIdentifiers: ', baselineIdentifiers)
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
-  console.log('proposedIdentifiers: ', proposedIdentifiers)
 
   const getState = identifier => {
     switch (identifier.charAt(0)) {
@@ -185,7 +182,7 @@ const getHabitats = session => {
         afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
       },
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      userBaselineRef: details['User baseline ref']
+      userBaselineRef: String(details['User baseline ref'])
     }))
   )
 
@@ -202,7 +199,7 @@ const getHabitats = session => {
       delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
       area: details['Length (km)'] ?? details['Area (hectares)'],
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      userBaselineRef: details['User baseline ref'],
+      userBaselineRef: String(details['User baseline ref']),
       ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
       ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
     }))
