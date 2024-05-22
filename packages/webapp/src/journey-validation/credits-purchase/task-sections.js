@@ -26,7 +26,7 @@ const addDevlopmentProjectInformation = taskDefinition(
 
 const addCredits = taskDefinition(
   'add-credits',
-  'Add a purchase order number, if you have one',
+  'Add statutory biodiversity credits',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
   addCreditsJourneys
@@ -34,7 +34,7 @@ const addCredits = taskDefinition(
 
 const purchaseOrder = taskDefinition(
   'add-purchase-order',
-  'Add a purchase order number',
+  'Add a purchase order number, if you have one',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
   purchaseOrderJourneys
