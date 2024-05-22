@@ -56,11 +56,12 @@ const developerApplicationValidation = Joi.object({
       fileType: Joi.string().required(),
       fileSize: Joi.number().required(),
       fileLocation: Joi.string().required(),
-      fileName: Joi.string().required()
+      fileName: Joi.string().required(),
+      optional: Joi.boolean().required()
     })).required(),
     development: Joi.object({
       localPlanningAuthority: Joi.object({
-        code: Joi.string().pattern(/^E60000[0-9]{3}$/).required(),
+        code: Joi.string().pattern(/^E60000[0-9]{3}$/).allow(null, '').required(),
         name: Joi.string().max(255).required()
       }),
       planningReference: Joi.string().max(255),

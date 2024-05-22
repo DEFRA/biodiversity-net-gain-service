@@ -16,7 +16,7 @@ describe('developer-application-validation', () => {
       const applicantCopy = JSON.parse(JSON.stringify(applicant))
       applicantCopy.idTokenClaims.contactId = ''
       const { value, error } = developerApplicationValidation.validate(developerApplication(session, applicantCopy))
-      expect(error.message).toEqual('"developerAllocation.applicant.id" is not allowed to be empty')
+      expect(error.message).toEqual('"developerRegistration.applicant.id" is not allowed to be empty')
       expect(value).not.toBeUndefined()
     })
   })

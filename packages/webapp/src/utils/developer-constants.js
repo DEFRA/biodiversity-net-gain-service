@@ -39,11 +39,12 @@ const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project
 const DEVELOPER_IS_AGENT = 'developer-is-agent'
 const DEVELOPER_METRIC_DATA = 'developer-metric-data'
 const DEV_DETAILS_CHECKED = 'dev-details-checked'
-const DEVELOPER_METRIC_LOCATION = 'developer-metric-file-location'
+const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
+const DEVELOPER_METRIC_LOCATION = 'developer-upload-metric-file-location'
 const DEVELOPER_ORIGINAL_METRIC_UPLOAD_LOCATION = 'developer-original-metric-upload-location'
-const DEVELOPER_METRIC_FILE_NAME = 'developer-metric-filename'
-const DEVELOPER_METRIC_FILE_SIZE = 'developer-metric-filesize'
-const DEVELOPER_METRIC_FILE_TYPE = 'developer-metric-filetype'
+const DEVELOPER_METRIC_FILE_NAME = 'developer-upload-metric-filename'
+const DEVELOPER_METRIC_FILE_SIZE = 'developer-upload-metric-file-size'
+const DEVELOPER_METRIC_FILE_TYPE = 'developer-upload-metric-file-type'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
@@ -62,22 +63,22 @@ const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 const DEVELOPER_ROLE_KEY = 'developer-role-key'
 const DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED = 'developer-defra-account-details-confirmed'
 const DEVELOPER_LANDOWNER_TYPE = 'developer-landowner-type'
-const DEVELOPER_WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'written-authorisation'
-const DEVELOPER_WRITTEN_AUTHORISATION_LOCATION = 'written-authorisation-location'
-const DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE = 'written-authorisation-file-size'
-const DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
-const DEVELOPER_WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
-const DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE = 'planning-decision-notice'
-const DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION = 'planning-decision-notice-location'
-const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE = 'planning-decision-notice-file-size'
-const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE = 'planning-decision-notice-file-type'
-const DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED = 'planning-decision-notice-checked'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE = 'consent-to-use-gain'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION = 'consent-to-use-gain-site-location'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'consent-to-use-gain-site-file-size'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'consent-to-use-gain-site-file-type'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'consent-to-use-gain-site-file-name'
-const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'consent-to-use-gain-site-checked'
+const DEVELOPER_WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'developer-written-authorisation'
+const DEVELOPER_WRITTEN_AUTHORISATION_LOCATION = 'developer-written-authorisation-location'
+const DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE = 'developer-written-authorisation-file-size'
+const DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE = 'developer-written-authorisation-file-type'
+const DEVELOPER_WRITTEN_AUTHORISATION_CHECKED = 'developer-written-authorisation-checked'
+const DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE = 'developer-planning-decision-notice'
+const DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION = 'developer-planning-decision-notice-location'
+const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE = 'developer-planning-decision-notice-file-size'
+const DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE = 'developer-planning-decision-notice-file-type'
+const DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED = 'developer-planning-decision-notice-checked'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE = 'developer-upload-consent'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION = 'developer-upload-consent-file-location'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE = 'developer-upload-consent-file-size'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE = 'developer-upload-consent-file-type'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME = 'developer-upload-consent-file-name'
+const DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED = 'developer-upload-consent-checked'
 const DEVELOPER_OFF_SITE_GAIN_CONFIRMED = 'developer-off-site-gain-confirmed'
 const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
 const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
@@ -98,14 +99,12 @@ const setDeveloperReferer = [
   DEVELOPER_AGREEMENT_CHECK,
   DEVELOPER_CHECK_ANSWERS
 ]
+
 const clearDeveloperReferer = [
   DEVELOPER_UPLOAD_METRIC,
   DEVELOPER_TASKLIST
 ]
-// Other constants
-const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
-const DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE = 'developer-metric-extraction'
-const DEVELOPER_CONSENT_UPLOAD_TYPE = 'developer-upload-consent'
+
 const CONSENT_FILE_EXT = [
   '.doc',
   '.docx',
@@ -212,8 +211,6 @@ export default {
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
-    DEVELOPER_METRIC_EXTRACTION_UPLOAD_TYPE,
-    DEVELOPER_CONSENT_UPLOAD_TYPE,
     DEVELOPER_WRITTEN_AUTHORISATION_UPLOAD_TYPE,
     DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE,
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE

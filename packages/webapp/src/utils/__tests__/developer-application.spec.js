@@ -10,8 +10,8 @@ describe('developer-application', () => {
     session.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'mock/developer-upload-metric/Sample Metric File.xlsm')
     session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, 'developer-upload-metric')
     const app = developerApplication(session, applicant)
-    expect(app.developerAllocation.files[0].fileType).toEqual('developer-upload-metric')
-    expect(app.developerAllocation.files[0].fileSize).toEqual(5131037)
+    expect(app.developerRegistration.files[0].fileType).toEqual('developer-upload-metric')
+    expect(app.developerRegistration.files[0].fileSize).toEqual(5131037)
   })
 
   it('Should handle nullable fields if session data not exists', () => {
@@ -19,6 +19,6 @@ describe('developer-application', () => {
     session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
 
     const app = developerApplication(session, applicant)
-    expect(app.developerAllocation.allocationReference).toEqual('')
+    expect(app.developerRegistration.allocationReference).toEqual('')
   })
 })
