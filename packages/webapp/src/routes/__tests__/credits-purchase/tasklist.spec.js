@@ -60,7 +60,7 @@ describe(url, () => {
         taskTitle: 'Statutory biodiversity credits',
         tasks: [
           {
-            title: 'Add statutory biodiversity credits',
+            title: 'Add a purchase order number, if you have one',
             status: 'NOT STARTED',
             url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
             id: 'add-credits'
@@ -79,7 +79,7 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
-        taskTitle: 'Customer due diligence (CDD)',
+        taskTitle: 'Customer due diligence (anti-money laundering)',
         tasks: [
           {
             title: 'Complete customer due diligence',

@@ -26,7 +26,7 @@ const addDevlopmentProjectInformation = taskDefinition(
 
 const addCredits = taskDefinition(
   'add-credits',
-  'Add statutory biodiversity credits',
+  'Add a purchase order number, if you have one',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
   addCreditsJourneys
@@ -71,7 +71,7 @@ const taskSections = [
   taskSectionDefinition('Development information', [addDevlopmentProjectInformation]),
   taskSectionDefinition('Statutory biodiversity credits', [addCredits]),
   taskSectionDefinition('Purchase order', [purchaseOrder]),
-  taskSectionDefinition('Customer due diligence (CDD)', [customerDueDiligence]),
+  taskSectionDefinition('Customer due diligence (anti-money laundering)', [customerDueDiligence]),
   taskSectionDefinition('Terms and conditions', [termsAndConditions])
 ]
 
