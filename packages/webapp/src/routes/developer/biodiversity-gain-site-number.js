@@ -62,7 +62,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    const bgsNumber = request.payload.bgsNumber
+    const bgsNumber = request.payload.bgsNumber?.trim()
     const error = await checkBGSNumber(bgsNumber, '#bgsNumber')
     if (error) {
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)

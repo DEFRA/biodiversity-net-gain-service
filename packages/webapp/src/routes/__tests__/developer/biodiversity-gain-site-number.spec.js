@@ -42,19 +42,19 @@ describe(url, () => {
     })
 
     it('Should show appropriate error if BGS number is in active state', async () => {
-      postOptions.payload.bgsNumber = 'active'
+      postOptions.payload.bgsNumber = 'active '
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This gain site registration is not complete - wait until you have confirmation.')
     })
 
     it('Should show appropriate error if BGS number is in rejected state', async () => {
-      postOptions.payload.bgsNumber = 'rejected'
+      postOptions.payload.bgsNumber = ' rejected'
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This reference is for a rejected application - enter a reference for an approved gain site.')
     })
 
     it('Should show appropriate error if BGS number does not exist', async () => {
-      postOptions.payload.bgsNumber = 'doesNotExist'
+      postOptions.payload.bgsNumber = '  doesNotExist  '
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('The gain site reference was not recognised - enter a reference for an approved gain site.')
     })
