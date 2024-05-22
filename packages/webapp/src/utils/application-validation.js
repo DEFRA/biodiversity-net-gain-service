@@ -112,7 +112,7 @@ const applicationValidation = Joi.object({
           encroachmentExtentBothBanks: Joi.string(),
           area: Joi.number(),
           measurementUnits: Joi.string().valid('hectares', 'kilometres'),
-          userBaselineRef: Joi.string()
+          userBaselineRef: Joi.string().allow('')
         })
       )
     }),
