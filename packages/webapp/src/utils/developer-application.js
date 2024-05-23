@@ -1,55 +1,73 @@
 import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
+import { getLpaNamesAndCodes } from './get-lpas.js'
 import path from 'path'
 
-const getDeveloperApplicationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
+const getApplicant = (account, session) => ({
+  id: account.idTokenClaims.contactId,
+  role: getApplicantRole(session)
+})
 
-// {
-//   contentMediaType: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_TYPE),
-//   fileType: 'developer-upload-consent',
-//   fileSize: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_SIZE),
-//   fileLocation: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION),
-//   fileName: session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_CONSENT_FILE_LOCATION))
-// }
+const getApplicantRole = session => {
+  const applicantIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
+  let applicantRole
 
-// Developer Application object schema must match the expected payload format for the Operator application
-export default (session, account) => {
+  if (applicantIsAgent === 'yes') {
+    applicantRole = 'agent'
+  } else if (organisationId) {
+    applicantRole = 'organisation'
+  } else {
+    applicantRole = 'individual'
+  }
+  return applicantRole
+}
+
+const getClientDetails = session => {
+  const clientType = getApplicantRole(session)
+
+  const clientDetails = {
+    clientType
+  }
+
+  if (clientType === 'agent') {
+    Object.assign(clientDetails, getAgentClientDetails(session))
+  } else if (clientType === 'individual') {
+    Object.assign(clientDetails, getIndividualClientDetails(session))
+  }
+
+  return clientDetails
+}
+
+const getAgentClientDetails = session => {
+  const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
   return {
-    developerAllocation: {
-      applicant: {
-        id: account.idTokenClaims.contactId
-      },
-      developmentDetails: {
-        projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
-        localAuthority: session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST),
-        planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
-      },
-      gainSite: getGainSite(session),
-      habitats: getHabitats(session),
-      submittedOn: new Date().toISOString(),
-      files: [
-        {
-          contentMediaType: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE),
-          fileType: 'developer-upload-metric',
-          fileSize: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE),
-          fileLocation: session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION),
-          fileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME) && path.basename(session.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION))
-        }
-      ],
-      allocationReference: getDeveloperApplicationReference(session),
-      payment: getPayment(session)
+    clientType,
+    clientNameIndividual: {
+      firstName,
+      lastName
     }
   }
 }
 
-const getPayment = session => {
-  const payment = savePayment(session, paymentConstants.ALLOCATION, getDeveloperApplicationReference(session))
+const getIndividualClientDetails = session => {
+  const { firstName, lastName } =
+    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
+
   return {
-    reference: payment.reference,
-    method: payment.type
+    clientNameIndividual: {
+      firstName,
+      lastName
+    }
   }
 }
+
+const getOrganisationId = session => ({
+  id: session.get(constants.redisKeys.ORGANISATION_ID)
+})
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
@@ -82,7 +100,29 @@ const getHabitats = session => {
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
   )
-  return allocated
+  return {
+    allocated
+  }
+}
+
+const getFile = (session, fileType, filesize, fileLocation, optional) => ({
+  contentMediaType: session.get(fileType),
+  fileType: fileType.replace('-file-type', ''),
+  fileSize: session.get(filesize),
+  fileLocation: session.get(fileLocation),
+  fileName: session.get(fileLocation) && path.basename(session.get(fileLocation)),
+  optional
+})
+
+const getFiles = session => {
+  const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED) === 'yes'
+  const writtenAuthorisationOptional = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === 'no'
+  return [
+    getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION, false),
+    getFile(session, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, false),
+    getFile(session, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, consentToUseGainSiteOptional),
+    getFile(session, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
+  ]
 }
 
 const getGainSite = session => {
@@ -100,3 +140,60 @@ const getGainSite = session => {
     }
   }
 }
+
+const getLpaCode = name => {
+  const foundLpa = getLpaNamesAndCodes().find(lpa => lpa.name === name)
+  return foundLpa ? foundLpa.id : null
+}
+
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.REGISTRATION, getAllocationReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
+const getAllocationReference = session => session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) || ''
+
+const application = (session, account) => {
+  const stringOrNull = value => value ? String(value) : null
+
+  const planningAuthorityName = stringOrNull(session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST))
+
+  const applicationJson = {
+    developerRegistration: {
+      applicant: getApplicant(account, session),
+      isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
+      gainSite: getGainSite(session),
+      habitats: getHabitats(session),
+      files: getFiles(session),
+      development: {
+        localPlanningAuthority: {
+          code: getLpaCode(planningAuthorityName),
+          name: planningAuthorityName
+        },
+        planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
+        name: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName
+      },
+      payment: getPayment(session),
+      allocationReference: getAllocationReference(session),
+      submittedOn: new Date().toISOString()
+    }
+  }
+
+  if (session.get(constants.redisKeys.ORGANISATION_ID)) {
+    applicationJson.developerRegistration.organisation = getOrganisationId(session)
+  }
+
+  if (applicationJson.developerRegistration.applicant.role === 'agent') {
+    applicationJson.developerRegistration.agent = getClientDetails(session)
+  }
+
+  // Filter blank files that are optional
+  applicationJson.developerRegistration.files = applicationJson.developerRegistration.files.filter(file => !(file.optional && !file.fileLocation))
+
+  return applicationJson
+}
+
+export default application
