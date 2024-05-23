@@ -13,10 +13,9 @@
           {{ pageHeading }}
         </h1>
 
-        <p>This is the number which connects your development project to the land you're using as your off-site gain.</p>
-        <p>The landowner should give this to you once they’ve registered the biodiversity gain site, and agreed you can use it.</p>
+        <p>This is the reference number for the land you're using for off-site gain, which you want to allocate to the development project.</p>
+        <p>The landowner will get this number once they've registered the biodiversity gain site.</p>
         <p class="govuk-hint">For example, BGS-010124001</p>
-
 
         {{ govukInput({
           id: "bgsNumber",
@@ -32,7 +31,7 @@
         }) }}
 
         {{ govukButton({
-          text: "Continue",
+          text: "Save and continue",
           attributes: {
             id: "continue",
             "data-testid": "continue"
