@@ -446,16 +446,6 @@ const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, 
   }
   return null
 }
-const validateBNGNumber = (bngNumber, hrefId) => {
-  const error = {}
-  if (!bngNumber.trim()) {
-    error.err = [{
-      text: 'Enter your Biodiversity gain site number',
-      href: hrefId
-    }]
-  }
-  return error.err ? error : null
-}
 
 const emailValidator = (email, id) => {
   try {
@@ -579,6 +569,8 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
     error.err[0].text = useStatutoryMetric
       ? 'The selected file must use the statutory biodiversity metric'
       : 'The selected file must use Biodiversity Metric version 4.1'
+  } else if (metricValidation.isDraftVersion) {
+    error.err[0].text = 'The selected file must not be a draft version'
   } else if (!metricValidation.isOffsiteDataPresent) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
@@ -807,7 +799,6 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
   maximumSizeExceeded,
