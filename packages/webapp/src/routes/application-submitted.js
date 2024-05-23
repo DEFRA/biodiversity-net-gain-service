@@ -28,6 +28,7 @@ const handlers = {
 
     // Reset user session as submitted
     request.yar.reset()
+
     return h.view(constants.views.APPLICATION_SUBMITTED, {
       applicationReference,
       payment,

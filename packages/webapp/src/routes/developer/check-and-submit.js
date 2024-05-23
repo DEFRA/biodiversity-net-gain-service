@@ -71,6 +71,8 @@ const handlers = {
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
+    // console.log(JSON.stringify(developerApplication(request.yar, request.auth.credentials.account), null, 2))
+
     return h.view(constants.views.DEVELOPER_CHECK_AND_SUBMIT, {
       ...getApplicationDetails(request.yar, currentOrganisation),
       backLink: constants.routes.DEVELOPER_TASKLIST
@@ -83,8 +85,8 @@ const handlers = {
     }
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
-    return h.redirect(constants.routes.DEVELOPER_CONFIRMATION)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.allocationReference)
+    return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
 
