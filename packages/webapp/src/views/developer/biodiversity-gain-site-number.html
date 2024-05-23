@@ -15,15 +15,15 @@
 
         <p>This is the number which connects your development project to the land you're using as your off-site gain.</p>
         <p>The landowner should give this to you once they’ve registered the biodiversity gain site, and agreed you can use it.</p>
-        <p class="govuk-hint">For example, BGS-111 222 333</p>
-        
+        <p class="govuk-hint">For example, BGS-010124001</p>
+
 
         {{ govukInput({
-          id: "bngNumber",
-          name: "bngNumber",
+          id: "bgsNumber",
+          name: "bgsNumber",
           errorMessage: err[0],
           spellcheck: false,
-          value: bngNumber,
+          value: bgsNumber,
           classes: "govuk-!-width-one-half",
           label: {
             text: "Biodiversity Gain Site Number",
