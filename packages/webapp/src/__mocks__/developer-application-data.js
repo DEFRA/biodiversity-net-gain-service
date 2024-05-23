@@ -264,11 +264,6 @@ export default {
   'developer-upload-metric-file-size': 5131037,
   'developer-upload-metric-file-location': 'mock/developer-upload-metric/Sample Metric File.xlsm',
   'developer-upload-metric-filename': 'Sample Metric File.xlsm',
-  'developer-upload-consent-file-location': 'mock/developer-upload-consent/5May1204.pdf',
-  'developer-upload-consent-file-name': '5May1204.pdf',
-  'developer-upload-consent-file-size': 13264,
-  'developer-upload-consent-file-type': 'developer-upload-consent',
-  'developer-consent-answer': 'yes',
   'developer-planning-decision-notice-location': 'mock/developer-planning-notice/ABC.pdf',
   'developer-planning-decision-notice-file-size': 123456,
   'developer-planning-decision-notice-file-type': 'developer-planning-decision-notice-file-type',
@@ -276,6 +271,6 @@ export default {
   'developer-planning-authority-list': 'Secretary of State',
   'developer-planning-application-ref': '12345',
   'developer-planning-development-name': 'houses',
-  'developer/landowner-or-leaseholder': 'no',
+  'developer/landowner-or-leaseholder': 'yes',
   'developer-is-agent': 'no'
 }
