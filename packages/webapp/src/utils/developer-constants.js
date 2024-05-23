@@ -84,15 +84,6 @@ const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
 const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 
-// ./RedisKeys constants
-const HABITAT = 'HABITAT'
-const HEDGEROW = 'HEDGEROW'
-
-const offSiteGainTypes = {
-  HABITAT,
-  HEDGEROW
-}
-
 const setDeveloperReferer = [
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   DEVELOPER_AGREEMENT_CHECK,
@@ -220,7 +211,6 @@ export default {
   },
   options: {
     ROUTING_REGISTER_OPTIONS,
-    offSiteGainTypes,
     DEFAULT_DEVELOPER_TASK_STATUS,
     IN_PROGRESS_DEVELOPER_TASK_STATUS,
     COMPLETE_DEVELOPER_TASK_STATUS
