@@ -38,11 +38,11 @@ const gainSiteAllocationInformation = taskDefinition(
 )
 
 const checkYourAnswers = {
-  taskTitle: 'Submit your biodiversity gain information',
+  taskTitle: 'Submit your off-site gains information',
   tasks: [{
     id: 'check-your-answers',
     title: 'Check your answers before you submit them',
-    url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+    url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }
