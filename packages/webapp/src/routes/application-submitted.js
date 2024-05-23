@@ -14,7 +14,6 @@ const getApplicationReference = request => {
   }
 
   if (path === constants.routes.DEVELOPER_CHECK_ANSWERS) {
-    console.log('HERE')
     reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
   }
 

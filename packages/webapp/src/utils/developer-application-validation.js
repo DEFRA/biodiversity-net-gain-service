@@ -64,8 +64,8 @@ const developerApplicationValidation = Joi.object({
         code: Joi.string().pattern(/^E60000[0-9]{3}$/).allow(null, '').required(),
         name: Joi.string().max(255).required()
       }),
-      planningReference: Joi.string().max(255),
-      name: Joi.string().max(255)
+      planningReference: Joi.string(),
+      name: Joi.string()
     }).required(),
     payment: Joi.object({
       reference: Joi.string().required(),

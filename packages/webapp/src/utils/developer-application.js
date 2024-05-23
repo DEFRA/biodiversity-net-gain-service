@@ -25,44 +25,20 @@ const getApplicantRole = session => {
 }
 
 const getClientDetails = session => {
-  const clientType = getApplicantRole(session)
+  const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
 
   const clientDetails = {
     clientType
   }
 
-  if (clientType === 'agent') {
-    Object.assign(clientDetails, getAgentClientDetails(session))
+  if (clientType === 'organisation') {
+    clientDetails.clientNameOrganisation = session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
   } else if (clientType === 'individual') {
-    Object.assign(clientDetails, getIndividualClientDetails(session))
+    const { firstName, lastName } = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
+    clientDetails.clientNameIndividual = { firstName, lastName }
   }
 
   return clientDetails
-}
-
-const getAgentClientDetails = session => {
-  const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
-  const { firstName, lastName } =
-    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
-  return {
-    clientType,
-    clientNameIndividual: {
-      firstName,
-      lastName
-    }
-  }
-}
-
-const getIndividualClientDetails = session => {
-  const { firstName, lastName } =
-    session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME).value
-
-  return {
-    clientNameIndividual: {
-      firstName,
-      lastName
-    }
-  }
 }
 
 const getOrganisationId = session => ({
@@ -115,7 +91,7 @@ const getFile = (session, fileType, filesize, fileLocation, optional) => ({
 })
 
 const getFiles = session => {
-  const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_CHECKED) === 'yes'
+  const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === 'yes'
   const writtenAuthorisationOptional = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === 'no'
   return [
     getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION, false),
@@ -147,7 +123,7 @@ const getLpaCode = name => {
 }
 
 const getPayment = session => {
-  const payment = savePayment(session, paymentConstants.REGISTRATION, getAllocationReference(session))
+  const payment = savePayment(session, paymentConstants.ALLOCATION, getAllocationReference(session))
   return {
     reference: payment.reference,
     method: payment.type
@@ -174,7 +150,7 @@ const application = (session, account) => {
           name: planningAuthorityName
         },
         planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
-        name: session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)?.startPage.projectName
+        name: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
       },
       payment: getPayment(session),
       allocationReference: getAllocationReference(session),

@@ -10,6 +10,12 @@ import { postJson } from '../../utils/http.js'
 
 const handlers = {
   get: async (request, h) => {
+    const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
+
+    console.log(JSON.stringify(value, null, 2))
+
+    console.log(error)
+
     return request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE) !== null
       ? h.view(constants.views.DEVELOPER_CHECK_ANSWERS, {
         ...getContext(request)
