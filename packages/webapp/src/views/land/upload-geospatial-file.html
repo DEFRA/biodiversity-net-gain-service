@@ -38,13 +38,16 @@
             describedBy: "location-import-hint"
           }) }}
 
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
+          <div class="govuk-button-group">
+            {{ govukButton({
+              text: "Save and upload",
+              attributes: {
+                id: "continue",
+                "data-testid": "continue"
+              }
+            }) }}
+            <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
+          </div>
       </div>
     </div>
   </div>

@@ -31,13 +31,16 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
+          <div class="govuk-button-group">
+            {{ govukButton({
+              text: "Save and upload",
+              attributes: {
+                id: "continue",
+                "data-testid": "continue"
+              }
+            }) }}
+            <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
+          </div>
           <p><a href="/land/need-habitat-plan">I do not have the habitat management and monitoring plan</a></p>
       </div>
     </div>
