@@ -16,14 +16,13 @@
         <p>This is the reference number for the land you're using for off-site gain, which you want to allocate to the development project.</p>
         <p>The landowner will get this number once they've registered the biodiversity gain site.</p>
         <p class="govuk-hint">For example, BGS-111 222 333</p>
-        
-
+          
         {{ govukInput({
-          id: "bngNumber",
-          name: "bngNumber",
+          id: "bgsNumber",
+          name: "bgsNumber",
           errorMessage: err[0],
           spellcheck: false,
-          value: bngNumber,
+          value: bgsNumber,
           classes: "govuk-!-width-one-half",
           label: {
             text: "Biodiversity Gain Site Number",

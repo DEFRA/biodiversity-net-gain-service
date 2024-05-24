@@ -25,8 +25,8 @@ describe('Metric file upload controller tests', () => {
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       postProcess: {
         metricData: {
-          d1: [{ 'Off-site reference': 'AZ12208461' }],
-          e1: [],
+          d2: [{ 'Off-site reference': 'AZ12208461' }],
+          e2: [],
           validation: {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
