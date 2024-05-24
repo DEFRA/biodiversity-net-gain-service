@@ -49,30 +49,30 @@ describe(url, () => {
         taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Add planning decision notice',
+            title: 'Add biodiversity gain site details',
             status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
-            id: 'planning-decision-notice'
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project information',
+            title: 'Add development project details',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add biodiversity gain site information',
+            title: 'Upload planning decision notice',
             status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'gain-site-allocation-info'
+            url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+            id: 'planning-decision-notice'
           }
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
-        taskTitle: 'Submit your biodiversity gain information',
+        taskTitle: 'Submit your off-site gains information',
         tasks: [
           {
-            title: 'Check your answers before you submit them',
+            title: 'Check your answers and submit',
             status: 'CANNOT START YET',
             url: constants.routes.DEVELOPER_CHECK_ANSWERS,
             id: 'check-your-answers'
@@ -112,22 +112,22 @@ describe(url, () => {
         taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Add planning decision notice',
-            status: 'COMPLETED',
-            url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
-            id: 'planning-decision-notice'
+            title: 'Add biodiversity gain site details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project information',
+            title: 'Add development project details',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Add biodiversity gain site information',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'gain-site-allocation-info'
+            title: 'Upload planning decision notice',
+            status: 'COMPLETED',
+            url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
+            id: 'planning-decision-notice'
           }
         ]
       })
