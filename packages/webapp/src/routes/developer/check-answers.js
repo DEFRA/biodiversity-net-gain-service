@@ -28,38 +28,17 @@ const handlers = {
   }
 }
 
-const getAdditionalEmailAddressArray = additionalEmailAddresses =>
-  additionalEmailAddresses?.map(item => ({
-    key: {
-      text: 'Email'
-    },
-    value: {
-      html: `<span>${item.email}</span>`
-    },
-    actions: {
-      items: [
-        {
-          href: constants.routes.DEVELOPER_EMAIL_ENTRY,
-          text: 'Change',
-          visuallyHiddenText: ' Addtional email addresses'
-        }
-      ]
-    }
-  }))
-
 const getContext = request => {
   const applicationData = developerApplication(request.yar, request.auth.credentials.account)
-  const additionalEmailAddresses = getAdditionalEmailAddressArray(applicationData.developerAllocation.additionalEmailAddresses)
-  const developmentDetails = applicationData.developerAllocation.developmentDetails
-  const files = applicationData.developerAllocation.files
-  const biodiversityGainSiteNumber = applicationData.developerAllocation.biodiversityGainSiteNumber
-  const confirmDevelopmentDetails = applicationData.developerAllocation.confirmDevelopmentDetails
-  const confirmOffsiteGainDetails = applicationData.developerAllocation.confirmOffsiteGainDetails
+  const developmentDetails = applicationData.developerRegistration.developmentDetails
+  const files = applicationData.developerRegistration.files
+  const biodiversityGainSiteNumber = applicationData.developerRegistration.biodiversityGainSiteNumber
+  const confirmDevelopmentDetails = applicationData.developerRegistration.confirmDevelopmentDetails
+  const confirmOffsiteGainDetails = applicationData.developerRegistration.confirmOffsiteGainDetails
   return {
     routes: constants.routes,
     application: applicationData,
     developmentDetails,
-    additionalEmailAddresses,
     files,
     biodiversityGainSiteNumber,
     confirmDevelopmentDetails,

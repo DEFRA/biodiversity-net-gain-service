@@ -121,9 +121,8 @@ describe(url, () => {
           }
 
           const authCopy = JSON.parse(JSON.stringify(auth))
-          authCopy.credentials.account.idTokenClaims.lastName = ''
 
-          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerAllocation.developmentDetails.localAuthority" is required')
+          await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerRegistration.development.localPlanningAuthority.name" must be a string')
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual('')
           done()
