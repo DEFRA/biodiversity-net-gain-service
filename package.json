@@ -132,5 +132,8 @@
       "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)",
       "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
     ]
+  },
+  "dependencies": {
+    "npm": "^10.5.0"
   }
 }
