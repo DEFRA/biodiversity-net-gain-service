@@ -7,13 +7,9 @@ const developerApplicationValidation = Joi.object({
       role: Joi.string().valid('agent', 'individual', 'organisation').required()
     }).required(),
     isLandownerLeaseholder: Joi.string().valid('yes', 'no').required(),
-    organisation: Joi.when('applicant.role', {
-      is: 'organisation',
-      then: Joi.object({
-        id: Joi.string().required()
-      }),
-      otherwise: Joi.forbidden()
-    }),
+    organisation: Joi.object({
+      id: Joi.string().required()
+    }).optional(),
     agent: Joi.when('applicant.role', {
       is: 'agent',
       then: Joi.object({
