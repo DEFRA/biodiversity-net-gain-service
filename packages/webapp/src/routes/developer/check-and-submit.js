@@ -4,15 +4,50 @@ import { postJson } from '../../utils/http.js'
 import constants from '../../utils/constants.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import {
-  habitatTypeAndConditionMapper
+  habitatTypeAndConditionMapper,
+  combineHabitats
 } from '../../utils/helpers.js'
+import habitatTypeMap from '../../utils/habitatTypeMap.js'
 import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
+// FIXME: this is copied code, refactor
+const extractHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
+  const filteredMetricData = {}
+  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+
+  sheetLabels.forEach(label => {
+    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+
+    // calculate the area based on the filtered out habitats and add to the habitat array
+    // as the last entry, this is then used by habitatTypeAndConditionMapper later
+    const unitKey = habitatTypeMap[label].unitKey
+    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => acc + cur[unitKey], 0)
+    filteredMetricData[label].push({
+      [unitKey]: measurementTotal
+    })
+  })
+
+  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
+  return combineHabitats(habitats)
+}
+
 const getApplicationDetails = (session, currentOrganisation) => {
+  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const habitat = habitatTypeAndConditionMapper(['d1'], metricData)
-  const habitats = (habitat[0]?.items || []).map(item => {
+  const habitat = extractHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+  console.log(habitat)
+  const allHabitats = []
+  habitat.forEach(h => {
+    const unit = h.unit.substring(h.unit.indexOf('(') + 1, h.unit.indexOf(')'))
+    h.items.forEach(r => {
+      r.amount = `${r.amount} ${unit}`
+      allHabitats.push(r)
+    })
+  })
+  // const allHabitats = [...habitat[0].items, ...habitat[1].items, ...habitat[2].items]
+  console.log(allHabitats)
+  const habitats = (allHabitats || []).map(item => {
     return [
       {
         classes: 'govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0',
@@ -82,9 +117,10 @@ const handlers = {
       throw new Error(error)
     }
 
+    console.log(value)
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processdeveloperapplication`, value)
-    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.gainSiteReference)
-    return h.redirect(constants.routes.DEVELOPER_CONFIRMATION)
+    request.yar.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, result.allocationReference)
+    return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }
 
