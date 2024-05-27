@@ -74,7 +74,7 @@ describe(url, () => {
           {
             title: 'Check your answers and submit',
             status: 'CANNOT START YET',
-            url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+            url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
             id: 'check-your-answers'
           }
         ]
