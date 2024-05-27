@@ -26,8 +26,6 @@ const getContext = request => {
   const gainSiteNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
 
-  console.log(metricData)
-
   const filteredMetricData = extractHabitatsByGainSiteNumber(metricData, gainSiteNumber)
   const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
   const habitatTypeAndCondition = combineHabitats(habitats)
