@@ -2,7 +2,7 @@
     <div class="govuk-main-wrapper">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-full">
-          <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+          <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
           {{ govukButton({
             text: newApplicationText,
             "href": newApplicationHref,
@@ -53,6 +53,9 @@
               {% endfor %}
             </tbody>
           </table>
+          {% if amendRegistrationLink %}
+            <p><a href="https://www.gov.uk/guidance/amend-a-registration-or-allocation-or-remove-a-registration" target="_blank">Amend or remove a registration (opens in new tab)</a></p>
+          {% endif %}
         </div>
       </div>
     </div>
