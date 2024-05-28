@@ -47,9 +47,10 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
   const clientType = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
   const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+  const developerIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
   return {
     applicantInfo: {
-      actingForClient: session.get(constants.redisKeys.DEVELOPER_IS_AGENT),
+      actingForClient: developerIsAgent ? initialCapitalization(developerIsAgent): '',
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,

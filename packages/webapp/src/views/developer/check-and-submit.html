@@ -7,7 +7,7 @@
 {% set applicantInfoRowList = [
   {
     'text': 'Acting on behalf of a client',
-    'value': ('Yes' if applicantInfo.actingForClient else 'No'),
+    'value': applicantInfo.actingForClient,
     'valueDataTestId': 'acting-for-client-value',
     'href': applicantInfo.actingForClientChangeUrl,
     'visuallyHiddenText': ' acting on behalf of a client',
