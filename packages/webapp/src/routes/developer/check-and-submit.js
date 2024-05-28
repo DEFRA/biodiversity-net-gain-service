@@ -4,7 +4,7 @@ import { postJson } from '../../utils/http.js'
 import constants from '../../utils/constants.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import {
-  habitatTypeAndConditionMapper
+  habitatTypeAndConditionMapper, initialCapitalization
 } from '../../utils/helpers.js'
 import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
@@ -34,13 +34,22 @@ const getApplicationDetails = (session, currentOrganisation) => {
   })
   const fileLocation = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
   const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
-
+  const clientType = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
+  const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   return {
     applicantInfo: {
       actingForClient: session.get(constants.redisKeys.DEVELOPER_IS_AGENT),
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
-      confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS
+      confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
+      landownerOrLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
+      landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
+      clientType: clientType ? initialCapitalization(clientType) : null,
+      clientTypeChangeUrl: constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+      clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
+      clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
+      writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
+      writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,

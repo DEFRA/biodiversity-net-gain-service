@@ -22,6 +22,42 @@
     'visuallyHiddenText': ' Defra account details are up to date',
     'classes': '',
     'show': true
+  },
+  {
+    'text': 'Client is a landowner or leaseholder',
+    'value': ('Yes' if applicantInfo.landownerOrLeaseholder else 'No'),
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.landownerOrLeaseholderChangeUrl,
+    'visuallyHiddenText': ' Client is a landowner or leaseholder',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Client is an individual or organisation',
+    'value': applicantInfo.clientType,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.clientTypeChangeUrl,
+    'visuallyHiddenText': ' Client is an individual or organisation',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Client\'s name',
+    'value': applicantInfo.clientsName,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.clientsNameChangeUrl,
+    'visuallyHiddenText': ' Client\'s name',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Written authorisation file',
+    'value': applicantInfo.writtenAuthorisation,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.writtenAuthorisationChangeUrl,
+    'visuallyHiddenText': ' Written authorisation file',
+    'classes': '',
+    'show': true
   }
   ] %}
 
