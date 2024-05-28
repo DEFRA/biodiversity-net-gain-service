@@ -27,3 +27,9 @@ export const BACS_ACCOUNT_NAME = process.env.BACS_ACCOUNT_NAME || 'Natural Engla
 export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'
 export const BACS_ACCOUNT_NUMBER = process.env.BACS_ACCOUNT_NUMBER || '12345678'
 export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'
+
+export const BACKEND_API = {
+  BASE_URL: process.env.BACKEND_API_BASE_URL ?? 'http://localhost:3000/test/api/',
+  SUBSCRIPTION_KEY: process.env.BACKEND_API_SUBSCRIPTION_KEY ?? 'test123',
+  CODE_QUERY_PARAMETER: process.env.BACKEND_API_CODE_QUERY_PARAMETER ?? 'test123'
+}

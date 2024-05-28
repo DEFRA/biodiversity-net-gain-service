@@ -1,7 +1,5 @@
 export default {
   'application-reference': '',
-  'developer-fullname': 'Test User',
-  'developer-email-value': 'test@example.com',
   'developer-metric-data': {
     startPage: {
       planningAuthority: 'County Council',
@@ -64,7 +62,8 @@ export default {
         'Area (hectares)': 0.9,
         Condition: 'Fairly Good',
         'Habitat units delivered': 7.0134822603,
-        'Habitat created in advance (years)': 0
+        'Habitat created in advance (years)': 0,
+        'Habitat reference Number': '1234ABC'
       },
       {
         'Delay in starting habitat creation (years)': 0,
@@ -74,7 +73,8 @@ export default {
         'Area (hectares)': 0.1,
         Condition: 'Condition Assessment N/A',
         'Habitat units delivered': 0.386,
-        'Habitat created in advance (years)': 0
+        'Habitat created in advance (years)': 0,
+        'Habitat reference Number': '5678ABC'
       }
     ],
     d3: [
@@ -90,7 +90,8 @@ export default {
         Condition: 'Good',
         'Habitat units delivered': 7.027257226998999,
         'Proposed habitat': 'Lowland raised bog',
-        'Distinctiveness change': 'Low - V.High'
+        'Distinctiveness change': 'Low - V.High',
+        'Habitat reference Number': '1234DEF'
       },
       {
         'Baseline habitat': 'Woodland and forest - Other woodland; mixed',
@@ -104,7 +105,8 @@ export default {
         Condition: 'Good',
         'Habitat units delivered': 4.555818212099999,
         'Proposed habitat': 'Other woodland; mixed',
-        'Distinctiveness change': 'Medium - Medium'
+        'Distinctiveness change': 'Medium - Medium',
+        'Habitat reference Number': '5678DEF'
       },
       {
         'Baseline habitat': 'Grassland - Modified grassland',
@@ -118,7 +120,8 @@ export default {
         Condition: 'Good',
         'Habitat units delivered': 4.9956750053,
         'Proposed habitat': 'Modified grassland',
-        'Distinctiveness change': 'Low - Low'
+        'Distinctiveness change': 'Low - Low',
+        'Habitat reference Number': '9876ABC'
       }
     ],
     e1: [
@@ -149,7 +152,8 @@ export default {
         'Off-site reference': 'BGS-111 222 333',
         'Hedge units delivered': 1.7654229486,
         Condition: 'Good',
-        'Habitat created in advance (years)': 0
+        'Habitat created in advance (years)': 0,
+        'Habitat reference Number': '9876DEF'
       }
     ],
     e3: [
@@ -159,7 +163,8 @@ export default {
         'Habitat enhanced in advance (years)': 0,
         'Off-site reference': 'BGS-111 222 333',
         'Hedge units delivered': 2.27835855,
-        Condition: 'Moderate'
+        Condition: 'Moderate',
+        'Habitat reference Number': '9876KLM'
       }
     ],
     f1: [
@@ -192,7 +197,8 @@ export default {
         'Off-site reference': 'BGS-111 222 333',
         'Watercourse units delivered': 2.594403979575,
         Condition: 'Fairly Good',
-        'Length (km)': 0.3
+        'Length (km)': 0.3,
+        'Habitat reference Number': '9876FGH'
       }
     ],
     f3: [
@@ -206,7 +212,8 @@ export default {
         'Off-site reference': 'BGS-111 222 333',
         'Proposed habitat': 'Ditches',
         'Watercourse units delivered': 2.409217854828,
-        Condition: 'Good'
+        Condition: 'Good',
+        'Habitat reference Number': '4321ABC'
       }
     ],
     habitatOffSiteGainSiteSummary: [
@@ -253,17 +260,17 @@ export default {
   'biodiversity-net-gain-number': 'AZ12208461',
   'metric-file-checked': 'yes',
   'offsite-details-checked': 'yes',
-  'developer-metric-filetype': 'developer-upload-metric',
-  'developer-metric-filesize': 5131037,
-  'developer-metric-file-location': 'mock/developer-upload-metric/Sample Metric File.xlsm',
-  'developer-metric-filename': 'Sample Metric File.xlsm',
-  'developer-consent-file-location': 'mock/developer-upload-consent/5May1204.pdf',
-  'developer-consent-file-name': '5May1204.pdf',
-  'developer-consent-file-size': 13264,
-  'developer-consent-file-type': 'developer-upload-consent',
-  'developer-consent-answer': 'yes',
+  'developer-upload-metric-file-type': 'developer-upload-metric',
+  'developer-upload-metric-file-size': 5131037,
+  'developer-upload-metric-file-location': 'mock/developer-upload-metric/Sample Metric File.xlsm',
+  'developer-upload-metric-filename': 'Sample Metric File.xlsm',
+  'developer-planning-decision-notice-location': 'mock/developer-planning-notice/ABC.pdf',
+  'developer-planning-decision-notice-file-size': 123456,
+  'developer-planning-decision-notice-file-type': 'developer-planning-decision-notice-file-type',
   'developer-app-reference': 'TEST-1234',
-  'developer-planning-authority-list': 'My LPA',
+  'developer-planning-authority-list': 'Secretary of State',
   'developer-planning-application-ref': '12345',
-  'developer-planning-development-name': 'houses'
+  'developer-planning-development-name': 'houses',
+  'developer/landowner-or-leaseholder': 'yes',
+  'developer-is-agent': 'no'
 }
