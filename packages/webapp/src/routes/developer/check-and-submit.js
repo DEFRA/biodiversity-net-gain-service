@@ -60,13 +60,13 @@ const getApplicationDetails = (session, currentOrganisation) => {
       clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
       clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
       writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
-      writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
+      writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
       planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
-      metricFileNameUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
+      metricFileNameUrl: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
       bngNumber: gainSiteNumber,
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
       projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
