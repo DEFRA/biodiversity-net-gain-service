@@ -64,7 +64,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
-      planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+      planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
       metricFileNameUrl: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
       bngNumber: gainSiteNumber,
