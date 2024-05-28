@@ -11,7 +11,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
-      <p>We will use the information in your Defra account to identify you and to contact you about this application.</p>
+      <p>We will use the information in your Defra account to identify you and to contact you about your application.</p>
       {% if applicationSpecificGuidance %}
         <p>
           {% if organisation %}<strong>{{ subject }}</strong>{% else %}<strong>{{ subject }}</strong> {% endif %}
@@ -37,7 +37,7 @@
         ]
       }) }}
       {{ govukButton({
-        text: "Continue",
+        text: "Confirm and continue",
         attributes: {
           id: "continue",
           "data-testid": "continue"

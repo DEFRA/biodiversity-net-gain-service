@@ -319,6 +319,26 @@ const combineHabitats = habitatTypeAndCondition => {
   return combinedHabitatTypeAndCondition
 }
 
+const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
+  const filteredMetricData = {}
+  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+
+  sheetLabels.forEach(label => {
+    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+
+    // calculate the area based on the filtered out habitats and add to the habitat array
+    // as the last entry, this is then used by habitatTypeAndConditionMapper later
+    const unitKey = habitatTypeMap[label].unitKey
+    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => acc + cur[unitKey], 0)
+    filteredMetricData[label].push({
+      [unitKey]: measurementTotal
+    })
+  })
+
+  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
+  return combineHabitats(habitats)
+}
+
 const validateName = (fullName, hrefId) => {
   const error = {}
   if (!fullName) {
@@ -782,6 +802,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  extractAllocationHabitatsByGainSiteNumber,
   getFileHeaderPrefix,
   getValidReferrerUrl,
   validateIdGetSchemaOptional,

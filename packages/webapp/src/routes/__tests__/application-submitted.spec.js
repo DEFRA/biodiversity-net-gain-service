@@ -45,7 +45,7 @@ describe(url, () => {
           viewArgs = args
         }
       }
-      await getHandler({ headers: { referer: 'http://localhost/developer/check-answers' }, yar: session }, h)
+      await getHandler({ headers: { referer: 'http://localhost/developer/check-and-submit' }, yar: session }, h)
       expect(viewArgs[0]).toEqual('application-submitted')
       expect(viewArgs[1].applicationReference).toEqual(gainSiteReference)
     })

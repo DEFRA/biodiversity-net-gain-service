@@ -38,7 +38,7 @@ describe(url, () => {
         emails: 'test@example.com'
       }
       const { viewResult, yar } = await processEmailAddressesSubmission(emailAddresses)
-      expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_ANSWERS)
+      expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
       expect(yar.get(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)).toEqual([{ email: 'test@example.com', fullName: 'Test' }])
     })
     it('should display an errors if duplicate email address submitted', async () => {

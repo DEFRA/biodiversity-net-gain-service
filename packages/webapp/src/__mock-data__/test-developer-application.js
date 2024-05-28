@@ -67,8 +67,8 @@ const data = `{
             "title": "Check your answers before you submit them to us",
             "status": "CANNOT START YET",
             "completedTaskUrl": "/developer/email-entry",
-            "startTaskUrl": "/developer/check-answers",
-            "inProgressUrl": "/developer/check-answers",
+            "startTaskUrl": "/developer/check-and-submit",
+            "inProgressUrl": "/developer/check-and-submit",
             "id": "check-your-answer"
           }
         ]

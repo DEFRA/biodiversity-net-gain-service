@@ -78,9 +78,9 @@ const developerTaskList = {
         {
           title: 'Check your answers before you submit them to us',
           status: 'CANNOT START YET',
-          completedTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          startTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          inProgressUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
+          completedTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          startTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          inProgressUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
           id: 'check-your-answer'
         }
       ]

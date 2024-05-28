@@ -1,10 +1,9 @@
 {% extends 'multipart-form-layout.html' %}
-{% set serviceName = "Manage biodiversity gains" %}
 
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
-{% set pageHeading = "Upload the Biodiversity Metric 4.1 file" %}
+{% set pageHeading = "Upload the statutory biodiversity metric file for the development project" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -18,7 +17,10 @@
         </h1>
 
         <div id="location-upload-hint">
-          <p>This is the Metric file that the local planning authority reviewed with your Biodiversity Net Gain Statement.</p>
+          <p>You must upload a calculation made using the statutory (official) biodiversity metric tool for the development project. Do not use previous versions of the metric tool (4.0 or before).</p>
+          <p>It must be the same calculation the local planning authority reviewed with the development project's planning application.</p>
+          <p>You can <a href="https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development" target="__blank" rel="noreferrer noopener">find out more about completing a biodiversity metric calculation</a> on GOV.UK.</p>
+
           <p>The file should be:</p>
           <ul class="govuk-list govuk-list--bullet">
             <li>XLSM or XLSX</li>
@@ -28,21 +30,20 @@
           {{ govukFileUpload({
             id: "uploadMetric",
             name: "uploadMetric",
-            errorMessage: err[0],
-            label: {
-              text: "Upload a file"
-            }
+            errorMessage: err[0]
           }) }}
-          <p class="govuk-!-padding-top-3">
-            <a href="/developer/need-metric">I do not have a Biodiversity Metric 4.1. file</a>
-          </p>
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "Upload-File",
-              "data-testid": "continue"
-            }
-          }) }}
+
+          <div class="govuk-button-group">
+            {{ govukButton({
+              text: "Save and upload",
+              attributes: {
+                id: "Upload-File",
+                "data-testid": "continue"
+              }
+            }) }}
+
+            <a class="govuk-link" href="/signout">Or save progress and come back later</a>
+          </div>
       </div>
     </div>
   </div>
