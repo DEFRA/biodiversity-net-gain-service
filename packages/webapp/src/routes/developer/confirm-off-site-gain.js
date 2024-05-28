@@ -1,34 +1,11 @@
 import constants from '../../utils/constants.js'
-import { combineHabitats, habitatTypeAndConditionMapper } from '../../utils/helpers.js'
-import habitatTypeMap from '../../utils/habitatTypeMap.js'
-
-const extractHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
-  const filteredMetricData = {}
-  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-
-  sheetLabels.forEach(label => {
-    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
-
-    // calculate the area based on the filtered out habitats and add to the habitat array
-    // as the last entry, this is then used by habitatTypeAndConditionMapper later
-    const unitKey = habitatTypeMap[label].unitKey
-    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => acc + cur[unitKey], 0)
-    filteredMetricData[label].push({
-      [unitKey]: measurementTotal
-    })
-  })
-
-  return filteredMetricData
-}
+import { extractAllocationHabitatsByGainSiteNumber } from '../../utils/helpers.js'
 
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
-
-  const filteredMetricData = extractHabitatsByGainSiteNumber(metricData, gainSiteNumber)
-  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
-  const habitatTypeAndCondition = combineHabitats(habitats)
+  const habitatTypeAndCondition = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
 
   return {
     habitatTypeAndCondition,
