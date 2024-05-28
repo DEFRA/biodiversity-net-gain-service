@@ -4,15 +4,25 @@ import { postJson } from '../../utils/http.js'
 import constants from '../../utils/constants.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import {
-  habitatTypeAndConditionMapper, initialCapitalization
+  extractAllocationHabitatsByGainSiteNumber,
+  initialCapitalization
 } from '../../utils/helpers.js'
 import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
 const getApplicationDetails = (session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const habitat = habitatTypeAndConditionMapper(['d1'], metricData)
-  const habitats = (habitat[0]?.items || []).map(item => {
+  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const allHabitats = []
+  const habitatDetails = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+  habitatDetails.forEach(h => {
+    const unit = h.unit.substring(h.unit.indexOf('(') + 1, h.unit.indexOf(')'))
+    h.items.forEach(r => {
+      r.amount = `${r.amount} ${unit}`
+      allHabitats.push(r)
+    })
+  })
+  const habitats = (allHabitats || []).map(item => {
     return [
       {
         classes: 'govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0',
@@ -32,6 +42,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       }
     ]
   })
+
   const fileLocation = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
   const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
   const clientType = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
@@ -56,7 +67,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       planningDecisionNoticeFileChangeUrl: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
       metricFileNameUrl: constants.routes.DEVELOPER_UPLOAD_METRIC,
-      bngNumber: session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER),
+      bngNumber: gainSiteNumber,
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
       projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
       projectNameChangeUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
