@@ -18,11 +18,12 @@ const auth = {
 
 describe(url, () => {
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
+    it.only(`should render the ${url.substring(1)} view for an organisation application`, async () => {
       jest.mock('../../../utils/helpers.js')
       const helpers = require('../../../utils/helpers.js')
-      helpers.habitatTypeAndConditionMapper = jest.fn().mockImplementation(() => {
+      helpers.extractAllocationHabitatsByGainSiteNumber = jest.fn().mockImplementation(() => {
         return [{
+          unit: 'm',
           items: [{
             header: 'testHeader',
             description: 'testDescription',
