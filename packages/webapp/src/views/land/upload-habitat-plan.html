@@ -18,10 +18,12 @@
             }
           }) }}
           <p>The file should be:</p>     
-      <ul class="govuk-list govuk-list--bullet">
-        <li>a DOC, DOCX or PDF</li>
-        <li>no larger than 50MB</li>
-      </ul>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>a DOC, DOCX or PDF</li>
+            <li>no larger than 50MB</li>
+          </ul>
+
           {{ govukFileUpload({
             id: "localLandChargeCertificate.",
             name: "localLandChargeCertificate",
@@ -31,6 +33,7 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
+
           <div class="govuk-button-group">
             {{ govukButton({
               text: "Save and upload",
@@ -41,6 +44,7 @@
             }) }}
             <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
           </div>
+
           <p><a href="/land/need-habitat-plan">I do not have the habitat management and monitoring plan</a></p>
       </div>
     </div>
