@@ -24,7 +24,7 @@
       <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
         {{ pageHeading }}
       </h1>
-      
+
       <div class="govuk-panel__body govuk-!-font-size-27">
         Biodiversity net gain (BNG) application reference number<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
       </div>
@@ -99,8 +99,9 @@
       <h2 class="govuk-heading-m">Give feedback about this service</h2>
       <p>
         <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO" rel="noreferrer noopener" target="__blank">What did you think of this service (opens in new tab)?</a>
-      </p>
+      </p><br />
   </div>
+  {% include "common/assisted-digital-helpline.html" %}
 </div>
 {% endif %}
 
