@@ -18,7 +18,7 @@ const auth = {
 
 describe(url, () => {
   describe('GET', () => {
-    it.only(`should render the ${url.substring(1)} view for an organisation application`, async () => {
+    it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
       jest.mock('../../../utils/helpers.js')
       const helpers = require('../../../utils/helpers.js')
       helpers.extractAllocationHabitatsByGainSiteNumber = jest.fn().mockImplementation(() => {
