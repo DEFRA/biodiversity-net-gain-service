@@ -43,12 +43,14 @@ const getApplicationDetails = (session, currentOrganisation) => {
     ]
   })
 
-  const fileLocation = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
-  const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
-  const clientType = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
-  const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   const developerIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
   const developerIsLandowner = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+  const fileLocation = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
+  const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
+  const clientType = developerIsAgent
+    ? session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+    : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
+  const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   return {
     applicantInfo: {
       actingForClient: developerIsAgent ? 'Yes' : 'No',
@@ -58,7 +60,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       landownerOrLeaseholder: developerIsLandowner ? 'Yes' : 'No',
       landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
       clientType: clientType ? initialCapitalization(clientType) : null,
-      clientTypeChangeUrl: constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+      clientTypeChangeUrl: developerIsAgent ? constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION : constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
       clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
       clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
       writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
