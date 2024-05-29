@@ -72,7 +72,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
-      return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
+      return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
     }
   }
 }
