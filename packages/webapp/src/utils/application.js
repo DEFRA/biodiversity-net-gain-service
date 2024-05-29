@@ -122,6 +122,8 @@ const getAddress = session => {
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
+  console.log('metricData: ')
+  console.log(JSON.stringify(metricData, null, 2))
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
@@ -171,7 +173,7 @@ const getHabitats = session => {
   }
 
   const baseline = baselineIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
+    metricData[identifier].filter(details => 'Ref' in details).map(details => ({
       habitatType: getHabitatType(identifier, details),
       baselineReference: String(details.Ref),
       module: getModule(identifier),
@@ -181,8 +183,7 @@ const getHabitats = session => {
         beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
         afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
       },
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      userBaselineRef: String(details['User baseline ref'])
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
     }))
   )
 
@@ -190,7 +191,9 @@ const getHabitats = session => {
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
       proposedHabitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
       habitatType: getHabitatType(identifier, details),
-      // baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      baselineReference: details.Ref
+        ? String(details.Ref)
+        : (details['Baseline ref'] ? String(details['Baseline ref']) : ''),
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,
@@ -199,7 +202,7 @@ const getHabitats = session => {
       delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
       area: details['Length (km)'] ?? details['Area (hectares)'],
       measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      userBaselineRef: String(details['User baseline ref']),
+      ...(details['User baseline ref'] ? { userBaselineRef: String(details['User baseline ref']) } : {}),
       ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
       ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
     }))
@@ -375,6 +378,8 @@ const application = (session, account) => {
   // Filter blank files that are optional
   applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
 
+  console.log('applicationJson: ')
+  console.log(JSON.stringify(applicationJson, null, 2))
   return applicationJson
 }
 
