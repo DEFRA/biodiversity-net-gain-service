@@ -35,13 +35,16 @@
           <p class="govuk-!-padding-top-3">
             <a href="/land/need-boundary-file">I do not have a file showing the boundary of the biodiversity gain site</a>
           </p>
+        <div class="govuk-button-group">
           {{ govukButton({
-            text: "Upload",
+            text: "Save and upload",
             attributes: {
               id: "continue",
               "data-testid": "continue"
             }
           }) }}
+          <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
+        </div>
       </div>
     </div>
   </div>

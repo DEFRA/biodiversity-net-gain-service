@@ -8,7 +8,8 @@
             <h1 class="govuk-heading-xl">Register a biodiversity gain site</h1>
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Registration in progress</h2>
             <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ registrationCompletedTasks}} of {{totalSections}} sections.</p>
-            <ol class="app-task-list govuk-!-padding-top-3">
+            <div class="govuk-inset-text">Your application is saved as you complete each page. You can leave and come back at any time to continue the application.</div>
+            <ol class="app-task-list govuk-!-margin-top-5">
                 {% for task in registrationTasks.taskList %}
                     <li>
                         <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>

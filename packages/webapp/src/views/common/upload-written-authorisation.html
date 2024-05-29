@@ -30,7 +30,7 @@
                     {% else %}
                     <b>{{ clientsOrganisationName }}'s</b>
                     {% endif %}
-                    authorisation for you to act on their behalf
+                    authorisation for you to apply on their behalf, dated within the last 2 months
                   </li>
                   {% if isIndividual %}
                     <li>their name and signature</li>
@@ -38,7 +38,6 @@
                     <li>the name and signature of a representative of {{ clientsOrganisationName }}</li>
                   {% endif %}
                   <li>the name and signature of any other landowner or leaseholder listed on the legal agreement</li>
-                  <li>the date consent was given</li>
                 </ul>
                 <p>The file should be:</p>
                   <ul class='govuk-list govuk-list--bullet'>
@@ -55,32 +54,22 @@
                     }
                 }) }}
 
-                <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      What to do if you have no written authorisation
-                    </span>
-                  </summary>
-                  <div class="govuk-details__text">
-                    <p>You can <a href="#">download an 'Authorise an agent' form</a> and ask 
-                      <strong>                    
-                        {% if isIndividual %}
-                          {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}
-                        {% else %}
-                          {{ clientsOrganisationName }}
-                        {% endif %}
-                      </strong> to complete it.</p>
+                <div class="govuk-inset-text">
+                    <h3>What to do if you have no written authorisation</h3>
+                    <p>You can <a href="https://www.gov.uk/government/publications/authorise-an-agent-to-act-your-behalf-form" target="_blank" rel="noreferrer noopener">download an 'Authorise an agent' form (opens in new tab)</a> and ask <strong>Acme farming inc</strong> to complete it.</p>
                     <p>You can then come back to this application and upload the completed form as written authorisation to apply.</p>
-                  </div>
-                </details>
+                </div>
 
-                {{ govukButton({
-                    text: "Upload",
-                    attributes: {
-                        id: "continue",
-                        "data-testid": "continue"
-                    }
-                }) }}
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                        text: "Save and upload",
+                        attributes: {
+                            id: "continue",
+                            "data-testid": "continue"
+                        }
+                    }) }}
+                    <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
+                </div>
             </div>
         </div>
     </div>

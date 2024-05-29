@@ -17,27 +17,7 @@
               isPageHeading: true
             }
           }) }}
-          <p>The file should be:</p>     
-      <ul class="govuk-list govuk-list--bullet">
-        <li>a DOC, DOCX or PDF</li>
-        <li>no larger than 50MB</li>
-      </ul>
-          {{ govukFileUpload({
-            id: "localLandChargeCertificate.",
-            name: "localLandChargeCertificate",
-            errorMessage: err[0], 
-            label: {
-              text: "Choose file",
-              classes: "govuk-visually-hidden"
-            }
-          }) }}
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
+          {% include "land/upload-file-and-save.html" %}
           <p><a href="/land/need-habitat-plan">I do not have the habitat management and monitoring plan</a></p>
       </div>
     </div>
