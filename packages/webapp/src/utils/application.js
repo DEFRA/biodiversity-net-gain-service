@@ -27,8 +27,7 @@ const getApplicantRole = session => {
 }
 
 const getClientDetails = session => {
-  const clientType =
-    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+  const clientType = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
   const clientAddress = getAddress(session)
 
   const clientDetails = {
@@ -46,14 +45,11 @@ const getClientDetails = session => {
 }
 
 const getIndividualClientDetails = session => {
-  const { firstName, lastName } =
-    session.get(constants.redisKeys.CLIENTS_NAME_KEY).value
+  const { firstName, lastName } = session.get(constants.redisKeys.CLIENTS_NAME_KEY).value
 
-  const clientEmail =
-    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+  const clientEmail = session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
 
-  const clientPhoneNumber =
-    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+  const clientPhoneNumber = session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
 
   return {
     clientNameIndividual: {
@@ -80,11 +76,9 @@ const getOrganisation = session => ({
 })
 
 const getAddress = session => {
-  const isUkAddress =
-    session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
+  const isUkAddress = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
 
-  const addressType =
-    isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
+  const addressType = isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
 
   const cachedAddress =
     isUkAddress
@@ -122,8 +116,6 @@ const getAddress = session => {
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
-  console.log('metricData: ')
-  console.log(JSON.stringify(metricData, null, 2))
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
@@ -191,9 +183,7 @@ const getHabitats = session => {
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
       proposedHabitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
       habitatType: getHabitatType(identifier, details),
-      baselineReference: details.Ref
-        ? String(details.Ref)
-        : (details['Baseline ref'] ? String(details['Baseline ref']) : ''),
+      baselineReference: String(details.Ref ?? details['Baseline ref'] ?? ''),
       module: getModule(identifier),
       state: getState(identifier),
       condition: details.Condition,
@@ -378,8 +368,6 @@ const application = (session, account) => {
   // Filter blank files that are optional
   applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
 
-  console.log('applicationJson: ')
-  console.log(JSON.stringify(applicationJson, null, 2))
   return applicationJson
 }
 
