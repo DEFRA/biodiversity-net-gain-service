@@ -339,6 +339,19 @@ const validateFirstLastNameOfLandownerOrLeaseholder = (name, text, hrefId) => {
   return validateFirstLastName(name, text, hrefId, ' of the landowner or leaseholder')
 }
 
+const setInpageLinks = (context, path) => {
+  if (path.includes('/credits-purchase')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_6m5bb3laojVafGu'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_ehcz7xfiEw8R8XA'
+  } else if (path.includes('/developer')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3POwdzJF7AISB8i'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_datEcyFZVxYdMjk'
+  } else {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO'
+  }
+}
+
 const validateFirstLastNameOfDeveloperClient = (name, text, hrefId) => {
   return validateFirstLastName(name, text, hrefId)
 }
@@ -815,5 +828,6 @@ export {
   getAuthenticatedUserRedirectUrl,
   creditsValidationSchema,
   creditsValidationFailAction,
-  isAgentAndNotLandowner
+  isAgentAndNotLandowner,
+  setInpageLinks
 }
