@@ -25,7 +25,7 @@
   },
   {
     'text': 'Client is a landowner or leaseholder',
-    'value': ('Yes' if applicantInfo.landownerOrLeaseholder else 'No'),
+    'value': applicantInfo.landownerOrLeaseholder,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.landownerOrLeaseholderChangeUrl,
     'visuallyHiddenText': ' Client is a landowner or leaseholder',
@@ -57,7 +57,16 @@
     'href': applicantInfo.writtenAuthorisationChangeUrl,
     'visuallyHiddenText': ' Written authorisation file',
     'classes': '',
-    'show': true
+    'show': applicantInfo.showWrittenAuth
+  },
+  {
+    'text': 'Landowner or leaseholder consent file',
+    'value': applicantInfo.landownerConsent,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.landownerConsentChangeUrl,
+    'visuallyHiddenText': ' Landowner or leaseholder consent file',
+    'classes': '',
+    'show': applicantInfo.showLandownerConsent
   }
   ] %}
 

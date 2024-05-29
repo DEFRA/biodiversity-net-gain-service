@@ -47,21 +47,26 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const planningDecisionNoticeFileName = fileLocation === null ? '' : path.parse(fileLocation).base
   const clientType = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
   const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
-  const developerIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+  const developerIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const developerIsLandowner = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
   return {
     applicantInfo: {
-      actingForClient: developerIsAgent ? initialCapitalization(developerIsAgent) : '',
+      actingForClient: developerIsAgent ? 'Yes' : 'No',
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-      landownerOrLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
+      landownerOrLeaseholder: developerIsLandowner ? 'Yes' : 'No',
       landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
       clientType: clientType ? initialCapitalization(clientType) : null,
       clientTypeChangeUrl: constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
       clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
       clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
       writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
-      writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE
+      writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
+      showWrittenAuth: developerIsAgent,
+      landownerConsent: session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME),
+      landownerConsentChangeUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+      showLandownerConsent: !developerIsLandowner
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
