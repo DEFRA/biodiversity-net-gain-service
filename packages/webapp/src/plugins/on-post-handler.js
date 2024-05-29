@@ -117,6 +117,7 @@ const isApplicationSessionSaveNeeded = request => {
     isRouteIncludedInApplicationSave(request) &&
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.APPLICATION_SUBMITTED &&
+    request?.response?.headers?.location !== constants.routes.DEVELOPER_CONFIRMATION &&
     request?.response?.headers?.location !== creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRMATION &&
     request?.auth?.isAuthenticated
 }
