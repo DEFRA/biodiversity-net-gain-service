@@ -4,12 +4,22 @@ import { extractAllocationHabitatsByGainSiteNumber } from '../../utils/helpers.j
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const gainSiteHabitats = request.yar.get(constants.redisKeys.DEVELOPER_GAIN_SITE_HABITATS)
   const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
-  const habitatTypeAndCondition = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+  const habitatTypeAndCondition = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber, gainSiteHabitats)
+  const allHabitats = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+
+  const allHabitatItems = [...allHabitats[0].items, ...allHabitats[1].items, ...allHabitats[2].items]
+  const allHabitatItemsIds = allHabitatItems.map(h => h.habitatId)
+  const habitatIds = gainSiteHabitats.map(h => h.habitatId).join(', ')
+  const leftOverIds = allHabitatItemsIds.filter(h => !habitatIds.includes(h)).join(', ')
 
   return {
     habitatTypeAndCondition,
-    uploadMetricFileRoute
+    uploadMetricFileRoute,
+    gainSiteNumber,
+    habitatIds,
+    leftOverIds
   }
 }
 

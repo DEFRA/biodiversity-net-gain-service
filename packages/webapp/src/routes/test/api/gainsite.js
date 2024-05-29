@@ -32,10 +32,25 @@ export default [{
       gainsiteNumber: bgsNumber,
       habitats: [
         {
-          habitatId: 'HAB-12345678-ABCDE'
+          habitatId: 'H001'
         },
         {
-          habitatId: 'HAB-87654321-EDCBA'
+          habitatId: 'H003'
+        },
+        {
+          habitatId: 'H004'
+        },
+        {
+          habitatId: 'H007'
+        },
+        {
+          habitatId: 'H010'
+        },
+        {
+          habitatId: 'H011'
+        },
+        {
+          habitatId: 'H012'
         }
       ]
     }

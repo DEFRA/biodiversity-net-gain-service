@@ -22,6 +22,15 @@
         {% endfor %}
       {% endif %}
 
+      <div class="govuk-inset-text">
+        <h3>Not all the habitats you were expecting?</h3>
+        <p>Habitat references in the metric need to match references associated with registered gain site and sent to landowner.</p>
+        <p><strong>Off-site reference: {{ gainSiteNumber }}</strong></p>
+        <p>Habitat references associated with this gain site: <strong>{{ habitatIds }}</strong></p>
+        <p>The following habitat references were found in the metric labelled with this off-site reference but are not associated with the gain site: <strong>{{ leftOverIds }}</strong></p>
+        <p>Update the metric with correct habitat references.</p>
+      </div>
+
       {{ govukButton({
         text: 'Save and continue',
         attributes: {

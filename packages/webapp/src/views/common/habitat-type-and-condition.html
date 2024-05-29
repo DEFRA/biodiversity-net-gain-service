@@ -11,6 +11,7 @@
       {% for item in habitat.items %}
       <tr class="govuk-table__row">
         <td class="govuk-table__cell govuk-body-s">
+          {% if item.habitatId %}<strong>Habitat reference: </strong>{{ item.habitatId }}<br/>{% endif %}
           {% if item.header %}{{ item.header }}{% endif %}
           <span class="govuk-body-m govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0">
             {{ item.description }}

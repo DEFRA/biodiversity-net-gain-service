@@ -276,6 +276,7 @@ const habitatTypeAndConditionMapper = (sheets, metricData) => {
         // ignore final item
         if (index !== metricData[key].length - 1) {
           const habitatItems = {
+            habitatId: item['Habitat reference Number'],
             header: item[habitatTypeMap[key].header],
             description: item[habitatTypeMap[key].description],
             condition: item.Condition,
@@ -319,12 +320,17 @@ const combineHabitats = habitatTypeAndCondition => {
   return combinedHabitatTypeAndCondition
 }
 
-const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
+const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber, gainSiteHabitats = null) => {
   const filteredMetricData = {}
   const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
   sheetLabels.forEach(label => {
-    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+    filteredMetricData[label] = metricData[label].filter(habitat => (String(habitat['Off-site reference']) === gainSiteNumber))
+
+    if (gainSiteHabitats) {
+      const habitatIds = gainSiteHabitats.map(h => h.habitatId)
+      filteredMetricData[label] = filteredMetricData[label].filter(habitat => habitatIds.includes(String(habitat['Habitat reference Number'])))
+    }
 
     // calculate the area based on the filtered out habitats and add to the habitat array
     // as the last entry, this is then used by habitatTypeAndConditionMapper later

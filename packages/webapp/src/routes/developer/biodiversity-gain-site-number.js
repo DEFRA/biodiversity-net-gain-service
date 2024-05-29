@@ -22,6 +22,7 @@ const getStatusErrorMessage = status => {
 
 const checkBGSNumber = async (bgsNumber, hrefId) => {
   let errorText
+  let habitats
 
   if (!bgsNumber.trim()) {
     errorText = 'Enter your biodiversity gain site number'
@@ -36,7 +37,9 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
         }
       })
 
-      if (payload.gainsiteStatus !== 'Registered') {
+      if (payload.gainsiteStatus === 'Registered') {
+        habitats = payload.habitats
+      } else {
         errorText = getStatusErrorMessage(payload.gainsiteStatus)
       }
     } catch (err) {
@@ -44,14 +47,9 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
     }
   }
 
-  if (errorText) {
-    return [{
-      text: errorText,
-      href: hrefId
-    }]
-  }
+  const error = errorText ? [{ text: errorText, href: hrefId }] : null
 
-  return null
+  return { error, habitats }
 }
 
 const handlers = {
@@ -63,7 +61,7 @@ const handlers = {
   },
   post: async (request, h) => {
     const bgsNumber = request.payload.bgsNumber?.trim()
-    const error = await checkBGSNumber(bgsNumber, '#bgsNumber')
+    const { error, habitats } = await checkBGSNumber(bgsNumber, '#bgsNumber')
     if (error) {
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
       return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
@@ -72,6 +70,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
+      request.yar.set(constants.redisKeys.DEVELOPER_GAIN_SITE_HABITATS, habitats)
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
     }
   }

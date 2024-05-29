@@ -85,6 +85,7 @@ const DEVELOPER_PLANNING_AUTHORITY_LIST = 'developer-planning-authority-list'
 const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
 const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
+const DEVELOPER_GAIN_SITE_HABITATS = 'developer-gain-site-habitats'
 
 const setDeveloperReferer = [
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
@@ -200,7 +201,8 @@ export default {
     DEVELOPER_PLANNING_AUTHORITY_LIST,
     DEVELOPER_PLANNING_APPLICATION_REF,
     DEVELOPER_DEVELOPMENT_NAME,
-    DEVELOPER_PROOF_OF_PERMISSION_SEEN
+    DEVELOPER_PROOF_OF_PERMISSION_SEEN,
+    DEVELOPER_GAIN_SITE_HABITATS
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,

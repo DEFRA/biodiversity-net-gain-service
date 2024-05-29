@@ -6,17 +6,30 @@ import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '.
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
+const allocationSheets = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
 const filterByBGN = (metricSheetRows, bgsNumber) => metricSheetRows?.filter(row =>
   String(row['Off-site reference']) === String(bgsNumber))
 
 const checkBGS = (metricData, bgsNumber) => {
-  const sheetsToCheck = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-
-  for (const sheet of sheetsToCheck) {
+  for (const sheet of allocationSheets) {
     const sheetRows = metricData[sheet]
 
     if (Array.isArray(sheetRows) && filterByBGN(sheetRows, bgsNumber).length > 0) {
+      return true
+    }
+  }
+
+  return false
+}
+
+const checkHabitats = (metricData, bgsNumber, habitats) => {
+  const habitatIds = habitats.map(h => h.habitatId)
+
+  for (const sheet of allocationSheets) {
+    const sheetRows = metricData[sheet]
+
+    if (filterByBGN(sheetRows, bgsNumber).some(row => habitatIds.includes(row['Habitat reference Number']))) {
       return true
     }
   }
@@ -37,18 +50,29 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  const hasBGS = checkBGS(result.postProcess.metricData, request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
-  if (!hasBGS) {
+
+  const checkError = async errorMsg => {
     const error = {
-      err: [
-        {
-          text: 'The uploaded metric does not contain the off-site reference entered.'
-        }
-      ]
+      err: [{ text: errorMsg }]
     }
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, error)
   }
+
+  const bgsNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const gainSiteHabitats = request.yar.get(constants.redisKeys.DEVELOPER_GAIN_SITE_HABITATS)
+
+  if (!checkBGS(result.postProcess.metricData, bgsNumber)) {
+    return await checkError('The uploaded metric does not contain the off-site reference entered.')
+  }
+
+  if (!checkHabitats(result.postProcess.metricData, bgsNumber, gainSiteHabitats)) {
+    const habitatIds = gainSiteHabitats.map(h => h.habitatId)
+
+    const errorMsg = `The uploaded metric does not contain any of the expected habitat references. Habitat references assoicated with gain site: ${habitatIds.join(', ')}. Upload a corrected metric.`
+    return await checkError(errorMsg)
+  }
+
   return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }
 
