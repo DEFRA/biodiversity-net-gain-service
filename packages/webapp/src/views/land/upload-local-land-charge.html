@@ -21,34 +21,7 @@
             }
           }) }}
           <p>This is a certificate that shows the legal agreement has been registered with the local planning authority (LPA). You must upload the <a href="https://www.gov.uk/search-local-land-charges" target="_blank" rel="noreferrer noopener">official search certificate</a> from HM Land Registry or your LPA, dated within the last 2 months.</p>
-          <p>The file should be:</p>
-          
-      <ul class="govuk-list govuk-list--bullet">
-        <li>a DOC, DOCX or PDF</li>
-        <li>no larger than 50MB</li>
-        
-      </ul>
-          {{ govukFileUpload({
-            id: "localLandChargeCertificate.",
-            name: "localLandChargeCertificate",
-            errorMessage: err[0],
-           
-            label: {
-              text: "Choose file",
-              classes: "govuk-visually-hidden"
-            }
-          }) }}
-
-          <div class="govuk-button-group">
-              {{ govukButton({
-                text: "Save and upload",
-                attributes: {
-                  id: "continue",
-                  "data-testid": "continue"
-                }
-              }) }}
-              <a class="govuk-link" id="save-come-back-later" href="/signout">Or save progress and come back later</a>
-          </div>
+          {% include "land/upload-file-and-save.html" %}
           <p><a href="/land/need-local-land-charge">I do not have a local land charge search certificate</a></p>
       </div>
     </div>
