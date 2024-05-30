@@ -5,7 +5,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 
-const PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
+const DEVELOPER_PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
 
 async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, result.config.blobConfig.blobName)
@@ -51,7 +51,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      PLANNING_DECISION_NOTICE_ID,
+      DEVELOPER_PLANNING_DECISION_NOTICE_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
     )

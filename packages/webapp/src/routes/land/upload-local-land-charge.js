@@ -5,7 +5,7 @@ import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const localLandChargeId = '#localLandChargeId'
+const LOCAL_LAND_CHARGE_ID = '#LOCAL_LAND_CHARGE_ID'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, true))
@@ -55,7 +55,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      localLandChargeId,
+      LOCAL_LAND_CHARGE_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_LOCAL_LAND_CHARGE
     )
