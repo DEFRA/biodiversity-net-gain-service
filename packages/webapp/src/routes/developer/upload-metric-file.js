@@ -31,8 +31,6 @@ const processSuccessfulUpload = async (result, request, h) => {
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
   }
 
-  console.log(result.postProcess.metricData)
-
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, result.fileType)
