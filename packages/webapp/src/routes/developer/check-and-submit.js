@@ -51,6 +51,11 @@ const getApplicationDetails = (session, currentOrganisation) => {
     ? session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
   const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+  const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
+  const clientTypeNameisLandowner = clientType
+    ? (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) ? 'Individual landowner or leaseholder' : initialCapitalization(clientType)
+    : null
+
   return {
     applicantInfo: {
       actingForClient: developerIsAgent ? 'Yes' : 'No',
@@ -61,7 +66,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       landownerOrLeaseholder: developerIsLandowner ? 'Yes' : 'No',
       landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
       clientTypeTitle: developerIsAgent ? 'Client is an individual or organisation' : 'Applying as individual or organisation',
-      clientType: clientType ? initialCapitalization(clientType) : null,
+      clientType: developerIsAgent ? clientTypeNameisAgent : clientTypeNameisLandowner,
       clientTypeChangeUrl: developerIsAgent ? constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION : constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
       clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
       clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
