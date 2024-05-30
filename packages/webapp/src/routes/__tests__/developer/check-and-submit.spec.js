@@ -38,6 +38,32 @@ describe(url, () => {
       const res = await submitGetRequest({ url }, 200, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')
     })
+    it(`should render the ${url.substring(1)} view for an organisation application when is an agent`, async () => {
+      const sessionData = { ...developerApplicationData }
+      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      jest.mock('../../../utils/helpers.js')
+      const helpers = require('../../../utils/helpers.js')
+      helpers.extractAllocationHabitatsByGainSiteNumber = jest.fn().mockImplementation(() => {
+        return [{
+          unit: 'm',
+          items: [{
+            header: 'testHeader',
+            description: 'testDescription',
+            condition: 'testCondition',
+            amount: 'testAmount'
+          }]
+        }]
+      })
+
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).not.toContain('Geoff')
+      expect(res.payload).toContain('Client is a landowner or leaseholder')
+      expect(res.payload).not.toContain('Applying as landowner or leaseholder')
+      expect(res.payload).toContain('Client is an individual or organisation')
+      expect(res.payload).not.toContain('Applying as individual or organisation')
+    })
     it('should redirect the view for an organisation application when canSubmit is false', async () => {
       jest.mock('../../../utils/helpers.js')
       const helpers = require('../../../utils/helpers.js')
