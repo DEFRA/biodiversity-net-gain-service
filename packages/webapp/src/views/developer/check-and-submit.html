@@ -15,6 +15,15 @@
     'show': true
   },
   {
+    'text': 'Defra account details are up to date',
+    'value': ('Yes' if applicantInfo.confirmed else 'No'),
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.confirmedChangeUrl,
+    'visuallyHiddenText': ' Defra account details are up to date',
+    'classes': '',
+    'show': applicantInfo.showDefraAccountAgent
+  },
+  {
     'text': applicantInfo.landownerOrLeaseHolderTitle,
     'value': applicantInfo.landownerOrLeaseholder,
     'valueDataTestId': 'account-details-up-to-date-value',
@@ -39,7 +48,7 @@
     'href': applicantInfo.confirmedChangeUrl,
     'visuallyHiddenText': ' Defra account details are up to date',
     'classes': '',
-    'show': true
+    'show': applicantInfo.showDefraAccount
   },
   {
     'text': 'Client\'s name',

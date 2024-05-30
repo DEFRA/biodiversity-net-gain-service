@@ -71,7 +71,9 @@ const getApplicationDetails = (session, currentOrganisation) => {
       showWrittenAuth: developerIsAgent,
       landownerConsent: session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME),
       landownerConsentChangeUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
-      showLandownerConsent: !developerIsLandowner
+      showLandownerConsent: !developerIsLandowner,
+      showDefraAccountAgent: developerIsAgent,
+      showDefraAccount: !developerIsAgent
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
