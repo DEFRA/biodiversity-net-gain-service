@@ -54,64 +54,6 @@ const checkBGS = (metricData, bgsNumber) => {
   return false
 }
 
-// const processErrorUpload = (err, h) => {
-//   switch (err.message) {
-//     case constants.uploadErrors.notValidMetric:
-//       return h.view(constants.views.UPLOAD_METRIC, {
-//         err: [{
-//           text: 'The selected file is not a valid Metric',
-//           href: uploadMetricId
-//         }]
-//       })
-//     case constants.uploadErrors.emptyFile:
-//       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//         err: [{
-//           text: 'The selected file is empty',
-//           href: uploadMetricId
-//         }]
-//       })
-//     case constants.uploadErrors.noFile:
-//       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//         err: [{
-//           text: 'Select a statutory biodiversity metric',
-//           href: uploadMetricId
-//         }]
-//       })
-//     case constants.uploadErrors.unsupportedFileExt:
-//       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//         err: [{
-//           text: 'The selected file must be an XLSM or XLSX',
-//           href: uploadMetricId
-//         }]
-//       })
-//     case constants.uploadErrors.maximumFileSizeExceeded:
-//       return maximumFileSizeExceeded(h)
-//     default:
-//       if (err instanceof ThreatScreeningError) {
-//         return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//           err: [{
-//             text: constants.uploadErrors.malwareScanFailed,
-//             href: uploadMetricId
-//           }]
-//         })
-//       } else if (err instanceof MalwareDetectedError) {
-//         return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//           err: [{
-//             text: constants.uploadErrors.threatDetected,
-//             href: uploadMetricId
-//           }]
-//         })
-//       } else {
-//         return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
-//           err: [{
-//             text: constants.uploadErrors.uploadFailure,
-//             href: uploadMetricId
-//           }]
-//         })
-//       }
-//   }
-// }
-
 const handlers = {
   get: async (_request, h) => h.view(constants.views.DEVELOPER_UPLOAD_METRIC),
   post: async (request, h) => {
