@@ -146,5 +146,26 @@ describe(url, () => {
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
     })
+
+    it('Should redirect to upload metric as a fallback without setting BGS number if submitted number matches current number', async () => {
+      const bgsNumber = 'existing-number'
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
+      const request = {
+        yar: redisMap,
+        payload: {
+          bgsNumber
+        }
+      }
+      const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
+      await developerBgsNumber.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
+    })
   })
 })
