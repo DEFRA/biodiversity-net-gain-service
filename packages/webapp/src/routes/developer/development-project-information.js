@@ -33,14 +33,14 @@ const handlers = {
     if (!planningApplicationRef) {
       errors.planningApplicationRefError = {
         text: 'Enter a planning application reference',
-        href: 'planningApplicationRef'
+        href: '#planning-application-reference-value'
       }
     }
 
     if (!developmentName) {
       errors.developmentNameError = {
         text: 'Enter a development reference',
-        href: 'developmentName'
+        href: '#development-name-value'
       }
     }
 
@@ -92,7 +92,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
   if (!selectedLpa) {
     errors.emptyLocalPlanningAuthority = {
       text: 'Enter a local planning authority',
-      href: 'localPlanningAuthorityErr'
+      href: '#localPlanningAuthority'
     }
 
     return errors
@@ -101,7 +101,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
   if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
-      href: 'localPlanningAuthorityErr'
+      href: '#localPlanningAuthority'
     }
 
     return errors
