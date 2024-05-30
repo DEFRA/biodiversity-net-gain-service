@@ -41,6 +41,7 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view for an organisation application when is an agent`, async () => {
       const sessionData = { ...developerApplicationData }
       sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      sessionData[constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION] = constants.individualOrOrganisationTypes.INDIVIDUAL
       jest.mock('../../../utils/helpers.js')
       const helpers = require('../../../utils/helpers.js')
       helpers.extractAllocationHabitatsByGainSiteNumber = jest.fn().mockImplementation(() => {
