@@ -6,10 +6,10 @@ import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { getMetricFileValidationErrors } from '../../utils/helpers.js'
 
-const uploadMetricId = '#uploadMetric'
+const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, uploadMetricId)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, DEVELOPER_UPLOAD_METRIC_ID)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
@@ -92,7 +92,7 @@ export default [{
   handler: handlers.post,
   options:
       generatePayloadOptions(
-        uploadMetricId,
+        DEVELOPER_UPLOAD_METRIC_ID,
         process.env.MAX_METRIC_UPLOAD_MB,
         constants.views.DEVELOPER_UPLOAD_METRIC
       )
