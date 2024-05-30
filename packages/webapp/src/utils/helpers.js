@@ -329,7 +329,10 @@ const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) =
     // calculate the area based on the filtered out habitats and add to the habitat array
     // as the last entry, this is then used by habitatTypeAndConditionMapper later
     const unitKey = habitatTypeMap[label].unitKey
-    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => acc + cur[unitKey], 0)
+    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => {
+      const habitatArea = cur[unitKey] ?? 0
+      return acc + habitatArea
+    }, 0)
     filteredMetricData[label].push({
       [unitKey]: measurementTotal
     })
