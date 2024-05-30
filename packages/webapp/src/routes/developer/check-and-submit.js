@@ -23,6 +23,20 @@ const formatHabitatDetails = (habitatDetails) => {
   return allHabitats
 }
 
+const getClientTypeNameisLandowner = (clientType) => {
+  let clientTypeNameisLandowner
+  if (clientType) {
+    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      clientTypeNameisLandowner = 'Individual landowner or leaseholder'
+    } else {
+      clientTypeNameisLandowner = initialCapitalization(clientType)
+    }
+  } else {
+    clientTypeNameisLandowner = null
+  }
+  return clientTypeNameisLandowner
+}
+
 const getApplicationDetails = (request, session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
@@ -58,16 +72,7 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
     : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
   const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
-  let clientTypeNameisLandowner
-  if (clientType) {
-    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      clientTypeNameisLandowner = 'Individual landowner or leaseholder'
-    } else {
-      clientTypeNameisLandowner = initialCapitalization(clientType)
-    }
-  } else {
-    clientTypeNameisLandowner = null
-  }
+  const clientTypeNameisLandowner = getClientTypeNameisLandowner(clientType)
   const { subject } = getApplicantContext(request.auth.credentials.account, session)
 
   return {
