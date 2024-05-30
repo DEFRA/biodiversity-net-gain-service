@@ -102,5 +102,49 @@ describe(url, () => {
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
     })
+
+    it('Should redirect to referrer without setting BGS number if submitted number matches current number', async () => {
+      const bgsNumber = 'existing-number'
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
+      redisMap.set(constants.redisKeys.REFERER, constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+      const request = {
+        yar: redisMap,
+        payload: {
+          bgsNumber
+        }
+      }
+      const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
+      await developerBgsNumber.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+    })
+
+    it('Should redirect to developer referrer as a fallback without setting BGS number if submitted number matches current number', async () => {
+      const bgsNumber = 'existing-number'
+      let viewResult
+      const h = {
+        redirect: (view, context) => {
+          viewResult = view
+        }
+      }
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
+      redisMap.set(constants.redisKeys.DEVELOPER_REFERER, constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+      const request = {
+        yar: redisMap,
+        payload: {
+          bgsNumber
+        }
+      }
+      const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
+      await developerBgsNumber.default[1].handler(request, h)
+      expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+    })
   })
 })
