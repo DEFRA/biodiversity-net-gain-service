@@ -11,11 +11,8 @@ import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
 
-const getApplicationDetails = (request, session, currentOrganisation) => {
-  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+const formatHabitatDetails = (habitatDetails) => {
   const allHabitats = []
-  const habitatDetails = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
   habitatDetails.forEach(h => {
     const unit = h.unit.substring(h.unit.indexOf('(') + 1, h.unit.indexOf(')'))
     h.items.forEach(r => {
@@ -23,6 +20,14 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
       allHabitats.push(r)
     })
   })
+  return allHabitats
+}
+
+const getApplicationDetails = (request, session, currentOrganisation) => {
+  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const habitatDetails = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+  const allHabitats = formatHabitatDetails(habitatDetails)
   const habitats = (allHabitats || []).map(item => {
     return [
       {
