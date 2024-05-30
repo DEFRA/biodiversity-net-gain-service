@@ -9,8 +9,9 @@ import {
 } from '../../utils/helpers.js'
 import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
+import getApplicantContext from '../../utils/get-applicant-context.js'
 
-const getApplicationDetails = (session, currentOrganisation) => {
+const getApplicationDetails = (request, session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const allHabitats = []
@@ -55,6 +56,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const clientTypeNameisLandowner = clientType
     ? (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) ? 'Individual landowner or leaseholder' : initialCapitalization(clientType)
     : null
+  const { subject } = getApplicantContext(request.auth.credentials.account, session)
 
   return {
     applicantInfo: {
@@ -62,6 +64,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
+      accountDetails: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED) ? `Yes, apply as ${subject}` : 'No',
       landownerOrLeaseHolderTitle: developerIsAgent ? 'Client is a landowner or leaseholder' : 'Applying as landowner or leaseholder',
       landownerOrLeaseholder: developerIsLandowner ? 'Yes' : 'No',
       landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
@@ -110,7 +113,7 @@ const handlers = {
     const { currentOrganisation } = getOrganisationDetails(claims)
 
     return h.view(constants.views.DEVELOPER_CHECK_AND_SUBMIT, {
-      ...getApplicationDetails(request.yar, currentOrganisation),
+      ...getApplicationDetails(request, request.yar, currentOrganisation),
       backLink: constants.routes.DEVELOPER_TASKLIST
     })
   },

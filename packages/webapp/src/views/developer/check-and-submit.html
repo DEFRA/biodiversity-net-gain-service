@@ -16,7 +16,7 @@
   },
   {
     'text': 'Defra account details are up to date',
-    'value': ('Yes' if applicantInfo.confirmed else 'No'),
+    'value': applicantInfo.accountDetails,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.confirmedChangeUrl,
     'visuallyHiddenText': ' Defra account details are up to date',
@@ -43,7 +43,7 @@
   },
   {
     'text': 'Defra account details are up to date',
-    'value': ('Yes' if applicantInfo.confirmed else 'No'),
+    'value': applicantInfo.accountDetails,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.confirmedChangeUrl,
     'visuallyHiddenText': ' Defra account details are up to date',
