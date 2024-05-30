@@ -53,9 +53,16 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
     : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
   const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
-  const clientTypeNameisLandowner = clientType
-    ? (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) ? 'Individual landowner or leaseholder' : initialCapitalization(clientType)
-    : null
+  let clientTypeNameisLandowner
+  if (clientType) {
+    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      clientTypeNameisLandowner = 'Individual landowner or leaseholder'
+    } else {
+      clientTypeNameisLandowner = initialCapitalization(clientType)
+    }
+  } else {
+    clientTypeNameisLandowner = null
+  }
   const { subject } = getApplicantContext(request.auth.credentials.account, session)
 
   return {
