@@ -1,7 +1,7 @@
 {% extends 'multipart-form-layout.html' %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-{% set pageHeading = "Upload the planning decision notice for the development"  %}
+{% set pageHeading = "Upload the planning application decision notice for the development"  %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -18,7 +18,7 @@
             }
           }) }}
           <div id="planning-decision-notice-upload-hint">
-            <p>This must be the notice the local planning authority (LPA) sent that confirms planning 
+            <p>This must be the notice the local planning authority (LPA) sent that confirms planning
               permission for the development has been granted.</p>
             <p>The file should be:</p>
             <ul class="govuk-list govuk-list--bullet">
@@ -35,24 +35,29 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
+
           <details class="govuk-details" data-module="govuk-details">
             <summary class="govuk-details__summary">
               <span class="govuk-details__summary-text">
                 What to do if you have no decision notice
               </span>
             </summary>
-            <div class="govuk-details__text">    
-              <p>You’ll need to ask the LPA that approved the planning application to send you a 
+            <div class="govuk-details__text">
+              <p>You’ll need to ask the LPA that approved the planning application to send you a
                 decision notice.</p>
             </div>
           </details>
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
+
+          <div class="govuk-button-group">
+            {{ govukButton({
+              text: "Save and upload",
+              attributes: {
+                id: "continue",
+                "data-testid": "continue"
+              }
+            }) }}
+            <a class="govuk-link" href="/signout">Or save progress and come back later</a>
+          </div>
       </div>
     </div>
   </div>
