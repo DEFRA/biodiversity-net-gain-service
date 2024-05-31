@@ -581,7 +581,7 @@ describe('validateLengthOfCharsLessThan50', () => {
       }
 
       const gainSiteNumber = '123'
-      const expected = [{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [], total: NaN, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }, { dataTestId: 'hedgeTotal', description: 'Habitat type', items: [], total: NaN, type: 'Hedgerow', unit: 'Length (km)', unitKey: 'Length (km)' }, { dataTestId: 'riverTotal', description: 'Watercourse type', items: [], total: NaN, type: 'Watercourse', unit: 'Length (km)', unitKey: 'Length (km)' }]
+      const expected = [{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [], total: 0, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }, { dataTestId: 'hedgeTotal', description: 'Habitat type', items: [], total: 0, type: 'Hedgerow', unit: 'Length (km)', unitKey: 'Length (km)' }, { dataTestId: 'riverTotal', description: 'Watercourse type', items: [], total: 0, type: 'Watercourse', unit: 'Length (km)', unitKey: 'Length (km)' }]
       const result = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
       expect(result).toStrictEqual(expected)
     })
