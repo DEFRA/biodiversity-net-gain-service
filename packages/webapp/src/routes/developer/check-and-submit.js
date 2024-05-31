@@ -37,6 +37,29 @@ const getClientTypeNameisLandowner = (clientType) => {
   return clientTypeNameisLandowner
 }
 
+const getClientsName = (clientType, session) => {
+  let clientsName = ''
+  if (clientType) {
+    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      const { firstName, lastName } = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+      if (firstName && lastName) {
+        clientsName = `${firstName} ${lastName}`
+      }
+    } else {
+      clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
+    }
+  }
+  return clientsName
+}
+
+const getClientsNameChangeUrl = (clientType) => {
+  if (clientType && clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+    return constants.routes.DEVELOPER_CLIENTS_NAME
+  } else {
+    return constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME
+  }
+}
+
 const getApplicationDetails = (request, session, currentOrganisation) => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
@@ -70,10 +93,11 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
   const clientType = developerIsAgent
     ? session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
-  const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
   const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
   const clientTypeNameisLandowner = getClientTypeNameisLandowner(clientType)
   const { subject } = getApplicantContext(request.auth.credentials.account, session)
+  const clientsName = getClientsName(clientType, session)
+  const clientsNameChangeUrl = getClientsNameChangeUrl(clientType, session)
 
   return {
     applicantInfo: {
@@ -88,8 +112,8 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
       clientTypeTitle: developerIsAgent ? 'Client is an individual or organisation' : 'Applying as individual or organisation',
       clientType: developerIsAgent ? clientTypeNameisAgent : clientTypeNameisLandowner,
       clientTypeChangeUrl: developerIsAgent ? constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION : constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
-      clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
-      clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
+      clientsName,
+      clientsNameChangeUrl,
       showClientsName: developerIsAgent,
       writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
       writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
