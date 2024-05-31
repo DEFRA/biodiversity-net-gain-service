@@ -38,29 +38,26 @@ const getClientTypeNameisLandowner = (clientType) => {
 }
 
 const getClientsName = (clientType, session) => {
-  let clientsName = ''
-  if (clientType) {
-    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      const devloperClientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
-      if (devloperClientsName) {
-        const { firstName, lastName } = devloperClientsName
-        if (firstName && lastName) {
-          clientsName = `${firstName} ${lastName}`
-        }
+  if (!clientType) return ''
+
+  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+    const developerClientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+    if (developerClientsName) {
+      const { firstName, lastName } = developerClientsName
+      if (firstName && lastName) {
+        return `${firstName} ${lastName}`
       }
-    } else {
-      clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
     }
+    return ''
   }
-  return clientsName
+
+  return session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME) || ''
 }
 
 const getClientsNameChangeUrl = (clientType) => {
-  if (clientType && clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    return constants.routes.DEVELOPER_CLIENTS_NAME
-  } else {
-    return constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME
-  }
+  return clientType === constants.individualOrOrganisationTypes.INDIVIDUAL
+    ? constants.routes.DEVELOPER_CLIENTS_NAME
+    : constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME
 }
 
 const getApplicationDetails = (request, session, currentOrganisation) => {
