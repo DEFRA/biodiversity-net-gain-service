@@ -37,6 +37,14 @@ const getClientTypeNameisLandowner = (clientType) => {
   return clientTypeNameisLandowner
 }
 
+const getClientsNameLabel = (clientType) => {
+  let clientsNameLabel = 'Client\'s name'
+  if (clientType && (clientType === constants.individualOrOrganisationTypes.ORGANISATION)) {
+    clientsNameLabel = 'Client\'s organisation name'
+  }
+  return clientsNameLabel
+}
+
 const getClientsName = (clientType, session) => {
   if (!clientType) return ''
 
@@ -96,8 +104,9 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
   const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
   const clientTypeNameisLandowner = getClientTypeNameisLandowner(clientType)
   const { subject } = getApplicantContext(request.auth.credentials.account, session)
+  const clientsNameLabel = getClientsNameLabel(clientType)
   const clientsName = getClientsName(clientType, session)
-  const clientsNameChangeUrl = getClientsNameChangeUrl(clientType, session)
+  const clientsNameChangeUrl = getClientsNameChangeUrl(clientType)
 
   return {
     applicantInfo: {
@@ -112,6 +121,7 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
       clientTypeTitle: developerIsAgent ? 'Client is an individual or organisation' : 'Applying as individual or organisation',
       clientType: developerIsAgent ? clientTypeNameisAgent : clientTypeNameisLandowner,
       clientTypeChangeUrl: developerIsAgent ? constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION : constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+      clientsNameLabel,
       clientsName,
       clientsNameChangeUrl,
       showClientsName: developerIsAgent,
