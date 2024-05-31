@@ -38,7 +38,7 @@ describe(url, () => {
     // Still needed?
     it('should handle missing values from the metric', async () => {
       const session = setCreditsApplicationSession()
-      populateSessionWithDevelopmentProjectInfo(session)
+      // populateSessionWithDevelopmentProjectInfo(session)
       session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
       await submitGetRequest({ url }, 200, session.values)
     })
