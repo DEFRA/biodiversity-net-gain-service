@@ -16,15 +16,15 @@
   },
   {
     'text': 'Defra account details are up to date',
-    'value': ('Yes' if applicantInfo.confirmed else 'No'),
+    'value': applicantInfo.accountDetails,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.confirmedChangeUrl,
     'visuallyHiddenText': ' Defra account details are up to date',
     'classes': '',
-    'show': true
+    'show': applicantInfo.showDefraAccountAgent
   },
   {
-    'text': 'Client is a landowner or leaseholder',
+    'text': applicantInfo.landownerOrLeaseHolderTitle,
     'value': applicantInfo.landownerOrLeaseholder,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.landownerOrLeaseholderChangeUrl,
@@ -33,7 +33,7 @@
     'show': true
   },
   {
-    'text': 'Client is an individual or organisation',
+    'text': applicantInfo.clientTypeTitle,
     'value': applicantInfo.clientType,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.clientTypeChangeUrl,
@@ -42,13 +42,22 @@
     'show': true
   },
   {
-    'text': 'Client\'s name',
+    'text': 'Defra account details are up to date',
+    'value': applicantInfo.accountDetails,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.confirmedChangeUrl,
+    'visuallyHiddenText': ' Defra account details are up to date',
+    'classes': '',
+    'show': applicantInfo.showDefraAccount
+  },
+  {
+    'text': applicantInfo.clientsNameLabel,
     'value': applicantInfo.clientsName,
     'valueDataTestId': 'account-details-up-to-date-value',
     'href': applicantInfo.clientsNameChangeUrl,
     'visuallyHiddenText': ' Client\'s name',
     'classes': '',
-    'show': true
+    'show': applicantInfo.showClientsName
   },
   {
     'text': 'Written authorisation file',

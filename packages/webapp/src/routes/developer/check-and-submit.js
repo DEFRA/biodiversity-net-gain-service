@@ -9,12 +9,10 @@ import {
 } from '../../utils/helpers.js'
 import path from 'path'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
+import getApplicantContext from '../../utils/get-applicant-context.js'
 
-const getApplicationDetails = (session, currentOrganisation) => {
-  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+const formatHabitatDetails = (habitatDetails) => {
   const allHabitats = []
-  const habitatDetails = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
   habitatDetails.forEach(h => {
     const unit = h.unit.substring(h.unit.indexOf('(') + 1, h.unit.indexOf(')'))
     h.items.forEach(r => {
@@ -22,6 +20,59 @@ const getApplicationDetails = (session, currentOrganisation) => {
       allHabitats.push(r)
     })
   })
+  return allHabitats
+}
+
+const getClientTypeNameisLandowner = (clientType) => {
+  let clientTypeNameisLandowner
+  if (clientType) {
+    if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      clientTypeNameisLandowner = 'Individual landowner or leaseholder'
+    } else {
+      clientTypeNameisLandowner = initialCapitalization(clientType)
+    }
+  } else {
+    clientTypeNameisLandowner = null
+  }
+  return clientTypeNameisLandowner
+}
+
+const getClientsNameLabel = (clientType) => {
+  let clientsNameLabel = 'Client\'s name'
+  if (clientType && (clientType === constants.individualOrOrganisationTypes.ORGANISATION)) {
+    clientsNameLabel = 'Client\'s organisation name'
+  }
+  return clientsNameLabel
+}
+
+const getClientsName = (clientType, session) => {
+  if (!clientType) return ''
+
+  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+    const developerClientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+    if (developerClientsName) {
+      const { firstName, lastName } = developerClientsName
+      if (firstName && lastName) {
+        return `${firstName} ${lastName}`
+      }
+    }
+    return ''
+  }
+
+  return session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME) || ''
+}
+
+const getClientsNameChangeUrl = (clientType) => {
+  return clientType === constants.individualOrOrganisationTypes.INDIVIDUAL
+    ? constants.routes.DEVELOPER_CLIENTS_NAME
+    : constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME
+}
+
+const getApplicationDetails = (request, session, currentOrganisation) => {
+  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const habitatDetails = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+  const allHabitats = formatHabitatDetails(habitatDetails)
   const habitats = (allHabitats || []).map(item => {
     return [
       {
@@ -50,25 +101,38 @@ const getApplicationDetails = (session, currentOrganisation) => {
   const clientType = developerIsAgent
     ? session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     : session.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
-  const clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+  const clientTypeNameisAgent = clientType ? initialCapitalization(clientType) : null
+  const clientTypeNameisLandowner = getClientTypeNameisLandowner(clientType)
+  const { subject } = getApplicantContext(request.auth.credentials.account, session)
+  const clientsNameLabel = getClientsNameLabel(clientType)
+  const clientsName = getClientsName(clientType, session)
+  const clientsNameChangeUrl = getClientsNameChangeUrl(clientType)
+
   return {
     applicantInfo: {
       actingForClient: developerIsAgent ? 'Yes' : 'No',
       actingForClientChangeUrl: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
       confirmed: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED),
       confirmedChangeUrl: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
+      accountDetails: session.get(constants.redisKeys.DEVELOPER_DEFRA_ACCOUNT_DETAILS_CONFIRMED) ? `Yes, apply as ${subject}` : 'No',
+      landownerOrLeaseHolderTitle: developerIsAgent ? 'Client is a landowner or leaseholder' : 'Applying as landowner or leaseholder',
       landownerOrLeaseholder: developerIsLandowner ? 'Yes' : 'No',
       landownerOrLeaseholderChangeUrl: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-      clientType: clientType ? initialCapitalization(clientType) : null,
+      clientTypeTitle: developerIsAgent ? 'Client is an individual or organisation' : 'Applying as individual or organisation',
+      clientType: developerIsAgent ? clientTypeNameisAgent : clientTypeNameisLandowner,
       clientTypeChangeUrl: developerIsAgent ? constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION : constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
-      clientsName: clientsName ? `${clientsName?.firstName} ${clientsName?.lastName}` : '',
-      clientsNameChangeUrl: constants.routes.DEVELOPER_CLIENTS_NAME,
+      clientsNameLabel,
+      clientsName,
+      clientsNameChangeUrl,
+      showClientsName: developerIsAgent,
       writtenAuthorisation: session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME),
       writtenAuthorisationChangeUrl: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
       showWrittenAuth: developerIsAgent,
       landownerConsent: session.get(constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_NAME),
       landownerConsentChangeUrl: constants.routes.DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
-      showLandownerConsent: !developerIsLandowner
+      showLandownerConsent: !developerIsLandowner,
+      showDefraAccountAgent: developerIsAgent,
+      showDefraAccount: !developerIsAgent
     },
     developmentInfo: {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
@@ -100,7 +164,7 @@ const handlers = {
     const { currentOrganisation } = getOrganisationDetails(claims)
 
     return h.view(constants.views.DEVELOPER_CHECK_AND_SUBMIT, {
-      ...getApplicationDetails(request.yar, currentOrganisation),
+      ...getApplicationDetails(request, request.yar, currentOrganisation),
       backLink: constants.routes.DEVELOPER_TASKLIST
     })
   },
