@@ -41,9 +41,12 @@ const getClientsName = (clientType, session) => {
   let clientsName = ''
   if (clientType) {
     if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      const { firstName, lastName } = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
-      if (firstName && lastName) {
-        clientsName = `${firstName} ${lastName}`
+      const devloperClientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_NAME)?.value
+      if (devloperClientsName) {
+        const { firstName, lastName } = devloperClientsName
+        if (firstName && lastName) {
+          clientsName = `${firstName} ${lastName}`
+        }
       }
     } else {
       clientsName = session.get(constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME)
