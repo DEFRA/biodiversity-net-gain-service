@@ -2,8 +2,6 @@ import constants from '../utils/constants.js'
 import { getPayment } from '../payment/payment-session.js'
 import bacs from '../payment/bacs.js'
 
-// reference = session.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
-
 const handlers = {
   get: async (request, h) => {
     const applicationReference = request.yar.get(constants.redisKeys.APPLICATION_REFERENCE)
