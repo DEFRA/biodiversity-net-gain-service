@@ -7,9 +7,9 @@ import { generateUniqueId } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
 
-const landOwnershipId = '#landOwnership'
+const LAND_OWNERSHIP_ID = '#landOwnership'
 
-const processSuccessfulUpload = async (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
   if (tempFile && !tempFile.confirmed) {
     await deleteBlobFromContainers(tempFile.fileLocation)
@@ -65,7 +65,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      landOwnershipId,
+      LAND_OWNERSHIP_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_LAND_OWNERSHIP
     )

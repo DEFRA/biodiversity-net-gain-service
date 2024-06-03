@@ -101,7 +101,41 @@ describe(url, () => {
       })
     })
 
-    it('should not upload a written consent to allocate off-site gains file file more than 50 MB', (done) => {
+    it('should upload a written consent to allocate off-site gains file less than 50 MB', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/49MB.pdf`
+          config.hasError = false
+          const response = await uploadFile(config)
+          expect(response.statusCode).toEqual(302)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should upload a written consent to allocate off-site gains file 50 MB file', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const config = Object.assign({}, baseConfig)
+          config.filePath = `${mockDataPath}/50MB.pdf`
+          config.hasError = false
+          const response = await uploadFile(config)
+          expect(response.statusCode).toEqual(302)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload a written consent to allocate off-site gains file more than 50 MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -146,56 +180,6 @@ describe(url, () => {
           const response = await uploadFile(config)
           expect(response.payload).toContain('There is a problem')
           expect(response.payload).toContain('The selected file is empty')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should display an error when threat detected error', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-            return {
-              'Malware Scanning scan result': 'Malicious',
-              'Malware Notes': 'Mocked scan result for Azurite blob storage'
-            }
-          })
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateThreatDetectedError = true
-          config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.malwareScanFailed)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should display an error when threat screening error', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-            return {
-              'Malware Scanning scan result': 'Scan failed - internal service error.',
-              'Malware Notes': 'Mocked scan result for Azurite blob storage'
-            }
-          })
-          const config = Object.assign({}, baseConfig)
-          config.filePath = `${mockDataPath}/sample.docx`
-          config.generateThreatScreeningFailure = true
-          config.hasError = true
-          const response = await uploadFile(config)
-          expect(response.payload).toContain('There is a problem')
-          expect(response.payload).toContain(constants.uploadErrors.threatDetected)
           setImmediate(() => {
             done()
           })

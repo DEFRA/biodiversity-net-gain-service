@@ -5,7 +5,7 @@ import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const uploadHabitatPlanId = '#uploadHabitatPlanId'
+const HABITAT_PLAN_ID = '#uploadHabitatPlan'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION, true))
@@ -54,7 +54,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      uploadHabitatPlanId,
+      HABITAT_PLAN_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_HABITAT_PLAN
     )

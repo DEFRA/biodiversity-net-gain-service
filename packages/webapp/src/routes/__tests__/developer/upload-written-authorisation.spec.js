@@ -72,7 +72,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -107,7 +109,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-written-authorisation.pdf`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -123,7 +127,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
           setImmediate(() => {
             done()
           })
@@ -133,12 +139,14 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile written authorisation file', (done) => {
+    it('should not upload no file written authorisation file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig, 200)
+          const res = await uploadFile(uploadConfig, 200)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select the written authorisation file')
           setImmediate(() => {
             done()
           })
@@ -148,7 +156,25 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should  upload written authorisation document 50 MB file', (done) => {
+    it('should not upload file with xss vulnerability', (done) => {
+      const mockDataPathGeneric = 'packages/webapp/src/__mock-data__/uploads/generic-files'
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPathGeneric}/<a onmouseover=alert(document.cookie)>resillion.doc`
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should upload written authorisation document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
