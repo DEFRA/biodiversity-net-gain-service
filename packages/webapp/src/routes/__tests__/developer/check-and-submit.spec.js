@@ -195,7 +195,8 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ yar: session, auth }, h)
+          const payload = { termsAndConditionsConfirmed: 'Yes' }
+          await postHandler({ yar: session, auth, payload }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs).toEqual([constants.routes.DEVELOPER_CONFIRMATION])
           done()
@@ -218,7 +219,8 @@ describe(url, () => {
             throw new Error('test error')
           })
 
-          await expect(postHandler({ yar: session, auth })).rejects.toThrow('test error')
+          const payload = { termsAndConditionsConfirmed: 'Yes' }
+          await expect(postHandler({ yar: session, auth, payload })).rejects.toThrow('test error')
           done()
         } catch (err) {
           done(err)
@@ -248,7 +250,8 @@ describe(url, () => {
         const authCopy = JSON.parse(JSON.stringify(auth))
         authCopy.credentials.account.idTokenClaims.contactId = ''
 
-        await expect(postHandler({ yar: session, auth: authCopy }, h)).rejects.toThrow('ValidationError: "developerRegistration.applicant.id" is not allowed to be empty')
+        const payload = { termsAndConditionsConfirmed: 'Yes' }
+        await expect(postHandler({ yar: session, auth: authCopy, payload }, h)).rejects.toThrow('ValidationError: "developerRegistration.applicant.id" is not allowed to be empty')
         expect(viewArgs).toEqual('')
         expect(redirectArgs).toEqual('')
         done()
