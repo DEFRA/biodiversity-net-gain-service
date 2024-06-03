@@ -13,6 +13,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, result.fileType)
+  request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME, result.filename)
   logger.info(`${new Date().toUTCString()} Received written authorisation data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   return h.redirect(constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE)
 }
