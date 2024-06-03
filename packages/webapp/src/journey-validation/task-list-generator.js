@@ -98,6 +98,26 @@ const getTaskStatus = (task, session) => {
   }
 }
 
+const findJourneyPartByStartUrl = (data, url) => {
+  for (const section of data) {
+    for (const task of section.tasks) {
+      for (const journeyParts of task.journeyParts) {
+        for (const journey of journeyParts) {
+          if (journey.startUrl === url) {
+            return journey
+          }
+        }
+      }
+    }
+  }
+  return null
+}
+
+const retrieveTask = (taskSections, startUrl) => {
+  const result = findJourneyPartByStartUrl(taskSections, startUrl)
+  return result
+}
+
 const generateTaskList = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
@@ -150,7 +170,37 @@ const getTaskList = (journey, session) => {
   return { taskList, totalTasks, completedTasks, canSubmit }
 }
 
+const getNextStep = (request, h, errCallback) => {
+  const path = request.path
+  const journey = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  let task
+  switch (journey) {
+    case constants.applicationTypes.REGISTRATION:
+      break
+    case constants.applicationTypes.CREDITS_PURCHASE:
+      break
+    case constants.applicationTypes.ALLOCATION:
+      task = retrieveTask(allocationTaskSections, path)
+      break
+  }
+
+  if (task.nextUrl) {
+    //todo check if task is complete - take to primary page if set
+    try {
+      const nextUrl = task.nextUrl(request.yar)
+      if (nextUrl) {
+        return h.redirect(nextUrl)
+      }
+    } catch (e) {
+      return errCallback(e)
+    }
+  }
+
+  throw new Error('Next URL is not set')
+}
+
 export {
   getTaskList,
-  getIndividualTaskStatus
+  getIndividualTaskStatus,
+  getNextStep
 }

@@ -8,7 +8,20 @@ import {
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  [constants.redisKeys.DEVELOPER_IS_AGENT]
+  [constants.redisKeys.DEVELOPER_IS_AGENT],
+  (session) => {
+    const isApplicantAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+    if (isApplicantAgent === 'yes') {
+      return constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS
+    } else if (isApplicantAgent === 'no') {
+      return constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER
+    } else {
+      throw new Error({
+        text: 'Select yes if you are an agent acting on behalf of a client',
+        href: '#isApplicantAgent'
+      })
+    }
+  }
 )
 
 const CHECK_DEFRA_ACCOUNT_DETAILS = routeDefinition(

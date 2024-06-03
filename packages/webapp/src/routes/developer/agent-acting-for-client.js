@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -17,19 +18,12 @@ const handlers = {
 
     request.yar.set(constants.redisKeys.DEVELOPER_IS_AGENT, isApplicantAgent)
 
-    if (isApplicantAgent === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS)
-    } else if (isApplicantAgent === 'no') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
-    } else {
+    return getNextStep(request, h, (e) => {
       return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,
-        err: [{
-          text: 'Select yes if you are an agent acting on behalf of a client',
-          href: '#isApplicantAgent'
-        }]
+        err: [e]
       })
-    }
+    })
   }
 }
 
