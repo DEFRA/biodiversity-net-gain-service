@@ -115,7 +115,7 @@ export default {
         'Condition change': 'Poor - Good',
         'Habitat enhanced in advance (years)': 0,
         'Delay in starting habitat enhancement (years)': 0,
-        'Off-site reference': 'BGS-111 222 333',
+        'Off-site reference': 'BGS-333-222-111',
         'Area (hectares)': 1,
         Condition: 'Good',
         'Habitat units delivered': 4.9956750053,
@@ -257,7 +257,7 @@ export default {
       areOffsiteTotalsCorrect: {}
     }
   },
-  'biodiversity-net-gain-number': 'AZ12208461',
+  'biodiversity-net-gain-number': 'BGS-111 222 333',
   'metric-file-checked': 'yes',
   'offsite-details-checked': 'yes',
   'developer-upload-metric-file-type': 'developer-upload-metric',

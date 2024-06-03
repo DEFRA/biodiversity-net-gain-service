@@ -47,7 +47,9 @@ const getOrganisationId = session => ({
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const gainSiteNumber = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
   const allocatedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
+
   const getModule = identifier => {
     switch (identifier.charAt(identifier.length - 1)) {
       case '2':
@@ -56,6 +58,7 @@ const getHabitats = session => {
         return 'Enhanced'
     }
   }
+
   const getState = identifier => {
     switch (identifier.charAt(0)) {
       case 'd':
@@ -68,17 +71,19 @@ const getHabitats = session => {
   }
 
   const allocated = allocatedIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
-      habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
-      area: details['Length (km)'] ?? details['Area (hectares)'],
-      module: getModule(identifier),
-      state: getState(identifier),
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
-    }))
+    metricData[identifier]
+      .filter(details => String(details['Off-site reference']) === gainSiteNumber)
+      .filter(details => 'Condition' in details)
+      .map(details => ({
+        habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
+        area: details['Length (km)'] ?? details['Area (hectares)'],
+        module: getModule(identifier),
+        state: getState(identifier),
+        measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
+      }))
   )
-  return {
-    allocated
-  }
+
+  return { allocated }
 }
 
 const getFile = (session, fileType, filesize, fileLocation, optional) => ({
