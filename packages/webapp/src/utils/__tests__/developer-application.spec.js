@@ -21,6 +21,20 @@ describe('developer-application', () => {
     expect(app.developerRegistration.applicant.role).toEqual('organisation')
   })
 
+  it('Filters out habitats correctly based on gain site number', () => {
+    const session = setDeveloperApplicationSession()
+
+    const app = developerApplication(session, applicant)
+    const habitat = app.developerRegistration.habitats.allocated.find(h => h.habitatId === '4321ABC')
+    expect(app.developerRegistration.habitats.allocated.length).toEqual(8)
+    expect(app.developerRegistration.habitats.allocated.find(h => h.habitatId === '9876ABC')).toBeUndefined()
+    expect(habitat).toBeDefined()
+    expect(habitat.area).toEqual(0.3)
+    expect(habitat.module).toEqual('Enhanced')
+    expect(habitat.state).toEqual('Watercourse')
+    expect(habitat.measurementUnits).toEqual('kilometres')
+  })
+
   it('Adds client details if client application, and includes written authorisation', () => {
     const firstName = 'Geoff'
     const lastName = 'Hopkin'

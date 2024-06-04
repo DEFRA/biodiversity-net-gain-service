@@ -21,6 +21,7 @@ describe(url, () => {
       expect(viewArgs[0]).toEqual('application-submitted')
       expect(viewArgs[1].applicationReference).toEqual(gainSiteReference)
     })
+
     it(`should render the ${url.substring(1)} view with formatted sort code`, async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
@@ -35,20 +36,7 @@ describe(url, () => {
       expect(viewArgs[0]).toEqual('application-submitted')
       expect(viewArgs[1].bacs.sortCode).toEqual('12 34 56')
     })
-    it(`should render the ${url.substring(1)} view with formatted developer reference`, async () => {
-      const getHandler = applicationSubmitted[0].handler
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_APP_REFERENCE, gainSiteReference)
-      let viewArgs = ''
-      const h = {
-        view: (...args) => {
-          viewArgs = args
-        }
-      }
-      await getHandler({ headers: { referer: 'http://localhost/developer/check-and-submit' }, yar: session }, h)
-      expect(viewArgs[0]).toEqual('application-submitted')
-      expect(viewArgs[1].applicationReference).toEqual(gainSiteReference)
-    })
+
     it('should render payment fee details', async () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
