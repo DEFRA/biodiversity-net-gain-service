@@ -7,7 +7,6 @@ const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
 const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
-const DEVELOPER_CHECK_ANSWERS = 'developer/check-answers'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
@@ -33,6 +32,8 @@ const DEVELOPER_DOWNLOAD_PLANNING_DECISION_FILE = 'developer/download-planning-d
 const DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED = 'developer/defra-account-not-linked'
 const DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS = 'developer/upload-consent-to-allocate-gains'
 const DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/check-consent-file'
+const DEVELOPER_CHECK_AND_SUBMIT = 'developer/check-and-submit'
+const DEVELOPER_CONFIRMATION = 'developer/application-submitted'
 const DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION = 'developer/development-project-information'
 
 // RedisKeys constants
@@ -67,6 +68,7 @@ const DEVELOPER_WRITTEN_AUTHORISATION_UPLOAD_TYPE = 'developer-written-authorisa
 const DEVELOPER_WRITTEN_AUTHORISATION_LOCATION = 'developer-written-authorisation-location'
 const DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE = 'developer-written-authorisation-file-size'
 const DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE = 'developer-written-authorisation-file-type'
+const DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME = 'developer-written-authorisation-file-name'
 const DEVELOPER_WRITTEN_AUTHORISATION_CHECKED = 'developer-written-authorisation-checked'
 const DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE = 'developer-planning-decision-notice'
 const DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION = 'developer-planning-decision-notice-location'
@@ -88,7 +90,7 @@ const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 const setDeveloperReferer = [
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   DEVELOPER_AGREEMENT_CHECK,
-  DEVELOPER_CHECK_ANSWERS
+  DEVELOPER_CHECK_AND_SUBMIT
 ]
 
 const clearDeveloperReferer = [
@@ -122,7 +124,6 @@ export default {
     DEVELOPER_ROUTING_RESULT,
     DEVELOPER_ROUTING_SOLD,
     DEVELOPER_BNG_NUMBER,
-    DEVELOPER_CHECK_ANSWERS,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
@@ -148,6 +149,8 @@ export default {
     DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED,
     DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
     DEVELOPER_CHECK_CONSENT_TO_USE_GAIN_SITE_FILE,
+    DEVELOPER_CHECK_AND_SUBMIT,
+    DEVELOPER_CONFIRMATION,
     DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION
   },
   redisKeys: {
@@ -184,6 +187,7 @@ export default {
     DEVELOPER_WRITTEN_AUTHORISATION_LOCATION,
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE,
     DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE,
+    DEVELOPER_WRITTEN_AUTHORISATION_FILE_NAME,
     DEVELOPER_WRITTEN_AUTHORISATION_CHECKED,
     DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION,
     DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE,

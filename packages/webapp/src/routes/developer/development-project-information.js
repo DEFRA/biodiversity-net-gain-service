@@ -62,7 +62,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
-      const referrerUrl = getValidReferrerUrl(request.yar, ['developer/tasklist'])
+      const referrerUrl = getValidReferrerUrl(request.yar, ['/developer/check-and-submit', 'developer/tasklist'])
       return h.redirect(referrerUrl || constants.routes.DEVELOPER_TASKLIST)
     }
   }
