@@ -9,10 +9,11 @@ describe('credits-application', () => {
     const session = setCreditsApplicationSession()
     const app = creditsApplication(session, applicant)
 
-    expect(app.creditsPurchase.creditReference).toEqual('ABC/123/456')
+    expect(app.creditsPurchase.creditReference).toEqual('BNGCRD-L4XCQ-AIZMO')
     expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual('Hartlepool LPA')
     expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual('E60000003')
     expect(app.creditsPurchase.development.name).toEqual('Eden')
+    expect(app.creditsPurchase.development.planningReference).toEqual('ABC/123/456')
   })
 
   it('Should handle nullable fields if session data not exists', () => {
