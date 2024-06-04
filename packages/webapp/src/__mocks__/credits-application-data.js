@@ -7,11 +7,6 @@ export default {
   'credits-purchase-planning-application-ref': 'ABC/123/456',
   'credits-purchase-planning-development-name': 'Eden',
   'credits-purchase-metric-data': {
-    startPage: {
-      planningAuthority: 'Hartlepool LPA',
-      projectName: 'Gain Site 2 for Digital',
-      planningApplicationReference: 'ABC/123/456'
-    },
     d1: [],
     d2: [],
     d3: [],
