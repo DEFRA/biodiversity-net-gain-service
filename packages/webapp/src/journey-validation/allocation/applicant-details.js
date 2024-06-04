@@ -65,7 +65,24 @@ const WRITTEN_AUTHORISATION_UPLOAD = routeDefinition(
 
 const WRITTEN_AUTHORISATION_CHECKED = routeDefinition(
   constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-  [constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED]
+  [constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED],
+  (session) => {
+    const checkWrittenAuthorisation = session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED)
+    if (checkWrittenAuthorisation === 'no') {
+      return constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
+    } else if (checkWrittenAuthorisation === 'yes') {
+      const isLandowner = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      if (!isLandowner) {
+        return constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
+      }
+      return session.get(constants.redisKeys.PRIMARY_ROUTE) || constants.routes.DEVELOPER_TASKLIST
+    } else {
+      throw new Error({
+        text: 'Select yes if this is the correct file',
+        href: '#check-upload-correct-yes'
+      })
+    }
+  }
 )
 
 const LANDOWNER_CONSENT_UPLOAD = routeDefinition(
@@ -98,12 +115,12 @@ const IS_INDIVIDUAL = journeyStepFromRoute(INDIVIDUAL_ORGANISATION, [constants.i
 const IS_ORGANISATION = journeyStepFromRoute(INDIVIDUAL_ORGANISATION, [constants.individualOrOrganisationTypes.ORGANISATION], true)
 
 const WRITTEN_AUTHORISATION = journeyStep(
-  WRITTEN_AUTHORISATION_UPLOAD.startUrl,
+  WRITTEN_AUTHORISATION_UPLOAD.startUrl,//todo the lookup for startUrl falls down when is secondary page
   [
     ...WRITTEN_AUTHORISATION_UPLOAD.sessionKeys,
     ...WRITTEN_AUTHORISATION_CHECKED.sessionKeys
   ],
-  [ANY, ANY, ANY, 'yes']
+  [ANY, ANY, ANY, 'yes']//todo this journey step means not a true step for our page...
 )
 
 const LANDOWNER_CONSENT = journeyStep(
@@ -143,7 +160,8 @@ const agentNotLandownerBase = [
 const agentLandownerIndividualJourney = [
   ...agentLandownerBase,
   ...clientIndividual,
-  WRITTEN_AUTHORISATION
+  WRITTEN_AUTHORISATION//,
+  // WRITTEN_AUTHORISATION_CHECKED
 ]
 
 const agentLandownerOrganisationJourney = [
@@ -209,6 +227,22 @@ const applicantDetailsJourneys = [
   notAgentNotLandownerOrganisationJourney
 ]
 
+const applicantDetailsRouteDefinitions = [
+  AGENT_ACTING_FOR_CLIENT,
+  CHECK_DEFRA_ACCOUNT_DETAILS,
+  IS_LANDOWNER,
+  INDIVIDUAL_ORGANISATION,
+  CLIENT_INDIVIDUAL_ORGANISATION,
+  CLIENT_INDIVIDUAL_NAME,
+  CLIENT_ORGANISATION_NAME,
+  WRITTEN_AUTHORISATION_UPLOAD,
+  WRITTEN_AUTHORISATION_CHECKED,
+  LANDOWNER_CONSENT_UPLOAD,
+  LANDOWNER_CONSENT_CHECK,
+  PROOF_OF_PERMISSION
+]
+
 export {
-  applicantDetailsJourneys
+  applicantDetailsJourneys,
+  applicantDetailsRouteDefinitions
 }

@@ -10,7 +10,7 @@ const primaryPage = {
       const targetRoutes = routeMapping[applicationType] || []
 
       if (targetRoutes.includes(request.path)) {
-        request.yar.set('primaryPage', request.path)
+        request.yar.set(constants.redisKeys.PRIMARY_ROUTE, request.path)
       }
       return h.continue
     })

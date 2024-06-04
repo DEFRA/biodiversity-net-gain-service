@@ -9,7 +9,8 @@ import {
 } from './credits-purchase/task-sections.js'
 import {
   taskSections as allocationTaskSections,
-  checkYourAnswers as allocationCheckYourAnswers
+  checkYourAnswers as allocationCheckYourAnswers,
+  routeDefinitions as allocationRouteDefinitions
 } from './allocation/task-sections.js'
 
 const ANY = 'any'
@@ -98,24 +99,8 @@ const getTaskStatus = (task, session) => {
   }
 }
 
-const findJourneyPartByStartUrl = (data, url) => {
-  for (const section of data) {
-    for (const task of section.tasks) {
-      for (const journeyParts of task.journeyParts) {
-        for (const journey of journeyParts) {
-          if (journey.startUrl === url) {
-            return journey
-          }
-        }
-      }
-    }
-  }
-  return null
-}
-
-const retrieveTask = (taskSections, startUrl) => {
-  const result = findJourneyPartByStartUrl(taskSections, startUrl)
-  return result
+const retrieveTask = (routeDefinitions, startUrl) => {
+  return routeDefinitions.find(route => route.startUrl === startUrl) || null
 }
 
 const generateTaskList = (taskSections, session) => {
@@ -180,12 +165,11 @@ const getNextStep = (request, h, errCallback) => {
     case constants.applicationTypes.CREDITS_PURCHASE:
       break
     case constants.applicationTypes.ALLOCATION:
-      task = retrieveTask(allocationTaskSections, path)
+      task = retrieveTask(allocationRouteDefinitions, path)
       break
   }
 
   if (task.nextUrl) {
-    //todo check if task is complete - take to primary page if set
     try {
       const nextUrl = task.nextUrl(request.yar)
       if (nextUrl) {
