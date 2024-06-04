@@ -579,7 +579,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
+const getMetricFileValidationErrors = (metricValidation, href, checkOffsiteData = true) => {
   const error = {
     err: [
       {
@@ -589,12 +589,10 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
     ]
   }
   if (!metricValidation.isSupportedVersion) {
-    error.err[0].text = useStatutoryMetric
-      ? 'The selected file must use the statutory biodiversity metric'
-      : 'The selected file must use Biodiversity Metric version 4.1'
+    error.err[0].text = 'The selected file must use the statutory biodiversity metric'
   } else if (metricValidation.isDraftVersion) {
     error.err[0].text = 'The selected file must not be a draft version'
-  } else if (!metricValidation.isOffsiteDataPresent) {
+  } else if (!metricValidation.isOffsiteDataPresent && checkOffsiteData) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
     // BNGP-4219 METRIC Validation: Suppress total area calculations
