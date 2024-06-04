@@ -115,12 +115,12 @@ const IS_INDIVIDUAL = journeyStepFromRoute(INDIVIDUAL_ORGANISATION, [constants.i
 const IS_ORGANISATION = journeyStepFromRoute(INDIVIDUAL_ORGANISATION, [constants.individualOrOrganisationTypes.ORGANISATION], true)
 
 const WRITTEN_AUTHORISATION = journeyStep(
-  WRITTEN_AUTHORISATION_UPLOAD.startUrl,//todo the lookup for startUrl falls down when is secondary page
+  WRITTEN_AUTHORISATION_UPLOAD.startUrl,
   [
     ...WRITTEN_AUTHORISATION_UPLOAD.sessionKeys,
     ...WRITTEN_AUTHORISATION_CHECKED.sessionKeys
   ],
-  [ANY, ANY, ANY, 'yes']//todo this journey step means not a true step for our page...
+  [ANY, ANY, ANY, 'yes']
 )
 
 const LANDOWNER_CONSENT = journeyStep(
@@ -160,8 +160,7 @@ const agentNotLandownerBase = [
 const agentLandownerIndividualJourney = [
   ...agentLandownerBase,
   ...clientIndividual,
-  WRITTEN_AUTHORISATION//,
-  // WRITTEN_AUTHORISATION_CHECKED
+  WRITTEN_AUTHORISATION
 ]
 
 const agentLandownerOrganisationJourney = [
