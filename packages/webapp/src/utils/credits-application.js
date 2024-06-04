@@ -33,7 +33,7 @@ const getFiles = session => {
 }
 
 const application = (session, account) => {
-  const planningReference = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE)
+  const planningReference = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REF)
   const planningAuthorityName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
   const developmentName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
   const applicationDetails = {
@@ -56,7 +56,6 @@ const application = (session, account) => {
       submittedOn: new Date().toISOString()
     }
   }
-  console.log(JSON.stringify(applicationDetails, null, 2))
 
   if (session.get(constants.redisKeys.ORGANISATION_ID)) {
     applicationDetails.creditsPurchase.organisation = {

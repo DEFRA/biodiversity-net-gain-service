@@ -3,6 +3,9 @@ export default {
   'credits-purchase-metric-file-location': '687b3578-04b8-4343-980a-04be6204653d/credits-metric-upload/metric-4.1.xlsm',
   'credits-purchase-metric-filesize': 5080204,
   'credits-purchase-metric-file-type': 'application/vnd.ms-excel.sheet.macroenabled.12',
+  'credits-purchase-planning-authority-list': 'Hartlepool LPA',
+  'credits-purchase-planning-application-ref': 'ABC/123/456',
+  'credits-purchase-planning-development-name': 'Eden',
   'credits-purchase-metric-data': {
     startPage: {
       planningAuthority: 'Hartlepool LPA',

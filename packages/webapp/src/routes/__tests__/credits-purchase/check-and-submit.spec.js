@@ -13,12 +13,6 @@ const auth = {
   }
 }
 
-const populateSessionWithDevelopmentProjectInfo = (session) => {
-  session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, 'Anything')
-  session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, 'BNGCRD-L4XCQ-AIZMO')
-  session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, 'Hartlepool LPA')
-}
-
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view for an individual application`, async () => {
@@ -41,7 +35,6 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           const session = setCreditsApplicationSession()
-          populateSessionWithDevelopmentProjectInfo(session)
           const postHandler = checkAnswers[1].handler
 
           jest.resetAllMocks()
@@ -78,7 +71,6 @@ describe(url, () => {
       jest.isolateModules(async () => {
         try {
           const session = setCreditsApplicationSession()
-          populateSessionWithDevelopmentProjectInfo(session)
           const postHandler = checkAnswers[1].handler
 
           jest.resetAllMocks()

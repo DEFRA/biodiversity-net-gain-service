@@ -7,17 +7,12 @@ import applicant from '../../__mocks__/applicant'
 describe('credits-application', () => {
   it('Should process typical application based on test data including LPA code', () => {
     const session = setCreditsApplicationSession()
-
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE, 'BNGCRD-L4XCQ-AIZMO')
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, 'Hartlepool LPA')
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, 'Anything')
-
     const app = creditsApplication(session, applicant)
 
-    expect(app.creditsPurchase.creditReference).toEqual('BNGCRD-L4XCQ-AIZMO')
+    expect(app.creditsPurchase.creditReference).toEqual('ABC/123/456')
     expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual('Hartlepool LPA')
     expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual('E60000003')
-    expect(app.creditsPurchase.development.name).toEqual('Anything')
+    expect(app.creditsPurchase.development.name).toEqual('Eden')
   })
 
   it('Should handle nullable fields if session data not exists', () => {
