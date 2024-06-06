@@ -44,13 +44,11 @@ class BngMetricSingleDataExtractor {
 
   #extractData = (workbook, extractionConfiguration) => {
     const worksheet = workbook.Sheets[extractionConfiguration.sheetName]
+    console.log(extractionConfiguration)
     if (!worksheet) {
       return null
     } else {
-      const sheetTitle =
-      extractionConfiguration.titleCellAddress === undefined
-        ? extractionConfiguration.sheetName
-        : worksheet[extractionConfiguration.titleCellAddress].v
+      const sheetTitle = worksheet[extractionConfiguration.titleCellAddress]?.v || extractionConfiguration.sheetName
       if (extractionConfiguration.endCell) {
         worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
       } else {
