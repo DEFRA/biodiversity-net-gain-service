@@ -2,12 +2,14 @@ import constants from '../../utils/constants.js'
 
 const handlers = {
   get: async (request, h) => {
+    request.redirectViewUsed = true
     const isApplicantAgent = request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT)
     return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
       isApplicantAgent
     })
   },
   post: async (request, h) => {
+    request.redirectViewUsed = true
     const { isApplicantAgent } = request.payload
 
     // Force replay of full journey if switching between agent and non-agent application
@@ -22,7 +24,7 @@ const handlers = {
     } else if (isApplicantAgent === 'no') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     } else {
-      return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
+      return h.redirectView(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,
         err: [{
           text: 'Select yes if you are an agent acting on behalf of a client',
