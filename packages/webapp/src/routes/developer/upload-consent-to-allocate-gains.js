@@ -3,6 +3,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
 
@@ -18,21 +19,21 @@ const processSuccessfulUpload = (result, request, h) => {
 const processErrorUpload = (err, h) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'The selected file is empty',
           href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
         }]
       })
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'Select a written consent',
           href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
           href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
@@ -40,21 +41,21 @@ const processErrorUpload = (err, h) => {
       })
     default:
       if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
             href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
       } else if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.threatDetected,
             href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
           }]
         })
       } else {
-        return h.view(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
             href: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID
@@ -88,13 +89,13 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
   config: {
-    handler: handlers.post,
+    handler: addRedirectViewUsed(handlers.post),
     payload: {
       allow: 'multipart/form-data',
       maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,

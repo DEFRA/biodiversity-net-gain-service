@@ -4,6 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
@@ -30,7 +31,7 @@ const processSuccessfulCreditUpload = async (result, request, h) => {
 const processCreditsErrorUpload = (err, h) => {
   switch (err.message) {
     case creditsPurchaseConstants.uploadErrors.emptyFile:
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         backLink,
         err: [{
           text: 'The selected file is empty',
@@ -38,7 +39,7 @@ const processCreditsErrorUpload = (err, h) => {
         }]
       })
     case creditsPurchaseConstants.uploadErrors.noFile:
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         backLink,
         err: [{
           text: 'Select a statutory biodiversity metric',
@@ -46,7 +47,7 @@ const processCreditsErrorUpload = (err, h) => {
         }]
       })
     case creditsPurchaseConstants.uploadErrors.unsupportedFileExt:
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
         backLink,
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
@@ -57,7 +58,7 @@ const processCreditsErrorUpload = (err, h) => {
       return maximumFileSizeExceeded(h)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.malwareScanFailed,
@@ -65,7 +66,7 @@ const processCreditsErrorUpload = (err, h) => {
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.threatDetected,
@@ -73,7 +74,7 @@ const processCreditsErrorUpload = (err, h) => {
           }]
         })
       } else {
-        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+        return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
           backLink,
           err: [{
             text: creditsPurchaseConstants.uploadErrors.uploadFailure,
@@ -109,13 +110,13 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
   config: {
-    handler: handlers.post,
+    handler: addRedirectViewUsed(handlers.post),
     payload: {
       output: 'stream',
       multipart: true,

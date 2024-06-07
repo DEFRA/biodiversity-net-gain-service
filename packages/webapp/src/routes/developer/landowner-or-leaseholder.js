@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,7 +19,7 @@ const handlers = {
     } else if (landownerOrLeaseholder && isApplicantAgent === constants.APPLICANT_IS_AGENT.NO) {
       return h.redirect(constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
     } else {
-      return h.view(constants.views.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, {
+      return h.redirectView(constants.views.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, {
         err: [{
           text: `Select yes if ${isApplicantAgent === constants.APPLICANT_IS_AGENT.YES ? 'your client is' : 'you are'} the landowner or leaseholder`,
           href: '#is-landowner-or-leaseholder-yes'
@@ -33,10 +34,10 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
   path: constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

@@ -1,5 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
+
 const handlers = {
   get: (request, h) => {
     const values = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_MIDDLE_NAME)
@@ -8,7 +10,7 @@ const handlers = {
   post: (request, h) => {
     const { middleName, middleNameOption } = request.payload
     if (!middleNameOption) {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, {
         middleName,
         middleNameOption,
         err: [{
@@ -20,7 +22,7 @@ const handlers = {
 
     if (middleNameOption === 'yes' && (middleName.length === 0 || middleName.length > 50)) {
       const errorText = middleName.length === 0 ? 'Enter your middle name' : 'Middle name must be 50 characters or fewer'
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_MIDDLE_NAME, {
         middleName,
         middleNameOption,
         err: [{
@@ -41,9 +43,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

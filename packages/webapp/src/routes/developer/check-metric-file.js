@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -20,7 +21,7 @@ const handlers = {
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
       return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
     }
-    return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
+    return h.redirectView(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
       ...getContext(request),
       err: [
@@ -46,9 +47,9 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

@@ -1,6 +1,8 @@
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
+
 const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
 const getUserDetails = request => {
@@ -40,7 +42,7 @@ const handlers = {
         return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
       }
     } else {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getUserDetails(request),
         backLink,
         err: [{
@@ -55,9 +57,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

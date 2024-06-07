@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { redirectAddress, validateAddress } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -29,7 +30,7 @@ const handlers = {
       Object.keys(errors).forEach(item => {
         err.push(errors[item])
       })
-      return h.view(constants.views.UK_ADDRESS, {
+      return h.redirectView(constants.views.UK_ADDRESS, {
         err,
         isApplicantAgent,
         address,
@@ -46,9 +47,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.UK_ADDRESS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.UK_ADDRESS,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

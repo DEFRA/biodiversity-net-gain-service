@@ -20,6 +20,7 @@ import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-bounda
 import applicationInformationContext from './helpers/applicant-information.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -42,7 +43,7 @@ const handlers = {
         text: 'You must confirm you have read the terms and conditions',
         href: '#termsAndConditionsConfirmed'
       }]
-      return h.view(constants.views.CHECK_AND_SUBMIT, { ...getContext(request), err })
+      return h.redirectView(constants.views.CHECK_AND_SUBMIT, { ...getContext(request), err })
     }
 
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
@@ -132,9 +133,9 @@ const getLandOwnershipRows = (applicationDetails) => {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

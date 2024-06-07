@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -23,7 +24,7 @@ const handlers = {
 
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || redirect(request.yar, h))
     } else {
-      return h.view(constants.views.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS, {
+      return h.redirectView(constants.views.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),
         err: [{
           text: 'You must confirm your Defra account details are up to date',
@@ -47,9 +48,9 @@ const redirect = (session, h) => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

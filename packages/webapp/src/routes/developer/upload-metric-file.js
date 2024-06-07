@@ -4,6 +4,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getMaximumFileSizeExceededView, getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -47,7 +48,7 @@ const processSuccessfulUpload = async (result, request, h) => {
       ]
     }
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, error)
+    return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, error)
   }
   return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }
@@ -55,28 +56,28 @@ const processSuccessfulUpload = async (result, request, h) => {
 const processErrorUpload = (err, h) => {
   switch (err.message) {
     case constants.uploadErrors.notValidMetric:
-      return h.view(constants.views.UPLOAD_METRIC, {
+      return h.redirectView(constants.views.UPLOAD_METRIC, {
         err: [{
           text: 'The selected file is not a valid Metric',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file is empty',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
           href: UPLOAD_METRIC_ID
@@ -86,21 +87,21 @@ const processErrorUpload = (err, h) => {
       return maximumFileSizeExceeded(h)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
             href: UPLOAD_METRIC_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.threatDetected,
             href: UPLOAD_METRIC_ID
           }]
         })
       } else {
-        return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
             href: UPLOAD_METRIC_ID
@@ -135,11 +136,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
-  path: constants.routes.DEVELOPER_UPLOAD_METRIC,
+  path: addRedirectViewUsed(constants.routes.DEVELOPER_UPLOAD_METRIC),
   config: {
     handler: handlers.post,
     payload: {

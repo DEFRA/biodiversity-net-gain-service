@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -21,7 +22,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.DEVELOPER_CONSENT_ANSWER, true)
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
     }
-    return h.view(constants.views.DEVELOPER_AGREEMENT_CHECK, {
+    return h.redirectView(constants.views.DEVELOPER_AGREEMENT_CHECK, {
       filename: path.basename(consentUploadLocation),
       ...getContext(request),
       err: [
@@ -48,9 +49,9 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_AGREEMENT_CHECK,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_AGREEMENT_CHECK,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]
