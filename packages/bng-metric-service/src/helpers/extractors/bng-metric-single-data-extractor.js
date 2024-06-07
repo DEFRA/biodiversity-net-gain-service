@@ -44,7 +44,6 @@ class BngMetricSingleDataExtractor {
 
   #extractData = (workbook, extractionConfiguration) => {
     const worksheet = workbook.Sheets[extractionConfiguration.sheetName]
-    console.log(extractionConfiguration)
     if (!worksheet) {
       return null
     } else {
