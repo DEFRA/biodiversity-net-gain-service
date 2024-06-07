@@ -76,6 +76,11 @@ const getApplicationDetails = (session, currentOrganisation) => {
 
 const handlers = {
   get: (request, h) => {
+    const appSubmitted = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_SUBMITTED)
+
+    if (appSubmitted) {
+      return h.redirect(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+    }
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
