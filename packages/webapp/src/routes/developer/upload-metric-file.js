@@ -140,9 +140,9 @@ export default [{
 },
 {
   method: 'POST',
-  path: addRedirectViewUsed(constants.routes.DEVELOPER_UPLOAD_METRIC),
+  path: constants.routes.DEVELOPER_UPLOAD_METRIC,
   config: {
-    handler: handlers.post,
+    handler: addRedirectViewUsed(handlers.post),
     payload: {
       maxBytes: (parseInt(process.env.MAX_METRIC_UPLOAD_MB) + 1) * 1024 * 1024,
       output: 'stream',
