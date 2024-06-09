@@ -8,7 +8,8 @@ const headers = [
   'Habitat units delivered',
   'Habitat reference Number',
   'Off-site reference',
-  'Strategic significance'
+  'Strategic significance',
+  'User baseline ref'
 ]
 
 const d2OffSiteHabitatCreation = {
@@ -26,7 +27,8 @@ const d2OffSiteHabitatCreation = {
     __EMPTY_6: 'Condition',
     __EMPTY_8: 'Habitat units delivered',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
-    'Habitat reference ': 'Habitat reference Number'
+    'Habitat reference ': 'Habitat reference Number',
+    'Baseline Ref': 'User baseline ref'
   }
 }
 
