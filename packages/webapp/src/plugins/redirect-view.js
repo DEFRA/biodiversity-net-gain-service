@@ -4,6 +4,10 @@ const redirectView = {
   name: 'redirect-view',
   register: (server, _options) => {
     server.decorate('toolkit', 'redirectView', function (route, data) {
+      if (this.request.isInjected) {
+        return this.view(route, data)
+      }
+
       this.request.yar.set(constants.redisKeys.VIEW_DATA, { data, route })
       return this.response().redirect(this.request._route.path).takeover()
     })
