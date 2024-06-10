@@ -1,13 +1,18 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
+import { validateTextInput, checkForDuplicate, emailValidator, getLegalAgreementDocumentType, validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const organisationNameID = '#organisationName'
+const emailID = '#emailAddress'
 const validateOrganisation = organisation => {
   const errors = {}
   const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', 50, 'landowner or leaseholder')
   if (organisationNameError) {
     errors.organisationNameError = organisationNameError.err[0]
+  }
+  const emailAddressError = emailValidator(organisation.emailAddress, emailID)
+  if (emailAddressError?.err?.length > 0) {
+    errors.emailAddressError = emailAddressError.err[0]
   }
   return errors
 }
@@ -17,7 +22,8 @@ const handlers = {
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     let organisation = {
-      organisationName: ''
+      organisationName: '',
+      emailAddress: ''
     }
     const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (id) {
@@ -56,6 +62,7 @@ const handlers = {
       return h.view(constants.views.ADD_LANDOWNER_ORGANISATION, {
         organisation,
         legalAgreementType,
+        emailAddressError: errors.emailAddressError,
         err: Object.values(errors),
         ...errors
       })
