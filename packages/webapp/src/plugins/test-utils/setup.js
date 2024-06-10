@@ -1,6 +1,7 @@
 import Hapi from '@hapi/hapi'
 import Yar from '@hapi/yar'
 import redirectView from '../redirect-view.js'
+import { SESSION_COOKIE_PASSWORD } from '../../utils/config.js'
 
 export const getServer = async () => {
   const server = Hapi.server()
@@ -11,7 +12,7 @@ export const getServer = async () => {
       options: {
         storeBlank: false,
         cookieOptions: {
-          password: 'only-for-test-server-cookie-secret',
+          password: SESSION_COOKIE_PASSWORD,
           isSecure: false
         }
       }
