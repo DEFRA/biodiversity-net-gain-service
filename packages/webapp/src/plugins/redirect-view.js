@@ -13,7 +13,7 @@ const redirectView = {
     })
 
     server.ext('onPreResponse', (request, h) => {
-      const { method } = request?.route
+      const method = request?.route?.method ?? undefined
       if (request.redirectViewUsed && method && method === 'get') {
         const viewData = request.yar.get(constants.redisKeys.VIEW_DATA)
         request.yar.clear(constants.redisKeys.VIEW_DATA)
