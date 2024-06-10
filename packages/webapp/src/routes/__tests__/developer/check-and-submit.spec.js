@@ -4,6 +4,7 @@ import setDeveloperApplicationSession from '../../../__mocks__/developer-applica
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
 import * as taskListUtil from '../../../journey-validation/task-list-generator.js'
+import applicationSession from '../../../__mocks__/application-session.js'
 
 const checkAnswers = require('../../developer/check-and-submit.js').default
 const url = constants.routes.DEVELOPER_CHECK_AND_SUBMIT
@@ -153,6 +154,22 @@ describe(url, () => {
 
       const res = await submitGetRequest({ url }, 302, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')
+    })
+    it('should redirect to MANAGE_BIODIVERSITY_GAINS if DEVELOPER_APPLICATION_SUBMITTED is true', async () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.DEVELOPER_APPLICATION_SUBMITTED, true)
+
+      const request = {
+        yar: session,
+        auth
+      }
+
+      const h = {
+        redirect: jest.fn()
+      }
+
+      await checkAnswers[0].handler(request, h)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.MANAGE_BIODIVERSITY_GAINS)
     })
   })
 
