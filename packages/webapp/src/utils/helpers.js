@@ -182,7 +182,8 @@ const getLandowners = landOwners => {
 
   landOwners.forEach(item => {
     if (item.type === 'organisation') {
-      organisationNames.push(item.organisationName)
+      const organisationName = `${item.organisationName} (${item.emailAddress})`
+      organisationNames.push(organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
       const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
