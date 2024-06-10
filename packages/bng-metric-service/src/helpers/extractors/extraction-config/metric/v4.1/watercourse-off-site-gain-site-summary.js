@@ -5,9 +5,9 @@ const headers = [
 
 const watercourseOffSiteGainSiteSummary = {
   sheetName: 'Off-site gain site summary',
-  titleCellAddress: 'W3',
-  startCell: 'W5',
-  endCell: 'AD107',
+  titleCellAddress: 'AB3',
+  startCell: 'AB5',
+  endCell: 'AM107',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

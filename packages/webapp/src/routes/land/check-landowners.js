@@ -22,7 +22,7 @@ const getCustomizedHTML = (item, index) => {
       class: 'govuk-summary-list__row'
     }
   } else {
-    const textToDisplay = item.organisationName
+    const textToDisplay = `${item.organisationName} (${item.emailAddress})`
 
     return {
       key: {
