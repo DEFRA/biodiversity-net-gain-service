@@ -71,7 +71,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.noFile:
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
-          text: 'Select a statutory biodiversity metric',
+          text: 'Select a statutory biodiversity metric file no larger than 50MB, in the following format, XLSM or XLSX',
           href: UPLOAD_METRIC_ID
         }]
       })

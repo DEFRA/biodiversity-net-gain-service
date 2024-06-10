@@ -28,7 +28,7 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.emptyFile:
       return buildErrorResponse(h, 'The selected file is empty')
     case constants.uploadErrors.noFile:
-      return buildErrorResponse(h, 'Select a planning decision notice file')
+      return buildErrorResponse(h, 'Select and upload a planning decision notice file')
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
     case constants.uploadErrors.maximumFileSizeExceeded:
