@@ -13,13 +13,14 @@
       <p class="govuk-hint">We will only use this to contact your client about this application.</p>
       {{ govukInput({
         id: "email",
+        data-testid="emailAddress",
         name: "email",
         errorMessage: err[0],
         autoComplete: "email",
         spellcheck: false,
         value: email
       }) }}
-    
+
       {{ govukButton({
         text: "Save and continue",
         attributes: {
@@ -29,5 +30,5 @@
       }) }}
     </div>
   </div>
-</div>   
+</div>
 {% endblock %}
