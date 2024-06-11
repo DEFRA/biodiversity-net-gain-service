@@ -6,7 +6,7 @@
 
     <p class="govuk-hint">{{ hintText }}</p>
 
-    {{ 
+    {{
       govukInput({
         id: "firstName",
         name: "firstName",
@@ -17,9 +17,9 @@
         autocomplete: "given-name",
         spellcheck: false,
         value: individual.firstName
-      }) 
+      })
     }}
-    {{ 
+    {{
       govukInput({
         id: "lastName",
         name: "lastName",
@@ -30,7 +30,7 @@
         autocomplete: "family-name",
         spellcheck: false,
         value: individual.lastName
-      }) 
+      })
     }}
 
     {% if view == "legalAgreement" %}
@@ -41,6 +41,7 @@
     {{ govukInput({
     id: "emailAddress",
     name: "emailAddress",
+    data-testid="emailAddress"
     errorMessage: emailAddressError,
     autocomplete: "emailAddress",
     spellcheck: false,
