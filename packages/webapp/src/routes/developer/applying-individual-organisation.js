@@ -43,7 +43,8 @@ const handlers = {
 
 const getContext = request => {
   return {
-    individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
+    individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE),
+    clientIsNotLandownerOrLeaseholder: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
   }
 }
 
@@ -59,7 +60,7 @@ const getErrorView = (h, request, errorMessage) => {
 
 const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDefraAccount) => {
   if (noOrganisationsLinkedToDefraAccount) {
-    return h.redirect(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
+    return h.redirect(constants.routes.DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED)
   } else {
     return getErrorView(h, request, individualSignInErrorMessage)
   }

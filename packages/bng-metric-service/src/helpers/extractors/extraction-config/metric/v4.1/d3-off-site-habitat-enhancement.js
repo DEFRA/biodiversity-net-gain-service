@@ -8,7 +8,7 @@ const headers = [
   'Habitat enhanced in advance (years)',
   'Delay in starting habitat enhancement (years)',
   'Habitat units delivered',
-  'Total habitat area',
+  'Total habitat area (hectares)',
   'Distinctiveness change',
   'Condition change',
   'Habitat reference Number',

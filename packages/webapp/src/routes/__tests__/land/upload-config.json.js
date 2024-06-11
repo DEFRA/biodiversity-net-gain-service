@@ -37,11 +37,6 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries/geopackage-land-boundary-4326.gpkg'
 }, {
-  uploadType: 'developer-upload-consent',
-  url: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-  hasError: true,
-  filePath: 'packages/webapp/src/__mock-data__/uploads/written-consent/sample.docx'
-}, {
   uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
   url: constants.routes.DEVELOPER_UPLOAD_METRIC,
   hasError: true,
@@ -61,9 +56,8 @@ const uploadTestConfig = [{
   url: constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/written-authorisation/written-authorisation.pdf'
-},
-{
-  uploadType: 'planning-decision-notice',
+}, {
+  uploadType: constants.uploadTypes.DEVELOPER_PLANNING_DECISION_NOTICE_UPLOAD_TYPE,
   url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/planning-decision-notice/planning-decision-notice.pdf'
