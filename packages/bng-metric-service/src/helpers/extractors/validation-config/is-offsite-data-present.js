@@ -6,7 +6,10 @@ const isOffsiteDataPresent = workbook => {
     data[item] = workbook.Sheets[sheetName][item]?.v || 0
   })
 
-  return (data.H20 + data.H21 + data.H22 > 0) && (data.H24 + data.H25 + data.H26 > 0)
+  const hasBaseline = data.H20 > 0 || data.H21 > 0 || data.H22 > 0
+  const hasPostIntevention = data.H24 > 0 || data.H25 > 0 || data.H26 > 0
+
+  return hasBaseline && hasPostIntevention
 }
 
 export default isOffsiteDataPresent
