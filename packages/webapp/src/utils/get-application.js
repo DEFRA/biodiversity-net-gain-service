@@ -48,7 +48,7 @@ const getApplication = async (request, h, applicationType) => {
       }
 
       if (applicationType === constants.applicationTypes.COMBINED_CASE) {
-        return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
       }
 
       return h.redirect('/')
