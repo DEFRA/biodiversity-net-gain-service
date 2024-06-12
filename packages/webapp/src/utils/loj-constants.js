@@ -43,6 +43,7 @@ const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
 const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
+const COMBINED_CASE_TASK_LIST = 'land/combined-case-task-list'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
 const NEED_OWNERSHIP_PROOF = 'land/need-ownership-proof'
@@ -340,6 +341,7 @@ export default {
     HOME,
     ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
     REGISTER_LAND_TASK_LIST,
+    COMBINED_CASE_TASK_LIST,
     NEED_BOUNDARY_FILE,
     NEED_OWNERSHIP_PROOF,
     NEED_LEGAL_AGREEMENT,

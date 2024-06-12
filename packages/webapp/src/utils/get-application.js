@@ -11,6 +11,8 @@ const getRegistration = async (request, h) => getApplication(request, h, constan
 
 const getCreditsPurchase = async (request, h) => getApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
 
+const getCombinedCase = async (request, h) => getApplication(request, h, constants.applicationTypes.COMBINED_CASE)
+
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
     // Get session for values
@@ -43,6 +45,10 @@ const getApplication = async (request, h, applicationType) => {
 
       if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
         return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      }
+
+      if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+        return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
       }
 
       return h.redirect('/')
@@ -85,5 +91,6 @@ export {
   getDevelopmentProject,
   getRegistration,
   getCreditsPurchase,
-  getApplicationSession
+  getApplicationSession,
+  getCombinedCase
 }
