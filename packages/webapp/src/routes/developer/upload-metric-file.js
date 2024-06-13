@@ -102,6 +102,9 @@ const processErrorUpload = (err, h) => {
       } else {
         return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
           err: [{
+            text: 'Upload a metric file',
+            href: UPLOAD_METRIC_ID
+          }, {
             text: constants.uploadErrors.uploadFailure,
             href: UPLOAD_METRIC_ID
           }]
