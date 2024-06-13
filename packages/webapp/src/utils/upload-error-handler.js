@@ -2,7 +2,7 @@ import constants from './constants.js'
 import { getMaximumFileSizeExceededView } from './helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-function processErrorUpload ({ err, h, href, noFileErrorMessage, unsupportedFileExtErrorMessage, maximumFileSize }) {
+function processErrorUpload ({ err, h, href, noFileErrorMessage, unsupportedFileExtErrorMessage, optionalErrorMessage = 'default', maximumFileSize }) {
   switch (err.message) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return buildErrorResponse(h, `The selected file must not be larger than ${maximumFileSize}MB`, href)
@@ -11,7 +11,7 @@ function processErrorUpload ({ err, h, href, noFileErrorMessage, unsupportedFile
     case constants.uploadErrors.noFile:
       return buildErrorResponse(h, noFileErrorMessage, href)
     case constants.uploadErrors.unsupportedFileExt:
-      return buildErrorResponse(h, unsupportedFileExtErrorMessage || 'The selected file must be a DOC, DOCX or PDF', href)
+      return buildErrorResponseWithTwoMessages(h, unsupportedFileExtErrorMessage || 'The selected file must be a DOC, DOCX or PDF', optionalErrorMessage, href)
     case constants.uploadErrors.notValidMetric:
       return buildErrorResponse(h, 'The selected file is not a valid Metric', href)
     default:
@@ -20,7 +20,7 @@ function processErrorUpload ({ err, h, href, noFileErrorMessage, unsupportedFile
       } else if (err instanceof MalwareDetectedError) {
         return buildErrorResponse(h, constants.uploadErrors.threatDetected, href)
       } else {
-        return buildErrorResponse(h, constants.uploadErrors.uploadFailure, href)
+        return buildErrorResponseWithTwoMessages(h, constants.uploadErrors.uploadFailure, optionalErrorMessage, href)
       }
   }
 }
@@ -32,6 +32,27 @@ function buildErrorResponse (h, message, href) {
       href
     }]
   })
+}
+
+function buildErrorResponseWithTwoMessages (h, message, message2 = 'default', href) {
+  if (message2 === 'default') {
+    return h.view(href, {
+      err: [{
+        text: message,
+        href
+      }]
+    })
+  } else {
+    return h.view(href, {
+      err: [{
+        text: message2,
+        href
+      }, {
+        text: message,
+        href
+      }]
+    })
+  }
 }
 
 function maximumFileSizeExceeded (h, href, maximumFileSize, view) {
@@ -46,5 +67,6 @@ function maximumFileSizeExceeded (h, href, maximumFileSize, view) {
 export {
   processErrorUpload,
   buildErrorResponse,
+  buildErrorResponseWithTwoMessages,
   maximumFileSizeExceeded
 }
