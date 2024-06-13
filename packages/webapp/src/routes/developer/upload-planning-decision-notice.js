@@ -30,7 +30,17 @@ function processErrorUpload (err, h) {
     case constants.uploadErrors.noFile:
       return buildErrorResponse(h, 'Select and upload a planning decision notice file')
     case constants.uploadErrors.unsupportedFileExt:
-      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
+      return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
+        err: [
+          {
+            text: 'Select a file in the following format; DOC, DOCX or PDF',
+            href: PLANNING_DECISION_NOTICE_ID
+          },
+          {
+            text: 'The selected file must be a DOC, DOCX or PDF',
+            href: PLANNING_DECISION_NOTICE_ID
+          }]
+      })
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumSizeExceeded(h, {
         href: PLANNING_DECISION_NOTICE_ID,
