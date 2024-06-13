@@ -78,6 +78,9 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.unsupportedFileExt:
       return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, {
         err: [{
+          text: 'Upload a metric file',
+          href: UPLOAD_METRIC_ID
+        }, {
           text: 'The selected file must be an XLSM or XLSX',
           href: UPLOAD_METRIC_ID
         }]
