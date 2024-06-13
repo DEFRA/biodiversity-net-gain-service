@@ -88,5 +88,6 @@ export {
   getRegistration,
   getCreditsPurchase,
   getApplicationSession,
-  getCombinedCase
+  getCombinedCase,
+  getApplication
 }

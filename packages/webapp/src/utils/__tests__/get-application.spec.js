@@ -7,7 +7,8 @@ import {
   getDevelopmentProject,
   getRegistration,
   getCreditsPurchase,
-  getCombinedCase
+  getCombinedCase,
+  getApplication
 } from '../get-application.js'
 
 jest.mock('../http.js')
@@ -101,5 +102,17 @@ describe('getApplication', () => {
 
     const response = await getRegistration(request, h)
     expect(response).toEqual(badRequestResponse)
+  })
+
+  it('should redirect to / if application type is unknown', async () => {
+    const session = { 'organisation-id': 'test-org-id' }
+    postJson.mockResolvedValue(session)
+    getOrganisationDetails.mockReturnValue({ currentOrganisationId: 'test-org-id' })
+
+    const unknownApplicationType = 'UNKNOWN_TYPE'
+    await getApplication(request, h, unknownApplicationType)
+
+    expect(request.yar.set).toHaveBeenCalledWith(session)
+    expect(h.redirect).toHaveBeenCalledWith('/')
   })
 })
