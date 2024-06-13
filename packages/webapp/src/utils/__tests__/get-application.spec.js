@@ -16,32 +16,38 @@ jest.mock('../save-application-session-if-needed.js')
 jest.mock('../get-organisation-details.js')
 
 describe('getApplication', () => {
-  const h = {
-    redirect: jest.fn().mockReturnThis()
-  }
-  const request = {
-    params: { path: 'some-path' },
-    auth: {
-      credentials: {
-        account: {
-          idTokenClaims: {
-            contactId: 'contact-id',
-            account: {
-              idTokenClaims: {
-                contactId: 'contact-id'
+  let h, request
+
+  beforeEach(() => {
+    h = {
+      redirect: jest.fn().mockReturnThis()
+    }
+    request = {
+      params: { path: 'some-path' },
+      auth: {
+        credentials: {
+          account: {
+            idTokenClaims: {
+              contactId: 'contact-id',
+              account: {
+                idTokenClaims: {
+                  contactId: 'contact-id'
+                }
               }
             }
           }
         }
+      },
+      yar: {
+        set: jest.fn()
       }
-    },
-    yar: {
-      set: jest.fn()
     }
-  }
+  })
 
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks()
+    h = null
+    request = null
   })
 
   it('should redirect to REGISTER_LAND_TASK_LIST for REGISTRATION application type', async () => {
