@@ -182,7 +182,8 @@ const getLandowners = landOwners => {
 
   landOwners.forEach(item => {
     if (item.type === 'organisation') {
-      organisationNames.push(item.organisationName)
+      const organisationName = `${item.organisationName} (${item.emailAddress})`
+      organisationNames.push(organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
       const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
@@ -317,6 +318,29 @@ const combineHabitats = habitatTypeAndCondition => {
     combinedHabitatTypeAndCondition.push(combinedHabitats[key])
   }
   return combinedHabitatTypeAndCondition
+}
+
+const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
+  const filteredMetricData = {}
+  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+
+  sheetLabels.forEach(label => {
+    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+
+    // calculate the area based on the filtered out habitats and add to the habitat array
+    // as the last entry, this is then used by habitatTypeAndConditionMapper later
+    const unitKey = habitatTypeMap[label].unitKey
+    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => {
+      const habitatArea = cur[unitKey] ?? 0
+      return acc + habitatArea
+    }, 0)
+    filteredMetricData[label].push({
+      [unitKey]: measurementTotal
+    })
+  })
+
+  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
+  return combineHabitats(habitats)
 }
 
 const validateName = (fullName, hrefId) => {
@@ -569,7 +593,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
+const getMetricFileValidationErrors = (metricValidation, href, checkOffsiteData = true) => {
   const error = {
     err: [
       {
@@ -579,12 +603,10 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
     ]
   }
   if (!metricValidation.isSupportedVersion) {
-    error.err[0].text = useStatutoryMetric
-      ? 'The selected file must use the statutory biodiversity metric'
-      : 'The selected file must use Biodiversity Metric version 4.1'
+    error.err[0].text = 'The selected file must use the statutory biodiversity metric'
   } else if (metricValidation.isDraftVersion) {
     error.err[0].text = 'The selected file must not be a draft version'
-  } else if (!metricValidation.isOffsiteDataPresent) {
+  } else if (!metricValidation.isOffsiteDataPresent && checkOffsiteData) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
     // BNGP-4219 METRIC Validation: Suppress total area calculations
@@ -795,6 +817,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  extractAllocationHabitatsByGainSiteNumber,
   getFileHeaderPrefix,
   getValidReferrerUrl,
   validateIdGetSchemaOptional,

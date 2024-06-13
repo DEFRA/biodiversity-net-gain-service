@@ -13,7 +13,7 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [...emailAddresses])
-    return h.redirect(constants.routes.DEVELOPER_CHECK_ANSWERS)
+    return h.redirect(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
   }
 }
 

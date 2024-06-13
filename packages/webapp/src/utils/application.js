@@ -171,7 +171,7 @@ const getHabitats = session => {
   }
 
   const baseline = baselineIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Baseline ref' in details).map(details => ({
+    metricData[identifier].filter(details => 'Ref' in details).map(details => ({
       habitatType: getHabitatType(identifier, details),
       baselineReference: String(details.Ref),
       module: getModule(identifier),
@@ -323,7 +323,10 @@ const getLandowners = session => {
   }
   sessionLandowners?.forEach(landowner => {
     if (landowner.type === 'organisation') {
-      landownersByType.organisation.push({ organisationName: landowner.organisationName })
+      landownersByType.organisation.push({
+        organisationName: landowner.organisationName,
+        email: landowner.emailAddress
+      })
     } else if (landowner.type === 'individual') {
       landownersByType.individual.push({
         firstName: landowner.firstName,

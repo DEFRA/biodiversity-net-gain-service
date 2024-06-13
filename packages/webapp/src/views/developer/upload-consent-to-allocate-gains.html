@@ -47,7 +47,7 @@
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
                     <span class="govuk-details__summary-text">
-                      What to do if you have no written authorisation
+                      What to do if you have no written consent
                     </span>
         </summary>
         <div class="govuk-details__text">
@@ -56,13 +56,16 @@
         </div>
       </details>
 
-      {{ govukButton({
-      text: "Upload",
-      attributes: {
-      id: "continue",
-      "data-testid": "continue"
-      }
-      }) }}
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Save and upload",
+          attributes: {
+            id: "continue",
+            "data-testid": "continue"
+          }
+        }) }}
+        <a class="govuk-link" href="/signout">Or save progress and come back later</a>
+      </div>
     </div>
   </div>
 </div>

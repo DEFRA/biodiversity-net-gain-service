@@ -91,7 +91,8 @@ describe('application-validation', () => {
       const session = applicationSession()
       session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
         type: 'organisation',
-        organisationName: 'My Org'
+        organisationName: 'My Org',
+        emailAddress: 'mm@mm.com'
       }])
       const { value, error } = applicationValidation.validate(application(session, applicant))
       expect(error).toBeUndefined()
