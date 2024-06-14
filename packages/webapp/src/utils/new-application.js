@@ -37,5 +37,6 @@ export {
   newDevelopmentProject,
   newRegistration,
   newCreditsPurchase,
-  newCombinedCaseProject
+  newCombinedCaseProject,
+  newApplication
 }
