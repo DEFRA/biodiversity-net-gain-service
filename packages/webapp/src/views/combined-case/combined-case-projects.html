@@ -1,1 +1,19 @@
 {% extends 'layout.html' %}
+
+{% set hideBackLink = true %}
+{% set pageHeading = "Combined biodiversity gain site and development project applications" %}
+{% set serviceName = "Make a combined case application" %}
+{% set continueApplicationRouteStem = "/combined-case/continue-combined-case-project" %}
+{% set newApplicationText = "Register a gain site and allocate to a development" %}
+{% set newApplicationHref = "/combined-case/new-combined-case-project" %}
+{% set newApplicationId = "create-combined-case" %}
+{% set newApplicationTestId = "create-combined-case" %}
+{% set showProjectName = true %}
+{% set isCustomRowClass = true %}
+{% set showProjectName = true %}
+{% set referenceHeadingText = "Combined case reference" %}
+
+{% block content %}
+  {% include "common/applications.html" %}
+  {% include "common/assisted-digital-helpline.html" %}
+{% endblock %}
