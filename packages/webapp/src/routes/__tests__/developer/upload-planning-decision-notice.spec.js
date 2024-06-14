@@ -99,7 +99,7 @@ describe('Upload Planning Decision Notice tests', () => {
           uploadConfig.hasError = true
           const res = await uploadFile(uploadConfig, 200)
           expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('Select a planning decision notice file')
+          expect(res.payload).toContain('Select and upload a planning decision notice file')
           setImmediate(() => {
             done()
           })
