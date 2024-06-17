@@ -50,6 +50,7 @@ describe('Routes', () => {
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'N'
+    process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY = 'N'
     jest.mock('../../utils/disabled-routes-constants')
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
