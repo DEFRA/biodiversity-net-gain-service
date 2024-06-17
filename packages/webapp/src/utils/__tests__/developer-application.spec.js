@@ -104,6 +104,24 @@ describe('developer-application', () => {
     expect(app.developerRegistration.gainSite.offsiteUnitChange.watercourse).toEqual(0)
   })
 
+  it('Handles number and missing habitat ids', () => {
+    const session = setDeveloperApplicationSession()
+    session.values['developer-metric-data'].d2[0]['Habitat reference Number'] = null
+    session.values['developer-metric-data'].d2[1]['Habitat reference Number'] = undefined
+    session.values['developer-metric-data'].e2[0]['Habitat reference Number'] = 'mock'
+    session.values['developer-metric-data'].f2[0]['Habitat reference Number'] = 0
+    session.values['developer-metric-data'].d3[0]['Habitat reference Number'] = ''
+    session.values['developer-metric-data'].d3[1]['Habitat reference Number'] = 1.2345
+
+    const app = developerApplication(session, applicant)
+    expect(app.developerRegistration.habitats.allocated[0].habitatId).toEqual('')
+    expect(app.developerRegistration.habitats.allocated[1].habitatId).toEqual('')
+    expect(app.developerRegistration.habitats.allocated[2].habitatId).toEqual('mock')
+    expect(app.developerRegistration.habitats.allocated[3].habitatId).toEqual('0')
+    expect(app.developerRegistration.habitats.allocated[4].habitatId).toEqual('')
+    expect(app.developerRegistration.habitats.allocated[5].habitatId).toEqual('1.2345')
+  })
+
   it('Should handle nullable fields if session data not exists', () => {
     const session = setDeveloperApplicationSession()
     session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
