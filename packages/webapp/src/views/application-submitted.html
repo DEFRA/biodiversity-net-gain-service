@@ -2,6 +2,10 @@
 {% extends 'layout.html' %}
 {% set hideBackLink = true %}
 
+{% if payment.caseType == "allocation" %}
+  {% set serviceName = "Record off-site gains" %}
+{% endif %}
+
 {% if applicationReference === null %}
   {% set pageHeading = "You’ve submitted your application" %}
 {% else %}
