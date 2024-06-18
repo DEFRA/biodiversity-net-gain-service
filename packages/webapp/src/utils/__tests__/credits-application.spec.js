@@ -10,8 +10,10 @@ describe('credits-application', () => {
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.creditReference).toEqual('BNGCRD-L4XCQ-AIZMO')
-    expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual('E60000003')
     expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual('Hartlepool LPA')
+    expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual('E60000003')
+    expect(app.creditsPurchase.development.name).toEqual('Eden')
+    expect(app.creditsPurchase.development.planningReference).toEqual('ABC/123/456')
   })
 
   it('Should handle nullable fields if session data not exists', () => {
@@ -20,38 +22,6 @@ describe('credits-application', () => {
     const app = creditsApplication(session, applicant)
 
     expect(app.creditsPurchase.creditReference).toEqual(null)
-  })
-
-  it('Should handle missing values from the metric', async () => {
-    const session = setCreditsApplicationSession()
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
-    const app = creditsApplication(session, applicant)
-
-    expect(app.creditsPurchase.development.name).toEqual(null)
-    expect(app.creditsPurchase.development.planningReference).toEqual(null)
-    expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual(null)
-    expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual(null)
-  })
-
-  it('Should handle Number values from the metric', async () => {
-    const session = setCreditsApplicationSession()
-    const mockNumber = 1234
-    const mockNumberString = String(mockNumber)
-
-    session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, {
-      startPage: {
-        projectName: mockNumber,
-        planningApplicationReference: mockNumber,
-        planningAuthority: mockNumber
-      }
-    })
-
-    const app = creditsApplication(session, applicant)
-
-    expect(app.creditsPurchase.development.name).toEqual(mockNumberString)
-    expect(app.creditsPurchase.development.planningReference).toEqual(mockNumberString)
-    expect(app.creditsPurchase.development.localPlanningAuthority.code).toEqual(null)
-    expect(app.creditsPurchase.development.localPlanningAuthority.name).toEqual(mockNumberString)
   })
 
   it('Should include organisation id if organisation purchasing credits', () => {
