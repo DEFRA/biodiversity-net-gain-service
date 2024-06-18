@@ -11,7 +11,6 @@ import {
 
 const getApplicationDetails = (session, currentOrganisation) => {
   const getLocaleString = num => num.toLocaleString('en-gb', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0 })
-  const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
   const metricFileSize = getHumanReadableFileSize(session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_SIZE), 1)
   const credits = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
   const getRow = ({ tier, unitAmount, cost }) => [
@@ -38,11 +37,7 @@ const getApplicationDetails = (session, currentOrganisation) => {
     metric: {
       fileName: session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME),
       fileNameUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
-      fileSize: metricFileSize,
-      detailsConfirmedUrl: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRM_DEV_DETAILS,
-      projectName: metricData.startPage.projectName ?? '',
-      localAuthority: metricData.startPage.planningAuthority ?? '',
-      planningRef: metricData.startPage.planningApplicationReference ?? ''
+      fileSize: metricFileSize
     },
     credits: {
       allTierData,
