@@ -169,6 +169,14 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
+      const err = [{
+        text: 'You must confirm you have read the terms and conditions',
+        href: '#termsAndConditionsConfirmed'
+      }]
+      return h.view(constants.views.DEVELOPER_CHECK_AND_SUBMIT, { ...getApplicationDetails(request, request.yar, request.auth.credentials.account), err })
+    }
+
     const { value, error } = developerApplicationValidation.validate(developerApplication(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
