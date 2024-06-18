@@ -73,7 +73,7 @@ const handlers = {
         err,
         h,
         href: constants.views.DEVELOPER_UPLOAD_METRIC,
-        noFileErrorMessage: 'Select a statutory biodiversity metric file no larger than 50MB, in the following format, XLSM or XLSX',
+        noFileErrorMessage: 'Select a statutory (official) biodiversity metric file no larger than 50MB, in the following format, XLSM or XLSX',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
         optionalErrorMessage: 'Upload a metric file',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
