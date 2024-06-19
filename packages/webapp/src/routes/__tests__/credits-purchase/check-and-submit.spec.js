@@ -2,6 +2,7 @@ import { submitGetRequest } from '../helpers/server.js'
 import setCreditsApplicationSession from '../../../__mocks__/credits-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
+import constants from '../../../utils/constants.js'
 
 const checkAnswers = require('../../credits-purchase/check-and-submit.js').default
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS
@@ -27,6 +28,18 @@ describe(url, () => {
       session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, null)
       const res = await submitGetRequest({ url }, 200, session.values)
       expect(res.payload).not.toContain('Geoff')
+    })
+
+    it('should handle missing values from the metric', async () => {
+      const session = setCreditsApplicationSession()
+      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, { startPage: { } })
+      await submitGetRequest({ url }, 200, session.values)
+    })
+    it('should redirect to MANAGE_BIODIVERSITY_GAINS if the application has already been submitted', async () => {
+      const session = setCreditsApplicationSession()
+      session.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_SUBMITTED, true)
+      const res = await submitGetRequest({ url }, 302, session.values)
+      expect(res.headers.location).toBe(constants.routes.MANAGE_BIODIVERSITY_GAINS)
     })
   })
 
