@@ -4,7 +4,7 @@ import { extractAllocationHabitatsByGainSiteNumber } from '../../utils/helpers.j
 const getContext = request => {
   const metricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const gainSiteNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-  const uploadMetricFileRoute = constants.routes.DEVELOPER_UPLOAD_METRIC
+  const uploadMetricFileRoute = constants.routes.DEVELOPER_BNG_NUMBER
   const habitatTypeAndCondition = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
 
   return {
