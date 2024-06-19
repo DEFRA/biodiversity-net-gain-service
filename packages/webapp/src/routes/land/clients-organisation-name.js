@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
