@@ -1,0 +1,206 @@
+{% extends 'form-layout.html' %}
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
+
+{% set serviceName = "Register a biodiversity gain site" %}
+{% set pageHeading = "Check your answers before submitting your information" %}
+
+{% set applicantInfoRowList = [
+  {
+    'text': 'Acting on behalf of a client',
+    'value': applicantInfo.actingForClient,
+    'valueDataTestId': 'acting-for-client-value',
+    'href': applicantInfo.actingForClientChangeUrl,
+    'visuallyHiddenText': ' acting on behalf of a client',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Defra account details are up to date',
+    'value': applicantInfo.accountDetails,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.confirmedChangeUrl,
+    'visuallyHiddenText': ' Defra account details are up to date',
+    'classes': '',
+    'show': applicantInfo.showDefraAccountAgent
+  },
+  {
+    'text': applicantInfo.landownerOrLeaseHolderTitle,
+    'value': applicantInfo.landownerOrLeaseholder,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.landownerOrLeaseholderChangeUrl,
+    'visuallyHiddenText': ' Client is a landowner or leaseholder',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': applicantInfo.clientTypeTitle,
+    'value': applicantInfo.clientType,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.clientTypeChangeUrl,
+    'visuallyHiddenText': ' Client is an individual or organisation',
+    'classes': '',
+    'show': true
+  },
+  {
+    'text': 'Defra account details are up to date',
+    'value': applicantInfo.accountDetails,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.confirmedChangeUrl,
+    'visuallyHiddenText': ' Defra account details are up to date',
+    'classes': '',
+    'show': applicantInfo.showDefraAccount
+  },
+  {
+    'text': applicantInfo.clientsNameLabel,
+    'value': applicantInfo.clientsName,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.clientsNameChangeUrl,
+    'visuallyHiddenText': ' Client\'s name',
+    'classes': '',
+    'show': applicantInfo.showClientsName
+  },
+  {
+    'text': 'Written authorisation file',
+    'value': applicantInfo.writtenAuthorisation,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.writtenAuthorisationChangeUrl,
+    'visuallyHiddenText': ' Written authorisation file',
+    'classes': '',
+    'show': applicantInfo.showWrittenAuth
+  },
+  {
+    'text': 'Landowner or leaseholder consent file',
+    'value': applicantInfo.landownerConsent,
+    'valueDataTestId': 'account-details-up-to-date-value',
+    'href': applicantInfo.landownerConsentChangeUrl,
+    'visuallyHiddenText': ' Landowner or leaseholder consent file',
+    'classes': '',
+    'show': applicantInfo.showLandownerConsent
+  }
+  ] %}
+
+  {% set developmentInfoRowList = [
+  {
+    'text': 'Planning decision notice file',
+    'value': developmentInfo.planningDecisionNoticeFile,
+    'valueDataTestId': 'planning-decision-notice-file-value',
+    'valueId': 'planning-decision-notice-file-value',
+    'href': developmentInfo.planningDecisionNoticeFileChangeUrl,
+    'visuallyHiddenText': ' planning decision notice file',
+    'show': true
+  },
+  {
+    'text': 'Development project name',
+    'value': developmentInfo.projectName,
+    'valueDataTestId': 'development-project-name-value',
+    'valueId': 'development-project-name-value',
+    'visuallyHiddenText': ' development project name',
+    'href': developmentInfo.projectNameChangeUrl,
+    'show': true
+  },
+  {
+    'text': 'Local planning authority',
+    'value': developmentInfo.localAuthority,
+    'valueDataTestId': 'local-planning-authority-value',
+    'valueId': 'local-planning-authority-value',
+    'href': developmentInfo.localAuthorityChangeUrl,
+    'visuallyHiddenText': ' local planning authority',
+    'show': true
+  },
+  {
+    'text': 'Planning application reference',
+    'value': developmentInfo.planningRef,
+    'valueDataTestId': 'planning-application-reference-value',
+    'valueId': 'planning-application-reference-value',
+    'href': developmentInfo.planningRefChangeUrl,
+    'visuallyHiddenText': ' planning application reference value',
+    'show': true
+  },
+  {
+    'text': 'Statutory biodiversity metric file',
+    'value': developmentInfo.metricFileName,
+    'valueDataTestId': 'metric-file-value',
+    'valueId': 'metric-file-value',
+    'href': developmentInfo.metricFileNameUrl,
+    'visuallyHiddenText': ' metric file name',
+    'show': true
+  },
+  {
+    'text': 'Habitat being used',
+    'value': developmentInfo.habitats,
+    'valueDataTestId': 'habitats-value',
+    'valueId': 'habitats-value',
+    'noAction': true,
+    'visuallyHiddenText': ' habitats',
+    'show': true,
+    'subList': true
+  },
+  {
+    'text': 'Biodiversity gain site number',
+    'value': developmentInfo.bngNumber,
+    'valueDataTestId': 'bng-number-value',
+    'valueId': 'bng-number-value',
+    'href': developmentInfo.bngNumberChangeUrl,
+    'visuallyHiddenText': ' biodiversity gain site number',
+    'show': true
+  }
+] %}
+
+{% block formContent %}
+<div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+
+      <h2 class="govuk-heading-m">Applicant information</h2>
+
+      {{ generateSummaryList({
+        rows: applicantInfoRowList,
+        classes: 'govuk-!-margin-bottom-9'
+      }) }}
+
+      <h2 class="govuk-heading-m">Development information</h2>
+
+      {{ generateSummaryList({
+        rows: developmentInfoRowList,
+        classes: 'govuk-!-margin-bottom-9'
+      }) }}
+
+      <h2 class="govuk-heading-m">Terms and conditions</h2>
+
+      <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for recording allocation of off-site biodiversity gains to a development before you submit your information.</p>
+      {{ govukCheckboxes({
+        name: "termsAndConditionsConfirmed",
+        errorMessage: err[0],
+        items: [
+          {
+          value: "Yes",
+          html: "I confirm I have read the terms and conditions"
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Submit your information</h2>
+
+      <p>By submitting your information you agree that:</p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>it is true, to the best of your knowledge and belief</li>
+        <li>all landowners or leaseholders agree to allocate off-site gains from their biodiversity gain site</li>
+      </ul>
+
+      {{ govukButton({
+        text: "Submit and continue to payment",
+        classes: 'govuk-!-margin-top-3',
+        attributes: {
+        id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,8 +1,7 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
-import { bngNumberJourneys } from './biodiversity-net-gain-number.js'
-import { addMetricCalculationsJourneys } from './add-metric-calculations.js'
+import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
 import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 
@@ -16,7 +15,7 @@ const applicantDetails = taskDefinition(
 
 const addDevlopmentProjectInformation = taskDefinition(
   'add-devlopment-project-information',
-  'Add development project information',
+  'Add development project details',
   constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   addDevelopmentProjectInformationJourneys
@@ -24,34 +23,26 @@ const addDevlopmentProjectInformation = taskDefinition(
 
 const planningDecisionNotice = taskDefinition(
   'planning-decision-notice',
-  'Add planning decision notice',
+  'Upload planning decision notice',
   constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
   constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
   planningDecisionNoticeJourneys
 )
 
-const biodiversityGainSiteNumber = taskDefinition(
-  'biodiversity-gain-site-number',
-  'Add biodiversity gain site number',
+const gainSiteAllocationInformation = taskDefinition(
+  'gain-site-allocation-info',
+  'Add biodiversity gain site details',
   constants.routes.DEVELOPER_BNG_NUMBER,
   constants.routes.DEVELOPER_BNG_NUMBER,
-  bngNumberJourneys
-)
-
-const biodiversityMetricCalculations = taskDefinition(
-  'biodiversity-metric-calculations',
-  'Add statutory biodiversity metric calculations',
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  constants.routes.DEVELOPER_UPLOAD_METRIC,
-  addMetricCalculationsJourneys
+  allocationInformationJourneys
 )
 
 const checkYourAnswers = {
-  taskTitle: 'Submit your biodiversity gain information',
+  taskTitle: 'Submit your off-site gains information',
   tasks: [{
     id: 'check-your-answers',
-    title: 'Check your answers before you submit them',
-    url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+    title: 'Check your answers and submit',
+    url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }
@@ -59,10 +50,9 @@ const checkYourAnswers = {
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
   taskSectionDefinition('Development information', [
-    planningDecisionNotice,
+    gainSiteAllocationInformation,
     addDevlopmentProjectInformation,
-    biodiversityGainSiteNumber,
-    biodiversityMetricCalculations
+    planningDecisionNotice
   ])
 ]
 

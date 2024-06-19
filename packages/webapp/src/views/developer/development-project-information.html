@@ -1,6 +1,6 @@
 {% extends 'form-layout.html' %}
 
-{% set pageHeading = "Development project information" %}
+{% set pageHeading = "Development project details" %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -14,50 +14,49 @@
             {{ pageHeading }}
         </h1>
         <form method="post" >
+          {{ govukInput({
+              label: {
+                text: "Development project name",
+                classes: "govuk-label"
+              },
+              hint: {
+                text: "Your development name helps identify your project.",
+                classes: "govuk-hint"
+              },
+              id: "development-name-value",
+              name: "developmentName",
+              errorMessage: errors.developmentNameError,
+              autocomplete: "developmentame",
+              spellcheck: false,
+              value: developmentName,
+              classes: 'govuk-input--width-20'
+            })
+          }}
+
           {% include "common/select-local-planning-authority.html" %}
+
+          {{ govukInput({
+              label: {
+                text: "Planning application reference",
+                classes: "govuk-label"
+              },
+              hint: {
+                text: "You'll find this in the planning decision notice your LPA sent after approving your planning application.",
+                classes: "govuk-hint"
+              },
+              id: "planning-application-reference-value",
+              name: "planningApplicationRef",
+              errorMessage: errors.planningApplicationRefError,
+              autocomplete: "planning-application-reference",
+              spellcheck: false,
+              value: planningApplicationRef,
+              classes: 'govuk-input--width-20'
+            })
+          }}
         </form>
       </div>
     </div>
 
-    {{ 
-      govukInput({
-        label: {
-          text: "Planning application reference",
-          classes: "govuk-label"
-        },
-        hint: {
-          text: "This is the reference the LPA sent after receiving your development project's planning application.",
-          classes: "govuk-hint"
-        },
-        id: "planning-application-reference-value",
-        name: "planningApplicationRef",
-        errorMessage: errors.planningApplicationRefError,
-        autocomplete: "planning-application-reference",
-        spellcheck: false,
-        value: planningApplicationRef,
-        classes: 'govuk-input--width-20'
-      }) 
-    }}
-   
-    {{ 
-      govukInput({
-        label: {
-          text: "Development name",
-          classes: "govuk-label"
-        },
-        hint: {
-          text: "Your development name helps identify your project.",
-          classes: "govuk-hint"
-        },
-        id: "development-name-value",
-        name: "developmentName",
-        errorMessage: errors.developmentNameError,
-        autocomplete: "developmentame",
-        spellcheck: false,
-        value: developmentName,
-        classes: 'govuk-input--width-20'
-      }) 
-    }}
 
     <div class="moj-button-action">
       {{ govukButton({

@@ -26,12 +26,26 @@
           spellcheck: false,
           value: organisation.organisationName
         }) }}
+
+        <label class="govuk-label" for="emailAddress">Email address </label>
+        <div id="email-hint" class="govuk-hint">
+          We will use this to tell the landowner or leaseholder about any updates to this application.
+        </div>
+        {{ govukInput({
+        id: "emailAddress",
+        name: "emailAddress",
+        "data-testid": "emailAddress",
+        errorMessage: emailAddressError,
+        autocomplete: "emailAddress",
+        spellcheck: false,
+        value: organisation.emailAddress
+        }) }}
         {{ govukButton({
-          text: "Save and continue",
-          attributes: {
-            id: "continue",
-            "data-testid": "continue"
-          }
+        text: "Save and continue",
+        attributes: {
+        id: "continue",
+        "data-testid": "continue"
+        }
         }) }}
       </div>
     </div>

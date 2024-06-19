@@ -2,7 +2,7 @@
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set pageHeading = "Check the statutory biodiversity metric file" %}
+{% set pageHeading = "Check your statutory (official) biodiversity metric file" %}
 {% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 {% block formContent %}
     <div class="govuk-body">
@@ -13,7 +13,7 @@
         {% set name = 'checkUploadMetric' %}
         {% set id = 'check-upload-correct-yes' %}
         {% set downloadUrl = 'credits-download-metric' %}
-        {% set checkUploadCorrectYesText = 'Yes, this is the statutory biodiversity metric file my local planning authority reviewed' %}
+        {% set checkUploadCorrectYesText = 'Yes, this is the statutory (official) biodiversity metric file my local planning authority reviewed' %}
         {% set checkUploadCorrectNoText = 'No, upload a different file' %}
         {% include "common/file-upload-check.html" %}
     </div>

@@ -1,4 +1,4 @@
-const baselineRef = 'Baseline ref'
+const baselineRef = 'Ref'
 const totalUnits = 'Total watercourse units'
 
 const headers = [
@@ -25,8 +25,7 @@ const f1OffSiteWaterCBaseline = {
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
   substitutions: {
     'Condition ': 'Condition',
-    'Habitat reference': 'Habitat reference Number',
-    Ref: baselineRef
+    'Habitat reference': 'Habitat reference Number'
   }
 }
 
