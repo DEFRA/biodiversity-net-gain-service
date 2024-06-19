@@ -7,6 +7,7 @@ const handlers = {
     const applicationReference = request.yar.get(constants.redisKeys.DEVELOPER_APP_REFERENCE)
     const payment = getPayment(request.yar)
     request.yar.reset()
+    request.yar.set(constants.redisKeys.DEVELOPER_APPLICATION_SUBMITTED, true)
     return h.view(constants.views.APPLICATION_SUBMITTED, {
       applicationReference,
       payment,

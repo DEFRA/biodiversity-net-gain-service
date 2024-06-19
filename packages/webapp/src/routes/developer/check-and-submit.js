@@ -154,6 +154,12 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
 
 const handlers = {
   get: (request, h) => {
+    const appSubmitted = request.yar.get(constants.redisKeys.DEVELOPER_APPLICATION_SUBMITTED)
+
+    if (appSubmitted) {
+      return h.redirect(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+    }
+
     const { canSubmit } = getTaskList(constants.applicationTypes.ALLOCATION, request.yar)
 
     if (!canSubmit) {

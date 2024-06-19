@@ -34,14 +34,14 @@ const CONFIRM_DEV_HABITAT_DETAILS = routeDefinition(
 
 const allocationInformationJourneys = [
   [
-    journeyStepFromRoute(BIODIVERSITY_NET_GAIN_NUMBER),
     journeyStep(
-      METRIC_UPLOAD.startUrl,
+      BIODIVERSITY_NET_GAIN_NUMBER.startUrl,
       [
+        ...BIODIVERSITY_NET_GAIN_NUMBER.sessionKeys,
         ...METRIC_UPLOAD.sessionKeys,
         ...CHECK_METRIC.sessionKeys
       ],
-      [ANY, ANY, ANY, ANY, ANY, 'yes']
+      [ANY, ANY, ANY, ANY, ANY, ANY, 'yes']
     ),
     journeyStepFromRoute(CONFIRM_DEV_HABITAT_DETAILS, [true])
   ]
