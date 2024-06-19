@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% set serviceName = "Register a biodiversity gain site" %}
+{% set pageHeading = "You're about to apply to register a biodiversity gain site" %}
+<!-- {% set hideBackLink = true %}  --> <!-- TODO: should this be true or false? -->
+
+{% block content %}
+<div class="govuk-body">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
+      <p>You can also choose to record allocation of off-site gains to a development at the same time as registering the gain site.</p> 
+      <p>To allocate to a development and register a gain site at the same time, you'll need:</p>
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>all the documents needed to register a gain site</li>
+        <!-- TODO: Where do we store this url???? -->
+        <li>the <a href="https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development">completed statutory biodiversity metric tool</a> calculations:</li>
+        <ul>
+          <li>for the site you want to register</li>
+          <li>which the local planning authority reviewed with the development project's planning application</li>
+        </ul>
+        <li>a planning application decision notice for the development project from your local planning authority</li>
+      </ul>
+      <p>It costs £639 to allocate and register at the same time.</p>
+
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">What do you want to apply to do?</h1>
+      
+      <!-- TODO name is required??? --> 
+      {{ govukRadios({
+        name: "",
+        fieldset: {
+          legend: {
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "register",
+            text: "Register a biodiversity gain site"
+          },
+          {
+            value: "combined-case",
+            text: "Record allocation of off-site biodiversity gains to a development at the same time as registering the gain site"
+          }
+        ]
+      }) }}
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+
+      </div>
+    </div>
+  {% include "common/assisted-digital-helpline.html" %}
+  </div>
+</div>
+  
+{% endblock %}
