@@ -1,7 +1,9 @@
 import constants from '../utils/constants.js'
 import {
   taskSections as registrationTaskSections,
-  checkYourAnswers as registrationCheckYourAnswers, getTaskById
+  checkYourAnswers as registrationCheckYourAnswers,
+  getTaskById,
+  routeDefinitions as registrationRouteDefinitions
 } from './registration/task-sections.js'
 import {
   taskSections as creditsPurchaseTaskSections,
@@ -98,6 +100,10 @@ const getTaskStatus = (task, session) => {
   }
 }
 
+const retrieveTask = (routeDefinitions, startUrl) => {
+  return routeDefinitions.find(route => route.startUrl === startUrl) || null
+}
+
 const generateTaskList = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
@@ -150,7 +156,36 @@ const getTaskList = (journey, session) => {
   return { taskList, totalTasks, completedTasks, canSubmit }
 }
 
+const getNextStep = (request, h, errCallback) => {
+  const path = request.path
+  const journey = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  let task
+  switch (journey) {
+    case constants.applicationTypes.REGISTRATION:
+      task = retrieveTask(registrationRouteDefinitions, path)
+      break
+    case constants.applicationTypes.CREDITS_PURCHASE:
+      break
+    case constants.applicationTypes.ALLOCATION:
+      break
+  }
+
+  if (task.nextUrl) {
+    try {
+      const nextUrl = task.nextUrl(request.yar, request)
+      if (nextUrl) {
+        return h.redirect(nextUrl)
+      }
+    } catch (e) {
+      return errCallback(e)
+    }
+  }
+
+  throw new Error('Next URL is not set')
+}
+
 export {
   getTaskList,
-  getIndividualTaskStatus
+  getIndividualTaskStatus,
+  getNextStep
 }

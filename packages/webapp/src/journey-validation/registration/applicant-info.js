@@ -5,45 +5,171 @@ import {
   journeyStep,
   journeyStepFromRoute
 } from '../utils.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
+import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.AGENT_ACTING_FOR_CLIENT,
-  [constants.redisKeys.IS_AGENT]
+  [constants.redisKeys.IS_AGENT],
+  (session) => {
+    const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    if (isApplicantAgent === 'yes') {
+      return referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+    } else if (isApplicantAgent === 'no') {
+      return referrerUrl || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
+    } else {
+      throw new Error({
+        text: 'Select yes if you are an agent acting on behalf of a client',
+        href: '#isApplicantAgent'
+      })
+    }
+  }
 )
 
 const CHECK_DEFRA_ACCOUNT_DETAILS = routeDefinition(
   constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS,
-  [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED]
+  [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED],
+  (session) => {
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    if (referrerUrl) {
+      return referrerUrl
+    } else if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
+      return constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
+    } else {
+      return constants.routes.IS_ADDRESS_UK
+    }
+  }
 )
 
 const CLIENT_INDIVIDUAL_ORGANISATION = routeDefinition(
   constants.routes.CLIENT_INDIVIDUAL_ORGANISATION,
-  [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY]
+  [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY],
+  (session) => {
+    const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      return session.get(referrerUrl, true) || constants.routes.CLIENTS_NAME
+    } else {
+      return session.get(referrerUrl, true) || constants.routes.CLIENTS_ORGANISATION_NAME
+    }
+  }
 )
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
   constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
-  [constants.redisKeys.LANDOWNER_TYPE]
+  [constants.redisKeys.LANDOWNER_TYPE],
+  (session, request) => {
+    const individualSignInErrorMessage = `
+  You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
+  Register for or sign into a Defra account representing an organisation before continuing this application`
+
+    const organisationSignInErrorMessage = `
+  You cannot apply as an individual because the Defra account you’re signed into is linked to an organisation.
+  Register for or sign into a Defra account as yourself before continuing this application`
+    const individualOrOrganisation = session.get(constants.redisKeys.LANDOWNER_TYPE)
+    if (individualOrOrganisation) {
+      request.yar.set(constants.redisKeys.LANDOWNER_TYPE, individualOrOrganisation)
+      // Check that the selected applicant type matches whether the user has signed in to represent themselves
+      // or an organisation.
+      const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } =
+        getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
+
+      if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
+        (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
+        const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+        return referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+        // Add temporary basic sad path logic until sad path logic is agreed.
+      } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+        // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
+        throw new Error({
+          text: organisationSignInErrorMessage,
+          href: '#individualOrOrganisation'
+        })
+      } else {
+        // Organisation has been chosen as the landowner type but the user is signed in as an individual.
+        // Check if the user has any organisations lined to their Defra account to decide which error page
+        // or error message to display.
+        if (noOrganisationsLinkedToDefraAccount) {
+          return constants.routes.DEFRA_ACCOUNT_NOT_LINKED
+        } else {
+          throw new Error({
+            text: individualSignInErrorMessage,
+            href: '#individualOrOrganisation'
+          })
+        }
+      }
+    } else {
+      throw new Error({
+        text: 'Select if you are applying as an individual or as part of an organisation',
+        href: '#individualOrOrganisation'
+      })
+    }
+  }
 )
 
 const IS_ADDRESS_UK = routeDefinition(
   constants.routes.IS_ADDRESS_UK,
-  [constants.redisKeys.IS_ADDRESS_UK_KEY]
+  [constants.redisKeys.IS_ADDRESS_UK_KEY],
+  (session) => {
+    const isAddressUk = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY)
+    const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
+    if (isAddressUk === 'yes') {
+      return constants.routes.UK_ADDRESS
+    } else if (isAddressUk === 'no') {
+      return constants.routes.NON_UK_ADDRESS
+    } else {
+      throw new Error({
+        text: `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`,
+        href: '#is-address-uk-yes'
+      })
+    }
+  }
 )
 
 const UK_ADDRESS = routeDefinition(
   constants.routes.UK_ADDRESS,
-  [constants.redisKeys.UK_ADDRESS_KEY]
+  [constants.redisKeys.UK_ADDRESS_KEY],
+  (session) => {
+    const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
+    const isIndividualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+    if (isApplicantAgent === 'no') {
+      return constants.routes.CHECK_APPLICANT_INFORMATION
+    }
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      return referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS
+    } else {
+      return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+    }
+  }
 )
 
 const NON_UK_ADDRESS = routeDefinition(
   constants.routes.NON_UK_ADDRESS,
-  [constants.redisKeys.NON_UK_ADDRESS_KEY]
+  [constants.redisKeys.NON_UK_ADDRESS_KEY],
+  (session) => {
+    const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
+    const isIndividualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+    if (isApplicantAgent === 'no') {
+      return constants.routes.CHECK_APPLICANT_INFORMATION
+    }
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
+      return referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS
+    } else {
+      return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+    }
+  }
 )
 
 const CLIENTS_ORGANISATION_NAME = routeDefinition(
   constants.routes.CLIENTS_ORGANISATION_NAME,
-  [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY]
+  [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY],
+  (session) => {
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return referrerUrl || constants.routes.IS_ADDRESS_UK
+  }
 )
 
 const UPLOAD_WRITTEN_AUTHORISATION = routeDefinition(
@@ -52,27 +178,56 @@ const UPLOAD_WRITTEN_AUTHORISATION = routeDefinition(
     constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION,
     constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE,
     constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE
-  ]
+  ],
+  () => {
+    return constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE
+  }
 )
 
 const CHECK_WRITTEN_AUTHORISATION_FILE = routeDefinition(
   constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE,
-  [constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED]
+  [constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED],
+  (session) => {
+    const checkWrittenAuthorisation = session.get(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED)
+    if (checkWrittenAuthorisation === 'no') {
+      return constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+    } else if (checkWrittenAuthorisation === 'yes') {
+      const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return referrerUrl || constants.routes.CHECK_APPLICANT_INFORMATION
+    } else {
+      throw new Error({
+        text: 'Select yes if this is the correct file',
+        href: '#check-upload-correct-yes'
+      })
+    }
+  }
 )
 
 const CLIENTS_NAME = routeDefinition(
   constants.routes.CLIENTS_NAME,
-  [constants.redisKeys.CLIENTS_NAME_KEY]
+  [constants.redisKeys.CLIENTS_NAME_KEY],
+  (session) => {
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return referrerUrl || constants.routes.IS_ADDRESS_UK
+  }
 )
 
 const CLIENTS_EMAIL_ADDRESS = routeDefinition(
   constants.routes.CLIENTS_EMAIL_ADDRESS,
-  [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY]
+  [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY],
+  (session) => {
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER
+  }
 )
 
 const CLIENTS_PHONE_NUMBER = routeDefinition(
   constants.routes.CLIENTS_PHONE_NUMBER,
-  [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY]
+  [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY],
+  (session) => {
+    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+  }
 )
 
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)
@@ -193,6 +348,23 @@ const applicantInfoJourneys = [
   agentOrganisationInternationalJourney
 ]
 
+const applicantInfoRouteDefinitions = [
+  AGENT_ACTING_FOR_CLIENT,
+  CHECK_DEFRA_ACCOUNT_DETAILS,
+  CLIENT_INDIVIDUAL_ORGANISATION,
+  APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+  IS_ADDRESS_UK,
+  UK_ADDRESS,
+  NON_UK_ADDRESS,
+  CLIENTS_ORGANISATION_NAME,
+  UPLOAD_WRITTEN_AUTHORISATION,
+  CHECK_WRITTEN_AUTHORISATION_FILE,
+  CLIENTS_NAME,
+  CLIENTS_EMAIL_ADDRESS,
+  CLIENTS_PHONE_NUMBER
+]
+
 export {
-  applicantInfoJourneys
+  applicantInfoJourneys,
+  applicantInfoRouteDefinitions
 }
