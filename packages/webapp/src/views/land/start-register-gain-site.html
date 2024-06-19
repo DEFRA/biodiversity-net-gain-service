@@ -25,9 +25,11 @@
 
       <h1 class="govuk-panel__title govuk-!-margin-bottom-4">What do you want to apply to do?</h1>
       
-      <!-- TODO name is required??? --> 
+      <form method="POST" action="{{ constants.routes.START_REGISTER_GAIN_SITE }}">
+        
+      <!-- TODO name is required??? When i remove it, it breaks! --> 
       {{ govukRadios({
-        name: "",
+        name: "Here is a name",
         fieldset: {
           legend: {
             isPageHeading: true,
@@ -36,18 +38,28 @@
         },
         items: [
           {
-            value: "register",
-            text: "Register a biodiversity gain site"
+            value: "registration",
+            text: "Register a biodiversity gain site",
+            id: "registration",
+            checked: applicationType === "registration"
           },
           {
             value: "combined-case",
-            text: "Record allocation of off-site biodiversity gains to a development at the same time as registering the gain site"
+            text: "Record allocation of off-site biodiversity gains to a development at the same time as registering the gain site",
+            id: "combined-case",
+            checked: applicationType === "combined-case"
           }
         ]
       }) }}
+
       {{ govukButton({
-        text: "Save and continue"
+        text: "Save and continue",
+        attributes: {
+          id: "continue"
+        }
       }) }}
+
+    </form>
 
       </div>
     </div>
