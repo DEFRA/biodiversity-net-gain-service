@@ -47,6 +47,7 @@ const handlers = {
         err,
         h,
         href: constants.views.UPLOAD_LAND_OWNERSHIP,
+        elementID: LAND_OWNERSHIP_ID,
         noFileErrorMessage: 'Select a proof of land ownership file',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })

@@ -51,6 +51,7 @@ const handlers = {
         err,
         h,
         href: constants.views.UPLOAD_LAND_BOUNDARY,
+        elementID: LAND_BOUNDARY_ID,
         noFileErrorMessage: 'Select a file showing the land boundary',
         unsupportedFileExtErrorMessage: 'The selected file must be a DOC, DOCX, JPG, PNG or PDF',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB

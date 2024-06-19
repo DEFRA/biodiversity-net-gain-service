@@ -37,6 +37,7 @@ const handlers = {
         err,
         h,
         href: constants.views.UPLOAD_LOCAL_LAND_CHARGE,
+        elementID: LOCAL_LAND_CHARGE_ID,
         noFileErrorMessage: 'Select a local land charge search certificate file',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
