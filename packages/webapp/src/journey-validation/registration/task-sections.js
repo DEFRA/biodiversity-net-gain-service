@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
-import { landOwnershipJourneys } from './land-ownership.js'
+import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
 import { siteBoundaryJourneys } from './site-boundary.js'
 import { localLandChargeJourneys } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
@@ -90,7 +90,10 @@ const getTaskById = (taskId) => {
   return tasksById[taskId] || null
 }
 
-const routeDefinitions = [...applicantInfoRouteDefinitions]
+const routeDefinitions = [
+  ...applicantInfoRouteDefinitions,
+  ...landOwnershipRouteDefinitions
+]
 
 Object.freeze(taskSections)
 Object.freeze(checkYourAnswers)
