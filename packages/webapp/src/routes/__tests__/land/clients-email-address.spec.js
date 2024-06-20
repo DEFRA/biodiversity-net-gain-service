@@ -6,6 +6,7 @@ const postOptions = {
   url,
   payload: {}
 }
+const sessionData = {}
 
 describe(url, () => {
   describe('GET', () => {
@@ -14,26 +15,29 @@ describe(url, () => {
     })
   })
   describe('POST', () => {
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     // Happy paths
     it('Should accept a valid email address and continue to clients-phone-number', async () => {
       postOptions.payload.email = 'test@test.com'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.CLIENTS_PHONE_NUMBER)
     })
     // Sad paths
     it('Should error on invalid email address', async () => {
       postOptions.payload.email = 'kjshdfkjskhfsd'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Enter an email address in the correct format, like name@example.com')
     })
     it('Should error on email address too long', async () => {
       postOptions.payload.email = 'test@testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest.com'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Email address must be 254 characters or less')
     })
     it('Should error on email address missing', async () => {
       postOptions.payload.email = ''
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Enter email address')
     })
   })
