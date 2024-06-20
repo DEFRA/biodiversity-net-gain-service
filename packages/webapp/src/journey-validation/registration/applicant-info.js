@@ -72,26 +72,24 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
     const individualOrOrganisation = session.get(constants.redisKeys.LANDOWNER_TYPE)
     if (individualOrOrganisation) {
       request.yar.set(constants.redisKeys.LANDOWNER_TYPE, individualOrOrganisation)
-      // Check that the selected applicant type matches whether the user has signed in to represent themselves
-      // or an organisation.
+
       const { noOrganisationsLinkedToDefraAccount, currentOrganisation: organisation } =
         getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
 
-      if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
-        (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
+      const isIndividual = individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL
+      const isOrganisation = individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION
+
+      if ((isIndividual && !organisation) || (isOrganisation && organisation)) {
         const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
         return referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
-        // Add temporary basic sad path logic until sad path logic is agreed.
-      } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-        // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
+      }
+
+      if (isIndividual) {
         throw new FormError(organisationSignInErrorMessage, {
           text: organisationSignInErrorMessage,
           href: '#individualOrOrganisation'
         })
-      } else {
-        // Organisation has been chosen as the landowner type but the user is signed in as an individual.
-        // Check if the user has any organisations lined to their Defra account to decide which error page
-        // or error message to display.
+      } else if (isOrganisation) {
         if (noOrganisationsLinkedToDefraAccount) {
           return constants.routes.DEFRA_ACCOUNT_NOT_LINKED
         } else {
