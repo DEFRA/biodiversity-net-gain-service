@@ -1,6 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-import { SessionMap } from '../sessionMap.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 
 const url = constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
 // const applyingIndivOrg = require('../../land/applying-individual-organisation.js')

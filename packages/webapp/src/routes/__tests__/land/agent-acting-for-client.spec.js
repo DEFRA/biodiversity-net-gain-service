@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-import { SessionMap } from '../sessionMap.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.AGENT_ACTING_FOR_CLIENT
 
 describe(url, () => {
