@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../sessionMap.js'
 const url = constants.routes.AGENT_ACTING_FOR_CLIENT
 
 describe(url, () => {
@@ -15,13 +16,14 @@ describe(url, () => {
         viewResult = view
         resultContext = context
       },
-      redirect: (view, context) => {
+      redirect: (view) => {
         viewResult = view
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
     redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
 
     isApplicantAgent = require('../../land/agent-acting-for-client.js')
   })
@@ -36,7 +38,8 @@ describe(url, () => {
     it('Should continue journey to applicant-details-confirm if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { isApplicantAgent: 'yes' }
+        payload: { isApplicantAgent: 'yes' },
+        path: isApplicantAgent.default[1].path
       }
 
       await isApplicantAgent.default[1].handler(request, h)
@@ -47,7 +50,8 @@ describe(url, () => {
     it('Should continue journey to applying-individual-organisation if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { isApplicantAgent: 'no' }
+        payload: { isApplicantAgent: 'no' },
+        path: isApplicantAgent.default[1].path
       }
 
       await isApplicantAgent.default[1].handler(request, h)
@@ -58,7 +62,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: { }
+        payload: { },
+        path: isApplicantAgent.default[1].path
       }
 
       await isApplicantAgent.default[1].handler(request, h)

@@ -13,6 +13,7 @@ import {
   taskSections as allocationTaskSections,
   checkYourAnswers as allocationCheckYourAnswers
 } from './allocation/task-sections.js'
+import { FormError } from '../utils/form-error.js'
 
 const ANY = 'any'
 
@@ -170,13 +171,19 @@ const getNextStep = (request, h, errCallback) => {
       break
   }
 
-  if (task.nextUrl) {
+  if (task?.nextUrl) {
     try {
       const nextUrl = task.nextUrl(request.yar, request)
       if (nextUrl) {
         return h.redirect(nextUrl)
       }
     } catch (e) {
+      if (e instanceof FormError) {
+        return errCallback({
+          text: e.text,
+          href: e.href
+        })
+      }
       return errCallback(e)
     }
   }

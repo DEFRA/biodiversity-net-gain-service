@@ -7,6 +7,7 @@ import {
 } from '../utils.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
+import { FormError } from '../../utils/form-error.js'
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.AGENT_ACTING_FOR_CLIENT,
@@ -19,8 +20,9 @@ const AGENT_ACTING_FOR_CLIENT = routeDefinition(
     } else if (isApplicantAgent === 'no') {
       return referrerUrl || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
     } else {
-      throw new Error({
-        text: 'Select yes if you are an agent acting on behalf of a client',
+      const message = 'Select yes if you are an agent acting on behalf of a client'
+      throw new FormError(message, {
+        text: message,
         href: '#isApplicantAgent'
       })
     }
@@ -46,7 +48,7 @@ const CLIENT_INDIVIDUAL_ORGANISATION = routeDefinition(
   constants.routes.CLIENT_INDIVIDUAL_ORGANISATION,
   [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY],
   (session) => {
-    const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION)
+    const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return session.get(referrerUrl, true) || constants.routes.CLIENTS_NAME
@@ -82,7 +84,7 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
         // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
         // Individual has been chosen as the landowner type but the user is signed in representing an organisation.
-        throw new Error({
+        throw new FormError(organisationSignInErrorMessage, {
           text: organisationSignInErrorMessage,
           href: '#individualOrOrganisation'
         })
@@ -93,15 +95,16 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
         if (noOrganisationsLinkedToDefraAccount) {
           return constants.routes.DEFRA_ACCOUNT_NOT_LINKED
         } else {
-          throw new Error({
+          throw new FormError(individualSignInErrorMessage, {
             text: individualSignInErrorMessage,
             href: '#individualOrOrganisation'
           })
         }
       }
     } else {
-      throw new Error({
-        text: 'Select if you are applying as an individual or as part of an organisation',
+      const message = 'Select if you are applying as an individual or as part of an organisation'
+      throw new FormError(message, {
+        text: message,
         href: '#individualOrOrganisation'
       })
     }
@@ -119,8 +122,9 @@ const IS_ADDRESS_UK = routeDefinition(
     } else if (isAddressUk === 'no') {
       return constants.routes.NON_UK_ADDRESS
     } else {
-      throw new Error({
-        text: `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`,
+      const message = `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`
+      throw new FormError(message, {
+        text: message,
         href: '#is-address-uk-yes'
       })
     }
@@ -195,8 +199,9 @@ const CHECK_WRITTEN_AUTHORISATION_FILE = routeDefinition(
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
       return referrerUrl || constants.routes.CHECK_APPLICANT_INFORMATION
     } else {
-      throw new Error({
-        text: 'Select yes if this is the correct file',
+      const message = 'Select yes if this is the correct file'
+      throw new FormError(message, {
+        text: message,
         href: '#check-upload-correct-yes'
       })
     }

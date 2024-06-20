@@ -1,7 +1,9 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../sessionMap.js'
 
 const url = constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
+// const applyingIndivOrg = require('../../land/applying-individual-organisation.js')
 
 const individualSignInErrorMessage = `
   You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
@@ -12,7 +14,8 @@ const organisationSignInErrorMessage = `
   Register for or sign into a Defra account as yourself before continuing this application`
 
 describe(url, () => {
-  const redisMap = new Map()
+  const redisMap = new SessionMap()
+  redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view without any selection`, async () => {
       await submitGetRequest({ url })
@@ -94,44 +97,50 @@ describe(url, () => {
       }
     }
     let postOptions
+    const sessionData = {}
     beforeEach(async () => {
       postOptions = {
         url,
         payload: {}
       }
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
+    afterEach(() => {
+      postOptions = {}
     })
     it('should redirect to the check Defra account details page when individual is chosen and signed in as an individual', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.INDIVIDUAL
-      const response = await submitPostRequest(postOptions, 302)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     })
     it('should redirect to the check Defra account details page when organisation is chosen and signed in representing an organisation', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.ORGANISATION
       postOptions.auth = organisationAuth
-      const response = await submitPostRequest(postOptions, 302)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
     })
     it('should redisplay the applicant type page when no applicant type is chosen', async () => {
-      const response = await submitPostRequest(postOptions, 200)
+      sessionData[constants.redisKeys.LANDOWNER_TYPE] = null
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain('Select if you are applying as an individual or as part of an organisation')
     })
     it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.ORGANISATION
-      const response = await submitPostRequest(postOptions, 302)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
     })
     it('should redisplay the applicant type page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.ORGANISATION
       postOptions.auth = citizenSignInWithOrganisationLinkedToDefraAccountAuth
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain(individualSignInErrorMessage)
     })
     it('should redisplay the applicant type page when individual is chosen and signed in representing an organisation', async () => {
       postOptions.payload.individualOrOrganisation = constants.individualOrOrganisationTypes.INDIVIDUAL
       postOptions.auth = organisationAuth
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain(organisationSignInErrorMessage)
     })
