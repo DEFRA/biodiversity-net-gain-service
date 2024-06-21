@@ -1,10 +1,10 @@
-{% extends 'layout.html' %}
+{% extends 'form-layout.html' %}
 
 {% set serviceName = "Register a biodiversity gain site" %}
 {% set pageHeading = "You're about to apply to register a biodiversity gain site" %}
 <!-- {% set hideBackLink = true %}  --> <!-- TODO: should this be true or false? -->
 
-{% block content %}
+{% block formContent %}
 <div class="govuk-body">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -24,12 +24,12 @@
       <p>It costs £639 to allocate and register at the same time.</p>
 
       <h1 class="govuk-panel__title govuk-!-margin-bottom-4">What do you want to apply to do?</h1>
-      
-      <form method="POST" action="{{ constants.routes.START_REGISTER_GAIN_SITE }}">
-        
+              
       <!-- TODO name is required??? When i remove it, it breaks! --> 
       {{ govukRadios({
-        name: "Here is a name",
+        idPrefix: "applicationType",
+        name: "applicationType",
+        errorMessage: err[0],
         fieldset: {
           legend: {
             isPageHeading: true,
