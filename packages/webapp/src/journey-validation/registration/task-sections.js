@@ -3,7 +3,7 @@ import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
 import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
 import { siteBoundaryJourneys } from './site-boundary.js'
-import { localLandChargeJourneys } from './local-land-charge.js'
+import { localLandChargeJourneys, localLandChargeRouteDefinitions } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
 import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
 
@@ -93,7 +93,8 @@ const getTaskById = (taskId) => {
 const routeDefinitions = [
   ...applicantInfoRouteDefinitions,
   ...landOwnershipRouteDefinitions,
-  ...legalAgreementRouteDefinitions
+  ...legalAgreementRouteDefinitions,
+  ...localLandChargeRouteDefinitions
 ]
 
 Object.freeze(taskSections)

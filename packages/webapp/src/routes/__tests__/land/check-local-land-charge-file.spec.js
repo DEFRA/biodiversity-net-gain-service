@@ -13,27 +13,31 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
         payload: {}
       }
     })
-    it('should allow confirmation that the correct local search file has been uploaded', async () => {
+    it.only('should allow confirmation that the correct local search file has been uploaded', async () => {
       postOptions.payload.checkLocalLandCharge = constants.confirmLegalAgreementOptions.YES
-      await submitPostRequest(postOptions)
+      await submitPostRequest(postOptions, 302, sessionData)
     })
 
     it('should allow an alternative local search file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLocalLandCharge = 'no'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
       expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {
-      await submitPostRequest(postOptions, 200)
+      await submitPostRequest(postOptions, 200, sessionData)
     })
   })
 })
