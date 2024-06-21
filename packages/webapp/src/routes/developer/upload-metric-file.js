@@ -72,7 +72,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.DEVELOPER_UPLOAD_METRIC,
+        route: constants.views.DEVELOPER_UPLOAD_METRIC,
+        elementID: DEVELOPER_UPLOAD_METRIC_ID,
         noFileErrorMessage: 'Select a statutory biodiversity metric',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
