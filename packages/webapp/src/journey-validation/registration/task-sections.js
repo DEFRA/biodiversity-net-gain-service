@@ -5,7 +5,7 @@ import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-own
 import { siteBoundaryJourneys } from './site-boundary.js'
 import { localLandChargeJourneys } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
-import { legalAgreementJourneys } from './legal-agreement.js'
+import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
 
 const REGISTRATIONCONSTANTS = {
   APPLICANT_INFO: 'add-applicant-information',
@@ -92,7 +92,8 @@ const getTaskById = (taskId) => {
 
 const routeDefinitions = [
   ...applicantInfoRouteDefinitions,
-  ...landOwnershipRouteDefinitions
+  ...landOwnershipRouteDefinitions,
+  ...legalAgreementRouteDefinitions
 ]
 
 Object.freeze(taskSections)

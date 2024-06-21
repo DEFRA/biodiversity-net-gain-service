@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 
 const url = constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
 
@@ -21,7 +22,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
