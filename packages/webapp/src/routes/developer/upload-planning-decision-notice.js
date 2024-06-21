@@ -36,7 +36,6 @@ const handlers = {
         elementID: DEVELOPER_PLANNING_DECISION_NOTICE_ID,
         noFileErrorMessage: 'Select and upload a planning decision notice file',
         unsupportedFileExtErrorMessage: 'The selected file must be a DOC, DOCX or PDF',
-        optionalErrorMessage: 'Select a file in the following format; DOC, DOCX or PDF',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
     }
