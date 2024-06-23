@@ -35,7 +35,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+        route: constants.views.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+        elementID: DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID,
         noFileErrorMessage: 'Select a written consent file',
         unsupportedFileExtErrorMessage: 'The selected file must be a DOC, DOCX or PDF',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB

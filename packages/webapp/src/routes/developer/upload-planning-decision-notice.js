@@ -32,7 +32,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+        route: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+        elementID: DEVELOPER_PLANNING_DECISION_NOTICE_ID,
         noFileErrorMessage: 'Select a planning decision notice file',
         unsupportedFileExtErrorMessage: 'The selected file must be a DOC, DOCX or PDF',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB

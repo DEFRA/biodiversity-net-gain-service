@@ -40,7 +40,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
+        route: constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
+        elementID: DEVELOPER_WRITTEN_AUTHORISATION_ID,
         noFileErrorMessage: 'Select the written authorisation file',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
