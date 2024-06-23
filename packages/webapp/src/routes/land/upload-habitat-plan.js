@@ -35,7 +35,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.UPLOAD_HABITAT_PLAN,
+        route: constants.views.UPLOAD_HABITAT_PLAN,
+        elementID: HABITAT_PLAN_ID,
         noFileErrorMessage: 'Select a habitat management and monitoring plan',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
