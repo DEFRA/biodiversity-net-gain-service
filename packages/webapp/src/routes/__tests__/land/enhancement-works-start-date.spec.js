@@ -165,6 +165,7 @@ describe(url, () => {
           const postHandler = habitatEnhancementsEndDate[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const payload = {
             'habitatEnhancementsEndDate-day': '01',
             'habitatEnhancementsEndDate-month': '12',
@@ -182,7 +183,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ payload, yar: session }, h)
+          await postHandler({ payload, yar: session, path: habitatEnhancementsEndDate[1].path }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual('/land/check-and-submit')
           done()

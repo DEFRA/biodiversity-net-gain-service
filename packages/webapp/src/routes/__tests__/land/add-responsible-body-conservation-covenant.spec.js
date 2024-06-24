@@ -24,6 +24,7 @@ describe(url, () => {
 
     redisMap = new SessionMap()
     redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
@@ -76,7 +77,8 @@ describe(url, () => {
         payload: {
           responsibleBodyName: 'test3'
         },
-        query: {}
+        query: {},
+        path: addConcovResponsibleParties.default[1].path
       }
 
       await addConcovResponsibleParties.default[1].handler(request, h)
@@ -99,7 +101,8 @@ describe(url, () => {
         payload: {
           responsibleBodyName: 'test1'
         },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addConcovResponsibleParties.default[1].path
       }
 
       await addConcovResponsibleParties.default[1].handler(request, h)
@@ -113,7 +116,8 @@ describe(url, () => {
         payload: {
           responsibleBody: ''
         },
-        query: {}
+        query: {},
+        path: addConcovResponsibleParties.default[1].path
       }
 
       await addConcovResponsibleParties.default[1].handler(request, h)
@@ -128,7 +132,8 @@ describe(url, () => {
         payload: {
           responsibleBodyName: 'test2'
         },
-        query: {}
+        query: {},
+        path: addConcovResponsibleParties.default[1].path
       }
       await addConcovResponsibleParties.default[1].handler(request, h)
 
@@ -141,7 +146,8 @@ describe(url, () => {
         payload: {
           responsibleBodyName: 'test2'
         },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addConcovResponsibleParties.default[1].path
       }
       await addConcovResponsibleParties.default[1].handler(request, h)
 
