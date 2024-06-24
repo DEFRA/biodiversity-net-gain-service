@@ -34,29 +34,6 @@ function buildErrorResponse (h, message, route, elementID) {
   })
 }
 
-// function buildErrorResponseWithTwoMessages (h, message, message2 = 'default', route, elementID) {
-//   if (message2 === 'default') {
-//     return h.view(route, {
-//       err: [{
-//         text: message,
-//         href: elementID
-
-//       }]
-//     })
-//   } else {
-//     return h.view(route, {
-//       err: [{
-//         text: message2,
-//         href: elementID
-
-//       }, {
-//         text: message,
-//         href: elementID
-//       }]
-//     })
-//   }
-// }
-
 function maximumFileSizeExceeded (h, route, maximumFileSize, view) {
   return getMaximumFileSizeExceededView({
     h,
