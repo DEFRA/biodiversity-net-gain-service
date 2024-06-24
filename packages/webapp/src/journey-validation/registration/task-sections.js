@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
 import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
-import { siteBoundaryJourneys } from './site-boundary.js'
+import { siteBoundaryJourneys, siteBoundaryRouteDefinitions } from './site-boundary.js'
 import { localLandChargeJourneys, localLandChargeRouteDefinitions } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
 import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
@@ -94,7 +94,8 @@ const routeDefinitions = [
   ...applicantInfoRouteDefinitions,
   ...landOwnershipRouteDefinitions,
   ...legalAgreementRouteDefinitions,
-  ...localLandChargeRouteDefinitions
+  ...localLandChargeRouteDefinitions,
+  ...siteBoundaryRouteDefinitions
 ]
 
 Object.freeze(taskSections)
