@@ -9,7 +9,7 @@ import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 const backLink = constants.routes.CREDITS_PURCHASE_TASK_LIST
 
-const processSuccessfulCreditUpload = async (result, request, h) => {
+const processSuccessfulUpload = async (result, request, h) => {
   const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_CREDIT_METRIC_ID, false)
   if (creditsValidationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
