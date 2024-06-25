@@ -36,7 +36,11 @@
     }) }}
 
     {{ govukButton({
-      text: "Save and continue"
+      text: "Save and continue",
+      attributes: {
+        id: "continue",
+        "data-testid": "continue"
+      }
     }) }}
   </div>
 {% endblock %}
