@@ -10,8 +10,8 @@ const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 const backLink = constants.routes.CREDITS_PURCHASE_TASK_LIST
 
 const processSuccessfulUpload = async (result, request, h) => {
-  const creditsValidationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_CREDIT_METRIC_ID, false)
-  if (creditsValidationError) {
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_CREDIT_METRIC_ID, false)
+  if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
       ...validationError,
