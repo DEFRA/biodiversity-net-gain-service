@@ -15,7 +15,7 @@ const taskDefinition = (id, title, startUrl, completeUrl, journeyParts) => ({
   id, title, startUrl, completeUrl, journeyParts
 })
 
-const taskSectionDefinition = (title, tasks) => ({ title, tasks })
+const taskSectionDefinition = (title, tasks, id = null, dependantId = null) => ({ title, tasks, id, dependantId })
 
 export {
   ANY,

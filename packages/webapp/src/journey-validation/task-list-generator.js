@@ -69,7 +69,11 @@ const getTaskStatuses = (schema, session) => {
 }
 
 // We should move to Joi to do the validation in a later iteration
-const checkTaskStatus = (schema, session) => {
+const checkTaskStatus = (schema, session, isLocked = false) => {
+  if (isLocked) {
+    return getReturnObject(constants.CANNOT_START_YET_STATUS, schema.startUrl, true)
+  }
+
   const taskStatuses = getTaskStatuses(schema, session)
 
   // Return a completed task if there is one
@@ -92,21 +96,37 @@ const getIndividualTaskStatus = (session, taskId) => {
   const taskStatus = getTaskStatus(regTask, session)
   return taskStatus.status
 }
-const getTaskStatus = (task, session) => {
-  const calculatedStatus = checkTaskStatus(task, session)
+const getTaskStatus = (task, session, isLocked = false) => {
+  const calculatedStatus = checkTaskStatus(task, session, isLocked)
   return {
     id: task.id,
     title: task.title,
     status: calculatedStatus.status,
-    url: calculatedStatus.url
+    url: calculatedStatus.url,
+    isLocked
   }
 }
 
 const generateTaskList = (taskSections, session) => {
-  const taskList = taskSections.map(section => ({
-    taskTitle: section.title,
-    tasks: section.tasks.map(task => getTaskStatus(task, session))
-  }))
+  const locked = (section) => {
+    if (section.dependantId) {
+      const dependantSection = taskSections.find(s => s.id === section.dependantId)
+      if (dependantSection) {
+        const completedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+        if (completedTasks.length > 0) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+  const taskList = taskSections.map(section => {
+    const isLocked = locked(section)
+    return {
+      taskTitle: section.title,
+      tasks: section.tasks.map(task => getTaskStatus(task, session, isLocked))
+    }
+  })
   return taskList
 }
 

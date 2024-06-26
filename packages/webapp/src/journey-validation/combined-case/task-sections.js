@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantInfoJourneys } from '../registration/applicant-info.js'
+import { allocationInformationJourneys } from '../allocation/allocation-information.js'
 
 const REGISTRATIONCONSTANTS = {
   APPLICANT_INFO: 'add-applicant-information',
@@ -19,6 +20,14 @@ const applicantInfo = taskDefinition(
   applicantInfoJourneys
 )
 
+const gainSiteAllocationInformation = taskDefinition(
+  'gain-site-allocation-info',
+  'Add biodiversity gain site details',
+  constants.routes.DEVELOPER_BNG_NUMBER,
+  constants.routes.DEVELOPER_BNG_NUMBER,
+  allocationInformationJourneys
+)
+
 const tasksById = {
   [REGISTRATIONCONSTANTS.APPLICANT_INFO]: applicantInfo
 }
@@ -33,8 +42,16 @@ const checkYourAnswers = {
   }]
 }
 
+const appInfoId = 'app-info-id'
+const devInfoId = 'dev-info-id'
+
 const taskSections = [
-  taskSectionDefinition('Applicant information', [applicantInfo])
+  taskSectionDefinition('Applicant information', [applicantInfo], appInfoId),
+  taskSectionDefinition('Development information', [
+    gainSiteAllocationInformation
+  ],
+  devInfoId,
+  appInfoId)
 ]
 
 const getTaskById = (taskId) => {
