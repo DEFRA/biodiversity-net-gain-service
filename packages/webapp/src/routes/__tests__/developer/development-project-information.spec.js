@@ -33,8 +33,6 @@ describe(url, () => {
   })
 
   describe('GET', () => {
-    jest.mock('../../../utils/get-lpas.js')
-
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })

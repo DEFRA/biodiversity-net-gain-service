@@ -1,5 +1,4 @@
 import creditsConstants from '../../utils/credits-purchase-constants.js'
-import constants from '../../utils/loj-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional, getValidReferrerUrl
@@ -9,8 +8,6 @@ const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 const handlers = {
   get: (request, h) => {
     const lpaNames = getLpaNames(filePathAndName)
-
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
     const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
     const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
@@ -26,7 +23,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = getLpaNames(filePathAndName)
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, refLpaNames)
