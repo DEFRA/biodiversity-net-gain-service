@@ -10,8 +10,6 @@ const handlers = {
   get: (request, h) => {
     const lpaNames = getLpaNames(filePathAndName)
 
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
-
     const selectedLpa = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST)
     const planningApplicationRef = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF)
     const developmentName = request.yar.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
@@ -25,7 +23,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const refLpaNames = getLpaNames(filePathAndName)
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, refLpaNames)
