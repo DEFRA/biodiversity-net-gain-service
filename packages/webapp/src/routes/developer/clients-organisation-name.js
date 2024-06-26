@@ -13,7 +13,7 @@ const handlers = {
 
     if (!organisationName) {
       organisationNameErr = [{
-        text: 'Enter the organisation name',
+        text: "Enter your client's organisation name",
         href: 'organisationName'
       }]
     }
