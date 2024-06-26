@@ -1,5 +1,9 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { getLpaNames } from '../../../utils/get-lpas.js'
+
+jest.mock('../../../utils/get-lpas.js')
+
 const url = constants.routes.ADD_PLANNING_AUTHORITY
 
 describe(url, () => {
@@ -22,14 +26,13 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
-    redisMap.set(constants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
+
+    getLpaNames.mockReturnValue(['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
   })
 
   describe('GET', () => {
-    jest.mock('../../../utils/get-lpas.js')
-
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
