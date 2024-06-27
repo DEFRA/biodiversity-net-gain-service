@@ -33,8 +33,10 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('combined-case/tasklist')
-      expect(contextResult.tasks.taskList.length).toEqual(2)
+      expect(contextResult.tasks.taskList.length).toEqual(3)
       expect(contextResult.tasks.taskList[0]).toEqual({
+        dependantIds: [],
+        id: 'app-info-id',
         taskTitle: 'Applicant information',
         tasks: [
           {
@@ -46,14 +48,19 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
-        taskTitle: 'Submit your biodiversity gain information',
+        taskTitle: 'Development information',
         tasks: [
           {
-            id: 'check-your-answers',
+            id: 'gain-site-allocation-info',
+            title: 'Add biodiversity gain site details',
             status: 'CANNOT START YET',
-            title: 'Check your answers before you submit them',
-            url: '/combined-case/check-and-submit'
+            url: '/developer/biodiversity-gain-site-number',
+            isLocked: true
           }
+        ],
+        id: 'dev-info-id',
+        dependantIds: [
+          'app-info-id'
         ]
       })
     })
