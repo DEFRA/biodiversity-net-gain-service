@@ -51,7 +51,7 @@ const taskSections = [
     gainSiteAllocationInformation
   ],
   devInfoId,
-  appInfoId)
+  [appInfoId])
 ]
 
 const getTaskById = (taskId) => {
