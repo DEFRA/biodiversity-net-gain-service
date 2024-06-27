@@ -35,7 +35,7 @@ const handlers = {
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
     const errors = {}
-    const refLpaNames = getLpaNames(filePathAndName)
+    const lpaNames = getLpaNames(filePathAndName)
 
     if (!selectedLpa) {
       errors.emptyLocalPlanningAuthority = {
@@ -46,11 +46,11 @@ const handlers = {
         err: Object.values(errors),
         errors,
         legalAgreementType,
-        lpaNames: refLpaNames
+        lpaNames
       })
     }
 
-    if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
+    if (lpaNames.length > 0 && !lpaNames.includes(selectedLpa)) {
       errors.invalidLocalPlanningAuthorityError = {
         text: 'Enter a valid local planning authority',
         href: '#invalidLocalPlanningAuthorityError'
@@ -59,7 +59,7 @@ const handlers = {
         err: Object.values(errors),
         errors,
         legalAgreementType,
-        lpaNames: refLpaNames
+        lpaNames
       })
     }
 
@@ -77,7 +77,7 @@ const handlers = {
         err: Object.values(duplicateError),
         errors,
         legalAgreementType,
-        lpaNames: refLpaNames
+        lpaNames
       })
     }
     if (id) {

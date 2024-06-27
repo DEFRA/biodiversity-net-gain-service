@@ -23,10 +23,10 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const refLpaNames = getLpaNames(filePathAndName)
+    const lpaNames = getLpaNames(filePathAndName)
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
-    const errors = lpaErrorHandler(selectedLpa, refLpaNames)
+    const errors = lpaErrorHandler(selectedLpa, lpaNames)
 
     if (!planningApplicationRef) {
       errors.planningApplicationRefError = {
@@ -51,7 +51,7 @@ const handlers = {
       return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
-        lpaNames: refLpaNames,
+        lpaNames,
         selectedLpa,
         planningApplicationRef,
         developmentName
@@ -81,10 +81,10 @@ export default [{
 /**
  * Handles Local Planning Authority errors
  * @param {string} selectedLpa
- * @param {Array<string>} refLpaNames
+ * @param {Array<string>} lpaNames
  * @returns {Object} Local planning authority errors object
  */
-const lpaErrorHandler = (selectedLpa, refLpaNames) => {
+const lpaErrorHandler = (selectedLpa, lpaNames) => {
   const errors = {}
 
   if (!selectedLpa) {
@@ -96,7 +96,7 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
     return errors
   }
 
-  if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
+  if (lpaNames.length > 0 && !lpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
       href: '#localPlanningAuthority'
