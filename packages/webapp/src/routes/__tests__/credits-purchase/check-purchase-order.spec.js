@@ -37,7 +37,7 @@ describe(url, () => {
     it('should display an error if option `Yes` is selected and purchase order number is blank', async () => {
       postOptions.payload = { purchaseOrderUsed: 'yes', purchaseOrderNumber: undefined }
       const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('Purchase order number cannot be left blank')
+      expect(res.payload).toContain('Enter a purchase order number')
     })
 
     it('should navigate to next page if option `No` is selected', done => {
