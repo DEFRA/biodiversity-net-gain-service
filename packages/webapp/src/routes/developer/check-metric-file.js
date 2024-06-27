@@ -17,6 +17,7 @@ const handlers = {
       await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
       return h.redirect(constants.routes.DEVELOPER_BNG_NUMBER)
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
       return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
