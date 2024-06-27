@@ -2,6 +2,7 @@ import { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS } fr
 import constants from '../../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../../utils.js'
 import { applicantInfoJourneys } from '../../registration/applicant-info.js'
+import { allocationInformationJourneys } from '../../allocation/allocation-information.js'
 
 describe('Registration module', () => {
   it('should have the correct REGISTRATIONCONSTANTS', () => {
@@ -43,7 +44,7 @@ describe('Registration module', () => {
     })
   })
 
-  it('should define the correct taskSections array', () => {
+  it.only('should define the correct taskSections array', () => {
     const applicantInfo = taskDefinition(
       REGISTRATIONCONSTANTS.APPLICANT_INFO,
       'Add details about the applicant',
@@ -51,10 +52,22 @@ describe('Registration module', () => {
       constants.routes.CHECK_APPLICANT_INFORMATION,
       applicantInfoJourneys
     )
-
+    const gainSiteAllocationInformation = taskDefinition(
+      'gain-site-allocation-info',
+      'Add biodiversity gain site details',
+      constants.routes.DEVELOPER_BNG_NUMBER,
+      constants.routes.DEVELOPER_BNG_NUMBER,
+      allocationInformationJourneys
+    )
+    const appInfoId = 'app-info-id'
+    const devInfoId = 'dev-info-id'
     const expectedTaskSections = [
-      taskSectionDefinition('Applicant information', [applicantInfo])
-    ]
+      taskSectionDefinition('Applicant information', [applicantInfo], appInfoId),
+      taskSectionDefinition('Development information', [
+        gainSiteAllocationInformation
+      ],
+      devInfoId,
+      [appInfoId])]
 
     expect(taskSections).toEqual(expectedTaskSections)
   })
