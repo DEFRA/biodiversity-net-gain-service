@@ -126,4 +126,65 @@ describe('journey validation task list', () => {
       }
     })
   })
+
+  describe('Task list locking behavior for combined case', () => {
+    it('Should lock a section if its dependant sections are not complete in combined case', done => {
+      jest.isolateModules(async () => {
+        try {
+          session.reset()
+
+          session.set(constants.redisKeys.COMBINED_CASE_TASK_1, testString)
+
+          const taskInfo = getTaskList(constants.applicationTypes.COMBINED_CASE, session)
+
+          const dependentSection = taskInfo.taskList.find(section => section.taskTitle === 'Development information')
+          dependentSection.tasks.forEach(task => {
+            expect(task.status).toBe(constants.CANNOT_START_YET_STATUS)
+            expect(task.isLocked).toBe(true)
+          })
+
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('Should not lock a section if its dependant sections are complete in combined case', done => {
+      jest.isolateModules(async () => {
+        try {
+          session.reset()
+
+          // Completing all dependant tasks in the combined case journey
+          session.set(constants.redisKeys.IS_AGENT, 'no')
+          session.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, 'true')
+          session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, 'individual')
+          session.set(constants.redisKeys.LANDOWNER_TYPE, 'individual')
+          session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
+          session.set(constants.redisKeys.UK_ADDRESS_KEY, testString)
+          session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, testString)
+          session.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, testString)
+          session.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, testString)
+          session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, testString)
+          session.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, testString)
+          session.set(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED, testString)
+          session.set(constants.redisKeys.CLIENTS_NAME_KEY, testString)
+          session.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, testString)
+          session.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, testString)
+
+          const taskInfo = getTaskList(constants.applicationTypes.COMBINED_CASE, session)
+
+          const dependentSection = taskInfo.taskList.find(section => section.taskTitle === 'Development information')
+          dependentSection.tasks.forEach(task => {
+            expect(task.status).not.toBe(constants.CANNOT_START_YET_STATUS)
+            expect(task.isLocked).toBe(undefined)
+          })
+
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+  })
 })

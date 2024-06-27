@@ -108,8 +108,8 @@ const generateTaskList = (taskSections, session) => {
       for (const dependantId of section.dependantIds) {
         const dependantSection = taskList.find(s => s.id === dependantId)
         if (dependantSection) {
-          const completedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
-          if (completedTasks.length > 0) {
+          const uncompletedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+          if (uncompletedTasks.length > 0) {
             return true
           }
         }
