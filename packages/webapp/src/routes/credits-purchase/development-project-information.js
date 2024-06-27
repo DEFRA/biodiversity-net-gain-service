@@ -23,7 +23,7 @@ const handlers = {
   post: (request, h) => {
     const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
 
-    const lpaNames = getLpaNames(filePathAndName)
+    const lpaNames = getLpaNames(filePathAndName) ?? []
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
 
     const errors = lpaErrorHandler(selectedLpa, lpaNames)

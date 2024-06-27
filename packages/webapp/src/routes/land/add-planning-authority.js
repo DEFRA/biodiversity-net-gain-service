@@ -35,7 +35,7 @@ const handlers = {
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
     const errors = {}
-    const lpaNames = getLpaNames(filePathAndName)
+    const lpaNames = getLpaNames(filePathAndName) ?? []
 
     if (!selectedLpa) {
       errors.emptyLocalPlanningAuthority = {
