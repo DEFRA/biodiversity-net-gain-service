@@ -35,6 +35,8 @@ describe(url, () => {
       expect(viewResult).toEqual('credits-purchase/tasklist')
       expect(contextResult.tasks.taskList.length).toEqual(7)
       expect(contextResult.tasks.taskList[0]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Statutory biodiversity metric',
         tasks: [
           {
@@ -46,6 +48,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Development information',
         tasks: [
           {
@@ -68,6 +72,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[3]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Purchase order',
         tasks: [
           {
@@ -79,6 +85,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Customer due diligence (anti-money laundering)',
         tasks: [
           {
@@ -90,6 +98,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[5]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Terms and conditions',
         tasks: [
           {
