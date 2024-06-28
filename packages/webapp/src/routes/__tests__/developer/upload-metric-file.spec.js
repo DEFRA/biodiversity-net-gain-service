@@ -263,20 +263,20 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should not show error message if fails isOffSiteDataPresent', (done) => {
+    it('should show error message if fails isOffSiteDataPresent', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
           const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.hasError = false
+          config.hasError = true
           config.postProcess.metricData.validation = {
             isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).not.toContain('The selected file does not have enough data')
+          expect(response.result).toContain('The selected file does not have enough data')
           setImmediate(() => {
             done()
           })

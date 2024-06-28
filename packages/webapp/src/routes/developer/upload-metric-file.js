@@ -9,7 +9,7 @@ import { getMetricFileValidationErrors } from '../../utils/helpers.js'
 const DEVELOPER_UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, DEVELOPER_UPLOAD_METRIC_ID, false)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, DEVELOPER_UPLOAD_METRIC_ID)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.DEVELOPER_UPLOAD_METRIC, validationError)
