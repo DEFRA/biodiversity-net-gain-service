@@ -61,6 +61,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Statutory biodiversity credits',
         tasks: [
           {
