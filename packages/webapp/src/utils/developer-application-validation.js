@@ -53,7 +53,7 @@ const developerApplicationValidation = Joi.object({
       fileSize: Joi.number().required(),
       fileLocation: Joi.string().required(),
       fileName: Joi.string().required(),
-      optional: Joi.boolean().required()
+      optional: Joi.boolean().optional()
     })).required(),
     development: Joi.object({
       localPlanningAuthority: Joi.object({

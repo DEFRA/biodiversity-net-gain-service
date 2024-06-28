@@ -171,8 +171,10 @@ const application = (session, account) => {
     applicationJson.developerRegistration.agent = getClientDetails(session)
   }
 
-  // Filter blank files that are optional
-  applicationJson.developerRegistration.files = applicationJson.developerRegistration.files.filter(file => !(file.optional && !file.fileLocation))
+  // Filter blank files that are optional and remove the 'optional' property
+  applicationJson.developerRegistration.files = applicationJson.developerRegistration.files
+    .filter(file => !(file.optional && !file.fileLocation))
+    .map(({ optional, ...restOfFile }) => restOfFile)
 
   return applicationJson
 }

@@ -373,8 +373,10 @@ const application = (session, account) => {
     applicationJson.landownerGainSiteRegistration.organisation = getOrganisation(session)
   }
 
-  // Filter blank files that are optional
-  applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files.filter(file => !(file.optional && !file.fileLocation))
+  // Filter blank files that are optional and remove the 'optional' property
+  applicationJson.landownerGainSiteRegistration.files = applicationJson.landownerGainSiteRegistration.files
+    .filter(file => !(file.optional && !file.fileLocation))
+    .map(({ optional, ...restOfFile }) => restOfFile)
 
   return applicationJson
 }
