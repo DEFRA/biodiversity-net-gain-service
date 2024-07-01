@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import application from '../../utils/application.js'
 import applicationValidation from '../../utils/application-validation.js'
-import { postJson } from '../../utils/http.js'
 import {
   listArray,
   boolToYesNo,
@@ -18,7 +17,6 @@ import {
 } from '../../utils/helpers.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 import applicationInformationContext from './helpers/applicant-information.js'
-import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
@@ -51,15 +49,11 @@ const handlers = {
       return h.view(constants.views.CHECK_AND_SUBMIT, { ...getContext(request), err })
     }
 
-    const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
+    const { error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
     if (error) {
       throw new Error(error)
     }
-    const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
-    value.organisationId = organisationId
-    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processapplication`, value)
-    request.yar.set(constants.redisKeys.APPLICATION_REFERENCE, result.gainSiteReference)
-    return h.redirect(constants.routes.APPLICATION_SUBMITTED)
+    return h.redirect(constants.routes.LAND_CHOOSE_PAYMENT)
   }
 }
 

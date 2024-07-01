@@ -309,9 +309,14 @@ const getApplicationReference = session => session.get(constants.redisKeys.APPLI
 
 const getPayment = session => {
   const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+
   return {
     reference: payment.reference,
-    method: payment.type
+    method: payment.method,
+    govPayReference: payment.govPayReference,
+    amount: payment.fee,
+    paymentDate: payment.paymentDate,
+    paymentStatus: payment.paymentStatus
   }
 }
 

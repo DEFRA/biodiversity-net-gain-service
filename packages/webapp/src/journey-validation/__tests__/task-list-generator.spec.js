@@ -66,7 +66,7 @@ const initialTaskInfo = {
         {
           title: 'Check your answers and submit information',
           status: 'CANNOT START YET',
-          url: '/land/check-and-submit',
+          url: '/land/choose-payment',
           id: 'check-your-answers'
         }
       ]

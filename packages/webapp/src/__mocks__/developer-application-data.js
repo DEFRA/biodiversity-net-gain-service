@@ -272,5 +272,6 @@ export default {
   'developer-planning-application-ref': '12345',
   'developer-planning-development-name': 'houses',
   'developer/landowner-or-leaseholder': 'yes',
-  'developer-is-agent': 'no'
+  'developer-is-agent': 'no',
+  'payment-type': 'BACS'
 }

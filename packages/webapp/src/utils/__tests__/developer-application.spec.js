@@ -6,6 +6,17 @@ import applicant from '../../__mocks__/applicant'
 describe('developer-application', () => {
   it('Creates payload for individual landowner', () => {
     const session = setDeveloperApplicationSession()
+    session.set(constants.redisKeys.PAYMENT_TYPE, 'BACS')
+    session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, 5131037)
+    session.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'mock/developer-upload-metric/Sample Metric File.xlsm')
+    session.set(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, 'developer-upload-metric')
+    session.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [
+      {
+        fullName: 'Test User',
+        email: 'test@example.com'
+      }
+    ])
+
     const app = developerApplication(session, applicant)
     expect(app.developerRegistration.allocationReference).toEqual('TEST-1234')
     expect(app.developerRegistration.files[0].fileType).toEqual('developer-upload-metric')
@@ -125,7 +136,8 @@ describe('developer-application', () => {
   it('Should handle nullable fields if session data not exists', () => {
     const session = setDeveloperApplicationSession()
     session.clear(constants.redisKeys.DEVELOPER_APP_REFERENCE)
-
+    session.clear(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS)
+    session.clear(constants.redisKeys.PAYMENT_TYPE)
     const app = developerApplication(session, applicant)
     expect(app.developerRegistration.allocationReference).toEqual('')
   })

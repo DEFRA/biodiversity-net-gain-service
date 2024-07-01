@@ -138,7 +138,12 @@ describe(url, () => {
       const http = require('../../../utils/http.js')
       http.postJson = jest.fn().mockReturnValue({ applicationReference: 'test-reference' })
 
-      const payload = { termsAndConditionsConfirmed: 'Yes' }
+      const payload = {
+        termsAndConditionsConfirmed: 'Yes',
+        payment: {
+          type: 'BACS'
+        }
+      }
       const h = {
         view: jest.fn(),
         redirect: jest.fn()

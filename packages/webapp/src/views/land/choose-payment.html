@@ -1,0 +1,46 @@
+{% extends 'form-layout.html' %}
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
+{% set pageHeading = "Choose your payment method" %}
+
+{% block formContent %}
+  <div class="govuk-grid-row">
+    {% if err %}
+      {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-column-three-quarters">
+      {{ govukRadios({
+        idPrefix: "paymentType",
+        name: "paymentType",
+        errorMessage: err[0],
+        fieldset: {
+          legend: {
+            text: pageHeading,
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "bacs",
+            text: "BACS",
+            id: "payment-type-bacs",
+            checked: paymentType === "bacs"
+          },
+          {
+            value: "govpay",
+            text: "GOV Pay",
+            id: "payment-type-gov-pay",
+            checked: paymentType === "govpay"
+          }
+        ]
+      }) }}
+      {{ govukButton({
+        text: "Continue",
+        attributes: {
+          id: "continue",
+          "data-testid": "continue"
+        }
+      }) }}
+    </div>
+  </div>
+{% endblock %}

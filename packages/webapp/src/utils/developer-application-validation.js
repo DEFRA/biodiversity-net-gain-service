@@ -65,7 +65,10 @@ const developerApplicationValidation = Joi.object({
     }).required(),
     payment: Joi.object({
       reference: Joi.string().required(),
-      method: Joi.string().valid('BACS').required()
+      method: Joi.string().valid('BACS').required(),
+      govPayReference: Joi.string().allow('', null).optional(),
+      paymentDate: Joi.string().allow('', null).optional(),
+      paymentStatus: Joi.string().allow('', null).optional()
     }).required(),
     allocationReference: Joi.string().required(),
     submittedOn: Joi.date().required()
