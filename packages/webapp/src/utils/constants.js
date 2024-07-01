@@ -212,7 +212,7 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
 routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
-  uploadFailure: 'The selected file could not be uploaded -- try again',
+  uploadFailure: 'The selected file could not be uploaded - try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
