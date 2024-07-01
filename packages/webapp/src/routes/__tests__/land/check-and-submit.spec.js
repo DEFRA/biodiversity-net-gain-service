@@ -119,6 +119,18 @@ describe(url, () => {
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual('/')
     })
+    it('should redirect to MANAGE_BIODIVERSITY_GAINS if LAND_APPLICATION_SUBMITTED is true', async () => {
+      const session = applicationSession()
+      session.set(constants.redisKeys.LAND_APPLICATION_SUBMITTED, true)
+
+      const request = {
+        yar: session,
+        auth
+      }
+
+      await checkAndSubmitGet.default[0].handler(request, h)
+      expect(viewResult).toEqual(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+    })
   })
 
   describe('POST', () => {

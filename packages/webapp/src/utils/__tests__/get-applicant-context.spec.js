@@ -32,7 +32,7 @@ describe('get-applicant-context', () => {
           applicationSpecificGuidance:
             'must be named as a landowner or leaseholder on the legal agreement to apply.',
           confirmationText:
-            'My Defra account details are up to date and I will be applying as John Smith',
+            'I confirm my Defra account details are up to date and I will be applying as John Smith',
           noOrganisationsLinkedToDefraAccount: true,
           representing: 'Myself (John Smith)',
           subject: 'John Smith'
@@ -62,7 +62,7 @@ describe('get-applicant-context', () => {
           applicationSpecificGuidance:
             'must be named as a landowner or leaseholder on the legal agreement to apply.',
           confirmationText:
-            'My Defra account details are up to date and I will be applying as John Smith',
+            'I confirm my Defra account details are up to date and I will be applying as John Smith',
           noOrganisationsLinkedToDefraAccount: true,
           representing: 'Myself (John Smith)',
           subject: 'John Smith'
@@ -94,7 +94,7 @@ describe('get-applicant-context', () => {
           applicationSpecificGuidance:
             ', the landowner or leaseholder you represent must be named on the legal agreement to apply.',
           confirmationText:
-            'My Defra account details are up to date and I will be applying as John Smith for mock organisation',
+            'I confirm my Defra account details are up to date and I will be applying as John Smith for mock organisation',
           noOrganisationsLinkedToDefraAccount: false,
           organisationId: 'mock organisation id',
           organisation: 'mock organisation',
@@ -124,7 +124,7 @@ describe('get-applicant-context', () => {
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
           confirmationText:
-            'My Defra account details are up to date and I will be applying as John Smith',
+            'I confirm my Defra account details are up to date and I will be applying as John Smith',
           noOrganisationsLinkedToDefraAccount: true,
           representing: 'Myself (John Smith)',
           subject: 'John Smith'
@@ -154,7 +154,7 @@ describe('get-applicant-context', () => {
         )
         const applicantContext = getApplicantContext(account, session)
         expect(applicantContext).toStrictEqual({
-          confirmationText: 'My Defra account details are up to date and I will be applying as John Smith for mock organisation',
+          confirmationText: 'I confirm my Defra account details are up to date and I will be applying as John Smith for mock organisation',
           noOrganisationsLinkedToDefraAccount: false,
           organisationId: 'mock organisation id',
           organisation: 'mock organisation',

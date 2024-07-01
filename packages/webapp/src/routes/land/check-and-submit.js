@@ -24,6 +24,12 @@ import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
+    const appSubmitted = request.yar.get(constants.redisKeys.LAND_APPLICATION_SUBMITTED)
+
+    if (appSubmitted) {
+      return h.redirect(constants.routes.MANAGE_BIODIVERSITY_GAINS)
+    }
+
     const { canSubmit } = getTaskList(constants.applicationTypes.REGISTRATION, request.yar)
 
     if (!canSubmit) {
