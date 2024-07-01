@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import wreck from '@hapi/wreck'
 const url = constants.routes.DEVELOPER_BNG_NUMBER
 
 describe(url, () => {
@@ -166,6 +167,43 @@ describe(url, () => {
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
+    })
+
+    // TODO: Either configure BACKEND_API_CODE_QUERY_PARAMETER env var with a test value, or mock
+    // `BACKEND_API.CODE_QUERY_PARAMETER` in config.js
+    it('Should call the API with a `code` query param if one is configured', done => {
+      jest.isolateModules(async () => {
+        try {
+          jest.resetAllMocks()
+          jest.mock('@hapi/wreck')
+          const spy = jest.spyOn(wreck, 'get')
+
+          postOptions.payload.bgsNumber = 'BGS-010124001'
+          await submitPostRequest(postOptions)
+          expect(spy.mock.calls[0][0]).toContain('code=')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    // TODO: Figure out why src/routes/__tests__/helpers/server.js:167:31 fails when this second test is present
+    it('Should not call the API with a `code` query param if not configured', done => {
+      jest.isolateModules(async () => {
+        try {
+          jest.resetAllMocks()
+          jest.mock('@hapi/wreck')
+          const spy = jest.spyOn(wreck, 'get')
+
+          postOptions.payload.bgsNumber = 'BGS-010124001'
+          await submitPostRequest(postOptions)
+          expect(spy.mock.calls[0][0]).not.toContain('code=')
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })
