@@ -9,7 +9,8 @@ import {
 } from './credits-purchase/task-sections.js'
 import {
   taskSections as allocationTaskSections,
-  checkYourAnswers as allocationCheckYourAnswers
+  checkYourAnswers as allocationCheckYourAnswers,
+  routeDefinitions as allocationRouteDefinitions
 } from './allocation/task-sections.js'
 
 const ANY = 'any'
@@ -98,6 +99,10 @@ const getTaskStatus = (task, session) => {
   }
 }
 
+const retrieveTask = (routeDefinitions, startUrl) => {
+  return routeDefinitions.find(route => route.startUrl === startUrl) || null
+}
+
 const generateTaskList = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
@@ -150,7 +155,36 @@ const getTaskList = (journey, session) => {
   return { taskList, totalTasks, completedTasks, canSubmit }
 }
 
+const getNextStep = (request, h, errCallback) => {
+  const path = request.path
+  const journey = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  let task
+  switch (journey) {
+    case constants.applicationTypes.REGISTRATION:
+      break
+    case constants.applicationTypes.CREDITS_PURCHASE:
+      break
+    case constants.applicationTypes.ALLOCATION:
+      task = retrieveTask(allocationRouteDefinitions, path)
+      break
+  }
+
+  if (task.nextUrl) {
+    try {
+      const nextUrl = task.nextUrl(request.yar)
+      if (nextUrl) {
+        return h.redirect(nextUrl)
+      }
+    } catch (e) {
+      return errCallback(e)
+    }
+  }
+
+  throw new Error('Next URL is not set')
+}
+
 export {
   getTaskList,
-  getIndividualTaskStatus
+  getIndividualTaskStatus,
+  getNextStep
 }

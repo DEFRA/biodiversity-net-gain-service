@@ -8,7 +8,20 @@ import {
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
   constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  [constants.redisKeys.DEVELOPER_IS_AGENT]
+  [constants.redisKeys.DEVELOPER_IS_AGENT],
+  (session) => {
+    const isApplicantAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
+    if (isApplicantAgent === 'yes') {
+      return constants.routes.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS
+    } else if (isApplicantAgent === 'no') {
+      return constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER
+    } else {
+      throw new Error({
+        text: 'Select yes if you are an agent acting on behalf of a client',
+        href: '#isApplicantAgent'
+      })
+    }
+  }
 )
 
 const CHECK_DEFRA_ACCOUNT_DETAILS = routeDefinition(
@@ -52,7 +65,24 @@ const WRITTEN_AUTHORISATION_UPLOAD = routeDefinition(
 
 const WRITTEN_AUTHORISATION_CHECKED = routeDefinition(
   constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-  [constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED]
+  [constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED],
+  (session) => {
+    const checkWrittenAuthorisation = session.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED)
+    if (checkWrittenAuthorisation === 'no') {
+      return constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION
+    } else if (checkWrittenAuthorisation === 'yes') {
+      const isLandowner = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      if (!isLandowner) {
+        return constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
+      }
+      return session.get(constants.redisKeys.PRIMARY_ROUTE) || constants.routes.DEVELOPER_TASKLIST
+    } else {
+      throw new Error({
+        text: 'Select yes if this is the correct file',
+        href: '#check-upload-correct-yes'
+      })
+    }
+  }
 )
 
 const LANDOWNER_CONSENT_UPLOAD = routeDefinition(
@@ -196,6 +226,22 @@ const applicantDetailsJourneys = [
   notAgentNotLandownerOrganisationJourney
 ]
 
+const applicantDetailsRouteDefinitions = [
+  AGENT_ACTING_FOR_CLIENT,
+  CHECK_DEFRA_ACCOUNT_DETAILS,
+  IS_LANDOWNER,
+  INDIVIDUAL_ORGANISATION,
+  CLIENT_INDIVIDUAL_ORGANISATION,
+  CLIENT_INDIVIDUAL_NAME,
+  CLIENT_ORGANISATION_NAME,
+  WRITTEN_AUTHORISATION_UPLOAD,
+  WRITTEN_AUTHORISATION_CHECKED,
+  LANDOWNER_CONSENT_UPLOAD,
+  LANDOWNER_CONSENT_CHECK,
+  PROOF_OF_PERMISSION
+]
+
 export {
-  applicantDetailsJourneys
+  applicantDetailsJourneys,
+  applicantDetailsRouteDefinitions
 }
