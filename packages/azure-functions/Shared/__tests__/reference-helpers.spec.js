@@ -13,6 +13,16 @@ describe('randomReferenceString', () => {
     const validChars = /^[0-9A-Z]+$/
     expect(result).toMatch(validChars)
   })
+
+  test('returns strings without removed characters', () => {
+    const length = 10
+    const invalidChars = /[ILOQSZ]/
+
+    for (let i = 0; i < 1000; i++) {
+      const result = randomReferenceString(length)
+      expect(result).not.toMatch(invalidChars)
+    }
+  })
 })
 
 const mockQuery = jest.fn()
