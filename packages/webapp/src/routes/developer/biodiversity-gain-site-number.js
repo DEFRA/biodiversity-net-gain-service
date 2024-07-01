@@ -4,7 +4,9 @@ import wreck from '@hapi/wreck'
 
 const getGainSiteApiUrl = bgsNumber => {
   const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
-  url.searchParams.set('code', BACKEND_API.CODE_QUERY_PARAMETER)
+  if (BACKEND_API.CODE_QUERY_PARAMETER) {
+    url.searchParams.set('code', BACKEND_API.CODE_QUERY_PARAMETER)
+  }
   return url
 }
 
