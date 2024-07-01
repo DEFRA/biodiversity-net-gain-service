@@ -1,7 +1,7 @@
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 <noscript>
   {{ govukCookieBanner({
-  ariaLabel: serviceName,
+  ariaLabel: "Cookies on " + serviceName,
   messages: [
     {
       headingText: "Cookies on " + serviceName,
@@ -31,8 +31,9 @@
     <a class="govuk-link" href="/cookies">change your cookie settings</a>
     at any time.</p>
   {% endset %}
+
   {{ govukCookieBanner({
-    ariaLabel: serviceName,
+    ariaLabel: "Cookies on " + serviceName,
     classes: "js-cookies-banner",
     messages: [
       {
@@ -66,8 +67,11 @@
         classes: "js-cookies-accepted",
         actions: [
           {
-            text: "Hide this message",
-            classes: "js-hide"
+            text: "Hide cookie message",
+            classes: "js-hide",
+            attributes: {
+              'aria-label': 'Hide cookie message'
+            }
           }
         ]
       },
@@ -78,8 +82,11 @@
         classes: "js-cookies-rejected",
         actions: [
           {
-            text: "Hide this message",
-            classes: "js-hide"
+            text: "Hide cookie message",
+            classes: "js-hide",
+            attributes: {
+              'aria-label': 'Hide cookie message'
+            }
           }
         ]
       }
