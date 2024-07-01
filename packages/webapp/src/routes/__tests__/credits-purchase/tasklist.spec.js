@@ -27,8 +27,8 @@ describe(url, () => {
         yar: redisMap
       }
 
-      const developerTasklist = require('../../../routes/credits-purchase/tasklist')
-      await developerTasklist.default[0].handler(request, h)
+      const creditsPurchaseTasklist = require('../../../routes/credits-purchase/tasklist')
+      await creditsPurchaseTasklist.default[0].handler(request, h)
 
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
@@ -71,7 +71,7 @@ describe(url, () => {
         taskTitle: 'Purchase order',
         tasks: [
           {
-            title: 'Add a purchase order number',
+            title: 'Add a purchase order number, if you have one',
             status: 'NOT STARTED',
             url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
             id: 'add-purchase-order'
@@ -79,7 +79,7 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
-        taskTitle: 'Customer due diligence (CDD)',
+        taskTitle: 'Customer due diligence (anti-money laundering)',
         tasks: [
           {
             title: 'Complete customer due diligence',

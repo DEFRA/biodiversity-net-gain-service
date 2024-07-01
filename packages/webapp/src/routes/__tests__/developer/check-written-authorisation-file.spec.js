@@ -9,6 +9,14 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+
+    it(`should render the ${url.substring(1)} view with sub heading if needed`, async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('Proof of permission 1 of 2')
+    })
   })
 
   describe('POST', () => {
@@ -22,7 +30,21 @@ describe(url, () => {
     it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
       postOptions.payload.checkWrittenAuthorisation = 'yes'
       const response = await submitPostRequest(postOptions)
-      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_USE_GAIN_SITE)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS)
+    })
+
+    it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const response = await submitPostRequest(postOptions)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS)
+    })
+
+    it('should redirect to tasklist if is landowner', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_TASKLIST)
     })
 
     it('should allow an alternative written authorisation file to be uploaded ', async () => {

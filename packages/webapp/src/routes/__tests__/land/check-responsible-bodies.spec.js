@@ -57,7 +57,7 @@ describe(url, () => {
   })
 
   describe('POST', () => {
-    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT if yes is chosen', async () => {
+    it('Should continue journey to NEED_ADD_ALL_LANDOWNERS if yes is chosen', async () => {
       const request = {
         yar: redisMap,
         payload: { addAnotherResponsibleBody: 'yes' }

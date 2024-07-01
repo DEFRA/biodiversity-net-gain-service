@@ -1,7 +1,10 @@
-{% extends 'form-layout.html' %}
 
-
+{% extends 'layout.html' %}
 {% set hideBackLink = true %}
+
+{% if payment.caseType == "allocation" %}
+  {% set serviceName = "Record off-site gains" %}
+{% endif %}
 
 {% if applicationReference === null %}
   {% set pageHeading = "You’ve submitted your application" %}
@@ -10,98 +13,100 @@
 {% endif %}
 
 {% block content %}
-{% if applicationReference === null %}
-<h1 class="govuk-panel__title govuk-!-margin-bottom-4">
-  {{ pageHeading }}
-</h1>
-<p>We’ve sent you a confirmation email. This contains your biodiversity net gain application reference number and details of how to pay the application fee.</p>
-<p>You can start a new application to <a href="/land/register-land-task-list">register a biodiversity gain site.</p>
-{% else %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if applicationReference === null %}
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
 
-    <div class="govuk-panel govuk-panel--confirmation">
-      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">
-        {{ pageHeading }}
-      </h1>
-      
-      <div class="govuk-panel__body govuk-!-font-size-27">
-        Biodiversity net gain (BNG) application reference number<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
+      <p>We’ve sent you a confirmation email. This contains your biodiversity net gain application reference number and details of how to pay the application fee.</p>
+      <p>You can start a new <a href="/">biodiversity gain site</a> application.</p><br/>
+    {% else %}
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
+
+        <div class="govuk-panel__body govuk-!-font-size-27">
+          Biodiversity net gain (BNG) application reference number<br> <strong data-testid="application-reference-value">{{ applicationReference }}</strong>
+        </div>
       </div>
-    </div>
 
-    <p>We will send you a confirmation email.</p>
-    <p>Make a note of your BNG application reference number. We will use it when we contact you.</p>
+      <p>We will send you a confirmation email.</p>
+      <p>Make a note of your BNG application reference number. We will use it when we contact you.</p>
 
-    <h2 class="govuk-heading-m">Paying the application fee</h2>
+      <h2 class="govuk-heading-m">Paying the application fee</h2>
 
-    <p>You need to pay:</p>
-    <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}.00</p>
+      <p>You need to pay:</p>
+      <p class="govuk-body-l" data-testid="fee-amount-value">£{{ payment.fee }}.00</p>
 
-    <div class="govuk-inset-text">
-      You must pay the fee within 28 days. We cannot refund any payments made after the 28-day deadline.
-    </div>
-
-    <h2 class="govuk-heading-m">Bank details for Bacs payments</h2>
-
-    <p>You must pay the fee by Bacs using these details:</p>
-
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Your payment reference
-        </dt>
-        <dd class="govuk-summary-list__value" data-testid="payment-reference-value">
-          {{ applicationReference }}
-        </dd>
+      <div class="govuk-inset-text">
+        You must pay the fee within 28 days. We cannot refund any payments.
       </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Account name
-        </dt>
-        <dd class="govuk-summary-list__value" data-testid="account-name-value">
-          {{ bacs.accountName }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Sort code
-        </dt>
-        <dd class="govuk-summary-list__value" data-testid="sort-code-value">
-          {{ bacs.sortCode }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Account number
-        </dt>
-        <dd class="govuk-summary-list__value" data-testid="account-number-value">
-          {{ bacs.accountNumber }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          SWIFT/BIC code
-        </dt>
-        <dd class="govuk-summary-list__value" data-testid="swift-bic-code-value">
-          {{ bacs.swiftCode }}
-        </dd>
-      </div>
-    </dl>
-    
-    <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
-    <p>We will let you know within 6 weeks if:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>we need more information from you</li>
-      <li>your application has been successful or not </li>
-    </ul>
-    <p>
+
+      <h2 class="govuk-heading-m">Bank details for Bacs payments</h2>
+
+      <p>You must pay the fee by Bacs using these details:</p>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Your payment reference
+          </dt>
+          <dd class="govuk-summary-list__value" data-testid="payment-reference-value">
+            {{ applicationReference }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Account name
+          </dt>
+          <dd class="govuk-summary-list__value" data-testid="account-name-value">
+            {{ bacs.accountName }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Sort code
+          </dt>
+          <dd class="govuk-summary-list__value" data-testid="sort-code-value">
+            {{ bacs.sortCode }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Account number
+          </dt>
+          <dd class="govuk-summary-list__value" data-testid="account-number-value">
+            {{ bacs.accountNumber }}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            SWIFT/BIC code
+          </dt>
+          <dd class="govuk-summary-list__value" data-testid="swift-bic-code-value">
+            {{ bacs.swiftCode }}
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">What happens after you pay the fee</h2>
+      <p>We will let you know within 6 weeks if:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>we need more information from you</li>
+        <li>your application has been successful or not </li>
+      </ul>
+
+      {% if payment.caseType == "allocation" %}
+        <h2 class="govuk-heading-m">How to discharge a BNG planning condition</h2>
+        <p>If you are a developer or an agent for a developer, you will not be able to discharge your BNG planning condition until the local planning authority has reviewed what has been recorded on the biodiversity gain sites register and approved your biodiversity gain plan.</p>
+      {% endif %}
+
       <h2 class="govuk-heading-m">Give feedback about this service</h2>
       <p>
-        <a class="govuk-link" href="https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO" rel="noreferrer noopener" target="__blank">What did you think of this service (opens in new tab)?</a>
+        <a class="govuk-link" href="{{ applicationSubmittedSurveyLink }}" rel="noreferrer noopener" target="__blank">What did you think of this service (opens in new tab)?</a>
       </p>
+    {% endif %}
   </div>
+  {% include "common/assisted-digital-helpline.html" %}
 </div>
-{% endif %}
 
 {% endblock %}

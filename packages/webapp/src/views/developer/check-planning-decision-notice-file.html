@@ -1,4 +1,4 @@
-{% extends 'form-layout.html' %}
+{% extends 'developer-form-layout.html' %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
@@ -14,6 +14,7 @@
         {% set name = 'checkPlanningDecisionNotice' %}
         {% set id = 'check-upload-correct-yes' %}
         {% set downloadUrl = 'download-planning-decision-file' %}
+        {% set checkUploadCorrectYesText = 'Yes, this is the correct file' %}
         {% set checkUploadCorrectNoText = 'No, upload a different file' %}
         {% include "common/file-upload-check.html" %}
     </div>

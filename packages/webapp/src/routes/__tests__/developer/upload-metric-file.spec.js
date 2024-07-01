@@ -25,12 +25,13 @@ describe('Metric file upload controller tests', () => {
       formName: UPLOAD_METRIC_FORM_ELEMENT_NAME,
       postProcess: {
         metricData: {
-          d1: [{ 'Off-site reference': 'AZ12208461' }],
-          e1: [],
+          d2: [{ 'Off-site reference': 'AZ12208461' }],
+          e2: [],
           validation: {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
-            areOffsiteTotalsCorrect: true
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: false
           }
         }
       },
@@ -243,7 +244,7 @@ describe('Metric file upload controller tests', () => {
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
+          expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
@@ -269,6 +270,31 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
+          expect(spy).toHaveBeenCalledTimes(1)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should return validation error message if fails isDraftVersion', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const config = getBaseConfig()
+          config.filePath = `${mockDataPath}/metric-4.1-draft.xlsm`
+          config.hasError = true
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: true
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file must not be a draft version')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
