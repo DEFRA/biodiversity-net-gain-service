@@ -1,6 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 const errorText = 'Start typing and enter a country from the list'
 
 const getNationalitySelects = (enteredNationalities) => {
@@ -42,7 +43,7 @@ const handlers = {
       const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
       return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
     } else {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
         nationalitySelects: getNationalitySelects(),
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
         err: [{
@@ -57,9 +58,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

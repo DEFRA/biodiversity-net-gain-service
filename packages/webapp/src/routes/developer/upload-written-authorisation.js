@@ -5,6 +5,7 @@ import { uploadFile } from '../../utils/upload.js'
 import getDeveloperClientContext from '../../utils/get-developer-client-context.js'
 import { getMaximumFileSizeExceededView, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
@@ -20,14 +21,14 @@ const processSuccessfulUpload = (result, request, h) => {
 const processErrorUpload = (err, h) => {
   switch (err.message) {
     case constants.uploadErrors.emptyFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
           text: 'The selected file is empty',
           href: WRITTEN_AUTHORISATION_ID
         }]
       })
     case constants.uploadErrors.noFile:
-      return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
           text: 'Select the written authorisation file',
           href: WRITTEN_AUTHORISATION_ID
@@ -36,7 +37,7 @@ const processErrorUpload = (err, h) => {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return maximumSizeExceeded(h)
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
+      return h.redirectView(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
           href: WRITTEN_AUTHORISATION_ID
@@ -44,21 +45,21 @@ const processErrorUpload = (err, h) => {
       })
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
+        return h.redirectView(constants.views.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
             href: WRITTEN_AUTHORISATION_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(constants.views.DEVELOPER_.UPLOAD_WRITTEN_AUTHORISATION, {
+        return h.redirectView(constants.views.DEVELOPER_.UPLOAD_WRITTEN_AUTHORISATION, {
           err: [{
             text: constants.uploadErrors.threatDetected,
             href: WRITTEN_AUTHORISATION_ID
           }]
         })
       } else {
-        return h.view(constants.views.DEVELOPER_.UPLOAD_WRITTEN_AUTHORISATION, {
+        return h.redirectView(constants.views.DEVELOPER_.UPLOAD_WRITTEN_AUTHORISATION, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
             href: WRITTEN_AUTHORISATION_ID
@@ -123,11 +124,11 @@ const payload = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-  handler: handlers.post,
+  handler: addRedirectViewUsed(handlers.post),
   options: {
     payload
   }

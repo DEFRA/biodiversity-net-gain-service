@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { emailValidator, getErrById, validateName } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -9,7 +10,7 @@ const handlers = {
   post: async (request, h) => {
     const { emailAddresses, err } = getEmailAddressFromPayload(request)
     if (err.length > 0) {
-      return h.view(constants.views.DEVELOPER_EMAIL_ENTRY, { emailAddresses, err, getErrById })
+      return h.redirectView(constants.views.DEVELOPER_EMAIL_ENTRY, { emailAddresses, err, getErrById })
     }
 
     request.yar.set(constants.redisKeys.DEVELOPER_ADDITIONAL_EMAILS, [...emailAddresses])
@@ -66,9 +67,9 @@ const processFieldValues = (fullName, email, emailAddresses, err, index = 0) => 
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_EMAIL_ENTRY,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_EMAIL_ENTRY,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

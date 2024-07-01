@@ -15,8 +15,12 @@ describe(url, () => {
         viewResult = view
         resultContext = context
       },
-      redirect: (view, context) => {
+      redirect: (view) => {
         viewResult = view
+      },
+      redirectView: (view, context) => {
+        viewResult = view
+        resultContext = context
       }
     }
 

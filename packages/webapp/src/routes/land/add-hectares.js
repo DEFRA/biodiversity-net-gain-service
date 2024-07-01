@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -12,7 +13,7 @@ const handlers = {
     const hectares = request.payload.hectares
     const err = validateHectares(hectares)
     if (err) {
-      return h.view(constants.views.ADD_HECTARES, {
+      return h.redirectView(constants.views.ADD_HECTARES, {
         hectares,
         err: [{
           text: err,
@@ -43,9 +44,9 @@ const validateHectares = hectares => {
 export default [{
   method: 'GET',
   path: constants.routes.ADD_HECTARES,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.ADD_HECTARES,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

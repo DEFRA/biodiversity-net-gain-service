@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -10,7 +11,7 @@ const handlers = {
     const { individualOrOrganisation } = request.payload
 
     if (!individualOrOrganisation) {
-      return h.view(constants.views.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, {
+      return h.redirectView(constants.views.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION, {
         err: [{
           text: 'Select if your client is an individual or organisation',
           href: '#individualOrOrganisation'
@@ -36,9 +37,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

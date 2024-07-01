@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { redirectDeveloperClient } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -26,7 +27,7 @@ const handlers = {
     }
 
     if (organisationNameErr && organisationNameErr.length > 0) {
-      return h.view(constants.views.DEVELOPER_CLIENTS_ORGANISATION_NAME, {
+      return h.redirectView(constants.views.DEVELOPER_CLIENTS_ORGANISATION_NAME, {
         err: Object.values(organisationNameErr),
         organisationNameErr
       })
@@ -39,9 +40,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CLIENTS_ORGANISATION_NAME,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

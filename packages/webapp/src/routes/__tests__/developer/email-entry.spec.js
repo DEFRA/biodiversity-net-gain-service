@@ -66,6 +66,10 @@ const processEmailAddressesSubmission = async (emailAddresses) => {
     redirect: (view, context) => {
       viewResult = view
       resultContext = context
+    },
+    redirectView: (view, context) => {
+      viewResult = view
+      resultContext = context
     }
   }
   const redisMap = new Map()

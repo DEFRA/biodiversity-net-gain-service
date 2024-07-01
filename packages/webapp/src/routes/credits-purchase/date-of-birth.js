@@ -4,6 +4,7 @@ import {
   validateAndParseISOString,
   validateDate, getValidReferrerUrl
 } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: (request, h) => {
@@ -22,7 +23,7 @@ const handlers = {
     const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'date of birth, for example 31 3 1980', 'Date of birth', true)
 
     if (context.err) {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
         day,
         month,
         year,
@@ -40,9 +41,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

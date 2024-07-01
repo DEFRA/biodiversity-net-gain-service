@@ -138,6 +138,9 @@ describe(url, () => {
             redirect: (view) => {
               viewResult = view
             },
+            redirectView: (view) => {
+              viewResult = view
+            },
             view: (view) => {
               viewResult = view
             }

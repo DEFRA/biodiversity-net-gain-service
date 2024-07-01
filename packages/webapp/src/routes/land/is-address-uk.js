@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -18,7 +19,7 @@ const handlers = {
     } else if (isAddressUk === 'no') {
       return h.redirect(constants.routes.NON_UK_ADDRESS)
     } else {
-      return h.view(constants.views.IS_ADDRESS_UK, {
+      return h.redirectView(constants.views.IS_ADDRESS_UK, {
         err: [{
           text: `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`,
           href: '#is-address-uk-yes'
@@ -33,9 +34,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.IS_ADDRESS_UK,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.IS_ADDRESS_UK,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]
