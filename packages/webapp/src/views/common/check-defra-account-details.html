@@ -10,11 +10,12 @@
   {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-      <p>We will use the information in your Defra account to identify you and to contact you about this application.</p>
+      <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
+      <p>We will use the information in your Defra account to identify you and to contact you about your application.</p>
       {% if applicationSpecificGuidance %}
         <p>
-          {% if organisation %}<strong>{{ subject }}</strong>{% else %}<strong>{{ subject }}</strong> {% endif %}{{applicationSpecificGuidance}}
+          {% if organisation %}<strong>{{ subject }}</strong>{% else %}<strong>{{ subject }}</strong> {% endif %}
+          {{applicationSpecificGuidance}}
         </p>
       {% endif %}
       <p><a href="{{ auth.accountManagementUrl }}" target="__blank" rel="noreferrer noopener"> Check your Defra account details</a></a></p>
@@ -24,7 +25,7 @@
           legend: {
             text: "Confirm your Defra account details are up to date",
             isPageHeading: true,
-            classes: "govuk-fieldset__legend--l"
+            classes: "govuk-fieldset__legend--m"
           }
         },
         errorMessage: err[0],
@@ -36,7 +37,7 @@
         ]
       }) }}
       {{ govukButton({
-        text: "Continue",
+        text: "Confirm and continue",
         attributes: {
           id: "continue",
           "data-testid": "continue"

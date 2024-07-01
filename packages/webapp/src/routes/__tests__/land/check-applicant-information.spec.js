@@ -11,6 +11,7 @@ describe(url, () => {
     redisMap = new Map()
 
     redisMap.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, 'true')
+    redisMap.set(constants.redisKeys.IS_ADDRESS_UK_KEY, 'yes')
     redisMap.set(constants.redisKeys.UK_ADDRESS_KEY, {
       addressLine1: '123 The Street',
       town: 'Townsville',
@@ -28,10 +29,15 @@ describe(url, () => {
         lastName: 'Smith'
       }
     })
+    redisMap.set(constants.redisKeys.IS_AGENT, 'yes')
+    redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
     redisMap.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, 'Land Company Ltd')
     redisMap.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, 'me@me.com')
     redisMap.set(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY, '07000000000')
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, '/a-location/somewhere/authfile.pdf')
+    redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, 7515)
+    redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, 'application/pdf')
+    redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED, 'yes')
   })
 
   describe('GET', () => {
@@ -145,7 +151,29 @@ describe(url, () => {
       expect(contextResult.authorisationFile).toEqual('authfile.pdf')
     })
   })
-
+  describe('GET', () => {
+    it('should redirect to REGISTER_LAND_TASK_LIST view if mandatory data missing', done => {
+      jest.isolateModules(async () => {
+        try {
+          redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, undefined)
+          let redirectArgs = ''
+          const request = {
+            yar: redisMap
+          }
+          const h = {
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+          await checkApplicantInfoDetails[0].handler(request, h)
+          expect(redirectArgs).toEqual([constants.routes.REGISTER_LAND_TASK_LIST])
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+  })
   describe('POST', () => {
     it('Should flow to register task list', async () => {
       const postHandler = checkApplicantInfoDetails[1].handler

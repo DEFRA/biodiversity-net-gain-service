@@ -1,0 +1,75 @@
+{% extends 'developer-form-layout.html' %}
+
+{% set pageHeading = "Development project details" %}
+
+{% block formContent %}
+  <div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            {{ pageHeading }}
+        </h1>
+        <form method="post" >
+          {{ govukInput({
+              label: {
+                text: "Development project name",
+                classes: "govuk-label"
+              },
+              hint: {
+                text: "Your development name helps identify your project.",
+                classes: "govuk-hint"
+              },
+              id: "development-name-value",
+              name: "developmentName",
+              errorMessage: errors.developmentNameError,
+              autocomplete: "developmentame",
+              spellcheck: false,
+              value: developmentName,
+              classes: 'govuk-input--width-20'
+            })
+          }}
+
+          {% include "common/select-local-planning-authority.html" %}
+
+          {{ govukInput({
+              label: {
+                text: "Planning application reference",
+                classes: "govuk-label"
+              },
+              hint: {
+                text: "You'll find this in the planning decision notice your LPA sent after approving your planning application.",
+                classes: "govuk-hint"
+              },
+              id: "planning-application-reference-value",
+              name: "planningApplicationRef",
+              errorMessage: errors.planningApplicationRefError,
+              autocomplete: "planning-application-reference",
+              spellcheck: false,
+              value: planningApplicationRef,
+              classes: 'govuk-input--width-20'
+            })
+          }}
+        </form>
+      </div>
+    </div>
+
+
+    <div class="moj-button-action">
+      {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+              id: "continue",
+              "data-testid": "continue"
+          }
+      }) }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block pageScripts %}
+  <script src="{{assetPath}}/js/addPlanningAuthority.js"></script>
+{% endblock %}

@@ -2,6 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -52,6 +53,11 @@ const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequir
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
+const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information', '/land/check-and-submit']
+const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
+const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
+const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const TEST_API_GAINSITE = 'test/api/gainsite'
 
 const applicationTypes = {
   REGISTRATION,
@@ -195,7 +201,8 @@ let routes = {
 const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
-  TEST_CREDITS_PURCHASE_DATA
+  TEST_CREDITS_PURCHASE_DATA,
+  TEST_API_GAINSITE
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -234,12 +241,12 @@ const uploadTypes = {
 // to return to from a "check your answers" page
 const setReferer = [
   ...lojConstants.setLojReferer,
-  ...developerConstants.setDeveloperReferer
+  ...developerConstants.setDeveloperReferer,
+  ...creditsPurchaseConstants.setCreditReferer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...lojConstants.clearLojReferer,
   ...developerConstants.clearDeveloperReferer
 ]
 
@@ -315,5 +322,9 @@ export default Object.freeze({
   ADDRESS_IS_UK,
   ADDRESS_TYPES,
   DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
-  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED,
+  LAND_APPLICANT_INFO_VALID_REFERRERS,
+  LAND_BOUNDARY_VALID_REFERRERS,
+  LAND_METRIC_VALID_REFERRERS,
+  LAND_LEGAL_AGREEMENT_VALID_REFERRERS
 })

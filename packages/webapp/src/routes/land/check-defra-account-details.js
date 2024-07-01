@@ -1,15 +1,9 @@
 import constants from '../../utils/constants.js'
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
-    })
     // Clear any previous confirmation every time this page is accessed as part of forcing the user to confirm
     // their account details are correct based on who they are representing in the current session.
     request.yar.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, true)
@@ -19,7 +13,8 @@ const handlers = {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
     if (defraAccountDetailsConfirmed) {
       request.yar.set(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || redirect(request.yar, h))
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      return h.redirect(referrerUrl || redirect(request.yar, h))
     } else {
       return h.view(constants.views.CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),

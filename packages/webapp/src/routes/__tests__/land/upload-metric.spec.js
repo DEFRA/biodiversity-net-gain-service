@@ -24,7 +24,8 @@ describe('Metric file upload controller tests', () => {
           validation: {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
-            areOffsiteTotalsCorrect: true
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: false
           }
         }
       },
@@ -98,7 +99,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must be an XLSM or XLSX')
           setImmediate(() => {
             done()
           })
@@ -113,7 +116,9 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('Select a statutory biodiversity metric')
           setImmediate(() => {
             done()
           })
@@ -129,7 +134,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -145,7 +152,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain('The selected file must not be larger than 50MB')
           setImmediate(() => {
             done()
           })
@@ -252,6 +261,31 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
+          expect(spy).toHaveBeenCalledTimes(2)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should return validation error message if fails isDraftVersion', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const config = getBaseConfig()
+          config.filePath = `${mockDataPath}/metric-4.1-draft.xlsm`
+          config.hasError = true
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: true
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file must not be a draft version')
           expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()

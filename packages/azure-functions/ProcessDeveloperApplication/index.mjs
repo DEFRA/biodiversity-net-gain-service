@@ -15,7 +15,7 @@ const buildConfig = body => {
       message: body
     },
     res: {
-      gainSiteReference: body.developerAllocation.gainSiteReference
+      allocationReference: body.developerRegistration.allocationReference
     }
   }
 }
@@ -26,25 +26,25 @@ export default async function (context, req) {
   try {
     // Generate gain site reference if not already present
     db = await getDBConnection(context)
-    if (!req.body.developerAllocation.gainSiteReference) {
+    if (!req.body.developerRegistration.allocationReference) {
       const applicationReference = await createApplicationReference(db)
-      req.body.developerAllocation.gainSiteReference = applicationReference.rows[0].fn_create_application_reference
-      req.body.developerAllocation.payment.reference = applicationReference.rows[0].fn_create_application_reference
+      req.body.developerRegistration.allocationReference = applicationReference.rows[0].application_reference
+      req.body.developerRegistration.payment.reference = applicationReference.rows[0].application_reference
     } else {
       // Check if application has been submitted and throw error if true
-      const status = await getApplicationStatus(db, [req.body.developerAllocation.gainSiteReference])
+      const status = await getApplicationStatus(db, [req.body.developerRegistration.allocationReference])
       if (status.rows.length > 0 && status.rows[0].application_status === applicationStatuses.submitted) {
-        context.log(`Duplicate submission detected ${req.body.developerAllocation.gainSiteReference}`)
+        context.log(`Duplicate submission detected ${req.body.developerRegistration.allocationReference}`)
         throw new DuplicateApplicationReferenceError(
-          req.body.developerAllocation.gainSiteReference,
+          req.body.developerRegistration.allocationReference,
           'Application reference has already been processed'
         )
       }
       // Clear out saved application (reference was generated from saving)
-      await deleteApplicationSession(db, [req.body.developerAllocation.gainSiteReference])
+      await deleteApplicationSession(db, [req.body.developerRegistration.allocationReference])
     }
     // Set status of application to submitted
-    await insertApplicationStatus(db, [req.body.developerAllocation.gainSiteReference, applicationStatuses.submitted])
+    await insertApplicationStatus(db, [req.body.developerRegistration.allocationReference, applicationStatuses.submitted])
 
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
@@ -52,7 +52,7 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(config.res)
     }
-    context.log(`Processed ${req.body.developerAllocation.gainSiteReference}`)
+    context.log(`Processed ${req.body.developerRegistration.allocationReference}`)
   } catch (err) {
     context.log.error(err)
     context.res = {

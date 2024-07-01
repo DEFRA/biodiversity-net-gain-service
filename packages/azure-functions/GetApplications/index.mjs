@@ -1,7 +1,6 @@
 import {
   getApplicationCountByContactIdAndOrganisationId,
-  getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType,
-  getApplicationSessionByReferenceContactIdAndApplicationType
+  getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType
 } from '../Shared/db-queries.js'
 import { getDBConnection } from '@defra/bng-utils-lib'
 
@@ -50,16 +49,9 @@ export default async function (context, req) {
 const getApplicationData = async (db, contactId, organisationId, applicationType) => {
   const applicationData = []
   const applicationStatusesResult = await getApplicationStatusesByContactIdAndOrganisationIdAndApplicationType(db, [contactId, organisationId, applicationType])
-
   for (const row of applicationStatusesResult.rows) {
-    let projectName = ''
     const applicationReference = row.application_reference
-
-    if (applicationType === 'CreditsPurchase') {
-      const applicationSession = await getApplicationSessionByReferenceContactIdAndApplicationType(db, [applicationReference, contactId, applicationType])
-      projectName = applicationSession?.rows[0]?.application_session['credits-purchase-metric-data']?.startPage?.projectName
-    }
-
+    const projectName = row.project_name
     applicationData.push({
       projectName,
       applicationReference,

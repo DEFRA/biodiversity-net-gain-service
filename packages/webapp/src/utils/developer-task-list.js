@@ -45,6 +45,21 @@ const developerTaskList = {
       ]
     },
     {
+      taskTitle: 'Development project information',
+      tasks: [
+        {
+          title: 'Add development project information',
+          status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
+          completedTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          startTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          inProgressUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+          id: 'add-devlopment-project-information'
+
+        }
+      ]
+    },
+
+    {
       taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
       tasks: [
         {
@@ -63,9 +78,9 @@ const developerTaskList = {
         {
           title: 'Check your answers before you submit them to us',
           status: 'CANNOT START YET',
-          completedTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          startTaskUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
-          inProgressUrl: constants.routes.DEVELOPER_CHECK_ANSWERS,
+          completedTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          startTaskUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+          inProgressUrl: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
           id: 'check-your-answer'
         }
       ]

@@ -1,63 +1,92 @@
+import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import {
-  processRegistrationTask,
-  getLegalAgreementDocumentType
-} from '../../utils/helpers.js'
+import { validateTextInput, checkForDuplicate, emailValidator, getLegalAgreementDocumentType, validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
 
+const organisationNameID = '#organisationName'
+const emailID = '#emailAddress'
+const validateOrganisation = organisation => {
+  const errors = {}
+  const organisationNameError = validateTextInput(organisation.organisationName, organisationNameID, 'Organisation name', 50, 'landowner or leaseholder')
+  if (organisationNameError) {
+    errors.organisationNameError = organisationNameError.err[0]
+  }
+  const emailAddressError = emailValidator(organisation.emailAddress, emailID)
+  if (emailAddressError?.err?.length > 0) {
+    errors.emailAddressError = emailAddressError.err[0]
+  }
+  return errors
+}
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_LANDOWNER_ORGANISATION
-    })
-
     const { id } = request.query
-
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST)
-
-    let organisationName
-
-    if (id) {
-      organisationName = lpaList[id].value
+    let organisation = {
+      organisationName: '',
+      emailAddress: ''
     }
-
+    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+    if (id) {
+      organisation = landownerOrganisations[id]
+    }
     return h.view(constants.views.ADD_LANDOWNER_ORGANISATION, {
-      organisationName,
-      legalAgreementType
+      legalAgreementType,
+      organisation
     })
   },
   post: async (request, h) => {
-    const { organisationName } = request.payload
+    const organisation = request.payload
+    organisation.type = constants.individualOrOrganisationTypes.ORGANISATION
+    const { id } = request.query
+    const legalAgreementType = getLegalAgreementDocumentType(
+      request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
+    let errors = {}
+    const landownerOrganisations = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS) ?? []
+    const excludeIndex = id !== undefined ? parseInt(id, 10) : null
 
-    if (!organisationName) {
-      const organisationNameErr = [{
-        text: 'Organisation name must be 2 characters or more',
-        href: 'organisationName'
-      }]
-
+    errors = validateOrganisation(organisation)
+    if (isEmpty(errors)) {
+      const duplicateError = checkForDuplicate(
+        landownerOrganisations,
+        'organisationName',
+        organisation.organisationName,
+        '#organisationName',
+        'This organisation has already been added - enter a different organisation, if there is one',
+        excludeIndex
+      )
+      if (duplicateError) {
+        errors.organisationNameError = duplicateError.err
+      }
+    }
+    if (!isEmpty(errors)) {
       return h.view(constants.views.ADD_LANDOWNER_ORGANISATION, {
-        err: Object.values(organisationNameErr),
-        organisationNameErr
+        organisation,
+        legalAgreementType,
+        emailAddressError: errors.emailAddressError,
+        err: Object.values(errors),
+        ...errors
       })
     }
 
-    const lpaList = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST) ?? []
-    lpaList.push({ type: 'organisation', value: organisationName })
-
-    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LPA_LIST, lpaList)
-    return h.redirect(constants.routes.LEGAL_AGREEMENT_LPA_LIST)
+    if (id) {
+      landownerOrganisations.splice(id, 1, organisation)
+    } else {
+      landownerOrganisations.push(organisation)
+    }
+    request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
   }
 }
+
 export default [{
   method: 'GET',
   path: constants.routes.ADD_LANDOWNER_ORGANISATION,
-  handler: handlers.get
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: constants.routes.ADD_LANDOWNER_ORGANISATION,
-  handler: handlers.post
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
 }]

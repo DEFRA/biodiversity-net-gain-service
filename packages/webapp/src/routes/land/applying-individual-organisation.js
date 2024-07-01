@@ -1,7 +1,6 @@
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
-
+import { getValidReferrerUrl } from '../../utils/helpers.js'
 const individualSignInErrorMessage = `
   You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
   Register for or sign into a Defra account representing an organisation before continuing this application`
@@ -12,13 +11,6 @@ const organisationSignInErrorMessage = `
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
-    })
-
     return h.view(constants.views.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, getContext(request))
   },
   post: async (request, h) => {
@@ -32,7 +24,8 @@ const handlers = {
 
       if ((individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL && !organisation) ||
           (individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION && organisation)) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
+        const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+        return h.redirect(referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
       // Add temporary basic sad path logic until sad path logic is agreed.
       } else if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
         // Individual has been chosen as the landowner type but the user is signed in representing an organisation.

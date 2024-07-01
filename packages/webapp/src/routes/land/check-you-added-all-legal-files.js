@@ -1,9 +1,8 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
-
 import {
+  getValidReferrerUrl,
   getHumanReadableFileSize,
-  processRegistrationTask,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
 
@@ -32,12 +31,6 @@ const getCustomizedHTML = (item, index) => {
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_FILES
-    })
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
@@ -61,13 +54,14 @@ const handlers = {
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
     const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED, checkLegalAgreement)
+    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     if (checkLegalAgreement === 'no') {
       return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     } else if (checkLegalAgreement === 'yes') {
       if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
+        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
       } else {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
+        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
       }
     } else {
       const err = [{

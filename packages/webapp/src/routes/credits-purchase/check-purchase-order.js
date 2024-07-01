@@ -1,4 +1,4 @@
-import { checked, validateLengthOfCharsLessThan50 } from '../../utils/helpers.js'
+import { checked, validateLengthOfCharsLessThan50, getValidReferrerUrl } from '../../utils/helpers.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
 const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
@@ -10,7 +10,7 @@ const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
     }]
   } else if (purchaseOrderUsed === 'yes' && !purchaseOrderNumber?.trim()) {
     error.err = [{
-      text: 'Purchase order number cannot be left blank',
+      text: 'Enter a purchase order number',
       href: '#purchaseOrderNumber'
     }, {
       text: '',
@@ -53,8 +53,8 @@ const handlers = {
     } else {
       request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
     }
-
-    return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+    const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+    return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   }
 }
 

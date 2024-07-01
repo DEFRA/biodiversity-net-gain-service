@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  processRegistrationTask,
   getLegalAgreementDocumentType,
   checkForDuplicate,
   validateIdGetSchemaOptional
@@ -10,13 +9,6 @@ const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
   get: (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.ADD_PLANNING_AUTHORITY
-    })
-
     const { id } = request.query
     const lpaNames = getLpaNames(filePathAndName)
 
@@ -43,30 +35,30 @@ const handlers = {
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST) ?? []
-    let localPlanningAuthorityNameErr
+    const errors = {}
     const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
 
     if (!selectedLpa) {
-      localPlanningAuthorityNameErr = [{
-        text: 'Enter a local planning authority',
-        href: 'localPlanningAuthority'
-      }]
+      errors.emptyLocalPlanningAuthority = {
+        text: 'Enter and select a local planning authority',
+        href: '#localPlanningAuthorityErr'
+      }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
-        err: Object.values(localPlanningAuthorityNameErr),
-        localPlanningAuthorityNameErr,
+        err: Object.values(errors),
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })
     }
 
     if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
-      const localPlanningAuthorityNameErr = [{
+      errors.invalidLocalPlanningAuthorityError = {
         text: 'Enter a valid local planning authority',
-        href: 'localPlanningAuthority'
-      }]
+        href: '#invalidLocalPlanningAuthorityError'
+      }
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
-        err: Object.values(localPlanningAuthorityNameErr),
-        localPlanningAuthorityNameErr,
+        err: Object.values(errors),
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })
@@ -77,14 +69,14 @@ const handlers = {
       lpaList,
       null,
       selectedLpa,
-      '#localPlanningAuthority',
+      '#duplicateLocalPlanningAuthorityErr',
       'This local planning authority has already been added - enter a different local planning authority, if there is one',
       excludeIndex
     )
     if (duplicateError) {
       return h.view(constants.views.ADD_PLANNING_AUTHORITY, {
         err: Object.values(duplicateError),
-        localPlanningAuthorityNameErr,
+        errors,
         legalAgreementType,
         lpaNames: refLpaNames
       })

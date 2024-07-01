@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
-  getLegalAgreementDocumentType
+  getLegalAgreementDocumentType,
+  getValidReferrerUrl
 } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
@@ -25,12 +25,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_PLANNING_AUTHORITIES
-    })
     const lpaList = request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
     if (lpaList && lpaList.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
@@ -64,7 +58,8 @@ const handlers = {
     }
     if (addAnotherPlanningAuthority === 'yes') {
       request.yar.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     if (addAnotherPlanningAuthority === 'no') {
       return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)

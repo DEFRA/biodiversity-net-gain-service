@@ -1,6 +1,5 @@
 import getApplicantContext from '../../utils/get-applicant-context.js'
 import constants from '../../utils/constants.js'
-import { processRegistrationTask } from '../../utils/helpers.js'
 
 const individualSignInErrorMessage = `
   You cannot apply as an organisation because the Defra account you’re signed into is linked to an individual.
@@ -12,13 +11,6 @@ const organisationSignInErrorMessage = `
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Applicant information',
-      title: 'Add details about the applicant'
-    }, {
-      inProgressUrl: constants.routes.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
-    })
-
     return h.view(constants.views.DEVELOPER_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION, getContext(request))
   },
   post: async (request, h) => {
@@ -51,7 +43,8 @@ const handlers = {
 
 const getContext = request => {
   return {
-    individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE)
+    individualOrOrganisation: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_TYPE),
+    clientIsNotLandownerOrLeaseholder: request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
   }
 }
 
@@ -67,7 +60,7 @@ const getErrorView = (h, request, errorMessage) => {
 
 const processOrganisationLandownerError = (h, request, noOrganisationsLinkedToDefraAccount) => {
   if (noOrganisationsLinkedToDefraAccount) {
-    return h.redirect(constants.routes.DEFRA_ACCOUNT_NOT_LINKED)
+    return h.redirect(constants.routes.DEVELOPER_DEFRA_ACCOUNT_NOT_LINKED)
   } else {
     return getErrorView(h, request, individualSignInErrorMessage)
   }

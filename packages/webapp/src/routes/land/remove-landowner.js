@@ -1,18 +1,12 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, validateIdGetSchemaOptional } from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'landowner remove'
-    }, {
-      inProgressUrl: constants.routes.REMOVE_LANDOWNER
-    })
     const { id } = request.query
     const landownerConversationConvenants = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
     if (landownerConversationConvenants.length === 0) {
-      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT)
+      return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS)
     }
     let landownerToRemove
     let landownerToRemoveText
@@ -52,7 +46,7 @@ const handlers = {
       landownerConversationConvenants.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerConversationConvenants)
     }
-    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT) }
+    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS) }
     return h.redirect(constants.routes.CHECK_LANDOWNERS)
   }
 }

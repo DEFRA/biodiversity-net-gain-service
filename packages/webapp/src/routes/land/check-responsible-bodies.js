@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { processRegistrationTask, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -22,12 +22,6 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_RESPONSIBLE_BODIES
-    })
     const legalAgreementResponsibleBodies = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
     if (legalAgreementResponsibleBodies.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
@@ -63,7 +57,8 @@ const handlers = {
     }
     if (addAnotherResponsibleBody === 'yes') {
       request.yar.set(constants.redisKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.ANY_OTHER_LANDOWNERS)
+      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
     }
     return h.redirect(constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT)
   }

@@ -1,3 +1,5 @@
+import { retryDbOperation, randomReferenceString } from './reference-helpers.js'
+
 const applicationStatuses = Object.freeze({
   inProgress: 'IN PROGRESS',
   received: 'RECEIVED'
@@ -54,6 +56,7 @@ const getApplicationCountByContactIdAndOrganisationIdStatement = `
 const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatement = `
   (SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.received}' AS application_status
   FROM
@@ -67,6 +70,7 @@ const getApplicationStatusesByContactIdAndOrganisationIdAndApplicationTypeStatem
   UNION
   SELECT
     ar.application_reference,
+    ar.project_name,
     aps.date_modified,
     '${applicationStatuses.inProgress}' AS application_status
   FROM
@@ -124,8 +128,32 @@ const getApplicationStatusStatement = `
     date_modified DESC
   LIMIT 1;
 `
+const updateProjectNameStatement = `
+  UPDATE bng.application_reference
+  SET project_name = $2
+  WHERE application_reference = $1 AND project_name IS DISTINCT FROM $2;
+`
 
-const createApplicationReference = (db, values) => db.query('SELECT bng.fn_create_application_reference($1, $2, $3);', values)
+const insertApplicationReferenceStatement = `
+  INSERT INTO
+      bng.application_reference(application_reference, contact_id, application_type, organisation_id)
+    VALUES
+      ($1, $2, $3, $4)
+    RETURNING application_reference;
+`
+
+const registrationAppPrefix = 'BNGREG'
+const creditsAppPrefix = 'BNGCRD'
+
+const createUniqueApplicationReference = (prefix, db, values) => {
+  const firstRandomString = randomReferenceString(5)
+  const secondRandomString = randomReferenceString(4)
+  const referenceString = `${prefix}-${firstRandomString}-A${secondRandomString}`
+
+  return db.query(insertApplicationReferenceStatement, [...[referenceString], ...values])
+}
+
+const createApplicationReference = (db, values) => retryDbOperation(createUniqueApplicationReference, [registrationAppPrefix, db, values])
 
 const saveApplicationSession = (db, values) => db.query(insertApplicationSessionStatement, values)
 
@@ -151,7 +179,9 @@ const insertApplicationStatus = (db, values) => db.query(insertApplicationStatus
 
 const getApplicationStatus = (db, values) => db.query(getApplicationStatusStatement, values)
 
-const createCreditsAppReference = (db, values) => db.query('SELECT bng.fn_create_credits_app_reference($1, $2, $3);', values)
+const updateProjectName = (db, values) => db.query(updateProjectNameStatement, values)
+
+const createCreditsAppReference = (db, values) => retryDbOperation(createUniqueApplicationReference, [creditsAppPrefix, db, values])
 
 export {
   createApplicationReference,
@@ -168,5 +198,6 @@ export {
   insertApplicationStatus,
   getApplicationStatus,
   applicationStatuses,
+  updateProjectName,
   createCreditsAppReference
 }

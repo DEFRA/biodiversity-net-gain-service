@@ -1,6 +1,5 @@
 import constants from '../../utils/constants.js'
 import {
-  processRegistrationTask,
   getResponsibleBodies,
   getDateString,
   listArray,
@@ -16,13 +15,6 @@ import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/tas
 import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
-    processRegistrationTask(request, {
-      taskTitle: 'Legal information',
-      title: 'Add legal agreement details'
-    }, {
-      inProgressUrl: constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
-    })
-
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
     if (registrationTaskStatus !== 'COMPLETED') {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
@@ -33,7 +25,6 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    processRegistrationTask(request, { taskTitle: 'Legal information', title: 'Add legal agreement details' }, { status: constants.COMPLETE_REGISTRATION_TASK_STATUS })
     return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
   }
 }
