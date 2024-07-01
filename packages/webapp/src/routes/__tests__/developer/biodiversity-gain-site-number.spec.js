@@ -1,6 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 import wreck from '@hapi/wreck'
+import { BACKEND_API } from '../../../utils/config.js'
 const url = constants.routes.DEVELOPER_BNG_NUMBER
 
 describe(url, () => {
@@ -169,18 +170,17 @@ describe(url, () => {
       expect(viewResult).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
     })
 
-    // TODO: Either configure BACKEND_API_CODE_QUERY_PARAMETER env var with a test value, or mock
-    // `BACKEND_API.CODE_QUERY_PARAMETER` in config.js
     it('Should call the API with a `code` query param if one is configured', done => {
       jest.isolateModules(async () => {
         try {
           jest.resetAllMocks()
           jest.mock('@hapi/wreck')
           const spy = jest.spyOn(wreck, 'get')
+          jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', 'test123')
 
           postOptions.payload.bgsNumber = 'BGS-010124001'
           await submitPostRequest(postOptions)
-          expect(spy.mock.calls[0][0]).toContain('code=')
+          expect(spy.mock.calls[0][0]).toContain('code=test123')
           done()
         } catch (err) {
           done(err)
