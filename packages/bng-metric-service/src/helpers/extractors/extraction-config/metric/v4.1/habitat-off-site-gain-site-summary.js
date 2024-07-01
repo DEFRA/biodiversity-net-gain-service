@@ -7,7 +7,7 @@ const habitatOffSiteGainSiteSummary = {
   sheetName: 'Off-site gain site summary',
   titleCellAddress: 'B3',
   startCell: 'B5',
-  endCell: 'L107',
+  endCell: 'M107',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

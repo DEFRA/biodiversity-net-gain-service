@@ -7,8 +7,22 @@ import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-li
 
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
-const filterByBGN = (metricSheetRows, request) => metricSheetRows?.filter(row =>
-  String(row['Off-site reference']) === String(request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)))
+const filterByBGN = (metricSheetRows, bgsNumber) => metricSheetRows?.filter(row =>
+  String(row['Off-site reference']) === String(bgsNumber))
+
+const checkBGS = (metricData, bgsNumber) => {
+  const sheetsToCheck = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+
+  for (const sheet of sheetsToCheck) {
+    const sheetRows = metricData[sheet]
+
+    if (Array.isArray(sheetRows) && filterByBGN(sheetRows, bgsNumber).length > 0) {
+      return true
+    }
+  }
+
+  return false
+}
 
 const processSuccessfulUpload = async (result, request, h) => {
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID)
@@ -23,8 +37,8 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  if (Array.isArray(result.postProcess.metricData?.d1) && filterByBGN(result.postProcess.metricData?.d1, request).length === 0 &&
-    Array.isArray(result.postProcess.metricData?.e1) && filterByBGN(result.postProcess.metricData?.e1, request).length === 0) {
+  const hasBGS = checkBGS(result.postProcess.metricData, request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
+  if (!hasBGS) {
     const error = {
       err: [
         {

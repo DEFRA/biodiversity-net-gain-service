@@ -25,7 +25,8 @@ describe('Metric file upload controller tests', () => {
           validation: {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
-            areOffsiteTotalsCorrect: true
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: false
           }
         }
       },
@@ -181,7 +182,7 @@ describe('Metric file upload controller tests', () => {
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file must use Biodiversity Metric version 4.1')
+          expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
@@ -192,21 +193,45 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should return validation error message if fails isOffSiteDataPresent', (done) => {
+    it('should not show error message if fails isOffSiteDataPresent', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.hasError = true
+          config.hasError = false
           config.postProcess.metricData.validation = {
             isSupportedVersion: true,
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
           const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file does not have enough data')
+          expect(response.result).not.toContain('The selected file does not have enough data')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return validation error message if fails isDraftVersion', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          jest.mock('../../../utils/azure-storage.js')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const config = getBaseConfig()
+          config.filePath = `${mockDataPath}/metric-4.1-draft.xlsm`
+          config.hasError = true
+          config.postProcess.metricData.validation = {
+            isSupportedVersion: true,
+            isOffsiteDataPresent: true,
+            areOffsiteTotalsCorrect: true,
+            isDraftVersion: true
+          }
+          const response = await uploadFile(config)
+          expect(response.result).toContain('The selected file must not be a draft version')
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()

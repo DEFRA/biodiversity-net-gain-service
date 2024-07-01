@@ -49,38 +49,32 @@ describe(url, () => {
         taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Add planning decision notice',
+            title: 'Add biodiversity gain site details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'gain-site-allocation-info'
+          },
+          {
+            title: 'Add development project details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
+          },
+          {
+            title: 'Upload planning decision notice',
             status: 'NOT STARTED',
             url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
             id: 'planning-decision-notice'
-          },
-          {
-            title: 'Add biodiversity gain site number',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
           }
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
-        taskTitle: 'Submit your biodiversity gain information',
+        taskTitle: 'Submit your off-site gains information',
         tasks: [
           {
-            title: 'Check your answers before you submit them',
+            title: 'Check your answers and submit',
             status: 'CANNOT START YET',
-            url: constants.routes.DEVELOPER_CHECK_ANSWERS,
+            url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
             id: 'check-your-answers'
           }
         ]
@@ -118,28 +112,22 @@ describe(url, () => {
         taskTitle: 'Development information',
         tasks: [
           {
-            title: 'Add planning decision notice',
+            title: 'Add biodiversity gain site details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            id: 'gain-site-allocation-info'
+          },
+          {
+            title: 'Add development project details',
+            status: 'NOT STARTED',
+            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            id: 'add-devlopment-project-information'
+          },
+          {
+            title: 'Upload planning decision notice',
             status: 'COMPLETED',
             url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
             id: 'planning-decision-notice'
-          },
-          {
-            title: 'Add biodiversity gain site number',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
-            id: 'biodiversity-gain-site-number'
-          },
-          {
-            title: 'Add statutory biodiversity metric calculations',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_METRIC,
-            id: 'biodiversity-metric-calculations'
-          },
-          {
-            title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS,
-            id: 'confirm-development-habitat-details'
           }
         ]
       })

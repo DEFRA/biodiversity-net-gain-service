@@ -1,10 +1,10 @@
-import { randomBytes } from 'crypto'
+import crypto from 'crypto'
 
 const randomReferenceString = (length) => {
   const chars = '0123456789ABCDEFGHJKMNPRTUVWXY'
   let result = ''
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(randomBytes(1)[0] / 255 * chars.length)
+    const randomIndex = crypto.randomInt(0, chars.length)
     result += chars[randomIndex]
   }
   return result

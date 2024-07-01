@@ -33,13 +33,9 @@ const getFiles = session => {
 }
 
 const application = (session, account) => {
-  const stringOrNull = value => value ? String(value) : null
-
-  const metricData = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_METRIC_DATA)
-  const developmentName = stringOrNull(metricData.startPage.projectName)
-  const planningReference = stringOrNull(metricData.startPage.planningApplicationReference)
-  const planningAuthorityName = stringOrNull(metricData.startPage.planningAuthority)
-
+  const planningReference = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
+  const planningAuthorityName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+  const developmentName = session.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
   const applicationDetails = {
     creditsPurchase: {
       applicant: {

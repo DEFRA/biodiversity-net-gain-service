@@ -11,8 +11,13 @@ describe('Proof of ownership upload controller tests', () => {
     it(`should render the ${url.substring(1)} view for a landowner or agent with a client who is a landowner`, async () => {
       await submitGetRequest({ url }, 200, { 'developer-is-agent': 'no' })
     })
+
     it(`should render the ${url.substring(1)} view for an agent with a client who is not a landowner `, async () => {
-      await submitGetRequest({ url }, 200, { 'developer-is-agent': 'yes', 'developer/landowner-or-leaseholder': 'no' })
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.YES
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('Proof of permission 1 of 2')
     })
   })
 

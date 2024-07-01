@@ -182,7 +182,8 @@ const getLandowners = landOwners => {
 
   landOwners.forEach(item => {
     if (item.type === 'organisation') {
-      organisationNames.push(item.organisationName)
+      const organisationName = `${item.organisationName} (${item.emailAddress})`
+      organisationNames.push(organisationName)
     } else if (item.type === 'individual') {
       const nameParts = [item.firstName, item.middleNames, item.lastName].filter(Boolean)
       const individualName = nameParts.join(' ') + ` (${item.emailAddress})`
@@ -319,6 +320,29 @@ const combineHabitats = habitatTypeAndCondition => {
   return combinedHabitatTypeAndCondition
 }
 
+const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
+  const filteredMetricData = {}
+  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+
+  sheetLabels.forEach(label => {
+    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+
+    // calculate the area based on the filtered out habitats and add to the habitat array
+    // as the last entry, this is then used by habitatTypeAndConditionMapper later
+    const unitKey = habitatTypeMap[label].unitKey
+    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => {
+      const habitatArea = cur[unitKey] ?? 0
+      return acc + habitatArea
+    }, 0)
+    filteredMetricData[label].push({
+      [unitKey]: measurementTotal
+    })
+  })
+
+  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
+  return combineHabitats(habitats)
+}
+
 const validateName = (fullName, hrefId) => {
   const error = {}
   if (!fullName) {
@@ -337,6 +361,19 @@ const validateName = (fullName, hrefId) => {
 
 const validateFirstLastNameOfLandownerOrLeaseholder = (name, text, hrefId) => {
   return validateFirstLastName(name, text, hrefId, ' of the landowner or leaseholder')
+}
+
+const setInpageLinks = (context, path) => {
+  if (path.includes('/credits-purchase')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_6m5bb3laojVafGu'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_ehcz7xfiEw8R8XA'
+  } else if (path.includes('/developer')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3POwdzJF7AISB8i'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_datEcyFZVxYdMjk'
+  } else {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO'
+  }
 }
 
 const validateFirstLastNameOfDeveloperClient = (name, text, hrefId) => {
@@ -445,16 +482,6 @@ const checkForDuplicateConcatenated = (array, properties, targetObject, hrefId, 
     return error
   }
   return null
-}
-const validateBNGNumber = (bngNumber, hrefId) => {
-  const error = {}
-  if (!bngNumber.trim()) {
-    error.err = [{
-      text: 'Enter your Biodiversity gain site number',
-      href: hrefId
-    }]
-  }
-  return error.err ? error : null
 }
 
 const emailValidator = (email, id) => {
@@ -566,7 +593,7 @@ const getHumanReadableFileSize = (fileSizeInBytes, maximumDecimalPlaces = 2) => 
   return `${parseFloat(humanReadableFileSize.toFixed(parseInt(maximumDecimalPlaces)))} ${units}`
 }
 
-const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetric = false) => {
+const getMetricFileValidationErrors = (metricValidation, href, checkOffsiteData = true) => {
   const error = {
     err: [
       {
@@ -576,10 +603,10 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
     ]
   }
   if (!metricValidation.isSupportedVersion) {
-    error.err[0].text = useStatutoryMetric
-      ? 'The selected file must use the statutory biodiversity metric'
-      : 'The selected file must use Biodiversity Metric version 4.1'
-  } else if (!metricValidation.isOffsiteDataPresent) {
+    error.err[0].text = 'The selected file must use the statutory biodiversity metric'
+  } else if (metricValidation.isDraftVersion) {
+    error.err[0].text = 'The selected file must not be a draft version'
+  } else if (!metricValidation.isOffsiteDataPresent && checkOffsiteData) {
     error.err[0].text = 'The selected file does not have enough data'
   } else if (!metricValidation.areOffsiteTotalsCorrect) {
     // BNGP-4219 METRIC Validation: Suppress total area calculations
@@ -588,18 +615,6 @@ const getMetricFileValidationErrors = (metricValidation, href, useStatutoryMetri
   }
   return error.err[0].text ? error : null
 }
-
-const checkDeveloperDetails = (request, h) => {
-  if (!areDeveloperDetailsPresent(request.yar)) {
-    return h.redirect('/').takeover()
-  }
-  return h.continue
-}
-
-const areDeveloperDetailsPresent = session => (
-  session.get(constants.redisKeys.DEVELOPER_FULL_NAME) &&
-  session.get(constants.redisKeys.DEVELOPER_EMAIL_VALUE)
-)
 
 const buildFullName = (item) => {
   return item.value.middleName
@@ -774,6 +789,12 @@ const creditsValidationFailAction = ({
   return { errorMessages, errorList }
 }
 
+const isAgentAndNotLandowner = session => {
+  const isAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
+  const clientIsNotLandownerOrLeaseholder = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+  return isAgent && clientIsNotLandownerOrLeaseholder
+}
+
 export {
   validateDate,
   dateClasses,
@@ -796,6 +817,7 @@ export {
   generateUniqueId,
   habitatTypeAndConditionMapper,
   combineHabitats,
+  extractAllocationHabitatsByGainSiteNumber,
   getFileHeaderPrefix,
   getValidReferrerUrl,
   validateIdGetSchemaOptional,
@@ -813,14 +835,12 @@ export {
   validateFirstLastNameOfLandownerOrLeaseholder,
   emailValidator,
   getDateString,
-  validateBNGNumber,
   getErrById,
   getMaximumFileSizeExceededView,
   maximumSizeExceeded,
   getHumanReadableFileSize,
   getMetricFileValidationErrors,
   initialCapitalization,
-  checkDeveloperDetails,
   buildFullName,
   isValidPostcode,
   redirectAddress,
@@ -830,5 +850,7 @@ export {
   validateLengthOfCharsLessThan50,
   getAuthenticatedUserRedirectUrl,
   creditsValidationSchema,
-  creditsValidationFailAction
+  creditsValidationFailAction,
+  isAgentAndNotLandowner,
+  setInpageLinks
 }

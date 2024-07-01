@@ -16,9 +16,11 @@ const handlers = {
     if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
       await deleteBlobFromContainers(metricUploadLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-      return h.redirect(constants.routes.DEVELOPER_UPLOAD_METRIC)
+      request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
+      return h.redirect(constants.routes.DEVELOPER_BNG_NUMBER)
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      return h.redirect(constants.routes.DEVELOPER_CONFIRM_DEV_DETAILS)
+      return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
     }
     return h.view(constants.views.DEVELOPER_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),

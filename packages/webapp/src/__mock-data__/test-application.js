@@ -106,7 +106,7 @@ const dataString = `
   "metric-data": {
     "d1": [
       {
-        "Baseline ref": 1,
+        "Ref": 1,
         "Habitat reference Number": "H1",
         "Broad habitat": "Cropland",
         "Habitat type": "Cereal crops",
@@ -116,7 +116,7 @@ const dataString = `
         "Condition": "Condition Assessment N/A"
       },
       {
-        "Baseline ref": 2,
+        "Ref": 2,
         "Broad habitat": "Grassland",
         "Habitat type": "Modified grassland",
         "Area (hectares)": 1,
@@ -125,7 +125,7 @@ const dataString = `
         "Condition": "Moderate"
       },
       {
-        "Baseline ref": 3,
+        "Ref": 3,
         "Broad habitat": "Woodland and forest",
         "Habitat type": "Other woodland; mixed",
         "Area (hectares)": 0.5,
@@ -134,7 +134,7 @@ const dataString = `
         "Condition": "Poor"
       },
       {
-        "Baseline ref": 4,
+        "Ref": 4,
         "Broad habitat": "Grassland",
         "Habitat type": "Modified grassland",
         "Area enhanced": 0,
@@ -221,7 +221,7 @@ const dataString = `
     ],
     "e1": [
       {
-        "Baseline ref": 1,
+        "Ref": 1,
         "Habitat reference Number": "E1",
         "Habitat type": "Native hedgerow - associated with bank or ditch",
         "Length (km)": 0.3,
@@ -230,7 +230,7 @@ const dataString = `
         "Condition": "Poor"
       },
       {
-        "Baseline ref": 2,
+        "Ref": 2,
         "Habitat type": "Native hedgerow",
         "Length (km)": 0.3,
         "Length enhanced": 0.3,
@@ -278,7 +278,7 @@ const dataString = `
     ],
     "f1": [
       {
-        "Baseline ref": 1,
+        "Ref": 1,
         "Habitat reference Number": "F1",
         "Watercourse type": "Ditches",
         "Length (km)": 0.3,
@@ -287,7 +287,7 @@ const dataString = `
         "Condition": "Poor"
       },
       {
-        "Baseline ref": 2,
+        "Ref": 2,
         "Watercourse type": "Ditches",
         "Length (km)": 0.3,
         "Length enhanced": 0.3,
@@ -389,6 +389,7 @@ const dataString = `
   "landowners-checked": "yes",
   "legal-agreement-landowner-conservation-convenants": [{
     "organisationName": "org1",
+    "emailAddress": "me@me.com",
     "type": "organisation"
   }, {
     "firstName": "Crishn",

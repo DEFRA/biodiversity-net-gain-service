@@ -10,7 +10,7 @@ const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
     }]
   } else if (purchaseOrderUsed === 'yes' && !purchaseOrderNumber?.trim()) {
     error.err = [{
-      text: 'Purchase order number cannot be left blank',
+      text: 'Enter a purchase order number',
       href: '#purchaseOrderNumber'
     }, {
       text: '',
