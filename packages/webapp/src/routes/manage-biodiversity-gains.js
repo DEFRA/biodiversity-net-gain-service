@@ -7,7 +7,8 @@ const handlers = {
     return h.view(constants.views.MANAGE_BIODIVERSITY_GAINS, {
       representing,
       enableDev: process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY === 'Y',
-      enableCredits: process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y'
+      enableCredits: process.env.ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY === 'Y',
+      enableCombinedCase: process.env.ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY === 'Y'
     })
   }
 }
