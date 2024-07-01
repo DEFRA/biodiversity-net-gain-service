@@ -23,9 +23,11 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
-      organisationName: 'org1'
+      organisationName: 'org1',
+      emailAddress: 'me@me.com'
     }, {
-      organisationName: 'org2'
+      organisationName: 'org2',
+      emailAddress: 'me1@me.com'
     }])
     addLandownerOrganisations = require('../../land/add-landowner-organisation.js')
   })
@@ -70,7 +72,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          organisationName: 'org3'
+          organisationName: 'org3',
+          emailAddress: 'me@me.com'
         },
         query: {}
       }
@@ -93,7 +96,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          organisationName: 'org4'
+          organisationName: 'org4',
+          emailAddress: 'me@me.com'
 
         },
         query: { id: '0' }
@@ -123,7 +127,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: {
-          organisationName: 'org1'
+          organisationName: 'org1',
+          emailAddress: 'me@me.com'
         },
         query: {}
       }
@@ -134,11 +139,26 @@ describe(url, () => {
 
       expect(resultContext.err).toEqual([{ href: '#organisationName', text: 'This organisation has already been added - enter a different organisation, if there is one' }])
     })
-    it('should fail to edit landowner to legal agreement with duplicate organisation name', async () => {
+    it('should fail to add landowner to legal agreement without landowner email', async () => {
       const request = {
         yar: redisMap,
         payload: {
           organisationName: 'org2'
+        },
+        query: {}
+      }
+
+      await addLandownerOrganisations.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.views.ADD_LANDOWNER_ORGANISATION)
+      expect(resultContext.err[0]).toEqual({ text: 'Enter your email address', href: '#emailAddress' })
+    })
+    it('should fail to edit landowner to legal agreement with duplicate organisation name', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'org2',
+          emailAddress: 'me@me.com'
         },
         query: { id: '0' }
       }

@@ -4,6 +4,14 @@ import constants from '../../utils/constants.js'
 import applicant from '../../__mocks__/applicant.js'
 
 describe('application', () => {
+  it.only('Should have the correct number of habitats', () => {
+    const session = applicationSession()
+    const app = application(session, applicant)
+
+    expect(app.landownerGainSiteRegistration.habitats.baseline.length).toEqual(8)
+    expect(app.landownerGainSiteRegistration.habitats.proposed.length).toEqual(9)
+  })
+
   it('Should set the geojson file if a WGS84 geospatial file has been uploaded', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)

@@ -160,7 +160,8 @@ const applicationValidation = Joi.object({
     landowners: Joi.object({
       organisation: Joi.array().items(
         Joi.object({
-          organisationName: Joi.string().required()
+          organisationName: Joi.string().required(),
+          email: Joi.string().required()
         })
       ),
       individual: Joi.array().items(

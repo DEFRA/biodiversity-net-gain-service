@@ -22,13 +22,13 @@
       items: [
         {
           value: "individual",
-          text: "An individual landowner or leaseholder",
+          text: "An individual" if clientIsNotLandownerOrLeaseholder else "An individual landowner or leaseholder",
           id: "landowner-type-individual",
           checked: individualOrOrganisation === "individual"
         },
         {
           value: "organisation",
-          text: "An organisation - I am an employee or representative",
+          text: "An organisation" if clientIsNotLandownerOrLeaseholder else "An organisation - I am an employee or representative",
           id: "landowner-type-organisation",
           checked: individualOrOrganisation === "organisation"
         }
@@ -36,7 +36,11 @@
     }) }}
 
     {{ govukButton({
-      text: "Save and continue"
+      text: "Save and continue",
+      attributes: {
+        id: "continue",
+        "data-testid": "continue"
+      }
     }) }}
-  </div>      
+  </div>
 {% endblock %}

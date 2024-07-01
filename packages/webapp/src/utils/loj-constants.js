@@ -158,6 +158,7 @@ const PAYMENT_TYPE = 'payment-type'
 const GOV_PAY_REFERENCE = 'payment-reference'
 const GOV_PAY_PAYMENT_DATE = 'payment-date'
 const GOV_PAY_PAYMENT_STATUS = 'payment-status'
+const LAND_APPLICATION_SUBMITTED = 'land-application-submitted'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -300,7 +301,8 @@ export default {
     PAYMENT_TYPE,
     GOV_PAY_REFERENCE,
     GOV_PAY_PAYMENT_DATE,
-    GOV_PAY_PAYMENT_STATUS
+    GOV_PAY_PAYMENT_STATUS,
+    LAND_APPLICATION_SUBMITTED
   },
   routes: {
     ADD_GRID_REFERENCE,
