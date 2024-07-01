@@ -28,6 +28,9 @@ export const BACS_SORT_CODE = process.env.BACS_SORT_CODE || '123456'
 export const BACS_ACCOUNT_NUMBER = process.env.BACS_ACCOUNT_NUMBER || '12345678'
 export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'
 
+export const PAYMENT_API_URL = process.env.PAYMENT_API_URL || 'https://publicapi.payments.service.gov.uk/v1/payments'
+export const REFUND_API_URL = process.env.REFUND_API_URL || 'https://publicapi.payments.service.gov.uk/v1/refunds'
+export const PAYMENT_API_KEY = process.env.PAYMENT_API_KEY
 export const BACKEND_API = {
   BASE_URL: process.env.BACKEND_API_BASE_URL ?? 'http://localhost:3000/test/api/',
   SUBSCRIPTION_KEY: process.env.BACKEND_API_SUBSCRIPTION_KEY ?? 'test123',

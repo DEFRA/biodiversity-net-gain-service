@@ -73,6 +73,10 @@ const IS_AGENT = 'is-agent'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const LAND_PAYMENT = 'land/payment'
+const LAND_PAYMENT_RETURN = 'land/payment-return'
+const LAND_PAYMENT_SUCCESS = 'land/payment-success'
+const LAND_PAYMENT_FAILURE = 'land/payment-failure'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -153,6 +157,7 @@ const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
+const LAND_PAYMENT_REFERENCE = 'land-payment-reference'
 const LAND_APPLICATION_SUBMITTED = 'land-application-submitted'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
@@ -293,6 +298,7 @@ export default {
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED,
     ANY_OTHER_LANDOWNERS_CHECKED,
+    LAND_PAYMENT_REFERENCE,
     LAND_APPLICATION_SUBMITTED
   },
   routes: {
@@ -380,7 +386,11 @@ export default {
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    ANY_OTHER_LANDOWNERS
+    ANY_OTHER_LANDOWNERS,
+    LAND_PAYMENT,
+    LAND_PAYMENT_RETURN,
+    LAND_PAYMENT_SUCCESS,
+    LAND_PAYMENT_FAILURE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

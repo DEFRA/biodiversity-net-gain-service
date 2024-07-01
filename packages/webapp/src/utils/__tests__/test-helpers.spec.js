@@ -15,6 +15,7 @@ import {
   validateLengthOfCharsLessThan50,
   validateDate,
   validateAddress,
+  formatDate,
   isAgentAndNotLandowner, extractAllocationHabitatsByGainSiteNumber
 } from '../helpers.js'
 
@@ -529,76 +530,95 @@ describe('validateLengthOfCharsLessThan50', () => {
     })
   })
 
-  describe('isAgentAndNotLandowner', () => {
-    it('should return false if session variables not set', () => {
-      const session = new Session()
-      const res = isAgentAndNotLandowner(session)
-      expect(res).toBeFalsy()
+  describe('formatDate', () => {
+    it('should format date fields in the array correctly', () => {
+      const arr = [
+        { id: 1, dateField: '2024-01-07T12:00:00Z' },
+        { id: 2, dateField: '2024-01-08T08:30:00Z' }
+      ]
+      const formattedArr = formatDate(arr, 'dateField')
+      expect(formattedArr).toHaveLength(arr.length)
+      expect(formattedArr[0].date).toBe('07-01-2024 12:00:00')
+      expect(formattedArr[1].date).toBe('08-01-2024 08:30:00')
     })
 
-    it('should return false if not agent and not landowner', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
-      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
-      const res = isAgentAndNotLandowner(session)
-      expect(res).toBeFalsy()
-    })
-
-    it('should return false if agent and landowner', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
-      const res = isAgentAndNotLandowner(session)
-      expect(res).toBeFalsy()
-    })
-
-    it('should return false if not agent and landowner', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
-      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
-      const res = isAgentAndNotLandowner(session)
-      expect(res).toBeFalsy()
-    })
-
-    it('should return true if session variables are set', () => {
-      const session = new Session()
-      session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
-      session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
-      const res = isAgentAndNotLandowner(session)
-      expect(res).toBeTruthy()
+    it('should return an empty array if input array is empty', () => {
+      const arr = []
+      const formattedArr = formatDate(arr, 'dateField')
+      expect(formattedArr).toHaveLength(0)
     })
   })
+})
 
-  describe('extractAllocationHabitatsByGainSiteNumber', () => {
-    it('extracts metric data correctly', () => {
-      const metricData = {
-        d2: [{ 'Off-site reference': '123', area: 10 }, { 'Off-site reference': '456', area: 20 }],
-        d3: [{ 'Off-site reference': '123', area: 30 }, { 'Off-site reference': '456', area: 40 }],
-        e2: [{ 'Off-site reference': '123', area: 50 }],
-        e3: [{ 'Off-site reference': '456', area: 60 }],
-        f2: [{ 'Off-site reference': '123', area: 70 }],
-        f3: [{ 'Off-site reference': '123', area: 80 }, { 'Off-site reference': '456', area: 90 }]
-      }
+describe('isAgentAndNotLandowner', () => {
+  it('should return false if session variables not set', () => {
+    const session = new Session()
+    const res = isAgentAndNotLandowner(session)
+    expect(res).toBeFalsy()
+  })
 
-      const gainSiteNumber = '123'
-      const expected = [{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [], total: 0, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }, { dataTestId: 'hedgeTotal', description: 'Habitat type', items: [], total: 0, type: 'Hedgerow', unit: 'Length (km)', unitKey: 'Length (km)' }, { dataTestId: 'riverTotal', description: 'Watercourse type', items: [], total: 0, type: 'Watercourse', unit: 'Length (km)', unitKey: 'Length (km)' }]
-      const result = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
-      expect(result).toStrictEqual(expected)
-    })
+  it('should return false if not agent and not landowner', () => {
+    const session = new Session()
+    session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+    session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
+    const res = isAgentAndNotLandowner(session)
+    expect(res).toBeFalsy()
+  })
 
-    it('handles no matches by gain site number correctly', () => {
-      const metricData = {
-        d2: [{ 'Off-site reference': '456', area: 10 }, { 'Off-site reference': '456', area: 20 }],
-        d3: [{ 'Off-site reference': '456', area: 30 }, { 'Off-site reference': '456', area: 40 }],
-        e2: [{ 'Off-site reference': '456', area: 50 }],
-        e3: [{ 'Off-site reference': '456', area: 60 }],
-        f2: [{ 'Off-site reference': '456', area: 70 }],
-        f3: [{ 'Off-site reference': '456', area: 80 }, { 'Off-site reference': '456', area: 90 }]
-      }
+  it('should return false if agent and landowner', () => {
+    const session = new Session()
+    session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
+    const res = isAgentAndNotLandowner(session)
+    expect(res).toBeFalsy()
+  })
 
-      const gainSiteNumber = '123'
-      const result = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
-      expect(result).toStrictEqual([])
-    })
+  it('should return false if not agent and landowner', () => {
+    const session = new Session()
+    session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.NO)
+    session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES)
+    const res = isAgentAndNotLandowner(session)
+    expect(res).toBeFalsy()
+  })
+
+  it('should return true if session variables are set', () => {
+    const session = new Session()
+    session.set(constants.redisKeys.DEVELOPER_IS_AGENT, constants.APPLICANT_IS_AGENT.YES)
+    session.set(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER, constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO)
+    const res = isAgentAndNotLandowner(session)
+    expect(res).toBeTruthy()
+  })
+})
+
+describe('extractAllocationHabitatsByGainSiteNumber', () => {
+  it('extracts metric data correctly', () => {
+    const metricData = {
+      d2: [{ 'Off-site reference': '123', area: 10 }, { 'Off-site reference': '456', area: 20 }],
+      d3: [{ 'Off-site reference': '123', area: 30 }, { 'Off-site reference': '456', area: 40 }],
+      e2: [{ 'Off-site reference': '123', area: 50 }],
+      e3: [{ 'Off-site reference': '456', area: 60 }],
+      f2: [{ 'Off-site reference': '123', area: 70 }],
+      f3: [{ 'Off-site reference': '123', area: 80 }, { 'Off-site reference': '456', area: 90 }]
+    }
+
+    const gainSiteNumber = '123'
+    const expected = [{ dataTestId: 'habitatTotal', description: 'Proposed habitat', header: 'Broad habitat', items: [], total: 0, type: 'Habitat', unit: 'Area (ha)', unitKey: 'Area (hectares)' }, { dataTestId: 'hedgeTotal', description: 'Habitat type', items: [], total: 0, type: 'Hedgerow', unit: 'Length (km)', unitKey: 'Length (km)' }, { dataTestId: 'riverTotal', description: 'Watercourse type', items: [], total: 0, type: 'Watercourse', unit: 'Length (km)', unitKey: 'Length (km)' }]
+    const result = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+    expect(result).toStrictEqual(expected)
+  })
+
+  it('handles no matches by gain site number correctly', () => {
+    const metricData = {
+      d2: [{ 'Off-site reference': '456', area: 10 }, { 'Off-site reference': '456', area: 20 }],
+      d3: [{ 'Off-site reference': '456', area: 30 }, { 'Off-site reference': '456', area: 40 }],
+      e2: [{ 'Off-site reference': '456', area: 50 }],
+      e3: [{ 'Off-site reference': '456', area: 60 }],
+      f2: [{ 'Off-site reference': '456', area: 70 }],
+      f3: [{ 'Off-site reference': '456', area: 80 }, { 'Off-site reference': '456', area: 90 }]
+    }
+
+    const gainSiteNumber = '123'
+    const result = extractAllocationHabitatsByGainSiteNumber(metricData, gainSiteNumber)
+    expect(result).toStrictEqual([])
   })
 })

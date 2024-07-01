@@ -2,6 +2,7 @@ import developerConstants from './developer-constants.js'
 import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
+import payment from './payment-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
@@ -326,5 +327,6 @@ export default Object.freeze({
   LAND_APPLICANT_INFO_VALID_REFERRERS,
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
-  LAND_LEGAL_AGREEMENT_VALID_REFERRERS
+  LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+  paymentStatus: payment.paymentStatus
 })

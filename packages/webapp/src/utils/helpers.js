@@ -789,6 +789,14 @@ const creditsValidationFailAction = ({
   return { errorMessages, errorList }
 }
 
+const formatDate = (arr, dateField) => {
+  return arr.map(r => {
+    const date = moment(r[dateField]).format('DD-MM-YYYY hh:mm:ss')
+
+    return { ...r, date }
+  })
+}
+
 const isAgentAndNotLandowner = session => {
   const isAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES
   const clientIsNotLandownerOrLeaseholder = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
@@ -851,6 +859,7 @@ export {
   getAuthenticatedUserRedirectUrl,
   creditsValidationSchema,
   creditsValidationFailAction,
+  formatDate,
   isAgentAndNotLandowner,
   setInpageLinks
 }
