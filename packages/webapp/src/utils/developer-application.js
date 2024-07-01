@@ -75,7 +75,7 @@ const getHabitats = session => {
       .filter(details => String(details['Off-site reference']) === gainSiteNumber)
       .filter(details => 'Condition' in details)
       .map(details => ({
-        habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
+        habitatId: String(details['Habitat reference Number'] ?? ''),
         area: details['Length (km)'] ?? details['Area (hectares)'],
         module: getModule(identifier),
         state: getState(identifier),
