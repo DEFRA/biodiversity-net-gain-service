@@ -5,7 +5,7 @@ import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const writtenAuthorisationId = '#writtenAuthorisation'
+const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, true))
@@ -44,7 +44,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.UPLOAD_WRITTEN_AUTHORISATION,
+        route: constants.views.UPLOAD_WRITTEN_AUTHORISATION,
+        elementID: WRITTEN_AUTHORISATION_ID,
         noFileErrorMessage: 'Select the written authorisation file',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
@@ -62,7 +63,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      writtenAuthorisationId,
+      WRITTEN_AUTHORISATION_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_WRITTEN_AUTHORISATION
     )

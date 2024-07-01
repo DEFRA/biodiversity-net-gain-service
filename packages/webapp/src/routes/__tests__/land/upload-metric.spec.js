@@ -341,9 +341,9 @@ describe('Metric file upload controller tests', () => {
     })
 
     it('should handle failAction of upload route', async () => {
-      const expectedStatuCode = 415
-      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
-      expect(res.statusCode).toEqual(expectedStatuCode)
+      const expectedStatusCode = 415
+      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
+      expect(res.statusCode).toEqual(expectedStatusCode)
     })
   })
 })
