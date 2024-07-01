@@ -2,7 +2,7 @@ import {
   ANY,
   routeDefinition,
   journeyStepFromRoute,
-  journeyStep
+  journeyStep, taskSectionDefinition
 } from '../utils'
 
 const testUrl = 'testUrl'
@@ -33,6 +33,25 @@ const testJourneyStepWithoutInvalidate = {
   }
 }
 
+const testTaskSectionDefinitionWithId = {
+  title: 'testTitle',
+  tasks: [],
+  id: 'testId'
+}
+
+const testTaskSectionDefinitionWithIds = {
+  title: 'testTitle',
+  tasks: [],
+  id: 'testId',
+  dependantIds: ['fooId', 'barId']
+}
+
+const testTaskSectionDefinitionWithIdsAndNoId = {
+  title: 'testTitle',
+  tasks: [],
+  dependantIds: ['fooId', 'barId']
+}
+
 describe('journey validation utils', () => {
   it('Route definition should be correct format', () => {
     const route = routeDefinition(testUrl, [testKey1])
@@ -52,5 +71,31 @@ describe('journey validation utils', () => {
   it('Journey step from route should be correct format', () => {
     const step = journeyStepFromRoute(testRouteDefinition)
     expect(step).toMatchObject(testJourneyStepWithoutInvalidate)
+  })
+
+  it('Task section definition should accept id', () => {
+    const section = taskSectionDefinition(
+      testTaskSectionDefinitionWithId.title,
+      testTaskSectionDefinitionWithId.tasks,
+      testTaskSectionDefinitionWithId.id)
+    expect(section).toMatchObject(testTaskSectionDefinitionWithId)
+  })
+
+  it('Task section definition should accept ids', () => {
+    const section = taskSectionDefinition(
+      testTaskSectionDefinitionWithIds.title,
+      testTaskSectionDefinitionWithIds.tasks,
+      testTaskSectionDefinitionWithIds.id,
+      testTaskSectionDefinitionWithIds.dependantIds)
+    expect(section).toMatchObject(testTaskSectionDefinitionWithIds)
+  })
+
+  it('Task section definition should accept ids without id', () => {
+    const section = taskSectionDefinition(
+      testTaskSectionDefinitionWithIdsAndNoId.title,
+      testTaskSectionDefinitionWithIdsAndNoId.tasks,
+      null,
+      testTaskSectionDefinitionWithIdsAndNoId.dependantIds)
+    expect(section).toMatchObject(testTaskSectionDefinitionWithIdsAndNoId)
   })
 })
