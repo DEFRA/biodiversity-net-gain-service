@@ -150,7 +150,6 @@ const WRITTEN_AUTHORISATION_FILE_TYPE = 'written-authorisation-file-type'
 const WRITTEN_AUTHORISATION_CHECKED = 'written-authorisation-checked'
 const ALL_LPA = 'all-lpa'
 const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
-const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
 const LAND_APPLICATION_SUBMITTED = 'land-application-submitted'
@@ -271,7 +270,6 @@ export default {
     CHECK_PLANNING_AUTHORITIES,
     PLANNING_AUTHORTITY_LIST,
     ALL_LPA,
-    REF_LPA_NAMES,
     IS_ADDRESS_UK_KEY,
     UK_ADDRESS_KEY,
     NON_UK_ADDRESS_KEY,
