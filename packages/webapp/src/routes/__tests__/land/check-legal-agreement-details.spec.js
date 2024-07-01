@@ -36,7 +36,7 @@ describe('Legal Agreement controller tests', () => {
           expect(contextResult.legalAgreementType).toEqual('Conservation covenant')
           expect(contextResult.legalAgreementFileNames).toEqual('legal-agreement.doc<br>legal-agreement1.pdf')
           expect(contextResult.responsibleBodies).toEqual('test1<br>test2')
-          expect(contextResult.landowners).toEqual('org1<br>Crishn P (me@me.com)')
+          expect(contextResult.landowners).toEqual('org1 (me@me.com)<br>Crishn P (me@me.com)')
           expect(contextResult.habitatPlanIncludedLegalAgreementYesNo).toEqual('Yes')
           expect(contextResult.HabitatPlanFileName).toEqual('habitat-plan.doc')
           expect(contextResult.HabitatWorksStartDate).toEqual('01 January 2022')

@@ -102,7 +102,7 @@ describe(url, () => {
             ]
           }
         ],
-        uploadMetricFileRoute: '/developer/upload-metric-file'
+        uploadMetricFileRoute: '/developer/biodiversity-gain-site-number'
       }
 
       redisMap.set(constants.redisKeys.DEVELOPER_METRIC_DATA, mockMetricData)
@@ -145,7 +145,7 @@ describe(url, () => {
             ]
           }
         ],
-        uploadMetricFileRoute: '/developer/upload-metric-file'
+        uploadMetricFileRoute: '/developer/biodiversity-gain-site-number'
       }
 
       const mockMetricDataCopy = { ...mockMetricData }

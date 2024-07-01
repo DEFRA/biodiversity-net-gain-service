@@ -5,9 +5,9 @@ const headers = [
 
 const hedgeOffSiteGainSiteSummary = {
   sheetName: 'Off-site gain site summary',
-  titleCellAddress: 'N3',
-  startCell: 'N5',
-  endCell: 'U107',
+  titleCellAddress: 'O3',
+  startCell: 'O5',
+  endCell: 'Z107',
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

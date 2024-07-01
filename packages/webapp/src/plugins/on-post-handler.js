@@ -1,4 +1,5 @@
 import constants from '../utils/constants.js'
+import { setInpageLinks } from '../utils/helpers.js'
 import creditsPurchaseConstants from '../utils/credits-purchase-constants.js'
 import getApplicantContext from '../utils/get-applicant-context.js'
 import getOrganisationDetails from '../utils/get-organisation-details.js'
@@ -14,6 +15,11 @@ const onPostHandler = {
             // if getting a view then set headers to stop client caching
             request.response.headers['cache-control'] = 'no-cache, no-store, must-revalidate'
             handleReferer(request)
+            // Add current route to the view context
+            if (!request.response.source.context) {
+              request.response.source.context = {}
+            }
+            setInpageLinks(request.response.source.context, request.path)
           }
           // Add Account details to context if present
           addAccountDetailsToContextIfPresent(request, h)
