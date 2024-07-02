@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.CHECK_LANDOWNERS
 
 describe(url, () => {
@@ -20,7 +21,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       organisationName: 'org1',
       type: 'organisation',
@@ -94,7 +96,8 @@ describe(url, () => {
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherLandowner: 'yes' }
+        payload: { addAnotherLandowner: 'yes' },
+        path: landownersList.default[1].path
       }
 
       await landownersList.default[1].handler(request, h)
@@ -105,7 +108,8 @@ describe(url, () => {
     it('Should continue journey to LANDOWNER_INDIVIDUAL_ORGANISATION if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherLandowner: 'no' }
+        payload: { addAnotherLandowner: 'no' },
+        path: landownersList.default[1].path
       }
 
       await landownersList.default[1].handler(request, h)
@@ -116,7 +120,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: landownersList.default[1].path
       }
 
       await landownersList.default[1].handler(request, h)

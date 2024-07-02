@@ -23,6 +23,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement.doc',
@@ -67,6 +68,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -76,12 +81,12 @@ describe(url, () => {
 
     it('should allow confirmation that the correct legal agreement file has been uploaded', async () => {
       postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.YES
-      await submitPostRequest(postOptions)
+      await submitPostRequest(postOptions, 302, sessionData)
     })
 
     it('should allow another legal agreement file to be uploaded ', async () => {
       postOptions.payload.checkLegalAgreement = constants.confirmLegalAgreementOptions.NO
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LEGAL_AGREEMENT)
     })
 
@@ -95,19 +100,20 @@ describe(url, () => {
       }
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150001')
       redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LOCATION, mockDataPath)
+      redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
+      const legalAgreementFile = require('../../land/check-you-added-all-legal-files.js')
       const request = {
         yar: redisMap,
         payload: {
           checkLegalAgreement: 'yes'
-        }
+        },
+        path: legalAgreementFile.default[1].path
       }
-      const legalAgreementFile = require('../../land/check-you-added-all-legal-files.js')
       await legalAgreementFile.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
     })
     it('should detect an invalid response from user', async () => {
-      await submitPostRequest(postOptions, 200)
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain('Select yes if you have added all legal agreement files')
     })

@@ -21,6 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, [{
       responsibleBodyName: 'test1'
     },
@@ -60,7 +61,8 @@ describe(url, () => {
     it('Should continue journey to NEED_ADD_ALL_LANDOWNERS if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherResponsibleBody: 'yes' }
+        payload: { addAnotherResponsibleBody: 'yes' },
+        path: responsibleBodiesList.default[1].path
       }
 
       await responsibleBodiesList.default[1].handler(request, h)
@@ -71,7 +73,8 @@ describe(url, () => {
     it('Should continue journey to ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherResponsibleBody: 'no' }
+        payload: { addAnotherResponsibleBody: 'no' },
+        path: responsibleBodiesList.default[1].path
       }
 
       await responsibleBodiesList.default[1].handler(request, h)
@@ -82,7 +85,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: responsibleBodiesList.default[1].path
       }
 
       await responsibleBodiesList.default[1].handler(request, h)

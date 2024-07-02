@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl, validateEmail } from '../../utils/helpers.js'
+import { validateEmail } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -21,8 +22,7 @@ const handlers = {
       })
     }
     request.yar.set(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY, email)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER)
+    return getNextStep(request, h)
   }
 }
 

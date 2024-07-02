@@ -13,6 +13,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -21,20 +25,20 @@ describe(url, () => {
     })
     it('should allow confirmation that the correct written authorisation file has been uploaded', async () => {
       postOptions.payload.checkWrittenAuthorisation = 'yes'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.CHECK_APPLICANT_INFORMATION)
     })
 
     it('should allow an alternative written authorisation file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkWrittenAuthorisation = 'no'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
       expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Select yes if this is the correct file')
     })
   })

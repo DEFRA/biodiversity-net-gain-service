@@ -11,7 +11,9 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
     beforeEach(() => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       postOptions = {
         url,
         payload: {}
@@ -19,18 +21,18 @@ describe(url, () => {
     })
     it('Should continue journey to ENHANCEMENT_WORKS_START_DATE if yes is chosen', async () => {
       postOptions.payload.isHabitatIncludeLegalAgreement = 'Yes'
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.ENHANCEMENT_WORKS_START_DATE)
     })
 
     it('Should continue journey to UPLOAD_HABITAT_PLAN if no is chosen', async () => {
       postOptions.payload.isHabitatIncludeLegalAgreement = 'No'
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.UPLOAD_HABITAT_PLAN)
     })
 
     it('Should fail journey if no answer', async () => {
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 200, sessionData)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Select yes if the habitat management and monitoring plan')
     })

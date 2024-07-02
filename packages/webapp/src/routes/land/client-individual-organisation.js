@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -25,12 +25,7 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, individualOrOrganisation)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return h.redirect(referrerUrl || constants.routes.CLIENTS_NAME)
-    } else {
-      return h.redirect(referrerUrl || constants.routes.CLIENTS_ORGANISATION_NAME)
-    }
+    return getNextStep(request, h)
   }
 }
 

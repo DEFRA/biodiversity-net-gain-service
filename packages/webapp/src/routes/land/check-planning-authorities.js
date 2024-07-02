@@ -1,8 +1,8 @@
 import constants from '../../utils/constants.js'
 import {
-  getLegalAgreementDocumentType,
-  getValidReferrerUrl
+  getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const getCustomizedHTML = (item, index) => {
   return {
@@ -56,14 +56,7 @@ const handlers = {
         }]
       })
     }
-    if (addAnotherPlanningAuthority === 'yes') {
-      request.yar.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
-      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return h.redirect(referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
-    }
-    if (addAnotherPlanningAuthority === 'no') {
-      return h.redirect(constants.routes.ADD_PLANNING_AUTHORITY)
-    }
+    return getNextStep(request, h)
   }
 }
 

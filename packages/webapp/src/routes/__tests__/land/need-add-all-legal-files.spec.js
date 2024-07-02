@@ -15,6 +15,10 @@ describe(url, () => {
   })
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -22,7 +26,7 @@ describe(url, () => {
       }
     })
     it('Should continue journey if Continue button clicked', async () => {
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual('/land/upload-legal-agreement')
     })
   })

@@ -15,6 +15,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -23,20 +27,20 @@ describe(url, () => {
     })
     it('should allow confirmation that the correct land boundary file has been uploaded', async () => {
       postOptions.payload.checkLandBoundary = constants.confirmLandBoundaryOptions.YES
-      await submitPostRequest(postOptions)
+      await submitPostRequest(postOptions, 302, sessionData)
     })
 
     it('should allow an alternative land boundary file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkLandBoundary = constants.confirmLandBoundaryOptions.NO
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_LAND_BOUNDARY)
       expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {
       postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
-      await submitPostRequest(postOptions, 500)
+      await submitPostRequest(postOptions, 500, sessionData)
     })
     it('Ensure page uses referer if is set on post and grid reference is present', done => {
       jest.isolateModules(async () => {
@@ -45,6 +49,7 @@ describe(url, () => {
           const session = new Session()
           session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
           session.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, 'ST123456')
+          session.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const payload = {
             checkLandBoundary: 'yes'
           }
@@ -59,7 +64,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ payload, yar: session }, h)
+          await postHandler({ payload, yar: session, path: checkLandBoundaryFile[1].path }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual(constants.routes.CHECK_AND_SUBMIT)
           done()
@@ -74,6 +79,7 @@ describe(url, () => {
           const postHandler = checkLandBoundaryFile[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, constants.routes.CHECK_AND_SUBMIT)
+          session.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const payload = {
             checkLandBoundary: 'yes'
           }
@@ -88,7 +94,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ payload, yar: session }, h)
+          await postHandler({ payload, yar: session, path: checkLandBoundaryFile[1].path }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual(constants.routes.ADD_GRID_REFERENCE)
           done()

@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl, validateFirstLastNameOfLandownerOrLeaseholder } from '../../utils/helpers.js'
+import { validateFirstLastNameOfLandownerOrLeaseholder } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -34,8 +35,7 @@ const handlers = {
     }
 
     request.yar.set(constants.redisKeys.CLIENTS_NAME_KEY, { type: 'individual', value: { firstName, lastName } })
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.IS_ADDRESS_UK)
+    return getNextStep(request, h)
   }
 }
 export default [{

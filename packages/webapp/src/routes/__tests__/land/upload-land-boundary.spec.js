@@ -43,6 +43,9 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/ownership-proof-list'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(4)
           setImmediate(() => {
@@ -59,6 +62,9 @@ describe('Land boundary upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -75,6 +81,9 @@ describe('Land boundary upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -94,6 +103,9 @@ describe('Land boundary upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -112,6 +124,9 @@ describe('Land boundary upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file is empty')
@@ -130,6 +145,9 @@ describe('Land boundary upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must be a DOC, DOCX, JPG, PNG or PDF')
@@ -147,6 +165,9 @@ describe('Land boundary upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('Select a file showing the land boundary')
@@ -166,6 +187,9 @@ describe('Land boundary upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-land-boundary-details'
+          }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {

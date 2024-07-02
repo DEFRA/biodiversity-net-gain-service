@@ -1,10 +1,10 @@
 import path from 'path'
 import constants from '../../utils/constants.js'
 import {
-  getValidReferrerUrl,
   getHumanReadableFileSize,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const radioText = 'Have you added all legal agreement files?'
 const radioHint = 'You must provide all legal agreement documents. This includes original versions if the legal agreement has been amended.'
@@ -54,15 +54,8 @@ const handlers = {
     const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES)
     const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED, checkLegalAgreement)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    if (checkLegalAgreement === 'no') {
-      return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
-    } else if (checkLegalAgreement === 'yes') {
-      if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) {
-        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
-      } else {
-        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES)
-      }
+    if (['yes', 'no'].includes(checkLegalAgreement)) {
+      return getNextStep(request, h)
     } else {
       const err = [{
         text: 'Select yes if you have added all legal agreement files',

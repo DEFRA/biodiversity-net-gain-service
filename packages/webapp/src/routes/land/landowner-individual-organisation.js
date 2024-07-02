@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -22,13 +23,7 @@ const handlers = {
         }]
       })
     }
-    if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
-      return h.redirect(constants.routes.ADD_LANDOWNER_INDIVIDUAL)
-    } else {
-      request.yar.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
-      return h.redirect(constants.routes.ADD_LANDOWNER_ORGANISATION)
-    }
+    return getNextStep(request, h)
   }
 }
 

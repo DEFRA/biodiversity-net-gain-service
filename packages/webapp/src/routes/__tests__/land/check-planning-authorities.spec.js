@@ -1,13 +1,14 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.CHECK_PLANNING_AUTHORITIES
 
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
   let resultContext
   let localPlanningAuthorities
+  const redisMap = new SessionMap()
 
   beforeEach(() => {
     h = {
@@ -20,7 +21,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
 
     localPlanningAuthorities = require('../../land/check-planning-authorities.js')
@@ -57,7 +58,8 @@ describe(url, () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherPlanningAuthority: 'yes' }
+        payload: { addAnotherPlanningAuthority: 'yes' },
+        path: localPlanningAuthorities.default[1].path
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)
@@ -68,7 +70,8 @@ describe(url, () => {
     it('Should continue journey to ADD_PLANNING_AUTHORITY if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherPlanningAuthority: 'no' }
+        payload: { addAnotherPlanningAuthority: 'no' },
+        path: localPlanningAuthorities.default[1].path
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)
@@ -79,7 +82,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: localPlanningAuthorities.default[1].path
       }
 
       await localPlanningAuthorities.default[1].handler(request, h)

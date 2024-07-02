@@ -5,6 +5,7 @@ import {
   getLegalAgreementDocumentType, validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -25,10 +26,10 @@ const handlers = {
       const updatedLegalAgreementFiles = legalAgreementFiles.filter(item => item.id !== id)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'no')
-      return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+      return getNextStep(request, h)
     } else if (checkLegalAgreement === 'yes') {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION, 'yes')
-      return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
+      return getNextStep(request, h)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

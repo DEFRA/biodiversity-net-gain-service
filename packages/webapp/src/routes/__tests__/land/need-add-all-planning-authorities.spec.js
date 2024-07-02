@@ -11,6 +11,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -19,7 +23,7 @@ describe(url, () => {
     })
 
     it('Should continue journey to legal party add type', async () => {
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.ADD_PLANNING_AUTHORITY)
     })
   })

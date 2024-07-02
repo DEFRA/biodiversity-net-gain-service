@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -21,7 +22,7 @@ const handlers = {
       await deleteBlobFromContainers(context.fileLocation)
       const updatedLopFiles = lopFiles.filter(item => item.id !== id)
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, updatedLopFiles)
-      return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+      return getNextStep(request, h)
     } else if (checkLandOwnership === 'yes') {
       const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
       if (tempFile && tempFile.id === id) {
@@ -37,7 +38,7 @@ const handlers = {
         request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, lopFiles)
         request.yar.clear(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
       }
-      return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      return getNextStep(request, h)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',

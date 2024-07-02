@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -10,7 +11,7 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.NEED_ADD_ALL_LEGAL_FILES_CHECKED, true)
-    return h.redirect(constants.routes.UPLOAD_LEGAL_AGREEMENT)
+    return getNextStep(request, h)
   }
 }
 export default [{

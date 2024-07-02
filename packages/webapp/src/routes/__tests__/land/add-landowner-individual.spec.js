@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 
 const url = constants.routes.ADD_LANDOWNER_INDIVIDUAL
 
@@ -21,7 +22,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, [{
       firstName: 'John',
       lastName: 'Ken',
@@ -81,7 +83,8 @@ describe(url, () => {
           lastName: 'Ps',
           emailAddress: 'me@me.com'
         },
-        query: {}
+        query: {},
+        path: addLandownerIndividuals.default[1].path
       }
 
       await addLandownerIndividuals.default[1].handler(request, h)
@@ -108,7 +111,8 @@ describe(url, () => {
           lastName: 'P',
           emailAddress: 'me@me.com'
         },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addLandownerIndividuals.default[1].path
       }
 
       await addLandownerIndividuals.default[1].handler(request, h)

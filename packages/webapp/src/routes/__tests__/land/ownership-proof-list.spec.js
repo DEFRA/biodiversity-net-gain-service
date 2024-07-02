@@ -1,5 +1,7 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
+
 const url = constants.routes.LAND_OWNERSHIP_PROOF_LIST
 
 describe(url, () => {
@@ -20,11 +22,12 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
     redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [
       'mock-file-1',
       'mock-file-2'
     ])
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
 
     landOwnershipProofs = require('../../land/ownership-proof-list.js')
   })
@@ -69,7 +72,8 @@ describe(url, () => {
     it('should continue journey to register task list if yes is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherOwnershipProof: 'yes' }
+        payload: { addAnotherOwnershipProof: 'yes' },
+        path: landOwnershipProofs.default[1].path
       }
 
       await landOwnershipProofs.default[1].handler(request, h)
@@ -80,7 +84,8 @@ describe(url, () => {
     it('should continue journey to upload ownership proof if no is chosen', async () => {
       const request = {
         yar: redisMap,
-        payload: { addAnotherOwnershipProof: 'no' }
+        payload: { addAnotherOwnershipProof: 'no' },
+        path: landOwnershipProofs.default[1].path
       }
 
       await landOwnershipProofs.default[1].handler(request, h)
@@ -91,7 +96,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: landOwnershipProofs.default[1].path
       }
 
       await landOwnershipProofs.default[1].handler(request, h)

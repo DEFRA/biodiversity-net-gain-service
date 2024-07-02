@@ -5,9 +5,9 @@ import {
   checkForDuplicateConcatenated,
   getLegalAgreementDocumentType,
   validateIdGetSchemaOptional,
-  emailValidator,
-  getValidReferrerUrl
+  emailValidator
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const firstNameID = '#firstName'
 const lastNameID = '#lastName'
@@ -91,8 +91,7 @@ const handlers = {
       landownerIndividuals.push(individual)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerIndividuals)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
+    return getNextStep(request, h)
   }
 
 }

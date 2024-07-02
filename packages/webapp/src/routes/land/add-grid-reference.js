@@ -1,7 +1,7 @@
 import ngrToBng from '@defra/ngr-to-bng'
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
 import { postJson } from '../../utils/http.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -33,9 +33,7 @@ const handlers = {
         })
       } else {
         request.yar.set(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE, gridReference)
-        // to use referer we must have a value for LAND_BOUNDARY_HECTARES
-        const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
-        return h.redirect((request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES) && referrerUrl) || constants.routes.ADD_HECTARES)
+        return getNextStep(request, h)
       }
     }
   }

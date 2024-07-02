@@ -1,11 +1,11 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
-import { applicantInfoJourneys } from './applicant-info.js'
-import { landOwnershipJourneys } from './land-ownership.js'
-import { siteBoundaryJourneys } from './site-boundary.js'
-import { localLandChargeJourneys } from './local-land-charge.js'
+import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
+import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
+import { siteBoundaryJourneys, siteBoundaryRouteDefinitions } from './site-boundary.js'
+import { localLandChargeJourneys, localLandChargeRouteDefinitions } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
-import { legalAgreementJourneys } from './legal-agreement.js'
+import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
 
 const REGISTRATIONCONSTANTS = {
   APPLICANT_INFO: 'add-applicant-information',
@@ -90,7 +90,15 @@ const getTaskById = (taskId) => {
   return tasksById[taskId] || null
 }
 
+const routeDefinitions = [
+  ...applicantInfoRouteDefinitions,
+  ...landOwnershipRouteDefinitions,
+  ...legalAgreementRouteDefinitions,
+  ...localLandChargeRouteDefinitions,
+  ...siteBoundaryRouteDefinitions
+]
+
 Object.freeze(taskSections)
 Object.freeze(checkYourAnswers)
 
-export { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS }
+export { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS, routeDefinitions }

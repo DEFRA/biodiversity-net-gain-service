@@ -39,6 +39,9 @@ describe('Local Land Charge upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/local-land-charge.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(1)
@@ -60,6 +63,9 @@ describe('Local Land Charge upload controller tests', () => {
           baseConfig.headers = {
             referer: `'http://localhost:30000${url}`
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -79,6 +85,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-local-land-charge-file'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -96,6 +105,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -115,6 +127,9 @@ describe('Local Land Charge upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -134,6 +149,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-local-land-charge.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file is empty')
@@ -153,6 +171,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
           baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
@@ -171,6 +192,9 @@ describe('Local Land Charge upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           baseConfig.referer = `'http://localhost:30000${url}`
           uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('Select a local land charge search certificate file')
@@ -191,6 +215,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-local-land-charge-file'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -208,6 +235,9 @@ describe('Local Land Charge upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-local-land-charge-file'
+          }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {

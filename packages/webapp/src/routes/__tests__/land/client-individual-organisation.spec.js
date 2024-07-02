@@ -1,5 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
 
 describe(url, () => {
@@ -20,7 +21,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     clientIndividualOrganisation = require('../../land/client-individual-organisation.js')
   })
 
@@ -50,7 +52,8 @@ describe(url, () => {
       redisMap.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
       const request = {
         yar: redisMap,
-        payload: { individualOrOrganisation: 'individual' }
+        payload: { individualOrOrganisation: 'individual' },
+        path: clientIndividualOrganisation.default[1].path
       }
 
       await clientIndividualOrganisation.default[1].handler(request, h)
@@ -60,7 +63,8 @@ describe(url, () => {
     it('Should continue journey to CLIENTS_ORGANISATION_NAME if individualOrOrganisation is organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { individualOrOrganisation: 'organisation' }
+        payload: { individualOrOrganisation: 'organisation' },
+        path: clientIndividualOrganisation.default[1].path
       }
 
       await clientIndividualOrganisation.default[1].handler(request, h)
@@ -71,7 +75,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: clientIndividualOrganisation.default[1].path
       }
 
       await clientIndividualOrganisation.default[1].handler(request, h)

@@ -2,9 +2,9 @@ import constants from '../../utils/constants.js'
 import {
   dateClasses,
   validateAndParseISOString,
-  validateDate,
-  getValidReferrerUrl
+  validateDate
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -51,8 +51,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
     }
     request.yar.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION, enhancementWorkStartDateOption)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
+    return getNextStep(request, h)
   }
 }
 

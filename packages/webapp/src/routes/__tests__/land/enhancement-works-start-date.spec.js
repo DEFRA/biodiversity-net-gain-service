@@ -37,6 +37,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -49,7 +53,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '01'
       postOptions.payload['enhancementWorkStartDate-year'] = '2023'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.statusCode).toBe(302)
       expect(response.headers.location).toBe('/land/habitat-enhancements-end-date')
     })
@@ -59,7 +63,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = ''
       postOptions.payload['enhancementWorkStartDate-year'] = ''
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -69,7 +73,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '01'
       postOptions.payload['enhancementWorkStartDate-year'] = '2022'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -79,7 +83,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = ''
       postOptions.payload['enhancementWorkStartDate-year'] = '2022'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -89,7 +93,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '01'
       postOptions.payload['enhancementWorkStartDate-year'] = ''
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -99,7 +103,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = 'zz'
       postOptions.payload['enhancementWorkStartDate-year'] = 'cc'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -109,7 +113,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '11'
       postOptions.payload['enhancementWorkStartDate-year'] = '2020'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -119,7 +123,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '23'
       postOptions.payload['enhancementWorkStartDate-year'] = '2020'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -129,7 +133,7 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = '23'
       postOptions.payload['enhancementWorkStartDate-year'] = '2a20'
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.result.indexOf('There is a problem')).toBeGreaterThan(1)
     })
@@ -144,14 +148,14 @@ describe(url, () => {
       postOptions.payload['enhancementWorkStartDate-month'] = month
       postOptions.payload['enhancementWorkStartDate-year'] = year
       postOptions.payload.enhancementWorkStartDateOption = 'yes'
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain('Start date cannot be in the future')
     })
     it('should fail if no option selected and continue', async () => {
       postOptions.payload = {}
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('There is a problem')
       expect(response.payload).toContain('Select yes if the habitat enhancement works have started')
     })
@@ -161,6 +165,7 @@ describe(url, () => {
           const postHandler = habitatEnhancementsEndDate[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const payload = {
             'habitatEnhancementsEndDate-day': '01',
             'habitatEnhancementsEndDate-month': '12',
@@ -178,7 +183,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ payload, yar: session }, h)
+          await postHandler({ payload, yar: session, path: habitatEnhancementsEndDate[1].path }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual('/land/check-and-submit')
           done()

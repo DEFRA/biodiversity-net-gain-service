@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.LEGAL_AGREEMENT_TYPE, getContext(request))
@@ -8,12 +8,7 @@ const handlers = {
     const legalAgreementType = request.payload.legalAgreementType
     if (legalAgreementType) {
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, legalAgreementType)
-      if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
-        const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-        return h.redirect(referrerUrl || constants.routes.NEED_ADD_ALL_LEGAL_FILES)
-      } else {
-        return h.redirect(constants.routes.NEED_LEGAL_AGREEMENT)
-      }
+      return getNextStep(request, h)
     } else {
       return h.view(constants.views.LEGAL_AGREEMENT_TYPE, {
         err: [{

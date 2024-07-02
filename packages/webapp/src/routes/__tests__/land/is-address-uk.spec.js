@@ -24,25 +24,31 @@ describe(url, () => {
     })
   })
   describe('POST', () => {
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
+
     it('Should redirect to uk-address if yes selected', async () => {
       postOptions.payload.isAddressUk = 'yes'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.UK_ADDRESS)
     })
     it('Should redirect to non-uk-address if no selected', async () => {
       postOptions.payload.isAddressUk = 'no'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.NON_UK_ADDRESS)
     })
     it('Should return view with error if nothing is selected', async () => {
       postOptions.payload.isAddressUk = null
-      const response = await submitPostRequest(postOptions, 200)
+      const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Select yes if your address is in the UK')
     })
     it('Should return view with error if nothing is selected and ask for client\'s address', async () => {
       postOptions.payload.isAddressUk = null
       const sessionData = JSON.parse(application.dataString)
       sessionData[constants.redisKeys.IS_AGENT] = 'yes'
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Select yes if your client&#39;s address is in the UK')
     })
