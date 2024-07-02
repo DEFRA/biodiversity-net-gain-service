@@ -2,7 +2,8 @@ import {
   ANY,
   routeDefinition,
   journeyStepFromRoute,
-  journeyStep, taskSectionDefinition
+  journeyStep,
+  taskSectionDefinition
 } from '../utils'
 
 const testUrl = 'testUrl'
