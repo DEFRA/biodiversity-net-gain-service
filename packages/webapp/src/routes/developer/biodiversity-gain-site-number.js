@@ -3,7 +3,13 @@ import { BACKEND_API } from '../../utils/config.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import wreck from '@hapi/wreck'
 
-const getGainSiteApiUrl = bgsNumber => new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}?code=${BACKEND_API.CODE_QUERY_PARAMETER}`)
+const getGainSiteApiUrl = bgsNumber => {
+  const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
+  if (BACKEND_API.CODE_QUERY_PARAMETER) {
+    url.searchParams.set('code', BACKEND_API.CODE_QUERY_PARAMETER)
+  }
+  return url
+}
 
 const getStatusErrorMessage = status => {
   switch (status.toLowerCase()) {

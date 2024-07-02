@@ -1,5 +1,7 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import wreck from '@hapi/wreck'
+import { BACKEND_API } from '../../../utils/config.js'
 import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.DEVELOPER_BNG_NUMBER
 
@@ -23,6 +25,10 @@ describe(url, () => {
         url,
         payload: {}
       }
+    })
+
+    afterEach(() => {
+      jest.restoreAllMocks()
     })
 
     it('Should continue journey if valid BGS number provided', async () => {
@@ -167,6 +173,26 @@ describe(url, () => {
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
+    })
+
+    it('Should call the API with a `code` query param if one is configured', async () => {
+      jest.mock('@hapi/wreck')
+      const spy = jest.spyOn(wreck, 'get')
+      jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', 'test123')
+
+      postOptions.payload.bgsNumber = 'BGS-010124001'
+      await submitPostRequest(postOptions)
+      expect(spy.mock.calls[0][0]).toContain('code=test123')
+    })
+
+    it('Should not call the API with a `code` query param if one is not configured', async () => {
+      jest.mock('@hapi/wreck')
+      const spy = jest.spyOn(wreck, 'get')
+      jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', undefined)
+
+      postOptions.payload.bgsNumber = 'BGS-010124001'
+      await submitPostRequest(postOptions)
+      expect(spy.mock.calls[0][0]).not.toContain('code=')
     })
   })
 })
