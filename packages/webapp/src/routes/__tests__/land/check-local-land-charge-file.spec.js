@@ -23,7 +23,7 @@ describe(url, () => {
         payload: {}
       }
     })
-    it.only('should allow confirmation that the correct local search file has been uploaded', async () => {
+    it('should allow confirmation that the correct local search file has been uploaded', async () => {
       postOptions.payload.checkLocalLandCharge = constants.confirmLegalAgreementOptions.YES
       await submitPostRequest(postOptions, 302, sessionData)
     })

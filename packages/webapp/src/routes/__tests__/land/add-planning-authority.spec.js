@@ -59,8 +59,6 @@ describe(url, () => {
     let postOptions
     const sessionData = {}
     beforeEach(() => {
-      // const redisMap = new Map()
-      // redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
       sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       postOptions = {
         url,
