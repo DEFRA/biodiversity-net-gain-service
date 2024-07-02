@@ -168,7 +168,7 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          expect(response.payload).toContain('The selected file could not be uploaded - try again')
           setImmediate(() => {
             done()
           })
