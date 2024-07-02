@@ -8,6 +8,7 @@ import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 
 const url = constants.routes.CHECK_AND_SUBMIT
 jest.mock('../../../utils/http.js')
+jest.mock('../../../journey-validation/task-list-generator.js')
 const postOptions = {
   url,
   payload: {
@@ -88,7 +89,7 @@ describe(url, () => {
         auth
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.views.CHECK_AND_SUBMIT)
@@ -98,7 +99,7 @@ describe(url, () => {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: false })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
@@ -111,7 +112,7 @@ describe(url, () => {
         yar: redisMap
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       await checkAndSubmitGet.default[0].handler(request, h)
       expect(viewResult).toEqual('/')
