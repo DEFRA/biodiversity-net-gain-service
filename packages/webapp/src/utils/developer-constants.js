@@ -89,7 +89,6 @@ const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 const DEVELOPER_APPLICATION_SUBMITTED = 'developer-application-submitted'
 
 const setDeveloperReferer = [
-  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   DEVELOPER_AGREEMENT_CHECK,
   DEVELOPER_CHECK_AND_SUBMIT
 ]
