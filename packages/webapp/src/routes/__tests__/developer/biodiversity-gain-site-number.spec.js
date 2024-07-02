@@ -26,6 +26,10 @@ describe(url, () => {
       }
     })
 
+    afterEach(() => {
+      jest.restoreAllMocks()
+    })
+
     it('Should continue journey if valid BGS number provided', async () => {
       postOptions.payload.bgsNumber = 'BGS-010124001'
       const res = await submitPostRequest(postOptions)
@@ -173,7 +177,6 @@ describe(url, () => {
     it('Should call the API with a `code` query param if one is configured', done => {
       jest.isolateModules(async () => {
         try {
-          jest.resetAllMocks()
           jest.mock('@hapi/wreck')
           const spy = jest.spyOn(wreck, 'get')
           jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', 'test123')
@@ -188,13 +191,12 @@ describe(url, () => {
       })
     })
 
-    // TODO: Figure out why src/routes/__tests__/helpers/server.js:167:31 fails when this second test is present
     it('Should not call the API with a `code` query param if not configured', done => {
       jest.isolateModules(async () => {
         try {
-          jest.resetAllMocks()
           jest.mock('@hapi/wreck')
           const spy = jest.spyOn(wreck, 'get')
+          jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', undefined)
 
           postOptions.payload.bgsNumber = 'BGS-010124001'
           await submitPostRequest(postOptions)
