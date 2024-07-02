@@ -11,6 +11,7 @@ const url = constants.routes.DEVELOPER_CHECK_AND_SUBMIT
 
 jest.mock('../../../utils/http.js')
 jest.mock('../../../utils/helpers.js')
+jest.mock('../../../journey-validation/task-list-generator.js')
 
 const auth = {
   credentials: {
@@ -35,7 +36,7 @@ describe(url, () => {
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view for an organisation application`, async () => {
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')
@@ -48,7 +49,7 @@ describe(url, () => {
         [constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION]: constants.individualOrOrganisationTypes.INDIVIDUAL
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).not.toContain('Geoff')
@@ -67,7 +68,7 @@ describe(url, () => {
         [constants.redisKeys.DEVELOPER_CLIENTS_ORGANISATION_NAME]: orgName
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).not.toContain('Geoff')
@@ -93,7 +94,7 @@ describe(url, () => {
         [constants.redisKeys.DEVELOPER_CLIENTS_NAME]: clientName
       }
 
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).not.toContain('Geoff')
@@ -106,7 +107,7 @@ describe(url, () => {
     })
 
     it('should redirect the view for an organisation application when canSubmit is false', async () => {
-      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
+      taskListUtil.getTaskList.mockReturnValue({ canSubmit: false })
 
       const res = await submitGetRequest({ url }, 302, developerApplicationData)
       expect(res.payload).not.toContain('Geoff')

@@ -1,6 +1,7 @@
 import Session from '../../__mocks__/session.js'
+import { getTaskList, generateTaskList } from '../task-list-generator'
 import constants from '../../utils/constants.js'
-import { getTaskList } from '../task-list-generator.js'
+
 const testString = '1234'
 const session = new Session()
 
@@ -125,5 +126,36 @@ describe('journey validation task list', () => {
         done(err)
       }
     })
+  })
+})
+
+describe('generateTaskList', () => {
+  beforeAll(() => {
+    process.env.USE_MOCK_SERVER = 'true'
+    process.env.NODE_ENV = 'test'
+  })
+
+  it('should lock tasks if dependent tasks are not complete', () => {
+    const taskSections = [
+      {
+        id: 1,
+        title: 'Section 1',
+        tasks: [{ id: 'task1', status: constants.COMPLETE_REGISTRATION_TASK_STATUS, journeyParts: [] }],
+        dependantIds: []
+      },
+      {
+        id: 2,
+        title: 'Section 2',
+        tasks: [{ id: 'task2', status: 'IN_PROGRESS', journeyParts: [] }],
+        dependantIds: [1]
+      }
+    ]
+
+    const session = {}
+
+    const result = generateTaskList(taskSections, session)
+
+    expect(result[1].tasks[0].status).toBe(constants.CANNOT_START_YET_STATUS)
+    expect(result[1].tasks[0].isLocked).toBe(true)
   })
 })
