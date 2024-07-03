@@ -2,7 +2,7 @@ import nunjucks from 'nunjucks'
 import path from 'path'
 import creditsEstimationConstants from '../../../utils/credits-estimation-constants.js'
 const templatesDir = path.resolve(__dirname, './../../')
-const govukDir = path.resolve(__dirname, './../../../../node_modules/govuk-frontend')
+const govukDir = path.resolve(__dirname, './../../../../node_modules/govuk-frontend/dist')
 
 const nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader([
   templatesDir,
