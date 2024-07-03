@@ -1,5 +1,6 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.DEVELOPER_BNG_NUMBER
 
 describe(url, () => {
@@ -90,7 +91,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      const redisMap = new Map()
+      const redisMap = new SessionMap()
       redisMap.set(constants.redisKeys.DEVELOPER_REFERER, constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
       const request = {
         yar: redisMap,
@@ -111,7 +112,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      const redisMap = new Map()
+      const redisMap = new SessionMap()
       redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
       redisMap.set(constants.redisKeys.REFERER, constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
       const request = {
@@ -133,7 +134,7 @@ describe(url, () => {
           viewResult = view
         }
       }
-      const redisMap = new Map()
+      const redisMap = new SessionMap()
       redisMap.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
       redisMap.set(constants.redisKeys.DEVELOPER_REFERER, constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
       const request = {

@@ -10,7 +10,7 @@ const getApplicantContext = (account, session) => {
   // If the applicant is an agent, the individual or organisation the agent is representing has not been captured yet.
   // Similarly, no organisation is present if the applicant is representing themselves.
   const applicantDetails = !isAgent && currentOrganisation ? `${currentUser} for ${currentOrganisation}` : currentUser
-  const confirmationText = `My Defra account details are up to date and I will be applying as ${applicantDetails}`
+  const confirmationText = `I confirm my Defra account details are up to date and I will be applying as ${applicantDetails}`
   const representing = currentOrganisation || `Myself (${applicantDetails})`
   const subject = currentOrganisation || currentUser
   const applicantContext = {
