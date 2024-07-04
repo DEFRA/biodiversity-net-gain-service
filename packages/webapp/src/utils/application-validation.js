@@ -138,7 +138,7 @@ const applicationValidation = Joi.object({
           then: Joi.string().allow(null),
           otherwise: Joi.string().required()
         }),
-        optional: Joi.boolean().required()
+        optional: Joi.boolean().optional()
       })
     ).required(),
     gainSiteReference: Joi.string().allow(''),
