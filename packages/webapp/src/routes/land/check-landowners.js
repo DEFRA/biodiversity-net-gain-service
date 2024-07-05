@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
-import { getLegalAgreementDocumentType, getValidReferrerUrl } from '../../utils/helpers.js'
+import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const getCustomizedHTML = (item, index) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
@@ -81,14 +82,7 @@ const handlers = {
         }]
       })
     }
-
-    if (addAnotherLandowner === 'yes') {
-      request.yar.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
-      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return h.redirect(referrerUrl || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
-    }
-
-    return h.redirect(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
+    return getNextStep(request, h)
   }
 }
 

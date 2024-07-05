@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const isHabitatIncludeLegalAgreement = request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
@@ -24,11 +24,10 @@ const handlers = {
       await deleteBlobFromContainers(habitatPlanLocation)
       request.yar.clear(constants.redisKeys.HABITAT_PLAN_LOCATION)
       request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
-      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return h.redirect(referrerUrl || constants.routes.ENHANCEMENT_WORKS_START_DATE)
+      return getNextStep(request, h)
     }
     request.yar.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
-    return h.redirect(constants.routes.UPLOAD_HABITAT_PLAN)
+    return getNextStep(request, h)
   }
 }
 
