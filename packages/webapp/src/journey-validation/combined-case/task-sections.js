@@ -8,7 +8,7 @@ import { legalAgreementJourneys } from '../registration/legal-agreement.js'
 import { localLandChargeJourneys } from '../registration/local-land-charge.js'
 import { planningDecisionNoticeJourneys } from '../allocation/planning-decision-notice.js'
 import { matchAvailableHabitatsJourneys } from './match-available-habitats.js'
-import { confirmDevAndHabitatsDetailsJourneys } from './confirm-dev-and-habitats-details.js'
+import { addDevelopmentProjectInformationJourneys } from '../allocation/development-project-information.js'
 
 const REGISTRATIONCONSTANTS = {
   APPLICANT_INFO: 'add-applicant-information',
@@ -86,9 +86,9 @@ const matchAvailableHabitats = taskDefinition(
 const confirmDevAndHabitatDetails = taskDefinition(
   'confirm-dev-and-habitat-details',
   'Confirm development and habitat details',
-  constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
-  constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
-  confirmDevAndHabitatsDetailsJourneys
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+  addDevelopmentProjectInformationJourneys
 )
 
 const tasksById = {
