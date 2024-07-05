@@ -102,6 +102,7 @@ const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
 const LEGAL_AGREEMENT_FILES = 'legal-agreement-files'
+const LEGAL_AGREEMENT_CHECK_ID = 'legal-agreement-check-id'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
@@ -224,6 +225,7 @@ export default {
     HABITAT_PLAN_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
     LEGAL_AGREEMENT_FILES,
+    LEGAL_AGREEMENT_CHECK_ID,
     LOCAL_LAND_CHARGE_LOCATION,
     HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
