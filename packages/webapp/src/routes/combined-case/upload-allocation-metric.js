@@ -49,7 +49,7 @@ const processSuccessfulUpload = async (result, request, h) => {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC, error)
   }
-  return h.redirect(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
+  return h.redirect(constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC)
 }
 
 const processErrorUpload = (err, h) => {
