@@ -3,7 +3,7 @@ import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
-import combinedCaseConstants from './combined-case-constants.js'
+import * as combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'

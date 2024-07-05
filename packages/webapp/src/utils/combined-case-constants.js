@@ -1,4 +1,6 @@
-// Routes constants
+import landConstants from './loj-constants.js'
+
+const { routes: { AGENT_ACTING_FOR_CLIENT } } = landConstants
 
 const routes = {
   COMBINED_CASE_TASK_LIST: 'combined-case/tasklist',
@@ -15,8 +17,16 @@ const redisKeys = {
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
 }
 
-export default {
+const reusedRoutes = [
+  `/${AGENT_ACTING_FOR_CLIENT}`
+]
+
+const baseUrl = '/combined'
+
+export {
   routes,
   views,
-  redisKeys
+  redisKeys,
+  reusedRoutes,
+  baseUrl
 }
