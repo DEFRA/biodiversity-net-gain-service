@@ -18,7 +18,7 @@ const matchAvailableHabitatsJourneys = [
       [
         ...METRIC_UPLOAD.sessionKeys
       ],
-      ['true']
+      [true]
     )
   ]
 ]
