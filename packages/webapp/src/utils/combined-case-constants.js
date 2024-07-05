@@ -17,16 +17,27 @@ const redisKeys = {
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
 }
 
-const reusedRoutes = [
+const routesToReuse = [
   `/${AGENT_ACTING_FOR_CLIENT}`
 ]
 
-const baseUrl = '/combined'
+const reusedRoutePath = (baseUrl, originalRoute) => {
+  const pathParts = originalRoute.split('/')
+  const page = pathParts[pathParts.length - 1]
+  return `${baseUrl}/${page}`
+}
+
+const baseUrl = '/combined-case'
+
+const reusedRoutes = {
+  COMBINED_CASE_AGENT_ACTING_FOR_CLIENT: reusedRoutePath(baseUrl, AGENT_ACTING_FOR_CLIENT)
+}
 
 export {
   routes,
   views,
   redisKeys,
+  routesToReuse,
   reusedRoutes,
   baseUrl
 }

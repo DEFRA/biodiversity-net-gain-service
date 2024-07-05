@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
-import { applicantInfoJourneys } from '../registration/applicant-info.js'
+import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
 import { landOwnershipJourneys } from '../registration/land-ownership.js'
 import { siteBoundaryJourneys } from '../registration/site-boundary.js'
 import { habitatInfoJourneys } from '../registration/habitat-info.js'
@@ -22,7 +22,7 @@ const REGISTRATIONCONSTANTS = {
 const applicantInfo = taskDefinition(
   REGISTRATIONCONSTANTS.APPLICANT_INFO,
   'Add details about the applicant',
-  constants.routes.AGENT_ACTING_FOR_CLIENT,
+  constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
   constants.routes.CHECK_APPLICANT_INFORMATION,
   applicantInfoJourneys
 )
@@ -121,7 +121,11 @@ const getTaskById = (taskId) => {
   return tasksById[taskId] || null
 }
 
+const routeDefinitions = [
+  ...applicantInfoRouteDefinitions
+]
+
 Object.freeze(taskSections)
 Object.freeze(checkYourAnswers)
 
-export { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS }
+export { taskSections, checkYourAnswers, getTaskById, REGISTRATIONCONSTANTS, routeDefinitions }

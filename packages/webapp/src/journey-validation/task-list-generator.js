@@ -15,7 +15,8 @@ import {
 } from './allocation/task-sections.js'
 import {
   taskSections as combinedCaseTaskSections,
-  checkYourAnswers as combinedCaseCheckYourAnswers
+  checkYourAnswers as combinedCaseCheckYourAnswers,
+  routeDefinitions as combinedCaseRouteDefinitions
 } from './combined-case/task-sections.js'
 import { FormError } from '../utils/form-error.js'
 
@@ -176,6 +177,9 @@ const getNextStep = (request, h, errCallback) => {
     case constants.applicationTypes.CREDITS_PURCHASE:
       break
     case constants.applicationTypes.ALLOCATION:
+      break
+    case constants.applicationTypes.COMBINED_CASE:
+      task = retrieveTask(combinedCaseRouteDefinitions, path)
       break
   }
 

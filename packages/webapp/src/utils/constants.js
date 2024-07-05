@@ -203,6 +203,10 @@ let routes = {
   COOKIES
 }
 
+const reusedRoutes = {
+  ...combinedCaseConstants.reusedRoutes
+}
+
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
@@ -339,5 +343,6 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
-  primaryPages
+  primaryPages,
+  reusedRoutes
 })

@@ -1,22 +1,26 @@
 import constants from '../utils/constants.js'
-import { baseUrl as combinedCaseBaseUrl, reusedRoutes as combinedCaseReusedRoutes } from '../utils/combined-case-constants.js'
+import { baseUrl as combinedCaseBaseUrl, routesToReuse as combinedCaseReuseRoutes } from '../utils/combined-case-constants.js'
 
 const router = async () => {
   const mainRoutes = [].concat(
     ...await Promise.all(Object.values(constants.routes).map(async route => (await import(`../routes/${route}.js`)).default))
   )
 
-  const combinedCaseRoutes = [...combinedCaseReusedRoutes].map(routePath => {
-    const originalRoute = mainRoutes.find(m => m.path === routePath)
-    if (originalRoute) {
-      const pathParts = originalRoute.path.split('/')
-      const page = pathParts[pathParts.length - 1]
-      return {
-        ...originalRoute, ...{ path: `${combinedCaseBaseUrl}/${page}` }
-      }
+  const combinedCaseRoutes = combinedCaseReuseRoutes.reduce((acc, routePath) => {
+    const matchingRoutes = mainRoutes.filter(m => m.path === routePath)
+    if (matchingRoutes.length) {
+      const modifiedRoutes = matchingRoutes.map(originalRoute => {
+        const pathParts = originalRoute.path.split('/')
+        const page = pathParts[pathParts.length - 1]
+        return {
+          ...originalRoute,
+          path: `${combinedCaseBaseUrl}/${page}`
+        }
+      })
+      return [...acc, ...modifiedRoutes]
     }
-    return null
-  }).filter(route => route !== null)
+    return acc
+  }, [])
 
   const routes = [...mainRoutes, ...combinedCaseRoutes]
 
