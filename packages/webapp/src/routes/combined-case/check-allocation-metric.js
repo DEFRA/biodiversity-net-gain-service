@@ -18,9 +18,9 @@ const handlers = {
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
       request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
-      return h.redirect(constants.routes.DEVELOPER_BNG_NUMBER)
+      return h.redirect(constants.routes.COMBINED_CASE_MATCH_AVAILABLE_HABITATS)
     } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
-      return h.redirect(constants.routes.DEVELOPER_CONFIRM_OFF_SITE_GAIN)
+      return h.redirect(constants.routes.COMBINED_CASE_MATCH_AVAILABLE_HABITATS)
     }
     return h.view(constants.views.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC, {
       filename: path.basename(metricUploadLocation),
