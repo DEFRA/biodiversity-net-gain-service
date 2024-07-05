@@ -6,6 +6,7 @@ import { siteBoundaryJourneys } from './site-boundary.js'
 import { localLandChargeJourneys } from './local-land-charge.js'
 import { habitatInfoJourneys } from './habitat-info.js'
 import { legalAgreementJourneys } from './legal-agreement.js'
+import { planningDecisionNoticeJourneys } from '../allocation/planning-decision-notice.js'
 
 const REGISTRATIONCONSTANTS = {
   APPLICANT_INFO: 'add-applicant-information',
@@ -63,6 +64,10 @@ const localLandCharge = taskDefinition(
   constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
   localLandChargeJourneys
 )
+
+
+
+
 const tasksById = {
   [REGISTRATIONCONSTANTS.APPLICANT_INFO]: applicantInfo,
   [REGISTRATIONCONSTANTS.LAND_OWNERSHIP]: landOwnership,
@@ -84,7 +89,7 @@ const checkYourAnswers = {
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantInfo]),
   taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo]),
-  taskSectionDefinition('Legal information', [legalAgreement, localLandCharge])
+  taskSectionDefinition('Legal information', [legalAgreement, localLandCharge]),
 ]
 const getTaskById = (taskId) => {
   return tasksById[taskId] || null
