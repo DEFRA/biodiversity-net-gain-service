@@ -1,0 +1,71 @@
+{% extends 'form-layout.html' %}
+
+{% set serviceName = "Register a biodiversity gain site" %}
+{% set pageHeading = "Match available habitats" %}
+{% set hideBackLink = true %}
+
+{% block formContent %}
+<div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <!-- This needs to be auto-populated with the page we are on and the amount of pages -->
+        <span  class="govuk-caption-l">Step 1 of 3</span>
+        
+        <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
+        
+        <p class="govuk-hint">(Taken from enhanced habitats cell ref B2 from your metric)</p>
+
+        <p>Choose which available habitat best matches to allocate against your:</p> 
+             
+        <!-- TODO: This text needs to be auto-populated -->
+        {{ govukInsetText({
+            text: "Example - example habitat text (2 acres / Moderate condition)"
+        }) }}
+
+        <!-- TODO: these radios need to be auto-populated with values for each page -->
+        <!-- TODO: deal with checked values -->
+        <!-- checked: applicationType === "registration" --> 
+        {{ govukRadios({
+          idPrefix: "matchHabitats",
+          name: "matchHabitats",
+          errorMessage: err[0],
+          fieldset: {
+            legend: {
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "example-value-1",
+              text: "Example habitat 1",
+              id: "exampleId",
+              hint: {
+                text: "2.0 acres / Moderate condition"
+              }
+            },
+            {
+              value: "example-value-2",
+              text: "Example habitat 2",
+              id: "exampleId",
+              hint: {
+                text: "3 acres / Good condition"
+              }
+            }
+          ]
+        }) }}
+  
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+            id: "continue"
+          }
+        }) }}
+  
+      </form>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
