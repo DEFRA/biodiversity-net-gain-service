@@ -18,7 +18,7 @@ const PLANNING_DECISION_UPLOAD = routeDefinition(
 )
 
 const CHECK_PLANNING_DECISION = routeDefinition(
-  constants.reusedRoutes.COMBINED_CASE_PLANNING_DECISION_CHECKED,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_PLANNING_DECISION_NOTICE,
   [constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED]
 )
 
