@@ -10,7 +10,7 @@ import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import { FormError } from '../../utils/form-error.js'
 
 const AGENT_ACTING_FOR_CLIENT = routeDefinition(
-  constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
+  constants.routes.AGENT_ACTING_FOR_CLIENT,
   [constants.redisKeys.IS_AGENT],
   (session) => {
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
