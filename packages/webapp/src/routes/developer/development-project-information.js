@@ -4,6 +4,7 @@ import {
   getValidReferrerUrl,
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
@@ -62,8 +63,7 @@ const handlers = {
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST, selectedLpa)
       request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF, planningApplicationRef)
       request.yar.set(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME, developmentName)
-      const referrerUrl = getValidReferrerUrl(request.yar, ['/developer/check-and-submit', 'developer/tasklist'])
-      return h.redirect(referrerUrl || constants.routes.DEVELOPER_TASKLIST)
+      return getNextStep(request, h)
     }
   }
 }

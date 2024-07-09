@@ -6,11 +6,10 @@ import {
   journeyStepFromRoute
 } from '../utils.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
-import path from 'path'
 import { FormError } from '../../utils/form-error.js'
 
 const UPLOAD_METRIC = routeDefinition(
-  constants.routes.UPLOAD_METRIC,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_METRIC,
   [
     constants.redisKeys.METRIC_LOCATION,
     constants.redisKeys.METRIC_FILE_SIZE,
@@ -18,21 +17,21 @@ const UPLOAD_METRIC = routeDefinition(
     constants.redisKeys.METRIC_DATA
   ],
   () => {
-    return constants.routes.CHECK_UPLOAD_METRIC
+    return constants.reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC
   }
 )
 
 const CHECK_UPLOAD_METRIC = routeDefinition(
-  constants.routes.CHECK_UPLOAD_METRIC,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC,
   [constants.redisKeys.METRIC_FILE_CHECKED],
   (session) => {
     const checkUploadMetric = session.get(constants.redisKeys.METRIC_FILE_CHECKED)
     if (checkUploadMetric === 'no') {
-      return constants.routes.UPLOAD_METRIC
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_METRIC
     } else if (checkUploadMetric === 'yes') {
       session.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
-      return (referrerUrl || constants.routes.CHECK_HABITAT_BASELINE)
+      return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_BASELINE)
     } else {
       const message = 'Select yes if this is the correct file'
       throw new FormError(message, {
@@ -44,20 +43,20 @@ const CHECK_UPLOAD_METRIC = routeDefinition(
 )
 
 const CHECK_HABITAT_BASELINE = routeDefinition(
-  constants.routes.CHECK_HABITAT_BASELINE,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_BASELINE,
   [constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
-    return (referrerUrl || constants.routes.CHECK_HABITAT_CREATED)
+    return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_CREATED)
   }
 )
 
 const CHECK_HABITAT_CREATED = routeDefinition(
-  constants.routes.CHECK_HABITAT_CREATED,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_CREATED,
   [constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
-    return (referrerUrl || constants.routes.CHECK_METRIC_DETAILS)
+    return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_METRIC_DETAILS)
   }
 )
 

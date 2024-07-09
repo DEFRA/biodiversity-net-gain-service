@@ -38,7 +38,9 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
   const hasBGS = checkBGS(result.postProcess.metricData, request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER))
-  if (!hasBGS) {
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  const isAllocation = applicationType === constants.applicationTypes.ALLOCATION
+  if (!hasBGS && isAllocation) {
     const error = {
       err: [
         {
@@ -111,7 +113,14 @@ const processErrorUpload = (err, h) => {
 }
 
 const handlers = {
-  get: async (_request, h) => h.view(constants.views.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC),
+  get: async (request, h) => {
+    const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+    return h.view(constants.views.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC,
+      {
+        isAllocation: applicationType === constants.applicationTypes.ALLOCATION
+      }
+    )
+  },
   post: async (request, h) => {
     // Get upload config object from common code
     const uploadConfig = buildConfig({

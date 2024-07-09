@@ -6,19 +6,19 @@ import {
 } from '../utils.js'
 
 const PLANNING_DECISION_UPLOAD = routeDefinition(
-  constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_PLANNING_DECISION_NOTICE,
   [
     constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION,
     constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE,
     constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE
   ],
   (session) => {
-    return constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE
+    return constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE
   }
 )
 
 const CHECK_PLANNING_DECISION = routeDefinition(
-  constants.routes.DEVELOPER_PLANNING_DECISION_CHECKED,
+  constants.reusedRoutes.COMBINED_CASE_PLANNING_DECISION_CHECKED,
   [constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED]
 )
 

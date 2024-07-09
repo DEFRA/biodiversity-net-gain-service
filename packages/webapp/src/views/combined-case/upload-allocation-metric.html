@@ -19,7 +19,9 @@
 
         <div id="location-upload-hint">
           <p>You must upload a calculation made using the statutory (official) biodiversity metric tool for the development project. Do not use previous versions of the metric tool (4.0 or before).</p>
-          <p>It must be the same calculation the local planning authority reviewed with the development project's planning application.</p>
+        {% if isAllocation %}
+            <p>It must be the same calculation the local planning authority reviewed with the development project's planning application.</p>
+        {% endif %}
           <p>You can <a href="https://www.gov.uk/guidance/biodiversity-metric-calculate-the-biodiversity-net-gain-of-a-project-or-development" target="__blank" rel="noreferrer noopener">find out more about completing a biodiversity metric calculation</a> on GOV.UK.</p>
 
           <p>The file should be:</p>
