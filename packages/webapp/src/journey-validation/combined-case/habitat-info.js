@@ -75,6 +75,14 @@ const habitatInfoJourneys = [
   ]
 ]
 
+const habitatInfoRouteDefinitions = [
+  UPLOAD_METRIC,
+  CHECK_UPLOAD_METRIC,
+  CHECK_HABITAT_BASELINE,
+  CHECK_HABITAT_CREATED
+]
+
 export {
-  habitatInfoJourneys
+  habitatInfoJourneys,
+  habitatInfoRouteDefinitions
 }
