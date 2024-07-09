@@ -8,7 +8,8 @@ export default {
   handler: async (request, h) => {
     const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     return h.view(constants.views.BIODIVERSITY_GAIN_SITES, {
-      ...await getContextForRegistrations(request.auth.credentials.account.idTokenClaims.contactId, organisationId)
+      ...await getContextForRegistrations(request.auth.credentials.account.idTokenClaims.contactId, organisationId),
+      AMENDMENT_GUIDE_URL_REGISTRATION: constants.AMENDMENT_GUIDE_URL_REGISTRATION
     })
   }
 }
