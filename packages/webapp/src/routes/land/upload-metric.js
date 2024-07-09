@@ -19,6 +19,10 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
+  // console.log('Metric data:::', result.postProcess.metricData)
+  // console.log('Metric data d1 data:::', result.postProcess.metricData.d1)
+  // THIS IS AN EXAMPLE OF HOW WE CAN ACCESS THE NUMBER OF ROWS ON EACH SHEET (YOU NEED TO HANDLE THE SUMMARY ROW)
+  console.log('LAND Number of objects in d1 array:', result.postProcess.metricData.d1.length)
   return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
 }
 
