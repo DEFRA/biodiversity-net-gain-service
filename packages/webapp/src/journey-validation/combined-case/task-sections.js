@@ -6,7 +6,7 @@ import { siteBoundaryJourneys } from './site-boundary.js'
 import { habitatInfoJourneys, habitatInfoRouteDefinitions } from './habitat-info.js'
 import { legalAgreementJourneys } from './legal-agreement.js'
 import { localLandChargeJourneys } from './local-land-charge.js'
-import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
+import { planningDecisionNoticeJourneys, planningDecisionNoticeRouteDefinitions } from './planning-decision-notice.js'
 import { matchAvailableHabitatsJourneys } from './match-available-habitats.js'
 import { addDevelopmentProjectInformationJourneys, addDevelopmentProjectInformationJourneysRouteDefinitions } from './development-project-information.js'
 
@@ -124,7 +124,8 @@ const getTaskById = (taskId) => {
 const routeDefinitions = [
   ...applicantInfoRouteDefinitions,
   ...addDevelopmentProjectInformationJourneysRouteDefinitions,
-  ...habitatInfoRouteDefinitions
+  ...habitatInfoRouteDefinitions,
+  ...planningDecisionNoticeRouteDefinitions
 ]
 
 Object.freeze(taskSections)

@@ -35,6 +35,12 @@ const planningDecisionNoticeJourneys = [
   ]
 ]
 
+const planningDecisionNoticeRouteDefinitions = [
+  PLANNING_DECISION_UPLOAD,
+  CHECK_PLANNING_DECISION
+]
+
 export {
-  planningDecisionNoticeJourneys
+  planningDecisionNoticeJourneys,
+  planningDecisionNoticeRouteDefinitions
 }
