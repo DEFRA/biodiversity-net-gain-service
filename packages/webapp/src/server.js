@@ -76,7 +76,7 @@ const init = async server => {
       // Set the nonce in the context
       response.source.context.nonce = nonce
       // Set CSP header if response allows setting headers
-      const scriptHash = '+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='
+      const scriptHash = 'GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='
       // This is a hash of the inline script in GDS template. It is added to the CSP to except the in-line
       const csp = 'default-src \'self\'; ' +
             `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'sha256-${scriptHash}' www.googletagmanager.com; ` +
