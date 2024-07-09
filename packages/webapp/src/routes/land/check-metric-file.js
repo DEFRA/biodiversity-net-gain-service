@@ -12,6 +12,7 @@ const handlers = {
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
     if (checkUploadMetric === 'no') {
+      request.yar.clear(constants.redisKeys.METRIC_FILE_CHECKED)
       return h.redirect(constants.routes.UPLOAD_METRIC)
     } else if (checkUploadMetric === 'yes') {
       request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
