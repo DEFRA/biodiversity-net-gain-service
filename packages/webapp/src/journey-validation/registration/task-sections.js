@@ -64,9 +64,6 @@ const localLandCharge = taskDefinition(
   localLandChargeJourneys
 )
 
-
-
-
 const tasksById = {
   [REGISTRATIONCONSTANTS.APPLICANT_INFO]: applicantInfo,
   [REGISTRATIONCONSTANTS.LAND_OWNERSHIP]: landOwnership,
@@ -88,7 +85,7 @@ const checkYourAnswers = {
 const taskSections = [
   taskSectionDefinition('Applicant information', [applicantInfo]),
   taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo]),
-  taskSectionDefinition('Legal information', [legalAgreement, localLandCharge]),
+  taskSectionDefinition('Legal information', [legalAgreement, localLandCharge])
 ]
 const getTaskById = (taskId) => {
   return tasksById[taskId] || null

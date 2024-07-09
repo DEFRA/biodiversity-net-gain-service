@@ -6,7 +6,6 @@ import {
   journeyStepFromRoute
 } from '../utils.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
-import path from 'path'
 import { FormError } from '../../utils/form-error.js'
 
 const UPLOAD_METRIC = routeDefinition(

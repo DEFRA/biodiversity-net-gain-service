@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { habitatTypeAndConditionMapper, combineHabitats, getValidReferrerUrl } from '../../utils/helpers.js'
+import { habitatTypeAndConditionMapper, combineHabitats } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {

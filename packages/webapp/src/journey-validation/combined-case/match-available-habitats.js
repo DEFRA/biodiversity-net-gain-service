@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import {
   routeDefinition,
-  journeyStep,
+  journeyStep
 } from '../utils.js'
 
 const METRIC_UPLOAD = routeDefinition(

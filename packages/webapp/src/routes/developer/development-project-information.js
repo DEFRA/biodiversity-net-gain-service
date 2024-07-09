@@ -1,7 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
 import {
-  getValidReferrerUrl,
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'

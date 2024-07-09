@@ -3,7 +3,7 @@ import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
 import { allocationInformationJourneys } from './allocation-information.js'
 import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
-import { addDevelopmentProjectInformationJourneys, addDevelopmentProjectInformationJourneysRouteDefinitions } from './development-project-information.js'
+import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
 import { applicantInfoRouteDefinitions } from '../combined-case/applicant-info.js'
 
 const applicantDetails = taskDefinition(
