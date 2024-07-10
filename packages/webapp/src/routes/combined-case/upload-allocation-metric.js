@@ -1,7 +1,7 @@
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { processSuccessfulUpload, processErrorUpload, maximumFileSizeExceeded } from '../../utils/upload-utils.js'
+import { processSuccessfulUpload, processErrorUpload, maximumFileSizeExceeded } from '../../utils/developer-upload-metric.js'
 
 const handlers = {
   get: async (request, h) => {
