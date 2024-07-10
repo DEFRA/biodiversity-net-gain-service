@@ -307,6 +307,14 @@ const CHECK_PLANNING_AUTHORITIES = routeDefinition(
   }
 )
 
+const CHECK_LEGAL_AGREEMENT_DETAILS = routeDefinition(
+  constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS,
+  [],
+  () => {
+    return constants.routes.COMBINED_CASE_TASK_LIST
+  }
+)
+
 const CON_COV_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[1].id], true)
 const S106_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[0].id], true)
 const NEED_LEGAL_FILES = journeyStepFromRoute(NEED_ADD_ALL_LEGAL_FILES, [true])
@@ -484,7 +492,8 @@ const legalAgreementRouteDefinitions = [
   HABITAT_ENHANCEMENTS_END_DATE,
   NEED_ADD_ALL_PLANNING_AUTHORITIES,
   ADD_PLANNING_AUTHORITY,
-  CHECK_PLANNING_AUTHORITIES
+  CHECK_PLANNING_AUTHORITIES,
+  CHECK_LEGAL_AGREEMENT_DETAILS
 ]
 
 export {
