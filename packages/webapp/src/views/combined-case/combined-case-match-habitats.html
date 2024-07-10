@@ -8,16 +8,16 @@
 <div class="govuk-body">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-        <!-- This needs to be auto-populated with the page we are on and the amount of pages -->
+
         <span  class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
         
         <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
         
+        <!-- TODO: This needs to be parameterized -->
         <p class="govuk-hint">(Taken from enhanced habitats cell ref B2 from your metric)</p>
 
         <p>Choose which available habitat best matches to allocate against your:</p> 
              
-        <!-- TODO: This text needs to be auto-populated -->
         {{ govukInsetText({
           text: broadHabitat + " - " + habitatType + " (" + area + " hectares / " + condition + " condition)"
       }) }}
@@ -29,7 +29,7 @@
           items: [
             {
               value: "selected-value",
-              text: "Selected habitat",
+              text: broadHabitat + " - " + habitatType,
               hint: {
                 text: area + " hectares / " + condition + " condition"
               }
@@ -40,7 +40,10 @@
         <input type="hidden" name="currentPage" value="{{ currentPage }}">
 
         {{ govukButton({
-          text: "Save and continue"
+          text: "Save and continue",
+          attributes: {
+            id: "continue"
+          }
         }) }}
       </form>
     </div>
