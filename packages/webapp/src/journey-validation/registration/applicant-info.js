@@ -233,6 +233,14 @@ const CLIENTS_PHONE_NUMBER = routeDefinition(
   }
 )
 
+const CHECK_APPLICANT_INFORMATION = routeDefinition(
+  constants.routes.CHECK_APPLICANT_INFORMATION,
+  [],
+  () => {
+    return constants.routes.REGISTER_LAND_TASK_LIST
+  }
+)
+
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)
 const AGENT_YES = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['yes'], true)
 const CHECK_ACCOUNT = journeyStepFromRoute(CHECK_DEFRA_ACCOUNT_DETAILS, ['true'])
@@ -364,7 +372,8 @@ const applicantInfoRouteDefinitions = [
   CHECK_WRITTEN_AUTHORISATION_FILE,
   CLIENTS_NAME,
   CLIENTS_EMAIL_ADDRESS,
-  CLIENTS_PHONE_NUMBER
+  CLIENTS_PHONE_NUMBER,
+  CHECK_APPLICANT_INFORMATION
 ]
 
 export {
