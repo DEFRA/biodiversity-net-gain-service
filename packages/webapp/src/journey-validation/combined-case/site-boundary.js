@@ -41,7 +41,7 @@ const CHECK_LAND_BOUNDARY = routeDefinition(
 )
 
 const ADD_GRID_REFERENCE = routeDefinition(
-  constants.routes.ADD_GRID_REFERENCE,
+  constants.redisKeys.COMBINED_CASE_ADD_GRID_REFERENCE,
   [constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
@@ -50,7 +50,7 @@ const ADD_GRID_REFERENCE = routeDefinition(
 )
 
 const ADD_HECTARES = routeDefinition(
-  constants.routes.ADD_HECTARES,
+  constants.redisKeys.COMBINED_CASE_ADD_HECTARES,
   [constants.redisKeys.LAND_BOUNDARY_HECTARES],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
