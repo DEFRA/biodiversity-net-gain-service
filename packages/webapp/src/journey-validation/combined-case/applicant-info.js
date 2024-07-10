@@ -16,9 +16,9 @@ const AGENT_ACTING_FOR_CLIENT = routeDefinition(
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (isApplicantAgent === 'yes') {
-      return referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_DEFRA_ACCOUNT_DETAILS
     } else if (isApplicantAgent === 'no') {
-      return referrerUrl || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION
     } else {
       const message = 'Select yes if you are an agent acting on behalf of a client'
       throw new FormError(message, {
@@ -30,36 +30,36 @@ const AGENT_ACTING_FOR_CLIENT = routeDefinition(
 )
 
 const CHECK_DEFRA_ACCOUNT_DETAILS = routeDefinition(
-  constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_DEFRA_ACCOUNT_DETAILS,
   [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (referrerUrl) {
       return referrerUrl
     } else if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
-      return constants.routes.CLIENT_INDIVIDUAL_ORGANISATION
+      return constants.reusedRoutes.COMBINED_CASE_CLIENT_INDIVIDUAL_ORGANISATION
     } else {
-      return constants.routes.IS_ADDRESS_UK
+      return constants.reusedRoutes.COMBINED_CASE_IS_ADDRESS_UK
     }
   }
 )
 
 const CLIENT_INDIVIDUAL_ORGANISATION = routeDefinition(
-  constants.routes.CLIENT_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_CLIENT_INDIVIDUAL_ORGANISATION,
   [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY],
   (session) => {
     const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return session.get(referrerUrl, true) || constants.routes.CLIENTS_NAME
+      return session.get(referrerUrl, true) || constants.reusedRoutes.COMBINED_CASE_CLIENTS_NAME
     } else {
-      return session.get(referrerUrl, true) || constants.routes.CLIENTS_ORGANISATION_NAME
+      return session.get(referrerUrl, true) || constants.reusedRoutes.COMBINED_CASE_CLIENTS_ORGANISATION_NAME
     }
   }
 )
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
-  constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
   [constants.redisKeys.LANDOWNER_TYPE],
   (session, request) => {
     const individualSignInErrorMessage = `
@@ -81,7 +81,7 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
 
       if ((isIndividual && !organisation) || (isOrganisation && organisation)) {
         const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-        return referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS
+        return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_DEFRA_ACCOUNT_DETAILS
       }
 
       if (isIndividual) {
@@ -91,7 +91,7 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
         })
       } else if (isOrganisation) {
         if (noOrganisationsLinkedToDefraAccount) {
-          return constants.routes.DEFRA_ACCOUNT_NOT_LINKED
+          return constants.reusedRoutes.COMBINED_CASE_DEFRA_ACCOUNT_NOT_LINKED
         } else {
           throw new FormError(individualSignInErrorMessage, {
             text: individualSignInErrorMessage,
@@ -110,15 +110,15 @@ const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = routeDefinition(
 )
 
 const IS_ADDRESS_UK = routeDefinition(
-  constants.routes.IS_ADDRESS_UK,
+  constants.reusedRoutes.COMBINED_CASE_IS_ADDRESS_UK,
   [constants.redisKeys.IS_ADDRESS_UK_KEY],
   (session) => {
     const isAddressUk = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY)
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
     if (isAddressUk === 'yes') {
-      return constants.routes.UK_ADDRESS
+      return constants.reusedRoutes.COMBINED_CASE_UK_ADDRESS
     } else if (isAddressUk === 'no') {
-      return constants.routes.NON_UK_ADDRESS
+      return constants.reusedRoutes.COMBINED_CASE_NON_UK_ADDRESS
     } else {
       const message = `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`
       throw new FormError(message, {
@@ -130,72 +130,72 @@ const IS_ADDRESS_UK = routeDefinition(
 )
 
 const UK_ADDRESS = routeDefinition(
-  constants.routes.UK_ADDRESS,
+  constants.reusedRoutes.COMBINED_CASE_UK_ADDRESS,
   [constants.redisKeys.UK_ADDRESS_KEY],
   (session) => {
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
     const isIndividualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     if (isApplicantAgent === 'no') {
-      return constants.routes.CHECK_APPLICANT_INFORMATION
+      return constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
     }
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CLIENTS_EMAIL_ADDRESS
     } else {
-      return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_UPLOAD_WRITTEN_AUTHORISATION
     }
   }
 )
 
 const NON_UK_ADDRESS = routeDefinition(
-  constants.routes.NON_UK_ADDRESS,
+  constants.reusedRoutes.COMBINED_CASE_NON_UK_ADDRESS,
   [constants.redisKeys.NON_UK_ADDRESS_KEY],
   (session) => {
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
     const isIndividualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
     if (isApplicantAgent === 'no') {
-      return constants.routes.CHECK_APPLICANT_INFORMATION
+      return constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
     }
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-      return referrerUrl || constants.routes.CLIENTS_EMAIL_ADDRESS
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CLIENTS_EMAIL_ADDRESS
     } else {
-      return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_UPLOAD_WRITTEN_AUTHORISATION
     }
   }
 )
 
 const CLIENTS_ORGANISATION_NAME = routeDefinition(
-  constants.routes.CLIENTS_ORGANISATION_NAME,
+  constants.reusedRoutes.COMBINED_CASE_CLIENTS_ORGANISATION_NAME,
   [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return referrerUrl || constants.routes.IS_ADDRESS_UK
+    return referrerUrl || constants.reusedRoutes.COMBINED_CASE_IS_ADDRESS_UK
   }
 )
 
 const UPLOAD_WRITTEN_AUTHORISATION = routeDefinition(
-  constants.routes.UPLOAD_WRITTEN_AUTHORISATION,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_WRITTEN_AUTHORISATION,
   [
     constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION,
     constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE,
     constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE
   ],
   () => {
-    return constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE
+    return constants.reusedRoutes.COMBINED_CASE_CHECK_WRITTEN_AUTHORISATION_FILE
   }
 )
 
 const CHECK_WRITTEN_AUTHORISATION_FILE = routeDefinition(
-  constants.routes.CHECK_WRITTEN_AUTHORISATION_FILE,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_WRITTEN_AUTHORISATION_FILE,
   [constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED],
   (session) => {
     const checkWrittenAuthorisation = session.get(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED)
     if (checkWrittenAuthorisation === 'no') {
-      return constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_WRITTEN_AUTHORISATION
     } else if (checkWrittenAuthorisation === 'yes') {
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-      return referrerUrl || constants.routes.CHECK_APPLICANT_INFORMATION
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
     } else {
       const message = 'Select yes if this is the correct file'
       throw new FormError(message, {
@@ -207,29 +207,29 @@ const CHECK_WRITTEN_AUTHORISATION_FILE = routeDefinition(
 )
 
 const CLIENTS_NAME = routeDefinition(
-  constants.routes.CLIENTS_NAME,
+  constants.reusedRoutes.COMBINED_CASE_CLIENTS_NAME,
   [constants.redisKeys.CLIENTS_NAME_KEY],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return referrerUrl || constants.routes.IS_ADDRESS_UK
+    return referrerUrl || constants.reusedRoutes.COMBINED_CASE_IS_ADDRESS_UK
   }
 )
 
 const CLIENTS_EMAIL_ADDRESS = routeDefinition(
-  constants.routes.CLIENTS_EMAIL_ADDRESS,
+  constants.reusedRoutes.COMBINED_CASE_CLIENTS_EMAIL_ADDRESS,
   [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return referrerUrl || constants.routes.CLIENTS_PHONE_NUMBER
+    return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CLIENTS_PHONE_NUMBER
   }
 )
 
 const CLIENTS_PHONE_NUMBER = routeDefinition(
-  constants.routes.CLIENTS_PHONE_NUMBER,
+  constants.reusedRoutes.COMBINED_CASE_CLIENTS_PHONE_NUMBER,
   [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    return referrerUrl || constants.routes.UPLOAD_WRITTEN_AUTHORISATION
+    return referrerUrl || constants.reusedRoutes.COMBINED_CASE_UPLOAD_WRITTEN_AUTHORISATION
   }
 )
 
