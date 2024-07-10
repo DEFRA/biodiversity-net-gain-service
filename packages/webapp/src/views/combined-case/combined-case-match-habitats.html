@@ -9,7 +9,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <!-- This needs to be auto-populated with the page we are on and the amount of pages -->
-        <span  class="govuk-caption-l">Step 1 of {{ numberOfPages }}</span>
+        <span  class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
         
         <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
         
@@ -19,53 +19,31 @@
              
         <!-- TODO: This text needs to be auto-populated -->
         {{ govukInsetText({
-            text: broadHabitat[0] + " - " + habitatType[0] + " (" + area[0] + " hectares / " + condition[1] + " condition)"
-        }) }}
+          text: broadHabitat + " - " + habitatType + " (" + area + " hectares / " + condition + " condition)"
+      }) }}
 
-        <!-- TODO: these radios need to be auto-populated with values for each page -->
-        <!-- TODO: deal with checked values -->
-        <!-- checked: applicationType === "registration" --> 
+      <form method="post">
         {{ govukRadios({
           idPrefix: "matchHabitats",
           name: "matchHabitats",
-          errorMessage: err[0],
-          fieldset: {
-            legend: {
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
           items: [
             {
-              value: "example-value-1",
-              text: "Example habitat 1",
-              id: "exampleId",
+              value: "selected-value",
+              text: "Selected habitat",
               hint: {
-                text: "2.0 acres / Moderate condition"
-              }
-            },
-            {
-              value: "example-value-2",
-              text: "Example habitat 2",
-              id: "exampleId",
-              hint: {
-                text: "3 acres / Good condition"
+                text: area + " hectares / " + condition + " condition"
               }
             }
           ]
         }) }}
-  
-        {{ govukButton({
-          text: "Save and continue",
-          attributes: {
-            id: "continue"
-          }
-        }) }}
-  
-      </form>
 
-      </div>
+        <input type="hidden" name="currentPage" value="{{ currentPage }}">
+
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      </form>
     </div>
   </div>
-
+</div>
 {% endblock %}
