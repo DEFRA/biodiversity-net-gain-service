@@ -30,20 +30,7 @@
 {% from "govuk/components/warning-text/macro.njk"        import govukWarningText %}
 
 {% block head %}
-  <!--[if !IE 8]><!-->
-    <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet" />
-  <!--<![endif]-->
-
-  {# For Internet Explorer 8, you need to compile specific stylesheet #}
-  {# see https://github.com/alphagov/govuk-frontend/blob/master/docs/installation/supporting-internet-explorer-8.md #}
-  <!--[if IE 8]>
-    <link href="{{ assetPath }}/govuk-frontend/all-ie8.css" rel="stylesheet" />
-  <![endif]-->
-
-  {# For older browsers to allow them to recognise HTML5 elements such as `<header>` #}
-  <!--[if lt IE 9]>
-    <script src="/html5-shiv/html5shiv.js"></script>
-  <![endif]-->
+  <link href="{{ assetPath }}/stylesheets/application.css" rel="stylesheet" />
 
   <!-- Application version: {{ applicationVersion }} -->
   <link href="{{ assetPath }}/stylesheets/pages/assisted-digital-helpline.css" rel="stylesheet" />
