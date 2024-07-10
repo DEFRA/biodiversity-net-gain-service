@@ -795,6 +795,16 @@ const isAgentAndNotLandowner = session => {
   return isAgent && clientIsNotLandownerOrLeaseholder
 }
 
+const getDeveloperCheckMetricFileContext = request => {
+  const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  const fileSize = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE)
+  const humanReadableFileSize = getHumanReadableFileSize(fileSize, 1)
+  return {
+    filename: fileLocation === null ? '' : path.parse(fileLocation).base,
+    fileSize: humanReadableFileSize
+  }
+}
+
 export {
   validateDate,
   dateClasses,
@@ -852,5 +862,6 @@ export {
   creditsValidationSchema,
   creditsValidationFailAction,
   isAgentAndNotLandowner,
-  setInpageLinks
+  setInpageLinks,
+  getDeveloperCheckMetricFileContext
 }
