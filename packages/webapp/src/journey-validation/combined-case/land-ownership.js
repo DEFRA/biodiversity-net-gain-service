@@ -36,7 +36,7 @@ const LAND_OWNERSHIP_PROOF_LIST = routeDefinition(
     const landOwnershipProofListKey = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY)
     if (landOwnershipProofListKey) {
       const referrerUrl = getValidReferrerUrl(session, ['/land/check-and-submit'])
-      return referrerUrl || constants.routes.REGISTER_LAND_TASK_LIST
+      return referrerUrl || constants.routes.COMBINED_CASE_TASK_LIST
     } else {
       return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_OWNERSHIP
     }

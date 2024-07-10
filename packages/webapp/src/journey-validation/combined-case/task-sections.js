@@ -1,11 +1,11 @@
 import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applicant-info.js'
-import { landOwnershipJourneys } from './land-ownership.js'
-import { siteBoundaryJourneys } from './site-boundary.js'
+import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
+import { siteBoundaryJourneys, siteBoundaryRouteDefinitions } from './site-boundary.js'
 import { habitatInfoJourneys, habitatInfoRouteDefinitions } from './habitat-info.js'
-import { legalAgreementJourneys } from './legal-agreement.js'
-import { localLandChargeJourneys } from './local-land-charge.js'
+import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
+import { localLandChargeJourneys, localLandChargeRouteDefinitions } from './local-land-charge.js'
 import { planningDecisionNoticeJourneys, planningDecisionNoticeRouteDefinitions } from './planning-decision-notice.js'
 import { matchAvailableHabitatsJourneys } from './match-available-habitats.js'
 import { addDevelopmentProjectInformationJourneys, addDevelopmentProjectInformationJourneysRouteDefinitions } from './development-project-information.js'
@@ -125,7 +125,11 @@ const routeDefinitions = [
   ...applicantInfoRouteDefinitions,
   ...addDevelopmentProjectInformationJourneysRouteDefinitions,
   ...habitatInfoRouteDefinitions,
-  ...planningDecisionNoticeRouteDefinitions
+  ...planningDecisionNoticeRouteDefinitions,
+  ...landOwnershipRouteDefinitions,
+  ...siteBoundaryRouteDefinitions,
+  ...legalAgreementRouteDefinitions,
+  ...localLandChargeRouteDefinitions
 ]
 
 Object.freeze(taskSections)
