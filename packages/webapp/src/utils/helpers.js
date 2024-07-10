@@ -5,6 +5,7 @@ import Joi from 'joi'
 import constants from './constants.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
+import { deleteBlobFromContainers } from './azure-storage.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -805,6 +806,33 @@ const getDeveloperCheckMetricFileContext = request => {
   }
 }
 
+const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, viewTemplate, href) => {
+  const checkUploadMetric = request.payload.checkUploadMetric
+  const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
+
+  if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
+    await deleteBlobFromContainers(metricUploadLocation)
+    request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+    request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+    request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
+    return h.redirect(noRedirectRoute)
+  } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+    return h.redirect(yesRedirectRoute)
+  }
+
+  return h.view(viewTemplate, {
+    filename: path.basename(metricUploadLocation),
+    ...getDeveloperCheckMetricFileContext(request),
+    err: [
+      {
+        text: 'Select yes if this is the correct file',
+        href
+      }
+    ]
+  })
+}
+
 export {
   validateDate,
   dateClasses,
@@ -863,5 +891,6 @@ export {
   creditsValidationFailAction,
   isAgentAndNotLandowner,
   setInpageLinks,
-  getDeveloperCheckMetricFileContext
+  getDeveloperCheckMetricFileContext,
+  checkDeveloperUploadMetric
 }
