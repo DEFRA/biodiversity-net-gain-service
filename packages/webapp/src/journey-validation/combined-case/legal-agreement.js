@@ -12,69 +12,69 @@ import { FormError } from '../../utils/form-error.js'
 // S106: constants.LEGAL_AGREEMENT_DOCUMENTS[0].id
 // ConCov: constants.LEGAL_AGREEMENT_DOCUMENTS[1].id
 const LEGAL_AGREEMENT_TYPE = routeDefinition(
-  constants.routes.LEGAL_AGREEMENT_TYPE,
+  constants.reusedRoutes.COMBINED_CASE_LEGAL_AGREEMENT_TYPE,
   [constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE],
   (session) => {
     const legalAgreementType = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
 
     if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return referrerUrl || constants.routes.NEED_ADD_ALL_LEGAL_FILES
+      return referrerUrl || constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_LEGAL_FILES
     } else {
-      return constants.routes.NEED_LEGAL_AGREEMENT
+      return constants.reusedRoutes.COMBINED_CASE_NEED_LEGAL_AGREEMENT
     }
   }
 )
 
 // // land/need-add-all-legal-files
 const NEED_ADD_ALL_LEGAL_FILES = routeDefinition(
-  constants.routes.NEED_ADD_ALL_LEGAL_FILES,
+  constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_LEGAL_FILES,
   [constants.redisKeys.NEED_ADD_ALL_LEGAL_FILES_CHECKED],
   () => {
-    return constants.routes.UPLOAD_LEGAL_AGREEMENT
+    return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LEGAL_AGREEMENT
   }
 )
 
 // // land/upload-legal-agreement
 const UPLOAD_LEGAL_AGREEMENT = routeDefinition(
-  constants.routes.UPLOAD_LEGAL_AGREEMENT,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_LEGAL_AGREEMENT,
   [constants.redisKeys.LEGAL_AGREEMENT_FILES],
   (session) => {
     const id = session.get(constants.redisKeys.LEGAL_AGREEMENT_CHECK_ID)
-    return `${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`
+    return `${constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT}?id=${id}`
   }
 )
 
 // // land/check-legal-agreement-file
 const CHECK_LEGAL_AGREEMENT = routeDefinition(
-  constants.routes.CHECK_LEGAL_AGREEMENT,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT,
   [constants.redisKeys.LEGAL_AGREEMENT_CHECKED],
   (session) => {
     const checkLegalAgreement = session.get(constants.redisKeys.LEGAL_AGREEMENT_CHECKED)
     session.clear(constants.redisKeys.LEGAL_AGREEMENT_CHECK_ID)
     if (checkLegalAgreement === 'no') {
-      return constants.routes.UPLOAD_LEGAL_AGREEMENT
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LEGAL_AGREEMENT
     } else if (checkLegalAgreement === 'yes') {
-      return constants.routes.CHECK_LEGAL_AGREEMENT_FILES
+      return constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_FILES
     }
   }
 )
 
 // // land/check-you-added-all-legal-files
 const CHECK_LEGAL_AGREEMENT_FILES = routeDefinition(
-  constants.routes.CHECK_LEGAL_AGREEMENT_FILES,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_FILES,
   [constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED],
   (session) => {
     const checkLegalAgreement = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED)
     const legalAgreementType = getLegalAgreementDocumentType(session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     if (checkLegalAgreement === 'no') {
-      return constants.routes.UPLOAD_LEGAL_AGREEMENT
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LEGAL_AGREEMENT
     } else if (checkLegalAgreement === 'yes') {
       if (legalAgreementType === constants.LEGAL_AGREEMENT_TYPE_CONSERVATION) {
-        return referrerUrl || constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES
+        return referrerUrl || constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_RESPONSIBLE_BODIES
       } else {
-        return referrerUrl || constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES
+        return referrerUrl || constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_PLANNING_AUTHORITIES
       }
     }
   }
@@ -82,48 +82,48 @@ const CHECK_LEGAL_AGREEMENT_FILES = routeDefinition(
 
 // // land/need-add-all-responsible-bodies
 const NEED_ADD_ALL_RESPONSIBLE_BODIES = routeDefinition(
-  constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES,
+  constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_RESPONSIBLE_BODIES,
   [constants.redisKeys.NEED_ADD_ALL_RESPONSIBLE_BODIES_CHECKED],
   () => {
-    return constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
+    return constants.reusedRoutes.COMBINED_CASE_ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
   }
 )
 
 // // land/add-responsible-body-conservation-covenant
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = routeDefinition(
-  constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
+  constants.reusedRoutes.COMBINED_CASE_ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT,
   [constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return referrerUrl || constants.routes.CHECK_RESPONSIBLE_BODIES
+    return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_RESPONSIBLE_BODIES
   }
 )
 
 // // land/check-responsible-bodies
 const CHECK_RESPONSIBLE_BODIES = routeDefinition(
-  constants.routes.CHECK_RESPONSIBLE_BODIES,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_RESPONSIBLE_BODIES,
   [constants.redisKeys.RESPONSIBLE_BODIES_CHECKED],
   (session, request) => {
     const { addAnotherResponsibleBody } = request.payload
     if (addAnotherResponsibleBody === 'yes') {
       session.set(constants.redisKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return (referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
+      return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_ANY_OTHER_LANDOWNERS)
     }
-    return constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
+    return constants.reusedRoutes.COMBINED_CASE_ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT
   }
 )
 
 const OTHER_LANDOWNERS = routeDefinition(
-  constants.routes.ANY_OTHER_LANDOWNERS,
+  constants.reusedRoutes.COMBINED_CASE_ANY_OTHER_LANDOWNERS,
   [constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED],
   (session) => {
     const anyOtherLOValue = session.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
     if (anyOtherLOValue === 'yes') {
-      return constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION
+      return constants.reusedRoutes.COMBINED_CASE_LANDOWNER_INDIVIDUAL_ORGANISATION
     } else if (anyOtherLOValue === 'no') {
       session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
-      return constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT
+      return constants.reusedRoutes.COMBINED_CASE_HABITAT_PLAN_LEGAL_AGREEMENT
     } else {
       const message = 'Select yes if there are any other landowners or leaseholders'
       const href = '#anyOtherLO-yes'
@@ -137,33 +137,33 @@ const OTHER_LANDOWNERS = routeDefinition(
 
 // // land/need-add-all-landowners-conservation-covenant
 // const NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT = routeDefinition(
-//   constants.routes.NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
+//   constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_LANDOWNERS_CONSERVATION_COVENANT,
 //   [constants.redisKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED]
 // )
 
 // // land/landowner-conservation-covenant-individual-organisation
 const LANDOWNER_INDIVIDUAL_ORGANISATION = routeDefinition(
-  constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_LANDOWNER_INDIVIDUAL_ORGANISATION,
   [constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY],
   (session, request) => {
     const { individualOrOrganisation } = request.payload
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       session.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.INDIVIDUAL)
-      return constants.routes.ADD_LANDOWNER_INDIVIDUAL
+      return constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_INDIVIDUAL
     } else {
       session.set(constants.redisKeys.LANDOWNER_INDIVIDUAL_ORGANISATION_KEY, constants.individualOrOrganisationTypes.ORGANISATION)
-      return constants.routes.ADD_LANDOWNER_ORGANISATION
+      return constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_ORGANISATION
     }
   }
 )
 
 // // land/add-landowner-individual-conservation-covenant
 const ADD_LANDOWNER_INDIVIDUAL = routeDefinition(
-  constants.routes.ADD_LANDOWNER_INDIVIDUAL,
+  constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_INDIVIDUAL,
   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return (referrerUrl || constants.routes.CHECK_LANDOWNERS)
+    return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS)
   }
 )
 
@@ -172,67 +172,67 @@ const ADD_LANDOWNER_INDIVIDUAL = routeDefinition(
 // route for now
 // // land/add-landowner-organisation-conservation-covenant
 // const ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT = routeDefinition(
-//   constants.routes.ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
+//   constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_ORGANISATION_CONSERVATION_COVENANT,
 //   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS]
 // )
 
 // // land/check-landowners
 const CHECK_LANDOWNERS = routeDefinition(
-  constants.routes.CHECK_LANDOWNERS,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS,
   [constants.redisKeys.ADDED_LANDOWNERS_CHECKED],
   (session, request) => {
     const { addAnotherLandowner } = request.payload
     if (addAnotherLandowner === 'yes') {
       session.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return (referrerUrl || constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
+      return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_HABITAT_PLAN_LEGAL_AGREEMENT)
     }
-    return constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION
+    return constants.reusedRoutes.COMBINED_CASE_LANDOWNER_INDIVIDUAL_ORGANISATION
   }
 )
 
 // // land/habitat-plan-legal-agreement
 const HABITAT_PLAN_LEGAL_AGREEMENT = routeDefinition(
-  constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT,
+  constants.reusedRoutes.COMBINED_CASE_HABITAT_PLAN_LEGAL_AGREEMENT,
   [constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO],
   (session, request) => {
     const { isHabitatIncludeLegalAgreement } = request.payload
     if (isHabitatIncludeLegalAgreement === 'Yes') {
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return (referrerUrl || constants.routes.ENHANCEMENT_WORKS_START_DATE)
+      return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_ENHANCEMENT_WORKS_START_DATE)
     } else {
-      return constants.routes.UPLOAD_HABITAT_PLAN
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_HABITAT_PLAN
     }
   }
 )
 
 // land/upload-habitat-plan
 const UPLOAD_HABITAT_PLAN = routeDefinition(
-  constants.routes.UPLOAD_HABITAT_PLAN,
+  constants.reusedRoutes.COMBINED_CASE_UPLOAD_HABITAT_PLAN,
   [
     constants.redisKeys.HABITAT_PLAN_LOCATION,
     constants.redisKeys.HABITAT_PLAN_FILE_SIZE,
     constants.redisKeys.HABITAT_PLAN_FILE_TYPE
   ],
   () => {
-    return constants.routes.CHECK_HABITAT_PLAN_FILE
+    return constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_PLAN_FILE
   }
 )
 
 // land/check-habitat-plan-file
 const CHECK_HABITAT_PLAN_FILE = routeDefinition(
-  constants.routes.CHECK_HABITAT_PLAN_FILE,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_PLAN_FILE,
   [constants.redisKeys.HABITAT_PLAN_CHECKED],
   (session) => {
     const checkHabitatPlan = session.get(constants.redisKeys.HABITAT_PLAN_CHECKED)
     if (checkHabitatPlan === 'no') {
       session.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'no')
-      return constants.routes.UPLOAD_HABITAT_PLAN
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_HABITAT_PLAN
     } else if (checkHabitatPlan === 'yes') {
       session.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
       const redirectUrl = referrerUrl ||
-        constants.routes.ENHANCEMENT_WORKS_START_DATE
+        constants.reusedRoutes.COMBINED_CASE_ENHANCEMENT_WORKS_START_DATE
       return redirectUrl
     } else {
       const message = 'Select yes if this is the correct file'
@@ -246,7 +246,7 @@ const CHECK_HABITAT_PLAN_FILE = routeDefinition(
 
 // // land/enhancement-works-start-date
 const ENHANCEMENT_WORKS_START_DATE = routeDefinition(
-  constants.routes.ENHANCEMENT_WORKS_START_DATE,
+  constants.reusedRoutes.COMBINED_CASE_ENHANCEMENT_WORKS_START_DATE,
   [
     // Leave out for the moment as can't handle ANY or NULL
     // constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, // The date
@@ -254,13 +254,13 @@ const ENHANCEMENT_WORKS_START_DATE = routeDefinition(
   ],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return (referrerUrl || constants.routes.HABITAT_ENHANCEMENTS_END_DATE)
+    return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_HABITAT_ENHANCEMENTS_END_DATE)
   }
 )
 
 // // land/habitat-enhancements-end-date
 const HABITAT_ENHANCEMENTS_END_DATE = routeDefinition(
-  constants.routes.HABITAT_ENHANCEMENTS_END_DATE,
+  constants.reusedRoutes.COMBINED_CASE_HABITAT_ENHANCEMENTS_END_DATE,
   [
     // Leave out for the moment as can't handle ANY or NULL
     // constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY,
@@ -268,41 +268,41 @@ const HABITAT_ENHANCEMENTS_END_DATE = routeDefinition(
   ],
   (session) => {
     const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return (referrerUrl || constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
+    return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS)
   }
 )
 
 // // land/need-add-all-planning-authorities
 const NEED_ADD_ALL_PLANNING_AUTHORITIES = routeDefinition(
-  constants.routes.NEED_ADD_ALL_PLANNING_AUTHORITIES,
+  constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_PLANNING_AUTHORITIES,
   [constants.redisKeys.NEED_ADD_ALL_PLANNING_AUTHORITIES_CHECKED],
   () => {
-    return constants.routes.ADD_PLANNING_AUTHORITY
+    return constants.reusedRoutes.COMBINED_CASE_ADD_PLANNING_AUTHORITY
   }
 )
 
 // land/add-planning-authority
 const ADD_PLANNING_AUTHORITY = routeDefinition(
-  constants.routes.ADD_PLANNING_AUTHORITY,
+  constants.reusedRoutes.COMBINED_CASE_ADD_PLANNING_AUTHORITY,
   [constants.redisKeys.PLANNING_AUTHORTITY_LIST],
   () => {
-    return constants.routes.CHECK_PLANNING_AUTHORITIES
+    return constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_AUTHORITIES
   }
 )
 
 // land/check-planning-authorities
 const CHECK_PLANNING_AUTHORITIES = routeDefinition(
-  constants.routes.CHECK_PLANNING_AUTHORITIES,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_AUTHORITIES,
   [constants.redisKeys.PLANNING_AUTHORITIES_CHECKED],
   (session, request) => {
     const { addAnotherPlanningAuthority } = request.payload
     if (addAnotherPlanningAuthority === 'yes') {
       session.set(constants.redisKeys.PLANNING_AUTHORITIES_CHECKED, addAnotherPlanningAuthority)
       const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-      return (referrerUrl || constants.routes.ANY_OTHER_LANDOWNERS)
+      return (referrerUrl || constants.reusedRoutes.COMBINED_CASE_ANY_OTHER_LANDOWNERS)
     }
     if (addAnotherPlanningAuthority === 'no') {
-      return (constants.routes.ADD_PLANNING_AUTHORITY)
+      return (constants.reusedRoutes.COMBINED_CASE_ADD_PLANNING_AUTHORITY)
     }
   }
 )
