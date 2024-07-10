@@ -29,7 +29,7 @@ const CHECK_LAND_BOUNDARY = routeDefinition(
       return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_BOUNDARY
     } else if (checkLandBoundary === 'yes') {
       const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
-      return (session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) || constants.routes.ADD_GRID_REFERENCE
+      return (session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) || constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE
     } else {
       const message = 'Select yes if this is the correct file'
       throw new FormError(message, {
