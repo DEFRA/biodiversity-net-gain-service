@@ -28,7 +28,7 @@ describe('Registration module', () => {
       REGISTRATIONCONSTANTS.APPLICANT_INFO,
       'Add details about the applicant',
       constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
-      constants.routes.CHECK_APPLICANT_INFORMATION,
+      constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION,
       applicantInfoJourneys
     )
 
@@ -56,7 +56,7 @@ describe('Registration module', () => {
       REGISTRATIONCONSTANTS.APPLICANT_INFO,
       'Add details about the applicant',
       constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
-      constants.routes.CHECK_APPLICANT_INFORMATION,
+      constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION,
       applicantInfoJourneys
     )
     const landOwnership = taskDefinition(
