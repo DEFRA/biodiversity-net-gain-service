@@ -51,6 +51,8 @@ describe(url, () => {
   describe('POST', () => {
     it('Should flow to register task list', async () => {
       const session = applicationSession()
+      session[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+
       const postHandler = checkMetricDetails[1].handler
       let redirectArgs = ''
       const h = {
@@ -58,7 +60,7 @@ describe(url, () => {
           redirectArgs = args
         }
       }
-      await postHandler({ yar: session }, h)
+      await postHandler({ yar: session, path: checkMetricDetails[1].path }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })
