@@ -22,6 +22,19 @@ const CHECK_PLANNING_DECISION = routeDefinition(
   [constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED]
 )
 
+const CHECK_PLANNING_DECISION_FILE = routeDefinition(
+  constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE,
+  [],
+  (session) => {
+    const checkPlanningDecisionNotice = session.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_CHECKED)
+    if (checkPlanningDecisionNotice === 'no') {
+      return constants.reusedRoutes.COMBINED_CASE_UPLOAD_PLANNING_DECISION_NOTICE
+    } else {
+      return (session.get(constants.redisKeys.REFERER, true) || constants.routes.COMBINED_CASE_TASK_LIST)
+    }
+  }
+)
+
 const planningDecisionNoticeJourneys = [
   [
     journeyStep(
@@ -37,7 +50,8 @@ const planningDecisionNoticeJourneys = [
 
 const planningDecisionNoticeRouteDefinitions = [
   PLANNING_DECISION_UPLOAD,
-  CHECK_PLANNING_DECISION
+  CHECK_PLANNING_DECISION,
+  CHECK_PLANNING_DECISION_FILE
 ]
 
 export {
