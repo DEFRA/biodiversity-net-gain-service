@@ -89,9 +89,12 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
   <script src="{{ assetPath }}/jquery.js"></script>
-  <script src="{{ assetPath }}/all.js"></script>
+  <script type="module" src="{{ assetPath }}/govuk-frontend.min.js"></script>
   <script src="{{ assetPath }}/moj/all.js"></script>
-   <script nonce="{{ nonce }}">window.GOVUKFrontend.initAll()
+  <script type="module" nonce="{{ nonce }}">
+    import { initAll } from '{{ assetPath }}/govuk-frontend.min.js'
+  
+    initAll()
   </script>
     <script nonce="{{ nonce }}">window.MOJFrontend.initAll()
   </script>
