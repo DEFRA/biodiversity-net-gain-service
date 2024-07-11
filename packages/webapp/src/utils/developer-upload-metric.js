@@ -115,6 +115,6 @@ export const maximumFileSizeExceeded = (h, view) => {
     h,
     href: UPLOAD_METRIC_ID,
     maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view: view
+    view
   })
 }
