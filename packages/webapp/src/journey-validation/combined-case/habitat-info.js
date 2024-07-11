@@ -60,6 +60,14 @@ const CHECK_HABITAT_CREATED = routeDefinition(
   }
 )
 
+const CHECK_METRIC_DETAILS = routeDefinition(
+  constants.reusedRoutes.COMBINED_CASE_CHECK_METRIC_DETAILS,
+  [],
+  () => {
+    return constants.routes.COMBINED_CASE_TASK_LIST
+  }
+)
+
 const habitatInfoJourneys = [
   [
     journeyStep(
@@ -79,7 +87,8 @@ const habitatInfoRouteDefinitions = [
   UPLOAD_METRIC,
   CHECK_UPLOAD_METRIC,
   CHECK_HABITAT_BASELINE,
-  CHECK_HABITAT_CREATED
+  CHECK_HABITAT_CREATED,
+  CHECK_METRIC_DETAILS
 ]
 
 export {
