@@ -19,7 +19,7 @@
         <p>Choose which available habitat best matches to allocate against your:</p> 
              
         {{ govukInsetText({
-          text: broadHabitat + " - " + habitatType + " (" + area + " hectares / " + condition + " condition)"
+          text: habitatType + " (" + area + " hectares / " + condition + " condition)"
       }) }}
 
       <form method="post">
@@ -29,7 +29,7 @@
           items: [
             {
               value: "selected-value",
-              text: broadHabitat + " - " + habitatType,
+              text: habitatType,
               hint: {
                 text: area + " hectares / " + condition + " condition"
               }
