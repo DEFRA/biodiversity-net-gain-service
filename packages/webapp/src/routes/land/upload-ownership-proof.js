@@ -6,6 +6,7 @@ import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const LAND_OWNERSHIP_ID = '#landOwnership'
 
@@ -24,7 +25,7 @@ async function processSuccessfulUpload (result, request, h) {
     confirmed: false
   }
   request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
-  return h.redirect(`${constants.routes.CHECK_PROOF_OF_OWNERSHIP}?id=${tempFileDetails.id}`)
+  return getNextStep(request, h)
 }
 
 const handlers = {

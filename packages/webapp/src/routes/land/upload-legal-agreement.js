@@ -3,6 +3,7 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { getLegalAgreementDocumentType, generateUniqueId } from '../../utils/helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const LEGAL_AGREEMENT_ID = '#legalAgreement'
 
@@ -23,7 +24,8 @@ async function processSuccessfulUpload (result, request, h) {
   if (legalAgreementFiles.length > 0) {
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, legalAgreementFiles)
   }
-  return h.redirect(`${constants.routes.CHECK_LEGAL_AGREEMENT}?id=${id}`)
+  request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_CHECK_ID, id)
+  return getNextStep(request, h)
 }
 
 const processErrorUpload = (err, h, legalAgreementType) => {

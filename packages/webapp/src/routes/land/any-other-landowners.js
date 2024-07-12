@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { checked, getLegalAgreementDocumentType } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const href = '#anyOtherLO-yes'
 const handlers = {
   get: async (request, h) => h.view(constants.views.ANY_OTHER_LANDOWNERS, {
     ...getContext(request),
@@ -10,23 +10,14 @@ const handlers = {
   post: async (request, h) => {
     const anyOtherLOValue = request.payload.anyOtherLOValue
     request.yar.set(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED, anyOtherLOValue)
-    if (anyOtherLOValue === 'yes') {
-      return h.redirect(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
-    } else if (anyOtherLOValue === 'no') {
-      request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
-      return h.redirect(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
-    } else {
+
+    return getNextStep(request, h, (e) => {
       return h.view(constants.views.ANY_OTHER_LANDOWNERS, {
         ...getContext(request),
         checked,
-        err: [
-          {
-            text: 'Select yes if there are any other landowners or leaseholders',
-            href
-          }
-        ]
+        err: [e]
       })
-    }
+    })
   }
 }
 
