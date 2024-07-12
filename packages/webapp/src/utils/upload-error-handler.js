@@ -37,7 +37,7 @@ function buildErrorResponse (h, message, route, elementID) {
 function maximumFileSizeExceeded (h, route, maximumFileSize, view) {
   return getMaximumFileSizeExceededView({
     h,
-    route,
+    href: route,
     maximumFileSize,
     view
   })

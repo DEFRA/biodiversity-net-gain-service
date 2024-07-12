@@ -117,7 +117,7 @@ describe('upload-error-handler', () => {
       maximumFileSizeExceeded(h, route, maximumFileSize, view)
       expect(getMaximumFileSizeExceededView).toHaveBeenCalledWith({
         h,
-        route,
+        href: route,
         maximumFileSize,
         view
       })
