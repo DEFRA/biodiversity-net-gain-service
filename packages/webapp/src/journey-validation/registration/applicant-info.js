@@ -98,7 +98,7 @@ const CLIENTS_PHONE_NUMBER = clientsPhoneNumberRoute(
 
 const CHECK_APPLICANT_INFORMATION = checkAppInfoRoute(
   constants.routes.CHECK_APPLICANT_INFORMATION,
-  constants.routes.COMBINED_CASE_TASK_LIST
+  constants.routes.REGISTER_LAND_TASK_LIST
 )
 
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)

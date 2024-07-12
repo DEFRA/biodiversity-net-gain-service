@@ -156,7 +156,7 @@ const CHECK_PLANNING_AUTHORITIES = checkPlanningAuthoritiesRoute(
 
 const CHECK_LEGAL_AGREEMENT_DETAILS = checkLegalAgreementDetailsRoute(
   constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
-  constants.routes.COMBINED_CASE_TASK_LIST
+  constants.routes.REGISTER_LAND_TASK_LIST
 )
 
 const CON_COV_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[1].id], true)
