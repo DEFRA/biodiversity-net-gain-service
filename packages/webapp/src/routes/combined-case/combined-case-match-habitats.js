@@ -8,8 +8,8 @@ const getNumberOfPages = (mockMetricData) => {
   return numberOfPages
 }
 
-const getHabitatDetails = (metricData) => {
-  const details = metricData.d2.slice(0, -1).map((item) => ({
+const getHabitatDetails = (mockMetricData) => {
+  const details = mockMetricData.d2.slice(0, -1).map((item) => ({
     broadHabitat: item['Broad habitat'],
     habitatType: item['Proposed habitat'],
     area: item['Area (hectares)'],
@@ -26,11 +26,12 @@ const getHabitatDetails = (metricData) => {
 
 const handlers = {
   get: async (request, h) => {
-    const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
+    // const registrationMetricData = request.yar.get(constants.redisKeys.METRIC_DATA)
+    // const allocationMetricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
     const currentPage = parseInt(request.query.page || '1', 10)
     const numberOfPages = getNumberOfPages(mockMetricData)
-    console.log('Metric data:', metricData)
-    const { broadHabitat, habitatType, area, condition } = getHabitatDetails(metricData)
+    console.log('Metric data:', mockMetricData)
+    const { broadHabitat, habitatType, area, condition } = getHabitatDetails(mockMetricData)
 
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
 
