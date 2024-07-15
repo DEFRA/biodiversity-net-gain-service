@@ -6,18 +6,23 @@ const postOptions = {
   url,
   payload: {}
 }
+const sessionData = {}
 
 describe(url, () => {
+  beforeAll(async () => {
+    sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+  })
+
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+      await submitGetRequest({ url }, 200, sessionData)
     })
   })
   describe('POST', () => {
     // happy path
     it('Should accept a valid phone number and continue to upload-written-authorisation', async () => {
       postOptions.payload.phone = '01234567890'
-      const response = await submitPostRequest(postOptions)
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.request.response.headers.location).toBe(constants.routes.UPLOAD_WRITTEN_AUTHORISATION)
     })
     // sad paths
