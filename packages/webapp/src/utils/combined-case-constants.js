@@ -7,11 +7,6 @@ const routes = {
   COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project'
 }
 
-const views = Object.fromEntries(
-  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
-)
-
 export default {
-  routes,
-  views
+  routes
 }
