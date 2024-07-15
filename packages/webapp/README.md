@@ -47,6 +47,7 @@ warning: other service dependencies will be missing, install and run from root o
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY | Feature flag for credits estimation journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_CREDIT_PURCHASE_JOURNEY | Feature flag for credits purchase journey | Y |
+| ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY | Feature flag for combined case journey | Y |
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 | LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
 
