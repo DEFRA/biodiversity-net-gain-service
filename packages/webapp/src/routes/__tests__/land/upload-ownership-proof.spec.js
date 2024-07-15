@@ -18,7 +18,9 @@ describe('Proof of ownership upload controller tests', () => {
       uploadType: 'land-ownership',
       url,
       formName: PROOF_OF_OWNERSHIP_FORM_ELEMENT_NAME,
-      sessionData: {}
+      sessionData: {
+        [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+      }
     }
 
     beforeEach(async () => {
@@ -26,7 +28,9 @@ describe('Proof of ownership upload controller tests', () => {
     })
 
     afterEach(() => {
-      baseConfig.sessionData = {}
+      baseConfig.sessionData = {
+        [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+      }
     })
 
     it('should upload land ownership document to cloud storage', (done) => {
