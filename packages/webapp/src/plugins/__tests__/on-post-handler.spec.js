@@ -30,6 +30,7 @@ describe('on-post-handler', () => {
     }
     const application = JSON.parse(testApplication.dataString)
     application['organisation-id'] = 'mock-organisation-id'
+    application[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
     const response = await submitPostRequest(postOptions, 302, application)
     // expect organisation-id to not have changed
     expect(response.request.yar._store['organisation-id']).toEqual('mock-organisation-id')
@@ -61,6 +62,7 @@ describe('on-post-handler', () => {
     }
     const application = JSON.parse(testApplication.dataString)
     delete application['organisation-id']
+    application[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
     const response = await submitPostRequest(postOptions, 302, application)
     // expect organisation-id to updated to that in the auth object
     expect(response.request.yar._store['organisation-id']).toEqual('mock-org-id')
