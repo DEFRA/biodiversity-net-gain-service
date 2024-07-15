@@ -6,46 +6,37 @@
 
 {% block formContent %}
 <div class="govuk-body">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
+      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
+      <p class="govuk-hint">(Taken from {{ sheetName }}, row TBC from your metric)</p>
+      <p>Choose which available habitat best matches to allocate against your:</p>
 
-        <span  class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
-        
-        <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
-        
-        <!-- TODO: This needs to be parameterized -->
-        <p class="govuk-hint">(Taken from enhanced habitats cell ref B2 from your metric)</p>
-
-        <p>Choose which available habitat best matches to allocate against your:</p> 
-             
-        {{ govukInsetText({
-          text: habitatType + " (" + area + " hectares / " + condition + " condition)"
+      {{ govukInsetText({
+        text: habitatType + " (" + area + " hectares / " + condition + " condition)"
       }) }}
 
-      <form method="post">
-        {{ govukRadios({
-          idPrefix: "matchHabitats",
-          name: "matchHabitats",
-          items: [
-            {
-              value: "selected-value",
-              text: habitatType,
-              hint: {
-                text: area + " hectares / " + condition + " condition"
-              }
+      {{ govukRadios({
+        idPrefix: "matchHabitats",
+        name: "matchHabitats",
+        items: [
+          {
+            value: "selected-value",
+            text: habitatType,
+            hint: {
+              text: area + " hectares / " + condition + " condition"
             }
-          ]
-        }) }}
-
-        <input type="hidden" name="currentPage" value="{{ currentPage }}">
-
-        {{ govukButton({
-          text: "Save and continue",
-          attributes: {
-            id: "continue"
           }
-        }) }}
-      </form>
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Save and continue",
+        attributes: {
+          id: "continue"
+        }
+      }) }}
     </div>
   </div>
 </div>
