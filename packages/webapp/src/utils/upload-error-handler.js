@@ -2,7 +2,7 @@ import constants from './constants.js'
 import { getMaximumFileSizeExceededView } from './helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, unsupportedFileExtErrorMessage, optionalErrorMessage = 'default', maximumFileSize }) {
+function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, unsupportedFileExtErrorMessage, maximumFileSize }) {
   switch (err.message) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return buildErrorResponse(h, `The selected file must not be larger than ${maximumFileSize}MB`, route, elementID)
