@@ -8,7 +8,7 @@ const newRegistration = async (request, h) => newApplication(request, h, constan
 
 const newCreditsPurchase = async (request, h) => newApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
 
-const newCombinedCaseProject = async (request, h) => newApplication(request, h, constants.applicationTypes.COMBINED_CASE)
+const newCombinedCase = async (request, h) => newApplication(request, h, constants.applicationTypes.COMBINED_CASE)
 
 const newApplication = async (request, h, applicationType) => {
   await saveApplicationSessionIfNeeded(request.yar, true)
@@ -37,6 +37,6 @@ export {
   newDevelopmentProject,
   newRegistration,
   newCreditsPurchase,
-  newCombinedCaseProject,
+  newCombinedCase,
   newApplication
 }
