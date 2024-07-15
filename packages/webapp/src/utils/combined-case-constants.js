@@ -75,6 +75,7 @@ const routes = {
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS: 'combined-case/match-allocation',
   COMBINED_CASE_PROJECTS: 'combined-case/combined-case-projects'
 }
+
 const views = Object.fromEntries(
   Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
 )
