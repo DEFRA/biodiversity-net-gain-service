@@ -19,7 +19,7 @@ const UPLOAD_LAND_OWNERSHIP = routeDefinition(
 const CHECK_PROOF_OF_OWNERSHIP = routeDefinition(
   constants.reusedRoutes.COMBINED_CASE_CHECK_PROOF_OF_OWNERSHIP,
   [constants.redisKeys.LAND_OWNERSHIP_CHECKED],
-  (session, request) => {
+  (session) => {
     const checkLandOwnership = session.get(constants.redisKeys.LAND_OWNERSHIP_CHECKED)
     if (checkLandOwnership === 'no') {
       return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_OWNERSHIP
