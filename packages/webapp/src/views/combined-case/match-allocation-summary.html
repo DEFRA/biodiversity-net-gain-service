@@ -4,36 +4,6 @@
 {% set serviceName = "Register a biodiversity gain site" %}
 {% set pageHeading = "Confirm your matched habitats" %}
 
-{% set habitatsList = [
-    {
-        'text': 'Grassland - Other neutral grassland (2 hectares / Moderate Condition)',
-        'value': habitatA,
-        'valueDataTestId': 'habitat-a',
-        'href': '',
-        'visuallyHiddenText': ' Grassland - Other neutral grassland (2 hectares / Moderate Condition)',
-        'classes': '',
-        'show': true
-    },
-    {
-        'text': 'Heathland and shrub - Mixed scrub (0.05 hectares / Good Condition)',
-        'value': habitatB,
-        'valueDataTestId': 'habitat-a',
-        'href': '',
-        'visuallyHiddenText': ' Heathland and shrub - Mixed scrub (0.05 hectares / Good Condition)',
-        'classes': '',
-        'show': true
-    },
-    {
-        'text': 'Woodland and forest - Lowland mixed deciduous woodland (20 hectares / Poor Condition)',
-        'value': habitatC,
-        'valueDataTestId': 'habitat-a',
-        'href': '',
-        'visuallyHiddenText': ' Woodland and forest - Lowland mixed deciduous woodland (20 hectares / Poor Condition)',
-        'classes': '',
-        'show': true
-    }
-] %}
-
 {% block formContent %}
     <div class="govuk-body">
         {% if err %}
@@ -44,7 +14,7 @@
                 <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
 
                 {{ generateSummaryList({
-                    rows: habitatsList,
+                    rows: matchedHabitats,
                     classes: 'govuk-!-margin-bottom-9'
                 }) }}
 
