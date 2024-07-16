@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
@@ -16,20 +16,13 @@ const handlers = {
       request.yar.clear(constants.redisKeys.REFERER)
     }
     request.yar.set(constants.redisKeys.IS_AGENT, isApplicantAgent)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
-    if (isApplicantAgent === 'yes') {
-      return h.redirect(referrerUrl || constants.routes.CHECK_DEFRA_ACCOUNT_DETAILS)
-    } else if (isApplicantAgent === 'no') {
-      return h.redirect(referrerUrl || constants.routes.APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION)
-    } else {
+
+    return getNextStep(request, h, (e) => {
       return h.view(constants.views.AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,
-        err: [{
-          text: 'Select yes if you are an agent acting on behalf of a client',
-          href: '#isApplicantAgent'
-        }]
+        err: [e]
       })
-    }
+    })
   }
 }
 
