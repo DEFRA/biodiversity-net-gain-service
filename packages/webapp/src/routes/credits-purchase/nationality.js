@@ -2,7 +2,7 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
 const errorText = 'Start typing and enter a country from the list'
-const duplicateNationalitiesErrorText = 'Selected nationalities should be unique, please remove duplicates'
+const duplicateNationalitiesErrorText = 'Remove duplicate nationalities'
 
 const getNationalitySelects = (enteredNationalities) => {
   const nationalitySelects = [

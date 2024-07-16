@@ -78,7 +78,7 @@ describe(url, () => {
       postOptions.payload = mockNationalitiesDuplicates
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Selected nationalities should be unique, please remove duplicates')
+      expect(res.payload).toContain('Remove duplicate nationalities')
     })
   })
 })
