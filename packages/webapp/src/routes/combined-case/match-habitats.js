@@ -4,9 +4,9 @@ import mockMetricData from './mock-metric-data.js'
 
 const keys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
-const getNumberOfPages = (data) => keys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
+export const getNumberOfPages = (data) => keys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
 
-const getSheetName = (key) => {
+export const getSheetName = (key) => {
   const lookupTable = {
     d2: 'D-2 Off-Site Habitat Creation',
     d3: 'D-3 Off-Site Habitat Enhancement',
@@ -19,7 +19,7 @@ const getSheetName = (key) => {
   return lookupTable[key] || 'Unknown Key'
 }
 
-const getHabitats = (data) => ({
+export const getHabitats = (data) => ({
   proposed: keys.flatMap(identifier =>
     data[identifier].filter(details => 'Condition' in details).map(details => ({
       habitatType: getHabitatType(identifier, details),
