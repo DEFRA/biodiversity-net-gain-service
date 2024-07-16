@@ -1,4 +1,6 @@
 {% extends 'layout.html' %}
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
 {% set hideBackLink = true %}
 {% set pageHeading = "Tasks to complete - Register a biodiversity gain site" %}
 
@@ -13,40 +15,10 @@
                     <li>
                         <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
                         <ul class="app-task-list__items">
-                            {% for taskItem in task.tasks %}
-                                {% if task.taskTitle !== 'Submit your biodiversity gain site information' %}
-                                    <li class="app-task-list__item">
-                                      <span class="app-task-list__task-name">
-                                        <a href="{{ taskItem.url }}" aria-describedby="your-details-status" id = "{{ taskItem.id }}">
-                                          {{ taskItem.title }}
-                                        </a>
-                                      </span>
-                                      <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif taskItem.status === 'NOT STARTED' %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">
-                                        {{ taskItem.status }}
-                                      </strong>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <ul class="app-task-list__items">
-                                            <li class="app-task-list__item">
-                                                {% if canSubmit  %}
-                                                    <span class="app-task-list__task-name" id="check-your-answers">
-                                                            <a href="{{ taskItem.url }}" aria-describedby="{{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].id }}">
-                                                                {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
-                                                            </a>
-                                                    </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">Not started yet</strong>
-                                                {% else %}
-                                                    <span id="check-your-answers">
-                                                          {{ registrationTasks.taskList[registrationTasks.taskList.length - 1].tasks[0].title }}
-                                                    </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">{{ taskItem.status }}</strong>
-                                                {% endif %}
-                                            </li>
-                                        </ul>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
+                            {{ govukTaskList({
+                                idPrefix: "company-details",
+                                items: task.items
+                            }) }}
                         </ul>
                     </li>
                 {% endfor %}
