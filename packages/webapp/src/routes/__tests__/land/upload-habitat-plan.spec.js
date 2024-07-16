@@ -35,6 +35,9 @@ describe('Habitat Plan upload controller tests', () => {
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/habitat-plan.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
@@ -51,6 +54,9 @@ describe('Habitat Plan upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -67,6 +73,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -86,6 +95,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -104,6 +116,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-habitat-plan.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file is empty')
@@ -122,6 +137,9 @@ describe('Habitat Plan upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
@@ -139,6 +157,9 @@ describe('Habitat Plan upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('Select a habitat management and monitoring plan')
@@ -159,6 +180,9 @@ describe('Habitat Plan upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-habitat-plan-file'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -176,6 +200,9 @@ describe('Habitat Plan upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-habitat-plan-file'
+          }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {

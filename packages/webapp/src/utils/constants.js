@@ -59,6 +59,7 @@ const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/la
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
+const PRIMARY_ROUTE = 'primary-route'
 
 const applicationTypes = {
   REGISTRATION,
@@ -184,7 +185,8 @@ const redisKeys = {
   ORGANISATION_ID,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE,
-  SAVE_APPLICATION_SESSION_ON_SIGNOUT
+  SAVE_APPLICATION_SESSION_ON_SIGNOUT,
+  PRIMARY_ROUTE
 }
 
 let routes = {
@@ -281,6 +283,12 @@ const applicantTypes = {
   REPRESENTATIVE
 }
 
+const primaryPages = {
+  [REGISTRATION]: [`/${lojConstants.routes.REGISTER_LAND_TASK_LIST}`, `/${lojConstants.routes.CHECK_AND_SUBMIT}`],
+  [ALLOCATION]: [`/${developerConstants.routes.DEVELOPER_TASKLIST}`, `/${developerConstants.routes.DEVELOPER_CHECK_AND_SUBMIT}`],
+  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS]
+}
+
 export default Object.freeze({
   applicationTypes,
   applicantTypes,
@@ -328,5 +336,6 @@ export default Object.freeze({
   LAND_APPLICANT_INFO_VALID_REFERRERS,
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
-  LAND_LEGAL_AGREEMENT_VALID_REFERRERS
+  LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+  primaryPages
 })
