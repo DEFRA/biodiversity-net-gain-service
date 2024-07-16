@@ -73,6 +73,7 @@ const IS_AGENT = 'is-agent'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const START_REGISTER_GAIN_SITE = 'land/start-register-gain-site'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -382,7 +383,8 @@ export default {
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    ANY_OTHER_LANDOWNERS
+    ANY_OTHER_LANDOWNERS,
+    START_REGISTER_GAIN_SITE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,
