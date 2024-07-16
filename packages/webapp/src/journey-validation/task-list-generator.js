@@ -101,6 +101,25 @@ const getTaskStatus = (task, session) => {
   }
 }
 
+const getTaskItems = (task, session) => {
+  const calculatedStatus = checkTaskStatus(task, session)
+  return {
+    id: task.id,
+    title: { text: task.title },
+    status: calculatedStatus.status === STATUSES.COMPLETE
+      ? {
+          text: calculatedStatus.status
+        }
+      : {
+          tag: {
+            text: calculatedStatus.status,
+            classes: 'govuk-tag--blue'
+          }
+        },
+    href: calculatedStatus.url
+  }
+}
+
 const retrieveTask = (routeDefinitions, startUrl) => {
   return routeDefinitions.find(route => route.startUrl === startUrl) || null
 }
@@ -108,9 +127,30 @@ const retrieveTask = (routeDefinitions, startUrl) => {
 const generateTaskList = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
-    tasks: section.tasks.map(task => getTaskStatus(task, session))
+    tasks: section.tasks.map(task => getTaskStatus(task, session)),
+    // While migrating from HTML task list to v5 task list component, we also add `items` in the component format so we
+    // can support the new component without breaking the existing HTML task lists
+    items: section.tasks.map(task => getTaskItems(task, session))
   }))
   return taskList
+}
+
+const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+
+// Recursively iterate over a task list object and convert each `text` property (which will be the task item status) to
+// have an initial capital with the rest of the string lower case
+const formatStatusesForDisplay = taskList => {
+  if (Array.isArray(taskList)) {
+    taskList.forEach(item => formatStatusesForDisplay(item))
+  } else if (typeof taskList === 'object' && taskList !== null) {
+    Object.keys(taskList).forEach(key => {
+      if (key === 'text' && typeof taskList[key] === 'string') {
+        taskList[key] = statusForDisplay(taskList[key])
+      } else {
+        formatStatusesForDisplay(taskList[key])
+      }
+    })
+  }
 }
 
 const getTaskList = (journey, session) => {
@@ -153,6 +193,26 @@ const getTaskList = (journey, session) => {
   })
 
   const canSubmit = completedTasks === (totalTasks - 1)
+
+  // If the Check Your Answers task (ie. the last one) has an items array then the tasklist has been migrated to the v5
+  // component, so we handle the submission href and status here (whereas the v4 html handles this within the template)
+  const lastSection = taskList[taskList.length - 1]
+  if (lastSection.items?.length) {
+    const lastItem = lastSection.items[lastSection.items.length - 1]
+
+    // If the application can be submitted then set the item status accordingly. Otherwise delete the href so Check Your
+    // Answers cannot be accessed (the status will already be "CANNOT START YET" so we don't need to change it)
+    if (canSubmit) {
+      lastItem.status.tag.text = 'NOT STARTED YET'
+    } else {
+      delete lastItem.href
+    }
+  }
+
+  // v5 gov uk frontend has statuses displayed in lower case with an initial capital rather than all caps as before. We
+  // may be reliant elsewhere on the status being all caps, so for now instead of changing the statuses to be the
+  // correct case throughout the code, we simply reformat them at this point once we're ready to display them
+  formatStatusesForDisplay(taskList)
 
   return { taskList, totalTasks, completedTasks, canSubmit }
 }
