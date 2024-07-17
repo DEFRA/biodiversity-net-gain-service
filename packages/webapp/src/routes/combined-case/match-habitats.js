@@ -2,9 +2,9 @@ import constants from '../../utils/constants.js'
 import getHabitatType from '../../utils/getHabitatType.js'
 import mockMetricData from './mock-metric-data.js'
 
-const keys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+const habitatKeys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
-export const getNumberOfPages = (data) => keys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
+export const getNumberOfPages = (data) => habitatKeys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
 
 export const getSheetName = (key) => {
   const lookupTable = {
@@ -20,7 +20,7 @@ export const getSheetName = (key) => {
 }
 
 export const getHabitats = (data) => ({
-  proposed: keys.flatMap(identifier =>
+  proposed: habitatKeys.flatMap(identifier =>
     data[identifier].filter(details => 'Condition' in details).map(details => ({
       habitatType: getHabitatType(identifier, details),
       area: details['Length (km)'] ?? details['Area (hectares)'],
@@ -31,12 +31,13 @@ export const getHabitats = (data) => ({
 
 const handlers = {
   get: async (request, h) => {
+    // TODO: uncomment below to replace mockMetricData with session data when the rest of the journey is built
     // const registrationMetricData = request.yar.get(constants.redisKeys.METRIC_DATA)
     // const allocationMetricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
     const { page = '1' } = request.query
     const currentPage = parseInt(page, 10)
     const numberOfPages = getNumberOfPages(mockMetricData)
-    const sheetName = getSheetName(keys[currentPage - 1])
+    const sheetName = getSheetName(habitatKeys[currentPage - 1])
     const habitatsData = getHabitats(mockMetricData)
 
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))

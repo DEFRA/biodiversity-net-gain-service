@@ -33,10 +33,10 @@ describe(url, () => {
     })
   })
 
-  describe.skip('getNumberOfPages function should return the correct number of pages for the given data', () => {
   // this test is failing because the getNumberOfPages function is not returning the correct number of pages
   // the issue is that the mockMetricData contains partial data which is skewing the count
   // TODO: discuss with team how to handle this
+  describe.skip('getNumberOfPages function should return the correct number of pages for the given data', () => {
     it.skip('calculates the correct number of pages for the given data', () => {
       expect(getNumberOfPages(mockMetricData)).toBe(8)
     })
