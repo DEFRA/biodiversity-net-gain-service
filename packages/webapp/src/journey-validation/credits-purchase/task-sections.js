@@ -63,6 +63,20 @@ const checkYourAnswers = {
     title: 'Check your answers before you submit them',
     url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
     status: constants.CANNOT_START_YET_STATUS
+  }],
+  // While migrating from v5 HTML task list to v5 task list component, we also add `items` in the component format,
+  items: [{
+    id: 'check-your-answers',
+    title: {
+      text: 'Check your answers and submit information'
+    },
+    href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
+    status: {
+      tag: {
+        text: constants.CANNOT_START_YET_STATUS,
+        classes: 'govuk-tag--blue'
+      }
+    }
   }]
 }
 
