@@ -51,7 +51,7 @@ const checkYourAnswers = {
     title: {
       text: 'Check your answers and submit information'
     },
-    href: constants.routes.CHECK_AND_SUBMIT,
+    href: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: {
       tag: {
         text: constants.CANNOT_START_YET_STATUS,
