@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash/cloneDeep.js'
 import constants from '../utils/constants.js'
 import {
   taskSections as registrationTaskSections,
@@ -156,18 +157,20 @@ const formatStatusesForDisplay = taskList => {
 const getTaskList = (journey, session) => {
   let taskList
 
+  // The Check Your Answers section href is deleted later if the tasks aren't completed, so we deep clone the section to
+  // prevent the original version being affected by this.
   switch (journey) {
     case constants.applicationTypes.REGISTRATION:
       taskList = generateTaskList(registrationTaskSections, session)
-      taskList.push(registrationCheckYourAnswers)
+      taskList.push(cloneDeep(registrationCheckYourAnswers))
       break
     case constants.applicationTypes.CREDITS_PURCHASE:
       taskList = generateTaskList(creditsPurchaseTaskSections, session)
-      taskList.push(creditsPurchaseCheckYourAnswers)
+      taskList.push(cloneDeep(creditsPurchaseCheckYourAnswers))
       break
     case constants.applicationTypes.ALLOCATION:
       taskList = generateTaskList(allocationTaskSections, session)
-      taskList.push(allocationCheckYourAnswers)
+      taskList.push(cloneDeep(allocationCheckYourAnswers))
       break
     default:
       taskList = []
