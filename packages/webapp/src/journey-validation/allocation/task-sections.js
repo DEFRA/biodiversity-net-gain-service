@@ -49,7 +49,7 @@ const checkYourAnswers = {
   items: [{
     id: 'check-your-answers',
     title: {
-      text: 'Check your answers and submit information'
+      text: 'Check your answers and submit'
     },
     href: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: {
