@@ -44,6 +44,20 @@ const checkYourAnswers = {
     title: 'Check your answers and submit',
     url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
+  }],
+  // While migrating from v5 HTML task list to v5 task list component, we also add `items` in the component format,
+  items: [{
+    id: 'check-your-answers',
+    title: {
+      text: 'Check your answers and submit information'
+    },
+    href: constants.routes.CHECK_AND_SUBMIT,
+    status: {
+      tag: {
+        text: constants.CANNOT_START_YET_STATUS,
+        classes: 'govuk-tag--blue'
+      }
+    }
   }]
 }
 
