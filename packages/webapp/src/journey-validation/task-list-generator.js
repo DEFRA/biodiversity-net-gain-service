@@ -176,21 +176,13 @@ const getTaskList = (journey, session) => {
   let totalTasks = 0
 
   taskList.forEach(task => {
-    if (task.items.length === 1) {
+    task.items.forEach(currentTask => {
       totalTasks += 1
-      const status = task.items[0].status.tag?.text || task.items[0].status.text
+      const status = currentTask.status.tag?.text || currentTask.status.text
       if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
         completedTasks += 1
       }
-    } else {
-      task.items.forEach(currentTask => {
-        totalTasks += 1
-        const status = currentTask.status.tag?.text || currentTask.status.text
-        if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
-          completedTasks += 1
-        }
-      })
-    }
+    })
   })
 
   const canSubmit = completedTasks === (totalTasks - 1)
