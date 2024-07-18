@@ -3,6 +3,10 @@ import constants from '../../../utils/constants'
 
 const url = constants.routes.DEVELOPER_TASKLIST
 
+const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
+const cannotStartYetStatus = { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+const completedStatus = { text: 'Completed' }
+
 describe(url, () => {
   describe('GET', () => {
     let getOptions
@@ -36,45 +40,44 @@ describe(url, () => {
       expect(contextResult.tasks.taskList.length).toEqual(3)
       expect(contextResult.tasks.taskList[0]).toEqual({
         taskTitle: 'Applicant information',
-        tasks: [
+        items: [
           {
-            title: 'Add details about the applicant',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+            title: { text: 'Add details about the applicant' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
             id: 'applicant-details'
           }
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add biodiversity gain site details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            title: { text: 'Add biodiversity gain site details' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_BNG_NUMBER,
             id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { text: 'Add development project details' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Upload planning decision notice',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+            title: { text: 'Upload planning decision notice' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
             id: 'planning-decision-notice'
           }
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Submit your off-site gains information',
-        tasks: [
+        items: [
           {
-            title: 'Check your answers and submit',
-            status: 'CANNOT START YET',
-            url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+            title: { text: 'Check your answers and submit' },
+            status: cannotStartYetStatus,
             id: 'check-your-answers'
           }
         ]
@@ -110,23 +113,23 @@ describe(url, () => {
 
       expect(contextResult.tasks.taskList[1]).toEqual({
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add biodiversity gain site details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            title: { text: 'Add biodiversity gain site details' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_BNG_NUMBER,
             id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { text: 'Add development project details' },
+            status: notStartedStatus,
+            href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Upload planning decision notice',
-            status: 'COMPLETED',
-            url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
+            title: { text: 'Upload planning decision notice' },
+            status: completedStatus,
+            href: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
             id: 'planning-decision-notice'
           }
         ]
