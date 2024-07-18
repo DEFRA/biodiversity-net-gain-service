@@ -73,13 +73,6 @@ const tasksById = {
 }
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain site information',
-  tasks: [{
-    id: 'check-your-answers',
-    title: 'Check your answers and submit information',
-    url: constants.routes.CHECK_AND_SUBMIT,
-    status: constants.CANNOT_START_YET_STATUS
-  }],
-  // While migrating from v5 HTML task list to v5 task list component, we also add `items` in the component format,
   items: [{
     id: 'check-your-answers',
     title: {

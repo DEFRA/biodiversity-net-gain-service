@@ -127,9 +127,6 @@ const retrieveTask = (routeDefinitions, startUrl) => {
 const generateTaskList = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
-    tasks: section.tasks.map(task => getTaskStatus(task, session)),
-    // While migrating from HTML task list to v5 task list component, we also add `items` in the component format so we
-    // can support the new component without breaking the existing HTML task lists
     items: section.tasks.map(task => getTaskItems(task, session))
   }))
   return taskList
@@ -179,15 +176,17 @@ const getTaskList = (journey, session) => {
   let totalTasks = 0
 
   taskList.forEach(task => {
-    if (task.tasks.length === 1) {
+    if (task.items.length === 1) {
       totalTasks += 1
-      if (task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+      const status = task.items[0].status.tag?.text || task.items[0].status.text
+      if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
         completedTasks += 1
       }
     } else {
-      task.tasks.forEach(currentTask => {
+      task.items.forEach(currentTask => {
         totalTasks += 1
-        if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+        const status = currentTask.status.tag?.text || currentTask.status.text
+        if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
           completedTasks += 1
         }
       })

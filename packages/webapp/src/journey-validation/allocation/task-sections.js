@@ -39,13 +39,6 @@ const gainSiteAllocationInformation = taskDefinition(
 
 const checkYourAnswers = {
   taskTitle: 'Submit your off-site gains information',
-  tasks: [{
-    id: 'check-your-answers',
-    title: 'Check your answers and submit',
-    url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
-    status: constants.CANNOT_START_YET_STATUS
-  }],
-  // While migrating from v5 HTML task list to v5 task list component, we also add `items` in the component format,
   items: [{
     id: 'check-your-answers',
     title: {

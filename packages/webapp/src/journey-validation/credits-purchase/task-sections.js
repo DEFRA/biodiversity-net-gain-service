@@ -58,13 +58,6 @@ const termsAndConditions = taskDefinition(
 
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain information',
-  tasks: [{
-    id: 'check-your-answers',
-    title: 'Check your answers before you submit them',
-    url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
-    status: constants.CANNOT_START_YET_STATUS
-  }],
-  // While migrating from v5 HTML task list to v5 task list component, we also add `items` in the component format,
   items: [{
     id: 'check-your-answers',
     title: {
