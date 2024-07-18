@@ -6,6 +6,9 @@ const url = constants.routes.REGISTER_LAND_TASK_LIST
 const session = new Session()
 const testString = '1234'
 
+const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
+const completedStatus = { text: 'Completed' }
+
 describe(url, () => {
   describe('GET', () => {
     let getOptions
@@ -43,51 +46,51 @@ describe(url, () => {
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[0]).toEqual({
             taskTitle: 'Applicant information',
-            tasks: [
+            items: [
               {
-                title: 'Add details about the applicant',
-                status: 'NOT STARTED',
-                url: '/land/agent-acting-for-client',
+                title: { text: 'Add details about the applicant' },
+                status: notStartedStatus,
+                href: '/land/agent-acting-for-client',
                 id: 'add-applicant-information'
               }
             ]
           })
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { text: 'Add land ownership details' },
+                status: notStartedStatus,
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/upload-land-boundary',
+                title: { text: 'Add biodiversity gain site boundary details' },
+                status: notStartedStatus,
+                href: '/land/upload-land-boundary',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { text: 'Add habitat baseline, creation and enhancements' },
+                status: notStartedStatus,
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Legal information',
-            tasks: [
+            items: [
               {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
+                title: { text: 'Add legal agreement details' },
+                status: notStartedStatus,
+                href: '/land/legal-agreement-type',
                 id: 'add-legal-agreement'
               },
               {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
+                title: { text: 'Add local land charge search certificate' },
+                status: notStartedStatus,
+                href: '/land/upload-local-land-charge',
                 id: 'add-local-land-charge-search-certificate'
               }
             ]
@@ -124,40 +127,40 @@ describe(url, () => {
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { text: 'Add land ownership details' },
+                status: notStartedStatus,
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/upload-land-boundary',
+                title: { text: 'Add biodiversity gain site boundary details' },
+                status: notStartedStatus,
+                href: '/land/upload-land-boundary',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { text: 'Add habitat baseline, creation and enhancements' },
+                status: notStartedStatus,
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Legal information',
-            tasks: [
+            items: [
               {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
+                title: { text: 'Add legal agreement details' },
+                status: notStartedStatus,
+                href: '/land/legal-agreement-type',
                 id: 'add-legal-agreement'
               },
               {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
+                title: { text: 'Add local land charge search certificate' },
+                status: notStartedStatus,
+                href: '/land/upload-local-land-charge',
                 id: 'add-local-land-charge-search-certificate'
               }
             ]
@@ -194,40 +197,40 @@ describe(url, () => {
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { text: 'Add land ownership details' },
+                status: notStartedStatus,
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/choose-land-boundary-upload',
+                title: { text: 'Add biodiversity gain site boundary details' },
+                status: notStartedStatus,
+                href: '/land/choose-land-boundary-upload',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { text: 'Add habitat baseline, creation and enhancements' },
+                status: notStartedStatus,
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
             taskTitle: 'Legal information',
-            tasks: [
+            items: [
               {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
+                title: { text: 'Add legal agreement details' },
+                status: notStartedStatus,
+                href: '/land/legal-agreement-type',
                 id: 'add-legal-agreement'
               },
               {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
+                title: { text: 'Add local land charge search certificate' },
+                status: notStartedStatus,
+                href: '/land/upload-local-land-charge',
                 id: 'add-local-land-charge-search-certificate'
               }
             ]
@@ -271,23 +274,23 @@ describe(url, () => {
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { text: 'Add land ownership details' },
+                status: notStartedStatus,
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'COMPLETED',
-                url: '/land/check-land-boundary-details',
+                title: { text: 'Add biodiversity gain site boundary details' },
+                status: completedStatus,
+                href: '/land/check-land-boundary-details',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { text: 'Add habitat baseline, creation and enhancements' },
+                status: notStartedStatus,
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
