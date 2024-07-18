@@ -1,6 +1,8 @@
 import { submitGetRequest } from '../helpers/server.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
+const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
+
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 
 describe(url, () => {
@@ -36,66 +38,66 @@ describe(url, () => {
       expect(contextResult.tasks.taskList.length).toEqual(7)
       expect(contextResult.tasks.taskList[0]).toEqual({
         taskTitle: 'Statutory biodiversity metric',
-        tasks: [
+        items: [
           {
-            title: 'Upload statutory biodiversity metric',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+            title: { text: 'Upload statutory biodiversity metric' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
             id: 'upload-metric'
           }
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add development project information',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { text: 'Add development project information' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           }
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Statutory biodiversity credits',
-        tasks: [
+        items: [
           {
-            title: 'Add statutory biodiversity credits',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
+            title: { text: 'Add statutory biodiversity credits' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
             id: 'add-credits'
           }
         ]
       })
       expect(contextResult.tasks.taskList[3]).toEqual({
         taskTitle: 'Purchase order',
-        tasks: [
+        items: [
           {
-            title: 'Add a purchase order number, if you have one',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
+            title: { text: 'Add a purchase order number, if you have one' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
             id: 'add-purchase-order'
           }
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
         taskTitle: 'Customer due diligence (anti-money laundering)',
-        tasks: [
+        items: [
           {
-            title: 'Complete customer due diligence',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
+            title: { text: 'Complete customer due diligence' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
             id: 'customer-due-diligence'
           }
         ]
       })
       expect(contextResult.tasks.taskList[5]).toEqual({
         taskTitle: 'Terms and conditions',
-        tasks: [
+        items: [
           {
-            title: 'Accept terms and conditions',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
+            title: { text: 'Accept terms and conditions' },
+            status: notStartedStatus,
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
             id: 'terms-and-conditions'
           }
         ]
