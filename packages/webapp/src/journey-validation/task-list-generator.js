@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep.js'
 import constants from '../utils/constants.js'
 import {
   taskSections as registrationTaskSections,
@@ -162,15 +161,15 @@ const getTaskList = (journey, session) => {
   switch (journey) {
     case constants.applicationTypes.REGISTRATION:
       taskList = generateTaskList(registrationTaskSections, session)
-      taskList.push(cloneDeep(registrationCheckYourAnswers))
+      taskList.push(structuredClone(registrationCheckYourAnswers))
       break
     case constants.applicationTypes.CREDITS_PURCHASE:
       taskList = generateTaskList(creditsPurchaseTaskSections, session)
-      taskList.push(cloneDeep(creditsPurchaseCheckYourAnswers))
+      taskList.push(structuredClone(creditsPurchaseCheckYourAnswers))
       break
     case constants.applicationTypes.ALLOCATION:
       taskList = generateTaskList(allocationTaskSections, session)
-      taskList.push(cloneDeep(allocationCheckYourAnswers))
+      taskList.push(structuredClone(allocationCheckYourAnswers))
       break
     default:
       taskList = []
