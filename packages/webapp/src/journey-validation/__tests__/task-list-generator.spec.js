@@ -4,6 +4,11 @@ import { getTaskList } from '../task-list-generator.js'
 const testString = '1234'
 const session = new Session()
 
+const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
+const cannotStartYetStatus = { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+
+const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+
 const initialTaskInfo = {
   canSubmit: false,
   completedTasks: 0,
@@ -11,62 +16,61 @@ const initialTaskInfo = {
   taskList: [
     {
       taskTitle: 'Applicant information',
-      tasks: [
+      items: [
         {
-          title: 'Add details about the applicant',
-          status: 'NOT STARTED',
-          url: '/land/agent-acting-for-client',
+          title: { text: 'Add details about the applicant' },
+          status: notStartedStatus,
+          href: '/land/agent-acting-for-client',
           id: 'add-applicant-information'
         }
       ]
     },
     {
       taskTitle: 'Land information',
-      tasks: [
+      items: [
         {
-          title: 'Add land ownership details',
-          status: 'NOT STARTED',
-          url: '/land/upload-ownership-proof',
+          title: { text: 'Add land ownership details' },
+          status: notStartedStatus,
+          href: '/land/upload-ownership-proof',
           id: 'add-land-ownership'
         },
         {
-          title: 'Add biodiversity gain site boundary details',
-          status: 'NOT STARTED',
-          url: '/land/upload-land-boundary',
+          title: { text: 'Add biodiversity gain site boundary details' },
+          status: notStartedStatus,
+          href: '/land/upload-land-boundary',
           id: 'add-land-boundary'
         },
         {
-          title: 'Add habitat baseline, creation and enhancements',
-          status: 'NOT STARTED',
-          url: '/land/upload-metric',
+          title: { text: 'Add habitat baseline, creation and enhancements' },
+          status: notStartedStatus,
+          href: '/land/upload-metric',
           id: 'add-habitat-information'
         }
       ]
     },
     {
       taskTitle: 'Legal information',
-      tasks: [
+      items: [
         {
-          title: 'Add legal agreement details',
-          status: 'NOT STARTED',
-          url: '/land/legal-agreement-type',
+          title: { text: 'Add legal agreement details' },
+          status: notStartedStatus,
+          href: '/land/legal-agreement-type',
           id: 'add-legal-agreement'
         },
         {
-          title: 'Add local land charge search certificate',
-          status: 'NOT STARTED',
-          url: '/land/upload-local-land-charge',
+          title: { text: 'Add local land charge search certificate' },
+          status: notStartedStatus,
+          href: '/land/upload-local-land-charge',
           id: 'add-local-land-charge-search-certificate'
         }
       ]
     },
     {
       taskTitle: 'Submit your biodiversity gain site information',
-      tasks: [
+      items: [
         {
-          title: 'Check your answers and submit information',
-          status: 'CANNOT START YET',
-          url: '/land/check-and-submit',
+          title: { text: 'Check your answers and submit information' },
+          status: cannotStartYetStatus,
           id: 'check-your-answers'
         }
       ]
@@ -97,7 +101,7 @@ describe('journey validation task list', () => {
         session.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, 'yes')
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
-        expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+        expect(taskInfo.taskList[1].items[1].status.tag.text).toBe(statusForDisplay(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS))
 
         done()
       } catch (err) {
@@ -118,7 +122,7 @@ describe('journey validation task list', () => {
         session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, testString)
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
-        expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
+        expect(taskInfo.taskList[1].items[1].status.text).toBe(statusForDisplay(constants.COMPLETE_REGISTRATION_TASK_STATUS))
 
         done()
       } catch (err) {
