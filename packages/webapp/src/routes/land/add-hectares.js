@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
 import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -22,8 +23,7 @@ const handlers = {
       })
     } else {
       request.yar.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, parseFloat(parseFloat(request.payload.hectares).toFixed(2)))
-      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_BOUNDARY_VALID_REFERRERS)
-      return h.redirect(referrerUrl || constants.routes.CHECK_LAND_BOUNDARY_DETAILS)
+      return getNextStep(request, h)
     }
   }
 }

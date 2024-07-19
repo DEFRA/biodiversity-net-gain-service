@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
-import { getHumanReadableFileSize, getValidReferrerUrl } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, getContext(request))
@@ -9,22 +10,11 @@ const handlers = {
     const checkLocalLandCharge = request.payload.checkLocalLandCharge
     const context = getContext(request)
     request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, checkLocalLandCharge)
-    if (checkLocalLandCharge === 'no') {
-      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'no')
-      return h.redirect(constants.routes.UPLOAD_LOCAL_LAND_CHARGE)
-    } else if (checkLocalLandCharge === 'yes') {
-      request.yar.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
-      const referrerUrl = getValidReferrerUrl(request.yar, ['/land/check-and-submit'])
-      const redirectUrl = referrerUrl ||
-                          constants.routes.REGISTER_LAND_TASK_LIST
-      return h.redirect(redirectUrl)
-    } else {
-      context.err = [{
-        text: 'Select yes if this is the correct file',
-        href: '#check-upload-correct-yes'
-      }]
+
+    return getNextStep(request, h, (e) => {
+      context.err = [e]
       return h.view(constants.views.CHECK_LOCAL_LAND_CHARGE_FILE, context)
-    }
+    })
   }
 }
 

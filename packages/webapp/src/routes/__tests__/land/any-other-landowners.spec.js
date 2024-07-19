@@ -11,6 +11,10 @@ describe(url, () => {
 
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
+    beforeAll(async () => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+    })
     beforeEach(() => {
       postOptions = {
         url,
@@ -19,18 +23,18 @@ describe(url, () => {
     })
     it('Should continue journey to LANDOWNER_INDIVIDUAL_ORGANISATION if yes is chosen', async () => {
       postOptions.payload.anyOtherLOValue = 'yes'
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
     })
 
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if no is chosen', async () => {
       postOptions.payload.anyOtherLOValue = 'no'
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
     })
 
     it('Should fail journey if no answer', async () => {
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 200, sessionData)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Select yes if there are any other landowners or leaseholders')
     })

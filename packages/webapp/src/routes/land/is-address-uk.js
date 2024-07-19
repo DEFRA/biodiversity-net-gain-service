@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -14,20 +15,13 @@ const handlers = {
     const isAddressUk = request.payload.isAddressUk
     const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
     request.yar.set(constants.redisKeys.IS_ADDRESS_UK_KEY, isAddressUk)
-    if (isAddressUk === 'yes') {
-      return h.redirect(constants.routes.UK_ADDRESS)
-    } else if (isAddressUk === 'no') {
-      return h.redirect(constants.routes.NON_UK_ADDRESS)
-    } else {
-      return h.redirectView(constants.views.IS_ADDRESS_UK, {
-        err: [{
-          text: `Select yes if your ${isApplicantAgent === 'yes' ? 'client\'s ' : ''}address is in the UK`,
-          href: '#is-address-uk-yes'
-        }],
+    return getNextStep(request, h, (e) => {
+      return h.view(constants.views.IS_ADDRESS_UK, {
+        err: [e],
         isAddressUk,
         isApplicantAgent
       })
-    }
+    })
   }
 }
 
