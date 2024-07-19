@@ -5,6 +5,7 @@ import {
   checkForDuplicate,
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
@@ -86,7 +87,7 @@ const handlers = {
       lpaList.push(selectedLpa)
     }
     request.yar.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, lpaList)
-    return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)
+    return getNextStep(request, h)
   }
 }
 

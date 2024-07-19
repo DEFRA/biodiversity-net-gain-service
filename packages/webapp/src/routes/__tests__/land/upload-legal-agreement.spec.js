@@ -37,6 +37,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           baseConfig.referer = `'http://localhost:30000${url}`
           await uploadFile(uploadConfig)
           setImmediate(() => {
@@ -54,6 +57,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           baseConfig.headers = {
             referer: `'http://localhost:30000${url}`
           }
@@ -76,6 +82,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-legal-agreement-details'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -93,6 +102,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
           baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -112,6 +124,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -130,6 +145,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-legal-agreement.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           baseConfig.referer = `'http://localhost:30000${url}`
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
@@ -149,6 +167,9 @@ describe('Legal agreement upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           baseConfig.referer = `'http://localhost:30000${url}`
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
@@ -167,6 +188,9 @@ describe('Legal agreement upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           baseConfig.referer = `'http://localhost:30000${url}`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           uploadConfig.hasError = true
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
@@ -188,6 +212,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-legal-agreement-details'
           }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -205,6 +232,9 @@ describe('Legal agreement upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-legal-agreement-details'
+          }
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
           }
           await uploadFile(uploadConfig)
           setImmediate(() => {

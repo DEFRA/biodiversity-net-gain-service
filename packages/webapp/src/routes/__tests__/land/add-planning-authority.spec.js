@@ -1,17 +1,18 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
 import { getLpaNames } from '../../../utils/get-lpas.js'
-
-jest.mock('../../../utils/get-lpas.js')
+import { SessionMap } from '../../../utils/sessionMap.js'
 
 const url = constants.routes.ADD_PLANNING_AUTHORITY
+
+jest.mock('../../../utils/get-lpas.js')
 
 describe(url, () => {
   let viewResult
   let h
-  let redisMap
   let resultContext
   let addPlanningAuthority
+  const redisMap = new SessionMap()
 
   beforeEach(() => {
     h = {
@@ -24,7 +25,7 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
 
     addPlanningAuthority = require('../../land/add-planning-authority.js')
@@ -59,7 +60,9 @@ describe(url, () => {
   })
   describe('POST', () => {
     let postOptions
+    const sessionData = {}
     beforeEach(() => {
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       postOptions = {
         url,
         payload: {}
@@ -68,24 +71,25 @@ describe(url, () => {
 
     it('Should continue journey if localPlanningAuthority name is provided', async () => {
       postOptions.payload = { localPlanningAuthority: 'Planning Authority 1' }
-      const res = await submitPostRequest(postOptions)
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.CHECK_PLANNING_AUTHORITIES)
     })
     it('should return an error for empty id in query string', async () => {
       const queryUrl = url + '?id='
-      const response = await submitPostRequest({ url: queryUrl }, 400)
+      const response = await submitPostRequest({ url: queryUrl }, 400, sessionData)
       expect(response.statusCode).toBe(400)
     })
     it('should return an error for invalid id in query string', async () => {
       const queryUrl = url + '?id=$'
-      const response = await submitPostRequest({ url: queryUrl }, 400)
+      const response = await submitPostRequest({ url: queryUrl }, 400, sessionData)
       expect(response.statusCode).toBe(400)
     })
     it('should edit planning authority and redirect to CHECK_PLANNING_AUTHORITIES page by using id', async () => {
       const request = {
         yar: redisMap,
         payload: { localPlanningAuthority: 'Planning Authority 3' },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addPlanningAuthority.default[1].path
       }
 
       await addPlanningAuthority.default[1].handler(request, h)
@@ -95,7 +99,7 @@ describe(url, () => {
     })
 
     it('Should show error message if no lpa name is provided', async () => {
-      const res = await submitPostRequest(postOptions, 200)
+      const res = await submitPostRequest(postOptions, 200, sessionData)
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Enter and select a local planning authority')
     })
@@ -103,7 +107,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: { localPlanningAuthority: 'Planning Authority 1' },
-        query: { }
+        query: { },
+        path: addPlanningAuthority.default[1].path
       }
 
       await addPlanningAuthority.default[1].handler(request, h)
@@ -114,7 +119,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: { localPlanningAuthority: 'Planning Authority 2' },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addPlanningAuthority.default[1].path
       }
 
       await addPlanningAuthority.default[1].handler(request, h)
@@ -126,7 +132,8 @@ describe(url, () => {
       const request = {
         yar: redisMap,
         payload: { localPlanningAuthority: 'Invalid lpa' },
-        query: { id: '0' }
+        query: { id: '0' },
+        path: addPlanningAuthority.default[1].path
       }
 
       await addPlanningAuthority.default[1].handler(request, h)

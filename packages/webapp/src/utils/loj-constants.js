@@ -73,6 +73,7 @@ const IS_AGENT = 'is-agent'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
+const START_REGISTER_GAIN_SITE = 'land/start-register-gain-site'
 
 const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
@@ -102,6 +103,7 @@ const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
 const LEGAL_AGREEMENT_FILES = 'legal-agreement-files'
+const LEGAL_AGREEMENT_CHECK_ID = 'legal-agreement-check-id'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
@@ -223,6 +225,7 @@ export default {
     HABITAT_PLAN_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
     LEGAL_AGREEMENT_FILES,
+    LEGAL_AGREEMENT_CHECK_ID,
     LOCAL_LAND_CHARGE_LOCATION,
     HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
@@ -378,7 +381,8 @@ export default {
     LAND_OWNERSHIP_PROOF_LIST,
     LAND_OWNERSHIP_REMOVE,
     CANNOT_VIEW_APPLICATION,
-    ANY_OTHER_LANDOWNERS
+    ANY_OTHER_LANDOWNERS,
+    START_REGISTER_GAIN_SITE
   },
   uploadTypes: {
     GEOSPATIAL_UPLOAD_TYPE,

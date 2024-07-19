@@ -1,6 +1,7 @@
 import constants from '../../../utils/constants.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
+import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.CHECK_LEGAL_AGREEMENT
 jest.mock('../../../utils/azure-storage.js')
 
@@ -22,7 +23,8 @@ describe(url, () => {
       }
     }
 
-    redisMap = new Map()
+    redisMap = new SessionMap()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
       {
         location: '800376c7-8652-4906-8848-70a774578dfe/legal-agreement/legal-agreement-qwww.doc',
@@ -85,7 +87,8 @@ describe(url, () => {
       request = {
         yar: redisMap,
         payload: { checkLegalAgreement: 'yes' },
-        query: { id: '1' }
+        query: { id: '1' },
+        path: legalAgreementFileCheck.default[1].path
       }
     })
     it('should return an error for empty id in query string', async () => {
