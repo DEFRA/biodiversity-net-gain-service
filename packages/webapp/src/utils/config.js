@@ -31,5 +31,5 @@ export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'
 export const BACKEND_API = {
   BASE_URL: process.env.BACKEND_API_BASE_URL ?? 'http://localhost:3000/test/api/',
   SUBSCRIPTION_KEY: process.env.BACKEND_API_SUBSCRIPTION_KEY ?? 'test123',
-  CODE_QUERY_PARAMETER: process.env.BACKEND_API_CODE_QUERY_PARAMETER ?? 'test123'
+  CODE_QUERY_PARAMETER: process.env.BACKEND_API_CODE_QUERY_PARAMETER
 }
