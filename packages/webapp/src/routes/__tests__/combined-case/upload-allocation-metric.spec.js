@@ -43,7 +43,7 @@ describe('Metric file upload controller tests', () => {
     })
 
     metricFiles.forEach(file => {
-      it.skip(`should display error if off-site reference is not matching for ${file}`, (done) => {
+      it(`should display error if off-site reference is not matching for ${file}`, (done) => {
         jest.isolateModules(async () => {
           try {
             const uploadConfig = getBaseConfig()
@@ -305,7 +305,7 @@ describe('Metric file upload controller tests', () => {
       })
     })
     /// / BNGP-4219 METRIC Validation: Suppress total area calculations
-    it.skip('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
+    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')

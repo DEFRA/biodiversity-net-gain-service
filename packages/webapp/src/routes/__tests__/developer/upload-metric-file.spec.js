@@ -43,7 +43,7 @@ describe('Metric file upload controller tests', () => {
     })
 
     metricFiles.forEach(file => {
-      it.skip(`should display error if off-site reference is not matching for ${file}`, (done) => {
+      it(`should display error if off-site reference is not matching for ${file}`, (done) => {
         jest.isolateModules(async () => {
           try {
             const uploadConfig = getBaseConfig()

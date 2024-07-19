@@ -25,7 +25,7 @@ describe('Uplocad Planning Decision Notice tests', () => {
       jest.clearAllMocks()
     })
 
-    it.only('should upload planning desicion notice file to cloud storage', (done) => {
+    it('should upload planning desicion notice file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
