@@ -306,33 +306,6 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
-    /// / BNGP-4219 METRIC Validation: Suppress total area calculations
-    it('should return validation error message if fails areOffsiteTotalsCorrect', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          jest.mock('../../../utils/azure-storage.js')
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
-          const config = getBaseConfig()
-          config.filePath = `${mockDataPath}/metric-file.xlsx`
-          config.hasError = true
-          config.statusCode = 302
-          config.postProcess.metricData.validation = {
-            isSupportedVersion: true,
-            isOffsiteDataPresent: true,
-            areOffsiteTotalsCorrect: false
-          }
-          config.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
-          const response = await uploadFile(config)
-          expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
-          expect(spy).toHaveBeenCalledTimes(1)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
 
     it('should display expected error details when an upload fails due to a timeout', (done) => {
       jest.isolateModules(async () => {
