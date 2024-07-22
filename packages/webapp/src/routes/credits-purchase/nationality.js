@@ -60,7 +60,7 @@ const handlers = {
           }
         })
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
-          nationalitySelects: getNationalitySelects(),
+          nationalitySelects: getNationalitySelects(nationalities),
           backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
           err: errorMessages
         })
@@ -68,7 +68,7 @@ const handlers = {
     } else {
       // Displaying error if no nationality selected
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
-        nationalitySelects: getNationalitySelects(),
+        nationalitySelects: getNationalitySelects(nationalities),
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
         err: [{
           text: errorText,
