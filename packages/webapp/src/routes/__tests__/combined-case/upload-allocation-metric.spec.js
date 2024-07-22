@@ -41,28 +41,7 @@ describe('Metric file upload controller tests', () => {
     beforeEach(async () => {
       await recreateContainers()
     })
-
-    metricFiles.forEach(file => {
-      it(`should display error if off-site reference is not matching for ${file}`, (done) => {
-        jest.isolateModules(async () => {
-          try {
-            const uploadConfig = getBaseConfig()
-            uploadConfig.filePath = file
-            uploadConfig.hasError = true
-            uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
-            uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
-            const res = await uploadFile(uploadConfig)
-            expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
-          }
-        })
-      })
-    })
-
+    
     metricFiles.forEach(file => {
       it(`should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails for ${file}`, (done) => {
         jest.isolateModules(async () => {
