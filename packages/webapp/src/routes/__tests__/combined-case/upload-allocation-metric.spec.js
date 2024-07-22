@@ -41,7 +41,7 @@ describe('Metric file upload controller tests', () => {
     beforeEach(async () => {
       await recreateContainers()
     })
-    
+
     metricFiles.forEach(file => {
       it(`should upload metric file to cloud storage and allow a journey to proceed if the persistence of journey data fails for ${file}`, (done) => {
         jest.isolateModules(async () => {
