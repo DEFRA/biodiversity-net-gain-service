@@ -27,7 +27,7 @@ describe('Route Definitions', () => {
 
     session.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, 'yes')
     result = CHECK_LOCAL_LAND_CHARGE_FILE.nextUrl(session)
-    expect(result).toBe('/combined-case/register-land-task-list')
+    expect(result).toBe('/combined-case/tasklist')
     expect(session.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION)).toBe('yes')
 
     result = CHECK_LOCAL_LAND_CHARGE_FILE.nextUrl(session)
