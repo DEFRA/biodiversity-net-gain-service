@@ -35,6 +35,8 @@ describe(url, () => {
       expect(viewResult).toEqual('combined-case/tasklist')
       expect(contextResult.tasks.taskList.length).toEqual(5)
       expect(contextResult.tasks.taskList[0]).toEqual({
+        dependantIds: [],
+        id: 'cc-app-info',
         taskTitle: 'Applicant information',
         tasks: [
           {
