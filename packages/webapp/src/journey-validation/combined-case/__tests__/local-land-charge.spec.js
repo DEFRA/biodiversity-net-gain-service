@@ -31,7 +31,7 @@ describe('Route Definitions', () => {
     expect(session.get(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION)).toBe('yes')
 
     result = CHECK_LOCAL_LAND_CHARGE_FILE.nextUrl(session)
-    expect(result).toBe(constants.reusedRoutes.COMBINED_CASE_REGISTER_LAND_TASK_LIST)
+    expect(result).toBe(constants.routes.COMBINED_CASE_TASK_LIST)
 
     session.set(constants.redisKeys.LOCAL_LAND_CHARGE_CHECKED, 'invalid_value')
     expect(() => CHECK_LOCAL_LAND_CHARGE_FILE.nextUrl(session)).toThrow(FormError)
