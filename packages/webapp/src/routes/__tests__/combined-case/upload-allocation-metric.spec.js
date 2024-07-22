@@ -50,6 +50,7 @@ describe('Metric file upload controller tests', () => {
             uploadConfig.filePath = file
             uploadConfig.hasError = true
             uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+            uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
             const res = await uploadFile(uploadConfig)
             expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
             setImmediate(() => {
@@ -161,6 +162,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
+          uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -313,11 +315,13 @@ describe('Metric file upload controller tests', () => {
           const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
+          config.statusCode = 302
           config.postProcess.metricData.validation = {
             isSupportedVersion: true,
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
+          config.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
           expect(spy).toHaveBeenCalledTimes(1)
