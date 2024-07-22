@@ -48,13 +48,21 @@ const handlers = {
         const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
         return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
       } else {
+        console.log('Length of array: ' + nonEmptyNationalities.length)
+        console.log('Nationalities: ' + Object.values(nationalities))
+        const errorMessages = nonEmptyNationalities.map((nationality, index) => {
+          if (nonEmptyNationalities.indexOf(nationality) !== index) {
+            console.log('value of index: ' + index)
+            return {
+              text: duplicateNationalitiesErrorText,
+              href: `#nationality${index + 1}`
+            }
+          }
+        })
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
           nationalitySelects: getNationalitySelects(),
           backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-          err: [{
-            text: duplicateNationalitiesErrorText,
-            href: '#nationality1'
-          }]
+          err: errorMessages
         })
       }
     } else {
