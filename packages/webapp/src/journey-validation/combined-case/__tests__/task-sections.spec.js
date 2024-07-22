@@ -41,6 +41,8 @@ describe('Registration module', () => {
 
   it('should define the correct checkYourAnswers object', () => {
     expect(checkYourAnswers).toEqual({
+      dependantIds: [],
+      id: null,
       taskTitle: 'Submit your biodiversity gain information',
       tasks: [{
         id: 'check-your-answers',
