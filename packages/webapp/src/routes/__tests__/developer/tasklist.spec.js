@@ -73,8 +73,6 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
-        dependantIds: [],
-        id: null,
         taskTitle: 'Submit your off-site gains information',
         tasks: [
           {

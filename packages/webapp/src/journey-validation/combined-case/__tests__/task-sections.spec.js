@@ -41,8 +41,6 @@ describe('Registration module', () => {
 
   it('should define the correct checkYourAnswers object', () => {
     expect(checkYourAnswers).toEqual({
-      dependantIds: [],
-      id: null,
       taskTitle: 'Submit your biodiversity gain information',
       tasks: [{
         id: 'check-your-answers',
@@ -125,10 +123,10 @@ describe('Registration module', () => {
       addDevelopmentProjectInformationJourneys
     )
     const expectedTaskSections = [
-      taskSectionDefinition('Applicant information', [applicantInfo]),
-      taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo]),
-      taskSectionDefinition('Legal information', [legalAgreement, localLandCharge]),
-      taskSectionDefinition('Allocation information', [planningDecisionNotice, matchAvailableHabitats, confirmDevAndHabitatDetails])
+      taskSectionDefinition('Applicant information', [applicantInfo], 'cc-app-info'),
+      taskSectionDefinition('Land information', [landOwnership, siteBoundary, habitatInfo], 'cc-land-info'),
+      taskSectionDefinition('Legal information', [legalAgreement, localLandCharge], 'cc-legal-info'),
+      taskSectionDefinition('Allocation information', [planningDecisionNotice, matchAvailableHabitats, confirmDevAndHabitatDetails], 'cc-allocation-info', ['cc-app-info', 'cc-land-info', 'cc-legal-info'])
     ]
 
     expect(taskSections).toEqual(expectedTaskSections)
