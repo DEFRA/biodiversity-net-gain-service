@@ -53,6 +53,9 @@
               {% endfor %}
             </tbody>
           </table>
+        {% if showAmendmentGuidanceLink %}
+          <p><a href="{{ amendmentGuidanceUrl }}" target="_blank" rel="noopener">{{ amendmentGuidanceText }}</a></p>
+        {% endif %}
         </div>
       </div>
     </div>
