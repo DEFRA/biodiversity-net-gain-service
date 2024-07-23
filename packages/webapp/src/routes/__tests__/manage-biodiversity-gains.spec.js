@@ -4,6 +4,8 @@ import constants from '../../utils/constants.js'
 const url = constants.routes.MANAGE_BIODIVERSITY_GAINS
 const creditsPurchaseLink = '<a href="/credits-purchase/check-statutory-biodiversity-credits">Buy statutory biodiversity credits</a>'
 const combinedCaseLink = '<a href="/combined-case/combined-case-projects">Combined case projects</a>'
+const registerBiodiversityGainSitesLinkEnabled = '<a href="/land/start-register-gain-site">Register biodiversity gain sites</a>'
+const registerBiodiversityGainSitesLinkDisabled = '<a href="/land/biodiversity-gain-sites">Register biodiversity gain sites</a>'
 
 describe(url, () => {
   describe('GET', () => {
@@ -59,6 +61,18 @@ describe(url, () => {
       process.env.ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY = undefined
       const resp = await submitGetRequest({ url }, 200, { representing: 'Mock organisation', enableDev: false })
       expect(resp.payload).not.toContain(combinedCaseLink)
+    })
+
+    it('should render the link to start register gain site when enableCombinedCase is true', async () => {
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY = 'Y'
+      const resp = await submitGetRequest({ url }, 200, { representing: 'Myself Mock user)', enableDev: true })
+      expect(resp.payload).toContain(registerBiodiversityGainSitesLinkEnabled)
+    })
+
+    it('should render the link to biodiversity gain sites when enableCombinedCase is false', async () => {
+      process.env.ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY = 'N'
+      const resp = await submitGetRequest({ url }, 200, { representing: 'Myself Mock user)', enableDev: false })
+      expect(resp.payload).toContain(registerBiodiversityGainSitesLinkDisabled)
     })
   })
 })

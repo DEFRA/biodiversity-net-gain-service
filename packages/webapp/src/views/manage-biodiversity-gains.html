@@ -23,7 +23,11 @@
           <div class="flex-container">
             <div class="dashboard-panel">
               <h2 class="govuk-heading-m govuk-!-padding-top-4">
+                {% if enableCombinedCase %}
                 <a href="/land/start-register-gain-site">Register biodiversity gain sites</a>
+                {% else %}
+                <a href="/land/biodiversity-gain-sites">Register biodiversity gain sites</a>
+                {% endif %}
               </h2>
               <p class="govuk-body-s">You can:</p>
               <ul class="govuk-list govuk-list--bullet govuk-body-s">
