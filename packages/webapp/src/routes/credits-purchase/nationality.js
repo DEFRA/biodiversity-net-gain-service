@@ -50,12 +50,15 @@ const handlers = {
       } else {
         console.log('Length of array: ' + nonEmptyNationalities.length)
         console.log('Nationalities: ' + Object.values(nationalities))
-        const errorMessages = nonEmptyNationalities.map((nationality, index) => {
-          if (nonEmptyNationalities.indexOf(nationality) !== index) {
-            console.log('value of index: ' + index)
+
+        const errorMessages = Object.values(nationalities).map((nationality, indexOfFirstOccurance) => {
+          console.log('nationality being indexed: ' + nationality)
+          console.log('indexOfFirstOccurance of duplicated nationality: ' + Object.values(nationalities).indexOf(nationality))
+          if (Object.values(nationalities).indexOf(nationality) !== indexOfFirstOccurance && nationality !== '') {
+            console.log('value of index: ' + indexOfFirstOccurance)
             return {
               text: duplicateNationalitiesErrorText,
-              href: `#nationality${index + 1}`
+              href: `#nationality${indexOfFirstOccurance + 1}`
             }
           }
         })
