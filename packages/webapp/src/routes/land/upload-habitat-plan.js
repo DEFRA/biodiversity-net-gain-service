@@ -4,6 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const HABITAT_PLAN_ID = '#uploadHabitatPlan'
 
@@ -13,7 +14,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.HABITAT_PLAN_FILE_TYPE, result.fileType)
   request.logger.info(`${new Date().toUTCString()} Received legal and search data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.CHECK_HABITAT_PLAN_FILE)
+  return getNextStep(request, h)
 }
 
 const handlers = {

@@ -1,6 +1,6 @@
 const ANY = 'any'
 
-const routeDefinition = (startUrl, sessionKeys) => ({ startUrl, sessionKeys })
+const routeDefinition = (startUrl, sessionKeys, nextUrl) => ({ startUrl, sessionKeys, nextUrl })
 
 const journeyStep = (startUrl, sessionKeys, sessionValues, sessionMismatchWillInvalidate = false) => ({
   startUrl,

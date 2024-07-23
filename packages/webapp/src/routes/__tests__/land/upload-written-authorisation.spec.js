@@ -6,8 +6,12 @@ const FORM_ELEMENT_NAME = 'writtenAuthorisation'
 const url = constants.routes.UPLOAD_WRITTEN_AUTHORISATION
 
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/written-authorisation'
+const sessionData = {}
 
 describe('Proof of ownership upload controller tests', () => {
+  beforeAll(async () => {
+    sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+  })
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
@@ -35,6 +39,9 @@ describe('Proof of ownership upload controller tests', () => {
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/written-authorisation.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
@@ -51,6 +58,9 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -67,6 +77,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -86,6 +99,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -104,6 +120,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-written-authorisation.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file is empty')
@@ -122,6 +141,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must be a DOC, DOCX or PDF')
@@ -139,6 +161,9 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig, 200)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('Select the written authorisation file')
@@ -158,6 +183,9 @@ describe('Proof of ownership upload controller tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPathGeneric}/<a onmouseover=alert(document.cookie)>resillion.doc`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           setImmediate(() => {
@@ -174,6 +202,9 @@ describe('Proof of ownership upload controller tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()

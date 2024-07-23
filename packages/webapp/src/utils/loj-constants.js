@@ -102,6 +102,7 @@ const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
 const LEGAL_AGREEMENT_FILES = 'legal-agreement-files'
+const LEGAL_AGREEMENT_CHECK_ID = 'legal-agreement-check-id'
 const LEGAL_AGREEMENT_LOCATION = 'legal-agreement-location'
 const LOCAL_LAND_CHARGE_LOCATION = 'local-land-charge-location'
 const HABITAT_PLAN_LOCATION = 'habitat-plan-location'
@@ -153,6 +154,7 @@ const PLANNING_AUTHORTITY_LIST = 'planning-authority-list'
 const REF_LPA_NAMES = 'ref-lpa-names'
 const LAND_OWNERSHIP_PROOFS = 'land-ownership-proofs'
 const ANY_OTHER_LANDOWNERS_CHECKED = 'la-any-other-landowners-checked'
+const LAND_APPLICATION_SUBMITTED = 'land-application-submitted'
 
 const APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION = 'land/applying-individual-organisation'
 const LANDOWNER_TYPE = 'landowner-type'
@@ -223,6 +225,7 @@ export default {
     HABITAT_PLAN_CHECKED,
     LEGAL_AGREEMENT_LOCATION,
     LEGAL_AGREEMENT_FILES,
+    LEGAL_AGREEMENT_CHECK_ID,
     LOCAL_LAND_CHARGE_LOCATION,
     HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
@@ -291,7 +294,8 @@ export default {
     LANDOWNER_INDIVIDUAL_ORGANISATION_KEY,
     ADDED_LANDOWNERS_CHECKED,
     PLANNING_AUTHORITIES_CHECKED,
-    ANY_OTHER_LANDOWNERS_CHECKED
+    ANY_OTHER_LANDOWNERS_CHECKED,
+    LAND_APPLICATION_SUBMITTED
   },
   routes: {
     ADD_GRID_REFERENCE,

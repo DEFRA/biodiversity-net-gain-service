@@ -9,6 +9,7 @@ const handlers = {
 
     // Reset user session as submitted
     request.yar.reset()
+    request.yar.set(constants.redisKeys.LAND_APPLICATION_SUBMITTED, true)
     return h.view(constants.views.APPLICATION_SUBMITTED, {
       applicationReference,
       payment,

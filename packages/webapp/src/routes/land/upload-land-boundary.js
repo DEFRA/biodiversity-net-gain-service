@@ -4,6 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const LAND_BOUNDARY_ID = '#landBoundary'
 
@@ -28,7 +29,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.clear(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)
   request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
 
-  return h.redirect(constants.routes.CHECK_LAND_BOUNDARY)
+  return getNextStep(request, h)
 }
 
 const handlers = {

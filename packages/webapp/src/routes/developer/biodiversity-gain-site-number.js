@@ -1,8 +1,15 @@
 import constants from '../../utils/constants.js'
 import { BACKEND_API } from '../../utils/config.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import wreck from '@hapi/wreck'
 
-const getGainSiteApiUrl = bgsNumber => new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}?code=${BACKEND_API.CODE_QUERY_PARAMETER}`)
+const getGainSiteApiUrl = bgsNumber => {
+  const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
+  if (BACKEND_API.CODE_QUERY_PARAMETER) {
+    url.searchParams.set('code', BACKEND_API.CODE_QUERY_PARAMETER)
+  }
+  return url
+}
 
 const getStatusErrorMessage = status => {
   switch (status.toLowerCase()) {
@@ -72,9 +79,16 @@ const handlers = {
       })
     } else {
       const currentBGSNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      await deleteBlobFromContainers(metricUploadLocation)
+
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
+
       if (currentBGSNumber === bgsNumber) {
         return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
       }
+
       request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
     }
