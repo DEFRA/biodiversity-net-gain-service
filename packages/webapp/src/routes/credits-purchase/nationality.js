@@ -48,19 +48,15 @@ const handlers = {
         const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
         return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
       } else {
-        console.log('Length of array: ' + nonEmptyNationalities.length)
-        console.log('Nationalities: ' + Object.values(nationalities))
-
+        // generating errors based on number of duplicates
         const errorMessages = Object.values(nationalities).map((nationality, indexOfFirstOccurance) => {
-          console.log('nationality being indexed: ' + nationality)
-          console.log('indexOfFirstOccurance of duplicated nationality: ' + Object.values(nationalities).indexOf(nationality))
           if (Object.values(nationalities).indexOf(nationality) !== indexOfFirstOccurance && nationality !== '') {
-            console.log('value of index: ' + indexOfFirstOccurance)
             return {
               text: duplicateNationalitiesErrorText,
               href: `#nationality${indexOfFirstOccurance + 1}`
             }
           }
+          return null
         })
         return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
           nationalitySelects: getNationalitySelects(nationalities),
