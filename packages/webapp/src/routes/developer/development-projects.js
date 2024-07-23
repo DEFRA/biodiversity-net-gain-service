@@ -8,7 +8,8 @@ export default {
   handler: async (request, h) => {
     const { currentOrganisationId: organisationId } = getOrganisationDetails(request.auth.credentials.account.idTokenClaims)
     return h.view(constants.views.DEVELOPER_DEVELOPMENT_PROJECTS, {
-      ...await getContextForAllocations(request.auth.credentials.account.idTokenClaims.contactId, organisationId)
+      ...await getContextForAllocations(request.auth.credentials.account.idTokenClaims.contactId, organisationId),
+      AMENDMENT_GUIDE_URL_ALLOCATION: constants.AMENDMENT_GUIDE_URL_ALLOCATION
     })
   }
 }
