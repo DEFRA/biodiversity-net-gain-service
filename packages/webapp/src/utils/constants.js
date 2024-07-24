@@ -1,5 +1,5 @@
 import developerConstants from './developer-constants.js'
-import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
@@ -329,6 +329,8 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  AMENDMENT_GUIDE_URL_ALLOCATION,
+  AMENDMENT_GUIDE_URL_REGISTRATION,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
