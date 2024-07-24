@@ -63,6 +63,7 @@ class BngMetricSingleDataExtractor {
         })
         data = resultData
       } else {
+        data.map(item => (item.rowNum = item.__rowNum__))
         data = this.#performSubstitution(data, extractionConfiguration)
         data = this.#removeUnwantedColumns(data, extractionConfiguration)
         data = this.#removeUnwantedRows(data, extractionConfiguration)
@@ -76,7 +77,6 @@ class BngMetricSingleDataExtractor {
           data.cells[item.name || item.cell] = worksheet[item.cell]?.v
         })
       }
-
       return data
     }
   }
@@ -107,6 +107,8 @@ class BngMetricSingleDataExtractor {
 
   #removeUnwantedColumns = (data, extractionConfiguration) => {
     const { columnsToBeRemoved, cellHeaders } = extractionConfiguration
+    cellHeaders.push('rowNum')
+
     data.forEach(row => {
       columnsToBeRemoved.forEach(column => {
         if (row[column]) {
