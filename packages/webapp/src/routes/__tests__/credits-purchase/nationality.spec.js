@@ -24,6 +24,13 @@ const mockNationalitiesNone = {
   nationality4: ''
 }
 
+const mockNationalitiesDuplicates = {
+  nationality1: 'Mexican',
+  nationality2: '',
+  nationality3: '',
+  nationality4: 'Mexican'
+}
+
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -64,7 +71,14 @@ describe(url, () => {
       postOptions.payload = mockNationalitiesNone
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Start typing and enter a country from the list')
+      expect(res.payload).toContain('Select a nationality from the dropdown list')
+    })
+
+    it('Should fail journey and display an error if user selects duplicate nationalities', async () => {
+      postOptions.payload = mockNationalitiesDuplicates
+      const res = await submitPostRequest(postOptions, 200)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Remove duplicate nationality')
     })
   })
 })
