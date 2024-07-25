@@ -1,6 +1,7 @@
 import constants from '../../utils/constants.js'
 import getHabitatType from '../../utils/getHabitatType.js'
 import mockMetricData from './mock-metric-data.js'
+import { processMetricData } from '../../utils/combined-case/helpers.js'
 
 const habitatKeys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
@@ -31,6 +32,9 @@ export const getHabitats = (data) => ({
 
 const handlers = {
   get: async (request, h) => {
+    processMetricData(request.yar)
+
+
     // TODO: uncomment below to replace mockMetricData with session data when the rest of the journey is built
     // const registrationMetricData = request.yar.get(constants.redisKeys.METRIC_DATA)
     // const allocationMetricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
