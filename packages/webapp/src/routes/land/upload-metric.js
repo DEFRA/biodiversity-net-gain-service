@@ -5,6 +5,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { getMetricFileValidationErrors } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const uploadMetricId = '#uploadMetric'
 
@@ -19,7 +20,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
-  return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
+  return getNextStep(request, h)
 }
 
 const handlers = {
