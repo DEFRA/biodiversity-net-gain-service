@@ -22,21 +22,13 @@
       <p>Choose which available habitat best matches to allocate against your:</p>
 
       {{ govukInsetText({
-        text: habitatType + " (" + area + " hectares / " + condition + " condition)"
+        text: selectedHabitatText
       }) }}
 
       {{ govukRadios({
         idPrefix: "matchHabitats",
         name: "matchHabitats",
-        items: [
-          {
-            value: "selected-value",
-            text: habitatType,
-            hint: {
-              text: area + " hectares / " + condition + " condition"
-            }
-          }
-        ]
+        items: matchedHabitatItems
       }) }}
 
       {{ govukButton({

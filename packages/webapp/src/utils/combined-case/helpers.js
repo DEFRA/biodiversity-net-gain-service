@@ -1,4 +1,5 @@
 import combinedCaseConstants from '../combined-case-constants.js'
+import constants from '../constants.js'
 
 let habitatReferenceCounter = 0
 let ownReferenceCounter = 0
@@ -10,8 +11,8 @@ const generateOwnReference = () => `${ownReferenceCounter++}`
 const generateGainSiteNumber = () => 'BGS-123456789'
 
 const processMetricData = session => {
-  const registrationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA)
-  const allocationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA)
+  const registrationMetricData = session.get(constants.redisKeys.METRIC_DATA)
+  const allocationMetricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const registrationHabitats = []
   const allocationHabitats = []
   const sheets = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
@@ -72,6 +73,7 @@ const processMetricData = session => {
             habitats.push({
               habitatType,
               condition,
+              sheet,
               module: getModule(sheet),
               state: getState(sheet),
               id: isAllocation ? generateOwnReference() : generateHabitatReference(),
@@ -94,6 +96,9 @@ const processMetricData = session => {
 
 const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
+
+const habitatHint = habitat =>
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
@@ -124,5 +129,6 @@ export {
   processMetricData,
   habitatDescription,
   getMatchingHabitats,
-  summariseHabitatMatches
+  summariseHabitatMatches,
+  habitatHint
 }
