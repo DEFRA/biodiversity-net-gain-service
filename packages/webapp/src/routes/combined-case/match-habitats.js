@@ -19,6 +19,11 @@ export const getSheetName = (key) => {
   return lookupTable[key] || 'Unknown Key'
 }
 
+export const getRowNumber = (data, key, index) => {
+  const habitatData = data[key]
+  return habitatData[index]?.rowNum
+}
+
 export const getHabitats = (data) => ({
   proposed: habitatKeys.flatMap(identifier =>
     data[identifier].filter(details => 'Condition' in details).map(details => ({
@@ -38,6 +43,7 @@ const handlers = {
     const currentPage = parseInt(page, 10)
     const numberOfPages = getNumberOfPages(mockMetricData)
     const sheetName = getSheetName(habitatKeys[currentPage - 1])
+    const rowNumber = getRowNumber(mockMetricData, habitatKeys[currentPage - 1], 0)
     const habitatsData = getHabitats(mockMetricData)
 
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
@@ -47,6 +53,7 @@ const handlers = {
       numberOfPages,
       currentPage: safeCurrentPage,
       sheetName,
+      rowNumber,
       habitatType: habitat.habitatType,
       area: habitat.area,
       condition: habitat.condition

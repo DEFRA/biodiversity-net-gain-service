@@ -10,7 +10,8 @@ const mockMetricData = {
       'Area enhanced': 0,
       'Off-site reference': 1234,
       Condition: 'Condition Assessment N/A',
-      'Habitat reference Number': 'H1'
+      'Habitat reference Number': 'H1',
+      rowNum: 10
     },
     {
       Ref: 2,
@@ -20,7 +21,8 @@ const mockMetricData = {
       'Strategic significance': 'Area/compensation not in local strategy/ no local strategy',
       'Total habitat units': 5.08,
       'Area enhanced': 0,
-      Condition: 'Moderate'
+      Condition: 'Moderate',
+      rowNum: 11
     },
     {
       Ref: 3,
@@ -30,7 +32,8 @@ const mockMetricData = {
       'Strategic significance': 'Area/compensation not in local strategy/ no local strategy',
       'Total habitat units': 1.6,
       'Area enhanced': 0.4,
-      Condition: 'Moderate'
+      Condition: 'Moderate',
+      rowNum: 12
     },
     {
       Ref: 4,
@@ -40,7 +43,8 @@ const mockMetricData = {
       'Strategic significance': 'Area/compensation not in local strategy/ no local strategy',
       'Total habitat units': 14.24,
       'Area enhanced': 0,
-      Condition: 'Moderate'
+      Condition: 'Moderate',
+      rowNum: 13
     },
     {
       Ref: 5,
@@ -50,7 +54,8 @@ const mockMetricData = {
       'Strategic significance': 'Area/compensation not in local strategy/ no local strategy',
       'Total habitat units': 1.44,
       'Area enhanced': 0.36,
-      Condition: 'Poor'
+      Condition: 'Poor',
+      rowNum: 14
     },
     {
       'Habitat type': 'Total habitat area',
@@ -70,7 +75,8 @@ const mockMetricData = {
       Condition: 'Fairly Good',
       'Habitat units delivered': 15.585516133999999,
       'Habitat created in advance (years)': 0,
-      'Habitat reference Number': 'H1'
+      'Habitat reference Number': 'H1',
+      rowNum: 10
     },
     {
       'Strategic significance': 'Formally identified in local strategy',
@@ -82,7 +88,8 @@ const mockMetricData = {
       Condition: 'Moderate',
       'Habitat units delivered': 15.397648091039999,
       'Habitat created in advance (years)': 0,
-      'Habitat reference Number': 'H2'
+      'Habitat reference Number': 'H2',
+      rowNum: 11
     },
     {
       'Strategic significance': 'Formally identified in local strategy',
@@ -94,7 +101,8 @@ const mockMetricData = {
       Condition: 'Good',
       'Habitat units delivered': 0.483194769198,
       'Habitat created in advance (years)': 0,
-      'Habitat reference Number': 'H3'
+      'Habitat reference Number': 'H3',
+      rowNum: 12
     },
     {
       'Proposed habitat': 'Total habitat area',
@@ -117,7 +125,8 @@ const mockMetricData = {
       'Habitat units delivered': 3.128519384528,
       'Proposed habitat': 'Other neutral grassland',
       'Distinctiveness change': 'Low - Medium',
-      'Habitat reference Number': 'H3'
+      'Habitat reference Number': 'H3',
+      rowNum: 10
     },
     {
       'Baseline ref': 5,
@@ -133,7 +142,8 @@ const mockMetricData = {
       'Habitat units delivered': 1.60638706834992,
       'Proposed habitat': 'Lowland mixed deciduous woodland',
       'Distinctiveness change': 'Medium - High',
-      'Habitat reference Number': 'H1'
+      'Habitat reference Number': 'H1',
+      rowNum: 11
     },
     {
       'Condition change': 'Total habitat area',
@@ -151,7 +161,8 @@ const mockMetricData = {
       'Hedge units delivered': 0.5790828803015999,
       Condition: 'Good',
       'Habitat created in advance (years)': 0,
-      'Habitat reference Number': 'H1'
+      'Habitat reference Number': 'H1',
+      rowNum: 20
     },
     {
       'Length (km)': 0.074,
@@ -171,7 +182,8 @@ const mockMetricData = {
       'Proposed habitat': 'Native hedgerow - associated with bank or ditch',
       'Hedge units delivered': 1.7017262107027602,
       Condition: 'Moderate',
-      'Habitat reference Number': 'E3'
+      'Habitat reference Number': 'E3',
+      rowNum: 30
     },
     {
       'Length (km)': 0.226,
@@ -200,7 +212,8 @@ const mockMetricData = {
       'Proposed habitat': 'Other rivers and streams',
       'Watercourse units delivered': 11.443784810433002,
       Condition: 'Good',
-      'Habitat reference Number': 'F3'
+      'Habitat reference Number': 'F3',
+      rowNum: 40
     },
     {
       'Length (km)': 1,
