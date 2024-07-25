@@ -75,7 +75,8 @@ const routes = {
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS: 'combined-case/match-allocation',
   COMBINED_CASE_PROJECTS: 'combined-case/combined-case-projects',
   COMBINED_CASE_CONTINUE_PROJECT: 'combined-case/continue-combined-case-project',
-  COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project'
+  COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project',
+  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
 }
 
 const views = Object.fromEntries(
