@@ -1,7 +1,8 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
-const errorText = 'Start typing and enter a country from the list'
+const errorText = 'Select a nationality from the dropdown list'
+const duplicateNationalitiesErrorText = 'Remove duplicate nationality'
 
 const getNationalitySelects = (enteredNationalities) => {
   const nationalitySelects = [
@@ -36,14 +37,37 @@ const handlers = {
   },
   post: (request, h) => {
     const nationalities = request.payload
+    const nonEmptyNationalities = Object.values(nationalities).filter(nationality => nationality !== '')
+    const hasAtLeastOneNationality = nonEmptyNationalities.length > 0
+    if (hasAtLeastOneNationality) {
+      const isUnique = nonEmptyNationalities.length === new Set(Object.values(nonEmptyNationalities)).size
 
-    if (Object.values(nationalities).some(nationality => nationality !== '')) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
-      const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
-      return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
+      // checking that unique nationalities have been selected
+      if (isUnique) {
+        request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
+        const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
+      } else {
+        // generating errors based on number of duplicates
+        const errorMessages = Object.values(nationalities).map((nationality, indexOfFirstOccurance) => {
+          if (Object.values(nationalities).indexOf(nationality) !== indexOfFirstOccurance && nationality !== '') {
+            return {
+              text: duplicateNationalitiesErrorText,
+              href: `#nationality${indexOfFirstOccurance + 1}`
+            }
+          }
+          return null
+        })
+        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
+          nationalitySelects: getNationalitySelects(nationalities),
+          backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
+          err: errorMessages
+        })
+      }
     } else {
+      // Displaying error if no nationality selected
       return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
-        nationalitySelects: getNationalitySelects(),
+        nationalitySelects: getNationalitySelects(nationalities),
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
         err: [{
           text: errorText,

@@ -13,15 +13,15 @@ const handlers = {
 
     if (!organisationName) {
       organisationNameErr = [{
-        text: 'Enter the organisation name',
-        href: 'organisationName'
+        text: "Enter your client's organisation name",
+        href: '#organisationName'
       }]
     }
 
     if (organisationName && organisationName.length > 50) {
       organisationNameErr = [{
         text: 'Organisation name must be 50 characters or fewer',
-        href: 'organisationName'
+        href: '#organisationName'
       }]
     }
 
