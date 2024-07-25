@@ -71,7 +71,7 @@ describe(url, () => {
       postOptions.payload = mockNationalitiesNone
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Start typing and enter a country from the list')
+      expect(res.payload).toContain('Select a nationality from the dropdown list')
     })
 
     it('Should fail journey and display an error if user selects duplicate nationalities', async () => {
