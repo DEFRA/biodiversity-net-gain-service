@@ -214,7 +214,7 @@ const reusedRoutes = {
   COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES)
 }
 
-export {
+export default {
   routes,
   views,
   redisKeys,
