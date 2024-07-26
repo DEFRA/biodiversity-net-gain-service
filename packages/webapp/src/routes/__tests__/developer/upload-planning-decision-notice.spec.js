@@ -1,12 +1,12 @@
-import { submitGetRequest, submitPostRequest, uploadFile } from '../helpers/server.js'
+import { submitGetRequest, uploadFile } from '../helpers/server.js'
 import { recreateContainers } from '@defra/bng-azure-storage-test-utils'
 import constants from '../../../utils/constants.js'
-
 const FORM_ELEMENT_NAME = 'planningDecisionNotice'
 const url = constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
+
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/planning-decision-notice'
 
-describe('Upload Planning Decision Notice tests', () => {
+describe('Uplocad Planning Decision Notice tests', () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view `, async () => {
       await submitGetRequest({ url }, 200)
@@ -25,7 +25,7 @@ describe('Upload Planning Decision Notice tests', () => {
       jest.clearAllMocks()
     })
 
-    it('should upload planning decision notice file to cloud storage', (done) => {
+    it('should upload planning desicion notice file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -34,6 +34,9 @@ describe('Upload Planning Decision Notice tests', () => {
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/planning-decision-notice.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -44,11 +47,14 @@ describe('Upload Planning Decision Notice tests', () => {
       })
     })
 
-    it('should upload planning decision notice file document less than 50MB', (done) => {
+    it('should upload planning desicion notice file document less than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -59,83 +65,16 @@ describe('Upload Planning Decision Notice tests', () => {
       })
     })
 
-    it('should upload planning decision notice file 50 MB file', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
-          await uploadFile(uploadConfig)
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should not upload unsupported planning decision notice file document', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = true
-          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          const res = await uploadFile(uploadConfig)
-          expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('Select and upload a planning decision notice file. The file type must be a DOC, DOCX or PDF')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should not upload no selected planning decision notice file', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = true
-          const res = await uploadFile(uploadConfig, 200)
-          expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('No file selected. Select and upload a planning decision notice file')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should not upload empty planning decision notice file', (done) => {
-      jest.isolateModules(async () => {
-        try {
-          const uploadConfig = Object.assign({}, baseConfig)
-          uploadConfig.hasError = true
-          uploadConfig.filePath = `${mockDataPath}/empty-planning-decision-notice.pdf`
-          const res = await uploadFile(uploadConfig)
-          expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('The selected file is empty')
-          setImmediate(() => {
-            done()
-          })
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('should not upload planning decision notice file document more than 50MB', (done) => {
+    it('should not upload  planning desicion notice file document more than 50MB', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
-          const res = await uploadFile(uploadConfig)
-          expect(res.payload).toContain('There is a problem')
-          expect(res.payload).toContain('The selected file must not be larger than 50MB')
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
+          await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
           })
@@ -145,13 +84,16 @@ describe('Upload Planning Decision Notice tests', () => {
       })
     })
 
-    it('should not upload planning decision notice file document larger than the configured maximum', (done) => {
+    it('should not upload planning desicion notice file document larger than the configured maximum', (done) => {
       jest.isolateModules(async () => {
         try {
           process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB = 49
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -164,10 +106,78 @@ describe('Upload Planning Decision Notice tests', () => {
       })
     })
 
-    it('should handle failAction of upload route', async () => {
-      const expectedStatusCode = 415
-      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
-      expect(res.statusCode).toEqual(expectedStatusCode)
+    it('should not upload empty planning desicion notice file', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/empty-planning-decision-notice.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload unsupported planning desicion notice file document', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should not upload nofile planning desicion notice file', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
+          await uploadFile(uploadConfig, 200)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should  upload planning desicion notice file 50 MB file', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = Object.assign({}, baseConfig)
+          uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })

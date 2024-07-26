@@ -28,7 +28,9 @@ describe(url, () => {
   })
   describe('POST', () => {
     it('Should continue journey to check habitat creation', async () => {
-      const res = await submitPostRequest({ url })
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+      const res = await submitPostRequest({ url }, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.CHECK_HABITAT_CREATED)
     })
   })
