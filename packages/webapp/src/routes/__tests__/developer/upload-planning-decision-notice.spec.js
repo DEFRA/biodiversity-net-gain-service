@@ -34,6 +34,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
           }
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/planning-decision-notice.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -49,6 +52,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/49MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -65,6 +71,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/55MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -82,6 +91,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`)
@@ -100,6 +112,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-planning-decision-notice.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -116,6 +131,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -131,6 +149,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = true
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig, 200)
           setImmediate(() => {
             done()
@@ -146,6 +167,9 @@ describe('Uplocad Planning Decision Notice tests', () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.filePath = `${mockDataPath}/50MB.pdf`
+          uploadConfig.sessionData = {
+            [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.ALLOCATION
+          }
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()

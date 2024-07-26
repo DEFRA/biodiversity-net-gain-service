@@ -6,7 +6,7 @@ import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const uploadHabitatPlanId = '#uploadHabitatPlanId'
+const HABITAT_PLAN_ID = '#uploadHabitatPlan'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION, true))
@@ -36,7 +36,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.UPLOAD_HABITAT_PLAN,
+        route: constants.views.UPLOAD_HABITAT_PLAN,
+        elementID: HABITAT_PLAN_ID,
         noFileErrorMessage: 'Select a habitat management and monitoring plan',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
@@ -55,7 +56,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      uploadHabitatPlanId,
+      HABITAT_PLAN_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_HABITAT_PLAN
     )

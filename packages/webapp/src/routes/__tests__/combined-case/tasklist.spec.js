@@ -33,7 +33,7 @@ describe(url, () => {
       const response = await submitGetRequest(getOptions)
       expect(response.statusCode).toBe(200)
       expect(viewResult).toEqual('combined-case/tasklist')
-      expect(contextResult.tasks.taskList.length).toEqual(2)
+      expect(contextResult.tasks.taskList.length).toEqual(5)
       expect(contextResult.tasks.taskList[0]).toEqual({
         taskTitle: 'Applicant information',
         tasks: [
@@ -41,18 +41,81 @@ describe(url, () => {
             id: 'add-applicant-information',
             title: 'Add details about the applicant',
             status: 'NOT STARTED',
-            url: '/land/agent-acting-for-client'
+            url: '/combined-case/agent-acting-for-client'
           }
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
+        taskTitle: 'Land information',
+        tasks: [
+          {
+            id: 'add-land-ownership',
+            title: 'Add land ownership details',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-ownership-proof'
+          },
+          {
+            id: 'add-land-boundary',
+            title: 'Add biodiversity gain site boundary details',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-land-boundary'
+          },
+          {
+            id: 'add-habitat-information',
+            title: 'Add habitat baseline, creation and enhancements',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-metric'
+          }
+        ]
+      })
+      expect(contextResult.tasks.taskList[2]).toEqual({
+        taskTitle: 'Legal information',
+        tasks: [
+          {
+            id: 'add-legal-agreement',
+            title: 'Add legal agreement details',
+            status: 'NOT STARTED',
+            url: '/combined-case/legal-agreement-type'
+          },
+          {
+            id: 'add-local-land-charge-search-certificate',
+            title: 'Add local land charge search certificate',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-local-land-charge'
+          }
+        ]
+      })
+      expect(contextResult.tasks.taskList[3]).toEqual({
+        taskTitle: 'Allocation information',
+        tasks: [
+          {
+            id: 'planning-decision-notice',
+            title: 'Add planning decision notice',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-planning-decision-notice'
+          },
+          {
+            id: 'match-available-habitats',
+            title: 'Match available habitats',
+            status: 'NOT STARTED',
+            url: '/combined-case/upload-allocation-metric'
+          },
+          {
+            id: 'confirm-dev-and-habitat-details',
+            title: 'Confirm development and habitat details',
+            status: 'NOT STARTED',
+            url: '/combined-case/development-project-information'
+          }
+        ]
+      })
+      expect(contextResult.tasks.taskList[4]).toEqual({
         taskTitle: 'Submit your biodiversity gain information',
         tasks: [
           {
             id: 'check-your-answers',
-            status: 'CANNOT START YET',
             title: 'Check your answers before you submit them',
-            url: '/combined-case/check-and-submit'
+            url: '/combined-case/check-and-submit',
+            status: 'CANNOT START YET'
           }
         ]
       })

@@ -5,12 +5,14 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { getMetricFileValidationErrors } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const uploadMetricId = '#uploadMetric'
+const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
-  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, uploadMetricId)
+  const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
+
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
@@ -19,7 +21,7 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
-  return h.redirect(constants.routes.CHECK_UPLOAD_METRIC)
+  return getNextStep(request, h)
 }
 
 const handlers = {
@@ -42,7 +44,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.UPLOAD_METRIC,
+        route: constants.views.UPLOAD_METRIC,
+        elementID: UPLOAD_METRIC_ID,
         noFileErrorMessage: 'Select a statutory biodiversity metric',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
@@ -62,7 +65,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      uploadMetricId,
+      UPLOAD_METRIC_ID,
       process.env.MAX_METRIC_UPLOAD_MB,
       constants.views.UPLOAD_METRIC
     )

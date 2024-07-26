@@ -1,34 +1,41 @@
 import constants from '../../utils/constants.js'
 import {
   ANY,
-  routeDefinition,
   journeyStep,
   journeyStepFromRoute
 } from '../utils.js'
+import {
+  createUploadMetricRoute,
+  createCheckUploadMetricRoute,
+  createCheckHabitatBaselineRoute,
+  createCheckHabitatCreatedRoute,
+  createCheckMetricDetailsRoute
+} from '../shared/habitat-info.js'
 
-const UPLOAD_METRIC = routeDefinition(
+const UPLOAD_METRIC = createUploadMetricRoute(
   constants.routes.UPLOAD_METRIC,
-  [
-    constants.redisKeys.METRIC_LOCATION,
-    constants.redisKeys.METRIC_FILE_SIZE,
-    constants.redisKeys.METRIC_FILE_TYPE,
-    constants.redisKeys.METRIC_DATA
-  ]
+  constants.routes.CHECK_UPLOAD_METRIC
 )
 
-const CHECK_UPLOAD_METRIC = routeDefinition(
+const CHECK_UPLOAD_METRIC = createCheckUploadMetricRoute(
   constants.routes.CHECK_UPLOAD_METRIC,
-  [constants.redisKeys.METRIC_FILE_CHECKED]
+  constants.routes.UPLOAD_METRIC,
+  constants.routes.CHECK_HABITAT_BASELINE
 )
 
-const CHECK_HABITAT_BASELINE = routeDefinition(
+const CHECK_HABITAT_BASELINE = createCheckHabitatBaselineRoute(
   constants.routes.CHECK_HABITAT_BASELINE,
-  [constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED]
+  constants.routes.CHECK_HABITAT_CREATED
 )
 
-const CHECK_HABITAT_CREATED = routeDefinition(
+const CHECK_HABITAT_CREATED = createCheckHabitatCreatedRoute(
   constants.routes.CHECK_HABITAT_CREATED,
-  [constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED]
+  constants.routes.CHECK_METRIC_DETAILS
+)
+
+const CHECK_METRIC_DETAILS = createCheckMetricDetailsRoute(
+  constants.routes.CHECK_METRIC_DETAILS,
+  constants.routes.REGISTER_LAND_TASK_LIST
 )
 
 const habitatInfoJourneys = [
@@ -46,6 +53,15 @@ const habitatInfoJourneys = [
   ]
 ]
 
+const habitatInfoRouteDefinitions = [
+  UPLOAD_METRIC,
+  CHECK_UPLOAD_METRIC,
+  CHECK_HABITAT_BASELINE,
+  CHECK_HABITAT_CREATED,
+  CHECK_METRIC_DETAILS
+]
+
 export {
-  habitatInfoJourneys
+  habitatInfoJourneys,
+  habitatInfoRouteDefinitions
 }

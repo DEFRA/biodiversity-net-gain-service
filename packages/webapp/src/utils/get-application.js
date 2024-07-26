@@ -9,7 +9,7 @@ const applicationTypeRoutes = {
   [constants.applicationTypes.REGISTRATION]: constants.routes.REGISTER_LAND_TASK_LIST,
   [constants.applicationTypes.ALLOCATION]: constants.routes.DEVELOPER_TASKLIST,
   [constants.applicationTypes.CREDITS_PURCHASE]: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST,
-  [constants.applicationTypes.COMBINED_CASE]: constants.routes.REGISTER_LAND_TASK_LIST
+  [constants.applicationTypes.COMBINED_CASE]: constants.routes.COMBINED_CASE_TASK_LIST
 }
 
 const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
