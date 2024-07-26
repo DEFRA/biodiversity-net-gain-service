@@ -1,15 +1,10 @@
 import constants from '../../utils/constants.js'
-import getHabitatType from '../../utils/getHabitatType.js'
 import {
   getMatchingHabitats,
   habitatDescription,
   habitatHint,
   processMetricData
 } from '../../utils/combined-case/helpers.js'
-
-const habitatKeys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-
-export const getNumberOfPages = (data) => habitatKeys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
 
 export const getSheetName = (key) => {
   const lookupTable = {
@@ -23,16 +18,6 @@ export const getSheetName = (key) => {
 
   return lookupTable[key] || 'Unknown Key'
 }
-
-export const getHabitats = (data) => ({
-  proposed: habitatKeys.flatMap(identifier =>
-    data[identifier].filter(details => 'Condition' in details).map(details => ({
-      habitatType: getHabitatType(identifier, details),
-      area: details['Length (km)'] ?? details['Area (hectares)'],
-      condition: details.Condition
-    }))
-  )
-})
 
 const getUnprocessedHabitatItems =
   allocationHabitats => allocationHabitats.filter(habitat => !habitat.processed).map(habitat => ({
