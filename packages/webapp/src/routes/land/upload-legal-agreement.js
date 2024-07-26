@@ -5,7 +5,7 @@ import { getLegalAgreementDocumentType, generateUniqueId } from '../../utils/hel
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const legalAgreementId = '#legalAgreement'
+const LEGAL_AGREEMENT_ID = '#legalAgreement'
 
 async function processSuccessfulUpload (result, request, h) {
   const legalAgreementFiles = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) ?? []
@@ -35,7 +35,7 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         legalAgreementType,
         err: [{
           text: 'The selected file is empty',
-          href: legalAgreementId
+          href: LEGAL_AGREEMENT_ID
         }]
       })
     case constants.uploadErrors.noFile:
@@ -43,7 +43,7 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         legalAgreementType,
         err: [{
           text: 'Select a legal agreement',
-          href: legalAgreementId
+          href: LEGAL_AGREEMENT_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
@@ -51,7 +51,7 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         legalAgreementType,
         err: [{
           text: 'The selected file must be a DOC, DOCX or PDF',
-          href: legalAgreementId
+          href: LEGAL_AGREEMENT_ID
         }]
       })
     case constants.uploadErrors.maximumFileSizeExceeded:
@@ -61,21 +61,21 @@ const processErrorUpload = (err, h, legalAgreementType) => {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
-            href: legalAgreementId
+            href: LEGAL_AGREEMENT_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
             text: constants.uploadErrors.threatDetected,
-            href: legalAgreementId
+            href: LEGAL_AGREEMENT_ID
           }]
         })
       } else {
         return h.view(constants.views.UPLOAD_LEGAL_AGREEMENT, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
-            href: legalAgreementId
+            href: LEGAL_AGREEMENT_ID
           }]
         })
       }
@@ -144,7 +144,7 @@ const maximumFileSizeExceeded = (h, legalAgreementType) => {
     err: [
       {
         text: `The selected file must not be larger than ${process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB}MB`,
-        href: legalAgreementId
+        href: LEGAL_AGREEMENT_ID
       }
     ]
   })
