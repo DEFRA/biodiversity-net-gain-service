@@ -3,8 +3,10 @@ import * as fs from 'fs'
 import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
-const serviceName = 'Manage biodiversity gains'
+import { SERVICE_NAME } from '../utils/config.js'
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
+
+const serviceName = 'Manage biodiversity gains'
 
 const views = {
   plugin: Vision,
@@ -34,7 +36,7 @@ const views = {
     relativeTo: dirname,
     isCached: process.env.NODE_ENV !== 'development',
     context: {
-      serviceName,
+      serviceName: SERVICE_NAME,
       assetPath: '/public',
       pageTitle: `${serviceName} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
