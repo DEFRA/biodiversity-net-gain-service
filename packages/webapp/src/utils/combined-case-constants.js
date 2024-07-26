@@ -79,18 +79,19 @@ const routes = {
   COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
 }
 
-const views = Object.fromEntries(
-  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
-)
-
 const redisKeys = {
   COMBINED_CASE_REGISTRATION_METRIC_DATA: 'combined-case-registration-metric-data',
   COMBINED_CASE_ALLOCATION_METRIC_DATA: 'combined-case-allocation-metric-data',
   COMBINED_CASE_ALLOCATION_HABITATS: 'combined-case-allocation-habitats',
+  COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING: 'combined-case-allocation-habitats-processing',
   COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats',
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
 }
+
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
+)
 
 const routesToReuse = [
   `/${AGENT_ACTING_FOR_CLIENT}`,

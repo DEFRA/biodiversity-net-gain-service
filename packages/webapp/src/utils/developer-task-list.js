@@ -3,6 +3,8 @@ import constants from './constants.js'
 const developerTaskList = {
   taskList: [
     {
+      dependantIds: [],
+      id: null,
       taskTitle: 'Your details',
       tasks: [
         {
@@ -16,6 +18,8 @@ const developerTaskList = {
       ]
     },
     {
+      dependantIds: [],
+      id: null,
       taskTitle: 'Biodiversity 4.1 Metric calculations',
       tasks: [
         {
@@ -45,6 +49,8 @@ const developerTaskList = {
       ]
     },
     {
+      dependantIds: [],
+      id: null,
       taskTitle: 'Development project information',
       tasks: [
         {
@@ -58,8 +64,9 @@ const developerTaskList = {
         }
       ]
     },
-
     {
+      dependantIds: [],
+      id: null,
       taskTitle: 'Consent to use a biodiversity gain site for off-site gain',
       tasks: [
         {
@@ -73,6 +80,8 @@ const developerTaskList = {
       ]
     },
     {
+      dependantIds: [],
+      id: null,
       taskTitle: 'Submit your biodiversity gain information',
       tasks: [
         {
