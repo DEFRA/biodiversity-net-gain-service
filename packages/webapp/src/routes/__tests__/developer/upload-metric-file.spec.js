@@ -134,7 +134,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.hasError = true
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
-          expect(res.result).toContain('No file Selected. Select and upload the statutory (official) biodiversity metric tool file')
+          expect(res.result).toContain('Select a statutory biodiversity metric')
           setImmediate(() => {
             done()
           })
