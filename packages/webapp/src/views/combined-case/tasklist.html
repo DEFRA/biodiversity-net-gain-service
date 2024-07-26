@@ -21,12 +21,15 @@
                                 {% if task.taskTitle !== 'Submit your biodiversity gain information' %}
                                     <li class="app-task-list__item">
                                       <span class="app-task-list__task-name">
-                                        <a href="{{ taskItem.url }}" id = "{{ taskItem.id }}">
-                                          {{ taskItem.title }}
-                                        </a>
+                                        {% if taskItem.isLocked %}
+                                            {{ taskItem.title }}
+                                        {% else %}
+                                            <a href="{{ taskItem.url }}" id = "{{ taskItem.id }}">
+                                              {{ taskItem.title }}
+                                            </a>
+                                        {% endif %}
                                       </span>
-                                      <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif taskItem.status === 'NOT STARTED' %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">
-                                        {{ taskItem.status }}
+                                        <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif ['NOT STARTED', 'CANNOT START YET'].includes(taskItem.status) %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">                                        {{ taskItem.status }}
                                       </strong>
                                     </li>
                                 {% else %}
