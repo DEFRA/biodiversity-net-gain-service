@@ -35,6 +35,8 @@ describe(url, () => {
       expect(viewResult).toEqual('combined-case/tasklist')
       expect(contextResult.tasks.taskList.length).toEqual(5)
       expect(contextResult.tasks.taskList[0]).toEqual({
+        dependantIds: [],
+        id: 'cc-app-info',
         taskTitle: 'Applicant information',
         tasks: [
           {
@@ -46,6 +48,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
+        dependantIds: [],
+        id: 'cc-land-info',
         taskTitle: 'Land information',
         tasks: [
           {
@@ -69,6 +73,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
+        dependantIds: [],
+        id: 'cc-legal-info',
         taskTitle: 'Legal information',
         tasks: [
           {
@@ -86,24 +92,33 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[3]).toEqual({
+        dependantIds: [
+          'cc-app-info',
+          'cc-land-info',
+          'cc-legal-info'
+        ],
+        id: 'cc-allocation-info',
         taskTitle: 'Allocation information',
         tasks: [
           {
             id: 'planning-decision-notice',
             title: 'Add planning decision notice',
-            status: 'NOT STARTED',
+            isLocked: true,
+            status: 'CANNOT START YET',
             url: '/combined-case/upload-planning-decision-notice'
           },
           {
             id: 'match-available-habitats',
             title: 'Match available habitats',
-            status: 'NOT STARTED',
+            isLocked: true,
+            status: 'CANNOT START YET',
             url: '/combined-case/upload-allocation-metric'
           },
           {
             id: 'confirm-dev-and-habitat-details',
             title: 'Confirm development and habitat details',
-            status: 'NOT STARTED',
+            isLocked: true,
+            status: 'CANNOT START YET',
             url: '/combined-case/development-project-information'
           }
         ]
