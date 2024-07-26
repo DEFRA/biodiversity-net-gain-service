@@ -62,7 +62,7 @@ const handlers = {
     const { page = '1' } = request.query
     const currentPage = parseInt(page, 10)
     const numberOfPages = habitatItems.length
-    const selectedHabitatId = habitatItems[currentPage-1].value
+    const selectedHabitatId = habitatItems[currentPage - 1].value
     request.yar.set(constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID, selectedHabitatId)
     const registrationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
     const selectedHabitat = allocationHabitats.find(habitat => habitat.id === selectedHabitatId)
