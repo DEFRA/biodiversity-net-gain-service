@@ -88,6 +88,7 @@ const redisKeys = {
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
   COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
 }
+
 const views = Object.fromEntries(
   Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
 )
