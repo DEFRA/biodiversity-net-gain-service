@@ -2,7 +2,7 @@ import plugin from '../router'
 import developerConstants from '../../utils/developer-constants'
 import creditsEstimationConstants from '../../utils/credits-estimation-constants.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
-import * as combinedCaseConstants from '../../utils/combined-case-constants.js'
+import combinedCaseConstants from '../../utils/combined-case-constants.js'
 
 const ORIGINAL_ENV = process.env
 let server
