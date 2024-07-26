@@ -112,11 +112,47 @@ const retrieveTask = (routeDefinitions, startUrl) => {
 }
 
 const generateTaskList = (taskSections, session) => {
-  const taskList = taskSections.map(section => ({
-    taskTitle: section.title,
-    tasks: section.tasks.map(task => getTaskStatus(task, session))
-  }))
-  return taskList
+  const locked = (section, taskList) => {
+    if (section.dependantIds && section.dependantIds.length > 0) {
+      for (const dependantId of section.dependantIds) {
+        const dependantSection = taskList.find(s => s.id === dependantId)
+        if (dependantSection) {
+          const uncompletedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+          if (uncompletedTasks.length > 0) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+  const taskList = taskSections.map(section => {
+    return {
+      taskTitle: section.title,
+      tasks: section.tasks.map(task => getTaskStatus(task, session)),
+      id: section.id,
+      dependantIds: section.dependantIds
+    }
+  })
+
+  const lockedTaskList = taskList.map(section => {
+    const isLocked = locked(section, taskList)
+    if (isLocked) {
+      return {
+        ...section,
+        ...{
+          tasks: section.tasks.map(task => {
+            task.status = constants.CANNOT_START_YET_STATUS
+            task.isLocked = true
+            return task
+          })
+        }
+      }
+    }
+    return section
+  })
+
+  return lockedTaskList
 }
 
 const getTaskList = (journey, session) => {
