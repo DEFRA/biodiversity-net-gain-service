@@ -1,12 +1,3 @@
-import {
-  generateOwnReference,
-  generateHabitatReference,
-  generateGainSiteNumber,
-  processMetricData,
-  habitatDescription,
-  getMatchingHabitats,
-  summariseHabitatMatches
-} from '../../combined-case/helpers.js'
 import combinedCaseConstants from '../../combined-case-constants.js'
 
 describe('Combined Case Habitat Match Utility Functions', () => {
@@ -16,19 +7,28 @@ describe('Combined Case Habitat Match Utility Functions', () => {
   })
 
   test('generateHabitatReference increments correctly', () => {
-    expect(generateHabitatReference()).toBe('HAB-00000000-0')
-    expect(generateHabitatReference()).toBe('HAB-00000000-1')
-    expect(generateHabitatReference()).toBe('HAB-00000000-2')
+    jest.isolateModules(() => {
+      const { generateHabitatReference } = require('../../combined-case/helpers.js')
+      expect(generateHabitatReference()).toBe('HAB-00000000-0')
+      expect(generateHabitatReference()).toBe('HAB-00000000-1')
+      expect(generateHabitatReference()).toBe('HAB-00000000-2')
+    })
   })
 
   test('generateOwnReference increments correctly', () => {
-    expect(generateOwnReference()).toBe('0')
-    expect(generateOwnReference()).toBe('1')
-    expect(generateOwnReference()).toBe('2')
+    jest.isolateModules(() => {
+      const { generateOwnReference } = require('../../combined-case/helpers.js')
+      expect(generateOwnReference()).toBe('0')
+      expect(generateOwnReference()).toBe('1')
+      expect(generateOwnReference()).toBe('2')
+    })
   })
 
   test('generateGainSiteNumber returns correct format', () => {
-    expect(generateGainSiteNumber()).toBe('BGS-123456789')
+    jest.isolateModules(() => {
+      const { generateGainSiteNumber } = require('../../combined-case/helpers.js')
+      expect(generateGainSiteNumber()).toBe('BGS-123456789')
+    })
   })
 })
 
@@ -40,6 +40,7 @@ describe('processMetricData', () => {
       get: jest.fn(),
       set: jest.fn()
     }
+
     session.get.mockImplementation((key) => {
       if (key === combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA) {
         return {
@@ -54,132 +55,151 @@ describe('processMetricData', () => {
       }
       return null
     })
+
+    global.habitatReferenceCounter = 0
+    global.ownReferenceCounter = 0
   })
 
   test('processMetricData extracts and sets correct data', () => {
-    processMetricData(session)
+    jest.isolateModules(() => {
+      const { processMetricData } = require('../../combined-case/helpers.js')
+      processMetricData(session)
 
-    const expectedRegistrationHabitats = [
-      {
-        habitatType: 'Forest - Woodland',
-        condition: 'Good',
-        module: 'Created',
-        state: 'Habitat',
-        id: 'HAB-00000000-0',
-        size: 10,
-        measurementUnits: 'hectares',
-        processed: false
-      },
-      {
-        habitatType: 'Grassland - Meadow',
-        condition: 'Fair',
-        module: 'Enhanced',
-        state: 'Habitat',
-        id: 'HAB-00000000-1',
-        size: 5,
-        measurementUnits: 'kilometres',
-        processed: false
-      }
-    ]
+      const expectedRegistrationHabitats = [
+        {
+          habitatType: 'Forest - Woodland',
+          condition: 'Good',
+          module: 'Created',
+          state: 'Habitat',
+          id: 'HAB-00000000-0',
+          size: 10,
+          measurementUnits: 'hectares',
+          processed: false
+        },
+        {
+          habitatType: 'Grassland - Meadow',
+          condition: 'Fair',
+          module: 'Enhanced',
+          state: 'Habitat',
+          id: 'HAB-00000000-1',
+          size: 5,
+          measurementUnits: 'kilometres',
+          processed: false
+        }
+      ]
 
-    const expectedAllocationHabitats = [
-      {
-        habitatType: 'Wetland',
-        condition: 'Poor',
-        module: 'Created',
-        state: 'Hedge',
-        id: '0',
-        size: 15,
-        measurementUnits: 'hectares',
-        processed: false
-      },
-      {
-        habitatType: 'Stream',
-        condition: 'Excellent',
-        module: 'Enhanced',
-        state: 'Watercourse',
-        id: '1',
-        size: 2,
-        measurementUnits: 'kilometres',
-        processed: false
-      }
-    ]
+      const expectedAllocationHabitats = [
+        {
+          habitatType: 'Wetland',
+          condition: 'Poor',
+          module: 'Created',
+          state: 'Hedge',
+          id: '0',
+          size: 15,
+          measurementUnits: 'hectares',
+          processed: false
+        },
+        {
+          habitatType: 'Stream',
+          condition: 'Excellent',
+          module: 'Enhanced',
+          state: 'Watercourse',
+          id: '1',
+          size: 2,
+          measurementUnits: 'kilometres',
+          processed: false
+        }
+      ]
 
-    expect(session.set).toHaveBeenCalledWith(
-      combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS,
-      expectedRegistrationHabitats
-    )
-    expect(session.set).toHaveBeenCalledWith(
-      combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS,
-      expectedAllocationHabitats
-    )
+      // Verifying session.set calls with expected data
+      expect(session.set).toHaveBeenCalledWith(
+        combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS,
+        expectedRegistrationHabitats
+      )
+      expect(session.set).toHaveBeenCalledWith(
+        combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS,
+        expectedAllocationHabitats
+      )
+    })
   })
 })
 
 describe('habitatDescription', () => {
   test('habitatDescription returns formatted string', () => {
-    const habitat = {
-      habitatType: 'Forest',
-      condition: 'Good',
-      size: 10,
-      measurementUnits: 'hectares',
-      module: 'Created',
-      state: 'Habitat'
-    }
-    expect(habitatDescription(habitat)).toBe('Forest || Good || 10 hectares || Created || Habitat')
+    jest.isolateModules(() => {
+      const { habitatDescription } = require('../../combined-case/helpers.js')
+      const habitat = {
+        habitatType: 'Forest',
+        condition: 'Good',
+        size: 10,
+        measurementUnits: 'hectares',
+        module: 'Created',
+        state: 'Habitat'
+      }
+      expect(habitatDescription(habitat)).toBe('Forest || Good || 10 hectares || Created || Habitat')
+    })
   })
 })
 
 describe('getMatchingHabitats', () => {
   test('getMatchingHabitats returns matching habitats', () => {
-    const habitat = {
-      state: 'Habitat',
-      module: 'Created',
-      habitatType: 'Forest',
-      condition: 'Good'
-    }
-    const habitatList = [
-      { state: 'Habitat', module: 'Created', habitatType: 'Forest', condition: 'Good' },
-      { state: 'Habitat', module: 'Created', habitatType: 'Forest', condition: 'Poor' },
-      { state: 'Hedge', module: 'Created', habitatType: 'Forest', condition: 'Good' }
-    ]
-    const result = getMatchingHabitats(habitat, habitatList)
-    expect(result).toEqual([habitatList[0]])
+    jest.isolateModules(() => {
+      const { getMatchingHabitats } = require('../../combined-case/helpers.js')
+      const habitat = {
+        state: 'Habitat',
+        module: 'Created',
+        habitatType: 'Forest',
+        condition: 'Good'
+      }
+      const habitatList = [
+        { state: 'Habitat', module: 'Created', habitatType: 'Forest', condition: 'Good' },
+        { state: 'Habitat', module: 'Created', habitatType: 'Forest', condition: 'Poor' },
+        { state: 'Hedge', module: 'Created', habitatType: 'Forest', condition: 'Good' }
+      ]
+      const result = getMatchingHabitats(habitat, habitatList)
+      expect(result).toEqual([habitatList[0]])
+    })
   })
 })
 
 describe('summariseHabitatMatches', () => {
   test('summariseHabitatMatches returns correct summary', () => {
-    const registrationHabitats = [
-      { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
-    ]
-    const allocationHabitats = [
-      { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
-    ]
-    const result = summariseHabitatMatches(registrationHabitats, allocationHabitats)
-    const expected = {
-      1: {
-        registration: 'Forest || Good || 10 hectares || Created || Habitat',
-        allocation: 'Forest || Good || 10 hectares || Created || Habitat'
+    jest.isolateModules(() => {
+      const { summariseHabitatMatches } = require('../../combined-case/helpers.js')
+      const registrationHabitats = [
+        { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
+      ]
+      const allocationHabitats = [
+        { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
+      ]
+      const result = summariseHabitatMatches(registrationHabitats, allocationHabitats)
+      const expected = {
+        1: {
+          registration: 'Forest || Good || 10 hectares || Created || Habitat',
+          allocation: 'Forest || Good || 10 hectares || Created || Habitat'
+        }
       }
-    }
-    expect(result).toEqual(expected)
+      expect(result).toEqual(expected)
+    })
   })
 
   test('summariseHabitatMatches handles unmatched habitats', () => {
-    const registrationHabitats = [
-      { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
-    ]
-    const allocationHabitats = [
-      { id: '2', habitatType: 'Wetland', condition: 'Poor', size: 15, measurementUnits: 'hectares', module: 'Created', state: 'Hedge' }
-    ]
-    const result = summariseHabitatMatches(registrationHabitats, allocationHabitats)
-    const expected = {
-      1: {
-        registration: 'Forest || Good || 10 hectares || Created || Habitat',
-        allocation: undefined
+    jest.isolateModules(() => {
+      const { summariseHabitatMatches } = require('../../combined-case/helpers.js')
+      const registrationHabitats = [
+        { id: '1', habitatType: 'Forest', condition: 'Good', size: 10, measurementUnits: 'hectares', module: 'Created', state: 'Habitat' }
+      ]
+      const allocationHabitats = [
+        { id: '2', habitatType: 'Wetland', condition: 'Poor', size: 15, measurementUnits: 'hectares', module: 'Created', state: 'Hedge' }
+      ]
+      const result = summariseHabitatMatches(registrationHabitats, allocationHabitats)
+      const expected = {
+        1: {
+          registration: 'Forest || Good || 10 hectares || Created || Habitat',
+          allocation: undefined
+        }
       }
-    }
-    expect(result).toEqual(expected)
+      expect(result).toEqual(expected)
+    })
   })
 })
