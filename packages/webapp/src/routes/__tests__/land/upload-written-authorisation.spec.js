@@ -156,7 +156,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload nofile written authorisation file', (done) => {
+    it('should not upload no file written authorisation file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)
@@ -176,7 +176,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should not upload file with xss velnerability', (done) => {
+    it('should not upload file with xss vulnerability', (done) => {
       const mockDataPathGeneric = 'packages/webapp/src/__mock-data__/uploads/generic-files'
       jest.isolateModules(async () => {
         try {
@@ -197,7 +197,7 @@ describe('Proof of ownership upload controller tests', () => {
       })
     })
 
-    it('should  upload written authorisation document 50 MB file', (done) => {
+    it('should upload written authorisation document 50 MB file', (done) => {
       jest.isolateModules(async () => {
         try {
           const uploadConfig = Object.assign({}, baseConfig)

@@ -9,7 +9,8 @@ describe('upload-error-handler', () => {
   const h = {
     view: jest.fn()
   }
-  const href = '/test'
+  const route = '/test'
+  const elementID = '#test'
   const maximumFileSize = 50
   const view = 'test-view'
 
@@ -21,22 +22,22 @@ describe('upload-error-handler', () => {
   describe('processErrorUpload', () => {
     it('should handle maximumFileSizeExceeded error', () => {
       const err = new Error(constants.uploadErrors.maximumFileSizeExceeded)
-      processErrorUpload({ err, h, href, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: `The selected file must not be larger than ${maximumFileSize}MB`,
-          href
+          href: elementID
         }]
       })
     })
 
     it('should handle emptyFile error', () => {
       const err = new Error(constants.uploadErrors.emptyFile)
-      processErrorUpload({ err, h, href, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: 'The selected file is empty',
-          href
+          href: elementID
         }]
       })
     })
@@ -44,11 +45,11 @@ describe('upload-error-handler', () => {
     it('should handle noFile error', () => {
       const err = new Error(constants.uploadErrors.noFile)
       const noFileErrorMessage = 'No file was selected'
-      processErrorUpload({ err, h, href, noFileErrorMessage, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, noFileErrorMessage, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: noFileErrorMessage,
-          href
+          href: elementID
         }]
       })
     })
@@ -56,43 +57,43 @@ describe('upload-error-handler', () => {
     it('should handle unsupportedFileExt error', () => {
       const err = new Error(constants.uploadErrors.unsupportedFileExt)
       const unsupportedFileExtErrorMessage = 'The selected file must be a DOC, DOCX or PDF'
-      processErrorUpload({ err, h, href, unsupportedFileExtErrorMessage, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, unsupportedFileExtErrorMessage, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: unsupportedFileExtErrorMessage,
-          href
+          href: elementID
         }]
       })
     })
 
     it('should handle notValidMetric error', () => {
       const err = new Error(constants.uploadErrors.notValidMetric)
-      processErrorUpload({ err, h, href, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: 'The selected file is not a valid Metric',
-          href
+          href: elementID
         }]
       })
     })
 
     it('should handle ThreatScreeningError', () => {
       const err = new ThreatScreeningError()
-      processErrorUpload({ err, h, href, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: constants.uploadErrors.malwareScanFailed,
-          href
+          href: elementID
         }]
       })
     })
     it('should handle MalwareDetectedError', () => {
       const err = new MalwareDetectedError()
-      processErrorUpload({ err, h, href, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(href, {
+      processErrorUpload({ err, h, route, elementID, maximumFileSize })
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: constants.uploadErrors.threatDetected,
-          href
+          href: elementID
         }]
       })
     })
@@ -101,11 +102,11 @@ describe('upload-error-handler', () => {
   describe('buildErrorResponse', () => {
     it('should build error response', () => {
       const message = 'Test error message'
-      buildErrorResponse(h, message, href)
-      expect(h.view).toHaveBeenCalledWith(href, {
+      buildErrorResponse(h, message, route, elementID)
+      expect(h.view).toHaveBeenCalledWith(route, {
         err: [{
           text: message,
-          href
+          href: elementID
         }]
       })
     })
@@ -113,10 +114,10 @@ describe('upload-error-handler', () => {
 
   describe('maximumFileSizeExceeded', () => {
     it('should call getMaximumFileSizeExceededView', () => {
-      maximumFileSizeExceeded(h, href, maximumFileSize, view)
+      maximumFileSizeExceeded(h, route, maximumFileSize, view)
       expect(getMaximumFileSizeExceededView).toHaveBeenCalledWith({
         h,
-        href,
+        href: route,
         maximumFileSize,
         view
       })
