@@ -34,6 +34,9 @@ const getAddress = (session, addressIsUK) => {
 const applicationInformationContext = session => {
   const context = {}
 
+  const isCombinedCase = (session?._request?._route?.path || '').startsWith('/combined-case')
+  context.hrefPath = isCombinedCase ? '/combined-case' : '/land'
+
   context.actingForClient = session.get(constants.redisKeys.IS_AGENT) === 'yes'
   context.accountDetailsUpToDate = session.get(constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED) === 'true'
   context.addressIsUK = session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === 'yes'

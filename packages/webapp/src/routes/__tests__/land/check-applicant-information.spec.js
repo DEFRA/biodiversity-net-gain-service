@@ -38,6 +38,7 @@ describe(url, () => {
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, 7515)
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, 'application/pdf')
     redisMap.set(constants.redisKeys.WRITTEN_AUTHORISATION_CHECKED, 'yes')
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
   })
 
   describe('GET', () => {
@@ -184,7 +185,7 @@ describe(url, () => {
         }
       }
 
-      await postHandler({ yar: redisMap }, h)
+      await postHandler({ yar: redisMap, path: checkApplicantInfoDetails[1].path }, h)
       expect(redirectArgs[0]).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
   })

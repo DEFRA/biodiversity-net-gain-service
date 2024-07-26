@@ -60,7 +60,9 @@ describe(url, () => {
         planningApplicationRef: 'ref',
         developmentName: 'dev name'
       }
-      const res = await submitPostRequest(postOptions)
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.ALLOCATION
+      const res = await submitPostRequest(postOptions, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
     })
 
