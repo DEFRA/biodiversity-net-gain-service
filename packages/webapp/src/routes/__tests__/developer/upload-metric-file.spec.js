@@ -117,7 +117,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
-          expect(res.result).toContain('Select and upload the statutory (official) biodiversity metric tool file. The file type must be XLSM or XLSM, and under 50MB')
+          expect(res.result).toContain('The selected file must be an XLSM or XLSX')
           setImmediate(() => {
             done()
           })
@@ -134,7 +134,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.hasError = true
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
-          expect(res.result).toContain('No file Selected. Select and upload the statutory (official) biodiversity metric tool file')
+          expect(res.result).toContain('Select a statutory biodiversity metric')
           setImmediate(() => {
             done()
           })
