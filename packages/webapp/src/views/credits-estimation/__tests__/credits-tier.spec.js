@@ -20,6 +20,6 @@ describe('credits tier view', () => {
     const hrefAttributeValue = match[1]
     const textContent = match[2]
     expect(hrefAttributeValue).toBe(url)
-    expect(textContent.trim()).toBe('Estimate the cost of statutory biodiversity credits')
+    expect(textContent.trim()).toBe('Manage biodiversity gains')
   })
 })
