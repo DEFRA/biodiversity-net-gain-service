@@ -39,7 +39,8 @@ describe(url, () => {
     it('Should fail journey if no org name is provided', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the organisation name')
+      // had to use "&#39;"" as that's what the "'" is seen by in the html payload
+      expect(res.payload).toContain('Enter your client&#39;s organisation name')
     })
 
     it('Should fail journey if org name is greater than 50 characters', async () => {

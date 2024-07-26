@@ -1,9 +1,9 @@
 import developerConstants from './developer-constants.js'
-import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
-import * as combinedCaseConstants from './combined-case-constants.js'
+import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -222,7 +222,7 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
 routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
-  uploadFailure: 'The selected file could not be uploaded -- try again',
+  uploadFailure: 'The selected file could not be uploaded - try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
@@ -329,6 +329,8 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  AMENDMENT_GUIDE_URL_ALLOCATION,
+  AMENDMENT_GUIDE_URL_REGISTRATION,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,

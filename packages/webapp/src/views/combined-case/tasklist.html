@@ -11,7 +11,8 @@
             <h1 class="govuk-heading-xl">Register a biodiversity gain site and development project application</h1>
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
             <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks}} of {{totalSections}} sections.</p>
-            <ol class="app-task-list govuk-!-padding-top-3">
+            <p class="govuk-inset-text">Your application is saved as you complete each page. You can leave and come back at any time to continue the application.</p>
+            <ol class="app-task-list govuk-!-padding-top-0">
                 {% for task in tasks.taskList %}
                     <li>
                         <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
