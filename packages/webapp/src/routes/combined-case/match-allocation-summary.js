@@ -1,34 +1,25 @@
 import constants from '../../utils/constants.js'
+import { getMatchingHabitats } from '../../utils/combined-case/helpers.js'
 
 const handlers = {
   get: (request, h) => {
-    // todo get from session and structure might change
-    const habitats = {
-      proposed: [
-        {
-          habitatType: 'Grassland - Other neutral grassland',
-          area: '2 hectares',
-          condition: 'Moderate Condition'
-        },
-        {
-          habitatType: 'Heathland and shrub - Mixed scrub',
-          area: '0.05 hectares',
-          condition: 'Good Condition'
-        },
-        {
-          habitatType: 'Woodland and forest - Lowland mixed deciduous woodland',
-          area: '20 hectares',
-          condition: 'Poor Condition'
-        }
-      ]
+    const matchingComplete = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+
+    if (!matchingComplete) {
+      return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
     }
 
-    const matchedHabitats = habitats?.proposed.map((habitat, index) => {
+    const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const registrationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
+
+    const matchedHabitats = (habitats || []).map((habitat, index) => {
+      const matchingHabitats = getMatchingHabitats(habitat, registrationHabitats)
+      const matchedHabitat = (matchingHabitats || []).find((matchingHabitat) => matchingHabitat?.id === habitat.matchedHabitatId)
       return {
-        text: `${habitat.habitatType} (${habitat.area} / ${habitat.condition})`,
-        value: '', // TODO not sure where this comes from
+        text: `${habitat.habitatType} (${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} Condition)`,
+        value: matchedHabitat ? `${matchedHabitat.size} ${matchedHabitat.measurementUnits} / ${matchedHabitat.condition} Condition` : '',
         valueDataTestId: `habitat-${index + 1}`,
-        href: `todo?page=${index + 1}`, // todo
+        href: `${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${index + 1}`,
         visuallyHiddenText: habitat.habitatType,
         classes: '',
         show: true
@@ -38,7 +29,7 @@ const handlers = {
     return h.view(constants.views.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY, { matchedHabitats })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
+    return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
   }
 }
 

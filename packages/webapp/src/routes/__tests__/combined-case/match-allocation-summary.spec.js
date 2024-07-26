@@ -19,13 +19,19 @@ describe(url, () => {
 
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view `, async () => {
-      const res = await submitGetRequest({ url }, 200)
+      const sessionData = {}
+      sessionData[constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE] = true
+      const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).not.toContain('Geoff')
+    })
+    it(`should redirect to tasklist from ${url.substring(1)} view if matching not complete`, async () => {
+      const res = await submitGetRequest({ url }, 302)
+      expect(res.headers.location).toEqual(constants.routes.COMBINED_CASE_TASK_LIST)
     })
   })
 
   describe('POST', () => {
-    it('should process a valid application correctly', async () => {
+    it('should redirect to tasklist', async () => {
       const session = setDeveloperApplicationSession()
       const postHandler = matchAllocationSummary[1].handler
 
@@ -37,7 +43,7 @@ describe(url, () => {
 
       await postHandler({ yar: session, auth, payload }, h)
       expect(h.view).not.toHaveBeenCalled()
-      expect(h.redirect).toHaveBeenCalledWith(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.COMBINED_CASE_TASK_LIST)
     })
   })
 })

@@ -70,7 +70,7 @@ const handlers = {
     const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
     const updatedAllocationHabitats = allocationHabitats.map(habitat =>
       habitat.id === selectedHabitatId
-        ? { ...habitat, matchHabitats, processed: true }
+        ? { ...habitat, matchedHabitatId: matchHabitats, processed: true }
         : habitat
     )
     request.yar.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING, updatedAllocationHabitats)
@@ -80,7 +80,7 @@ const handlers = {
 
     if (!habitatItems.length) {
       request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE, true)
-      return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+      return h.redirect(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
     }
 
     return h.redirect(`${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${nextPage}`)
