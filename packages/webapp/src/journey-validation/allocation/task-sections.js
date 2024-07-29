@@ -2,8 +2,9 @@ import constants from '../../utils/constants.js'
 import { taskDefinition, taskSectionDefinition } from '../utils.js'
 import { applicantDetailsJourneys } from './applicant-details.js'
 import { allocationInformationJourneys } from './allocation-information.js'
-import { planningDecisionNoticeJourneys } from './planning-decision-notice.js'
-import { addDevelopmentProjectInformationJourneys } from './development-project-information.js'
+import { planningDecisionNoticeJourneys, planningDecisionNoticeRouteDefinitions } from './planning-decision-notice.js'
+import { addDevelopmentProjectInformationJourneys, addDevelopmentProjectInformationJourneysRouteDefinitions } from './development-project-information.js'
+import { applicantInfoRouteDefinitions } from '../combined-case/applicant-info.js'
 
 const applicantDetails = taskDefinition(
   'applicant-details',
@@ -63,7 +64,13 @@ const taskSections = [
   ])
 ]
 
+const routeDefinitions = [
+  ...applicantInfoRouteDefinitions,
+  ...planningDecisionNoticeRouteDefinitions,
+  ...addDevelopmentProjectInformationJourneysRouteDefinitions
+]
+
 Object.freeze(taskSections)
 Object.freeze(checkYourAnswers)
 
-export { taskSections, checkYourAnswers }
+export { taskSections, checkYourAnswers, routeDefinitions }

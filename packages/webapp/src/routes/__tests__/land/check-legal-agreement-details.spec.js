@@ -82,8 +82,10 @@ describe('Legal Agreement controller tests', () => {
         try {
           let viewResult
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
+          redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const request = {
-            yar: redisMap
+            yar: redisMap,
+            path: legalAgreementDetails.default[1].path
           }
           const h = {
             redirect: (view, context) => {

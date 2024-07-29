@@ -45,6 +45,8 @@ describe(url, () => {
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[0]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Applicant information',
             items: [
               {
@@ -56,6 +58,8 @@ describe(url, () => {
             ]
           })
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Land information',
             items: [
               {
@@ -79,6 +83,8 @@ describe(url, () => {
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Legal information',
             items: [
               {
@@ -126,6 +132,8 @@ describe(url, () => {
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Land information',
             items: [
               {
@@ -149,6 +157,8 @@ describe(url, () => {
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Legal information',
             items: [
               {
@@ -196,6 +206,8 @@ describe(url, () => {
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Land information',
             items: [
               {
@@ -219,6 +231,8 @@ describe(url, () => {
             ]
           })
           expect(contextResult.registrationTasks.taskList[2]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Legal information',
             items: [
               {
@@ -273,6 +287,8 @@ describe(url, () => {
           expect(viewResult).toEqual('land/register-land-task-list')
           expect(contextResult.registrationTasks.taskList.length).toEqual(4)
           expect(contextResult.registrationTasks.taskList[1]).toEqual({
+            dependantIds: [],
+            id: null,
             taskTitle: 'Land information',
             items: [
               {

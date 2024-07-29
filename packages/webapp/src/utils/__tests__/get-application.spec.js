@@ -77,13 +77,13 @@ describe('getApplication', () => {
     expect(h.redirect).toHaveBeenCalledWith(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
   })
 
-  it('should redirect to REGISTER_LAND_TASK_LIST for COMBINED_CASE application type', async () => {
+  it('should redirect to COMBINED_CASE_TASK_LIST for COMBINED_CASE application type', async () => {
     const session = { 'organisation-id': 'org-id' }
     getOrganisationDetails.mockReturnValue({ currentOrganisationId: 'org-id' })
     postJson.mockResolvedValue(session)
 
     await getCombinedCase(request, h)
-    expect(h.redirect).toHaveBeenCalledWith(constants.routes.REGISTER_LAND_TASK_LIST)
+    expect(h.redirect).toHaveBeenCalledWith(constants.routes.COMBINED_CASE_TASK_LIST)
   })
 
   it('should handle missing session data', async () => {

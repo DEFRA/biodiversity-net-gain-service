@@ -8,9 +8,9 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
 import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
-const landOwnershipId = '#landOwnership'
+const LAND_OWNERSHIP_ID = '#landOwnership'
 
-const processSuccessfulUpload = async (result, request, h) => {
+async function processSuccessfulUpload (result, request, h) {
   const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
   if (tempFile && !tempFile.confirmed) {
     await deleteBlobFromContainers(tempFile.fileLocation)
@@ -47,7 +47,8 @@ const handlers = {
       return processErrorUpload({
         err,
         h,
-        href: constants.views.UPLOAD_LAND_OWNERSHIP,
+        route: constants.views.UPLOAD_LAND_OWNERSHIP,
+        elementID: LAND_OWNERSHIP_ID,
         noFileErrorMessage: 'Select a proof of land ownership file',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
@@ -66,7 +67,7 @@ export default [{
   handler: handlers.post,
   options:
     generatePayloadOptions(
-      landOwnershipId,
+      LAND_OWNERSHIP_ID,
       process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
       constants.views.UPLOAD_LAND_OWNERSHIP
     )

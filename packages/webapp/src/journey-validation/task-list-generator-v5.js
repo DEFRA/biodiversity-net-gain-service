@@ -11,8 +11,14 @@ import {
 } from './credits-purchase/task-sections.js'
 import {
   taskSections as allocationTaskSections,
-  checkYourAnswers as allocationCheckYourAnswers
+  checkYourAnswers as allocationCheckYourAnswers,
+  routeDefinitions as allocationRouteDefinitions
 } from './allocation/task-sections.js'
+import {
+  taskSections as combinedCaseTaskSections,
+  checkYourAnswers as combinedCaseCheckYourAnswers,
+  routeDefinitions as combinedCaseRouteDefinitions
+} from './combined-case/task-sections.js'
 import { FormError } from '../utils/form-error.js'
 
 const ANY = 'any'
@@ -168,6 +174,10 @@ const getTaskList = (journey, session) => {
       taskList = generateTaskList(allocationTaskSections, session)
       taskList.push(structuredClone(allocationCheckYourAnswers))
       break
+    case constants.applicationTypes.COMBINED_CASE:
+      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList.push(combinedCaseCheckYourAnswers)
+      break
     default:
       taskList = []
   }
@@ -221,6 +231,10 @@ const getNextStep = (request, h, errCallback) => {
     case constants.applicationTypes.CREDITS_PURCHASE:
       break
     case constants.applicationTypes.ALLOCATION:
+      task = retrieveTask(allocationRouteDefinitions, path)
+      break
+    case constants.applicationTypes.COMBINED_CASE:
+      task = retrieveTask(combinedCaseRouteDefinitions, path)
       break
   }
 

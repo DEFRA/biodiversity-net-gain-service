@@ -39,6 +39,8 @@ describe(url, () => {
       expect(viewResult).toEqual('developer/tasklist')
       expect(contextResult.tasks.taskList.length).toEqual(3)
       expect(contextResult.tasks.taskList[0]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Applicant information',
         items: [
           {
@@ -50,6 +52,8 @@ describe(url, () => {
         ]
       })
       expect(contextResult.tasks.taskList[1]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Development information',
         items: [
           {
@@ -112,6 +116,8 @@ describe(url, () => {
       expect(contextResult.tasks.taskList.length).toEqual(3)
 
       expect(contextResult.tasks.taskList[1]).toEqual({
+        dependantIds: [],
+        id: null,
         taskTitle: 'Development information',
         items: [
           {
