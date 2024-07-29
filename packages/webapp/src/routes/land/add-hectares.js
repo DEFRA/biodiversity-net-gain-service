@@ -1,5 +1,4 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
 import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
