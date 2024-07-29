@@ -61,6 +61,7 @@ const handlers = {
       currentPage: safeCurrentPage,
       selectedHabitatText,
       matchedHabitatItems,
+      displayNoMatches: !matchedHabitatItems?.length,
       sheetName
     })
   },
