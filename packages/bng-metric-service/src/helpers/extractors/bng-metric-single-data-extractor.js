@@ -77,6 +77,7 @@ class BngMetricSingleDataExtractor {
           data.cells[item.name || item.cell] = worksheet[item.cell]?.v
         })
       }
+
       return data
     }
   }
@@ -124,7 +125,9 @@ class BngMetricSingleDataExtractor {
       })
     })
 
-    data = data.filter(content => Object.values(content).some(value => value !== null && value !== ''))
+    data = data.filter(content => Object.entries(content).some(
+      ([key, value]) => value !== null && value !== '' && key !== 'rowNum')
+    )
 
     return data
   }
