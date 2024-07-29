@@ -9,57 +9,57 @@ const generateOwnReference = () => `${ownReferenceCounter++}`
 
 const generateGainSiteNumber = () => 'BGS-123456789'
 
+const getHabitatType = (identifier, details) => {
+  switch (identifier) {
+    case 'd2':
+      if (details['Broad habitat'] && details['Proposed habitat']) {
+        return `${details['Broad habitat']} - ${details['Proposed habitat']}`
+      }
+      return undefined
+    case 'd3':
+      if (details['Proposed Broad Habitat'] && details['Proposed habitat']) {
+        return `${details['Proposed Broad Habitat']} - ${details['Proposed habitat']}`
+      }
+      return undefined
+    case 'e2':
+      return details['Habitat type']
+    case 'e3':
+      return details['Proposed habitat']
+    case 'f2':
+      return details['Watercourse type']
+    case 'f3':
+      return details['Proposed habitat']
+  }
+}
+
+const getState = identifier => {
+  switch (identifier.charAt(0)) {
+    case 'd':
+      return 'Habitat'
+    case 'e':
+      return 'Hedge'
+    case 'f':
+      return 'Watercourse'
+  }
+}
+
+const getModule = identifier => {
+  switch (identifier.charAt(identifier.length - 1)) {
+    case '1':
+      return 'Baseline'
+    case '2':
+      return 'Created'
+    case '3':
+      return 'Enhanced'
+  }
+}
+
 const processMetricData = session => {
   const registrationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA)
   const allocationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA)
   const registrationHabitats = []
   const allocationHabitats = []
   const sheets = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-
-  const getHabitatType = (identifier, details) => {
-    switch (identifier) {
-      case 'd2':
-        if (details['Broad habitat'] && details['Proposed habitat']) {
-          return `${details['Broad habitat']} - ${details['Proposed habitat']}`
-        }
-        return undefined
-      case 'd3':
-        if (details['Proposed Broad Habitat'] && details['Proposed habitat']) {
-          return `${details['Proposed Broad Habitat']} - ${details['Proposed habitat']}`
-        }
-        return undefined
-      case 'e2':
-        return details['Habitat type']
-      case 'e3':
-        return details['Proposed habitat']
-      case 'f2':
-        return details['Watercourse type']
-      case 'f3':
-        return details['Proposed habitat']
-    }
-  }
-
-  const getState = identifier => {
-    switch (identifier.charAt(0)) {
-      case 'd':
-        return 'Habitat'
-      case 'e':
-        return 'Hedge'
-      case 'f':
-        return 'Watercourse'
-    }
-  }
-
-  const getModule = identifier => {
-    switch (identifier.charAt(identifier.length - 1)) {
-      case '1':
-        return 'Baseline'
-      case '2':
-        return 'Created'
-      case '3':
-        return 'Enhanced'
-    }
-  }
 
   const extractHabitats = (metricData, habitats, isAllocation) => {
     sheets.forEach(sheet => {
@@ -124,5 +124,8 @@ export {
   processMetricData,
   habitatDescription,
   getMatchingHabitats,
-  summariseHabitatMatches
+  summariseHabitatMatches,
+  getHabitatType,
+  getState,
+  getModule
 }
