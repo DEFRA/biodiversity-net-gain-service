@@ -6,7 +6,7 @@ import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import path from 'path'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const landOwnershipId = '#landOwnership'
 

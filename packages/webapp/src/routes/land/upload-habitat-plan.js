@@ -4,7 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const uploadHabitatPlanId = '#uploadHabitatPlanId'
 

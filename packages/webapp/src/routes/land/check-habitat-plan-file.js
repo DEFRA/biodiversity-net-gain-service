@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)

@@ -135,7 +135,7 @@ const generateTaskList = (taskSections, session) => {
 const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
 
 // Recursively iterate over a task list object and convert each `text` property (which will be the task item status) to
-// have an initial capital with the rest of the string lower case
+// have an initial capital with the rest of the string lower case.
 const formatStatusesForDisplay = taskList => {
   if (Array.isArray(taskList)) {
     taskList.forEach(item => formatStatusesForDisplay(item))

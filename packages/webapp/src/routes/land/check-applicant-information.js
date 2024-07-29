@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import applicationInformationContext from './helpers/applicant-information.js'
 import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
-import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
+import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator-v5.js'
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.APPLICANT_INFO)

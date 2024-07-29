@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
 import { validateTextInput, checkForDuplicate, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const ID = '#responsibleBody'
 const handlers = {

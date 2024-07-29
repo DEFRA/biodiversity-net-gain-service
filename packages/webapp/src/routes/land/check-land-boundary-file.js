@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const handlers = {
   get: async (request, h) => {

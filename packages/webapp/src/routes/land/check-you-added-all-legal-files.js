@@ -4,7 +4,7 @@ import {
   getHumanReadableFileSize,
   getLegalAgreementDocumentType
 } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const radioText = 'Have you added all legal agreement files?'
 const radioHint = 'You must provide all legal agreement documents. This includes original versions if the legal agreement has been amended.'

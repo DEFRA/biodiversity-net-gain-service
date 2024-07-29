@@ -3,7 +3,7 @@ import constants from '../../../utils/constants.js'
 import applicant from '../../../__mocks__/applicant.js'
 import { submitPostRequest } from '../helpers/server.js'
 import application from '../../../__mock-data__/test-application.js'
-import * as taskListUtil from '../../../journey-validation/task-list-generator.js'
+import * as taskListUtil from '../../../journey-validation/task-list-generator-v5.js'
 import checkAndSubmit from '../../../routes/land/check-and-submit.js'
 
 const url = constants.routes.CHECK_AND_SUBMIT

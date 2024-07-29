@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const handlers = {
   get: async (request, h) => {

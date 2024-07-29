@@ -1,6 +1,6 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import constants from '../../utils/constants.js'
-import { getTaskList } from '../../journey-validation/task-list-generator.js'
+import { getTaskList } from '../../journey-validation/task-list-generator-v5.js'
 
 const handlers = {
   get: async (request, h) => {

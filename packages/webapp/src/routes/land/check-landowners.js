@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator.js'
+import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
 
 const getCustomizedHTML = (item, index) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
