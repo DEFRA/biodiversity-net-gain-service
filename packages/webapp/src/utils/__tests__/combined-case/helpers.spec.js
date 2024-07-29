@@ -203,3 +203,142 @@ describe('summariseHabitatMatches', () => {
     })
   })
 })
+
+describe('getHabitatType', () => {
+  test('returns formatted habitat type for d2 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Broad habitat': 'Forest',
+        'Proposed habitat': 'Woodland'
+      }
+      expect(getHabitatType('d2', details)).toBe('Forest - Woodland')
+    })
+  })
+
+  test('returns undefined for d2 identifier with missing details', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Broad habitat': 'Forest'
+      }
+      expect(getHabitatType('d2', details)).toBeUndefined()
+    })
+  })
+
+  test('returns formatted habitat type for d3 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Proposed Broad Habitat': 'Grassland',
+        'Proposed habitat': 'Meadow'
+      }
+      expect(getHabitatType('d3', details)).toBe('Grassland - Meadow')
+    })
+  })
+
+  test('returns undefined for d3 identifier with missing details', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Proposed Broad Habitat': 'Grassland'
+      }
+      expect(getHabitatType('d3', details)).toBeUndefined()
+    })
+  })
+
+  test('returns habitat type for e2 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Habitat type': 'Wetland'
+      }
+      expect(getHabitatType('e2', details)).toBe('Wetland')
+    })
+  })
+
+  test('returns proposed habitat for e3 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Proposed habitat': 'Stream'
+      }
+      expect(getHabitatType('e3', details)).toBe('Stream')
+    })
+  })
+
+  test('returns watercourse type for f2 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Watercourse type': 'River'
+      }
+      expect(getHabitatType('f2', details)).toBe('River')
+    })
+  })
+
+  test('returns proposed habitat for f3 identifier', () => {
+    jest.isolateModules(() => {
+      const { getHabitatType } = require('../../combined-case/helpers.js')
+      const details = {
+        'Proposed habitat': 'Stream'
+      }
+      expect(getHabitatType('f3', details)).toBe('Stream')
+    })
+  })
+})
+
+describe('getState', () => {
+  test('returns Habitat for identifier starting with d', () => {
+    jest.isolateModules(() => {
+      const { getState } = require('../../combined-case/helpers.js')
+      expect(getState('d2')).toBe('Habitat')
+      expect(getState('d3')).toBe('Habitat')
+    })
+  })
+
+  test('returns Hedge for identifier starting with e', () => {
+    jest.isolateModules(() => {
+      const { getState } = require('../../combined-case/helpers.js')
+      expect(getState('e2')).toBe('Hedge')
+      expect(getState('e3')).toBe('Hedge')
+    })
+  })
+
+  test('returns Watercourse for identifier starting with f', () => {
+    jest.isolateModules(() => {
+      const { getState } = require('../../combined-case/helpers.js')
+      expect(getState('f2')).toBe('Watercourse')
+      expect(getState('f3')).toBe('Watercourse')
+    })
+  })
+})
+
+describe('getModule', () => {
+  test('returns Baseline for identifier ending with 1', () => {
+    jest.isolateModules(() => {
+      const { getModule } = require('../../combined-case/helpers.js')
+      expect(getModule('d1')).toBe('Baseline')
+      expect(getModule('e1')).toBe('Baseline')
+      expect(getModule('f1')).toBe('Baseline')
+    })
+  })
+
+  test('returns Created for identifier ending with 2', () => {
+    jest.isolateModules(() => {
+      const { getModule } = require('../../combined-case/helpers.js')
+      expect(getModule('d2')).toBe('Created')
+      expect(getModule('e2')).toBe('Created')
+      expect(getModule('f2')).toBe('Created')
+    })
+  })
+
+  test('returns Enhanced for identifier ending with 3', () => {
+    jest.isolateModules(() => {
+      const { getModule } = require('../../combined-case/helpers.js')
+      expect(getModule('d3')).toBe('Enhanced')
+      expect(getModule('e3')).toBe('Enhanced')
+      expect(getModule('f3')).toBe('Enhanced')
+    })
+  })
+})
