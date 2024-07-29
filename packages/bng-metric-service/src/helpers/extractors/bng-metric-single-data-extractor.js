@@ -136,6 +136,7 @@ class BngMetricSingleDataExtractor {
     const { rowsToBeRemovedTemplate } = extractionConfiguration
 
     rowsToBeRemovedTemplate?.forEach(rowTemplate => {
+      rowTemplate.push('rowNum')
       data = data.filter(row => {
         const keys = Object.keys(row)
         return !(keys.length === rowTemplate.length && keys.every(key => rowTemplate.includes(key)))
