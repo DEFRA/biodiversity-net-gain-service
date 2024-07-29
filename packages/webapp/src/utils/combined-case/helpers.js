@@ -7,8 +7,6 @@ const generateHabitatReference = () => `HAB-00000000-${habitatReferenceCounter++
 
 const generateOwnReference = () => `${ownReferenceCounter++}`
 
-const generateGainSiteNumber = () => 'BGS-123456789'
-
 const getHabitatType = (identifier, details) => {
   switch (identifier) {
     case 'd2':
@@ -124,7 +122,6 @@ const summariseHabitatMatches = (registrationHabitats, allocationHabitats) => {
 export {
   generateOwnReference,
   generateHabitatReference,
-  generateGainSiteNumber,
   processMetricData,
   habitatDescription,
   getMatchingHabitats,

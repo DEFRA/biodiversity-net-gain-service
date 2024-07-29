@@ -23,13 +23,6 @@ describe('Combined Case Habitat Match Utility Functions', () => {
       expect(generateOwnReference()).toBe('2')
     })
   })
-
-  test('generateGainSiteNumber returns correct format', () => {
-    jest.isolateModules(() => {
-      const { generateGainSiteNumber } = require('../../combined-case/helpers.js')
-      expect(generateGainSiteNumber()).toBe('BGS-123456789')
-    })
-  })
 })
 
 describe('processMetricData', () => {
