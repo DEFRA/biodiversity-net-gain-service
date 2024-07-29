@@ -12,7 +12,7 @@ const handlers = {
     const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     return h.view(constants.views.CHECK_METRIC_DETAILS, {
       filename: path.basename(metricUploadLocation),
-      urlPath:  isCombinedCase ? '/combined-case' : '/land'
+      urlPath: isCombinedCase ? '/combined-case' : '/land'
     })
   },
   post: async (request, h) => {
