@@ -11,7 +11,7 @@ const handlers = {
     return checkDeveloperUploadMetric(
       request,
       h,
-      constants.routes.COMBINED_CASE_UPLOAD_METRIC,
+      constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
       constants.routes.COMBINED_CASE_MATCH_HABITATS,
       constants.views.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
       href
