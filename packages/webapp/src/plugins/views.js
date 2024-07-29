@@ -6,8 +6,6 @@ import dirname from '../../dirname.cjs'
 import { NODE_ENV, SERVICE_NAME } from '../utils/config.js'
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
 
-const serviceName = 'Manage biodiversity gains'
-
 const views = {
   plugin: Vision,
   options: {
@@ -38,7 +36,7 @@ const views = {
     context: {
       serviceName: SERVICE_NAME,
       assetPath: '/public',
-      pageTitle: `${serviceName} - GOV.UK`,
+      pageTitle: `${SERVICE_NAME} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
       applicationVersion: version,
       ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
