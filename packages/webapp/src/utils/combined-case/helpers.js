@@ -72,6 +72,7 @@ const processMetricData = session => {
             habitats.push({
               habitatType,
               condition,
+              sheet,
               module: getModule(sheet),
               state: getState(sheet),
               id: isAllocation ? generateOwnReference() : generateHabitatReference(),
@@ -94,6 +95,9 @@ const processMetricData = session => {
 
 const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
+
+const habitatHint = habitat =>
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
@@ -125,6 +129,7 @@ export {
   habitatDescription,
   getMatchingHabitats,
   summariseHabitatMatches,
+  habitatHint,
   getHabitatType,
   getState,
   getModule
