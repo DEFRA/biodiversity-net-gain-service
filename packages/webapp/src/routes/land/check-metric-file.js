@@ -1,8 +1,8 @@
 import constants from '../../utils/constants.js'
-import { getValidReferrerUrl, getHumanReadableFileSize } from '../../utils/helpers.js'
+import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const href = '#check-upload-correct-yes'
 const handlers = {
   get: async (request, h) => {
     return h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request))
@@ -11,24 +11,14 @@ const handlers = {
     const checkUploadMetric = request.payload.checkUploadMetric
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
-    if (checkUploadMetric === 'no') {
-      return h.redirect(constants.routes.UPLOAD_METRIC)
-    } else if (checkUploadMetric === 'yes') {
-      request.yar.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
-      return h.redirect(referrerUrl || constants.routes.CHECK_HABITAT_BASELINE)
-    } else {
+
+    return getNextStep(request, h, (e) => {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),
         ...getContext(request),
-        err: [
-          {
-            text: 'Select yes if this is the correct file',
-            href
-          }
-        ]
+        err: [e]
       })
-    }
+    })
   }
 }
 

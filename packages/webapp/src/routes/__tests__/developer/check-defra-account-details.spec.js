@@ -77,7 +77,7 @@ describe(url, () => {
     it('Should stop the journey when Defra account details are unconfirmed', async () => {
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('You must confirm your Defra account details are up to date')
+      expect(res.payload).toContain('Check box to confirm your Defra account details are up to date')
     })
   })
 })

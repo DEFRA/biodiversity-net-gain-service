@@ -27,7 +27,7 @@ const handlers = {
       return h.redirectView(constants.views.DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS, {
         ...getApplicantContext(request.auth.credentials.account, request.yar),
         err: [{
-          text: 'You must confirm your Defra account details are up to date',
+          text: 'Check box to confirm your Defra account details are up to date',
           href: '#defraAccountDetailsConfirmed'
         }]
       })

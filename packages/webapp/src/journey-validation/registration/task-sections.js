@@ -4,7 +4,7 @@ import { applicantInfoJourneys, applicantInfoRouteDefinitions } from './applican
 import { landOwnershipJourneys, landOwnershipRouteDefinitions } from './land-ownership.js'
 import { siteBoundaryJourneys, siteBoundaryRouteDefinitions } from './site-boundary.js'
 import { localLandChargeJourneys, localLandChargeRouteDefinitions } from './local-land-charge.js'
-import { habitatInfoJourneys } from './habitat-info.js'
+import { habitatInfoJourneys, habitatInfoRouteDefinitions } from './habitat-info.js'
 import { legalAgreementJourneys, legalAgreementRouteDefinitions } from './legal-agreement.js'
 
 const REGISTRATIONCONSTANTS = {
@@ -63,6 +63,7 @@ const localLandCharge = taskDefinition(
   constants.routes.CHECK_LOCAL_LAND_CHARGE_FILE,
   localLandChargeJourneys
 )
+
 const tasksById = {
   [REGISTRATIONCONSTANTS.APPLICANT_INFO]: applicantInfo,
   [REGISTRATIONCONSTANTS.LAND_OWNERSHIP]: landOwnership,
@@ -95,7 +96,8 @@ const routeDefinitions = [
   ...landOwnershipRouteDefinitions,
   ...legalAgreementRouteDefinitions,
   ...localLandChargeRouteDefinitions,
-  ...siteBoundaryRouteDefinitions
+  ...siteBoundaryRouteDefinitions,
+  ...habitatInfoRouteDefinitions
 ]
 
 Object.freeze(taskSections)

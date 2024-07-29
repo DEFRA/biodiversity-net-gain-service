@@ -12,7 +12,7 @@ import {
   getFileName
 } from '../../utils/helpers.js'
 import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
-import { getIndividualTaskStatus } from '../../journey-validation/task-list-generator.js'
+import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
@@ -25,7 +25,7 @@ const handlers = {
     })
   },
   post: async (request, h) => {
-    return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+    return getNextStep(request, h)
   }
 }
 
