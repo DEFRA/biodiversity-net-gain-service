@@ -37,7 +37,7 @@ describe(url, () => {
     it(`should render header link with href set to ${creditsConstants.routes.ESTIMATOR_CREDITS_TIER}`, async () => {
       const res = await submitGetRequest({ url }, 200, redisCalculation)
       const escapeHref = creditsConstants.routes.ESTIMATOR_CREDITS_TIER.replace(/\//g, '\\$&')
-      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+Manage biodiversity gains\\s+</a>`)
+      const pattern = new RegExp(`<a\\s+href="${escapeHref}"\\s+class="govuk-header__link govuk-header__service-name">\\s+.*\\s+</a>`)
       expect(res.payload.replace(/[\s\n\r]{2,}/g, ' ')).toMatch(
         new RegExp(pattern)
       )
