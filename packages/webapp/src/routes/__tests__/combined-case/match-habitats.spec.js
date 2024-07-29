@@ -24,6 +24,14 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.statusCode).toBe(200)
     })
+
+    it('should load the page correctly and process metric data when no allocation habitats', async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+      const response = await submitGetRequest({ url }, 200, sessionData)
+      expect(response.statusCode).toBe(200)
+    })
   })
 
   describe('POST', () => {

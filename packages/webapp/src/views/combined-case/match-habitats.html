@@ -31,6 +31,10 @@
         items: matchedHabitatItems
       }) }}
 
+      {% if displayNoMatches %}
+        <p>There are no matching habitat items.</p>
+      {% endif %}
+
       {{ govukButton({
         text: "Save and continue",
         attributes: {
