@@ -11,6 +11,16 @@ describe(url, () => {
       const sessionData = {}
       sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
       sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+        habitatType: 'Wetland',
+        condition: 'Poor',
+        module: 'Created',
+        state: 'Hedge',
+        id: '0',
+        size: 15,
+        measurementUnits: 'hectares',
+        processed: false
+      }]
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.statusCode).toBe(200)
     })
