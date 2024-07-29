@@ -1,4 +1,4 @@
-import combinedCaseConstants from '../combined-case-constants.js'
+import constants from '../constants.js'
 
 let habitatReferenceCounter = 0
 let ownReferenceCounter = 0
@@ -55,8 +55,8 @@ const getModule = identifier => {
 }
 
 const processMetricData = session => {
-  const registrationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA)
-  const allocationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA)
+  const registrationMetricData = session.get(constants.redisKeys.METRIC_DATA)
+  const allocationMetricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const registrationHabitats = []
   const allocationHabitats = []
   const sheets = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
@@ -89,8 +89,8 @@ const processMetricData = session => {
   extractHabitats(registrationMetricData, registrationHabitats, false)
   extractHabitats(allocationMetricData, allocationHabitats, true)
 
-  session.set(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS, registrationHabitats)
-  session.set(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS, allocationHabitats)
+  session.set(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS, registrationHabitats)
+  session.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS, allocationHabitats)
 }
 
 const habitatDescription = habitat =>
