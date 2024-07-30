@@ -18,11 +18,23 @@ describe(url, () => {
   })
 
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view `, async () => {
+    it(`should render the ${url.substring(1)} view`, async () => {
       const sessionData = {}
       sessionData[constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE] = true
       const res = await submitGetRequest({ url }, 200, sessionData)
       expect(res.payload).not.toContain('Geoff')
+    })
+    it(`should render the ${url.substring(1)} view with matches`, async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE] = true
+      sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = [
+        { id: '2', habitatType: 'Wetland', condition: 'Poor', size: 15, measurementUnits: 'hectares', module: 'Created', state: 'Hedge', processed: true }
+      ]
+      sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = [
+        { id: '2', habitatType: 'Wetland', condition: 'Poor', size: 15, measurementUnits: 'hectares', module: 'Created', state: 'Hedge', processed: true }
+      ]
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).not.toContain('<a class=\\"govuk-link\\" href=\\"/combined-case/match-habitats?page=1\\">')
     })
     it(`should redirect to tasklist from ${url.substring(1)} view if matching not complete`, async () => {
       const res = await submitGetRequest({ url }, 302)
