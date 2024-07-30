@@ -62,7 +62,8 @@ const handlers = {
       selectedHabitatText,
       matchedHabitatItems,
       displayNoMatches: !matchedHabitatItems?.length,
-      sheetName
+      sheetName,
+      rowNum: selectedHabitat?.rowNum
     })
   },
   post: async (request, h) => {
