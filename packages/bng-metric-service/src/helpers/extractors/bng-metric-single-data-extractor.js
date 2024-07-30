@@ -63,7 +63,7 @@ class BngMetricSingleDataExtractor {
         })
         data = resultData
       } else {
-        data.map(item => (item.rowNum = item.__rowNum__))
+        data.forEach(item => (item.rowNum = item.__rowNum__))
         data = this.#performSubstitution(data, extractionConfiguration)
         data = this.#removeUnwantedColumns(data, extractionConfiguration)
         data = this.#removeUnwantedRows(data, extractionConfiguration)
