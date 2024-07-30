@@ -76,7 +76,7 @@ describe(url, () => {
 
       const response = await submitPostRequest({ url, method: 'post', payload: { currentPage, matchHabitats } }, 302, sessionData)
       expect(response.statusCode).toBe(302)
-      expect(response.headers.location).toBe(constants.routes.COMBINED_CASE_TASK_LIST)
+      expect(response.headers.location).toBe(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
     })
   })
 

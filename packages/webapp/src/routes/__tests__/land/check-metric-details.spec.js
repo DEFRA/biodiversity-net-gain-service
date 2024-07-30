@@ -22,7 +22,7 @@ describe(url, () => {
 
       await getHandler({ yar: session }, h)
       expect(viewArgs[0]).toEqual(constants.views.CHECK_METRIC_DETAILS)
-      expect(viewArgs[1]).toEqual({ filename: 'new-metric-4.0.xlsm' })
+      expect(viewArgs[1]).toEqual({ filename: 'new-metric-4.0.xlsm', urlPath: '/land' })
     })
     it('should redirect to REGISTER_LAND_TASK_LIST view if mandatory data missing', done => {
       jest.isolateModules(async () => {
