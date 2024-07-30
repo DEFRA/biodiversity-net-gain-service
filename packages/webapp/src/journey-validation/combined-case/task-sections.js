@@ -79,7 +79,7 @@ const matchAvailableHabitats = taskDefinition(
   'match-available-habitats',
   'Match available habitats',
   constants.routes.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC,
-  constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY,
+  constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
   matchAvailableHabitatsJourneys
 )
 
