@@ -76,7 +76,7 @@ const processMetricData = session => {
               id: isAllocation ? generateOwnReference() : generateHabitatReference(),
               size: habitat['Length (km)'] ?? habitat['Area (hectares)'],
               measurementUnits: 'Length (km)' in habitat ? 'kilometres' : 'hectares',
-              rowNum: habitat['rowNum'],
+              rowNum: habitat?.rowNum,
               processed: false
             })
           }
