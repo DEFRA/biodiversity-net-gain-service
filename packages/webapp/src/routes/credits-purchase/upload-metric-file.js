@@ -26,7 +26,7 @@ const processSuccessfulUpload = async (result, request, h) => {
   request.yar.set(constants.redisKeys.CREDITS_PURCHASE_METRIC_DATA, result.postProcess.metricData)
   request.yar.set(constants.redisKeys.CREDITS_PURCHASE_METRIC_FILE_NAME, result.filename)
   request.logger.info(`${new Date().toUTCString()} Received metric data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirectView(constants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
+  return h.redirect(constants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
 }
 
 const handlers = {
