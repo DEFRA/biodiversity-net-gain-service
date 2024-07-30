@@ -7,7 +7,8 @@ jest.mock('../helpers.js')
 
 describe('upload-error-handler', () => {
   const h = {
-    view: jest.fn()
+    view: jest.fn(),
+    redirectView: jest.fn()
   }
   const route = '/test'
   const elementID = '#test'
@@ -15,7 +16,7 @@ describe('upload-error-handler', () => {
   const view = 'test-view'
 
   beforeEach(() => {
-    h.view.mockClear()
+    h.redirectView.mockClear()
     getMaximumFileSizeExceededView.mockClear()
   })
 
@@ -23,7 +24,7 @@ describe('upload-error-handler', () => {
     it('should handle maximumFileSizeExceeded error', () => {
       const err = new Error(constants.uploadErrors.maximumFileSizeExceeded)
       processErrorUpload({ err, h, route, elementID, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: `The selected file must not be larger than ${maximumFileSize}MB`,
           href: elementID
@@ -34,7 +35,7 @@ describe('upload-error-handler', () => {
     it('should handle emptyFile error', () => {
       const err = new Error(constants.uploadErrors.emptyFile)
       processErrorUpload({ err, h, route, elementID, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: 'The selected file is empty',
           href: elementID
@@ -46,7 +47,7 @@ describe('upload-error-handler', () => {
       const err = new Error(constants.uploadErrors.noFile)
       const noFileErrorMessage = 'No file was selected'
       processErrorUpload({ err, h, route, elementID, noFileErrorMessage, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: noFileErrorMessage,
           href: elementID
@@ -58,7 +59,7 @@ describe('upload-error-handler', () => {
       const err = new Error(constants.uploadErrors.unsupportedFileExt)
       const unsupportedFileExtErrorMessage = 'The selected file must be a DOC, DOCX or PDF'
       processErrorUpload({ err, h, route, elementID, unsupportedFileExtErrorMessage, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: unsupportedFileExtErrorMessage,
           href: elementID
@@ -69,7 +70,7 @@ describe('upload-error-handler', () => {
     it('should handle notValidMetric error', () => {
       const err = new Error(constants.uploadErrors.notValidMetric)
       processErrorUpload({ err, h, route, elementID, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: 'The selected file is not a valid Metric',
           href: elementID
@@ -80,7 +81,7 @@ describe('upload-error-handler', () => {
     it('should handle ThreatScreeningError', () => {
       const err = new ThreatScreeningError()
       processErrorUpload({ err, h, route, elementID, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: constants.uploadErrors.malwareScanFailed,
           href: elementID
@@ -90,7 +91,7 @@ describe('upload-error-handler', () => {
     it('should handle MalwareDetectedError', () => {
       const err = new MalwareDetectedError()
       processErrorUpload({ err, h, route, elementID, maximumFileSize })
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: constants.uploadErrors.threatDetected,
           href: elementID
@@ -103,7 +104,7 @@ describe('upload-error-handler', () => {
     it('should build error response', () => {
       const message = 'Test error message'
       buildErrorResponse(h, message, route, elementID)
-      expect(h.view).toHaveBeenCalledWith(route, {
+      expect(h.redirectView).toHaveBeenCalledWith(route, {
         err: [{
           text: message,
           href: elementID
