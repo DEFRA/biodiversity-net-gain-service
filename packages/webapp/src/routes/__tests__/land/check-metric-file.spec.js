@@ -29,20 +29,26 @@ describe(url, () => {
     })
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
       postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.YES
-      await submitPostRequest(postOptions)
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+      await submitPostRequest(postOptions, 302, sessionData)
     })
 
     it('should allow an alternative metric file to be uploaded ', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.NO
-      const response = await submitPostRequest(postOptions)
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+      const response = await submitPostRequest(postOptions, 302, sessionData)
       expect(response.headers.location).toBe(constants.routes.UPLOAD_METRIC)
       expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should detect an invalid response from user', async () => {
       postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
-      await submitPostRequest(postOptions, 500)
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+      await submitPostRequest(postOptions, 500, sessionData)
     })
     it('Ensure page uses referrer if is set on post', done => {
       jest.isolateModules(async () => {
@@ -50,6 +56,7 @@ describe(url, () => {
           const postHandler = checkMetricFile[1].handler
           const session = new Session()
           session.set(constants.redisKeys.REFERER, '/land/check-and-submit')
+          session.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const payload = {
             checkUploadMetric: 'yes'
           }
@@ -64,7 +71,7 @@ describe(url, () => {
             }
           }
 
-          await postHandler({ payload, yar: session }, h)
+          await postHandler({ payload, yar: session, path: checkMetricFile[1].path }, h)
           expect(viewArgs).toEqual('')
           expect(redirectArgs[0]).toEqual('/land/check-and-submit')
           done()

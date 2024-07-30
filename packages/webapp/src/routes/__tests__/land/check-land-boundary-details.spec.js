@@ -57,12 +57,14 @@ describe(url, () => {
         try {
           let viewResult
           const redisMap = new Map()
+          redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
           const checkLandBoundary = require('../../land/check-land-boundary-details')
           const request = {
             yar: redisMap,
             payload: {
               confirmGeospatialLandBoundary: undefined
-            }
+            },
+            path: checkLandBoundary.default[1].path
           }
           const h = {
             redirect: (view, context) => {

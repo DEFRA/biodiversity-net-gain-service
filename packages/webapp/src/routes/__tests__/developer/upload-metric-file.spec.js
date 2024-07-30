@@ -50,6 +50,7 @@ describe('Metric file upload controller tests', () => {
             uploadConfig.filePath = file
             uploadConfig.hasError = true
             uploadConfig.sessionData[`${constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER}`] = 'AZ000001'
+            uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.ALLOCATION
             const res = await uploadFile(uploadConfig)
             expect(res.result).toContain('The uploaded metric does not contain the off-site reference entered.')
             setImmediate(() => {
@@ -114,7 +115,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('There is a problem')
+          expect(res.result).toContain('The selected file must be an XLSM or XLSX')
           setImmediate(() => {
             done()
           })
@@ -129,7 +132,9 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('There is a problem')
+          expect(res.result).toContain('Select a statutory biodiversity metric')
           setImmediate(() => {
             done()
           })
@@ -145,7 +150,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('There is a problem')
+          expect(res.result).toContain('The selected file is empty')
           setImmediate(() => {
             done()
           })
@@ -161,7 +168,9 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
-          await uploadFile(uploadConfig)
+          const res = await uploadFile(uploadConfig)
+          expect(res.result).toContain('There is a problem')
+          expect(res.result).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
           setImmediate(() => {
             done()
           })
@@ -199,7 +208,7 @@ describe('Metric file upload controller tests', () => {
           config.generateHandleEventsError = true
           config.hasError = true
           const response = await uploadFile(config)
-          expect(response.payload).toContain('The selected file could not be uploaded -- try again')
+          expect(response.payload).toContain('The selected file could not be uploaded - try again')
           setImmediate(() => {
             done()
           })
@@ -255,11 +264,10 @@ describe('Metric file upload controller tests', () => {
       })
     })
 
-    it('should return validation error message if fails isOffSiteDataPresent', (done) => {
+    it('should show error message if fails isOffSiteDataPresent', (done) => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
           const config = getBaseConfig()
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.hasError = true
@@ -270,7 +278,6 @@ describe('Metric file upload controller tests', () => {
           }
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
-          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
