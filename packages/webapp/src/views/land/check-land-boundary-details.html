@@ -29,7 +29,7 @@
                         actions: {
                             items: [
                                 {
-                                    href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
+                                    href: chooseLandBoundUploadHref if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else uploadGeospatialLandBoundHref,
                                     text: 'Change',
                                     visuallyHiddenText: ' land boundary file',
                                     attributes: {
@@ -84,7 +84,7 @@
                             actions: {
                                 items: [
                                     {
-                                        href: routes.ADD_GRID_REFERENCE,
+                                        href: addGridRefHref,
                                         text: 'Change',
                                         visuallyHiddenText: ' grid reference',
                                         classes: hideClass(geospatial),
@@ -105,7 +105,7 @@
                               actions: {
                               items: [
                                   {
-                                      href: routes.ADD_HECTARES,
+                                      href: addHectaresHref,
                                       text: 'Change',
                                       visuallyHiddenText: ' area in hectares',
                                       classes: hideClass(geospatial),
