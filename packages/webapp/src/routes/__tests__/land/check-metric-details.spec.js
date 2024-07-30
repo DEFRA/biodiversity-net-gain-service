@@ -3,11 +3,16 @@ import checkMetricDetails from '../../land/check-metric-details.js'
 import applicationSession from '../../../__mocks__/application-session.js'
 import { submitGetRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_METRIC_DETAILS
+const combinedCaseUrl = constants.reusedRoutes.COMBINED_CASE_CHECK_METRIC_DETAILS
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
+    })
+
+    it(`should render the ${combinedCaseUrl.substring(1)} view`, async () => {
+      await submitGetRequest({ url: combinedCaseUrl })
     })
 
     it(`should render the ${url.substring(1)} view`, async () => {

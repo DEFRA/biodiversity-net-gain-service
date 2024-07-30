@@ -4,12 +4,16 @@ import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import checkLandBoundaryFile from '../../land/check-land-boundary-file.js'
 import * as azureStorage from '../../../utils/azure-storage.js'
 const url = constants.routes.CHECK_LAND_BOUNDARY
+const combinedCaseUrl = constants.reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY
 jest.mock('../../../utils/azure-storage.js')
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
+    })
+    it(`should render the ${combinedCaseUrl.substring(1)} view`, async () => {
+      await submitGetRequest({ url: combinedCaseUrl })
     })
   })
 
