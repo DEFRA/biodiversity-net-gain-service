@@ -108,7 +108,8 @@ class BngMetricSingleDataExtractor {
 
   #removeUnwantedColumns = (data, extractionConfiguration) => {
     const { columnsToBeRemoved, cellHeaders } = extractionConfiguration
-    cellHeaders.push('rowNum')
+    const cellHeadersCopy = structuredClone(cellHeaders)
+    cellHeadersCopy.push('rowNum')
 
     data.forEach(row => {
       columnsToBeRemoved.forEach(column => {
@@ -119,7 +120,7 @@ class BngMetricSingleDataExtractor {
 
       // Checking if all requested columns in configs are there
       Object.keys(row).forEach(key => {
-        if (!cellHeaders.includes(key)) {
+        if (!cellHeadersCopy.includes(key)) {
           delete row[key]
         }
       })
