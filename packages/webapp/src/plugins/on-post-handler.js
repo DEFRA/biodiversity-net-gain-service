@@ -89,6 +89,10 @@ const saveApplicationSession = async request => {
     applicationReferenceRedisKey = constants.redisKeys.DEVELOPER_APP_REFERENCE
   }
 
+  if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+    applicationReferenceRedisKey = constants.redisKeys.COMBINED_CASE_APP_REFERENCE
+  }
+
   if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
     applicationReferenceRedisKey = creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
   }
@@ -124,6 +128,7 @@ const isApplicationSessionSaveNeeded = request => {
     // Do not save application session data when an application has just been submitted.
     request?.response?.headers?.location !== constants.routes.APPLICATION_SUBMITTED &&
     request?.response?.headers?.location !== constants.routes.DEVELOPER_CONFIRMATION &&
+    request?.response?.headers?.location !== constants.routes.COMBINED_CASE_CONFIRMATION &&
     request?.response?.headers?.location !== creditsPurchaseConstants.routes.CREDITS_PURCHASE_CONFIRMATION &&
     request?.auth?.isAuthenticated
 }

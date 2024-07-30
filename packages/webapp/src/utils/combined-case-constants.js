@@ -76,7 +76,8 @@ const routes = {
   COMBINED_CASE_PROJECTS: 'combined-case/combined-case-projects',
   COMBINED_CASE_CONTINUE_PROJECT: 'combined-case/continue-combined-case-project',
   COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project',
-  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
+  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats',
+  COMBINED_CASE_CONFIRMATION: 'combined-case/application-submitted'
 }
 
 const redisKeys = {
@@ -86,7 +87,9 @@ const redisKeys = {
   COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING: 'combined-case-allocation-habitats-processing',
   COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats',
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
-  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
+  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete',
+  COMBINED_CASE_APP_REFERENCE: 'combined-case-app-reference',
+  COMBINED_CASE_APPLICATION_SUBMITTED: 'combined-case-application-submitted'
 }
 
 const views = Object.fromEntries(
