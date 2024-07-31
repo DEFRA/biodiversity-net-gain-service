@@ -92,19 +92,11 @@ const checkTaskStatus = (schema, session) => {
   // Found no complete or valid in-progress tasks, so return not started
   return getReturnObject(STATUSES.NOT_STARTED, schema.startUrl, true)
 }
+
 const getIndividualTaskStatus = (session, taskId) => {
   const regTask = getTaskById(taskId)
-  const taskStatus = getTaskStatus(regTask, session)
-  return taskStatus.status
-}
-const getTaskStatus = (task, session) => {
-  const calculatedStatus = checkTaskStatus(task, session)
-  return {
-    id: task.id,
-    title: task.title,
-    status: calculatedStatus.status,
-    url: calculatedStatus.url
-  }
+  const { status } = checkTaskStatus(regTask, session)
+  return status
 }
 
 const getTaskItems = (task, session) => {
