@@ -30,53 +30,6 @@
                     </li>
                 {% endfor %}
             </ol>
-    
-            <ol class="app-task-list govuk-!-padding-top-0">
-                {% for task in tasks.taskList %}
-                    <li>
-                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
-                        <ul class="app-task-list__items">
-                            {% for taskItem in task.tasks %}
-                                {% if task.taskTitle !== 'Submit your biodiversity gain information' %}
-                                    <li class="app-task-list__item">
-                                      <span class="app-task-list__task-name">
-                                        {% if taskItem.isLocked %}
-                                            {{ taskItem.title }}
-                                        {% else %}
-                                            <a href="{{ taskItem.url }}" id = "{{ taskItem.id }}">
-                                              {{ taskItem.title }}
-                                            </a>
-                                        {% endif %}
-                                      </span>
-                                        <strong class="govuk-tag {% if taskItem.status === 'IN PROGRESS' %}govuk-tag--blue{% elif ['NOT STARTED', 'CANNOT START YET'].includes(taskItem.status) %}govuk-tag--grey{% else %}{% endif %} app-task-list__tag" id = "{{ taskItem.id }}-status">                                        {{ taskItem.status }}
-                                      </strong>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <ul class="app-task-list__items">
-                                            <li class="app-task-list__item">
-                                                {% if canSubmit  %}
-                                                    <span class="app-task-list__task-name" id="check-your-answers">
-                                                            <a href="{{ taskItem.url }}" aria-describedby="{{ tasks.taskList[tasks.taskList.length - 1].tasks[0].id }}">
-                                                                {{ tasks.taskList[tasks.taskList.length - 1].tasks[0].title }}
-                                                            </a>
-                                                    </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">Not started yet</strong>
-                                                {% else %}
-                                                    <span id="check-your-answers">
-                                                          {{ tasks.taskList[tasks.taskList.length - 1].tasks[0].title }}
-                                                    </span>
-                                                    <strong class="govuk-tag govuk-tag--grey app-task-list__tag" id="check-your-answers-status">{{ taskItem.status }}</strong>
-                                                {% endif %}
-                                            </li>
-                                        </ul>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ol>
         </div>
     </div>
     {% include "common/assisted-digital-helpline.html" %}

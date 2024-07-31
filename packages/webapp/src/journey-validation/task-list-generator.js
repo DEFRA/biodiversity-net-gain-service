@@ -131,11 +131,52 @@ const retrieveTask = (routeDefinitions, startUrl) => {
 }
 
 const generateTaskList = (taskSections, session) => {
+  const locked = (section, taskList) => {
+    if (section.dependantIds && section.dependantIds.length > 0) {
+      for (const dependantId of section.dependantIds) {
+        const dependantSection = taskList.find(s => s.id === dependantId)
+        if (dependantSection) {
+          const uncompletedTasks = dependantSection.items.filter(item => item.status?.text !== constants.COMPLETE_REGISTRATION_TASK_STATUS && item.status?.tag?.text !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+          if (uncompletedTasks.length > 0) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
-    items: section.tasks.map(task => getTaskItems(task, session))
+    items: section.tasks.map(task => getTaskItems(task, session)),
+    id: section.id,
+    dependantIds: section.dependantIds
   }))
-  return taskList
+
+  const lockedTaskList = taskList.map(section => {
+    const isLocked = locked(section, taskList)
+    if (isLocked) {
+      return {
+        ...section,
+        ...{
+          items: section.items.map(item => {
+            item.status = {
+              tag: {
+                text: constants.CANNOT_START_YET_STATUS,
+                classes: 'govuk-tag--blue'
+              }
+            }
+            item.isLocked = true
+            item.href = undefined
+            return item
+          })
+        }
+      }
+    }
+    return section
+  })
+
+  return lockedTaskList
 }
 
 const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
@@ -176,7 +217,7 @@ const getTaskList = (journey, session) => {
       break
     case constants.applicationTypes.COMBINED_CASE:
       taskList = generateTaskList(combinedCaseTaskSections, session)
-      taskList.push(combinedCaseCheckYourAnswers)
+      taskList.push(structuredClone(combinedCaseCheckYourAnswers))
       break
     default:
       taskList = []
@@ -258,101 +299,8 @@ const getNextStep = (request, h, errCallback) => {
   throw new Error('Next URL is not set')
 }
 
-const generateTaskListV4 = (taskSections, session) => {
-  const locked = (section, taskList) => {
-    if (section.dependantIds && section.dependantIds.length > 0) {
-      for (const dependantId of section.dependantIds) {
-        const dependantSection = taskList.find(s => s.id === dependantId)
-        if (dependantSection) {
-          const uncompletedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
-          if (uncompletedTasks.length > 0) {
-            return true
-          }
-        }
-      }
-    }
-    return false
-  }
-  const taskList = taskSections.map(section => {
-    return {
-      taskTitle: section.title,
-      tasks: section.tasks.map(task => getTaskStatus(task, session)),
-      id: section.id,
-      dependantIds: section.dependantIds
-    }
-  })
-
-  const lockedTaskList = taskList.map(section => {
-    const isLocked = locked(section, taskList)
-    if (isLocked) {
-      return {
-        ...section,
-        ...{
-          tasks: section.tasks.map(task => {
-            task.status = constants.CANNOT_START_YET_STATUS
-            task.isLocked = true
-            return task
-          })
-        }
-      }
-    }
-    return section
-  })
-
-  return lockedTaskList
-}
-
-const getTaskListV4 = (journey, session) => {
-  let taskList
-
-  switch (journey) {
-    case constants.applicationTypes.REGISTRATION:
-      taskList = generateTaskListV4(registrationTaskSections, session)
-      taskList.push(registrationCheckYourAnswers)
-      break
-    case constants.applicationTypes.CREDITS_PURCHASE:
-      taskList = generateTaskListV4(creditsPurchaseTaskSections, session)
-      taskList.push(creditsPurchaseCheckYourAnswers)
-      break
-    case constants.applicationTypes.ALLOCATION:
-      taskList = generateTaskListV4(allocationTaskSections, session)
-      taskList.push(allocationCheckYourAnswers)
-      break
-    case constants.applicationTypes.COMBINED_CASE:
-      taskList = generateTaskListV4(combinedCaseTaskSections, session)
-      taskList.push(combinedCaseCheckYourAnswers)
-      break
-    default:
-      taskList = []
-  }
-
-  let completedTasks = 0
-  let totalTasks = 0
-
-  taskList.forEach(task => {
-    if (task.tasks.length === 1) {
-      totalTasks += 1
-      if (task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
-        completedTasks += 1
-      }
-    } else {
-      task.tasks.forEach(currentTask => {
-        totalTasks += 1
-        if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
-          completedTasks += 1
-        }
-      })
-    }
-  })
-
-  const canSubmit = completedTasks === (totalTasks - 1)
-
-  return { taskList, totalTasks, completedTasks, canSubmit }
-}
-
 export {
   getTaskList,
-  getTaskListV4,
   getIndividualTaskStatus,
   getNextStep
 }
