@@ -66,16 +66,27 @@ const handlers = {
     const matchedHabitatItems = getMatchedHabitatItems(matchingHabitats)
     const sheetName = getSheetName(selectedHabitat.sheet)
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
+
+    const processedHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const processHabitat = processedHabitats.find(habitat => habitat.id === selectedHabitatId)
+    const selectedRadio = processHabitat?.matchedHabitatId
+
     return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, {
       numberOfPages,
       currentPage: safeCurrentPage,
       selectedHabitatText,
-      matchedHabitatItems,
+      matchedHabitatItems: matchedHabitatItems.map(item => {
+        if (item.value === selectedRadio) {
+          return { ...item, ...{ checked: true } }
+        }
+        return item
+      }),
       numberOfMatches: matchingHabitats?.length,
       numberOfMatchesText: getNumberOfMatchesText(matchingHabitats),
       displayNoMatches: !matchedHabitatItems?.length,
       sheetName,
-      rowNum: selectedHabitat?.rowNum
+      rowNum: selectedHabitat?.rowNum,
+      selectedRadio
     })
   },
   post: async (request, h) => {
