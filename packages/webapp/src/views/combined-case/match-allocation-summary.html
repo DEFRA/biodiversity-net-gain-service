@@ -14,13 +14,10 @@
                 <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
 
                 {{ generateSummaryList({
-                    rows: matchedHabitats,
-                    classes: 'govuk-!-margin-bottom-9'
+                    rows: matchedHabitats
                 }) }}
 
                 <h2 class="govuk-heading-m">Submit your allocations</h2>
-
-                <p>Some next steps words go in here</p>
 
                 {{ govukButton({
                     text: "Save and continue",
