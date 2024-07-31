@@ -42,11 +42,18 @@ describe('Registration module', () => {
   it('should define the correct checkYourAnswers object', () => {
     expect(checkYourAnswers).toEqual({
       taskTitle: 'Submit your biodiversity gain information',
-      tasks: [{
+      items: [{
         id: 'check-your-answers',
-        title: 'Check your answers before you submit them',
-        url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
-        status: constants.CANNOT_START_YET_STATUS
+        title: {
+          text: 'Check your answers before you submit them'
+        },
+        href: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+        status: {
+          tag: {
+            text: constants.CANNOT_START_YET_STATUS,
+            classes: 'govuk-tag--blue'
+          }
+        }
       }]
     })
   })

@@ -38,12 +38,12 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-app-info',
         taskTitle: 'Applicant information',
-        tasks: [
+        items: [
           {
             id: 'add-applicant-information',
-            title: 'Add details about the applicant',
-            status: 'NOT STARTED',
-            url: '/combined-case/agent-acting-for-client'
+            title: { text: 'Add details about the applicant' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/agent-acting-for-client'
           }
         ]
       })
@@ -51,24 +51,24 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-land-info',
         taskTitle: 'Land information',
-        tasks: [
+        items: [
           {
             id: 'add-land-ownership',
-            title: 'Add land ownership details',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-ownership-proof'
+            title: { text: 'Add land ownership details' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/upload-ownership-proof'
           },
           {
             id: 'add-land-boundary',
-            title: 'Add biodiversity gain site boundary details',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-land-boundary'
+            title: { text: 'Add biodiversity gain site boundary details' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/upload-land-boundary'
           },
           {
             id: 'add-habitat-information',
-            title: 'Add habitat baseline, creation and enhancements',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-metric'
+            title: { text: 'Add habitat baseline, creation and enhancements' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/upload-metric'
           }
         ]
       })
@@ -76,18 +76,18 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-legal-info',
         taskTitle: 'Legal information',
-        tasks: [
+        items: [
           {
             id: 'add-legal-agreement',
-            title: 'Add legal agreement details',
-            status: 'NOT STARTED',
-            url: '/combined-case/legal-agreement-type'
+            title: { text: 'Add legal agreement details' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/legal-agreement-type'
           },
           {
             id: 'add-local-land-charge-search-certificate',
-            title: 'Add local land charge search certificate',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-local-land-charge'
+            title: { text: 'Add local land charge search certificate' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            href: '/combined-case/upload-local-land-charge'
           }
         ]
       })
@@ -99,38 +99,34 @@ describe(url, () => {
         ],
         id: 'cc-allocation-info',
         taskTitle: 'Allocation information',
-        tasks: [
+        items: [
           {
             id: 'planning-decision-notice',
-            title: 'Add planning decision notice',
+            title: { text: 'Add planning decision notice' },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/upload-planning-decision-notice'
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
           },
           {
             id: 'match-available-habitats',
-            title: 'Match available habitats',
+            title: { text: 'Match available habitats' },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/upload-allocation-metric'
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: 'Confirm development and habitat details',
+            title: { text: 'Confirm development and habitat details' },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/development-project-information'
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
           }
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
         taskTitle: 'Submit your biodiversity gain information',
-        tasks: [
+        items: [
           {
             id: 'check-your-answers',
-            title: 'Check your answers before you submit them',
-            url: '/combined-case/check-and-submit',
-            status: 'CANNOT START YET'
+            title: { text: 'Check your answers before you submit them' },
+            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
           }
         ]
       })
