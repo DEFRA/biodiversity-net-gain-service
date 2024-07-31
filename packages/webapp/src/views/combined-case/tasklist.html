@@ -1,5 +1,8 @@
 {% extends 'layout.html' %}
 
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 {% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Tasks to complete - Register a biodiversity gain site and development project application" %}
 {% set hideBackLink = true %}
@@ -11,7 +14,23 @@
             <h1 class="govuk-heading-xl">Register a biodiversity gain site and development project application</h1>
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
             <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks}} of {{totalSections}} sections.</p>
-            <p class="govuk-inset-text">Your application is saved as you complete each page. You can leave and come back at any time to continue the application.</p>
+            {{ govukInsetText({
+                text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
+            }) }}
+            <ol class="app-task-list">
+                {% for task in tasks.taskList %}
+                    <li>
+                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
+                        <ul class="app-task-list__items">
+                            {{ govukTaskList({
+                                idPrefix: "company-details",
+                                items: task.items
+                            }) }}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ol>
+    
             <ol class="app-task-list govuk-!-padding-top-0">
                 {% for task in tasks.taskList %}
                     <li>
