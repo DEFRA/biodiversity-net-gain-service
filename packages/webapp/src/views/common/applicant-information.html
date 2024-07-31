@@ -4,7 +4,7 @@
       'text': 'Acting on behalf of a client',
       'value': ('Yes' if actingForClient else 'No'),
       'valueDataTestId': 'acting-for-client-value',
-      'href': '/land/change-acting-on-behalf-of-client',
+      'href': hrefPath + '/change-acting-on-behalf-of-client',
       'visuallyHiddenText': ' acting on behalf of a client',
       'classes': '',
       'show': true
@@ -13,7 +13,7 @@
       'text': 'Applying as individual or organisation',
       'value': ('Individual' if applicantIsIndividual else 'Organisation as employee or representative'),
       'valueDataTestId': 'applicant-type-value',
-      'href': '/land/change-applying-individual-organisation',
+      'href': hrefPath + '/change-applying-individual-organisation',
       'visuallyHiddenText': ' applying as individual or organisation',
       'classes': '',
       'show': (not actingForClient)
@@ -22,7 +22,7 @@
       'text': 'Defra account details are up to date',
       'value': 'Confirmed',
       'valueDataTestId': 'account-details-up-to-date-value',
-      'href': '/land/check-defra-account-details',
+      'href': hrefPath + '/check-defra-account-details',
       'visuallyHiddenText': ' Defra account details are up to date',
       'classes': '',
       'show': true
@@ -31,7 +31,7 @@
       'text': 'Client is an individual or organisation',
       'value': ('Individual' if clientIsIndividual else 'Organisation'),
       'valueDataTestId': 'client-type-value',
-      'href': '/land/change-client-individual-organisation',
+      'href': hrefPath + '/change-client-individual-organisation',
       'visuallyHiddenText': ' client is an individual or organisation',
       'classes': '',
       'show': actingForClient
@@ -40,7 +40,7 @@
       'text': 'Client\'s name',
       'value': clientName,
       'valueDataTestId': 'client-name-value',
-      'href': ('/land/clients-name' if clientIsIndividual else '/land/clients-organisation-name'),
+      'href': (hrefPath + '/clients-name' if clientIsIndividual else hrefPath + '/clients-organisation-name'),
       'visuallyHiddenText': ' client\'s name',
       'classes': '',
       'show': actingForClient
@@ -49,7 +49,7 @@
       'text': 'Client\'s address',
       'value': clientAddress,
       'valueDataTestId': 'client-address-value',
-      'href': '/land/is-address-uk',
+      'href': hrefPath + '/is-address-uk',
       'visuallyHiddenText': ' client\'s address',
       'classes': '',
       'show': actingForClient
@@ -58,7 +58,7 @@
       'text': 'Client\'s email address',
       'value': clientEmail,
       'valueDataTestId': 'client-email-value',
-      'href': '/land/clients-email-address',
+      'href': hrefPath + '/clients-email-address',
       'visuallyHiddenText': ' client\'s email address',
       'classes': '',
       'show': (actingForClient and clientIsIndividual)
@@ -67,7 +67,7 @@
       'text': 'Client\'s phone number',
       'value': clientPhone,
       'valueDataTestId': 'client-phone-value',
-      'href': '/land/clients-phone-number',
+      'href': hrefPath + '/clients-phone-number',
       'visuallyHiddenText': ' phone number',
       'classes': '',
       'show': (actingForClient and clientIsIndividual)
@@ -76,7 +76,7 @@
       'text': 'Written authorisation',
       'value': authorisationFile,
       'valueDataTestId': 'authorisation-file-value',
-      'href': '/land/check-written-authorisation-file',
+      'href': hrefPath + '/check-written-authorisation-file',
       'visuallyHiddenText': ' written authorisation',
       'classes': '',
       'show': actingForClient
@@ -85,7 +85,7 @@
       'text': 'Address',
       'value': applicantAddress,
       'valueDataTestId': 'applicant-address-value',
-      'href': '/land/is-address-uk',
+      'href': hrefPath + '/is-address-uk',
       'visuallyHiddenText': ' address',
       'classes': '',
       'show': (not actingForClient)

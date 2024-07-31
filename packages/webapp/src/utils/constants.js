@@ -3,6 +3,7 @@ import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMEND
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
+import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -180,6 +181,7 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...combinedCaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -199,6 +201,10 @@ let routes = {
   APPLICATION_SUBMITTED,
   ACCESSIBILITY_STATEMENT,
   COOKIES
+}
+
+const reusedRoutes = {
+  ...combinedCaseConstants.reusedRoutes
 }
 
 // Routes that are only loaded if NODE_ENV === development
@@ -339,5 +345,6 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
-  primaryPages
+  primaryPages,
+  reusedRoutes
 })

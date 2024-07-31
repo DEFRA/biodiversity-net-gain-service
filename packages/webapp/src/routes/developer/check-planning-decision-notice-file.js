@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
@@ -25,9 +26,9 @@ const handlers = {
     if (checkPlanningDecisionNotice === 'no') {
       await deleteBlobFromContainers(context.fileLocation)
       request.yar.clear(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION)
-      return h.redirect(constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE)
+      return getNextStep(request, h)
     } else if (checkPlanningDecisionNotice === 'yes') {
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+      return getNextStep(request, h)
     } else {
       context.err = [{
         text: 'Select yes if this is the correct file',
