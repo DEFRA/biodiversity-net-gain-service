@@ -34,6 +34,16 @@ const getMatchedHabitatItems =
     }
   }))
 
+const getNumberOfMatchesText = (matchingHabitats) => {
+  if (!matchingHabitats?.length) {
+    return null
+  }
+  if (matchingHabitats.length === 1) {
+    return 'Only one habitat matches. Only one habitat can match your allocation'
+  }
+  return 'Now choose which available habitat, from your metric, is the best match'
+}
+
 const handlers = {
   get: async (request, h) => {
     let allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
@@ -61,6 +71,8 @@ const handlers = {
       currentPage: safeCurrentPage,
       selectedHabitatText,
       matchedHabitatItems,
+      numberOfMatches: matchingHabitats?.length,
+      numberOfMatchesText: getNumberOfMatchesText(matchingHabitats),
       displayNoMatches: !matchedHabitatItems?.length,
       sheetName,
       rowNum: selectedHabitat?.rowNum
