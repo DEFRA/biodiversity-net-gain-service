@@ -1,6 +1,8 @@
+'use strict'
+
 import Session from '../../__mocks__/session.js'
 import constants from '../../utils/constants.js'
-import { getTaskList } from '../task-list-generator.js'
+import { getTaskList } from '../task-list-generator-v4.js'
 const testString = '1234'
 const session = new Session()
 
