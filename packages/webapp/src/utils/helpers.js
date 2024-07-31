@@ -809,7 +809,7 @@ const getDeveloperCheckMetricFileContext = request => {
 const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, viewTemplate, href) => {
   const checkUploadMetric = request.payload.checkUploadMetric
   const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-  request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED, checkUploadMetric)
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
     await deleteBlobFromContainers(metricUploadLocation)

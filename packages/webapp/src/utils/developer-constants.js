@@ -87,6 +87,7 @@ const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
 const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 const DEVELOPER_APPLICATION_SUBMITTED = 'developer-application-submitted'
+const DEVELOPER_METRIC_FILE_CHECKED = 'developer-metric-file-checked'
 
 const setDeveloperReferer = [
   DEVELOPER_AGREEMENT_CHECK,
@@ -203,7 +204,8 @@ export default {
     DEVELOPER_PLANNING_APPLICATION_REF,
     DEVELOPER_DEVELOPMENT_NAME,
     DEVELOPER_PROOF_OF_PERMISSION_SEEN,
-    DEVELOPER_APPLICATION_SUBMITTED
+    DEVELOPER_APPLICATION_SUBMITTED,
+    DEVELOPER_METRIC_FILE_CHECKED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,
