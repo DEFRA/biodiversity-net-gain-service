@@ -156,6 +156,8 @@ const cacheApplicationTypeIfNeeded = request => {
       // no other routes accept HTTP POSTS that cause this funcion to be called.
     } else if (journeyType === 'credits-purchase') {
       applicationType = constants.applicationTypes.CREDITS_PURCHASE
+    } else if (journeyType === 'combined-case') {
+      applicationType = constants.applicationTypes.COMBINED_CASE
     } else {
       applicationType = constants.applicationTypes.REGISTRATION
     }

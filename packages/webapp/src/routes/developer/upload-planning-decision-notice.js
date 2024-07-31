@@ -2,17 +2,51 @@ import { logger } from '@defra/bng-utils-lib'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
-import { processErrorUpload } from '../../utils/upload-error-handler.js'
+import { maximumSizeExceeded, handleFileUploadOperation } from '../../utils/helpers.js'
+import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const DEVELOPER_PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
+const PLANNING_DECISION_NOTICE_ID = '#planningDecisionNotice'
 
-async function processSuccessfulUpload (result, request, h) {
+const processSuccessfulUpload = (result, request, h) => {
   request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, result.fileType)
   logger.info(`${new Date().toUTCString()} Received planning decision data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
-  return h.redirect(constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE)
+  return getNextStep(request, h)
+}
+
+function buildErrorResponse (h, message) {
+  return h.view(constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE, {
+    err: [{
+      text: message,
+      href: PLANNING_DECISION_NOTICE_ID
+    }]
+  })
+}
+function processErrorUpload (err, h) {
+  switch (err.message) {
+    case constants.uploadErrors.emptyFile:
+      return buildErrorResponse(h, 'The selected file is empty')
+    case constants.uploadErrors.noFile:
+      return buildErrorResponse(h, 'Select a planning decision notice file')
+    case constants.uploadErrors.unsupportedFileExt:
+      return buildErrorResponse(h, 'The selected file must be a DOC, DOCX or PDF')
+    case constants.uploadErrors.maximumFileSizeExceeded:
+      return maximumSizeExceeded(h, {
+        href: PLANNING_DECISION_NOTICE_ID,
+        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+        view: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
+      })
+    default:
+      if (err instanceof ThreatScreeningError) {
+        return buildErrorResponse(h, constants.uploadErrors.malwareScanFailed)
+      } else if (err instanceof MalwareDetectedError) {
+        return buildErrorResponse(h, constants.uploadErrors.threatDetected)
+      } else {
+        return buildErrorResponse(h, constants.uploadErrors.uploadFailure)
+      }
+  }
 }
 
 const handlers = {
@@ -24,22 +58,37 @@ const handlers = {
       fileExt: constants.lanOwnerFileExt,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
-    try {
-      const result = await uploadFile(request.lologger, request, config)
-      return await processSuccessfulUpload(result, request, h)
-    } catch (err) {
-      logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
-      return processErrorUpload({
-        err,
-        h,
-        route: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
-        elementID: DEVELOPER_PLANNING_DECISION_NOTICE_ID,
-        noFileErrorMessage: 'No file selected. Select and upload a planning decision notice file',
-        unsupportedFileExtErrorMessage: 'Select and upload a planning decision notice file. The file type must be a DOC, DOCX or PDF',
-        maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
-      })
-    }
+    const uploadOperation = () => uploadFile(logger, request, config)
+    return handleFileUploadOperation(uploadOperation, {
+      logger,
+      request,
+      h,
+      onSuccess: processSuccessfulUpload,
+      onError: processErrorUpload
+    })
   }
+}
+
+const failAction = (request, h, err) => {
+  logger.error(`${new Date().toUTCString()} File upload too large ${request.path}`)
+  if (err.output.statusCode === 413) { // Request entity too large
+    return maximumSizeExceeded(h, {
+      href: PLANNING_DECISION_NOTICE_ID, // Ensure this ID is correct for your context
+      maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
+      view: constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
+    }).takeover()
+  } else {
+    throw err
+  }
+}
+const payload = {
+  maxBytes: (parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) + 1) * 1024 * 1024,
+  multipart: true,
+  timeout: false,
+  output: 'stream',
+  parse: false,
+  allow: 'multipart/form-data',
+  failAction
 }
 
 export default [{
@@ -50,10 +99,7 @@ export default [{
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
   handler: handlers.post,
-  options:
-    generatePayloadOptions(
-      DEVELOPER_PLANNING_DECISION_NOTICE_ID,
-      process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB,
-      constants.views.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE
-    )
+  options: {
+    payload
+  }
 }]
