@@ -5,7 +5,7 @@ import {
   getLegalAgreementDocumentType, validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {

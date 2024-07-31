@@ -107,72 +107,75 @@ const getTaskStatus = (task, session) => {
   }
 }
 
+const getTaskItemsV5 = (task, session) => {
+  const calculatedStatus = checkTaskStatus(task, session)
+  return {
+    id: task.id,
+    title: { text: task.title },
+    status: calculatedStatus.status === STATUSES.COMPLETE
+      ? {
+          text: calculatedStatus.status
+        }
+      : {
+          tag: {
+            text: calculatedStatus.status,
+            classes: 'govuk-tag--blue'
+          }
+        },
+    href: calculatedStatus.url
+  }
+}
+
 const retrieveTask = (routeDefinitions, startUrl) => {
   return routeDefinitions.find(route => route.startUrl === startUrl) || null
 }
 
-const generateTaskList = (taskSections, session) => {
-  const locked = (section, taskList) => {
-    if (section.dependantIds && section.dependantIds.length > 0) {
-      for (const dependantId of section.dependantIds) {
-        const dependantSection = taskList.find(s => s.id === dependantId)
-        if (dependantSection) {
-          const uncompletedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
-          if (uncompletedTasks.length > 0) {
-            return true
-          }
-        }
+const generateTaskListV5 = (taskSections, session) => {
+  const taskList = taskSections.map(section => ({
+    taskTitle: section.title,
+    items: section.tasks.map(task => getTaskItemsV5(task, session))
+  }))
+  return taskList
+}
+
+const statusForDisplayV5 = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+
+// Recursively iterate over a task list object and convert each `text` property (which will be the task item status) to
+// have an initial capital with the rest of the string lower case.
+const formatStatusesForDisplayV5 = taskList => {
+  if (Array.isArray(taskList)) {
+    taskList.forEach(item => formatStatusesForDisplayV5(item))
+  } else if (typeof taskList === 'object' && taskList !== null) {
+    Object.keys(taskList).forEach(key => {
+      if (key === 'text' && typeof taskList[key] === 'string') {
+        taskList[key] = statusForDisplayV5(taskList[key])
+      } else {
+        formatStatusesForDisplayV5(taskList[key])
       }
-    }
-    return false
+    })
   }
-  const taskList = taskSections.map(section => {
-    return {
-      taskTitle: section.title,
-      tasks: section.tasks.map(task => getTaskStatus(task, session)),
-      id: section.id,
-      dependantIds: section.dependantIds
-    }
-  })
-
-  const lockedTaskList = taskList.map(section => {
-    const isLocked = locked(section, taskList)
-    if (isLocked) {
-      return {
-        ...section,
-        ...{
-          tasks: section.tasks.map(task => {
-            task.status = constants.CANNOT_START_YET_STATUS
-            task.isLocked = true
-            return task
-          })
-        }
-      }
-    }
-    return section
-  })
-
-  return lockedTaskList
 }
 
 const getTaskList = (journey, session) => {
   let taskList
 
+  // The Check Your Answers section href is deleted later if the tasks aren't completed, so we deep clone the section to
+  // prevent the original version being affected by this.
   switch (journey) {
     case constants.applicationTypes.REGISTRATION:
-      taskList = generateTaskList(registrationTaskSections, session)
-      taskList.push(registrationCheckYourAnswers)
+      taskList = generateTaskListV5(registrationTaskSections, session)
+      taskList.push(structuredClone(registrationCheckYourAnswers))
       break
     case constants.applicationTypes.CREDITS_PURCHASE:
-      taskList = generateTaskList(creditsPurchaseTaskSections, session)
-      taskList.push(creditsPurchaseCheckYourAnswers)
+      taskList = generateTaskListV5(creditsPurchaseTaskSections, session)
+      taskList.push(structuredClone(creditsPurchaseCheckYourAnswers))
       break
     case constants.applicationTypes.ALLOCATION:
-      taskList = generateTaskList(allocationTaskSections, session)
-      taskList.push(allocationCheckYourAnswers)
+      taskList = generateTaskListV5(allocationTaskSections, session)
+      taskList.push(structuredClone(allocationCheckYourAnswers))
       break
     case constants.applicationTypes.COMBINED_CASE:
-      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList = generateTaskListV5(combinedCaseTaskSections, session)
       taskList.push(combinedCaseCheckYourAnswers)
       break
     default:
@@ -183,22 +186,36 @@ const getTaskList = (journey, session) => {
   let totalTasks = 0
 
   taskList.forEach(task => {
-    if (task.tasks.length === 1) {
+    task.items.forEach(currentTask => {
       totalTasks += 1
-      if (task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+      const status = currentTask.status.tag?.text || currentTask.status.text
+      if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
         completedTasks += 1
       }
-    } else {
-      task.tasks.forEach(currentTask => {
-        totalTasks += 1
-        if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
-          completedTasks += 1
-        }
-      })
-    }
+    })
   })
 
   const canSubmit = completedTasks === (totalTasks - 1)
+
+  // If the Check Your Answers task (ie. the last one) has an items array then the tasklist has been migrated to the v5
+  // component, so we handle the submission href and status here (whereas the v4 html handles this within the template)
+  const lastSection = taskList[taskList.length - 1]
+  if (lastSection.items?.length) {
+    const lastItem = lastSection.items[lastSection.items.length - 1]
+
+    // If the application can be submitted then set the item status accordingly. Otherwise delete the href so Check Your
+    // Answers cannot be accessed (the status will already be "CANNOT START YET" so we don't need to change it)
+    if (canSubmit) {
+      lastItem.status.tag.text = 'NOT STARTED YET'
+    } else {
+      delete lastItem.href
+    }
+  }
+
+  // v5 gov uk frontend has statuses displayed in lower case with an initial capital rather than all caps as before. We
+  // may be reliant elsewhere on the status being all caps, so for now instead of changing the statuses to be the
+  // correct case throughout the code, we simply reformat them at this point once we're ready to display them
+  formatStatusesForDisplayV5(taskList)
 
   return { taskList, totalTasks, completedTasks, canSubmit }
 }

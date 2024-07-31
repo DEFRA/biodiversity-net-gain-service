@@ -1,7 +1,7 @@
 import ngrToBng from '@defra/ngr-to-bng'
 import constants from '../../utils/constants.js'
 import { postJson } from '../../utils/http.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {

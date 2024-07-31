@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { getHumanReadableFileSize } from '../../utils/helpers.js'
 import path from 'path'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION)

@@ -3,7 +3,7 @@ import developerApplicationData from '../../../__mocks__/developer-application-d
 import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
-import * as taskListUtil from '../../../journey-validation/task-list-generator-v5.js'
+import * as taskListUtil from '../../../journey-validation/task-list-generator.js'
 import applicationSession from '../../../__mocks__/application-session.js'
 
 const checkAnswers = require('../../developer/check-and-submit.js').default

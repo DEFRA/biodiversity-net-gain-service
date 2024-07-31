@@ -107,6 +107,19 @@ const checkYourAnswers = {
     title: 'Check your answers before you submit them',
     url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
+  }],
+  items: [{
+    id: 'check-your-answers',
+    title: {
+      text: 'Check your answers before you submit them'
+    },
+    href: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+    status: {
+      tag: {
+        text: constants.CANNOT_START_YET_STATUS,
+        classes: 'govuk-tag--blue'
+      }
+    }
   }]
 }
 

@@ -8,7 +8,7 @@ import {
   initialCapitalization
 } from '../../utils/helpers.js'
 import path from 'path'
-import { getTaskList } from '../../journey-validation/task-list-generator-v5.js'
+import { getTaskList } from '../../journey-validation/task-list-generator.js'
 import getApplicantContext from '../../utils/get-applicant-context.js'
 
 const formatHabitatDetails = (habitatDetails) => {

@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const isHabitatIncludeLegalAgreement = request.yar.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)

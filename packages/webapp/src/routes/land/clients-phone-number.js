@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const phoneRegex = /^[\d-+()#]*$/ // Very basic regex authored by tmason (ergo its probably bad) checks string is numeric or special chars -+()#
 
 const handlers = {

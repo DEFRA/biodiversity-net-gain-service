@@ -107,7 +107,7 @@ const getTaskStatus = (task, session) => {
   }
 }
 
-const getTaskItems = (task, session) => {
+const getTaskItemsV5 = (task, session) => {
   const calculatedStatus = checkTaskStatus(task, session)
   return {
     id: task.id,
@@ -131,51 +131,95 @@ const retrieveTask = (routeDefinitions, startUrl) => {
 }
 
 const generateTaskList = (taskSections, session) => {
+  const locked = (section, taskList) => {
+    if (section.dependantIds && section.dependantIds.length > 0) {
+      for (const dependantId of section.dependantIds) {
+        const dependantSection = taskList.find(s => s.id === dependantId)
+        if (dependantSection) {
+          const uncompletedTasks = dependantSection.tasks.filter(task => task.status !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+          if (uncompletedTasks.length > 0) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+  const taskList = taskSections.map(section => {
+    return {
+      taskTitle: section.title,
+      tasks: section.tasks.map(task => getTaskStatus(task, session)),
+      id: section.id,
+      dependantIds: section.dependantIds
+    }
+  })
+
+  const lockedTaskList = taskList.map(section => {
+    const isLocked = locked(section, taskList)
+    if (isLocked) {
+      return {
+        ...section,
+        ...{
+          tasks: section.tasks.map(task => {
+            task.status = constants.CANNOT_START_YET_STATUS
+            task.isLocked = true
+            return task
+          })
+        }
+      }
+    }
+    return section
+  })
+
+  return lockedTaskList
+}
+
+const generateTaskListV5 = (taskSections, session) => {
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
-    items: section.tasks.map(task => getTaskItems(task, session))
+    items: section.tasks.map(task => getTaskItemsV5(task, session))
   }))
   return taskList
 }
 
-const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+const statusForDisplayV5 = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
 
 // Recursively iterate over a task list object and convert each `text` property (which will be the task item status) to
 // have an initial capital with the rest of the string lower case.
-const formatStatusesForDisplay = taskList => {
+const formatStatusesForDisplayV5 = taskList => {
   if (Array.isArray(taskList)) {
-    taskList.forEach(item => formatStatusesForDisplay(item))
+    taskList.forEach(item => formatStatusesForDisplayV5(item))
   } else if (typeof taskList === 'object' && taskList !== null) {
     Object.keys(taskList).forEach(key => {
       if (key === 'text' && typeof taskList[key] === 'string') {
-        taskList[key] = statusForDisplay(taskList[key])
+        taskList[key] = statusForDisplayV5(taskList[key])
       } else {
-        formatStatusesForDisplay(taskList[key])
+        formatStatusesForDisplayV5(taskList[key])
       }
     })
   }
 }
 
-const getTaskList = (journey, session) => {
+const getTaskListV5 = (journey, session) => {
   let taskList
 
   // The Check Your Answers section href is deleted later if the tasks aren't completed, so we deep clone the section to
   // prevent the original version being affected by this.
   switch (journey) {
     case constants.applicationTypes.REGISTRATION:
-      taskList = generateTaskList(registrationTaskSections, session)
+      taskList = generateTaskListV5(registrationTaskSections, session)
       taskList.push(structuredClone(registrationCheckYourAnswers))
       break
     case constants.applicationTypes.CREDITS_PURCHASE:
-      taskList = generateTaskList(creditsPurchaseTaskSections, session)
+      taskList = generateTaskListV5(creditsPurchaseTaskSections, session)
       taskList.push(structuredClone(creditsPurchaseCheckYourAnswers))
       break
     case constants.applicationTypes.ALLOCATION:
-      taskList = generateTaskList(allocationTaskSections, session)
+      taskList = generateTaskListV5(allocationTaskSections, session)
       taskList.push(structuredClone(allocationCheckYourAnswers))
       break
     case constants.applicationTypes.COMBINED_CASE:
-      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList = generateTaskListV5(combinedCaseTaskSections, session)
       taskList.push(combinedCaseCheckYourAnswers)
       break
     default:
@@ -215,7 +259,55 @@ const getTaskList = (journey, session) => {
   // v5 gov uk frontend has statuses displayed in lower case with an initial capital rather than all caps as before. We
   // may be reliant elsewhere on the status being all caps, so for now instead of changing the statuses to be the
   // correct case throughout the code, we simply reformat them at this point once we're ready to display them
-  formatStatusesForDisplay(taskList)
+  formatStatusesForDisplayV5(taskList)
+
+  return { taskList, totalTasks, completedTasks, canSubmit }
+}
+
+const getTaskList = (journey, session) => {
+  let taskList
+
+  switch (journey) {
+    case constants.applicationTypes.REGISTRATION:
+      taskList = generateTaskList(registrationTaskSections, session)
+      taskList.push(registrationCheckYourAnswers)
+      break
+    case constants.applicationTypes.CREDITS_PURCHASE:
+      taskList = generateTaskList(creditsPurchaseTaskSections, session)
+      taskList.push(creditsPurchaseCheckYourAnswers)
+      break
+    case constants.applicationTypes.ALLOCATION:
+      taskList = generateTaskList(allocationTaskSections, session)
+      taskList.push(allocationCheckYourAnswers)
+      break
+    case constants.applicationTypes.COMBINED_CASE:
+      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList.push(combinedCaseCheckYourAnswers)
+      break
+    default:
+      taskList = []
+  }
+
+  let completedTasks = 0
+  let totalTasks = 0
+
+  taskList.forEach(task => {
+    if (task.tasks.length === 1) {
+      totalTasks += 1
+      if (task.tasks[0].status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+        completedTasks += 1
+      }
+    } else {
+      task.tasks.forEach(currentTask => {
+        totalTasks += 1
+        if (currentTask.status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+          completedTasks += 1
+        }
+      })
+    }
+  })
+
+  const canSubmit = completedTasks === (totalTasks - 1)
 
   return { taskList, totalTasks, completedTasks, canSubmit }
 }
@@ -260,6 +352,7 @@ const getNextStep = (request, h, errCallback) => {
 
 export {
   getTaskList,
+  getTaskListV5,
   getIndividualTaskStatus,
   getNextStep
 }

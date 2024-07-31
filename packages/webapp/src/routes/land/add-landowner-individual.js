@@ -7,7 +7,7 @@ import {
   validateIdGetSchemaOptional,
   emailValidator
 } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const firstNameID = '#firstName'
 const lastNameID = '#lastName'

@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
 import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
-import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.SITE_BOUNDARY)

@@ -5,7 +5,7 @@ import {
   checkForDuplicate,
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
-import { getNextStep } from '../../journey-validation/task-list-generator-v5.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
