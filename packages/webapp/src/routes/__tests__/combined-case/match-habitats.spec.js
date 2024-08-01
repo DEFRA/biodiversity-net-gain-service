@@ -11,7 +11,7 @@ describe(url, () => {
       const sessionData = {}
       sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
       sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
-      sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+      sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
         habitatType: 'Wetland',
         condition: 'Poor',
         module: 'Created',
