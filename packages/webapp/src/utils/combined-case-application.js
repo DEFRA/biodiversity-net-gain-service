@@ -318,8 +318,33 @@ const getLandowners = session => {
   return landownersByType
 }
 
+const getGainSite = session => {
+  const gainSiteReference = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const habitat = metricData.habitatOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
+  const hedge = metricData.hedgeOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
+  const waterCourse = metricData.waterCourseOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
+  return {
+    offsiteUnitChange: {
+      habitat: habitat ? parseFloat(habitat['Habitat Offsite unit change per gain site (Post SRM)']) : 0,
+      hedge: hedge ? parseFloat(hedge['Hedge Offsite unit change per gain site (Post SRM)']) : 0,
+      watercourse: waterCourse ? parseFloat(waterCourse['Watercourse Offsite unit change per gain site (Post SRM)']) : 0
+    }
+  }
+}
+
+const getLpaCode = name => {
+  const foundLpa = getLpaNamesAndCodes().find(lpa => lpa.name === name)
+  return foundLpa ? foundLpa.id : null
+}
+
+const getAllocationHabitats = session => ({})
+
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
+  const stringOrNull = value => value ? String(value) : null
+  const planningAuthorityName = stringOrNull(session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST))
+
   const applicationJson = {
     combinedCase: {
       applicant: getApplicant(account, session),
@@ -335,7 +360,18 @@ const application = (session, account) => {
         ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
         ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {})
       },
-      allocationDetails: {},
+      allocationDetails: {
+        gainSite: getGainSite(session),
+        habitats: getAllocationHabitats(session),
+        development: {
+          localPlanningAuthority: {
+            code: getLpaCode(planningAuthorityName),
+            name: planningAuthorityName
+          },
+          planningReference: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
+          name: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
+        }
+      },
       files: getFiles(session),
       applicationReference: getApplicationReference(session),
       submittedOn: new Date().toISOString(),

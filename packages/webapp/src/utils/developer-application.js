@@ -139,7 +139,6 @@ const getAllocationReference = session => session.get(constants.redisKeys.DEVELO
 
 const application = (session, account) => {
   const stringOrNull = value => value ? String(value) : null
-
   const planningAuthorityName = stringOrNull(session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST))
 
   const applicationJson = {
