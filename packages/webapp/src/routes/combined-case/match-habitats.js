@@ -71,6 +71,10 @@ const handlers = {
     const processHabitat = processedHabitats.find(habitat => habitat.id === selectedHabitatId)
     const selectedRadio = processHabitat?.matchedHabitatId
 
+    const notChecked = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED)
+    const showErrorMessage = notChecked === true
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED)
+
     return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, {
       numberOfPages,
       currentPage: safeCurrentPage,
@@ -86,12 +90,18 @@ const handlers = {
       displayNoMatches: !matchedHabitatItems?.length,
       sheetName,
       rowNum: selectedHabitat?.rowNum,
-      selectedRadio
+      selectedRadio,
+      showErrorMessage,
+      noErrorMessage: !showErrorMessage
     })
   },
   post: async (request, h) => {
     const { currentPage, matchHabitats } = request.payload
     const selectedHabitatId = request.yar.get(constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID)
+    if (!matchHabitats) {
+      request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED, true)
+      return h.redirect(`${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${currentPage}`)
+    }
     const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
     const updatedAllocationHabitats = allocationHabitats.map(habitat =>
       habitat.id === selectedHabitatId

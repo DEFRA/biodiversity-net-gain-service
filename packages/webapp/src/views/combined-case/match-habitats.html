@@ -29,12 +29,24 @@
         <h2 class="govuk-heading-m">{{ numberOfMatchesText }}:</h2>
       </div>
       {% endif %}
+      {% if showErrorMessage %}
+        {{ govukRadios({
+          idPrefix: "matchHabitats",
+          name: "matchHabitats",
+          items: matchedHabitatItems,
+          errorMessage: {
+            text: "Please choose a match"
+          }
+        }) }}
+      {% endif %}
+      {% if noErrorMessage %}
+        {{ govukRadios({
+          idPrefix: "matchHabitats",
+          name: "matchHabitats",
+          items: matchedHabitatItems
+        }) }}
+      {% endif %}
 
-      {{ govukRadios({
-        idPrefix: "matchHabitats",
-        name: "matchHabitats",
-        items: matchedHabitatItems
-      }) }}
 
       {% if displayNoMatches %}
         <p>There are no matching habitat items.</p>

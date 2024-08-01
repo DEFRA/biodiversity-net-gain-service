@@ -91,7 +91,8 @@ const redisKeys = {
   COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING: 'combined-case-allocation-habitats-processing',
   COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats',
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
-  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
+  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete',
+  COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED: 'combined-case-match-habitat-not-checked'
 }
 
 const views = Object.fromEntries(
