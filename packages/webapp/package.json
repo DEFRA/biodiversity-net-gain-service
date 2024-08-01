@@ -46,7 +46,7 @@
     "@hapi/vision": "7.0.3",
     "@hapi/wreck": "^18.0.1",
     "@hapi/yar": "^11.0.1",
-    "@ministryofjustice/frontend": "^1.8.1",
+    "@ministryofjustice/frontend": "^2.2.0",
     "accessible-autocomplete": "^2.0.4",
     "blipp": "4.0.2",
     "crypto": "^1.0.1",
