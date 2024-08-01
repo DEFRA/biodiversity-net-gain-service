@@ -91,10 +91,6 @@ const redisKeys = {
   COMBINED_CASE_APPLICATION_REFERENCE: 'combined-case-application-reference'
 }
 
-const views = Object.fromEntries(
-  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
-)
-
 const routesToReuse = [
   `/${AGENT_ACTING_FOR_CLIENT}`,
   `/${DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION}`,
@@ -224,7 +220,6 @@ const reusedRoutes = {
 
 export default {
   routes,
-  views,
   redisKeys,
   routesToReuse,
   reusedRoutes,
