@@ -34,6 +34,16 @@ const getMatchedHabitatItems =
     }
   }))
 
+const getNumberOfMatchesText = (matchingHabitats) => {
+  if (!matchingHabitats?.length) {
+    return null
+  }
+  if (matchingHabitats.length === 1) {
+    return 'Only one habitat matches. Only one habitat can match your allocation'
+  }
+  return 'Now choose which available habitat, from your metric, is the best match'
+}
+
 const handlers = {
   get: async (request, h) => {
     let allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
@@ -56,13 +66,27 @@ const handlers = {
     const matchedHabitatItems = getMatchedHabitatItems(matchingHabitats)
     const sheetName = getSheetName(selectedHabitat.sheet)
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
+
+    const processedHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const processHabitat = processedHabitats.find(habitat => habitat.id === selectedHabitatId)
+    const selectedRadio = processHabitat?.matchedHabitatId
+
     return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, {
       numberOfPages,
       currentPage: safeCurrentPage,
       selectedHabitatText,
-      matchedHabitatItems,
+      matchedHabitatItems: matchedHabitatItems.map(item => {
+        if (item.value === selectedRadio) {
+          return { ...item, ...{ checked: true } }
+        }
+        return item
+      }),
+      numberOfMatches: matchingHabitats?.length,
+      numberOfMatchesText: getNumberOfMatchesText(matchingHabitats),
       displayNoMatches: !matchedHabitatItems?.length,
-      sheetName
+      sheetName,
+      rowNum: selectedHabitat?.rowNum,
+      selectedRadio
     })
   },
   post: async (request, h) => {
@@ -71,7 +95,7 @@ const handlers = {
     const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
     const updatedAllocationHabitats = allocationHabitats.map(habitat =>
       habitat.id === selectedHabitatId
-        ? { ...habitat, matchHabitats, processed: true }
+        ? { ...habitat, matchedHabitatId: matchHabitats, processed: true }
         : habitat
     )
     request.yar.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING, updatedAllocationHabitats)
@@ -81,7 +105,7 @@ const handlers = {
 
     if (!habitatItems.length) {
       request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE, true)
-      return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+      return h.redirect(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
     }
 
     return h.redirect(`${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${nextPage}`)
