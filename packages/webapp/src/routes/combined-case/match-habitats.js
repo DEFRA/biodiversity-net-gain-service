@@ -75,7 +75,7 @@ const handlers = {
     const showErrorMessage = notChecked === true
     request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED)
 
-    return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, {
+    const context = {
       numberOfPages,
       currentPage: safeCurrentPage,
       selectedHabitatText,
@@ -93,7 +93,15 @@ const handlers = {
       selectedRadio,
       showErrorMessage,
       noErrorMessage: !showErrorMessage
-    })
+    }
+
+    if(showErrorMessage) {
+      context.err = [{
+        text: 'Select a habitat to match',
+        href: '#matchHabitats'
+      }]
+    }
+    return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, context)
   },
   post: async (request, h) => {
     const { currentPage, matchHabitats } = request.payload
