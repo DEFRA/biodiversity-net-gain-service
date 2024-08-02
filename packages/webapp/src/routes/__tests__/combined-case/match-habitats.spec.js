@@ -45,7 +45,7 @@ describe(url, () => {
       expect(response.payload).toContain('value="0" checked')
     })
 
-    it('should load the page correctly error message as no selection', async () => {
+    it('should load the page correctly with an error message as no selection', async () => {
       const sessionData = {}
       sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
       sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
