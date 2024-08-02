@@ -46,6 +46,7 @@ const getNumberOfMatchesText = (matchingHabitats) => {
 
 const handlers = {
   get: async (request, h) => {
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NO_MATCHES)
     let allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
     if (!allocationHabitats) {
       processMetricData(request.yar)
@@ -71,9 +72,14 @@ const handlers = {
     const processHabitat = processedHabitats.find(habitat => habitat.id === selectedHabitatId)
     const selectedRadio = processHabitat?.matchedHabitatId
 
-    const notChecked = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED)
+    const matches = matchedHabitatItems?.length
+    const notChecked = matches ? request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED) : false
     const showErrorMessage = notChecked === true
     request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED)
+
+    if (!matchedHabitatItems?.length) {
+      request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NO_MATCHES, true)
+    }
 
     const context = {
       numberOfPages,
@@ -87,7 +93,7 @@ const handlers = {
       }),
       numberOfMatches: matchingHabitats?.length,
       numberOfMatchesText: getNumberOfMatchesText(matchingHabitats),
-      displayNoMatches: !matchedHabitatItems?.length,
+      displayNoMatches: !matches,
       sheetName,
       rowNum: selectedHabitat?.rowNum,
       selectedRadio,
@@ -106,7 +112,8 @@ const handlers = {
   post: async (request, h) => {
     const { currentPage, matchHabitats } = request.payload
     const selectedHabitatId = request.yar.get(constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID)
-    if (!matchHabitats) {
+    const noMatches = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NO_MATCHES)
+    if (!noMatches && !matchHabitats) {
       request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED, true)
       return h.redirect(`${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${currentPage}`)
     }
