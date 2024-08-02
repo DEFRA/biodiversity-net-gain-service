@@ -1,10 +1,10 @@
 import constants from '../../utils/constants.js'
-import getHabitatType from '../../utils/getHabitatType.js'
-import mockMetricData from './mock-metric-data.js'
-
-const habitatKeys = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-
-export const getNumberOfPages = (data) => habitatKeys.reduce((acc, key) => acc + data[key].slice(0, -1).length, 0)
+import {
+  getMatchingHabitats,
+  habitatDescription,
+  habitatHint,
+  processMetricData
+} from '../../utils/combined-case/helpers.js'
 
 export const getSheetName = (key) => {
   const lookupTable = {
@@ -19,42 +19,95 @@ export const getSheetName = (key) => {
   return lookupTable[key] || 'Unknown Key'
 }
 
-export const getHabitats = (data) => ({
-  proposed: habitatKeys.flatMap(identifier =>
-    data[identifier].filter(details => 'Condition' in details).map(details => ({
-      habitatType: getHabitatType(identifier, details),
-      area: details['Length (km)'] ?? details['Area (hectares)'],
-      condition: details.Condition
-    }))
-  )
-})
+const getUnprocessedHabitatItems =
+  allocationHabitats => allocationHabitats.filter(habitat => !habitat.processed).map(habitat => ({
+    value: habitat.id,
+    text: habitatDescription(habitat)
+  }))
+
+const getMatchedHabitatItems =
+  regHabitats => regHabitats.filter(habitat => !habitat.processed).map(habitat => ({
+    value: habitat.id,
+    text: habitat.habitatType,
+    hint: {
+      text: habitatHint(habitat)
+    }
+  }))
+
+const getNumberOfMatchesText = (matchingHabitats) => {
+  if (!matchingHabitats?.length) {
+    return null
+  }
+  if (matchingHabitats.length === 1) {
+    return 'Only one habitat matches. Only one habitat can match your allocation'
+  }
+  return 'Now choose which available habitat, from your metric, is the best match'
+}
 
 const handlers = {
   get: async (request, h) => {
-    // TODO: uncomment below to replace mockMetricData with session data when the rest of the journey is built
-    // const registrationMetricData = request.yar.get(constants.redisKeys.METRIC_DATA)
-    // const allocationMetricData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+    let allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    if (!allocationHabitats) {
+      processMetricData(request.yar)
+      allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+      request.yar.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING, allocationHabitats)
+    }
+
+    const habitatItems = getUnprocessedHabitatItems(allocationHabitats)
     const { page = '1' } = request.query
     const currentPage = parseInt(page, 10)
-    const numberOfPages = getNumberOfPages(mockMetricData)
-    const sheetName = getSheetName(habitatKeys[currentPage - 1])
-    const habitatsData = getHabitats(mockMetricData)
-
+    const numberOfPages = habitatItems.length
+    const selectedHabitatId = habitatItems[currentPage - 1].value
+    request.yar.set(constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID, selectedHabitatId)
+    const registrationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
+    const selectedHabitat = allocationHabitats.find(habitat => habitat.id === selectedHabitatId)
+    const selectedHabitatText = `${selectedHabitat.habitatType} (${selectedHabitat.size} ${selectedHabitat.measurementUnits} / ${selectedHabitat.condition} condition)`
+    const matchingHabitats = getMatchingHabitats(selectedHabitat, registrationHabitats)
+    const matchedHabitatItems = getMatchedHabitatItems(matchingHabitats)
+    const sheetName = getSheetName(selectedHabitat.sheet)
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
-    const habitat = habitatsData.proposed[safeCurrentPage - 1] || { habitatType: '', area: '', condition: '' }
+
+    const processedHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const processHabitat = processedHabitats.find(habitat => habitat.id === selectedHabitatId)
+    const selectedRadio = processHabitat?.matchedHabitatId
 
     return h.view(constants.views.COMBINED_CASE_MATCH_HABITATS, {
       numberOfPages,
       currentPage: safeCurrentPage,
+      selectedHabitatText,
+      matchedHabitatItems: matchedHabitatItems.map(item => {
+        if (item.value === selectedRadio) {
+          return { ...item, ...{ checked: true } }
+        }
+        return item
+      }),
+      numberOfMatches: matchingHabitats?.length,
+      numberOfMatchesText: getNumberOfMatchesText(matchingHabitats),
+      displayNoMatches: !matchedHabitatItems?.length,
       sheetName,
-      habitatType: habitat.habitatType,
-      area: habitat.area,
-      condition: habitat.condition
+      rowNum: selectedHabitat?.rowNum,
+      selectedRadio
     })
   },
   post: async (request, h) => {
-    const { currentPage } = request.payload
+    const { currentPage, matchHabitats } = request.payload
+    const selectedHabitatId = request.yar.get(constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID)
+    const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const updatedAllocationHabitats = allocationHabitats.map(habitat =>
+      habitat.id === selectedHabitatId
+        ? { ...habitat, matchedHabitatId: matchHabitats, processed: true }
+        : habitat
+    )
+    request.yar.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING, updatedAllocationHabitats)
+
     const nextPage = parseInt(currentPage, 10) + 1
+    const habitatItems = getUnprocessedHabitatItems(updatedAllocationHabitats)
+
+    if (!habitatItems.length) {
+      request.yar.set(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE, true)
+      return h.redirect(constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY)
+    }
+
     return h.redirect(`${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${nextPage}`)
   }
 }
