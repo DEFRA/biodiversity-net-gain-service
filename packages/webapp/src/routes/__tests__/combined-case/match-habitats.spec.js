@@ -45,6 +45,27 @@ describe(url, () => {
       expect(response.payload).toContain('value="0" checked')
     })
 
+    it('should load the page correctly error message as no selection', async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+        habitatType: 'Wetland',
+        condition: 'Poor',
+        module: 'Created',
+        state: 'Hedge',
+        id: '0',
+        size: 15,
+        measurementUnits: 'hectares',
+        processed: false
+      }]
+      sessionData[constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED] = true
+      const response = await submitGetRequest({ url }, 200, sessionData)
+      expect(response.statusCode).toBe(200)
+      expect(response.payload).toContain('There is a problem')
+      expect(response.payload).toContain('Select a habitat to match')
+    })
+
     it('should load the page correctly and process metric data when no allocation habitats', async () => {
       const sessionData = {}
       sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
