@@ -25,9 +25,11 @@ const getContext = request => {
   const location = fileLocation === null ? '' : path.parse(fileLocation).base
   const fileSize = request.yar.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+  const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
   return {
     filename: location,
-    fileSize: humanReadableFileSize
+    fileSize: humanReadableFileSize,
+    urlPath: isCombinedCase ? '/combined-case' : '/land'
   }
 }
 

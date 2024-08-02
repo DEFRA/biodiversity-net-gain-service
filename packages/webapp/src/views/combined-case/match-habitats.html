@@ -18,26 +18,27 @@
 
       <span class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
       <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
-      <p class="govuk-hint">(Taken from {{ sheetName }}, row TBC from your metric)</p>
-      <p>Choose which available habitat best matches to allocate against your:</p>
+      <p class="govuk-hint">The information displayed is taken from the {{ sheetName }} row {{ rowNum }}, from your metric.</p>
 
       {{ govukInsetText({
-        text: habitatType + " (" + area + " hectares / " + condition + " condition)"
+        text: selectedHabitatText
       }) }}
+
+      {% if numberOfMatches %}
+      <div id="signIn-hint">
+        <h2 class="govuk-heading-m">{{ numberOfMatchesText }}:</h2>
+      </div>
+      {% endif %}
 
       {{ govukRadios({
         idPrefix: "matchHabitats",
         name: "matchHabitats",
-        items: [
-          {
-            value: "selected-value",
-            text: habitatType,
-            hint: {
-              text: area + " hectares / " + condition + " condition"
-            }
-          }
-        ]
+        items: matchedHabitatItems
       }) }}
+
+      {% if displayNoMatches %}
+        <p>There are no matching habitat items.</p>
+      {% endif %}
 
       {{ govukButton({
         text: "Save and continue",

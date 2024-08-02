@@ -1,4 +1,4 @@
-import combinedCaseConstants from '../combined-case-constants.js'
+import constants from '../constants.js'
 
 let habitatReferenceCounter = 0
 let ownReferenceCounter = 0
@@ -53,8 +53,8 @@ const getModule = identifier => {
 }
 
 const processMetricData = session => {
-  const registrationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA)
-  const allocationMetricData = session.get(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA)
+  const registrationMetricData = session.get(constants.redisKeys.METRIC_DATA)
+  const allocationMetricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const registrationHabitats = []
   const allocationHabitats = []
   const sheets = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
@@ -70,11 +70,13 @@ const processMetricData = session => {
             habitats.push({
               habitatType,
               condition,
+              sheet,
               module: getModule(sheet),
               state: getState(sheet),
               id: isAllocation ? generateOwnReference() : generateHabitatReference(),
               size: habitat['Length (km)'] ?? habitat['Area (hectares)'],
               measurementUnits: 'Length (km)' in habitat ? 'kilometres' : 'hectares',
+              rowNum: habitat?.rowNum,
               processed: false
             })
           }
@@ -86,12 +88,15 @@ const processMetricData = session => {
   extractHabitats(registrationMetricData, registrationHabitats, false)
   extractHabitats(allocationMetricData, allocationHabitats, true)
 
-  session.set(combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS, registrationHabitats)
-  session.set(combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS, allocationHabitats)
+  session.set(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS, registrationHabitats)
+  session.set(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS, allocationHabitats)
 }
 
 const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
+
+const habitatHint = habitat =>
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
@@ -122,6 +127,7 @@ export {
   habitatDescription,
   getMatchingHabitats,
   summariseHabitatMatches,
+  habitatHint,
   getHabitatType,
   getState,
   getModule

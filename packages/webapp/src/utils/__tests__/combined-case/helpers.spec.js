@@ -1,4 +1,4 @@
-import combinedCaseConstants from '../../combined-case-constants.js'
+import constants from '../../constants.js'
 
 describe('Combined Case Habitat Match Utility Functions', () => {
   beforeEach(() => {
@@ -35,12 +35,12 @@ describe('processMetricData', () => {
     }
 
     session.get.mockImplementation((key) => {
-      if (key === combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_METRIC_DATA) {
+      if (key === constants.redisKeys.METRIC_DATA) {
         return {
           d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10 }],
           d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5 }]
         }
-      } else if (key === combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_METRIC_DATA) {
+      } else if (key === constants.redisKeys.DEVELOPER_METRIC_DATA) {
         return {
           e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15 }],
           f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2 }]
@@ -62,6 +62,7 @@ describe('processMetricData', () => {
         {
           habitatType: 'Forest - Woodland',
           condition: 'Good',
+          sheet: 'd2',
           module: 'Created',
           state: 'Habitat',
           id: 'HAB-00000000-0',
@@ -72,6 +73,7 @@ describe('processMetricData', () => {
         {
           habitatType: 'Grassland - Meadow',
           condition: 'Fair',
+          sheet: 'd3',
           module: 'Enhanced',
           state: 'Habitat',
           id: 'HAB-00000000-1',
@@ -85,6 +87,7 @@ describe('processMetricData', () => {
         {
           habitatType: 'Wetland',
           condition: 'Poor',
+          sheet: 'e2',
           module: 'Created',
           state: 'Hedge',
           id: '0',
@@ -95,6 +98,7 @@ describe('processMetricData', () => {
         {
           habitatType: 'Stream',
           condition: 'Excellent',
+          sheet: 'f3',
           module: 'Enhanced',
           state: 'Watercourse',
           id: '1',
@@ -106,11 +110,11 @@ describe('processMetricData', () => {
 
       // Verifying session.set calls with expected data
       expect(session.set).toHaveBeenCalledWith(
-        combinedCaseConstants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS,
+        constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS,
         expectedRegistrationHabitats
       )
       expect(session.set).toHaveBeenCalledWith(
-        combinedCaseConstants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS,
+        constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS,
         expectedAllocationHabitats
       )
     })
