@@ -24,9 +24,44 @@ import { FormError } from '../utils/form-error.js'
 const ANY = 'any'
 
 const STATUSES = {
-  NOT_STARTED: 'NOT STARTED',
-  IN_PROGRESS: 'IN PROGRESS',
-  COMPLETE: 'COMPLETED'
+  NOT_STARTED: constants.DEFAULT_REGISTRATION_TASK_STATUS,
+  IN_PROGRESS: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  COMPLETE: constants.COMPLETE_REGISTRATION_TASK_STATUS,
+  CANNOT_START_YET: constants.CANNOT_START_YET_STATUS
+}
+
+const replaceStatusesWithDisplayStatuses = taskList => {
+  const statusText = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+
+  const statusTag = (status, tagClass) => {
+    return {
+      tag:
+        {
+          text: statusText(status),
+          classes: tagClass
+        }
+    }
+  }
+
+  const statusNoTag = status => {
+    return {
+      text: statusText(status)
+    }
+  }
+
+  const DISPLAY_STATUSES = {
+    [STATUSES.NOT_STARTED]: statusTag(STATUSES.NOT_STARTED, 'govuk-tag--grey'),
+    [STATUSES.IN_PROGRESS]: statusTag(STATUSES.IN_PROGRESS, 'govuk-tag--blue'),
+    [STATUSES.CANNOT_START_YET]: statusTag(STATUSES.CANNOT_START_YET, 'govuk-tag--grey'),
+    [STATUSES.COMPLETE]: statusNoTag(STATUSES.COMPLETE),
+    UNKNOWN_STATUS: statusTag(STATUSES.COMPLETE, 'govuk-tag--grey')
+  }
+
+  taskList.forEach(task => {
+    task.items.forEach(item => {
+      item.status = DISPLAY_STATUSES[item.status] || DISPLAY_STATUSES.UNKNOWN_STATUS
+    })
+  })
 }
 
 const getReturnObject = (status, url, valid) => ({ status, url, valid })
@@ -104,16 +139,7 @@ const getTaskItems = (task, session) => {
   return {
     id: task.id,
     title: { text: task.title },
-    status: calculatedStatus.status === STATUSES.COMPLETE
-      ? {
-          text: calculatedStatus.status
-        }
-      : {
-          tag: {
-            text: calculatedStatus.status,
-            classes: 'govuk-tag--blue'
-          }
-        },
+    status: calculatedStatus.status,
     href: calculatedStatus.url
   }
 }
@@ -128,7 +154,7 @@ const generateTaskList = (taskSections, session) => {
       for (const dependantId of section.dependantIds) {
         const dependantSection = taskList.find(s => s.id === dependantId)
         if (dependantSection) {
-          const uncompletedTasks = dependantSection.items.filter(item => item.status?.text !== constants.COMPLETE_REGISTRATION_TASK_STATUS && item.status?.tag?.text !== constants.COMPLETE_REGISTRATION_TASK_STATUS)
+          const uncompletedTasks = dependantSection.items.filter(item => item.status !== STATUSES.COMPLETE)
           if (uncompletedTasks.length > 0) {
             return true
           }
@@ -152,12 +178,7 @@ const generateTaskList = (taskSections, session) => {
         ...section,
         ...{
           items: section.items.map(item => {
-            item.status = {
-              tag: {
-                text: constants.CANNOT_START_YET_STATUS,
-                classes: 'govuk-tag--blue'
-              }
-            }
+            item.status = STATUSES.CANNOT_START_YET
             item.isLocked = true
             item.href = undefined
             return item
@@ -171,29 +192,10 @@ const generateTaskList = (taskSections, session) => {
   return lockedTaskList
 }
 
-const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
-
-// Recursively iterate over a task list object and convert each `text` property (which will be the task item status) to
-// have an initial capital with the rest of the string lower case.
-const formatStatusesForDisplay = taskList => {
-  if (Array.isArray(taskList)) {
-    taskList.forEach(item => formatStatusesForDisplay(item))
-  } else if (typeof taskList === 'object' && taskList !== null) {
-    Object.keys(taskList).forEach(key => {
-      if (key === 'text' && typeof taskList[key] === 'string') {
-        taskList[key] = statusForDisplay(taskList[key])
-      } else {
-        formatStatusesForDisplay(taskList[key])
-      }
-    })
-  }
-}
-
 const getTaskList = (journey, session) => {
   let taskList
 
-  // The Check Your Answers section href is deleted later if the tasks aren't completed, so we deep clone the section to
-  // prevent the original version being affected by this.
+  // We deep clone the Check Your Answers section so the original isn't affected when we amend the status or href later.
   switch (journey) {
     case constants.applicationTypes.REGISTRATION:
       taskList = generateTaskList(registrationTaskSections, session)
@@ -221,8 +223,7 @@ const getTaskList = (journey, session) => {
   taskList.forEach(task => {
     task.items.forEach(currentTask => {
       totalTasks += 1
-      const status = currentTask.status.tag?.text || currentTask.status.text
-      if (status === constants.COMPLETE_REGISTRATION_TASK_STATUS) {
+      if (currentTask.status === STATUSES.COMPLETE) {
         completedTasks += 1
       }
     })
@@ -230,25 +231,22 @@ const getTaskList = (journey, session) => {
 
   const canSubmit = completedTasks === (totalTasks - 1)
 
-  // If the Check Your Answers task (ie. the last one) has an items array then the tasklist has been migrated to the v5
-  // component, so we handle the submission href and status here (whereas the v4 html handles this within the template)
-  const lastSection = taskList[taskList.length - 1]
-  if (lastSection.items?.length) {
-    const lastItem = lastSection.items[lastSection.items.length - 1]
+  const lastSection = taskList.at(-1)
+  const lastItem = lastSection.items.at(-1)
 
-    // If the application can be submitted then set the item status accordingly. Otherwise delete the href so Check Your
-    // Answers cannot be accessed (the status will already be "CANNOT START YET" so we don't need to change it)
-    if (canSubmit) {
-      lastItem.status.tag.text = 'NOT STARTED YET'
-    } else {
-      delete lastItem.href
-    }
+  // If the application can be submitted then set the status of the Check Your Answers item to NOT_STARTED (it can never
+  // be anything else since the task list cannot be returned to once Check Your Answers has been submitted). Otherwise,
+  // set the href to undefined so it cannot be visited (the status defaults to CANNOT_START_YET so we don't need to
+  // change it).
+  if (canSubmit) {
+    lastItem.status = STATUSES.NOT_STARTED
+  } else {
+    lastItem.href = undefined
   }
 
-  // v5 gov uk frontend has statuses displayed in lower case with an initial capital rather than all caps as before. We
-  // may be reliant elsewhere on the status being all caps, so for now instead of changing the statuses to be the
-  // correct case throughout the code, we simply reformat them at this point once we're ready to display them
-  formatStatusesForDisplay(taskList)
+  // The task list requires the status to be in a specific format, so we iterate over the task list items and replace
+  // the status with the correctly-formatted status for display
+  replaceStatusesWithDisplayStatuses(taskList)
 
   return { taskList, totalTasks, completedTasks, canSubmit }
 }

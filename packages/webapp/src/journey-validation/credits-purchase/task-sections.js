@@ -64,12 +64,7 @@ const checkYourAnswers = {
       text: 'Check your answers and submit information'
     },
     href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
-    status: {
-      tag: {
-        text: constants.CANNOT_START_YET_STATUS,
-        classes: 'govuk-tag--blue'
-      }
-    }
+    status: constants.CANNOT_START_YET_STATUS
   }]
 }
 

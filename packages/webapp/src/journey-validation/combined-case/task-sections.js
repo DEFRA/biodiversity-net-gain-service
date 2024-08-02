@@ -108,12 +108,7 @@ const checkYourAnswers = {
       text: 'Check your answers before you submit them'
     },
     href: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
-    status: {
-      tag: {
-        text: constants.CANNOT_START_YET_STATUS,
-        classes: 'govuk-tag--blue'
-      }
-    }
+    status: constants.CANNOT_START_YET_STATUS
   }]
 }
 
