@@ -6,9 +6,6 @@
 
 {% block formContent %}
 <div class="govuk-body">
-  {% if err %}
-    {% include "errorbanner.html" %}
-  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
@@ -31,6 +28,9 @@
       <div id="signIn-hint">
         <h2 class="govuk-heading-m">{{ numberOfMatchesText }}:</h2>
       </div>
+      {% endif %}
+      {% if err %}
+        {% include "errorbanner.html" %}
       {% endif %}
       {% if showErrorMessage %}
         {{ govukRadios({
