@@ -95,7 +95,7 @@ const handlers = {
       noErrorMessage: !showErrorMessage
     }
 
-    if(showErrorMessage) {
+    if (showErrorMessage) {
       context.err = [{
         text: 'Select a habitat to match',
         href: '#matchHabitats'
