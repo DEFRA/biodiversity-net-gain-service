@@ -4,8 +4,8 @@ import { getTaskList } from '../task-list-generator.js'
 const testString = '1234'
 const session = new Session()
 
-const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
-const cannotStartYetStatus = { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
+const cannotStartYetStatus = { tag: { classes: 'govuk-tag--grey', text: 'Cannot start yet' } }
 
 const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
 
