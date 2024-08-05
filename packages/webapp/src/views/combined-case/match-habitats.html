@@ -2,7 +2,6 @@
 
 {% set serviceName = "Register a biodiversity gain site" %}
 {% set pageHeading = "Match available habitats" %}
-{% set hideBackLink = true %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -29,12 +28,27 @@
         <h2 class="govuk-heading-m">{{ numberOfMatchesText }}:</h2>
       </div>
       {% endif %}
+      {% if err %}
+        {% include "errorbanner.html" %}
+      {% endif %}
+      {% if showErrorMessage %}
+        {{ govukRadios({
+          idPrefix: "matchHabitats",
+          name: "matchHabitats",
+          items: matchedHabitatItems,
+          errorMessage: {
+            text: "Select a habitat to match"
+          }
+        }) }}
+      {% endif %}
+      {% if noErrorMessage %}
+        {{ govukRadios({
+          idPrefix: "matchHabitats",
+          name: "matchHabitats",
+          items: matchedHabitatItems
+        }) }}
+      {% endif %}
 
-      {{ govukRadios({
-        idPrefix: "matchHabitats",
-        name: "matchHabitats",
-        items: matchedHabitatItems
-      }) }}
 
       {% if displayNoMatches %}
         <p>There are no matching habitat items.</p>

@@ -45,6 +45,27 @@ describe(url, () => {
       expect(response.payload).toContain('value="0" checked')
     })
 
+    it('should load the page correctly with an error message as no selection', async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+        habitatType: 'Wetland',
+        condition: 'Poor',
+        module: 'Created',
+        state: 'Hedge',
+        id: '0',
+        size: 15,
+        measurementUnits: 'hectares',
+        processed: false
+      }]
+      sessionData[constants.redisKeys.COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED] = true
+      const response = await submitGetRequest({ url }, 200, sessionData)
+      expect(response.statusCode).toBe(200)
+      expect(response.payload).toContain('There is a problem')
+      expect(response.payload).toContain('Select a habitat to match')
+    })
+
     it('should load the page correctly and process metric data when no allocation habitats', async () => {
       const sessionData = {}
       sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
@@ -52,9 +73,56 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.statusCode).toBe(200)
     })
+
+    it('should load the page correctly when no matches with a warning', async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+
+      const habitats = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+        habitatType: 'Wetland',
+        condition: 'Poor',
+        module: 'Created',
+        state: 'Hedge',
+        id: '0',
+        size: 15,
+        measurementUnits: 'hectares',
+        processed: false
+      }]
+
+      sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = habitats.map(h => {
+        return { ...h, ...{ processed: true } }
+      })
+
+      const response = await submitGetRequest({ url }, 200, sessionData)
+      expect(response.statusCode).toBe(200)
+      expect(response.payload).toContain('There are no matching habitat items.')
+    })
   })
 
   describe('POST', () => {
+    it('should take user page to form of current page if no selection is made', async () => {
+      const currentPage = 1
+      const matchHabitats = null
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.COMBINED_CASE_SELECTED_HABITAT_ID] = 1
+      sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = [
+        {
+          id: 1
+        },
+        {
+          id: 2,
+          processed: false
+        }
+      ]
+
+      const response = await submitPostRequest({ url, method: 'post', payload: { currentPage, matchHabitats } }, 302, sessionData)
+      expect(response.statusCode).toBe(302)
+      expect(response.headers.location).toBe(`${url}?page=${currentPage}`)
+    })
+
     it('should continue journey to next page if a selection is made', async () => {
       const currentPage = 1
       const matchHabitats = { foo: 'bar' }

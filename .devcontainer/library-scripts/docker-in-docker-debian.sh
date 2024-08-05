@@ -7,7 +7,7 @@
 # Docs: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker-in-docker.md
 # Maintainer: The VS Code and Codespaces Teams
 #
-# Syntax: ./docker-in-docker-debian.sh [enable non-root docker access flag] [non-root user] [use moby] [Engine/CLI Version] [Major version for docker-compose]
+# Syntax: ./docker-in-docker-debian.sh [enable non-root docker access flag] [non-root user] [use moby] [Engine/CLI Version] [Major version for docker compose]
 
 ENABLE_NONROOT_DOCKER=${1:-"true"}
 USERNAME=${2:-"automatic"}
@@ -241,7 +241,7 @@ fi
 echo "Finished installing docker / moby!"
 
 # Install Docker Compose if not already installed and is on a supported architecture
-if type docker-compose > /dev/null 2>&1; then
+if type docker compose > /dev/null 2>&1; then
     echo "Docker Compose v1 already installed."
 else
     target_compose_arch="${architecture}"
@@ -264,37 +264,37 @@ else
             pip3 install --disable-pip-version-check --no-cache-dir --user pipx
             pipx_bin=/tmp/pip-tmp/bin/pipx
         fi
-        ${pipx_bin} install --pip-args '--no-cache-dir --force-reinstall' docker-compose
+        ${pipx_bin} install --pip-args '--no-cache-dir --force-reinstall' docker compose
         rm -rf /tmp/pip-tmp
     else
         compose_v1_version="1"
         find_version_from_git_tags compose_v1_version "https://github.com/docker/compose" "tags/"
-        echo "(*) Installing docker-compose ${compose_v1_version}..."
-        curl -fsSL "https://github.com/docker/compose/releases/download/${compose_v1_version}/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
+        echo "(*) Installing docker compose ${compose_v1_version}..."
+        curl -fsSL "https://github.com/docker/compose/releases/download/${compose_v1_version}/docker compose-Linux-x86_64" -o /usr/local/bin/docker compose
+        chmod +x /usr/local/bin/docker compose
     fi
 fi
 
-# Install docker-compose switch if not already installed - https://github.com/docker/compose-switch#manual-installation
-current_v1_compose_path="$(which docker-compose)"
-target_v1_compose_path="$(dirname "${current_v1_compose_path}")/docker-compose-v1"
+# Install docker compose switch if not already installed - https://github.com/docker/compose-switch#manual-installation
+current_v1_compose_path="$(which docker compose)"
+target_v1_compose_path="$(dirname "${current_v1_compose_path}")/docker compose-v1"
 if ! type compose-switch > /dev/null 2>&1; then
     echo "(*) Installing compose-switch..."
     compose_switch_version="latest"
     find_version_from_git_tags compose_switch_version "https://github.com/docker/compose-switch"
-    curl -fsSL "https://github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch
+    curl -fsSL "https://github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker compose-linux-${architecture}" -o /usr/local/bin/compose-switch
     chmod +x /usr/local/bin/compose-switch
     # TODO: Verify checksum once available: https://github.com/docker/compose-switch/issues/11
 
     # Setup v1 CLI as alternative in addition to compose-switch (which maps to v2)
     mv "${current_v1_compose_path}" "${target_v1_compose_path}"
-    update-alternatives --install /usr/local/bin/docker-compose docker-compose /usr/local/bin/compose-switch 99
-    update-alternatives --install /usr/local/bin/docker-compose docker-compose "${target_v1_compose_path}" 1
+    update-alternatives --install /usr/local/bin/docker compose docker compose /usr/local/bin/compose-switch 99
+    update-alternatives --install /usr/local/bin/docker compose docker compose "${target_v1_compose_path}" 1
 fi
 if [ "${DOCKER_DASH_COMPOSE_VERSION}" = "v1" ]; then
-    update-alternatives --set docker-compose "${target_v1_compose_path}"
+    update-alternatives --set docker compose "${target_v1_compose_path}"
 else
-    update-alternatives --set docker-compose /usr/local/bin/compose-switch
+    update-alternatives --set docker compose /usr/local/bin/compose-switch
 fi
 
 # If init file already exists, exit
