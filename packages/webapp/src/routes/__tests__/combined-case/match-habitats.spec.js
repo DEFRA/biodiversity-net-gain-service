@@ -73,6 +73,31 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.statusCode).toBe(200)
     })
+
+    it('should load the page correctly when no matches with a warning', async () => {
+      const sessionData = {}
+      sessionData[constants.redisKeys.METRIC_DATA] = mockMetricData
+      sessionData[constants.redisKeys.DEVELOPER_METRIC_DATA] = mockMetricData
+
+      const habitats = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING] = sessionData[constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS] = [{
+        habitatType: 'Wetland',
+        condition: 'Poor',
+        module: 'Created',
+        state: 'Hedge',
+        id: '0',
+        size: 15,
+        measurementUnits: 'hectares',
+        processed: false
+      }]
+
+      sessionData[constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS] = habitats.map(h => {
+        return { ...h, ...{ processed: true } }
+      })
+
+      const response = await submitGetRequest({ url }, 200, sessionData)
+      expect(response.statusCode).toBe(200)
+      expect(response.payload).toContain('There are no matching habitat items.')
+    })
   })
 
   describe('POST', () => {
