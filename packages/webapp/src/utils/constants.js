@@ -1,8 +1,9 @@
 import developerConstants from './developer-constants.js'
-import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
+import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -26,6 +27,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -180,6 +182,7 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...combinedCaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -201,12 +204,17 @@ let routes = {
   COOKIES
 }
 
+const reusedRoutes = {
+  ...combinedCaseConstants.reusedRoutes
+}
+
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
   TEST_CREDITS_PURCHASE_DATA,
-  TEST_API_GAINSITE
+  TEST_API_GAINSITE,
+  TEST_COMBINED_CASE_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -216,7 +224,7 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
 routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
-  uploadFailure: 'The selected file could not be uploaded -- try again',
+  uploadFailure: 'The selected file could not be uploaded - try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
@@ -323,6 +331,8 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  AMENDMENT_GUIDE_URL_ALLOCATION,
+  AMENDMENT_GUIDE_URL_REGISTRATION,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
@@ -337,5 +347,6 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
-  primaryPages
+  primaryPages,
+  reusedRoutes
 })

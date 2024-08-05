@@ -58,6 +58,14 @@ const ADD_HECTARES = routeDefinition(
   }
 )
 
+const CHECK_LAND_BOUNDARY_DETAILS = routeDefinition(
+  constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
+  [],
+  (session) => {
+    return constants.routes.REGISTER_LAND_TASK_LIST
+  }
+)
+
 const siteBoundaryJourneys = [
   [
     journeyStep(
@@ -77,7 +85,8 @@ const siteBoundaryRouteDefinitions = [
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY,
   ADD_GRID_REFERENCE,
-  ADD_HECTARES
+  ADD_HECTARES,
+  CHECK_LAND_BOUNDARY_DETAILS
 ]
 
 export {

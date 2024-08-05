@@ -46,6 +46,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
@@ -67,6 +68,7 @@ describe('Metric file upload controller tests', () => {
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/register-land-task-list'
           }
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           await uploadFile(uploadConfig)
           expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
@@ -83,6 +85,7 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.filePath = `${mockDataPath}/metric-file.xlsx`
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           await uploadFile(uploadConfig)
           setImmediate(() => {
             done()
@@ -99,6 +102,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must be an XLSM or XLSX')
@@ -116,6 +120,7 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('Select a statutory biodiversity metric')
@@ -134,6 +139,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file is empty')
@@ -152,6 +158,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain('The selected file must not be larger than 50MB')
@@ -171,6 +178,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
+          uploadConfig.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
@@ -190,6 +198,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           await uploadFile(config)
           setImmediate(() => {
             done()
@@ -209,6 +218,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/not-metric-file.xlsx`
           config.hasError = true
           config.postProcess.errorMessage = constants.uploadErrors.notValidMetric
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file is not a valid Metric')
           expect(spy).toHaveBeenCalledTimes(1)
@@ -234,6 +244,7 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
           expect(spy).toHaveBeenCalledTimes(2)
@@ -259,6 +270,7 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
           expect(spy).toHaveBeenCalledTimes(2)
@@ -284,6 +296,7 @@ describe('Metric file upload controller tests', () => {
             areOffsiteTotalsCorrect: true,
             isDraftVersion: true
           }
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must not be a draft version')
           expect(spy).toHaveBeenCalledTimes(2)
@@ -309,6 +322,7 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: true,
             areOffsiteTotalsCorrect: false
           }
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file has an error - the baseline total area does not match the created and enhanced total area for the off-site')
           expect(spy).toHaveBeenCalledTimes(2)
@@ -329,6 +343,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
+          config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.payload).toContain(constants.uploadErrors.uploadFailure)
           setImmediate(() => {
@@ -341,9 +356,9 @@ describe('Metric file upload controller tests', () => {
     })
 
     it('should handle failAction of upload route', async () => {
-      const expectedStatuCode = 415
-      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
-      expect(res.statusCode).toEqual(expectedStatuCode)
+      const expectedStatusCode = 415
+      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
+      expect(res.statusCode).toEqual(expectedStatusCode)
     })
   })
 })
