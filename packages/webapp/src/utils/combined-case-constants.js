@@ -1,5 +1,6 @@
 import landConstants from './loj-constants.js'
 import developerConstants from './developer-constants.js'
+import constants from './constants.js'
 
 const {
   routes: {
@@ -63,6 +64,7 @@ const {
 
 const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
 const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
+const CHECK_GEOSPATIAL_FILE = 'land/check-geospatial-file'
 
 const {
   routes: {
@@ -163,7 +165,8 @@ const routesToReuse = [
   `/${CHECK_PLANNING_AUTHORITIES}`,
   `/${CHOOSE_LAND_BOUNDARY_UPLOAD}`,
   `/${UPLOAD_GEOSPATIAL_LAND_BOUNDARY}`,
-  `/${LAND_OWNERSHIP_REMOVE}`
+  `/${LAND_OWNERSHIP_REMOVE}`,
+  `/${CHECK_GEOSPATIAL_FILE}`
 ]
 
 const reusedRoutePath = (baseUrl, originalRoute) => {
@@ -234,7 +237,8 @@ const reusedRoutes = {
   COMBINED_CASE_CHOOSE_LAND_BOUNDARY_UPLOAD: reusedRoutePath(baseUrl, CHOOSE_LAND_BOUNDARY_UPLOAD),
   COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY: reusedRoutePath(baseUrl, UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
   COMBINED_CASE_REGISTER_LAND_TASK_LIST: reusedRoutePath(baseUrl, REGISTER_LAND_TASK_LIST),
-  COMBINED_CASE_LAND_OWNERSHIP_REMOVE: reusedRoutePath(baseUrl, LAND_OWNERSHIP_REMOVE)
+  COMBINED_CASE_LAND_OWNERSHIP_REMOVE: reusedRoutePath(baseUrl, LAND_OWNERSHIP_REMOVE),
+  COMBINED_CASE_CHECK_GEOSPATIAL_FILE: reusedRoutePath(baseUrl, CHECK_GEOSPATIAL_FILE)
 }
 
 export default {
