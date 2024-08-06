@@ -56,7 +56,8 @@ const {
     CHECK_HABITAT_PLAN_FILE,
     HABITAT_ENHANCEMENTS_END_DATE,
     ADD_PLANNING_AUTHORITY,
-    CHECK_PLANNING_AUTHORITIES
+    CHECK_PLANNING_AUTHORITIES,
+    LAND_OWNERSHIP_REMOVE
   }
 } = landConstants
 
@@ -97,6 +98,10 @@ const redisKeys = {
   COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED: 'combined-case-match-habitat-not-checked',
   COMBINED_CASE_MATCH_HABITAT_NO_MATCHES: 'combined-case-match-habitat-no-matches'
 }
+
+const views = Object.fromEntries(
+  Object.entries(routes).map(([k, v]) => [k, v.substring(1)])
+)
 
 const routesToReuse = [
   `/${AGENT_ACTING_FOR_CLIENT}`,
@@ -157,7 +162,8 @@ const routesToReuse = [
   `/${ADD_PLANNING_AUTHORITY}`,
   `/${CHECK_PLANNING_AUTHORITIES}`,
   `/${CHOOSE_LAND_BOUNDARY_UPLOAD}`,
-  `/${UPLOAD_GEOSPATIAL_LAND_BOUNDARY}`
+  `/${UPLOAD_GEOSPATIAL_LAND_BOUNDARY}`,
+  `/${LAND_OWNERSHIP_REMOVE}`
 ]
 
 const reusedRoutePath = (baseUrl, originalRoute) => {
@@ -226,7 +232,9 @@ const reusedRoutes = {
   COMBINED_CASE_ADD_PLANNING_AUTHORITY: reusedRoutePath(baseUrl, ADD_PLANNING_AUTHORITY),
   COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES),
   COMBINED_CASE_CHOOSE_LAND_BOUNDARY_UPLOAD: reusedRoutePath(baseUrl, CHOOSE_LAND_BOUNDARY_UPLOAD),
-  COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY: reusedRoutePath(baseUrl, UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
+  COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY: reusedRoutePath(baseUrl, UPLOAD_GEOSPATIAL_LAND_BOUNDARY),
+  COMBINED_CASE_REGISTER_LAND_TASK_LIST: reusedRoutePath(baseUrl, REGISTER_LAND_TASK_LIST),
+  COMBINED_CASE_LAND_OWNERSHIP_REMOVE: reusedRoutePath(baseUrl, LAND_OWNERSHIP_REMOVE)
 }
 
 export default {

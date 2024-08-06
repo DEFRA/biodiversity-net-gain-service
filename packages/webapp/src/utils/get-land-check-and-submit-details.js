@@ -19,6 +19,7 @@ import applicationInformationContext from '../routes/land/helpers/applicant-info
 const getRegistrationDetails = (request, applicationDetails) => {
   const legalAgreementFileNames = getCombinedFileNamesByType(applicationDetails.files, 'legal-agreement')
   const legalAgreementFileHeaderPrefix = getFileHeaderPrefix(legalAgreementFileNames)
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
   return {
     listArray,
     boolToYesNo,
@@ -44,7 +45,7 @@ const getRegistrationDetails = (request, applicationDetails) => {
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
-    landownershipFilesRows: getLandOwnershipRows(applicationDetails),
+    landownershipFilesRows: getLandOwnershipRows(applicationDetails, applicationType),
     anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
@@ -59,7 +60,9 @@ const getFileNameByType = (files, desiredType) => {
   return file ? file.fileName : ''
 }
 
-const getLandOwnershipRows = (applicationDetails) => {
+const getLandOwnershipRows = (applicationDetails, applicationType) => {
+  const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+  const changeHref = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST : constants.routes.LAND_OWNERSHIP_PROOF_LIST
   const landOwnershipFileNames = getCombinedFileNamesByType(applicationDetails.files, 'land-ownership')
   const rows = []
   if (landOwnershipFileNames.length > 0) {
@@ -75,7 +78,7 @@ const getLandOwnershipRows = (applicationDetails) => {
         actions: {
           items: [
             {
-              href: constants.routes.LAND_OWNERSHIP_PROOF_LIST,
+              href: changeHref,
               text: 'Change',
               visuallyHiddenText: ' land boundary file'
             }
