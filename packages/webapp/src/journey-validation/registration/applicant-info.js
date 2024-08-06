@@ -19,7 +19,8 @@ import {
   clientsNameRoute,
   clientsEmailAddressRoute,
   clientsPhoneNumberRoute,
-  checkAppInfoRoute
+  checkAppInfoRoute,
+  changeClientIndividualOrganisationRoute
 } from '../shared/applicant-info.js'
 
 const AGENT_ACTING_FOR_CLIENT = createAgentActingForClientRoute(
@@ -99,6 +100,12 @@ const CLIENTS_PHONE_NUMBER = clientsPhoneNumberRoute(
 const CHECK_APPLICANT_INFORMATION = checkAppInfoRoute(
   constants.routes.CHECK_APPLICANT_INFORMATION,
   constants.routes.REGISTER_LAND_TASK_LIST
+)
+
+const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = changeClientIndividualOrganisationRoute(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+  constants.routes.CLIENT_INDIVIDUAL_ORGANISATION,
+  constants.routes.CHECK_APPLICANT_INFORMATION
 )
 
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)
@@ -233,7 +240,8 @@ const applicantInfoRouteDefinitions = [
   CLIENTS_NAME,
   CLIENTS_EMAIL_ADDRESS,
   CLIENTS_PHONE_NUMBER,
-  CHECK_APPLICANT_INFORMATION
+  CHECK_APPLICANT_INFORMATION,
+  CHANGE_CLIENT_INDIVIDUAL_ORGANISATION
 ]
 
 export {
