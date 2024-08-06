@@ -27,6 +27,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -55,7 +56,6 @@ const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequir
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
 const COOKIES = 'cookies'
 const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
-const TEST_COMBINED_CASE_DATA = 'test/seed-combined-case-data'
 const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information', '/land/check-and-submit']
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
@@ -214,7 +214,7 @@ const testRoutes = {
   TEST_DEVELOPER_SEED_DATA,
   TEST_CREDITS_PURCHASE_DATA,
   TEST_API_GAINSITE,
-  TEST_COMBINED_CASE_DATA
+  TEST_COMBINED_CASE_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
