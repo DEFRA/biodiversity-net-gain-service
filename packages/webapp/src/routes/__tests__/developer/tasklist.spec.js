@@ -3,8 +3,8 @@ import constants from '../../../utils/constants'
 
 const url = constants.routes.DEVELOPER_TASKLIST
 
-const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
-const cannotStartYetStatus = { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
+const cannotStartYetStatus = { tag: { classes: 'govuk-tag--grey', text: 'Cannot start yet' } }
 const completedStatus = { text: 'Completed' }
 
 describe(url, () => {

@@ -6,7 +6,7 @@ const url = constants.routes.REGISTER_LAND_TASK_LIST
 const session = new Session()
 const testString = '1234'
 
-const notStartedStatus = { tag: { classes: 'govuk-tag--blue', text: 'Not started' } }
+const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
 const completedStatus = { text: 'Completed' }
 
 describe(url, () => {

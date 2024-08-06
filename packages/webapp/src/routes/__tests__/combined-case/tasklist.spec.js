@@ -3,6 +3,9 @@ import constants from '../../../utils/constants.js'
 
 const url = constants.routes.COMBINED_CASE_TASK_LIST
 
+const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
+const cannotStartYetStatus = { tag: { classes: 'govuk-tag--grey', text: 'Cannot start yet' } }
+
 describe(url, () => {
   describe('GET', () => {
     let getOptions
@@ -42,7 +45,7 @@ describe(url, () => {
           {
             id: 'add-applicant-information',
             title: { text: 'Add details about the applicant' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/agent-acting-for-client'
           }
         ]
@@ -55,19 +58,19 @@ describe(url, () => {
           {
             id: 'add-land-ownership',
             title: { text: 'Add land ownership details' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/upload-ownership-proof'
           },
           {
             id: 'add-land-boundary',
             title: { text: 'Add biodiversity gain site boundary details' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/upload-land-boundary'
           },
           {
             id: 'add-habitat-information',
             title: { text: 'Add habitat baseline, creation and enhancements' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/upload-metric'
           }
         ]
@@ -80,13 +83,13 @@ describe(url, () => {
           {
             id: 'add-legal-agreement',
             title: { text: 'Add legal agreement details' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/legal-agreement-type'
           },
           {
             id: 'add-local-land-charge-search-certificate',
             title: { text: 'Add local land charge search certificate' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Not started' } },
+            status: notStartedStatus,
             href: '/combined-case/upload-local-land-charge'
           }
         ]
@@ -104,19 +107,19 @@ describe(url, () => {
             id: 'planning-decision-notice',
             title: { text: 'Add planning decision notice' },
             isLocked: true,
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+            status: cannotStartYetStatus
           },
           {
             id: 'match-available-habitats',
             title: { text: 'Match available habitats' },
             isLocked: true,
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+            status: cannotStartYetStatus
           },
           {
             id: 'confirm-dev-and-habitat-details',
             title: { text: 'Confirm development and habitat details' },
             isLocked: true,
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+            status: cannotStartYetStatus
           }
         ]
       })
@@ -126,7 +129,7 @@ describe(url, () => {
           {
             id: 'check-your-answers',
             title: { text: 'Check your answers before you submit them' },
-            status: { tag: { classes: 'govuk-tag--blue', text: 'Cannot start yet' } }
+            status: cannotStartYetStatus
           }
         ]
       })
