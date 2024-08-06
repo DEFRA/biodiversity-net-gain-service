@@ -12,7 +12,7 @@ Docker based containerisation is used for the following:
 
 ### Hostname Resolution
 
-During local development each Docker container name defined in a docker-compose file **must** be resolvable from the local loopback address of
+During local development each Docker container name defined in a docker compose file **must** be resolvable from the local loopback address of
 the development machine. For example, on a Linux development machine with a local loopback address of 127.0.0.1, /etc/hosts **must** be modified
 to include the following entries:
 

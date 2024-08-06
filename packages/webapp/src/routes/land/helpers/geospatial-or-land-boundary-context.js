@@ -8,6 +8,7 @@ const geospatialOrLandBoundaryContext = request => {
     geospatial: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData',
     documentOrImage: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'documentOrImage'
   }
+  const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
   if (context.geospatial && process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y') {
     return {
       ...context,
@@ -25,7 +26,7 @@ const geospatialOrLandBoundaryContext = request => {
       landBoundaryFileName: getLegalLandBoundaryFileName(request),
       gridReference: request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
       areaInHectare: (parseFloat(request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)) || '0') + ' ha',
-      checkLandBoundaryLink: constants.routes.CHECK_LAND_BOUNDARY
+      checkLandBoundaryLink: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY : constants.routes.CHECK_LAND_BOUNDARY
     }
   }
 }

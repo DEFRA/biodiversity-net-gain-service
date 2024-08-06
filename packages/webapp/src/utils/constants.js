@@ -27,6 +27,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -212,7 +213,8 @@ const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
   TEST_CREDITS_PURCHASE_DATA,
-  TEST_API_GAINSITE
+  TEST_API_GAINSITE,
+  TEST_COMBINED_CASE_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
