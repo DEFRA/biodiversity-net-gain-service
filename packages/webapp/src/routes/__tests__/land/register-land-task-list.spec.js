@@ -43,8 +43,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[0]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Applicant information',
@@ -57,7 +57,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
@@ -82,7 +82,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.tasks.taskList[2]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Legal information',
@@ -130,8 +130,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
@@ -156,7 +156,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.tasks.taskList[2]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Legal information',
@@ -204,8 +204,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
@@ -230,7 +230,7 @@ describe(url, () => {
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.tasks.taskList[2]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Legal information',
@@ -285,8 +285,8 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
