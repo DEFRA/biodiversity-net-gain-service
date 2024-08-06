@@ -1,29 +1,7 @@
-{% extends 'layout.html' %}
-{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+{% extends "common/tasklist.html" %}
 
-{% set hideBackLink = true %}
 {% set pageHeading = "Tasks to complete - Register a biodiversity gain site" %}
+{% set hideBackLink = true %}
 
-{% block content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">Register a biodiversity gain site</h1>
-            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Registration in progress</h2>
-            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ registrationCompletedTasks}} of {{totalSections}} sections.</p>
-            <ol class="app-task-list govuk-!-padding-top-3">
-                {% for task in registrationTasks.taskList %}
-                    <li>
-                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
-                        <ul class="app-task-list__items">
-                            {{ govukTaskList({
-                                idPrefix: "company-details",
-                                items: task.items
-                            }) }}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-    {% include "common/assisted-digital-helpline.html" %}
-{% endblock %}
+{% set taskListHeading = "Register a biodiversity gain site" %}
+{% set taskListSubHeading = "Registration in progress" %}

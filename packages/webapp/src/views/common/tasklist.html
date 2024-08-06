@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">{{ taskListHeading }}</h1>
+            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ taskListSubHeading }}</h2>
+            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks }} of {{ totalSections }} sections.</p>
+            {% if applicationSaveNotice %}
+              {{ govukInsetText({
+                  text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
+              }) }}
+            {% endif %}
+            <ol class="app-task-list govuk-!-padding-top-3">
+                {% for task in tasks.taskList %}
+                    <li>
+                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
+                        <ul class="app-task-list__items">
+                            {{ govukTaskList({
+                                idPrefix: "company-details",
+                                items: task.items
+                            }) }}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    {% include "common/assisted-digital-helpline.html" %}
+{% endblock %}

@@ -1,36 +1,10 @@
-{% extends 'layout.html' %}
-
-{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% extends "common/tasklist.html" %}
 
 {% set serviceName = "Buy statutory biodiversity credits" %}
 {% set pageHeading = "Tasks to complete - Register a biodiversity gain site and development project application" %}
 {% set hideBackLink = true %}
 {% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
+{% set applicationSaveNotice = true %}
 
-{% block content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl">Register a biodiversity gain site and development project application</h1>
-            <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Application incomplete</h2>
-            <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks}} of {{totalSections}} sections.</p>
-            {{ govukInsetText({
-                text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
-            }) }}
-            <ol class="app-task-list">
-                {% for task in tasks.taskList %}
-                    <li>
-                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
-                        <ul class="app-task-list__items">
-                            {{ govukTaskList({
-                                idPrefix: "company-details",
-                                items: task.items
-                            }) }}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-    {% include "common/assisted-digital-helpline.html" %}
-{% endblock %}
+{% set taskListHeading = "Register a biodiversity gain site and development project application" %}
+{% set taskListSubHeading = "Application incomplete" %}
