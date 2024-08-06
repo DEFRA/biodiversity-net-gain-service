@@ -240,7 +240,6 @@ const changeClientIndividualOrganisationRoute = (startUrl, nextUrl, nextUrl1) =>
   startUrl,
   [],
   (session, request) => {
-
     const { changeClientIndividualOrganisation } = request.payload
 
     if (changeClientIndividualOrganisation === 'yes') {
@@ -271,7 +270,6 @@ const changeActingOnBehalfOfClientRoute = (startUrl, nextUrl, nextUrl1) => route
   startUrl,
   [],
   (session, request) => {
-
     const { changeActingOnBehalfOfClient } = request.payload
 
     if (changeActingOnBehalfOfClient === 'yes') {
