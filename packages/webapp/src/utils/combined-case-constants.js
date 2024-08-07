@@ -1,6 +1,5 @@
 import landConstants from './loj-constants.js'
 import developerConstants from './developer-constants.js'
-import constants from './constants.js'
 
 const {
   routes: {
