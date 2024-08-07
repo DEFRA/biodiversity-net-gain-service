@@ -6,7 +6,11 @@ const handlers = {
     return h.view(constants.views.CHANGE_CLIENT_INDIVIDUAL_ORGANISATION)
   },
   post: async (request, h) => {
-    return getNextStep(request, h)
+    return getNextStep(request, h, (e) => {
+      return h.view(constants.views.CHANGE_CLIENT_INDIVIDUAL_ORGANISATION, {
+        err: [e]
+      })
+    })
   }
 }
 
