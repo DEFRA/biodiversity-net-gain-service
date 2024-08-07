@@ -110,7 +110,7 @@ const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = changeClientIndividualOrganisation
 )
 
 const CHANGE_ACTING_ON_BEHALF_CLIENT = changeActingOnBehalfOfClientRoute(
-  constants.reusedRoutes.COMBINED_CASE_CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+  constants.routes.CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
   constants.routes.AGENT_ACTING_FOR_CLIENT,
   constants.routes.CHECK_APPLICANT_INFORMATION
 )
