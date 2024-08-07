@@ -21,7 +21,7 @@ import {
   clientsPhoneNumberRoute,
   checkAppInfoRoute,
   changeClientIndividualOrganisationRoute,
-  changeActingOnBehalfOfClientRoute
+  changeActingOnBehalfOfClientRoute, changeApplyingIndividualOrg
 } from '../shared/applicant-info.js'
 
 const AGENT_ACTING_FOR_CLIENT = createAgentActingForClientRoute(
@@ -112,6 +112,12 @@ const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = changeClientIndividualOrganisation
 const CHANGE_ACTING_ON_BEHALF_CLIENT = changeActingOnBehalfOfClientRoute(
   constants.reusedRoutes.COMBINED_CASE_CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
   constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
+)
+
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = changeApplyingIndividualOrg(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
   constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
 )
 
@@ -249,7 +255,8 @@ const applicantInfoRouteDefinitions = [
   CLIENTS_PHONE_NUMBER,
   CHECK_APPLICANT_INFORMATION,
   CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
-  CHANGE_ACTING_ON_BEHALF_CLIENT
+  CHANGE_ACTING_ON_BEHALF_CLIENT,
+  CHANGE_APPLYING_INDIVIDUAL_ORGANISATION
 ]
 
 export {
