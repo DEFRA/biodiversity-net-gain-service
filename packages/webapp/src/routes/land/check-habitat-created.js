@@ -7,8 +7,10 @@ const handlers = {
     const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], metricData)
     const combinedHabitatTypeAndCondition = combineHabitats(habitatTypeAndCondition)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     return h.view(constants.views.CHECK_HABITAT_CREATED, {
-      combinedHabitatTypeAndCondition
+      combinedHabitatTypeAndCondition,
+      urlPath: isCombinedCase ? '/combined-case' : '/land'
     })
   },
   post: async (request, h) => {

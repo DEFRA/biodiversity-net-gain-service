@@ -59,6 +59,10 @@ const {
     CHECK_PLANNING_AUTHORITIES
   }
 } = landConstants
+
+const UPLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/upload-geospatial-file'
+const CHOOSE_LAND_BOUNDARY_UPLOAD = 'land/choose-land-boundary-upload'
+
 const {
   routes: {
     DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
@@ -76,6 +80,7 @@ const routes = {
   COMBINED_CASE_PROJECTS: 'combined-case/combined-case-projects',
   COMBINED_CASE_CONTINUE_PROJECT: 'combined-case/continue-combined-case-project',
   COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project',
+  COMBINED_CASE_MATCH_ALLOCATION_SUMMARY: 'combined-case/match-allocation-summary',
   COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
 }
 
@@ -86,7 +91,9 @@ const redisKeys = {
   COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING: 'combined-case-allocation-habitats-processing',
   COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats',
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
-  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
+  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete',
+  COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED: 'combined-case-match-habitat-not-checked',
+  COMBINED_CASE_MATCH_HABITAT_NO_MATCHES: 'combined-case-match-habitat-no-matches'
 }
 
 const views = Object.fromEntries(
@@ -150,7 +157,9 @@ const routesToReuse = [
   `/${CHECK_HABITAT_PLAN_FILE}`,
   `/${HABITAT_ENHANCEMENTS_END_DATE}`,
   `/${ADD_PLANNING_AUTHORITY}`,
-  `/${CHECK_PLANNING_AUTHORITIES}`
+  `/${CHECK_PLANNING_AUTHORITIES}`,
+  `/${CHOOSE_LAND_BOUNDARY_UPLOAD}`,
+  `/${UPLOAD_GEOSPATIAL_LAND_BOUNDARY}`
 ]
 
 const reusedRoutePath = (baseUrl, originalRoute) => {
@@ -217,13 +226,15 @@ const reusedRoutes = {
   COMBINED_CASE_CHECK_HABITAT_PLAN_FILE: reusedRoutePath(baseUrl, CHECK_HABITAT_PLAN_FILE),
   COMBINED_CASE_HABITAT_ENHANCEMENTS_END_DATE: reusedRoutePath(baseUrl, HABITAT_ENHANCEMENTS_END_DATE),
   COMBINED_CASE_ADD_PLANNING_AUTHORITY: reusedRoutePath(baseUrl, ADD_PLANNING_AUTHORITY),
-  COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES)
+  COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES),
+  COMBINED_CASE_CHOOSE_LAND_BOUNDARY_UPLOAD: reusedRoutePath(baseUrl, CHOOSE_LAND_BOUNDARY_UPLOAD),
+  COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY: reusedRoutePath(baseUrl, UPLOAD_GEOSPATIAL_LAND_BOUNDARY)
 }
 
 export default {
   routes,
-  views,
   redisKeys,
+  views,
   routesToReuse,
   reusedRoutes,
   baseUrl
