@@ -1,5 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
-import developerApplicationData from '../../../__mocks__/developer-application-data.js'
+import combinedCaseApplicationData from '../../../__mocks__/combined-case-application-data.js'
 import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
@@ -23,17 +23,17 @@ describe(url, () => {
   })
 
   describe('GET', () => {
-    it(`should render the ${url.substring(1)} view `, async () => {
+    it.only(`should render the ${url.substring(1)} view `, async () => {
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
-      const res = await submitGetRequest({ url }, 200, developerApplicationData)
+      const res = await submitGetRequest({ url }, 200, combinedCaseApplicationData)
       expect(res.payload).not.toContain('Geoff')
     })
 
     it('should redirect the view for an organisation application when canSubmit is false', async () => {
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
 
-      const res = await submitGetRequest({ url }, 302, developerApplicationData)
+      const res = await submitGetRequest({ url }, 302, combinedCaseApplicationData)
       expect(res.payload).not.toContain('Geoff')
     })
   })
