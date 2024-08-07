@@ -6,7 +6,11 @@ const handlers = {
     return h.view(constants.views.CHANGE_TYPE_LEGAL_AGREEMENT)
   },
   post: async (request, h) => {
-    return getNextStep(request, h)
+    return getNextStep(request, h, (e) => {
+      return h.view(constants.views.CHANGE_TYPE_LEGAL_AGREEMENT, {
+        err: [e]
+      })
+    })
   }
 }
 
