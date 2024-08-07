@@ -27,7 +27,7 @@ const getRegistrationDetails = (request, applicationDetails) => {
     hideClass,
     application: applicationDetails,
     hideConsent: (request.yar.get(constants.redisKeys.LANDOWNERS)?.length === 0),
-    changeLandownersHref: constants.routes.ADD_LANDOWNERS, // todo 
+    changeLandownersHref: constants.routes.ADD_LANDOWNERS,
     routes: constants.routes,
     reusedRoutes: constants.reusedRoutes,
     landownerNames: getAllLandowners(request.yar),

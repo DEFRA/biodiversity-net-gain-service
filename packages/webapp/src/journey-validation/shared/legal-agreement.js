@@ -274,6 +274,38 @@ const checkLegalAgreementDetailsRoute = (startUrl, nextUrl) => routeDefinition(
   }
 )
 
+const changeTypeLegalAgreement = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeLegalAgreementType } = request.payload
+
+    if (changeLegalAgreementType === 'yes') {
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      request.yar.clear(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+      request.yar.clear(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
+      request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY)
+      request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+      request.yar.clear(constants.redisKeys.REFERER)
+      return nextUrl
+    } else if (changeLegalAgreementType === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change the type of legal agreement'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeLegalTypeAgreement'
+      })
+    }
+  }
+)
+
 export {
   legalAgreementTypeRoute,
   needAddAllLegalFileRoute,
@@ -295,5 +327,6 @@ export {
   needAddAllPlanningAuthoritiesRoute,
   addPlanningAuthorityRoute,
   checkPlanningAuthoritiesRoute,
-  checkLegalAgreementDetailsRoute
+  checkLegalAgreementDetailsRoute,
+  changeTypeLegalAgreement
 }
