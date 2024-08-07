@@ -294,7 +294,8 @@ const applicantTypes = {
 const primaryPages = {
   [REGISTRATION]: [`/${lojConstants.routes.REGISTER_LAND_TASK_LIST}`, `/${lojConstants.routes.CHECK_AND_SUBMIT}`],
   [ALLOCATION]: [`/${developerConstants.routes.DEVELOPER_TASKLIST}`, `/${developerConstants.routes.DEVELOPER_CHECK_AND_SUBMIT}`],
-  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS]
+  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS],
+  [COMBINED_CASE]: [`/${combinedCaseConstants.routes.COMBINED_CASE_TASK_LIST}`, `/${combinedCaseConstants.routes.COMBINED_CASE_CHECK_AND_SUBMIT}`]
 }
 
 export default Object.freeze({
