@@ -12,7 +12,6 @@ const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
-const DEVELOPER_NEED_METRIC = 'developer/need-metric'
 const DEVELOPER_AGENT_ACTING_FOR_CLIENT = 'developer/agent-acting-for-client'
 const DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS = 'developer/check-defra-account-details'
 const DEVELOPER_LANDOWNER_OR_LEASEHOLDER = 'developer/landowner-or-leaseholder'
@@ -121,7 +120,6 @@ export default {
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
     DEVELOPER_NEW_DEVELOPMENT_PROJECT,
-    DEVELOPER_NEED_METRIC,
     DEVELOPER_AGENT_ACTING_FOR_CLIENT,
     DEVELOPER_CHECK_DEFRA_ACCOUNT_DETAILS,
     DEVELOPER_LANDOWNER_OR_LEASEHOLDER,
