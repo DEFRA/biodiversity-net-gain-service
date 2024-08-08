@@ -24,7 +24,7 @@ const METRIC_UPLOAD = routeDefinition(
 
 const CHECK_METRIC = routeDefinition(
   constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
-  [constants.redisKeys.METRIC_FILE_CHECKED]
+  [constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED]
 )
 
 const CONFIRM_DEV_HABITAT_DETAILS = routeDefinition(

@@ -5,13 +5,22 @@ import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/t
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.SITE_BOUNDARY)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      if (isCombinedCase) {
+        return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+      } else {
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      }
     }
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
       isGeosptialDisabled: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y',
-      routes: constants.routes
+      urlPath: isCombinedCase ? '/combined-case' : '/land',
+      addGridRefHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE : constants.routes.ADD_GRID_REFERENCE,
+      addHectaresHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES : constants.routes.ADD_HECTARES,
+      chooseLandBoundUploadHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHOOSE_LAND_BOUNDARY_UPLOAD : constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
+      uploadGeospatialLandBoundHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY : constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
     })
   },
   post: async (request, h) => {
