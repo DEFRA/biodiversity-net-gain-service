@@ -3,9 +3,6 @@ const DEVELOPER_UPLOAD_METRIC = 'developer/upload-metric-file'
 const DEVELOPER_CHECK_UPLOAD_METRIC = 'developer/check-metric-file'
 const DEVELOPER_DOWNLOAD_METRIC_FILE = 'developer/download-metric-file'
 const DEVELOPER_TASKLIST = 'developer/tasklist'
-const DEVELOPER_ROUTING_REGISTER = 'developer/routing-register'
-const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
-const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
@@ -46,7 +43,6 @@ const DEVELOPER_METRIC_FILE_TYPE = 'developer-upload-metric-file-type'
 const DEVELOPER_FULL_NAME = 'developer-fullname'
 const DEVELOPER_REFERER = 'developer-referer'
 const DEVELOPER_EMAIL_VALUE = 'developer-email-value'
-const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
@@ -100,20 +96,12 @@ const DEFAULT_DEVELOPER_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_DEVELOPER_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_DEVELOPER_TASK_STATUS = 'COMPLETED'
 
-const ROUTING_REGISTER_OPTIONS = {
-  REGISTER: 'register-gain-site',
-  RECORD: 'record-off-site'
-}
-
 export default {
   routes: {
     DEVELOPER_UPLOAD_METRIC,
     DEVELOPER_CHECK_UPLOAD_METRIC,
     DEVELOPER_DOWNLOAD_METRIC_FILE,
     DEVELOPER_TASKLIST,
-    DEVELOPER_ROUTING_REGISTER,
-    DEVELOPER_ROUTING_RESULT,
-    DEVELOPER_ROUTING_SOLD,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
@@ -152,7 +140,6 @@ export default {
     DEVELOPER_FULL_NAME,
     DEVELOPER_REFERER,
     DEVELOPER_EMAIL_VALUE,
-    DEVELOPER_ROUTING_REGISTER_VALUE,
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
     DEVELOPER_ADDITIONAL_EMAILS,
@@ -195,7 +182,6 @@ export default {
     DEVELOPER_CONSENT_TO_USE_GAIN_SITE_UPLOAD_TYPE
   },
   options: {
-    ROUTING_REGISTER_OPTIONS,
     DEFAULT_DEVELOPER_TASK_STATUS,
     IN_PROGRESS_DEVELOPER_TASK_STATUS,
     COMPLETE_DEVELOPER_TASK_STATUS
