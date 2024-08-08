@@ -9,7 +9,7 @@ const createAgentActingForClientRoute = (startUrl, nextUrl, altNextUrl) => route
   [constants.redisKeys.IS_AGENT],
   (session) => {
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isApplicantAgent === 'yes') {
       return referrerUrl || nextUrl
     } else if (isApplicantAgent === 'no') {
@@ -28,7 +28,7 @@ const createCheckDefraAccountDetailsRoute = (startUrl, nextUrl, altNextUrl) => r
   startUrl,
   [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (referrerUrl) {
       return referrerUrl
     } else if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
@@ -44,7 +44,7 @@ const clientIndividualOrganisationRoute = (startUrl, nextUrl, altNextUrl) => rou
   [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY],
   (session) => {
     const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return session.get(referrerUrl, true) || nextUrl
     } else {
@@ -75,7 +75,7 @@ const appByIndividualOrOrgRoute = (startUrl, nextUrl, altNextUrl) => routeDefini
       const isOrganisation = individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION
 
       if ((isIndividual && !organisation) || (isOrganisation && organisation)) {
-        const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+        const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
         return referrerUrl || nextUrl
       }
 
@@ -133,7 +133,7 @@ const ukAddressRoute = (startUrl, nextUrl, altNextUrl, alt1NextUrl) => routeDefi
     if (isApplicantAgent === 'no') {
       return nextUrl
     }
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return referrerUrl || altNextUrl
     } else {
@@ -151,7 +151,7 @@ const noUkAddressRoute = (startUrl, nextUrl, altNextUrl, alt1NextUrl) => routeDe
     if (isApplicantAgent === 'no') {
       return nextUrl
     }
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return referrerUrl || altNextUrl
     } else {
@@ -164,7 +164,7 @@ const clientsOrgNameRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -189,7 +189,7 @@ const checkWrittenAuthFileRoute = (startUrl, nextUrl, altNextUrl) => routeDefini
     if (checkWrittenAuthorisation === 'no') {
       return nextUrl
     } else if (checkWrittenAuthorisation === 'yes') {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
       return referrerUrl || altNextUrl
     } else {
       const message = 'Select yes if this is the correct file'
@@ -205,7 +205,7 @@ const clientsNameRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_NAME_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -214,7 +214,7 @@ const clientsEmailAddressRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -223,7 +223,7 @@ const clientsPhoneNumberRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )

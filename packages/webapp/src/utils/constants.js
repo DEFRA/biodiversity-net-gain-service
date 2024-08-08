@@ -60,6 +60,10 @@ const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information'
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS = ['/combined-case/check-applicant-information', '/combined-case/check-and-submit']
+const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-boundary-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
 
@@ -348,6 +352,10 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
+  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
+  COMBINED_CASE_METRIC_VALID_REFERRERS,
+  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
   reusedRoutes
 })
