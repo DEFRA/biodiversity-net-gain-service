@@ -85,32 +85,6 @@ const combinedCaseValidation = Joi.object({
         )
       }),
       habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
-      files: Joi.array().items(
-        Joi.object({
-          fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson', 'written-authorisation').required(),
-          contentMediaType: Joi.when('optional', {
-            is: true,
-            then: Joi.string().allow(null),
-            otherwise: Joi.string().required()
-          }),
-          fileSize: Joi.when('optional', {
-            is: true,
-            then: Joi.number().allow(null),
-            otherwise: Joi.number().required()
-          }),
-          fileLocation: Joi.when('optional', {
-            is: true,
-            then: Joi.string().allow(null),
-            otherwise: Joi.string().required()
-          }),
-          fileName: Joi.when('optional', {
-            is: true,
-            then: Joi.string().allow(null),
-            otherwise: Joi.string().required()
-          }),
-          optional: Joi.boolean().optional()
-        })
-      ).required(),
       gainSiteReference: Joi.string().allow(''),
       landBoundaryGridReference: Joi.string().regex(constants.gridReferenceRegEx).required(),
       landBoundaryHectares: Joi.number().required(),
@@ -127,22 +101,6 @@ const combinedCaseValidation = Joi.object({
           then: Joi.array().min(1), // Array must have at least one item
           otherwise: Joi.forbidden() // Otherwise, it shouldn't be present
         }),
-      landowners: Joi.object({
-        organisation: Joi.array().items(
-          Joi.object({
-            organisationName: Joi.string().required(),
-            email: Joi.string().required()
-          })
-        ),
-        individual: Joi.array().items(
-          Joi.object({
-            firstName: Joi.string().required(),
-            middleNames: Joi.string().allow('').optional(),
-            lastName: Joi.string().required(),
-            email: Joi.string().required()
-          })
-        )
-      }).required(),
       enhancementWorkStartDate: Joi.date().allow(null),
       legalAgreementEndDate: Joi.date().allow(null),
       submittedOn: Joi.date().required(),

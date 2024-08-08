@@ -121,8 +121,7 @@ const getAddress = session => {
   return address
 }
 
-const getHabitats = session => {
-  const metricData = session.get(constants.redisKeys.METRIC_DATA)
+const getHabitats = metricData => {
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
@@ -349,7 +348,7 @@ const application = (session, account) => {
     combinedCase: {
       applicant: getApplicant(account, session),
       registrationDetails: {
-        habitats: getHabitats(session),
+        habitats: getHabitats(session.get(constants.redisKeys.METRIC_DATA)),
         landBoundaryGridReference: getGridReference(session),
         landBoundaryHectares: getHectares(session),
         legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
@@ -362,7 +361,7 @@ const application = (session, account) => {
       },
       allocationDetails: {
         gainSite: getGainSite(session),
-        habitats: getAllocationHabitats(session),
+        habitats: getHabitats(session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)),
         development: {
           localPlanningAuthority: {
             code: getLpaCode(planningAuthorityName),
