@@ -4,8 +4,13 @@ import constants from '../constants.js'
 import account from '../../__mocks__/applicant.js'
 
 describe('application', () => {
+  let session
+
+  beforeEach(() => {
+    session = setApplicationSession()
+  })
+
   it('Creates payload for individual landowner', () => {
-    const session = setApplicationSession()
     const app = application(session, account)
     expect(app.combinedCase.applicant.id).toEqual('1234567890')
     expect(app.combinedCase.files[0].fileType).toEqual('land-ownership')
@@ -14,7 +19,6 @@ describe('application', () => {
 
   it('Adds organisation ID if an organisation logged in', () => {
     const orgId = 'ORG-XYZ'
-    const session = setApplicationSession()
     session.set(constants.redisKeys.ORGANISATION_ID, orgId)
     const app = application(session, account)
     expect(app.combinedCase.organisation.id).toEqual(orgId)
@@ -22,7 +26,6 @@ describe('application', () => {
   })
 
   it('Filters out habitats correctly based on gain site number', () => {
-    const session = setApplicationSession()
     session.values[constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER] = 'GAIN-1234'
 
     const app = application(session, account)
@@ -35,7 +38,6 @@ describe('application', () => {
     const lastName = 'Doe'
     const fileLocation = 'mock-location/mock-file'
     const fileSize = '1024'
-    const session = setApplicationSession()
 
     session.set(constants.redisKeys.IS_AGENT, 'yes')
     session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, 'individual')
@@ -55,7 +57,6 @@ describe('application', () => {
 
   it('Adds client organisation name if client is organisation', () => {
     const orgName = 'Client Org'
-    const session = setApplicationSession()
 
     session.set(constants.redisKeys.IS_AGENT, 'yes')
     session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, 'organisation')
@@ -68,7 +69,6 @@ describe('application', () => {
   })
 
   it('Adds default offsite unit change value if not available', () => {
-    const session = setApplicationSession()
     session.values[constants.redisKeys.DEVELOPER_METRIC_DATA] = {
       habitatOffSiteGainSiteSummary: [],
       hedgeOffSiteGainSiteSummary: [],
@@ -81,10 +81,62 @@ describe('application', () => {
   })
 
   it('Should handle nullable fields if session data not exists', () => {
-    const session = setApplicationSession()
     session.clear(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE)
 
     const app = application(session, account)
     expect(app.combinedCase.applicationReference).toEqual('')
+  })
+
+  it('Sets applicant role as "representative" if not an agent and has organisation id', () => {
+    session.set(constants.redisKeys.IS_AGENT, 'no')
+    session.set(constants.redisKeys.ORGANISATION_ID, '123')
+    const app = application(session, account)
+    expect(app.combinedCase.applicant.role).toEqual('representative')
+  })
+
+  it('Sets applicant role as "landowner" if not an agent and has no organisation id', () => {
+    session.set(constants.redisKeys.IS_AGENT, 'no')
+    session.set(constants.redisKeys.ORGANISATION_ID, null)
+    const app = application(session, account)
+    expect(app.combinedCase.applicant.role).toEqual('landowner')
+  })
+
+  it('Handles missing client name gracefully for organisation', () => {
+    session.set(constants.redisKeys.IS_AGENT, 'yes')
+    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, 'organisation')
+    session.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+
+    const app = application(session, account)
+    expect(app.combinedCase.agent.clientNameOrganisation).toBeUndefined()
+  })
+
+  it('Should set UK address', () => {
+    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.YES)
+    session.set(constants.redisKeys.UK_ADDRESS_KEY, {
+      addressLine1: 'addressLine1',
+      town: 'town',
+      addressLine2: 'addressLine2',
+      addressLine3: 'addressLine3',
+      postcode: 'postcode',
+      county: 'county'
+    })
+
+    const app = application(session, account)
+    expect(app.combinedCase.agent.clientAddress.type).toBe('uk')
+  })
+
+  it('Should set international address', () => {
+    session.set(constants.redisKeys.IS_ADDRESS_UK_KEY, constants.ADDRESS_IS_UK.NO)
+    session.set(constants.redisKeys.NON_UK_ADDRESS_KEY, {
+      addressLine1: 'addressLine1',
+      town: 'town',
+      addressLine2: 'addressLine2',
+      addressLine3: 'addressLine3',
+      postcode: 'postcode',
+      county: 'county'
+    })
+
+    const app = application(session, account)
+    expect(app.combinedCase.agent.clientAddress.type).toBe('international')
   })
 })
