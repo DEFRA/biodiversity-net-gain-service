@@ -1,4 +1,5 @@
 import dirname from '../../dirname.cjs'
+import path from 'path'
 
 const publicRoutes = [{
   method: 'GET',
@@ -15,11 +16,11 @@ const publicRoutes = [{
   handler: {
     directory: {
       path: [
-        `${dirname}/public/static`,
-        `${dirname}/public/build`,
-        `${dirname}/node_modules/govuk-frontend/govuk`,
-        `${dirname}/node_modules/govuk-frontend/govuk/assets`,
-        `${dirname}/node_modules/jquery/dist`
+        path.join(dirname, 'public', 'static'),
+        path.join(dirname, 'public', 'build'),
+        path.join(dirname, 'node_modules', 'govuk-frontend', 'govuk'),
+        path.join(dirname, 'node_modules', 'govuk-frontend', 'govuk', 'assets'),
+        path.join(dirname, 'node_modules', 'jquery', 'dist')
       ]
     }
   },
@@ -32,8 +33,8 @@ const publicRoutes = [{
   handler: {
     directory: {
       path: [
-        `${dirname}/node_modules/@ministryofjustice/frontend/moj`,
-        `${dirname}/node_modules/@ministryofjustice/frontend/moj/assets`
+        path.join(dirname, '..', '..', 'node_modules', '@ministryofjustice', 'frontend', 'moj'),
+        path.join(dirname, '..', '..', 'node_modules', '@ministryofjustice', 'frontend', 'moj', 'assets')
       ]
     }
   },
