@@ -139,4 +139,21 @@ describe('application', () => {
     const app = application(session, account)
     expect(app.combinedCase.agent.clientAddress.type).toBe('international')
   })
+
+  it('Should get local planning authorities', () => {
+    session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+    session.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['County Durham LPA'])
+
+    const app = application(session, account)
+    expect(app.combinedCase.registrationDetails.planningObligationLPAs).toStrictEqual([{ LPAId: 'E60000001', LPAName: 'County Durham LPA' }]
+    )
+  })
+
+  it('Should return empty array when no local planning authorities', () => {
+    session.set(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE, '759150000')
+    session.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, [])
+
+    const app = application(session, account)
+    expect(app.combinedCase.registrationDetails.planningObligationLPAs).toStrictEqual([])
+  })
 })
