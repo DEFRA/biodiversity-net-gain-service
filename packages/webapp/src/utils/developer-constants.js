@@ -8,8 +8,6 @@ const DEVELOPER_ROUTING_RESULT = 'developer/routing-result'
 const DEVELOPER_ROUTING_SOLD = 'developer/routing-sold'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
-const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
-const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
@@ -53,12 +51,6 @@ const DEVELOPER_ROUTING_REGISTER_VALUE = 'routing-register-value'
 const DEVELOPER_WRITTEN_CONTENT_VALUE = 'developer-written-consent-value'
 const BIODIVERSITY_NET_GAIN_NUMBER = 'biodiversity-net-gain-number'
 const DEVELOPER_ADDITIONAL_EMAILS = 'developer-additional-emails'
-const DEVELOPER_ORIGINAL_CONSENT_LOCATION = 'developer-original-consent-location'
-const DEVELOPER_CONSENT_FILE_LOCATION = 'developer-consent-file-location'
-const DEVELOPER_CONSENT_FILE_NAME = 'developer-consent-file-name'
-const DEVELOPER_CONSENT_FILE_SIZE = 'developer-consent-file-size'
-const DEVELOPER_CONSENT_FILE_TYPE = 'developer-consent-file-type'
-const DEVELOPER_CONSENT_ANSWER = 'developer-consent-answer'
 const DEVELOPER_TASK_DETAILS = 'developer-task-details'
 const DEVELOPER_APP_REFERENCE = 'developer-app-reference'
 const DEVELOPER_ROLE_KEY = 'developer-role-key'
@@ -90,7 +82,6 @@ const DEVELOPER_APPLICATION_SUBMITTED = 'developer-application-submitted'
 const DEVELOPER_METRIC_FILE_CHECKED = 'developer-metric-file-checked'
 
 const setDeveloperReferer = [
-  DEVELOPER_AGREEMENT_CHECK,
   DEVELOPER_CHECK_AND_SUBMIT
 ]
 
@@ -126,8 +117,6 @@ export default {
     DEVELOPER_ROUTING_SOLD,
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
-    DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-    DEVELOPER_AGREEMENT_CHECK,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
@@ -169,12 +158,6 @@ export default {
     DEVELOPER_WRITTEN_CONTENT_VALUE,
     BIODIVERSITY_NET_GAIN_NUMBER,
     DEVELOPER_ADDITIONAL_EMAILS,
-    DEVELOPER_ORIGINAL_CONSENT_LOCATION,
-    DEVELOPER_CONSENT_FILE_LOCATION,
-    DEVELOPER_CONSENT_FILE_NAME,
-    DEVELOPER_CONSENT_FILE_SIZE,
-    DEVELOPER_CONSENT_FILE_TYPE,
-    DEVELOPER_CONSENT_ANSWER,
     DEVELOPER_TASK_DETAILS,
     DEVELOPER_APP_REFERENCE,
     DEVELOPER_ROLE_KEY,
