@@ -21,6 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     changeClientIndividualOrganisation = require('../../land/change-client-individual-organisation.js')
   })
 
@@ -34,7 +35,8 @@ describe(url, () => {
     it('Should continue journey to CLIENT_INDIVIDUAL_ORGANISATION if user confirms to changing individual or organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeClientIndividualOrganisation: 'yes' }
+        payload: { changeClientIndividualOrganisation: 'yes' },
+        path: changeClientIndividualOrganisation.default[1].path
       }
 
       await changeClientIndividualOrganisation.default[1].handler(request, h)
@@ -44,7 +46,8 @@ describe(url, () => {
     it('Should continue journey to CHECK_APPLICANT_INFORMATION if user does not want to change if the client is individual or organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeClientIndividualOrganisation: 'no' }
+        payload: { changeClientIndividualOrganisation: 'no' },
+        path: changeClientIndividualOrganisation.default[1].path
       }
 
       await changeClientIndividualOrganisation.default[1].handler(request, h)
@@ -55,7 +58,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: changeClientIndividualOrganisation.default[1].path
       }
 
       await changeClientIndividualOrganisation.default[1].handler(request, h)
