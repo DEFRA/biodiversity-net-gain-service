@@ -23,7 +23,8 @@ describe(url, () => {
         return 'sample.docx'
       })
 
-      await submitGetRequest({ url })
+      const { headers } = await submitGetRequest({ url })
+      expect(headers['content-disposition']).toEqual('attachment; filename= sample.docx')
     })
   })
 })
