@@ -1,6 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import combinedCaseApplicationData from '../../../__mocks__/combined-case-application-data.js'
-import setDeveloperApplicationSession from '../../../__mocks__/developer-application-session.js'
+import setDeveloperApplicationSession from '../../../__mocks__/combined-case-application-session.js'
 import applicant from '../../../__mocks__/applicant.js'
 import constants from '../../../utils/constants.js'
 import * as taskListUtil from '../../../journey-validation/task-list-generator.js'
@@ -23,7 +23,7 @@ describe(url, () => {
   })
 
   describe('GET', () => {
-    it.only(`should render the ${url.substring(1)} view `, async () => {
+    it(`should render the ${url.substring(1)} view `, async () => {
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
 
       const res = await submitGetRequest({ url }, 200, combinedCaseApplicationData)
@@ -41,6 +41,7 @@ describe(url, () => {
   describe('POST', () => {
     it('should process a valid application correctly', async () => {
       const session = setDeveloperApplicationSession()
+      session.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, '123')
       const postHandler = checkAnswers[1].handler
 
       jest.mock('../../../utils/http.js')
@@ -55,7 +56,7 @@ describe(url, () => {
 
       await postHandler({ yar: session, auth, payload }, h)
       expect(h.view).not.toHaveBeenCalled()
-      expect(h.redirect).toHaveBeenCalledWith(constants.routes.COMBINED_CASE_TASK_LIST)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.APPLICATION_SUBMITTED)
     })
   })
 })
