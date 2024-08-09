@@ -21,6 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     changeApplyingIndividualOrganisation = require('../../land/change-applying-individual-organisation.js')
   })
 
@@ -34,7 +35,8 @@ describe(url, () => {
     it('Should continue journey to APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION if the client is individual or organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeApplyingIndividualOrganisation: 'yes' }
+        payload: { changeApplyingIndividualOrganisation: 'yes' },
+        path: changeApplyingIndividualOrganisation.default[1].path
       }
 
       await changeApplyingIndividualOrganisation.default[1].handler(request, h)
@@ -44,7 +46,8 @@ describe(url, () => {
     it('Should continue journey to CHECK_APPLICANT_INFORMATION if user does not want to change applying as individual or organisation', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeApplyingIndividualOrganisation: 'no' }
+        payload: { changeApplyingIndividualOrganisation: 'no' },
+        path: changeApplyingIndividualOrganisation.default[1].path
       }
 
       await changeApplyingIndividualOrganisation.default[1].handler(request, h)
@@ -55,7 +58,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: changeApplyingIndividualOrganisation.default[1].path
       }
 
       await changeApplyingIndividualOrganisation.default[1].handler(request, h)
