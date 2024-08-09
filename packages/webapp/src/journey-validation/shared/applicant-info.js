@@ -9,7 +9,7 @@ const createAgentActingForClientRoute = (startUrl, nextUrl, altNextUrl) => route
   [constants.redisKeys.IS_AGENT],
   (session) => {
     const isApplicantAgent = session.get(constants.redisKeys.IS_AGENT)
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isApplicantAgent === 'yes') {
       return referrerUrl || nextUrl
     } else if (isApplicantAgent === 'no') {
@@ -28,7 +28,7 @@ const createCheckDefraAccountDetailsRoute = (startUrl, nextUrl, altNextUrl) => r
   startUrl,
   [constants.redisKeys.DEFRA_ACCOUNT_DETAILS_CONFIRMED],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (referrerUrl) {
       return referrerUrl
     } else if (session.get(constants.redisKeys.IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
@@ -44,7 +44,7 @@ const clientIndividualOrganisationRoute = (startUrl, nextUrl, altNextUrl) => rou
   [constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY],
   (session) => {
     const individualOrOrganisation = session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (individualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return session.get(referrerUrl, true) || nextUrl
     } else {
@@ -75,7 +75,7 @@ const appByIndividualOrOrgRoute = (startUrl, nextUrl, altNextUrl) => routeDefini
       const isOrganisation = individualOrOrganisation === constants.individualOrOrganisationTypes.ORGANISATION
 
       if ((isIndividual && !organisation) || (isOrganisation && organisation)) {
-        const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+        const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
         return referrerUrl || nextUrl
       }
 
@@ -133,7 +133,7 @@ const ukAddressRoute = (startUrl, nextUrl, altNextUrl, alt1NextUrl) => routeDefi
     if (isApplicantAgent === 'no') {
       return nextUrl
     }
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return referrerUrl || altNextUrl
     } else {
@@ -151,7 +151,7 @@ const noUkAddressRoute = (startUrl, nextUrl, altNextUrl, alt1NextUrl) => routeDe
     if (isApplicantAgent === 'no') {
       return nextUrl
     }
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     if (isIndividualOrOrganisation === constants.individualOrOrganisationTypes.INDIVIDUAL) {
       return referrerUrl || altNextUrl
     } else {
@@ -164,7 +164,7 @@ const clientsOrgNameRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -189,7 +189,7 @@ const checkWrittenAuthFileRoute = (startUrl, nextUrl, altNextUrl) => routeDefini
     if (checkWrittenAuthorisation === 'no') {
       return nextUrl
     } else if (checkWrittenAuthorisation === 'yes') {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
       return referrerUrl || altNextUrl
     } else {
       const message = 'Select yes if this is the correct file'
@@ -205,7 +205,7 @@ const clientsNameRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_NAME_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -214,7 +214,7 @@ const clientsEmailAddressRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -223,7 +223,7 @@ const clientsPhoneNumberRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_APPLICANT_INFO_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_APPLICANT_INFO_VALID_REFERRERS, ...constants.COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -233,6 +233,97 @@ const checkAppInfoRoute = (startUrl, nextUrl) => routeDefinition(
   [],
   () => {
     return nextUrl
+  }
+)
+
+const changeClientIndividualOrganisationRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeClientIndividualOrganisation } = request.payload
+
+    if (changeClientIndividualOrganisation === 'yes') {
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeClientIndividualOrganisation === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether your client is an individual or organisation'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeClientIndividualOrganisation'
+      })
+    }
+  }
+)
+
+const changeActingOnBehalfOfClientRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeActingOnBehalfOfClient } = request.payload
+
+    if (changeActingOnBehalfOfClient === 'yes') {
+      request.yar.clear(constants.redisKeys.IS_AGENT)
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeActingOnBehalfOfClient === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether you’re acting on behalf of a client'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeActingOnBehalfOfClient'
+      })
+    }
+  }
+)
+
+const changeApplyingIndividualOrg = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeApplyingIndividualOrganisation } = request.payload
+
+    if (changeApplyingIndividualOrganisation === 'yes') {
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeApplyingIndividualOrganisation === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether you’re applying as an individual or an organisation'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeApplyingIndividualOrganisation'
+      })
+    }
   }
 )
 
@@ -250,5 +341,8 @@ export {
   clientsNameRoute,
   clientsEmailAddressRoute,
   clientsPhoneNumberRoute,
-  checkAppInfoRoute
+  checkAppInfoRoute,
+  changeClientIndividualOrganisationRoute,
+  changeActingOnBehalfOfClientRoute,
+  changeApplyingIndividualOrg
 }

@@ -11,7 +11,6 @@ const handlers = {
     return h.view(constants.views.CHECK_APPLICANT_INFORMATION, applicationInformationContext(request.yar))
   },
   post: async (request, h) => {
-    // return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     return getNextStep(request, h)
   }
 }
