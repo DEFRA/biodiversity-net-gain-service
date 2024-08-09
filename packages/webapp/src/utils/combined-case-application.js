@@ -337,7 +337,21 @@ const getLpaCode = name => {
   return foundLpa ? foundLpa.id : null
 }
 
-const getAllocationHabitats = session => ({})
+const getAllocationHabitats = session => {
+  const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+
+  return {
+    allocated: (matchedHabitats || []).map(m => {
+      return {
+        habitatId: m.matchedHabitatId,
+        area: m.size,
+        module: m.module,
+        state: m.state,
+        measurementUnits: m.measurementUnits
+      }
+    })
+  }
+}
 
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
@@ -361,7 +375,7 @@ const application = (session, account) => {
       },
       allocationDetails: {
         gainSite: getGainSite(session),
-        habitats: getHabitats(session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)),
+        habitats: getAllocationHabitats(session),
         development: {
           localPlanningAuthority: {
             code: getLpaCode(planningAuthorityName),

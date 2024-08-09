@@ -144,15 +144,13 @@ const combinedCaseValidation = Joi.object({
         }).required()
       }).required(),
       habitats: Joi.object({
-        proposed: Joi.array().allow(null), // TODO
-        baseline: Joi.array().allow(null), // TODO
         allocated: Joi.array().items(Joi.object({
-          habitatId: Joi.string().allow(''),
+          habitatId: Joi.string().required(),
           area: Joi.number().required(),
           module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
           state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
           measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
-        })).allow(null) // TODO .required()
+        })).required()
       }).required(),
       development: Joi.object({
         localPlanningAuthority: Joi.object({
