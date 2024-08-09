@@ -18,9 +18,9 @@ const publicRoutes = [{
       path: [
         path.join(dirname, 'public', 'static'),
         path.join(dirname, 'public', 'build'),
-        path.join(dirname, '..', '..','node_modules', 'govuk-frontend', 'govuk'),
-        path.join(dirname, '..', '..','node_modules', 'govuk-frontend', 'govuk', 'assets'),
-        path.join(dirname, '..', '..','node_modules', 'jquery', 'dist')
+        path.join(dirname, '..', '..', 'node_modules', 'govuk-frontend', 'govuk'),
+        path.join(dirname, '..', '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'),
+        path.join(dirname, '..', '..', 'node_modules', 'jquery', 'dist')
       ]
     }
   },
