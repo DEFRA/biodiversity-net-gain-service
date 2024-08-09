@@ -36,6 +36,7 @@ const combinedCaseValidation = Joi.object({
       role: Joi.string().valid('agent', 'landowner', 'representative').required()
     }),
     registrationDetails: Joi.object({
+      landowners: Joi.object(),
       landownerAddress: Joi.when('applicant.role', {
         is: 'landowner',
         then: applicantAddressSchema,
@@ -63,7 +64,8 @@ const combinedCaseValidation = Joi.object({
         ),
         proposed: Joi.array().items(
           Joi.object({
-            proposedHabitatId: Joi.string(),
+            habitatId: Joi.string().allow(null, ''), // TODO remove?
+            proposedHabitatId: Joi.string().allow(null, ''), // TODO value not coming through
             baselineReference: Joi.when('module', {
               is: 'Enhanced',
               then: Joi.string(),
@@ -103,7 +105,7 @@ const combinedCaseValidation = Joi.object({
         }),
       enhancementWorkStartDate: Joi.date().allow(null),
       legalAgreementEndDate: Joi.date().allow(null),
-      submittedOn: Joi.date().required(),
+      submittedOn: Joi.date().allow(null), // TODO required(),
       payment: Joi.object({
         reference: Joi.string().allow(null, ''),
         method: Joi.string().required()
@@ -125,13 +127,16 @@ const combinedCaseValidation = Joi.object({
           is: 'organisation',
           then: Joi.string().required(),
           otherwise: Joi.forbidden()
-        })
+        }),
+        clientAddress: Joi.object(), // TODO
+        clientPhoneNumber: Joi.string(), // TODO
+        clientEmail: Joi.string() // TODO
       }),
       otherwise: Joi.forbidden()
     }),
     allocationDetails: Joi.object({
       gainSite: Joi.object({
-        reference: Joi.string().required(),
+        reference: Joi.string().allow(null), // TODO .required(),
         offsiteUnitChange: Joi.object({
           habitat: Joi.number().required(),
           hedge: Joi.number().required(),
@@ -139,22 +144,16 @@ const combinedCaseValidation = Joi.object({
         }).required()
       }).required(),
       habitats: Joi.object({
+        proposed: Joi.array().allow(null), // TODO
+        baseline: Joi.array().allow(null), // TODO
         allocated: Joi.array().items(Joi.object({
           habitatId: Joi.string().allow(''),
           area: Joi.number().required(),
           module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
           state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
           measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
-        })).required()
+        })).allow(null) // TODO .required()
       }).required(),
-      files: Joi.array().items(Joi.object({
-        contentMediaType: Joi.string().required(),
-        fileType: Joi.string().required(),
-        fileSize: Joi.number().required(),
-        fileLocation: Joi.string().required(),
-        fileName: Joi.string().required(),
-        optional: Joi.boolean().optional()
-      })).required(),
       development: Joi.object({
         localPlanningAuthority: Joi.object({
           code: Joi.string().pattern(/^E60000[0-9]{3}$/).allow(null, '').required(),
@@ -164,6 +163,14 @@ const combinedCaseValidation = Joi.object({
         name: Joi.string()
       }).required()
     }).required(),
+    files: Joi.array().items(Joi.object({
+      contentMediaType: Joi.string().required(),
+      fileType: Joi.string().required(),
+      fileSize: Joi.number().required(),
+      fileLocation: Joi.string().required(),
+      fileName: Joi.string().required(),
+      optional: Joi.boolean().optional()
+    })).required(),
     payment: Joi.object({
       reference: Joi.string().required(),
       method: Joi.string().valid('BACS').required()

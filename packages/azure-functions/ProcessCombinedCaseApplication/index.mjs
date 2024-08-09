@@ -15,7 +15,7 @@ const buildConfig = body => {
       message: body
     },
     res: {
-      applicationReference: body.combinedCaseRegistration.applicationReference
+      applicationReference: body.combinedCase.applicationReference
     }
   }
 }
@@ -26,25 +26,25 @@ export default async function (context, req) {
   try {
     // Generate gain site reference if not already present
     db = await getDBConnection(context)
-    if (!req.body.combinedCaseRegistration.applicationReference) {
+    if (!req.body.combinedCase.applicationReference) {
       const applicationReference = await createApplicationReference(db)
-      req.body.combinedCaseRegistration.applicationReference = applicationReference.rows[0].application_reference
-      req.body.combinedCaseRegistration.payment.reference = applicationReference.rows[0].application_reference
+      req.body.combinedCase.applicationReference = applicationReference.rows[0].application_reference
+      req.body.combinedCase.payment.reference = applicationReference.rows[0].application_reference
     } else {
       // Check if application has been submitted and throw error if true
-      const status = await getApplicationStatus(db, [req.body.combinedCaseRegistration.applicationReference])
+      const status = await getApplicationStatus(db, [req.body.combinedCase.applicationReference])
       if (status.rows.length > 0 && status.rows[0].application_status === applicationStatuses.submitted) {
-        context.log(`Duplicate submission detected ${req.body.combinedCaseRegistration.applicationReference}`)
+        context.log(`Duplicate submission detected ${req.body.combinedCase.applicationReference}`)
         throw new DuplicateApplicationReferenceError(
-          req.body.combinedCaseRegistration.applicationReference,
+          req.body.combinedCase.applicationReference,
           'Application reference has already been processed'
         )
       }
       // Clear out saved application (reference was generated from saving)
-      await deleteApplicationSession(db, [req.body.combinedCaseRegistration.applicationReference])
+      await deleteApplicationSession(db, [req.body.combinedCase.applicationReference])
     }
     // Set status of application to submitted
-    await insertApplicationStatus(db, [req.body.combinedCaseRegistration.applicationReference, applicationStatuses.submitted])
+    await insertApplicationStatus(db, [req.body.combinedCase.applicationReference, applicationStatuses.submitted])
 
     const config = buildConfig(req.body)
     context.bindings.outputSbQueue = config.serviceBusConfig.message
@@ -52,7 +52,7 @@ export default async function (context, req) {
       status: 200,
       body: JSON.stringify(config.res)
     }
-    context.log(`Processed ${req.body.combinedCaseRegistration.applicationReference}`)
+    context.log(`Processed ${req.body.combinedCase.applicationReference}`)
   } catch (err) {
     context.log.error(err)
     context.res = {
