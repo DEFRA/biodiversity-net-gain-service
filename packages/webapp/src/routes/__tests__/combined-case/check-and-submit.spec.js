@@ -30,6 +30,15 @@ describe(url, () => {
       expect(res.payload).not.toContain('Geoff')
     })
 
+    it('should redirect the view when already submitted', async () => {
+      jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
+      const session = {
+        [constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED]: true
+      }
+      const res = await submitGetRequest({ url }, 302, { ...combinedCaseApplicationData, ...session })
+      expect(res.payload).not.toContain('Geoff')
+    })
+
     it('should redirect the view for an organisation application when canSubmit is false', async () => {
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: false })
 
