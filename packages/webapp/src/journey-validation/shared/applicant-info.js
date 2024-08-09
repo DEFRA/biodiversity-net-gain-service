@@ -236,6 +236,97 @@ const checkAppInfoRoute = (startUrl, nextUrl) => routeDefinition(
   }
 )
 
+const changeClientIndividualOrganisationRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeClientIndividualOrganisation } = request.payload
+
+    if (changeClientIndividualOrganisation === 'yes') {
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeClientIndividualOrganisation === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether your client is an individual or organisation'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeClientIndividualOrganisation'
+      })
+    }
+  }
+)
+
+const changeActingOnBehalfOfClientRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeActingOnBehalfOfClient } = request.payload
+
+    if (changeActingOnBehalfOfClient === 'yes') {
+      request.yar.clear(constants.redisKeys.IS_AGENT)
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeActingOnBehalfOfClient === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether you’re acting on behalf of a client'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeActingOnBehalfOfClient'
+      })
+    }
+  }
+)
+
+const changeApplyingIndividualOrg = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeApplyingIndividualOrganisation } = request.payload
+
+    if (changeApplyingIndividualOrganisation === 'yes') {
+      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
+      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
+      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
+      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
+      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
+      request.yar.clear(constants.redisKeys.REFERER)
+
+      return nextUrl
+    } else if (changeApplyingIndividualOrganisation === 'no') {
+      return nextUrl1
+    } else {
+      const message = 'Select yes if you want to change whether you’re applying as an individual or an organisation'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeApplyingIndividualOrganisation'
+      })
+    }
+  }
+)
+
 export {
   createAgentActingForClientRoute,
   createCheckDefraAccountDetailsRoute,
@@ -250,5 +341,8 @@ export {
   clientsNameRoute,
   clientsEmailAddressRoute,
   clientsPhoneNumberRoute,
-  checkAppInfoRoute
+  checkAppInfoRoute,
+  changeClientIndividualOrganisationRoute,
+  changeActingOnBehalfOfClientRoute,
+  changeApplyingIndividualOrg
 }
