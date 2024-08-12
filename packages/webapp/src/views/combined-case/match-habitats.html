@@ -1,28 +1,37 @@
 {% extends 'form-layout.html' %}
 
 {% set serviceName = "Register a biodiversity gain site" %}
-{% set pageHeading = "Match available habitats" %}
+{% set pageHeading = "Match type and area, or length, of habitat available for allocation on the biodiversity gain site" %}
 
 {% block formContent %}
 <div class="govuk-body">
+  {% if err %}
+    {% include "errorbanner.html" %}
+  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
+    
       <span class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
-      <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
-      <p class="govuk-hint">The information displayed is taken from the {{ sheetName }} row {{ rowNum }}, from your metric.</p>
+      <h1 class="govuk-heading-l">
+        {{ pageHeading }}
+      </h1>
+
+      <p class="govuk-hint">There must be enough habitat available on the gain site being registered to meet the allocation to a development</p>
+      
+      <p class="govuk-body">Your application may be delayed, or rejected, if the area or length of allocated habitat is greater than the available habitat shown for your gain site.</p>      
+      
+      <h2 class="govuk-heading-m">Your habitat available to allocate</h2>
+      
+      <p class="govuk-body">Taken from the {{ sheetName }} row {{ rowNum }} in your <strong>registration</strong> metric.</p>
 
       {{ govukInsetText({
         text: selectedHabitatText
       }) }}
 
       {% if numberOfMatches %}
-      <div id="signIn-hint">
-        <h2 class="govuk-heading-m">{{ numberOfMatchesText }}:</h2>
-      </div>
-      {% endif %}
-      {% if err %}
-        {% include "errorbanner.html" %}
+        <h2 class="govuk-heading-m">{{ numberOfMatchesText.heading }}</h2>
+
+        <p class="govuk-body">{{ numberOfMatchesText.selectionMessage }}</p>
       {% endif %}
       {% if showErrorMessage %}
         {{ govukRadios({

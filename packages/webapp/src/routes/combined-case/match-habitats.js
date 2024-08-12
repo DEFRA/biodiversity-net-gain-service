@@ -38,10 +38,10 @@ const getNumberOfMatchesText = (matchingHabitats) => {
   if (!matchingHabitats?.length) {
     return null
   }
-  if (matchingHabitats.length === 1) {
-    return 'Only one habitat matches. Only one habitat can match your allocation'
+  return {
+    heading: 'Habitats being allocated to your development project',
+    selectionMessage: 'Select the best match for your site'
   }
-  return 'Now choose which available habitat, from your metric, is the best match'
 }
 
 const handlers = {
