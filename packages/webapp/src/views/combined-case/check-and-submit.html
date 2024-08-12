@@ -5,6 +5,64 @@
 {% set serviceName = "CHANGE ME" %}
 {% set pageHeading = "Check your answers before submitting your information" %}
 
+  {% set developmentInfoRowList = [
+    {
+      'text': 'Planning decision notice file',
+      'value': developmentInfo.planningDecisionNoticeFile,
+      'valueDataTestId': 'planning-decision-notice-file-value',
+      'valueId': 'planning-decision-notice-file-value',
+      'href': developmentInfo.planningDecisionNoticeFileChangeUrl,
+      'visuallyHiddenText': ' planning decision notice file',
+      'show': true
+    },
+    {
+      'text': 'Development project name',
+      'value': developmentInfo.projectName,
+      'valueDataTestId': 'development-project-name-value',
+      'valueId': 'development-project-name-value',
+      'visuallyHiddenText': ' development project name',
+      'href': developmentInfo.projectNameChangeUrl,
+      'show': true
+    },
+    {
+      'text': 'Local planning authority',
+      'value': developmentInfo.localAuthority,
+      'valueDataTestId': 'local-planning-authority-value',
+      'valueId': 'local-planning-authority-value',
+      'href': developmentInfo.localAuthorityChangeUrl,
+      'visuallyHiddenText': ' local planning authority',
+      'show': true
+    },
+    {
+      'text': 'Planning application reference',
+      'value': developmentInfo.planningRef,
+      'valueDataTestId': 'planning-application-reference-value',
+      'valueId': 'planning-application-reference-value',
+      'href': developmentInfo.planningRefChangeUrl,
+      'visuallyHiddenText': ' planning application reference value',
+      'show': true
+    },
+    {
+      'text': 'Statutory biodiversity metric file',
+      'value': developmentInfo.metricFileName,
+      'valueDataTestId': 'metric-file-value',
+      'valueId': 'metric-file-value',
+      'href': developmentInfo.metricFileNameUrl,
+      'visuallyHiddenText': ' metric file name',
+      'show': true
+    },
+    {
+      'text': 'Matched Habitats',
+      'value': developmentInfo.matchedHabitatItems,
+      'valueDataTestId': 'habitats-value',
+      'valueId': 'habitats-value',
+      'href': developmentInfo.matchHabitatsChangeUrl,
+      'visuallyHiddenText': ' habitats',
+      'show': true,
+      'subList': true
+    }
+  ] %}
+
 {% block formContent %}
 <div class="govuk-body">
   {% if err %}
@@ -184,6 +242,15 @@
       {% set showLocalLandCharge = true %}
       {% set hrefPath = '/combined-case' %}
       {% include "common/legal-agreement-summary.html" %}
+
+
+      <!-- Allocation information -->
+      <h2 class="govuk-heading-m">Allocation information</h2>
+
+      {{ generateSummaryList({
+        rows: developmentInfoRowList,
+        classes: 'govuk-!-margin-bottom-9'
+      }) }}
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>
       <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
