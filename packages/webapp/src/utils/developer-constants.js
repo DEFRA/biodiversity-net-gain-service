@@ -85,6 +85,12 @@ const clearDeveloperReferer = [
   DEVELOPER_TASKLIST
 ]
 
+const CONSENT_FILE_EXT = [
+  '.doc',
+  '.docx',
+  '.pdf'
+]
+
 // ./Other constants
 const DEFAULT_DEVELOPER_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_DEVELOPER_TASK_STATUS = 'IN PROGRESS'
@@ -180,6 +186,7 @@ export default {
     IN_PROGRESS_DEVELOPER_TASK_STATUS,
     COMPLETE_DEVELOPER_TASK_STATUS
   },
+  consentFileExt: CONSENT_FILE_EXT,
   setDeveloperReferer,
   clearDeveloperReferer
 }
