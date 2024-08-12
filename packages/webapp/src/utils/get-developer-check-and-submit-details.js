@@ -157,7 +157,7 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
       projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
       projectNameChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION : constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       localAuthority: session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST),
-      localAuthorityChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION :constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+      localAuthorityChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION : constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       planningRef: session.get(constants.redisKeys.DEVELOPER_PLANNING_APPLICATION_REF),
       planningRefChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION : constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
       habitats,
