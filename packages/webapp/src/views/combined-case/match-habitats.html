@@ -8,13 +8,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <!-- Required for passing the currentPage value -->
-      {{ govukInput({
-        type: "hidden",
-        name: "currentPage",
-        value: currentPage
-      }) }}
-
       <span class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
       <h1 class="govuk-panel__title govuk-!-margin-bottom-4">{{ pageHeading }}</h1>
       <p class="govuk-hint">The information displayed is taken from the {{ sheetName }} row {{ rowNum }}, from your metric.</p>
@@ -49,10 +42,19 @@
         }) }}
       {% endif %}
 
-
       {% if displayNoMatches %}
         <p>There are no matching habitat items.</p>
       {% endif %}
+
+      <!-- Required for passing the currentPage value -->
+      {{ govukInput({
+        type: "hidden",
+        name: "currentPage",
+        value: currentPage,
+        attributes: {
+          style: "display: none;"
+        }
+      }) }}
 
       {{ govukButton({
         text: "Save and continue",
