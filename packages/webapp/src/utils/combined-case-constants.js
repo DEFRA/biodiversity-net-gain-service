@@ -252,11 +252,27 @@ const reusedRoutes = {
   COMBINED_CASE_CHANGE_APPLYING_INDIVIDUAL_ORGANISATION: reusedRoutePath(baseUrl, CHANGE_APPLYING_INDIVIDUAL_ORGANISATION)
 }
 
+const setCombinedRefer = [
+  routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+  reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_METRIC_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION.replace(/^\//, '')
+]
+
+const clearCombinedRefer = [
+  reusedRoutes.COMBINED_CASE_UPLOAD_METRIC.replace(/^\//, ''),
+  routes.COMBINED_CASE_TASK_LIST
+]
+
 export default {
   routes,
   redisKeys,
   views,
   routesToReuse,
   reusedRoutes,
-  baseUrl
+  baseUrl,
+  setCombinedRefer,
+  clearCombinedRefer
 }

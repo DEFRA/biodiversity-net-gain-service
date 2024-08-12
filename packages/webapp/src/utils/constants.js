@@ -258,12 +258,14 @@ const uploadTypes = {
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer,
-  ...creditsPurchaseConstants.setCreditReferer
+  ...creditsPurchaseConstants.setCreditReferer,
+  ...combinedCaseConstants.setCombinedRefer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...developerConstants.clearDeveloperReferer
+  ...developerConstants.clearDeveloperReferer,
+  ...combinedCaseConstants.clearCombinedRefer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
