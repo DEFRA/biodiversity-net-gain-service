@@ -41,14 +41,8 @@ const handlers = {
       throw new Error(error)
     }
 
-    try {
-      const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcombinedcaseapplication`, value)
-      request.yar.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, result.applicationReference)
-    } catch (e) {
-      // TODO expecting failure as ne.bng.combined.inbound Microsoft Azure service bus queue added
-      console.log(e)
-    }
-
+    const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcombinedcaseapplication`, value)
+    request.yar.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, result.applicationReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
 }

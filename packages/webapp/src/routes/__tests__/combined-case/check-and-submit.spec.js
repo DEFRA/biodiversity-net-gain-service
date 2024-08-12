@@ -68,6 +68,21 @@ describe(url, () => {
       expect(h.redirect).toHaveBeenCalledWith(constants.routes.APPLICATION_SUBMITTED)
     })
 
+    it('should fail if backend errors', async () => {
+      const session = setDeveloperApplicationSession()
+      session.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, '123')
+      const postHandler = checkAnswers[1].handler
+
+      jest.mock('../../../utils/http.js')
+      const http = require('../../../utils/http.js')
+      http.postJson = jest.fn().mockImplementation(() => {
+        throw new Error('test error')
+      })
+
+      const payload = { termsAndConditionsConfirmed: 'Yes' }
+      await expect(postHandler({ yar: session, auth, payload })).rejects.toThrow('test error')
+    })
+
     it('should display an error message if user has not confirmed reading terms and conditions', async () => {
       const session = setDeveloperApplicationSession()
       const postHandler = checkAnswers[1].handler
