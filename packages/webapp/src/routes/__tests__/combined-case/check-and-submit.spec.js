@@ -67,5 +67,28 @@ describe(url, () => {
       expect(h.view).not.toHaveBeenCalled()
       expect(h.redirect).toHaveBeenCalledWith(constants.routes.APPLICATION_SUBMITTED)
     })
+
+    it('should display an error message if user has not confirmed reading terms and conditions', async () => {
+      const session = setDeveloperApplicationSession()
+      const postHandler = checkAnswers[1].handler
+
+      const payload = { termsAndConditionsConfirmed: 'No' }
+      const h = {
+        view: jest.fn(),
+        redirect: jest.fn()
+      }
+
+      await postHandler({ payload, auth, yar: session }, h)
+
+      expect(h.view).toHaveBeenCalledWith(
+        constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
+        expect.objectContaining({
+          err: [{
+            text: 'You must confirm you have read the terms and conditions',
+            href: '#termsAndConditionsConfirmed'
+          }]
+        })
+      )
+    })
   })
 })
