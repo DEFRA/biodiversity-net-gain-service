@@ -19,7 +19,9 @@ import {
   clientsNameRoute,
   clientsEmailAddressRoute,
   clientsPhoneNumberRoute,
-  checkAppInfoRoute
+  checkAppInfoRoute,
+  changeClientIndividualOrganisationRoute,
+  changeActingOnBehalfOfClientRoute, changeApplyingIndividualOrg
 } from '../shared/applicant-info.js'
 
 const AGENT_ACTING_FOR_CLIENT = createAgentActingForClientRoute(
@@ -99,6 +101,24 @@ const CLIENTS_PHONE_NUMBER = clientsPhoneNumberRoute(
 const CHECK_APPLICANT_INFORMATION = checkAppInfoRoute(
   constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION,
   constants.routes.COMBINED_CASE_TASK_LIST
+)
+
+const CHANGE_CLIENT_INDIVIDUAL_ORGANISATION = changeClientIndividualOrganisationRoute(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_CLIENT_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
+)
+
+const CHANGE_ACTING_ON_BEHALF_CLIENT = changeActingOnBehalfOfClientRoute(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+  constants.reusedRoutes.COMBINED_CASE_AGENT_ACTING_FOR_CLIENT,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
+)
+
+const CHANGE_APPLYING_INDIVIDUAL_ORGANISATION = changeApplyingIndividualOrg(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_APPLICATION_BY_INDIVIDUAL_OR_ORGANISATION,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION
 )
 
 const AGENT_NO = journeyStepFromRoute(AGENT_ACTING_FOR_CLIENT, ['no'], true)
@@ -233,7 +253,10 @@ const applicantInfoRouteDefinitions = [
   CLIENTS_NAME,
   CLIENTS_EMAIL_ADDRESS,
   CLIENTS_PHONE_NUMBER,
-  CHECK_APPLICANT_INFORMATION
+  CHECK_APPLICANT_INFORMATION,
+  CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+  CHANGE_ACTING_ON_BEHALF_CLIENT,
+  CHANGE_APPLYING_INDIVIDUAL_ORGANISATION
 ]
 
 export {

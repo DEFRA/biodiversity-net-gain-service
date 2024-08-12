@@ -28,7 +28,7 @@ const CHECK_LAND_BOUNDARY = routeDefinition(
     if (checkLandBoundary === 'no') {
       return constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_BOUNDARY
     } else if (checkLandBoundary === 'yes') {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
       return (session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) || constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE
     } else {
       const message = 'Select yes if this is the correct file'
@@ -44,7 +44,7 @@ const ADD_GRID_REFERENCE = routeDefinition(
   constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE,
   [constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
     return (session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES) && referrerUrl) || constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES
   }
 )
@@ -53,7 +53,7 @@ const ADD_HECTARES = routeDefinition(
   constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES,
   [constants.redisKeys.LAND_BOUNDARY_HECTARES],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
     return referrerUrl || constants.reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY_DETAILS
   }
 )
