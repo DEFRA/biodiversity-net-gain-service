@@ -156,4 +156,20 @@ describe('application', () => {
     const app = application(session, account)
     expect(app.combinedCase.registrationDetails.planningObligationLPAs).toStrictEqual([])
   })
+
+  it.only('Should return geospatialData for getLandBoundaryFile', () => {
+    const fileSize = 100
+    const fileName = 'bar'
+    const fileLocation = `foo/${fileName}`
+
+    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, fileSize)
+    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, fileLocation)
+    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+
+    const app = application(session, account)
+    const file = app.combinedCase.files.find(f => f.fileType === 'geojson')
+    expect(file.fileSize).toEqual(fileSize)
+    expect(file.fileLocation).toEqual(fileLocation)
+    expect(file.fileName).toEqual(fileName)
+  })
 })
