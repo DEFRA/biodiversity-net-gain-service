@@ -172,4 +172,32 @@ describe('application', () => {
     expect(file.fileLocation).toEqual(fileLocation)
     expect(file.fileName).toEqual(fileName)
   })
+
+  it('Should return geospatialData for getLandBoundaryFile using getGeospatialFileAttributes', () => {
+    const fileSize = 100
+    const fileName = 'bar'
+    const fileLocation = `foo/${fileName}`
+
+    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, fileSize)
+    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, fileLocation)
+    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
+
+    const app = application(session, account)
+    const file = app.combinedCase.files.find(f => f.fileType === 'geojson')
+    expect(file.fileSize).toEqual(fileSize)
+    expect(file.fileLocation).toEqual(fileLocation)
+    expect(file.fileName).toEqual(fileName)
+  })
+
+  it.only('Adds organisation client details', () => {
+    const orgName = 'Client Org'
+
+    session.set(constants.redisKeys.IS_AGENT, 'no')
+    session.set(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY, 'organisation')
+    session.set(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY, orgName)
+
+    const app = application(session, account)
+    expect(app.combinedCase.applicant.role).toEqual('landowner')
+    expect(app.combinedCase.landownerAddress.type).toEqual('uk')
+  })
 })
