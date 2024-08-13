@@ -44,7 +44,7 @@ const getNumberOfMatchesText = (matchingHabitats) => {
     }
   }
   return {
-    heading: 'Habitats being allocated to your development project',
+    heading: 'Your habitat available to allocate',
     selectionMessage: 'Select the best match for your site'
   }
 }
