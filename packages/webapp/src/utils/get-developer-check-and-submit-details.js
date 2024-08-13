@@ -3,7 +3,7 @@ import { extractAllocationHabitatsByGainSiteNumber, initialCapitalization } from
 import path from 'path'
 import getApplicantContext from './get-applicant-context.js'
 
-const formatHabitatDetails = (habitatDetails) => {
+const formatHabitatDetails = (habitatDetails = []) => {
   const allHabitats = []
   habitatDetails.forEach(h => {
     const unit = h.unit.substring(h.unit.indexOf('(') + 1, h.unit.indexOf(')'))
