@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import Nunjucks from 'nunjucks'
 import Vision from '@hapi/vision'
 import dirname from '../../dirname.cjs'
-const serviceName = 'Register a biodiversity gain site'
+import { NODE_ENV, SERVICE_NAME } from '../utils/config.js'
 const { version } = JSON.parse(fs.readFileSync('./package.json'))
 
 const views = {
@@ -32,11 +32,11 @@ const views = {
       Path.join(dirname, 'node_modules', '@ministryofjustice')
     ],
     relativeTo: dirname,
-    isCached: process.env.NODE_ENV !== 'development',
+    isCached: NODE_ENV !== 'development',
     context: {
-      serviceName,
+      serviceName: SERVICE_NAME,
       assetPath: '/public',
-      pageTitle: `${serviceName} - GOV.UK`,
+      pageTitle: `${SERVICE_NAME} - GOV.UK`,
       titleSuffix: ' - GOV.UK',
       applicationVersion: version,
       ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL,
