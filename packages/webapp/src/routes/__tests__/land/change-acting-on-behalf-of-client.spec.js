@@ -21,6 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     changeActingOnBehalfOfClient = require('../../land/change-acting-on-behalf-of-client.js')
   })
 
@@ -34,7 +35,8 @@ describe(url, () => {
     it('Should continue journey to AGENT_ACTING_FOR_CLIENT if user confirms to change acting on behalf of client', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeActingOnBehalfOfClient: 'yes' }
+        payload: { changeActingOnBehalfOfClient: 'yes' },
+        path: changeActingOnBehalfOfClient.default[1].path
       }
 
       await changeActingOnBehalfOfClient.default[1].handler(request, h)
@@ -44,7 +46,8 @@ describe(url, () => {
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change acting on behalf of client', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeActingOnBehalfOfClient: 'no' }
+        payload: { changeActingOnBehalfOfClient: 'no' },
+        path: changeActingOnBehalfOfClient.default[1].path
       }
 
       await changeActingOnBehalfOfClient.default[1].handler(request, h)
@@ -55,7 +58,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: changeActingOnBehalfOfClient.default[1].path
       }
 
       await changeActingOnBehalfOfClient.default[1].handler(request, h)
