@@ -157,7 +157,7 @@ describe('application', () => {
     expect(app.combinedCase.registrationDetails.planningObligationLPAs).toStrictEqual([])
   })
 
-  it.only('Should return geospatialData for getLandBoundaryFile', () => {
+  it('Should return geospatialData for getLandBoundaryFile', () => {
     const fileSize = 100
     const fileName = 'bar'
     const fileLocation = `foo/${fileName}`
@@ -189,7 +189,7 @@ describe('application', () => {
     expect(file.fileName).toEqual(fileName)
   })
 
-  it.only('Adds organisation client details', () => {
+  it('Adds organisation client details', () => {
     const orgName = 'Client Org'
 
     session.set(constants.redisKeys.IS_AGENT, 'no')
