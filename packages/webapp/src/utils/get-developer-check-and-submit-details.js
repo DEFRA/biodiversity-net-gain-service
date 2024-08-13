@@ -151,7 +151,7 @@ const getApplicationDetails = (request, session, currentOrganisation) => {
       planningDecisionNoticeFile: planningDecisionNoticeFileName,
       planningDecisionNoticeFileChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE : constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
       metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
-      metricFileNameUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC : constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
+      metricFileNameUrl: isCombinedCase ? constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC : constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
       bngNumber: gainSiteNumber,
       bngNumberChangeUrl: constants.routes.DEVELOPER_BNG_NUMBER,
       projectName: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME),
