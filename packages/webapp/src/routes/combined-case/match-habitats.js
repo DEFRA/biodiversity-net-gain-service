@@ -89,6 +89,7 @@ const handlers = {
     const context = {
       numberOfPages,
       currentPage: safeCurrentPage,
+      firstPage: safeCurrentPage === 1,
       selectedHabitatText,
       matchedHabitatItems: matchedHabitatItems.map(item => {
         if (item.value === selectedRadio) {
