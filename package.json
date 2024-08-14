@@ -127,7 +127,7 @@
     ],
     "testEnvironment": "node",
     "testRunner": "jest-circus/runner",
-    "silent": true,
+    "silent": false,
     "transformIgnorePatterns": [
       "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)",
       "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
