@@ -98,7 +98,7 @@ const application = (session, account) => {
 
   const applicationJson = {
     developerRegistration: {
-      applicant: getApplicant(account, session, constants.redisKeys.DEVELOPER_IS_AGENT, 'organisation'),
+      applicant: getApplicant(account, session, constants.redisKeys.DEVELOPER_IS_AGENT, 'organisation', 'individual'),
       isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),
