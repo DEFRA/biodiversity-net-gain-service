@@ -4,101 +4,12 @@ import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import getHabitatType from './getHabitatType.js'
-import { getApplicant, getFile, getGainSite } from './shared-application.js'
-
-const getClientDetails = session => {
-  const clientType =
-    session.get(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-  const clientAddress = getAddress(session)
-
-  const clientDetails = {
-    clientType,
-    clientAddress
-  }
-
-  if (clientType === constants.individualOrOrganisationTypes.INDIVIDUAL) {
-    Object.assign(clientDetails, getIndividualClientDetails(session))
-  } else {
-    Object.assign(clientDetails, getOrganisationClientDetails(session))
-  }
-
-  return clientDetails
-}
-
-const getIndividualClientDetails = session => {
-  const { firstName, lastName } =
-    session.get(constants.redisKeys.CLIENTS_NAME_KEY).value
-
-  const clientEmail =
-    session.get(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
-
-  const clientPhoneNumber =
-    session.get(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
-
-  return {
-    clientNameIndividual: {
-      firstName,
-      lastName
-    },
-    clientEmail,
-    clientPhoneNumber
-  }
-}
-
-const getOrganisationClientDetails = session => {
-  const clientNameOrganisation =
-    session.get(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
-
-  return {
-    clientNameOrganisation
-  }
-}
+import { getApplicant, getFile, getGainSite, getClientDetails, getAddress } from './shared-application.js'
 
 const getOrganisation = session => ({
   id: session.get(constants.redisKeys.ORGANISATION_ID),
   address: getAddress(session)
 })
-
-const getAddress = session => {
-  const isUkAddress =
-    session.get(constants.redisKeys.IS_ADDRESS_UK_KEY) === constants.ADDRESS_IS_UK.YES
-
-  const addressType =
-    isUkAddress ? constants.ADDRESS_TYPES.UK : constants.ADDRESS_TYPES.INTERNATIONAL
-
-  const cachedAddress =
-    isUkAddress
-      ? session.get(constants.redisKeys.UK_ADDRESS_KEY)
-      : session.get(constants.redisKeys.NON_UK_ADDRESS_KEY)
-
-  const address = {
-    type: addressType,
-    line1: cachedAddress.addressLine1,
-    town: cachedAddress.town
-  }
-
-  if (cachedAddress.addressLine2) {
-    address.line2 = cachedAddress.addressLine2
-  }
-
-  if (cachedAddress.addressLine3) {
-    address.line3 = cachedAddress.addressLine3
-  }
-
-  if (cachedAddress.postcode) {
-    address.postcode = cachedAddress.postcode
-  }
-
-  if (isUkAddress && cachedAddress.county) {
-    address.county = cachedAddress.county
-  }
-
-  if (!isUkAddress && cachedAddress.country) {
-    address.country = cachedAddress.country
-  }
-
-  return address
-}
 
 const getHabitats = metricData => {
   const baselineIdentifiers = ['d1', 'e1', 'f1']
