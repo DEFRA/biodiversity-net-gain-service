@@ -7,12 +7,10 @@ const combinedCaseUrl = constants.reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
       const res = await submitGetRequest({ url }, 200)
       expect(res.payload).not.toContain('File type')
     })
     it(`should render the ${combinedCaseUrl.substring(1)} view`, async () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
       const res = await submitGetRequest({ url: combinedCaseUrl }, 200)
       expect(res.payload).not.toContain('File type')
     })
