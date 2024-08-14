@@ -16,8 +16,6 @@ warning: other service dependencies will be missing, install and run from root o
 |---------|-------------|-----------|
 | AZURE_STORAGE_ACCOUNT | Microsoft Azure or Azurite storage account name| Y |
 | AZURE_STORAGE_ACCESS_KEY | Microsoft Azure or Azurite storage account shared access key | Y |
-| ORDNANCE_SURVEY_API_KEY | Key used to access Ordnance Survey APIs | Y |
-| ORDNANCE_SURVEY_API_SECRET | Secret used to access Ordnance Survey APIs | Y |
 | MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) | Y |
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
