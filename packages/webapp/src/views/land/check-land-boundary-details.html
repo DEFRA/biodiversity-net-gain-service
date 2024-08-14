@@ -19,16 +19,6 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set boundaryOnAMapElement = {
-                        key: {
-                          text: "Boundary on a map"
-                        },
-                        classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-                        value: {
-                          html: "<div id=\"map\" class=\"map map--location\" tabindex=\"0\" data-testid=\"land-boundary-map-value\"></div>"
-                        }
-                    } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
-
                     {{ govukSummaryList({
                         rows: [
                             {
@@ -51,7 +41,6 @@
                                     ]
                                   }
                             },
-                            boundaryOnAMapElement,
                             {
                             key: {
                                 text: 'Grid reference'
