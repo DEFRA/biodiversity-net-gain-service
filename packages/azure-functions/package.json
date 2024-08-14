@@ -26,7 +26,6 @@
     "@azure/storage-blob": "^12.16.0",
     "@defra/bng-connectors-lib": "1.139.0",
     "@defra/bng-errors-lib": "1.139.0",
-    "@defra/bng-geoprocessing-service": "1.139.0",
     "@defra/bng-metric-service": "1.139.0",
     "@defra/bng-utils-lib": "1.139.0",
     "moment": "^2.29.4"
