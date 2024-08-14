@@ -295,7 +295,8 @@ const changeTypeLegalAgreement = (startUrl, nextUrl, nextUrl1) => routeDefinitio
       request.yar.clear(constants.redisKeys.REFERER)
       return nextUrl
     } else if (changeLegalAgreementType === 'no') {
-      return nextUrl1
+      const referrerUrl = getValidReferrerUrl(session, ['/combined-case/check-and-submit', '/land/check-and-submit'])
+      return referrerUrl || nextUrl1
     } else {
       const message = 'Select yes if you want to change the type of legal agreement'
       throw new FormError(message, {
