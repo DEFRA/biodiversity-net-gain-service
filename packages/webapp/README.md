@@ -50,6 +50,8 @@ warning: other service dependencies will be missing, install and run from root o
 | ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY | Feature flag for combined case journey | Y |
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 | LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
+| SERVICE_NAME | Service name as used in the GOV UK header (defaults to 'Manage biodiversity gains') | N |
+
 
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.
 
