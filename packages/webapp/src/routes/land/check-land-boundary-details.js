@@ -15,11 +15,9 @@ const handlers = {
     }
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
       ...geospatialOrLandBoundaryContext(request),
-      isGeosptialDisabled: process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y',
       urlPath: isCombinedCase ? '/combined-case' : '/land',
       addGridRefHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE : constants.routes.ADD_GRID_REFERENCE,
-      addHectaresHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES : constants.routes.ADD_HECTARES,
-      uploadGeospatialLandBoundHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY : constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
+      addHectaresHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES : constants.routes.ADD_HECTARES
     })
   },
   post: async (request, h) => {

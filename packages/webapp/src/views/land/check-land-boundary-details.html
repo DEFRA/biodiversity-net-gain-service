@@ -19,27 +19,6 @@
                     }
                 }) }}
                 <form method="post">
-                    {% set landBoundaryFileNameElement = {
-                        key: {
-                            text: 'File type'
-                        },
-                        value: {
-                            html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    href: uploadGeospatialLandBoundHref,
-                                    text: 'Change',
-                                    visuallyHiddenText: ' land boundary file',
-                                    attributes: {
-                                        id: "check-land-boundary-file-type"
-                                    }
-                                }
-                            ]
-                        }
-                    } if isGeosptialDisabled else undefined %}
-
                     {% set boundaryOnAMapElement = {
                         key: {
                           text: "Boundary on a map"
@@ -52,7 +31,6 @@
 
                     {{ govukSummaryList({
                         rows: [
-                            landBoundaryFileNameElement,
                             {
                                 key: {
                                       text: 'File uploaded'
