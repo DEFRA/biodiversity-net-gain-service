@@ -32,8 +32,9 @@ const handlers = {
       legalAgreementResponsibleBodies.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES, legalAgreementResponsibleBodies)
     }
-    if (legalAgreementResponsibleBodies.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) }
-    return h.redirect(constants.routes.CHECK_RESPONSIBLE_BODIES)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    if (legalAgreementResponsibleBodies.length === 0) { return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_RESPONSIBLE_BODIES : constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES) }
+    return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_RESPONSIBLE_BODIES : constants.routes.CHECK_RESPONSIBLE_BODIES)
   }
 }
 
