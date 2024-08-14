@@ -19,7 +19,6 @@ const handlers = {
       urlPath: isCombinedCase ? '/combined-case' : '/land',
       addGridRefHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE : constants.routes.ADD_GRID_REFERENCE,
       addHectaresHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES : constants.routes.ADD_HECTARES,
-      chooseLandBoundUploadHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHOOSE_LAND_BOUNDARY_UPLOAD : constants.routes.CHOOSE_LAND_BOUNDARY_UPLOAD,
       uploadGeospatialLandBoundHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_UPLOAD_GEOSPATIAL_LAND_BOUNDARY : constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY
     })
   },
