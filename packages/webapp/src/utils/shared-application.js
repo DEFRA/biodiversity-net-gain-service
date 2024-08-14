@@ -1,12 +1,12 @@
 import constants from './constants.js'
 import path from 'path'
 
-export const getApplicant = (account, session, isAgentKey = constants.redisKeys.IS_AGENT) => ({
+export const getApplicant = (account, session, isAgentKey = constants.redisKeys.IS_AGENT, orgRole = constants.applicantTypes.REPRESENTATIVE) => ({
   id: account.idTokenClaims.contactId,
   role: getApplicantRole(session, isAgentKey)
 })
 
-export const getApplicantRole = (session, isAgentKey) => {
+export const getApplicantRole = (session, isAgentKey, orgRole) => {
   const applicantIsAgent = session.get(isAgentKey)
   const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
 
@@ -15,7 +15,7 @@ export const getApplicantRole = (session, isAgentKey) => {
   if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
     applicantRole = constants.applicantTypes.AGENT
   } else if (organisationId) {
-    applicantRole = constants.applicantTypes.REPRESENTATIVE
+    applicantRole = orgRole
   } else {
     applicantRole = constants.applicantTypes.LANDOWNER
   }
