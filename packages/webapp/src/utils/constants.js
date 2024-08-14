@@ -7,7 +7,6 @@ import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
-const GEOSPATIAL_DATA = 'geospatialData'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
 const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
 const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
@@ -89,7 +88,6 @@ const confirmFileUploadOptions = {
 }
 
 const landBoundaryUploadTypes = {
-  GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
 }
 
