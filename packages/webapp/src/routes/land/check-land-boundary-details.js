@@ -1,5 +1,5 @@
 import constants from '../../utils/constants.js'
-import geospatialOrLandBoundaryContext from './helpers/geospatial-or-land-boundary-context.js'
+import landBoundaryContext from './helpers/land-boundary-context.js'
 import { REGISTRATIONCONSTANTS } from '../../journey-validation/registration/task-sections.js'
 import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
@@ -14,7 +14,7 @@ const handlers = {
       }
     }
     return h.view(constants.views.CHECK_LAND_BOUNDARY_DETAILS, {
-      ...geospatialOrLandBoundaryContext(request),
+      ...landBoundaryContext(request),
       urlPath: isCombinedCase ? '/combined-case' : '/land',
       addGridRefHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE : constants.routes.ADD_GRID_REFERENCE,
       addHectaresHref: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_HECTARES : constants.routes.ADD_HECTARES
