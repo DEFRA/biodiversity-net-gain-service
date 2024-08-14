@@ -34,7 +34,7 @@ const getMatchedHabitatItems =
     }
   }))
 
-const getNumberOfMatchesText = (matchingHabitats) => {
+export const getNumberOfMatchesText = (matchingHabitats) => {
   if (!matchingHabitats?.length) {
     return null
   }
