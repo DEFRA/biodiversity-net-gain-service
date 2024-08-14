@@ -111,11 +111,4 @@
 {% endblock %}
 {% block bodyEnd %}
     {{ super() }}
-    {% if geospatial %}
-    <script src="{{ assetPath }}/js/checkLandBoundaryDetails.js"></script>
-    <script>
-      const safeMapConfig = {{ mapConfig | dump | safe }}
-      checkLandBoundaryDetails.initialiseMap(safeMapConfig)
-    </script>
-    {% endif %}
 {% endblock %}

@@ -5,7 +5,6 @@ import path from 'path'
 const landBoundaryContext = request => {
   const context = {
     hideClass,
-    geospatial: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData',
     documentOrImage: request.yar.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'documentOrImage'
   }
   const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')

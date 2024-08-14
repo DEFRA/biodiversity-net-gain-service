@@ -221,11 +221,4 @@
 {% endblock %}
 {% block bodyEnd %}
     {{ super() }}
-    {% if geospatial %}
-    <script src="{{ assetPath }}/js/checkAndSubmit.js"></script>
-    <script>
-      const safeMapConfig = {{ mapConfig | dump | safe }}
-      checkAndSubmit.initialiseMap(safeMapConfig)
-    </script>
-    {% endif %}
 {% endblock %}
