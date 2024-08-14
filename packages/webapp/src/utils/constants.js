@@ -109,12 +109,6 @@ const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.pdf'
 ]
 
-const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = [
-  '.geojson',
-  '.gpkg',
-  '.zip'
-]
-
 const METRIC_FILE_EXT = [
   '.xlsm',
   '.xlsx'
@@ -311,7 +305,6 @@ export default Object.freeze({
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
-  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
