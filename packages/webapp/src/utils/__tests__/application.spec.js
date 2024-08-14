@@ -17,7 +17,6 @@ describe('application', () => {
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
     session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
     session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
     session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
     session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'test-location/reprojectedToOsgb36/file.geojson')
@@ -60,7 +59,6 @@ describe('application', () => {
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
     session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
     session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
     session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
     session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
@@ -123,13 +121,6 @@ describe('application', () => {
     session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, 3)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(3)
-  })
-  it('Should correctly handle getHectares when geospatial data is uploaded', () => {
-    const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
   })
 
   it('Should correctly handle getLandOwnershipFiles when there are no land ownerships', () => {
