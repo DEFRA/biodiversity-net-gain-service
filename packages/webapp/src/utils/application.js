@@ -4,28 +4,7 @@ import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import getHabitatType from './getHabitatType.js'
-
-// Application object schema must match the expected payload format for the Operator application
-const getApplicant = (account, session) => ({
-  id: account.idTokenClaims.contactId,
-  role: getApplicantRole(session)
-})
-
-const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
-  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
-  let applicantRole
-
-  if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
-    applicantRole = constants.applicantTypes.AGENT
-  } else if (organisationId) {
-    applicantRole = constants.applicantTypes.REPRESENTATIVE
-  } else {
-    applicantRole = constants.applicantTypes.LANDOWNER
-  }
-
-  return applicantRole
-}
+import { getApplicant } from './shared-application.js'
 
 const getClientDetails = session => {
   const clientType =
@@ -322,7 +301,7 @@ const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
   const applicationJson = {
     landownerGainSiteRegistration: {
-      applicant: getApplicant(account, session),
+      applicant: getApplicant(account, session, constants.redisKeys.IS_AGENT),
       habitats: getHabitats(session),
       files: getFiles(session),
       gainSiteReference: getApplicationReference(session),

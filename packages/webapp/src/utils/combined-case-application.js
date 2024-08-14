@@ -4,28 +4,7 @@ import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import getHabitatType from './getHabitatType.js'
-
-// Application object schema must match the expected payload format for the Operator application
-const getApplicant = (account, session) => ({
-  id: account.idTokenClaims.contactId,
-  role: getApplicantRole(session)
-})
-
-const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.IS_AGENT)
-  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
-  let applicantRole
-
-  if (applicantIsAgent === constants.APPLICANT_IS_AGENT.YES) {
-    applicantRole = constants.applicantTypes.AGENT
-  } else if (organisationId) {
-    applicantRole = constants.applicantTypes.REPRESENTATIVE
-  } else {
-    applicantRole = constants.applicantTypes.LANDOWNER
-  }
-
-  return applicantRole
-}
+import { getApplicant, getFile, getGainSite } from './shared-application.js'
 
 const getClientDetails = session => {
   const clientType =
@@ -183,15 +162,6 @@ const getHabitats = metricData => {
   return { baseline, proposed }
 }
 
-const getFile = (session, fileType, filesize, fileLocation, optional) => ({
-  contentMediaType: session.get(fileType),
-  fileType: fileType.replace('-file-type', ''),
-  fileSize: session.get(filesize),
-  fileLocation: session.get(fileLocation),
-  fileName: session.get(fileLocation) && path.basename(session.get(fileLocation)),
-  optional
-})
-
 const getFiles = session => {
   const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
   const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
@@ -317,21 +287,6 @@ const getLandowners = session => {
   return landownersByType
 }
 
-const getGainSite = session => {
-  const gainSiteReference = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const habitat = metricData.habitatOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  const hedge = metricData.hedgeOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  const waterCourse = metricData.waterCourseOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  return {
-    offsiteUnitChange: {
-      habitat: habitat ? parseFloat(habitat['Habitat Offsite unit change per gain site (Post SRM)']) : 0,
-      hedge: hedge ? parseFloat(hedge['Hedge Offsite unit change per gain site (Post SRM)']) : 0,
-      watercourse: waterCourse ? parseFloat(waterCourse['Watercourse Offsite unit change per gain site (Post SRM)']) : 0
-    }
-  }
-}
-
 const getLpaCode = name => {
   const foundLpa = getLpaNamesAndCodes().find(lpa => lpa.name === name)
   return foundLpa ? foundLpa.id : null
@@ -360,7 +315,7 @@ const application = (session, account) => {
 
   const applicationJson = {
     combinedCase: {
-      applicant: getApplicant(account, session),
+      applicant: getApplicant(account, session, constants.redisKeys.IS_AGENT),
       registrationDetails: {
         habitats: getHabitats(session.get(constants.redisKeys.METRIC_DATA)),
         landBoundaryGridReference: getGridReference(session),
