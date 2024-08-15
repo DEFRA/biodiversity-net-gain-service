@@ -142,7 +142,7 @@ export const getClientDetails = session => {
   return clientDetails
 }
 
-export const getHabitatsFromMetric = metricData => {
+export const getHabitatsFromMetric = (metricData, habitatIdIdentifier = 'habitatId') => {
   const baselineIdentifiers = ['d1', 'e1', 'f1']
   const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
 
@@ -185,7 +185,7 @@ export const getHabitatsFromMetric = metricData => {
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
     metricData[identifier].filter(details => 'Condition' in details).map(details => ({
-      habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
+      [habitatIdIdentifier]: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
       habitatType: getHabitatType(identifier, details),
       baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
       module: getModule(identifier),

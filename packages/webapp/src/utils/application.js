@@ -19,7 +19,7 @@ const getOrganisation = session => ({
 
 const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
-  return getHabitatsFromMetric(metricData)
+  return getHabitatsFromMetric(metricData, 'proposedHabitatId')
 }
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
