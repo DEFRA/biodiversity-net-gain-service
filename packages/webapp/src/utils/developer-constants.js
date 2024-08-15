@@ -6,6 +6,7 @@ const DEVELOPER_TASKLIST = 'developer/tasklist'
 const DEVELOPER_BNG_NUMBER = 'developer/biodiversity-gain-site-number'
 const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
+const DEVELOPER_DOWNLOAD_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/download-consent-to-allocate-gains-file'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
@@ -105,6 +106,7 @@ export default {
     DEVELOPER_BNG_NUMBER,
     DEVELOPER_CONFIRM_OFF_SITE_GAIN,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
+    DEVELOPER_DOWNLOAD_CONSENT_TO_USE_GAIN_SITE_FILE,
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
     DEVELOPER_NEW_DEVELOPMENT_PROJECT,
