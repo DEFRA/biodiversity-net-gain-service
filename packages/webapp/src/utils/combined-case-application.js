@@ -10,7 +10,8 @@ import {
   getLocalPlanningAuthorities,
   getHectares,
   getGridReference,
-  getPayment
+  getPayment,
+  getLandowners
 } from './shared-application.js'
 
 const getOrganisation = session => ({
@@ -21,31 +22,6 @@ const getOrganisation = session => ({
 const getHabitats = metricData => getHabitatsFromMetric(metricData)
 
 const getApplicationReference = session => session.get(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE) || ''
-
-const getLandowners = session => {
-  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
-  const landownersByType = {
-    organisation: [],
-    individual: []
-  }
-  sessionLandowners?.forEach(landowner => {
-    if (landowner.type === 'organisation') {
-      landownersByType.organisation.push({
-        organisationName: landowner.organisationName,
-        email: landowner.emailAddress
-      })
-    } else if (landowner.type === 'individual') {
-      landownersByType.individual.push({
-        firstName: landowner.firstName,
-        middleNames: landowner.middleNames,
-        lastName: landowner.lastName,
-        email: landowner.emailAddress
-      })
-    }
-  })
-
-  return landownersByType
-}
 
 const getLpaCode = name => {
   const foundLpa = getLpaNamesAndCodes().find(lpa => lpa.name === name)
@@ -103,7 +79,7 @@ const application = (session, account) => {
       files: getFiles(session),
       applicationReference: getApplicationReference(session),
       submittedOn: new Date().toISOString(),
-      payment: getPayment(session)
+      payment: getPayment(session, getApplicationReference(session))
     }
   }
 

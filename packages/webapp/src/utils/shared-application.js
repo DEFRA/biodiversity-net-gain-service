@@ -296,10 +296,35 @@ export const getGridReference = session => session.get(constants.redisKeys.LAND_
   ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
   : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
-export const getPayment = session => {
-  const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+export const getPayment = (session, reference) => {
+  const payment = savePayment(session, paymentConstants.REGISTRATION, reference)
   return {
     reference: payment.reference,
     method: payment.type
   }
+}
+
+export const getLandowners = session => {
+  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+  const landownersByType = {
+    organisation: [],
+    individual: []
+  }
+  sessionLandowners?.forEach(landowner => {
+    if (landowner.type === 'organisation') {
+      landownersByType.organisation.push({
+        organisationName: landowner.organisationName,
+        email: landowner.emailAddress
+      })
+    } else if (landowner.type === 'individual') {
+      landownersByType.individual.push({
+        firstName: landowner.firstName,
+        middleNames: landowner.middleNames,
+        lastName: landowner.lastName,
+        email: landowner.emailAddress
+      })
+    }
+  })
+
+  return landownersByType
 }

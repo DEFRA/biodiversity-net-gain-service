@@ -8,7 +8,8 @@ import {
   getLocalPlanningAuthorities,
   getHectares,
   getGridReference,
-  getPayment
+  getPayment,
+  getLandowners
 } from './shared-application.js'
 
 const getOrganisation = session => ({
@@ -22,31 +23,6 @@ const getHabitats = session => {
 }
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
-
-const getLandowners = session => {
-  const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
-  const landownersByType = {
-    organisation: [],
-    individual: []
-  }
-  sessionLandowners?.forEach(landowner => {
-    if (landowner.type === 'organisation') {
-      landownersByType.organisation.push({
-        organisationName: landowner.organisationName,
-        email: landowner.emailAddress
-      })
-    } else if (landowner.type === 'individual') {
-      landownersByType.individual.push({
-        firstName: landowner.firstName,
-        middleNames: landowner.middleNames,
-        lastName: landowner.lastName,
-        email: landowner.emailAddress
-      })
-    }
-  })
-
-  return landownersByType
-}
 
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
@@ -67,7 +43,7 @@ const application = (session, account) => {
       ...(!isLegalAgreementTypeS106 ? { conservationCovernantResponsibleBodies: session.get(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES) } : {}),
       ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {}),
       submittedOn: new Date().toISOString(),
-      payment: getPayment(session)
+      payment: getPayment(session, getApplicationReference(session))
     }
   }
 
