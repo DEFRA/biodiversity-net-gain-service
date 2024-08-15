@@ -3,75 +3,14 @@ import paymentConstants from '../payment/constants.js'
 import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
-import getHabitatType from './getHabitatType.js'
-import { getApplicant, getFile, getGainSite, getClientDetails, getAddress } from './shared-application.js'
+import { getApplicant, getFile, getGainSite, getClientDetails, getAddress, getHabitatsFromMetric } from './shared-application.js'
 
 const getOrganisation = session => ({
   id: session.get(constants.redisKeys.ORGANISATION_ID),
   address: getAddress(session)
 })
 
-const getHabitats = metricData => {
-  const baselineIdentifiers = ['d1', 'e1', 'f1']
-  const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
-
-  const getState = identifier => {
-    switch (identifier.charAt(0)) {
-      case 'd':
-        return 'Habitat'
-      case 'e':
-        return 'Hedge'
-      case 'f':
-        return 'Watercourse'
-    }
-  }
-
-  const getModule = identifier => {
-    switch (identifier.charAt(identifier.length - 1)) {
-      case '1':
-        return 'Baseline'
-      case '2':
-        return 'Created'
-      case '3':
-        return 'Enhanced'
-    }
-  }
-
-  const baseline = baselineIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Ref' in details).map(details => ({
-      habitatType: getHabitatType(identifier, details),
-      baselineReference: String(details.Ref),
-      module: getModule(identifier),
-      state: getState(identifier),
-      condition: details.Condition,
-      area: {
-        beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
-        afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
-      },
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
-    }))
-  )
-
-  const proposed = proposedIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
-      habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
-      habitatType: getHabitatType(identifier, details),
-      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
-      module: getModule(identifier),
-      state: getState(identifier),
-      condition: details.Condition,
-      strategicSignificance: details['Strategic significance'],
-      advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
-      delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
-      area: details['Length (km)'] ?? details['Area (hectares)'],
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
-      ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
-    }))
-  )
-
-  return { baseline, proposed }
-}
+const getHabitats = metricData => getHabitatsFromMetric(metricData)
 
 const getFiles = session => {
   const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'

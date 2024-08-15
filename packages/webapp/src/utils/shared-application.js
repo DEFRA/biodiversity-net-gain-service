@@ -1,5 +1,6 @@
 import constants from './constants.js'
 import path from 'path'
+import getHabitatType from './getHabitatType.js'
 
 export const getApplicant = (account, session, isAgentKey = constants.redisKeys.IS_AGENT, orgRole = constants.applicantTypes.REPRESENTATIVE, defaultRole = constants.applicantTypes.LANDOWNER) => ({
   id: account.idTokenClaims.contactId,
@@ -136,4 +137,66 @@ export const getClientDetails = session => {
   }
 
   return clientDetails
+}
+
+export const getHabitatsFromMetric = metricData => {
+  const baselineIdentifiers = ['d1', 'e1', 'f1']
+  const proposedIdentifiers = ['d2', 'e2', 'f2', 'd3', 'e3', 'f3']
+
+  const getState = identifier => {
+    switch (identifier.charAt(0)) {
+      case 'd':
+        return 'Habitat'
+      case 'e':
+        return 'Hedge'
+      case 'f':
+        return 'Watercourse'
+    }
+  }
+
+  const getModule = identifier => {
+    switch (identifier.charAt(identifier.length - 1)) {
+      case '1':
+        return 'Baseline'
+      case '2':
+        return 'Created'
+      case '3':
+        return 'Enhanced'
+    }
+  }
+
+  const baseline = baselineIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Ref' in details).map(details => ({
+      habitatType: getHabitatType(identifier, details),
+      baselineReference: String(details.Ref),
+      module: getModule(identifier),
+      state: getState(identifier),
+      condition: details.Condition,
+      area: {
+        beforeEnhancement: details['Length (km)'] ?? details['Area (hectares)'],
+        afterEnhancement: details['Length enhanced'] ?? details['Area enhanced']
+      },
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares'
+    }))
+  )
+
+  const proposed = proposedIdentifiers.flatMap(identifier =>
+    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
+      habitatId: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
+      habitatType: getHabitatType(identifier, details),
+      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+      module: getModule(identifier),
+      state: getState(identifier),
+      condition: details.Condition,
+      strategicSignificance: details['Strategic significance'],
+      advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
+      delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
+      area: details['Length (km)'] ?? details['Area (hectares)'],
+      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+      ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
+      ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
+    }))
+  )
+
+  return { baseline, proposed }
 }
