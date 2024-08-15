@@ -1,6 +1,5 @@
 import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
-import path from 'path'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import { getApplicant, getClientDetails, getAddress, getHabitatsFromMetric, getFiles } from './shared-application.js'
