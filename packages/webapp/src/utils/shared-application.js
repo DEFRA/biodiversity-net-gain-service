@@ -200,3 +200,81 @@ export const getHabitatsFromMetric = metricData => {
 
   return { baseline, proposed }
 }
+
+const getLandOwnershipFiles = session => {
+  const lopFiles = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS) || []
+  return lopFiles.map(file => {
+    delete file.id // Removing id because is excluded from application data validation
+    return {
+      ...file,
+      optional: false
+    }
+  })
+}
+
+const getLegalAgreementFiles = session => {
+  const legalAgreementFiles = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES) || []
+  return legalAgreementFiles.map(file => ({
+    contentMediaType: file.fileType,
+    fileType: constants.uploadTypes.LEGAL_AGREEMENT_UPLOAD_TYPE,
+    fileSize: file.fileSize,
+    fileLocation: file.location,
+    fileName: path.basename(file.location),
+    optional: false
+  }))
+}
+
+const getLandBoundaryFile = session => {
+  if (session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData') {
+    const { fileSize, fileLocation, fileName } = getGeospatialFileAttributes(session)
+    return {
+      contentMediaType: 'application/geo+json',
+      fileType: 'geojson',
+      fileSize,
+      fileLocation,
+      fileName,
+      optional: false
+    }
+  } else {
+    return {
+      contentMediaType: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE),
+      fileType: 'land-boundary',
+      fileSize: session.get(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION),
+      fileName: session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION) && path.basename(session.get(constants.redisKeys.LAND_BOUNDARY_LOCATION)),
+      optional: false
+    }
+  }
+}
+
+const getGeospatialFileAttributes = session => {
+  if (session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)) {
+    return {
+      fileSize: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION)),
+      optional: false
+    }
+  } else {
+    return {
+      fileSize: session.get(constants.redisKeys.GEOSPATIAL_FILE_SIZE),
+      fileLocation: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION),
+      fileName: session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION) && path.basename(session.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)),
+      optional: false
+    }
+  }
+}
+
+export const getFiles = session => {
+  const habitatPlanOptional = session.get(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO) === 'Yes'
+  const writtenAuthorisationOptional = session.get(constants.redisKeys.IS_AGENT).toLowerCase() === 'no'
+  return [
+    ...getLandOwnershipFiles(session),
+    ...getLegalAgreementFiles(session),
+    getLandBoundaryFile(session),
+    getFile(session, constants.redisKeys.METRIC_FILE_TYPE, constants.redisKeys.METRIC_FILE_SIZE, constants.redisKeys.METRIC_LOCATION, false),
+    getFile(session, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_TYPE, constants.redisKeys.LOCAL_LAND_CHARGE_FILE_SIZE, constants.redisKeys.LOCAL_LAND_CHARGE_LOCATION, false),
+    getFile(session, constants.redisKeys.HABITAT_PLAN_FILE_TYPE, constants.redisKeys.HABITAT_PLAN_FILE_SIZE, constants.redisKeys.HABITAT_PLAN_LOCATION, habitatPlanOptional),
+    getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
+  ]
+}
