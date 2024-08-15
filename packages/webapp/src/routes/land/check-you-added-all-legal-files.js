@@ -9,7 +9,7 @@ import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const radioText = 'Have you added all legal agreement files?'
 const radioHint = 'You must provide all legal agreement documents. This includes original versions if the legal agreement has been amended.'
 const fileType = 'legal agreement'
-const getCustomizedHTML = (item, index) => {
+const getCustomizedHTML = (item, index, isCombinedCase) => {
   const humanReadableFileSize = getHumanReadableFileSize(item.fileSize)
   const filename = item.location === null ? '' : path.parse(item.location).base
   const fileText = filename + ', ' + humanReadableFileSize
@@ -20,7 +20,7 @@ const getCustomizedHTML = (item, index) => {
     },
     actions: {
       items: [{
-        href: `${constants.routes.REMOVE_LEGAL_AGREEMENT_FILE}?id=${item.id}`,
+        href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_REMOVE_LEGAL_AGREEMENT_FILE : constants.routes.REMOVE_LEGAL_AGREEMENT_FILE}?id=${item.id}`,
         text: 'Remove'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
@@ -35,7 +35,8 @@ const handlers = {
     if (legalAgreementFiles.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES)
     }
-    const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index))
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    const filesListWithAction = legalAgreementFiles?.map((currElement, index) => getCustomizedHTML(currElement, index, isCombinedCase))
     const selectedOption = request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILE_OPTION)
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()

@@ -6,20 +6,28 @@ import {
 } from '../utils.js'
 
 import {
-  addLandownerIndividualRoute, addPlanningAuthorityRoute,
-  addResponsibleBodyConversationConvenantRoute, checkHabitatPlanFileRoute,
-  checkLandownersRoute, checkLegalAgreementDetailsRoute,
+  addLandownerIndividualRoute,
+  addPlanningAuthorityRoute,
+  addResponsibleBodyConversationConvenantRoute,
+  checkHabitatPlanFileRoute,
+  checkLandownersRoute,
+  checkLegalAgreementDetailsRoute,
   checkLegalAgreementFilesRoute,
-  checkLegalAgreementRoute, checkPlanningAuthoritiesRoute,
-  checkResponsibleBodiesRoute, enhancementWorksStartDateRoute, habitatEnhancementsEndDateRoute,
+  checkLegalAgreementRoute,
+  checkPlanningAuthoritiesRoute,
+  checkResponsibleBodiesRoute,
+  enhancementWorksStartDateRoute,
+  habitatEnhancementsEndDateRoute,
   habitatPlanLegalAgreementRoute,
   landownerIndivOrgRoute,
   legalAgreementTypeRoute,
-  needAddAllLegalFileRoute, needAddAllPlanningAuthoritiesRoute,
+  needAddAllLegalFileRoute,
+  needAddAllPlanningAuthoritiesRoute,
   needAddAllResponsibleBodiesRoute,
   otherLandownersRoute,
   uploadHabitatPlanRoute,
-  uploadLegalAgreementRoute
+  uploadLegalAgreementRoute,
+  changeTypeLegalAgreement
 } from '../shared/legal-agreement.js'
 
 // land/legal-agreement-type
@@ -157,6 +165,12 @@ const CHECK_PLANNING_AUTHORITIES = checkPlanningAuthoritiesRoute(
 const CHECK_LEGAL_AGREEMENT_DETAILS = checkLegalAgreementDetailsRoute(
   constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS,
   constants.routes.COMBINED_CASE_TASK_LIST
+)
+
+const CHANGE_TYPE_LEGAL_AGREEMENT = changeTypeLegalAgreement(
+  constants.reusedRoutes.COMBINED_CASE_CHANGE_TYPE_LEGAL_AGREEMENT,
+  constants.reusedRoutes.COMBINED_CASE_LEGAL_AGREEMENT_TYPE,
+  constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS
 )
 
 const CON_COV_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[1].id], true)
@@ -337,7 +351,8 @@ const legalAgreementRouteDefinitions = [
   NEED_ADD_ALL_PLANNING_AUTHORITIES,
   ADD_PLANNING_AUTHORITY,
   CHECK_PLANNING_AUTHORITIES,
-  CHECK_LEGAL_AGREEMENT_DETAILS
+  CHECK_LEGAL_AGREEMENT_DETAILS,
+  CHANGE_TYPE_LEGAL_AGREEMENT
 ]
 
 export {

@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import constants from './constants.js'
 
-const applicantAddressSchema = Joi.object({
+export const applicantAddressSchema = Joi.object({
   type: Joi.string().valid('uk', 'international').required(),
   line1: Joi.string().required(),
   line2: Joi.string(),
