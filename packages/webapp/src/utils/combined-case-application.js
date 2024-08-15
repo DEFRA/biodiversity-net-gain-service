@@ -1,6 +1,4 @@
 import constants from './constants.js'
-import paymentConstants from '../payment/constants.js'
-import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import {
   getApplicant,
@@ -11,7 +9,8 @@ import {
   getFiles,
   getLocalPlanningAuthorities,
   getHectares,
-  getGridReference
+  getGridReference,
+  getPayment
 } from './shared-application.js'
 
 const getOrganisation = session => ({
@@ -22,14 +21,6 @@ const getOrganisation = session => ({
 const getHabitats = metricData => getHabitatsFromMetric(metricData)
 
 const getApplicationReference = session => session.get(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE) || ''
-
-const getPayment = session => {
-  const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
-  return {
-    reference: payment.reference,
-    method: payment.type
-  }
-}
 
 const getLandowners = session => {
   const sessionLandowners = session.get(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)

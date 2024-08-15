@@ -2,6 +2,8 @@ import constants from './constants.js'
 import path from 'path'
 import getHabitatType from './getHabitatType.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
+import savePayment from '../payment/save-payment.js'
+import paymentConstants from '../payment/constants.js'
 
 export const getApplicant = (account, session, isAgentKey = constants.redisKeys.IS_AGENT, orgRole = constants.applicantTypes.REPRESENTATIVE, defaultRole = constants.applicantTypes.LANDOWNER) => ({
   id: account.idTokenClaims.contactId,
@@ -293,3 +295,11 @@ export const getHectares = session => session.get(constants.redisKeys.LAND_BOUND
 export const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
   ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
   : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
+
+export const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.REGISTRATION, getApplicationReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
