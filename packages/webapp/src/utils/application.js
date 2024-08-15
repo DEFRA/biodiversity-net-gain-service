@@ -1,8 +1,16 @@
 import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
-import { getLpaNamesAndCodes } from './get-lpas.js'
-import { getApplicant, getClientDetails, getAddress, getHabitatsFromMetric, getFiles } from './shared-application.js'
+import {
+  getApplicant,
+  getClientDetails,
+  getAddress,
+  getHabitatsFromMetric,
+  getFiles,
+  getLocalPlanningAuthorities,
+  getHectares,
+  getGridReference
+} from './shared-application.js'
 
 const getOrganisation = session => ({
   id: session.get(constants.redisKeys.ORGANISATION_ID),
@@ -13,20 +21,6 @@ const getHabitats = session => {
   const metricData = session.get(constants.redisKeys.METRIC_DATA)
   return getHabitatsFromMetric(metricData)
 }
-
-const getLocalPlanningAuthorities = lpas => {
-  if (!lpas) return ''
-  const lpasReference = getLpaNamesAndCodes()
-  return lpas.map(e => { return { LPAName: e, LPAId: lpasReference.find(lpa => lpa.name === e).id } })
-}
-
-const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
-  ? session.get(constants.redisKeys.GEOSPATIAL_HECTARES)
-  : session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
-
-const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
-  ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
-  : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
 
 const getApplicationReference = session => session.get(constants.redisKeys.APPLICATION_REFERENCE) || ''
 

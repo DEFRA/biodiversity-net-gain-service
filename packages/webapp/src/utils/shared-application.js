@@ -1,6 +1,7 @@
 import constants from './constants.js'
 import path from 'path'
 import getHabitatType from './getHabitatType.js'
+import { getLpaNamesAndCodes } from './get-lpas.js'
 
 export const getApplicant = (account, session, isAgentKey = constants.redisKeys.IS_AGENT, orgRole = constants.applicantTypes.REPRESENTATIVE, defaultRole = constants.applicantTypes.LANDOWNER) => ({
   id: account.idTokenClaims.contactId,
@@ -278,3 +279,17 @@ export const getFiles = session => {
     getFile(session, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
 }
+
+export const getLocalPlanningAuthorities = lpas => {
+  if (!lpas) return ''
+  const lpasReference = getLpaNamesAndCodes()
+  return lpas.map(e => { return { LPAName: e, LPAId: lpasReference.find(lpa => lpa.name === e).id } })
+}
+
+export const getHectares = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.redisKeys.GEOSPATIAL_HECTARES)
+  : session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)
+
+export const getGridReference = session => session.get(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE) === 'geospatialData'
+  ? session.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE)
+  : session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE)
