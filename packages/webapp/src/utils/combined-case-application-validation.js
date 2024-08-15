@@ -1,24 +1,6 @@
 import Joi from 'joi'
 import constants from './constants.js'
-
-const applicantAddressSchema = Joi.object({
-  type: Joi.string().valid('uk', 'international').required(),
-  line1: Joi.string().required(),
-  line2: Joi.string(),
-  line3: Joi.string(),
-  town: Joi.string().required(),
-  postcode: Joi.when('type', {
-    is: 'uk',
-    then: Joi.string().required(),
-    otherwise: Joi.string()
-  }),
-  county: Joi.string(),
-  country: Joi.when('type', {
-    is: 'international',
-    then: Joi.string().required(),
-    otherwise: Joi.string()
-  })
-}).required()
+import { applicantAddressSchema } from './application-validation.js'
 
 const responsibleBodySchema = Joi.object({
   responsibleBodyName: Joi.string().required()
