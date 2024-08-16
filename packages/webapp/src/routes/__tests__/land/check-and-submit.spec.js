@@ -105,10 +105,12 @@ describe(url, () => {
     })
 
     it('should redirect to START if APPLICATION_REFERENCE is null', async () => {
-      redisMap.set(constants.redisKeys.APPLICATION_REFERENCE, null)
+      const session = applicationSession()
+      session.set(constants.redisKeys.APPLICATION_REFERENCE, null)
 
       const request = {
-        yar: redisMap
+        yar: session,
+        auth
       }
 
       jest.spyOn(taskListUtil, 'getTaskList').mockReturnValue({ canSubmit: true })
