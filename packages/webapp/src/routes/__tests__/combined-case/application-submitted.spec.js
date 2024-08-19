@@ -26,6 +26,7 @@ describe(url, () => {
       const getHandler = applicationSubmitted[0].handler
       const session = new Session()
       session.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, combinedCaseReference)
+      session.set('bacs', { sortCode: '60 70 80' })
       let viewArgs = ''
       const h = {
         view: (...args) => {
