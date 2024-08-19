@@ -47,7 +47,7 @@ describe('Land boundary upload controller tests', () => {
             [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION
           }
           await uploadFile(uploadConfig)
-          expect(spy).toHaveBeenCalledTimes(4)
+          expect(spy).toHaveBeenCalledTimes(2)
           setImmediate(() => {
             done()
           })
