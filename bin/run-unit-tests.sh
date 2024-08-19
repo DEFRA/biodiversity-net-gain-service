@@ -16,7 +16,7 @@ if [ ! -f ${POSTGRES_PASSWORD_SECRET_PATH} ]; then
   echo postgres > ${POSTGRES_PASSWORD_SECRET_PATH}
 fi
 
-if `nc -z localhost 10000 && nc -z localhost 10001`; then
+if `nc -z localhost 10000 && nc -z localhost 10001 && nc -z localhost 8082 && nc -z localhost 8888`; then
   echo Test double infrastructure is running
 else
   echo Setting up test double infrastructure
@@ -24,7 +24,7 @@ else
   destroy_test_double_infrastructure=1
 fi
 
-jest --runInBand "$@"
+jest --runInBand
 
 # Use the exit code from Jest as the script exit code so that test
 # failures are propagated to any continuous integration/deployment

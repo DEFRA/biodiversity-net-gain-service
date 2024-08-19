@@ -126,7 +126,7 @@
     ],
     "testEnvironment": "node",
     "testRunner": "jest-circus/runner",
-    "silent": false,
+    "silent": true,
     "transformIgnorePatterns": [
       "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
     ]
