@@ -109,7 +109,6 @@ const application = (session, account) => {
     .filter(file => !(file.optional && !file.fileLocation))
     .map(({ optional, ...restOfFile }) => restOfFile)
 
-  console.log('session data:::', session)
   return applicationJson
 }
 
