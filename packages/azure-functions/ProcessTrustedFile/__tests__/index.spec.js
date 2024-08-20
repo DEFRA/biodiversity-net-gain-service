@@ -9,7 +9,6 @@ const METRIC_FILE_EXTENSION = '.xlsx'
 const DEVELOPER_METRIC_UPLOAD_TYPE = 'developer-metric-upload'
 const CREDITS_PURCHASE_METRIC_UPLOAD_TYPE = 'credits-metric-upload'
 const LOJ_METRIC_UPLOAD_TYPE = 'metric-upload'
-const REPROJECTED_TO_OSGB36 = 'reprojectedToOsgb36'
 
 describe('Trusted file processing', () => {
   it('should process a known metric file.', done => {
@@ -146,10 +145,7 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
   const filenameRoot = 'mock-data'
   const fileDirectory = `${userId}/mockUploadType`
   const filename = `${filenameRoot}${fileExtension}`
-  const outputFileLocation = uploadType.indexOf('.') > 0 ? `${fileDirectory}/${filenameRoot}` : `${fileDirectory}/${filenameRoot}.geojson`
-  const reprojectedFileDirectory = `${fileDirectory}/${REPROJECTED_TO_OSGB36}`
-  const reprojectedOutputFileLocation = uploadType.indexOf('.') > 0 ? `${reprojectedFileDirectory}/${filenameRoot}` : `${reprojectedFileDirectory}/${filenameRoot}.geojson`
-  const reprojectedOutputFileSize = 500
+  const outputFileLocation = `${fileDirectory}/${filenameRoot}`
   const mapConfig = {
     centroid: 'mock centroid',
     epsg: epsg || 'mock EPSG',
@@ -178,11 +174,6 @@ const buildConfig = (fileExtension, uploadType, epsg) => {
         mapConfig
       }
     }
-  }
-
-  if (epsg !== '27700') {
-    config.expectedRes.body.reprojectedLocation = reprojectedOutputFileLocation
-    config.expectedRes.body.reprojectedFileSize = reprojectedOutputFileSize
   }
 
   switch (uploadType) {
