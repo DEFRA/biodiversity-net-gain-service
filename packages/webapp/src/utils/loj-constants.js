@@ -28,7 +28,6 @@ const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
 const DOWNLOAD_HABITAT_PLAN_FILE = 'land/download-habitat-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
-const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
@@ -306,7 +305,6 @@ export default {
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_HABITAT_PLAN_FILE,
     DOWNLOAD_LAND_BOUNDARY,
-    DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
