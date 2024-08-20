@@ -11,7 +11,6 @@ const landBoundaryContext = request => {
 
   return {
     ...context,
-    landBoundaryUploadType: 'Document or image',
     landBoundaryFileName: getLegalLandBoundaryFileName(request),
     gridReference: request.yar.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE),
     areaInHectare: (parseFloat(request.yar.get(constants.redisKeys.LAND_BOUNDARY_HECTARES)) || '0') + ' ha',
