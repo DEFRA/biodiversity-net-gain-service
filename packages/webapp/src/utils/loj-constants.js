@@ -78,7 +78,6 @@ const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const HABITAT_PLAN_FILE_OPTION = 'habitat-plan-file-option'
 const METRIC_UPLOAD_KEY = 'metric-upload-key'
-const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
 const TEMP_LAND_OWNERSHIP_PROOF = 'temp_land_ownership_proof'
@@ -184,7 +183,6 @@ export default {
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LANDOWNER,
-    GEOSPATIAL_UPLOAD_LOCATION,
     LOCAL_LAND_CHARGE_FILE_SIZE,
     HABITAT_PLAN_FILE_SIZE,
     TEMP_LAND_OWNERSHIP_PROOF,

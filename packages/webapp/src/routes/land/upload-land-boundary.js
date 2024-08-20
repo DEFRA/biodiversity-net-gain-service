@@ -15,10 +15,6 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, result.fileType)
   request.logger.info(`${new Date().toUTCString()} Received land boundary data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)
 
-  // Clear out any geospatial data and files
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION))
-  request.yar.clear(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION)
-
   return getNextStep(request, h)
 }
 
