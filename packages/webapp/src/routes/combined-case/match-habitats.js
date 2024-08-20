@@ -34,14 +34,19 @@ const getMatchedHabitatItems =
     }
   }))
 
-const getNumberOfMatchesText = (matchingHabitats) => {
+export const getNumberOfMatchesText = (matchingHabitats) => {
   if (!matchingHabitats?.length) {
     return null
   }
   if (matchingHabitats.length === 1) {
-    return 'Only one habitat matches. Only one habitat can match your allocation'
+    return {
+      heading: 'Only one habitat matches. Only one habitat can match your allocation:'
+    }
   }
-  return 'Now choose which available habitat, from your metric, is the best match'
+  return {
+    heading: 'Habitats available on the gain site',
+    selectionMessage: 'Select the best match for your site'
+  }
 }
 
 const handlers = {
@@ -84,6 +89,7 @@ const handlers = {
     const context = {
       numberOfPages,
       currentPage: safeCurrentPage,
+      firstPage: safeCurrentPage === 1,
       selectedHabitatText,
       matchedHabitatItems: matchedHabitatItems.map(item => {
         if (item.value === selectedRadio) {

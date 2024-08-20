@@ -30,6 +30,9 @@ const handlers = {
 }
 
 const getContext = request => {
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+  const hrefPath = isCombinedCase ? '/combined-case' : '/land'
   const legalAgreementFileNames = getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES))
   const legalAgreementFileHeaderPrefix = getFileHeaderPrefix(legalAgreementFileNames)
   return {
@@ -44,7 +47,8 @@ const getContext = request => {
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
-    hideClass
+    hideClass,
+    hrefPath
   }
 }
 

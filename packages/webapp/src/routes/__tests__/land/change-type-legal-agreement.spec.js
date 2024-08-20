@@ -21,6 +21,7 @@ describe(url, () => {
     }
 
     redisMap = new Map()
+    redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.REGISTRATION)
     changeTypeLegalAgreement = require('../../land/change-type-legal-agreement.js')
   })
 
@@ -34,7 +35,8 @@ describe(url, () => {
     it('Should continue journey to LEGAL_AGREEMENT_TYPE if user confirms to changing legal agreement', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeLegalAgreementType: 'yes' }
+        payload: { changeLegalAgreementType: 'yes' },
+        path: changeTypeLegalAgreement.default[1].path
       }
 
       await changeTypeLegalAgreement.default[1].handler(request, h)
@@ -44,7 +46,8 @@ describe(url, () => {
     it('Should continue journey to CHECK_LEGAL_AGREEMENT_DETAILS if user does not want to change legal agreement', async () => {
       const request = {
         yar: redisMap,
-        payload: { changeLegalAgreementType: 'no' }
+        payload: { changeLegalAgreementType: 'no' },
+        path: changeTypeLegalAgreement.default[1].path
       }
 
       await changeTypeLegalAgreement.default[1].handler(request, h)
@@ -55,7 +58,8 @@ describe(url, () => {
     it('Should fail journey if no answer', async () => {
       const request = {
         yar: redisMap,
-        payload: {}
+        payload: {},
+        path: changeTypeLegalAgreement.default[1].path
       }
 
       await changeTypeLegalAgreement.default[1].handler(request, h)
