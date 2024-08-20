@@ -25,9 +25,6 @@ describe(url, () => {
           const checkLandBoundary = require('../../land/check-land-boundary-details')
           const request = {
             yar: redisMap,
-            payload: {
-              confirmGeospatialLandBoundary: undefined
-            },
             path: checkLandBoundary.default[1].path
           }
           const h = {

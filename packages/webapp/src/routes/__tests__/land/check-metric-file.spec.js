@@ -45,7 +45,6 @@ describe(url, () => {
     })
 
     it('should detect an invalid response from user', async () => {
-      postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
       const sessionData = {}
       sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       await submitPostRequest(postOptions, 500, sessionData)
