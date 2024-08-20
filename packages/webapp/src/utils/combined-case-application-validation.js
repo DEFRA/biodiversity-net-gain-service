@@ -127,7 +127,7 @@ const combinedCaseValidation = Joi.object({
       }).required(),
       habitats: Joi.object({
         allocated: Joi.array().items(Joi.object({
-          habitatId: Joi.string().allow(null, ''),
+          habitatId: Joi.string().allow(''),
           area: Joi.number().required(),
           module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
           state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
