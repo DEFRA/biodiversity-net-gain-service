@@ -65,6 +65,7 @@ const processMetricData = session => {
         metricData[sheet].forEach(habitat => {
           const habitatType = getHabitatType(sheet, habitat)
           const condition = habitat.Condition
+          const habitatUnitsDelivered = habitat['Habitat units delivered'] ?? habitat['Hedge units delivered'] ?? habitat['Watercourse units delivered']
 
           if (habitatType && condition) {
             habitats.push({
@@ -76,6 +77,7 @@ const processMetricData = session => {
               id: isAllocation ? generateOwnReference() : generateHabitatReference(),
               size: habitat['Length (km)'] ?? habitat['Area (hectares)'],
               measurementUnits: 'Length (km)' in habitat ? 'kilometres' : 'hectares',
+              habitatUnitsDelivered,
               rowNum: habitat?.rowNum,
               processed: false
             })

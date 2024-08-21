@@ -252,6 +252,89 @@
         classes: 'govuk-!-margin-bottom-9'
       }) }}
 
+      <!-- Summary of habitats being used -->
+      {{ govukTable({
+        caption: "Summary of habitats being used",
+        captionClasses: "govuk-table__caption--m",
+        firstCellIsHeader: true,
+        classes: "govuk-table--small-text-until-tablet",
+        head: [
+          {
+            text: "Habitat"
+          },
+          {
+            text: "Condition"
+          },
+          {
+            text: "Size"
+          },
+          {
+            text: "Units"
+          }
+        ],
+        rows: [
+          [
+            {
+              text: habitatType
+            },
+            {
+              text: habitatCondition
+            },
+            {
+              text: habitatSize
+            },
+            {
+              text: habitatUnits
+            }
+          ],
+          [
+            {
+              text: "Next 6 weeks"
+            },
+            {
+              text: "£27.45 per week"
+            },
+            {
+              text: "£33.90 per week"
+            }
+          ],
+          [
+            {
+              text: "Next 24 weeks"
+            },
+            {
+              text: "£27.45 per week"
+            },
+            {
+              text: "£33.90 per week"
+            }
+          ],
+          [
+            {
+              text: "Next 33 weeks"
+            },
+            {
+              text: "£27.45 per week"
+            },
+            {
+              text: "£33.90 per week"
+            }
+          ],
+          [
+            {
+              text: "Total estimated pay"
+            },
+            {
+              text: "£4,282.20"
+            },
+            {
+              text: "£5,288.40"
+            }
+          ]
+        ]
+      }) }}
+
+      <!-- Terms and conditions -->
       <h2 class="govuk-heading-m">Terms and conditions</h2>
       <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
       {{ govukCheckboxes({

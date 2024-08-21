@@ -21,6 +21,7 @@ const handlers = {
 
     try {
       const result = await uploadFile(request.logger, request, uploadConfig)
+      // console.log('result:::', JSON.stringify(result, null, 2))
       return await processSuccessfulUpload(result, request, h, constants.views.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC)
     } catch (err) {
       request.logger.error(`${new Date().toUTCString()} Problem uploading file ${err}`)
