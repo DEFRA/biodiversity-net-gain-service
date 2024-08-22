@@ -50,18 +50,12 @@
       'href': developmentInfo.metricFileNameUrl,
       'visuallyHiddenText': ' metric file name',
       'show': true
-    },
-    {
-      'text': 'Matched Habitats',
-      'value': developmentInfo.matchedHabitatItems,
-      'valueDataTestId': 'habitats-value',
-      'valueId': 'habitats-value',
-      'href': developmentInfo.matchHabitatsChangeUrl,
-      'visuallyHiddenText': ' habitats',
-      'show': true,
-      'subList': true
     }
   ] %}
+
+  {% set habitatSummaryInfo = {
+    matchedHabitatItems: matchedHabitatItems
+  } %}
 
 {% block formContent %}
 <div class="govuk-body">
@@ -250,6 +244,21 @@
       {{ generateSummaryList({
         rows: developmentInfoRowList,
         classes: 'govuk-!-margin-bottom-9'
+      }) }}
+
+      <!-- Summary of habitats being used -->
+      {{ govukTable({
+        caption: "Summary of habitats being used",
+        captionClasses: "govuk-table__caption--m",
+        firstCellIsHeader: true,
+        classes: "govuk-table--small-text-until-tablet",
+        head: [
+          { text: "Habitat" },
+          { text: "Condition" },
+          { text: "Size" },
+          { text: "Units" }
+        ],
+        rows: habitatSummaryInfo.matchedHabitatItems
       }) }}
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>

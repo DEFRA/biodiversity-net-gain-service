@@ -9,6 +9,20 @@ import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const handlers = {
   get: (request, h) => {
+    const matchedHabitatItems = (request) => {
+      return (request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []).map(item => [
+        {
+          text: item?.habitatType
+        },
+        {
+          text: item?.condition
+        },
+        {
+          text: `${item?.size} ${item?.measurementUnits}`
+        }
+      ])
+    }
+
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
 
     if (appSubmitted) {
@@ -29,7 +43,8 @@ const handlers = {
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
       {
         ...getRegistrationDetails(request, applicationDetails),
-        ...getDeveloperDetails(request, request.yar, currentOrganisation)
+        ...getDeveloperDetails(request, request.yar, currentOrganisation),
+        matchedHabitatItems: matchedHabitatItems(request)
       }
     )
   },
