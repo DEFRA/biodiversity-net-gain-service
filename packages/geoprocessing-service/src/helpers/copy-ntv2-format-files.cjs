@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const gdalAsyncDirectory = require.resolve('gdal-async')
 const gdalDataDirectory = path.join(gdalAsyncDirectory, '..', '..', 'deps', 'libproj', 'proj', 'data')
-const ntv2FormatFilesPath = path.join(__dirname, '..', 'ntv2-format-files')
+const ntv2FormatFilesPath = path.join(__dirname, '..', '..', '..', '..', 'node_modules', '@defra', 'bng-geoprocessing-service', 'src', 'ntv2-format-files')
 
 const copyNtv2FormatFiles = () => {
   // Copy the NTv2 format files to the GDAL data directory synchronously as the asynchronous API

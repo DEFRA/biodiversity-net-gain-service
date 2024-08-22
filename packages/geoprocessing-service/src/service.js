@@ -10,13 +10,19 @@ const OSGB36_SRS_AUTHORITY_CODE = '27700'
 const WGS84_SRS_AUTHORITY_CODE = '4326'
 
 const ostn15FormatFilePath = path.join(dirname, '../', 'ntv2-format-files/', 'OSTN15_NTv2_OSGBtoETRS.gsb')
-const wgs84ToOsgb36ReprojectionArgs = [
+
+const wgs84ToOsgb36CommonArgs = [
   '-f', 'GEOJSON',
-  '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+  '-s_srs', '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs'
+]
+const wgs84ToOsgb36ReprojectionArgs = [
+  ...wgs84ToOsgb36CommonArgs,
   '-t_srs', `+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +units=m +no_defs +nadgrids=${ostn15FormatFilePath}`
 ]
-
-const wgs84ToOsgb36ReprojectionArgsWithAssignedSrs = JSON.parse(JSON.stringify(wgs84ToOsgb36ReprojectionArgs)).concat('-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`)
+const wgs84ToOsgb36ReprojectionArgsWithAssignedSrs = [
+  ...wgs84ToOsgb36CommonArgs,
+  '-a_srs', `EPSG:${OSGB36_SRS_AUTHORITY_CODE}`
+]
 
 const processLandBoundary = async (logger, config) => {
   let dataset

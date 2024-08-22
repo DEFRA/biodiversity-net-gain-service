@@ -1,5 +1,3 @@
-# https://github.com/defra/biodiversity-net-gain-service
-
 variables:
   - name: TAG
     value: latest #$(Build.SourceVersion)-$(Build.BuildId) TODO make an appropriate versioning tag
@@ -38,7 +36,9 @@ steps:
   displayName: 'Build webapp image and output to tar'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)/packages/database-version-control
+    cd $(System.DefaultWorkingDirectory)
+    cp -r node_modules packages/database-version-control/
+    cd packages/database-version-control
     zip -rq database-version-control.zip .
     cp database-version-control.zip $(Build.ArtifactStagingDirectory)/database-version-control.zip
   displayName: 'Create Database version control artifact'
