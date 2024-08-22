@@ -9,6 +9,9 @@ import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const handlers = {
   get: (request, h) => {
+    const combinedCaseAllocationHabitatsProcessing = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    console.log('COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING:', combinedCaseAllocationHabitatsProcessing)
+
     const matchedHabitatItems = (request) => {
       return (request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []).map(item => [
         {
@@ -19,6 +22,9 @@ const handlers = {
         },
         {
           text: `${item?.size} ${item?.measurementUnits}`
+        },
+        {
+          text: item?.habitatUnitsDelivered
         }
       ])
     }
