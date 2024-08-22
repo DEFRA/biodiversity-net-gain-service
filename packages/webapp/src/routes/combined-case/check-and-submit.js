@@ -9,20 +9,19 @@ import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
 const handlers = {
   get: (request, h) => {
-    // console.log('request:::', JSON.stringify(request.yar._store, (key, value) => {
-    //   if (typeof value === 'object' && value !== null) {
-    //     return value
-    //   }
-    //   return value
-    // }, 2))
-
-    // const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
-    // console.log('metricData:::', JSON.stringify(metricData, null, 2))
-
-    const allocatedHabitatData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-    console.log('allocatedHabitatData:::', JSON.stringify(allocatedHabitatData, null, 2))
-
-    // TODO: make a function that stores the habitat summary data in variables and connect it to frontend view
+    const matchedHabitatItems = (request) => {
+      return (request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []).map(item => [
+        {
+          text: item?.habitatType
+        },
+        {
+          text: item?.condition
+        },
+        {
+          text: `${item?.size} ${item?.measurementUnits}`
+        }
+      ])
+    }
 
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
 
@@ -43,15 +42,14 @@ const handlers = {
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
       {
         ...getRegistrationDetails(request, applicationDetails),
-        ...getDeveloperDetails(request, request.yar, currentOrganisation)
+        ...getDeveloperDetails(request, request.yar, currentOrganisation),
+        matchedHabitatItems: matchedHabitatItems(request)
       }
     )
   },
   post: async (request, h) => {
     const combinedCaseApplication = application(request.yar, request.auth.credentials.account)
-    console.log('Combined case application:::', JSON.stringify(combinedCaseApplication, null, 2))
     const applicationDetails = combinedCaseApplication.combinedCase
-    console.log('Application details from post request:::', JSON.stringify(applicationDetails, null, 2))
 
     if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
       const claims = request.auth.credentials.account.idTokenClaims
@@ -74,7 +72,6 @@ const handlers = {
     }
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcombinedcaseapplication`, value)
-    console.log('Result from processcombinedcaseapplication:::', JSON.stringify(result, null, 2))
     request.yar.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, result.applicationReference)
     return h.redirect(constants.routes.APPLICATION_SUBMITTED)
   }
