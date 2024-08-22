@@ -22,6 +22,8 @@ const handlers = {
     const allocatedHabitatData = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
     console.log('allocatedHabitatData:::', JSON.stringify(allocatedHabitatData, null, 2))
 
+    // TODO: make a function that stores the habitat summary data in variables and connect it to frontend view
+
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
 
     if (appSubmitted) {

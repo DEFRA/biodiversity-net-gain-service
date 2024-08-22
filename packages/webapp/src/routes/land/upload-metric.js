@@ -21,7 +21,6 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)
-  console.log('METRIC_DATA):::', JSON.stringify(request.yar.get(constants.redisKeys.METRIC_DATA), null, 2))
   return getNextStep(request, h)
 }
 
