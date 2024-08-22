@@ -104,7 +104,7 @@ const formatHabitatList = (allHabitats) => {
   ])
 }
 
-export const getMatchedHabitatItems = (request) => {
+const getMatchedHabitatItems = (request) => {
   return (request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []).map(item => [
     {
       classes: 'govuk-body-s govuk-!-display-block govuk-!-margin-top-0 govuk-!-margin-bottom-0',
@@ -176,8 +176,7 @@ const getClientTypeChangeUrl = (developerIsAgent) => {
 const getDevelopmentInfo = (session, isCombinedCase, habitats, matchedHabitatItems) => {
   const planningDecisionNoticeFileName = getPlanningDecisionNoticeFileName(session)
 
-  // Check if developmentInfo exists before accessing matchedHabitatItems
-  const developmentInfo = {
+  return {
     planningDecisionNoticeFile: planningDecisionNoticeFileName,
     planningDecisionNoticeFileChangeUrl: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE : constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
     metricFileName: session.get(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME),
@@ -193,18 +192,6 @@ const getDevelopmentInfo = (session, isCombinedCase, habitats, matchedHabitatIte
     habitats,
     matchedHabitatItems,
     matchHabitatsChangeUrl: constants.routes.COMBINED_CASE_MATCH_HABITATS
-  }
-
-  const matchedHabitatRows = (developmentInfo.matchedHabitatItems || []).map(item => [
-    { text: item.habitatType },
-    { text: item.habitatCondition },
-    { text: item.habitatSize },
-    { text: item.habitatUnits }
-  ])
-
-  return {
-    ...developmentInfo,
-    matchedHabitatRows // Pass the transformed data to the view
   }
 }
 
