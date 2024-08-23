@@ -15,57 +15,51 @@ const handlers = {
     const matchedHabitatItems = (request) => {
       const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []
 
+      const groupedItems = {
+        area: [],
+        hedgerow: [],
+        watercourse: []
+      }
+
       let totalHabitatUnits = 0
       let totalHedgeUnits = 0
       let totalWatercourseUnits = 0
 
-      const habitatItems = habitats.map(habitat => {
-        const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+      habitats.forEach(item => {
+        const habitatUnitsDelivered = item?.habitatUnitsDelivered || 0
 
-        if (habitat.state === 'Habitat') {
+        if (item?.state === 'Habitat') {
+          groupedItems.area.push(item)
           totalHabitatUnits += habitatUnitsDelivered
-        } else if (habitat.state === 'Hedge') {
+        } else if (item?.state === 'Hedge') {
+          groupedItems.hedgerow.push(item)
           totalHedgeUnits += habitatUnitsDelivered
-        } else if (habitat.state === 'Watercourse') {
+        } else if (item?.state === 'Watercourse') {
+          groupedItems.watercourse.push(item)
           totalWatercourseUnits += habitatUnitsDelivered
         }
-
-        return [
-          {
-            text: habitat?.habitatType
-          },
-          {
-            text: habitat?.condition
-          },
-          {
-            text: `${habitat?.size} ${habitat?.measurementUnits}`
-          },
-          {
-            text: habitat?.habitatUnitsDelivered
-          }
-        ]
       })
 
-      if (totalHabitatUnits > 0) {
+      const habitatItems = []
+
+      const addItemsWithTotal = (items, total, totalLabel) => {
+        items.forEach(item => {
+          habitatItems.push([
+            { text: item?.habitatType },
+            { text: item?.condition },
+            { text: `${item?.size} ${item?.measurementUnits}` },
+            { text: item?.habitatUnitsDelivered }
+          ])
+        })
         habitatItems.push([
-          { text: 'Total area units', colspan: 3 },
-          { text: totalHabitatUnits }
+          { text: totalLabel, colspan: 3 },
+          { text: total }
         ])
       }
 
-      if (totalHedgeUnits > 0) {
-        habitatItems.push([
-          { text: 'Total hedgerow units', colspan: 3 },
-          { text: totalHedgeUnits }
-        ])
-      }
-
-      if (totalWatercourseUnits > 0) {
-        habitatItems.push([
-          { text: 'Total watercourse units', colspan: 3 },
-          { text: totalWatercourseUnits }
-        ])
-      }
+      addItemsWithTotal(groupedItems.area, totalHabitatUnits, 'Total area units')
+      addItemsWithTotal(groupedItems.hedgerow, totalHedgeUnits, 'Total hedgerow units')
+      addItemsWithTotal(groupedItems.watercourse, totalWatercourseUnits, 'Total watercourse units')
 
       return habitatItems
     }
