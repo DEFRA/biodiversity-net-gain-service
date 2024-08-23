@@ -48,12 +48,12 @@ const handlers = {
             { text: item?.habitatType },
             { text: item?.condition },
             { text: `${item?.size} ${item?.measurementUnits}` },
-            { text: item?.habitatUnitsDelivered.toFixed(1) }
+            { text: `${item?.habitatUnitsDelivered.toFixed(1)} units` }
           ])
         })
         habitatItems.push([
           { text: totalLabel, colspan: 3 },
-          { text: total.toFixed(1) }
+          { text: `${total.toFixed(1)} units` }
         ])
       }
 
