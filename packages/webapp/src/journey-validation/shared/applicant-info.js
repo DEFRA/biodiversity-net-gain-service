@@ -236,96 +236,57 @@ const checkAppInfoRoute = (startUrl, nextUrl) => routeDefinition(
   }
 )
 
-const changeClientIndividualOrganisationRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+const changeRoute = (payloadKey, errorText, startUrl, nextUrlYes, nextUrlNo, additionalKeysToClear = []) => routeDefinition(
   startUrl,
   [],
   (session, request) => {
-    const { changeClientIndividualOrganisation } = request.payload
+    const changeValue = request.payload[payloadKey]
 
-    if (changeClientIndividualOrganisation === 'yes') {
-      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
-      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
-      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
-      request.yar.clear(constants.redisKeys.REFERER)
+    if (changeValue === 'yes') {
+      const keysToClear = [
+        constants.redisKeys.LANDOWNER_TYPE,
+        constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY,
+        constants.redisKeys.IS_ADDRESS_UK_KEY,
+        constants.redisKeys.UK_ADDRESS_KEY,
+        constants.redisKeys.CLIENTS_NAME_KEY,
+        constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY,
+        constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY,
+        constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY,
+        constants.redisKeys.REFERER,
+        ...additionalKeysToClear
+      ]
 
-      return nextUrl
-    } else if (changeClientIndividualOrganisation === 'no') {
-      return nextUrl1
-    } else {
-      const message = 'Select yes if you want to change whether your client is an individual or organisation'
-      throw new FormError(message, {
-        text: message,
-        href: '#changeClientIndividualOrganisation'
-      })
+      keysToClear.forEach(key => request.yar.clear(key))
+
+      return nextUrlYes
     }
+
+    if (changeValue === 'no') {
+      const referrerUrl = getValidReferrerUrl(session, ['/combined-case/check-and-submit', '/land/check-and-submit'])
+      return referrerUrl || nextUrlNo
+    }
+
+    throw new FormError(errorText, {
+      text: errorText,
+      href: `#${payloadKey}`
+    })
   }
 )
 
-const changeActingOnBehalfOfClientRoute = (startUrl, nextUrl, nextUrl1) => routeDefinition(
-  startUrl,
-  [],
-  (session, request) => {
-    const { changeActingOnBehalfOfClient } = request.payload
+const changeClientIndividualOrganisationRoute = (startUrl, nextUrlYes, nextUrlNo) =>
+  changeRoute('changeClientIndividualOrganisation',
+    'Select yes if you want to change whether your client is an individual or organisation',
+    startUrl, nextUrlYes, nextUrlNo)
 
-    if (changeActingOnBehalfOfClient === 'yes') {
-      request.yar.clear(constants.redisKeys.IS_AGENT)
-      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
-      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
-      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
-      request.yar.clear(constants.redisKeys.REFERER)
+const changeActingOnBehalfOfClientRoute = (startUrl, nextUrlYes, nextUrlNo) =>
+  changeRoute('changeActingOnBehalfOfClient',
+    'Select yes if you want to change whether you’re acting on behalf of a client',
+    startUrl, nextUrlYes, nextUrlNo, [constants.redisKeys.IS_AGENT])
 
-      return nextUrl
-    } else if (changeActingOnBehalfOfClient === 'no') {
-      return nextUrl1
-    } else {
-      const message = 'Select yes if you want to change whether you’re acting on behalf of a client'
-      throw new FormError(message, {
-        text: message,
-        href: '#changeActingOnBehalfOfClient'
-      })
-    }
-  }
-)
-
-const changeApplyingIndividualOrg = (startUrl, nextUrl, nextUrl1) => routeDefinition(
-  startUrl,
-  [],
-  (session, request) => {
-    const { changeApplyingIndividualOrganisation } = request.payload
-
-    if (changeApplyingIndividualOrganisation === 'yes') {
-      request.yar.clear(constants.redisKeys.LANDOWNER_TYPE)
-      request.yar.clear(constants.redisKeys.CLIENT_INDIVIDUAL_ORGANISATION_KEY)
-      request.yar.clear(constants.redisKeys.IS_ADDRESS_UK_KEY)
-      request.yar.clear(constants.redisKeys.UK_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_ORGANISATION_NAME_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_EMAIL_ADDRESS_KEY)
-      request.yar.clear(constants.redisKeys.CLIENTS_PHONE_NUMBER_KEY)
-      request.yar.clear(constants.redisKeys.REFERER)
-
-      return nextUrl
-    } else if (changeApplyingIndividualOrganisation === 'no') {
-      return nextUrl1
-    } else {
-      const message = 'Select yes if you want to change whether you’re applying as an individual or an organisation'
-      throw new FormError(message, {
-        text: message,
-        href: '#changeApplyingIndividualOrganisation'
-      })
-    }
-  }
-)
+const changeApplyingIndividualOrg = (startUrl, nextUrlYes, nextUrlNo) =>
+  changeRoute('changeApplyingIndividualOrganisation',
+    'Select yes if you want to change whether you’re applying as an individual or an organisation',
+    startUrl, nextUrlYes, nextUrlNo)
 
 export {
   createAgentActingForClientRoute,
