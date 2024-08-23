@@ -813,7 +813,6 @@ const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedire
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
     await deleteBlobFromContainers(metricUploadLocation)
-    request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
     request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
     request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
     request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
