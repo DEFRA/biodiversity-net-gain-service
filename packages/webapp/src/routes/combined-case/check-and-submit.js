@@ -13,20 +13,61 @@ const handlers = {
     console.log('COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING:', combinedCaseAllocationHabitatsProcessing)
 
     const matchedHabitatItems = (request) => {
-      return (request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []).map(item => [
-        {
-          text: item?.habitatType
-        },
-        {
-          text: item?.condition
-        },
-        {
-          text: `${item?.size} ${item?.measurementUnits}`
-        },
-        {
-          text: item?.habitatUnitsDelivered
+      const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []
+
+      let totalHabitatUnits = 0
+      let totalHedgeUnits = 0
+      let totalWatercourseUnits = 0
+
+      const habitatItems = habitats.map(habitat => {
+        const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+
+        if (habitat.state === 'Habitat') {
+          totalHabitatUnits += habitatUnitsDelivered
+        } else if (habitat.state === 'Hedge') {
+          totalHedgeUnits += habitatUnitsDelivered
+        } else if (habitat.state === 'Watercourse') {
+          totalWatercourseUnits += habitatUnitsDelivered
         }
-      ])
+
+        return [
+          {
+            text: habitat?.habitatType
+          },
+          {
+            text: habitat?.condition
+          },
+          {
+            text: `${habitat?.size} ${habitat?.measurementUnits}`
+          },
+          {
+            text: habitat?.habitatUnitsDelivered
+          }
+        ]
+      })
+
+      if (totalHabitatUnits > 0) {
+        habitatItems.push([
+          { text: 'Total area units', colspan: 3 },
+          { text: totalHabitatUnits }
+        ])
+      }
+
+      if (totalHedgeUnits > 0) {
+        habitatItems.push([
+          { text: 'Total hedgerow units', colspan: 3 },
+          { text: totalHedgeUnits }
+        ])
+      }
+
+      if (totalWatercourseUnits > 0) {
+        habitatItems.push([
+          { text: 'Total watercourse units', colspan: 3 },
+          { text: totalWatercourseUnits }
+        ])
+      }
+
+      return habitatItems
     }
 
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
