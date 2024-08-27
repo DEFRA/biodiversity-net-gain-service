@@ -53,10 +53,6 @@
     }
   ] %}
 
-  {% set habitatSummaryInfo = {
-    matchedHabitatItems: matchedHabitatItems
-  } %}
-
 {% block formContent %}
 <div class="govuk-body">
   {% if err %}
@@ -258,7 +254,7 @@
           { text: "Size" },
           { text: "Units" }
         ],
-        rows: habitatSummaryInfo.matchedHabitatItems
+        rows: matchedHabitats
       }) }}
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>

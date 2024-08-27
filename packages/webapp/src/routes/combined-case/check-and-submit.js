@@ -7,62 +7,60 @@ import combinedCaseApplicationValidation from '../../utils/combined-case-applica
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
+const getMatchedHabitats = (habitats) => {
+  const habitatGroups = {
+    area: [],
+    hedgerow: [],
+    watercourse: []
+  }
+
+  let totalHabitatUnits = 0
+  let totalHedgeUnits = 0
+  let totalWatercourseUnits = 0
+
+  habitats.forEach(item => {
+    const habitatUnitsDelivered = item?.habitatUnitsDelivered || 0
+
+    if (item?.state === 'Habitat') {
+      habitatGroups.area.push(item)
+      totalHabitatUnits += habitatUnitsDelivered
+    } else if (item?.state === 'Hedge') {
+      habitatGroups.hedgerow.push(item)
+      totalHedgeUnits += habitatUnitsDelivered
+    } else if (item?.state === 'Watercourse') {
+      habitatGroups.watercourse.push(item)
+      totalWatercourseUnits += habitatUnitsDelivered
+    }
+  })
+
+  const habitatDetails = []
+
+  const addItemsWithTotal = (items, total, totalLabel) => {
+    items.forEach(item => {
+      habitatDetails.push([
+        { text: item?.habitatType },
+        { text: item?.condition },
+        { text: `${item?.size} ${item?.measurementUnits}` },
+        { text: `${item?.habitatUnitsDelivered.toFixed(1)} units` }
+      ])
+    })
+    habitatDetails.push([
+      { text: totalLabel, colspan: 3 },
+      { text: `${total.toFixed(1)} units` }
+    ])
+  }
+
+  addItemsWithTotal(habitatGroups.area, totalHabitatUnits, 'Total area units')
+  addItemsWithTotal(habitatGroups.hedgerow, totalHedgeUnits, 'Total hedgerow units')
+  addItemsWithTotal(habitatGroups.watercourse, totalWatercourseUnits, 'Total watercourse units')
+
+  return habitatDetails
+}
+
 const handlers = {
   get: (request, h) => {
-    const combinedCaseAllocationHabitatsProcessing = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
-    console.log('COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING:', combinedCaseAllocationHabitatsProcessing)
-
-    const matchedHabitatItems = (request) => {
-      const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING) || []
-
-      const groupedItems = {
-        area: [],
-        hedgerow: [],
-        watercourse: []
-      }
-
-      let totalHabitatUnits = 0
-      let totalHedgeUnits = 0
-      let totalWatercourseUnits = 0
-
-      habitats.forEach(item => {
-        const habitatUnitsDelivered = item?.habitatUnitsDelivered || 0
-
-        if (item?.state === 'Habitat') {
-          groupedItems.area.push(item)
-          totalHabitatUnits += habitatUnitsDelivered
-        } else if (item?.state === 'Hedge') {
-          groupedItems.hedgerow.push(item)
-          totalHedgeUnits += habitatUnitsDelivered
-        } else if (item?.state === 'Watercourse') {
-          groupedItems.watercourse.push(item)
-          totalWatercourseUnits += habitatUnitsDelivered
-        }
-      })
-
-      const habitatItems = []
-
-      const addItemsWithTotal = (items, total, totalLabel) => {
-        items.forEach(item => {
-          habitatItems.push([
-            { text: item?.habitatType },
-            { text: item?.condition },
-            { text: `${item?.size} ${item?.measurementUnits}` },
-            { text: `${item?.habitatUnitsDelivered.toFixed(1)} units` }
-          ])
-        })
-        habitatItems.push([
-          { text: totalLabel, colspan: 3 },
-          { text: `${total.toFixed(1)} units` }
-        ])
-      }
-
-      addItemsWithTotal(groupedItems.area, totalHabitatUnits, 'Total area units')
-      addItemsWithTotal(groupedItems.hedgerow, totalHedgeUnits, 'Total hedgerow units')
-      addItemsWithTotal(groupedItems.watercourse, totalWatercourseUnits, 'Total watercourse units')
-
-      return habitatItems
-    }
+    const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+    const matchedHabitats = getMatchedHabitats(habitats)
 
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
 
@@ -79,12 +77,13 @@ const handlers = {
     const applicationDetails = application(request.yar, request.auth.credentials.account).combinedCase
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
+
     return h.view(
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
       {
         ...getRegistrationDetails(request, applicationDetails),
         ...getDeveloperDetails(request, request.yar, currentOrganisation),
-        matchedHabitatItems: matchedHabitatItems(request)
+        matchedHabitats
       }
     )
   },
