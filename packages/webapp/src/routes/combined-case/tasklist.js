@@ -8,6 +8,8 @@ const handlers = {
 
     const { taskList, totalTasks, completedTasks, canSubmit } = getTaskList(constants.applicationTypes.COMBINED_CASE, request.yar)
 
+    request.yar.clear(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+
     return h.view(constants.views.COMBINED_CASE_TASK_LIST, {
       canSubmit,
       completedTasks,

@@ -21,6 +21,8 @@ const handlers = {
       return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
     }
 
+    request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
+
     const applicationDetails = application(request.yar, request.auth.credentials.account).combinedCase
     console.log(JSON.stringify(applicationDetails, null, 2))
     const claims = request.auth.credentials.account.idTokenClaims
