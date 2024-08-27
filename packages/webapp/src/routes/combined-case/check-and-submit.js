@@ -7,6 +7,11 @@ import combinedCaseApplicationValidation from '../../utils/combined-case-applica
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 
+const displayUnitMap = {
+  hectares: 'ha',
+  kilometres: 'km'
+}
+
 const getMatchedHabitats = (habitats) => {
   const habitatGroups = {
     area: [],
@@ -35,14 +40,14 @@ const getMatchedHabitats = (habitats) => {
 
   const habitatDetails = []
 
-  const addItemsWithTotal = (items, total, totalLabel, padFirst) => {
-    const padClass = { classes: 'table-extra-padding' }
+  const addItemsWithTotal = (items, total, totalLabel, padFirstRow) => {
     items.forEach((item, index) => {
+      const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
       habitatDetails.push([
-        { text: item?.habitatType, ...((index === 0 && padFirst) && padClass) },
-        { text: item?.condition, ...((index === 0 && padFirst) && padClass) },
-        { text: `${item?.size} ${item?.measurementUnits}`, ...((index === 0 && padFirst) && padClass) },
-        { text: `${item?.habitatUnitsDelivered.toFixed(1)} units`, ...((index === 0 && padFirst) && padClass) }
+        { text: item?.habitatType, ...baseRow },
+        { text: item?.condition, ...baseRow },
+        { html: `${item?.size}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits}`, ...baseRow },
+        { html: `${item?.habitatUnitsDelivered.toFixed(1)}&nbsp;units`, ...baseRow }
       ])
     })
     habitatDetails.push([
