@@ -23,7 +23,7 @@ const combinedCaseValidation = Joi.object({
       otherwise: Joi.forbidden()
     }),
     registrationDetails: Joi.object({
-      landowners: Joi.object(),      
+      landowners: Joi.object(),
       organisation: Joi.object({
         id: Joi.string().required(),
         address: applicantAddressSchema
