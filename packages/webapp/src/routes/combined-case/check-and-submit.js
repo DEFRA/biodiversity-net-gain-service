@@ -35,24 +35,25 @@ const getMatchedHabitats = (habitats) => {
 
   const habitatDetails = []
 
-  const addItemsWithTotal = (items, total, totalLabel) => {
-    items.forEach(item => {
+  const addItemsWithTotal = (items, total, totalLabel, padFirst) => {
+    const padClass = { classes: 'table-extra-padding' }
+    items.forEach((item, index) => {
       habitatDetails.push([
-        { text: item?.habitatType },
-        { text: item?.condition },
-        { text: `${item?.size} ${item?.measurementUnits}` },
-        { text: `${item?.habitatUnitsDelivered.toFixed(1)} units` }
+        { text: item?.habitatType, ...((index === 0 && padFirst) && padClass) },
+        { text: item?.condition, ...((index === 0 && padFirst) && padClass) },
+        { text: `${item?.size} ${item?.measurementUnits}`, ...((index === 0 && padFirst) && padClass) },
+        { text: `${item?.habitatUnitsDelivered.toFixed(1)} units`, ...((index === 0 && padFirst) && padClass) }
       ])
     })
     habitatDetails.push([
-      { text: totalLabel, colspan: 3 },
-      { text: `${total.toFixed(1)} units` }
+      { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
+      { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
     ])
   }
 
-  addItemsWithTotal(habitatGroups.area, totalHabitatUnits, 'Total area units')
-  addItemsWithTotal(habitatGroups.hedgerow, totalHedgeUnits, 'Total hedgerow units')
-  addItemsWithTotal(habitatGroups.watercourse, totalWatercourseUnits, 'Total watercourse units')
+  addItemsWithTotal(habitatGroups.area, totalHabitatUnits, 'Total area units', false)
+  addItemsWithTotal(habitatGroups.hedgerow, totalHedgeUnits, 'Total hedgerow units', true)
+  addItemsWithTotal(habitatGroups.watercourse, totalWatercourseUnits, 'Total watercourse units', true)
 
   return habitatDetails
 }
