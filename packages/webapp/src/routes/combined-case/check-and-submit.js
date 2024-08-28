@@ -14,7 +14,7 @@ const displayUnitMap = {
 
 const getMatchedHabitats = (habitats) => {
   const habitatGroups = {
-    area: [],
+    habitat: [],
     hedgerow: [],
     watercourse: []
   }
@@ -27,7 +27,7 @@ const getMatchedHabitats = (habitats) => {
     const habitatUnitsDelivered = item?.habitatUnitsDelivered || 0
 
     if (item?.state === 'Habitat') {
-      habitatGroups.area.push(item)
+      habitatGroups.habitat.push(item)
       totalHabitatUnits += habitatUnitsDelivered
     } else if (item?.state === 'Hedge') {
       habitatGroups.hedgerow.push(item)
@@ -56,7 +56,7 @@ const getMatchedHabitats = (habitats) => {
     ])
   }
 
-  addItemsWithTotal(habitatGroups.area, totalHabitatUnits, 'Total area units', false)
+  addItemsWithTotal(habitatGroups.habitat, totalHabitatUnits, 'Total habitat units', false)
   addItemsWithTotal(habitatGroups.hedgerow, totalHedgeUnits, 'Total hedgerow units', true)
   addItemsWithTotal(habitatGroups.watercourse, totalWatercourseUnits, 'Total watercourse units', true)
 
