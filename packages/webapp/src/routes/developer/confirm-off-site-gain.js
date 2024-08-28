@@ -20,7 +20,11 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED, true)
-    return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_TASKLIST)
+
+    const referer = request.yar.get(constants.redisKeys.REFERER, true)
+    const checkAndSubmitJourneyRoute = request.yar.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+
+    return h.redirect(referer || checkAndSubmitJourneyRoute || constants.routes.DEVELOPER_TASKLIST)
   }
 }
 
