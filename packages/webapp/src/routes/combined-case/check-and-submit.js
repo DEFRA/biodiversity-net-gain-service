@@ -45,7 +45,7 @@ const getMatchedHabitats = (habitats) => {
       const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
       habitatDetails.push([
         { text: item?.habitatType, ...baseRow },
-        { text: item?.condition, ...baseRow },
+        { html: item?.condition?.replace(/ /g, '&nbsp;'), ...baseRow },
         { html: `${item?.size}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits}`, ...baseRow },
         { html: `${item?.habitatUnitsDelivered.toFixed(1)}&nbsp;units`, ...baseRow }
       ])
