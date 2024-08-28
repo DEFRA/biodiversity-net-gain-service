@@ -79,15 +79,15 @@ const handlers = {
       })
     } else {
       const currentBGSNumber = request.yar.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      if (currentBGSNumber === bgsNumber) {
+        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
+      }
+
       const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       await deleteBlobFromContainers(metricUploadLocation)
 
       request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
       request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
-
-      if (currentBGSNumber === bgsNumber) {
-        return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
-      }
 
       request.yar.set(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER, bgsNumber)
       return h.redirect(request.yar.get(constants.redisKeys.DEVELOPER_REFERER, true) || constants.routes.DEVELOPER_UPLOAD_METRIC)
