@@ -19,7 +19,8 @@ import {
   needAddAllResponsibleBodiesRoute,
   otherLandownersRoute,
   uploadHabitatPlanRoute,
-  uploadLegalAgreementRoute
+  uploadLegalAgreementRoute,
+  changeTypeLegalAgreement
 } from '../shared/legal-agreement.js'
 
 // land/legal-agreement-type
@@ -157,6 +158,12 @@ const CHECK_PLANNING_AUTHORITIES = checkPlanningAuthoritiesRoute(
 const CHECK_LEGAL_AGREEMENT_DETAILS = checkLegalAgreementDetailsRoute(
   constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS,
   constants.routes.REGISTER_LAND_TASK_LIST
+)
+
+const CHANGE_TYPE_LEGAL_AGREEMENT = changeTypeLegalAgreement(
+  constants.routes.CHANGE_TYPE_LEGAL_AGREEMENT,
+  constants.routes.LEGAL_AGREEMENT_TYPE,
+  constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
 )
 
 const CON_COV_ROUTE = journeyStepFromRoute(LEGAL_AGREEMENT_TYPE, [constants.LEGAL_AGREEMENT_DOCUMENTS[1].id], true)
@@ -337,7 +344,8 @@ const legalAgreementRouteDefinitions = [
   NEED_ADD_ALL_PLANNING_AUTHORITIES,
   ADD_PLANNING_AUTHORITY,
   CHECK_PLANNING_AUTHORITIES,
-  CHECK_LEGAL_AGREEMENT_DETAILS
+  CHECK_LEGAL_AGREEMENT_DETAILS,
+  CHANGE_TYPE_LEGAL_AGREEMENT
 ]
 
 export {

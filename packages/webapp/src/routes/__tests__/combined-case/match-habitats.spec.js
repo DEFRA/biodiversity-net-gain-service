@@ -1,5 +1,5 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
-import { getSheetName } from '../../combined-case/match-habitats'
+import { getSheetName, getNumberOfMatchesText } from '../../combined-case/match-habitats'
 import constants from '../../../utils/constants'
 import mockMetricData from '../../combined-case/mock-metric-data'
 
@@ -97,6 +97,26 @@ describe(url, () => {
       const response = await submitGetRequest({ url }, 200, sessionData)
       expect(response.statusCode).toBe(200)
       expect(response.payload).toContain('There are no matching habitat items.')
+    })
+
+    it('should return null when matchingHabitats is null or empty', () => {
+      expect(getNumberOfMatchesText(null)).toBeNull()
+      expect(getNumberOfMatchesText([])).toBeNull()
+    })
+
+    it('should return the correct heading when there is only one matching habitat', () => {
+      const result = getNumberOfMatchesText([{}])
+      expect(result).toEqual({
+        heading: 'Only one habitat matches. Only one habitat can match your allocation:'
+      })
+    })
+
+    it('should return the correct heading and selection message when there are multiple matching habitats', () => {
+      const result = getNumberOfMatchesText([{}, {}])
+      expect(result).toEqual({
+        heading: 'Habitats available on the gain site',
+        selectionMessage: 'Select the best match for your site'
+      })
     })
   })
 

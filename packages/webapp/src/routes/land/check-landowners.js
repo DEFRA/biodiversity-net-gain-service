@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const getCustomizedHTML = (item, index) => {
+const getCustomizedHTML = (item, index, isCombinedCase) => {
   if (item.type === constants.individualOrOrganisationTypes.INDIVIDUAL) {
     const textToDisplay = `${item.firstName} ${item.lastName} (${item.emailAddress})`
     return {
@@ -12,10 +12,10 @@ const getCustomizedHTML = (item, index) => {
       },
       actions: {
         items: [{
-          href: `${constants.routes.ADD_LANDOWNER_INDIVIDUAL}?id=${index}`,
+          href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_INDIVIDUAL : constants.routes.ADD_LANDOWNER_INDIVIDUAL}?id=${index}`,
           text: 'Change'
         }, {
-          href: `${constants.routes.REMOVE_LANDOWNER}?id=${index}`,
+          href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_REMOVE_LANDOWNER : constants.routes.REMOVE_LANDOWNER}?id=${index}`,
           text: 'Remove'
         }],
         classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
@@ -50,7 +50,8 @@ const handlers = {
     if (landOwnerConservationConvenants.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS)
     }
-    const landOwnerConservationConvenantsWithAction = landOwnerConservationConvenants.map((currElement, index) => getCustomizedHTML(currElement, index))
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    const landOwnerConservationConvenantsWithAction = landOwnerConservationConvenants.map((currElement, index) => getCustomizedHTML(currElement, index, isCombinedCase))
 
     const { ADD_LANDOWNER_INDIVIDUAL, REMOVE_LANDOWNER } = constants.routes
     const legalAgreementType = getLegalAgreementDocumentType(

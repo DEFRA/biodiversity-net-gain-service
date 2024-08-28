@@ -46,8 +46,9 @@ const handlers = {
       landownerConversationConvenants.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerConversationConvenants)
     }
-    if (landownerConversationConvenants.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LANDOWNERS) }
-    return h.redirect(constants.routes.CHECK_LANDOWNERS)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    if (landownerConversationConvenants.length === 0) { return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_LANDOWNERS : constants.routes.NEED_ADD_ALL_LANDOWNERS) }
+    return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS : constants.routes.CHECK_LANDOWNERS)
   }
 }
 
