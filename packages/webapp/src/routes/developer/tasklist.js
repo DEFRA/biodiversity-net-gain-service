@@ -5,6 +5,8 @@ const handlers = {
   get: async (request, h) => {
     const { taskList, totalTasks, completedTasks, canSubmit } = getTaskList(constants.applicationTypes.ALLOCATION, request.yar)
 
+    request.yar.clear(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+
     return h.view(constants.views.DEVELOPER_TASKLIST, {
       canSubmit,
       completedTasks,
