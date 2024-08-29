@@ -44,7 +44,7 @@ const getMatchedHabitats = (habitats) => {
 
   const habitatDetails = []
 
-  const addItemsWithTotal = (items = [], total, totalLabel, padFirstRow) => {
+  const addItemsWithTotal = (total, totalLabel, padFirstRow, items = []) => {
     items.forEach((item, index) => {
       const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
       habitatDetails.push([
@@ -60,9 +60,9 @@ const getMatchedHabitats = (habitats) => {
     ])
   }
 
-  addItemsWithTotal(habitatGroups.habitat, totalHabitatUnits, 'Total habitat units', false)
-  addItemsWithTotal(habitatGroups.hedgerow, totalHedgeUnits, 'Total hedgerow units', true)
-  addItemsWithTotal(habitatGroups.watercourse, totalWatercourseUnits, 'Total watercourse units', true)
+  addItemsWithTotal(totalHabitatUnits, 'Total habitat units', false, habitatGroups.habitat)
+  addItemsWithTotal(totalHedgeUnits, 'Total hedgerow units', true, habitatGroups.hedgerow)
+  addItemsWithTotal(totalWatercourseUnits, 'Total watercourse units', true, habitatGroups.watercourse)
 
   return habitatDetails
 }
