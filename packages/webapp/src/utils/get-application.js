@@ -5,11 +5,20 @@ import Boom from '@hapi/boom'
 import saveApplicationSessionIfNeeded from './save-application-session-if-needed.js'
 import getOrganisationDetails from './get-organisation-details.js'
 
+const applicationTypeRoutes = {
+  [constants.applicationTypes.REGISTRATION]: constants.routes.REGISTER_LAND_TASK_LIST,
+  [constants.applicationTypes.ALLOCATION]: constants.routes.DEVELOPER_TASKLIST,
+  [constants.applicationTypes.CREDITS_PURCHASE]: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST,
+  [constants.applicationTypes.COMBINED_CASE]: constants.routes.COMBINED_CASE_TASK_LIST
+}
+
 const getDevelopmentProject = async (request, h) => getApplication(request, h, constants.applicationTypes.ALLOCATION)
 
 const getRegistration = async (request, h) => getApplication(request, h, constants.applicationTypes.REGISTRATION)
 
 const getCreditsPurchase = async (request, h) => getApplication(request, h, constants.applicationTypes.CREDITS_PURCHASE)
+
+const getCombinedCase = async (request, h) => getApplication(request, h, constants.applicationTypes.COMBINED_CASE)
 
 const getApplication = async (request, h, applicationType) => {
   if (request.params.path) {
@@ -33,16 +42,9 @@ const getApplication = async (request, h, applicationType) => {
       request.yar.set(session)
 
       // Redirect to task list or dashboard if unknown applicationType
-      if (applicationType === constants.applicationTypes.REGISTRATION) {
-        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
-      }
-
-      if (applicationType === constants.applicationTypes.ALLOCATION) {
-        return h.redirect(constants.routes.DEVELOPER_TASKLIST)
-      }
-
-      if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
-        return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+      const route = applicationTypeRoutes[applicationType]
+      if (route) {
+        return h.redirect(route)
       }
 
       return h.redirect('/')
@@ -85,5 +87,7 @@ export {
   getDevelopmentProject,
   getRegistration,
   getCreditsPurchase,
-  getApplicationSession
+  getApplicationSession,
+  getCombinedCase,
+  getApplication
 }

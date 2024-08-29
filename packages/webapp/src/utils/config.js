@@ -10,6 +10,9 @@ export const AZURE_FUNCTION_APP_URL = process.env.AZURE_FUNCTION_APP_URL || 'htt
 export const NODE_ENV = process.env.NODE_ENV
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prd'
 export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'http://localhost:3000'
+export const AMENDMENT_GUIDE_URL_ALLOCATION = process.env.AMENDMENT_GUIDE_URL_ALLOCATION || 'https://www.gov.uk/guidance/amend-a-registration-or-allocation-or-remove-a-registration'
+export const AMENDMENT_GUIDE_URL_REGISTRATION = process.env.AMENDMENT_GUIDE_URL_REGISTRATION || 'https://www.gov.uk/guidance/amend-a-registration-or-allocation-or-remove-a-registration'
+export const SERVICE_NAME = process.env.SERVICE_NAME || 'Manage biodiversity gains'
 
 // DefraId Config
 export const DEFRA_ID = {
@@ -31,5 +34,5 @@ export const BACS_SWIFT_CODE = process.env.BACS_SWIFT_CODE || 'ABCDEF2G'
 export const BACKEND_API = {
   BASE_URL: process.env.BACKEND_API_BASE_URL ?? 'http://localhost:3000/test/api/',
   SUBSCRIPTION_KEY: process.env.BACKEND_API_SUBSCRIPTION_KEY ?? 'test123',
-  CODE_QUERY_PARAMETER: process.env.BACKEND_API_CODE_QUERY_PARAMETER ?? 'test123'
+  CODE_QUERY_PARAMETER: process.env.BACKEND_API_CODE_QUERY_PARAMETER
 }

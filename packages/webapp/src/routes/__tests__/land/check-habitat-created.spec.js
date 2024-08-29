@@ -3,11 +3,16 @@ import checkHabitatCreated from '../../land/check-habitat-created.js'
 import applicationSession from '../../../__mocks__/application-session.js'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 const url = constants.routes.CHECK_HABITAT_CREATED
+const combinedCaseUrl = constants.reusedRoutes.COMBINED_CASE_CHECK_HABITAT_CREATED
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
+    })
+
+    it(`should render the ${combinedCaseUrl.substring(1)} view`, async () => {
+      await submitGetRequest({ url: combinedCaseUrl })
     })
 
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -83,7 +88,9 @@ describe(url, () => {
   })
   describe('POST', () => {
     it('Should continue journey to check metric details', async () => {
-      const res = await submitPostRequest({ url })
+      const sessionData = {}
+      sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
+      const res = await submitPostRequest({ url }, 302, sessionData)
       expect(res.headers.location).toEqual(constants.routes.CHECK_METRIC_DETAILS)
     })
   })

@@ -29,7 +29,7 @@ const CHECK_LOCAL_LAND_CHARGE_FILE = routeDefinition(
       return constants.routes.UPLOAD_LOCAL_LAND_CHARGE
     } else if (checkLocalLandCharge === 'yes') {
       session.set(constants.redisKeys.LOCAL_LAND_CHARGE_FILE_OPTION, 'yes')
-      const referrerUrl = getValidReferrerUrl(session, ['/land/check-and-submit'])
+      const referrerUrl = getValidReferrerUrl(session, ['/land/check-and-submit', '/combined-case/check-and-submit'])
       const redirectUrl = referrerUrl ||
         constants.routes.REGISTER_LAND_TASK_LIST
       return redirectUrl

@@ -28,7 +28,8 @@ const handlers = {
       planningAuthorityList.splice(id, 1)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_PARTIES, planningAuthorityList)
     }
-    return h.redirect(constants.routes.CHECK_PLANNING_AUTHORITIES)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_AUTHORITIES : constants.routes.CHECK_PLANNING_AUTHORITIES)
   }
 }
 

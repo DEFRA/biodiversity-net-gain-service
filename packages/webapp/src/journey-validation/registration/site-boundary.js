@@ -28,7 +28,7 @@ const CHECK_LAND_BOUNDARY = routeDefinition(
     if (checkLandBoundary === 'no') {
       return constants.routes.UPLOAD_LAND_BOUNDARY
     } else if (checkLandBoundary === 'yes') {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
       return (session.get(constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE) && referrerUrl) || constants.routes.ADD_GRID_REFERENCE
     } else {
       const message = 'Select yes if this is the correct file'
@@ -44,7 +44,7 @@ const ADD_GRID_REFERENCE = routeDefinition(
   constants.routes.ADD_GRID_REFERENCE,
   [constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
     return (session.get(constants.redisKeys.LAND_BOUNDARY_HECTARES) && referrerUrl) || constants.routes.ADD_HECTARES
   }
 )
@@ -53,8 +53,16 @@ const ADD_HECTARES = routeDefinition(
   constants.routes.ADD_HECTARES,
   [constants.redisKeys.LAND_BOUNDARY_HECTARES],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_BOUNDARY_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_BOUNDARY_VALID_REFERRERS, ...constants.COMBINED_CASE_BOUNDARY_VALID_REFERRERS])
     return referrerUrl || constants.routes.CHECK_LAND_BOUNDARY_DETAILS
+  }
+)
+
+const CHECK_LAND_BOUNDARY_DETAILS = routeDefinition(
+  constants.routes.CHECK_LAND_BOUNDARY_DETAILS,
+  [],
+  (session) => {
+    return constants.routes.REGISTER_LAND_TASK_LIST
   }
 )
 
@@ -77,7 +85,8 @@ const siteBoundaryRouteDefinitions = [
   UPLOAD_LAND_BOUNDARY,
   CHECK_LAND_BOUNDARY,
   ADD_GRID_REFERENCE,
-  ADD_HECTARES
+  ADD_HECTARES,
+  CHECK_LAND_BOUNDARY_DETAILS
 ]
 
 export {

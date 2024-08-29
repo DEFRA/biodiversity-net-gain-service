@@ -1,8 +1,9 @@
 import developerConstants from './developer-constants.js'
-import { NODE_ENV, AZURE_FUNCTION_APP_URL } from './config.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 import lojConstants from './loj-constants.js'
 import disabledRoutesContants from './disabled-routes-constants.js'
 import creditsPurchaseConstants from './credits-purchase-constants.js'
+import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
@@ -26,6 +27,7 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -35,6 +37,7 @@ const ORGANISATION_ID = 'organisation-id'
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
 const CREDITS_PURCHASE = 'CreditsPurchase'
+const COMBINED_CASE = 'CombinedCase'
 const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
 const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
 const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
@@ -57,13 +60,18 @@ const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information'
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS = ['/combined-case/check-applicant-information', '/combined-case/check-and-submit']
+const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-boundary-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
 
 const applicationTypes = {
   REGISTRATION,
   ALLOCATION,
-  CREDITS_PURCHASE
+  CREDITS_PURCHASE,
+  COMBINED_CASE
 }
 
 const ADDRESS_TYPES = {
@@ -178,6 +186,7 @@ const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
 const redisKeys = {
   ...developerConstants.redisKeys,
   ...lojConstants.redisKeys,
+  ...combinedCaseConstants.redisKeys,
   APPLICATION_TYPE,
   CONTACT_ID,
   ORGANISATION_ID,
@@ -199,12 +208,17 @@ let routes = {
   COOKIES
 }
 
+const reusedRoutes = {
+  ...combinedCaseConstants.reusedRoutes
+}
+
 // Routes that are only loaded if NODE_ENV === development
 const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
   TEST_CREDITS_PURCHASE_DATA,
-  TEST_API_GAINSITE
+  TEST_API_GAINSITE,
+  TEST_COMBINED_CASE_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -214,7 +228,7 @@ if (NODE_ENV === 'development' || NODE_ENV === 'test') {
 routes = { ...routes, ...disabledRoutesContants }
 
 const uploadErrors = {
-  uploadFailure: 'The selected file could not be uploaded -- try again',
+  uploadFailure: 'The selected file could not be uploaded - try again',
   noFile: 'Non-file received',
   emptyFile: 'Empty file',
   maximumFileSizeExceeded: 'Maxiumum file size exceeded',
@@ -244,12 +258,14 @@ const uploadTypes = {
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer,
-  ...creditsPurchaseConstants.setCreditReferer
+  ...creditsPurchaseConstants.setCreditReferer,
+  ...combinedCaseConstants.setCombinedRefer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...developerConstants.clearDeveloperReferer
+  ...developerConstants.clearDeveloperReferer,
+  ...combinedCaseConstants.clearCombinedRefer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
@@ -284,7 +300,8 @@ const applicantTypes = {
 const primaryPages = {
   [REGISTRATION]: [`/${lojConstants.routes.REGISTER_LAND_TASK_LIST}`, `/${lojConstants.routes.CHECK_AND_SUBMIT}`],
   [ALLOCATION]: [`/${developerConstants.routes.DEVELOPER_TASKLIST}`, `/${developerConstants.routes.DEVELOPER_CHECK_AND_SUBMIT}`],
-  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS]
+  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS],
+  [COMBINED_CASE]: [`/${combinedCaseConstants.routes.COMBINED_CASE_TASK_LIST}`, `/${combinedCaseConstants.routes.COMBINED_CASE_CHECK_AND_SUBMIT}`]
 }
 
 export default Object.freeze({
@@ -321,6 +338,8 @@ export default Object.freeze({
   CHECK_UPLOAD_METRIC_OPTIONS,
   minStartDates,
   AZURE_FUNCTION_APP_URL,
+  AMENDMENT_GUIDE_URL_ALLOCATION,
+  AMENDMENT_GUIDE_URL_REGISTRATION,
   DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
   ...developerConstants.options,
@@ -335,5 +354,10 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
-  primaryPages
+  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
+  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
+  COMBINED_CASE_METRIC_VALID_REFERRERS,
+  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
+  primaryPages,
+  reusedRoutes
 })

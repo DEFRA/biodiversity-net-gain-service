@@ -11,6 +11,7 @@ const DEVELOPER_CONFIRM_OFF_SITE_GAIN = 'developer/confirm-off-site-gain'
 const DEVELOPER_CONSENT_AGREEMENT_UPLOAD = 'developer/consent-agreement-upload'
 const DEVELOPER_AGREEMENT_CHECK = 'developer/consent-agreement-check'
 const DEVELOPER_DOWNLOAD_CONSENT_FILE = 'developer/download-consent-file'
+const DEVELOPER_DOWNLOAD_CONSENT_TO_USE_GAIN_SITE_FILE = 'developer/download-consent-to-allocate-gains-file'
 const DEVELOPER_DEVELOPMENT_PROJECTS = 'developer/development-projects'
 const DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT = 'developer/continue-development-project'
 const DEVELOPER_NEW_DEVELOPMENT_PROJECT = 'developer/new-development-project'
@@ -87,6 +88,7 @@ const DEVELOPER_PLANNING_APPLICATION_REF = 'developer-planning-application-ref'
 const DEVELOPER_DEVELOPMENT_NAME = 'developer-planning-development-name'
 const DEVELOPER_PROOF_OF_PERMISSION_SEEN = 'developer-proof-of-permission-seen'
 const DEVELOPER_APPLICATION_SUBMITTED = 'developer-application-submitted'
+const DEVELOPER_METRIC_FILE_CHECKED = 'developer-metric-file-checked'
 
 const setDeveloperReferer = [
   DEVELOPER_AGREEMENT_CHECK,
@@ -128,6 +130,7 @@ export default {
     DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
     DEVELOPER_AGREEMENT_CHECK,
     DEVELOPER_DOWNLOAD_CONSENT_FILE,
+    DEVELOPER_DOWNLOAD_CONSENT_TO_USE_GAIN_SITE_FILE,
     DEVELOPER_DEVELOPMENT_PROJECTS,
     DEVELOPER_CONTINUE_DEVELOPMENT_PROJECT,
     DEVELOPER_NEW_DEVELOPMENT_PROJECT,
@@ -203,7 +206,8 @@ export default {
     DEVELOPER_PLANNING_APPLICATION_REF,
     DEVELOPER_DEVELOPMENT_NAME,
     DEVELOPER_PROOF_OF_PERMISSION_SEEN,
-    DEVELOPER_APPLICATION_SUBMITTED
+    DEVELOPER_APPLICATION_SUBMITTED,
+    DEVELOPER_METRIC_FILE_CHECKED
   },
   uploadTypes: {
     DEVELOPER_METRIC_UPLOAD_TYPE,

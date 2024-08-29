@@ -1,6 +1,5 @@
 {% extends 'form-layout.html' %}
 {% set pageHeading = "What is your nationality?" %}
-{% set serviceName = "Buy statutory biodiversity credits" %}
 {% set termsAndConditions = "https://www.gov.uk/government/publications/statutory-biodiversity-credits-terms-and-conditions" %}
 
 {% block formContent %}
@@ -32,6 +31,7 @@
             text: "Nationality two",
             classes: "govuk-!-font-weight-bold"
           },
+          errorMessage: err[1],
           items: nationalitySelects[1]
         }) }}
 
@@ -42,6 +42,7 @@
             text: "Nationality three",
             classes: "govuk-!-font-weight-bold"
           },
+          errorMessage: err[2],
           items: nationalitySelects[2]
         }) }}
 
@@ -52,6 +53,7 @@
             text: "Nationality four",
             classes: "govuk-!-font-weight-bold"
           },
+          errorMessage: err[3],
           items: nationalitySelects[3]
         }) }}
 

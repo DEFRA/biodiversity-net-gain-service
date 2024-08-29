@@ -1,0 +1,33 @@
+{% extends 'form-layout.html' %}
+{% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
+
+{% set serviceName = "Register a biodiversity gain site" %}
+{% set pageHeading = "Confirm your matched habitats" %}
+
+{% block formContent %}
+    <div class="govuk-body">
+        {% if err %}
+            {% include "errorbanner.html" %}
+        {% endif %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+
+                {{ generateSummaryList({
+                    rows: matchedHabitats
+                }) }}
+
+                <h2 class="govuk-heading-m">Submit your allocations</h2>
+
+                {{ govukButton({
+                    text: "Save and continue",
+                    classes: 'govuk-!-margin-top-3',
+                    attributes: {
+                        id: "continue",
+                        "data-testid": "continue"
+                    }
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

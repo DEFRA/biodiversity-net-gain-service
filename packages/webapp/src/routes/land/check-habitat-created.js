@@ -1,19 +1,21 @@
 import constants from '../../utils/constants.js'
-import { habitatTypeAndConditionMapper, combineHabitats, getValidReferrerUrl } from '../../utils/helpers.js'
+import { habitatTypeAndConditionMapper, combineHabitats } from '../../utils/helpers.js'
+import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
     const metricData = request.yar.get(constants.redisKeys.METRIC_DATA)
     const habitatTypeAndCondition = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], metricData)
     const combinedHabitatTypeAndCondition = combineHabitats(habitatTypeAndCondition)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     return h.view(constants.views.CHECK_HABITAT_CREATED, {
-      combinedHabitatTypeAndCondition
+      combinedHabitatTypeAndCondition,
+      urlPath: isCombinedCase ? '/combined-case' : '/land'
     })
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED, true)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_METRIC_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.CHECK_METRIC_DETAILS)
+    return getNextStep(request, h)
   }
 }
 

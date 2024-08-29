@@ -58,11 +58,12 @@ class BngMetricSingleDataExtractor {
         const resultData = {}
         data.map(item => {
           resultData[_.camelCase(item[Object.keys(item)[0]].toString().replace(':', ''))] =
-          item[Object.keys(item)[1]]
+            item[Object.keys(item)[1]]
           return item
         })
         data = resultData
       } else {
+        data.forEach(item => (item.rowNum = (item.__rowNum__ + 1)))
         data = this.#performSubstitution(data, extractionConfiguration)
         data = this.#removeUnwantedColumns(data, extractionConfiguration)
         data = this.#removeUnwantedRows(data, extractionConfiguration)
@@ -107,6 +108,9 @@ class BngMetricSingleDataExtractor {
 
   #removeUnwantedColumns = (data, extractionConfiguration) => {
     const { columnsToBeRemoved, cellHeaders } = extractionConfiguration
+    const cellHeadersCopy = structuredClone(cellHeaders)
+    cellHeadersCopy.push('rowNum')
+
     data.forEach(row => {
       columnsToBeRemoved.forEach(column => {
         if (row[column]) {
@@ -116,13 +120,15 @@ class BngMetricSingleDataExtractor {
 
       // Checking if all requested columns in configs are there
       Object.keys(row).forEach(key => {
-        if (!cellHeaders.includes(key)) {
+        if (!cellHeadersCopy.includes(key)) {
           delete row[key]
         }
       })
     })
 
-    data = data.filter(content => Object.values(content).some(value => value !== null && value !== ''))
+    data = data.filter(content => Object.entries(content).some(
+      ([key, value]) => value !== null && value !== '' && key !== 'rowNum')
+    )
 
     return data
   }
@@ -131,6 +137,7 @@ class BngMetricSingleDataExtractor {
     const { rowsToBeRemovedTemplate } = extractionConfiguration
 
     rowsToBeRemovedTemplate?.forEach(rowTemplate => {
+      rowTemplate.push('rowNum')
       data = data.filter(row => {
         const keys = Object.keys(row)
         return !(keys.length === rowTemplate.length && keys.every(key => rowTemplate.includes(key)))
