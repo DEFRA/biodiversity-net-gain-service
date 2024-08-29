@@ -13,6 +13,10 @@ const displayUnitMap = {
 }
 
 const getMatchedHabitats = (habitats) => {
+  if (!habitats) {
+    return []
+  }
+
   const habitatGroups = {
     habitat: [],
     hedgerow: [],
