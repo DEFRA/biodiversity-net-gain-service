@@ -117,3 +117,65 @@ describe(url, () => {
     })
   })
 })
+
+// Unit tests for getMatchedHabitats
+describe('getMatchedHabitats', () => {
+  const { getMatchedHabitats } = require('../../combined-case/check-and-submit.js')
+
+  it('should return an empty array if no habitats are matched', () => {
+    const result = getMatchedHabitats([])
+    expect(result).toEqual([])
+  })
+
+  it('should return an empty array when habitats is null', () => {
+    const result = getMatchedHabitats(null)
+    expect(result).toEqual([])
+  })
+
+  it('should return an empty array when habitats is undefined', () => {
+    const result = getMatchedHabitats(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('should group habitats by state and calculate totals', () => {
+    const habitats = [
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5 }
+    ]
+
+    const result = getMatchedHabitats(habitats)
+    expect(result).toEqual([
+      [
+        { text: 'Grassland' },
+        { html: 'Good' },
+        { html: '10&nbsp;ha' },
+        { html: '5.5&nbsp;units' }
+      ],
+      [
+        { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '5.5 units', classes: 'table-heavy-border' }
+      ],
+      [
+        { text: 'Native hedgerow', classes: 'table-extra-padding' },
+        { html: 'Fair', classes: 'table-extra-padding' },
+        { html: '12&nbsp;km', classes: 'table-extra-padding' },
+        { html: '3.0&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '3.0 units', classes: 'table-heavy-border' }
+      ],
+      [
+        { text: 'River', classes: 'table-extra-padding' },
+        { html: 'Poor', classes: 'table-extra-padding' },
+        { html: '0.5&nbsp;km', classes: 'table-extra-padding' },
+        { html: '1.5&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '1.5 units', classes: 'table-heavy-border' }
+      ]
+    ])
+  })
+})
