@@ -12,7 +12,7 @@ const displayUnitMap = {
   kilometres: 'km'
 }
 
-const getMatchedHabitats = (habitats) => {
+export const getMatchedHabitats = (habitats) => {
   if (!habitats) {
     return []
   }
@@ -45,19 +45,21 @@ const getMatchedHabitats = (habitats) => {
   const habitatDetails = []
 
   const addItemsWithTotal = (total, totalLabel, padFirstRow, items = []) => {
-    items.forEach((item, index) => {
-      const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
+    if (total > 0) {
+      items.forEach((item, index) => {
+        const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
+        habitatDetails.push([
+          { text: item?.habitatType ?? '', ...baseRow },
+          { html: item?.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
+          { html: `${item?.size ?? ''}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits ?? ''}`, ...baseRow },
+          { html: `${(item?.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
+        ])
+      })
       habitatDetails.push([
-        { text: item?.habitatType ?? '', ...baseRow },
-        { html: item?.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
-        { html: `${item?.size ?? ''}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits ?? ''}`, ...baseRow },
-        { html: `${(item?.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
+        { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
+        { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
       ])
-    })
-    habitatDetails.push([
-      { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-      { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
-    ])
+    }
   }
 
   addItemsWithTotal(totalHabitatUnits, 'Total habitat units', false, habitatGroups.habitat)
