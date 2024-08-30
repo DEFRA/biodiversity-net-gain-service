@@ -178,4 +178,28 @@ describe('getMatchedHabitats', () => {
       ]
     ])
   })
+
+  it('should handle habitatUnitsDelivered being undefined', () => {
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares' }
+    const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+
+    expect(habitatUnitsDelivered).toBe(0)
+  })
+
+  it('should handle habitatUnitsDelivered being defined', () => {
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 }
+    const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+
+    expect(habitatUnitsDelivered).toBe(5.5)
+  })
+
+  it('should handle habitatUnitsDelivered being undefined', () => {
+    const habitats = [
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares' },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres' }
+    ]
+
+    const result = getMatchedHabitats(habitats)
+    expect(result).toEqual([])
+  })
 })
