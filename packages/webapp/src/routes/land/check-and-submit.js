@@ -9,25 +9,27 @@ import getRegistrationDetails from '../../utils/get-land-check-and-submit-detail
 const handlers = {
   get: async (request, h) => {
     const appSubmitted = request.yar.get(constants.redisKeys.LAND_APPLICATION_SUBMITTED)
-
     if (appSubmitted) {
       return h.redirect(constants.routes.MANAGE_BIODIVERSITY_GAINS)
     }
 
     const { canSubmit } = getTaskList(constants.applicationTypes.REGISTRATION, request.yar)
-
     if (!canSubmit) {
       return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
 
+    const applicationReference = request.yar.get(constants.redisKeys.APPLICATION_REFERENCE)
+    if (applicationReference === undefined || applicationReference === null) {
+      return h.redirect('/')
+    }
+
+    request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.CHECK_AND_SUBMIT)
+
     const applicationDetails = application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration
 
-    return request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== undefined &&
-      request.yar.get(constants.redisKeys.APPLICATION_REFERENCE) !== null
-      ? h.view(constants.views.CHECK_AND_SUBMIT,
-        getRegistrationDetails(request, applicationDetails)
-      )
-      : h.redirect('/')
+    return h.view(constants.views.CHECK_AND_SUBMIT,
+      getRegistrationDetails(request, applicationDetails)
+    )
   },
   post: async (request, h) => {
     if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
