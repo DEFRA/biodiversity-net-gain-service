@@ -22,9 +22,9 @@ const handlers = {
     request.yar.set(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED, true)
 
     const referer = request.yar.get(constants.redisKeys.REFERER, true)
-    const checkAndSubmitJourneyRoute = request.yar.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+    const journeyEntryPoint = request.yar.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE) || constants.routes.DEVELOPER_TASKLIST
 
-    return h.redirect(referer || checkAndSubmitJourneyRoute || constants.routes.DEVELOPER_TASKLIST)
+    return h.redirect(referer || journeyEntryPoint)
   }
 }
 
