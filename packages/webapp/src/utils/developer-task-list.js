@@ -72,9 +72,9 @@ const developerTaskList = {
         {
           title: 'Upload the consent document',
           status: constants.DEFAULT_DEVELOPER_TASK_STATUS,
-          completedTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-          startTaskUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
-          inProgressUrl: constants.routes.DEVELOPER_CONSENT_AGREEMENT_UPLOAD,
+          completedTaskUrl: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+          startTaskUrl: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
+          inProgressUrl: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
           id: 'upload-consent-document'
         }
       ]
