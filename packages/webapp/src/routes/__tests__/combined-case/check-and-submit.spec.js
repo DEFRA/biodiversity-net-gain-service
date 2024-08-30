@@ -209,4 +209,24 @@ describe('getMatchedHabitats', () => {
     const result = getMatchedHabitats(habitats)
     expect(result).toEqual([])
   })
+
+  it('should handle Watercourse state', () => {
+    const habitats = [
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 15, measurementUnits: 'kilometres', habitatUnitsDelivered: 7.5 }
+    ]
+
+    const result = getMatchedHabitats(habitats)
+    expect(result).toEqual([
+      [
+        { text: 'River', classes: 'table-extra-padding' },
+        { html: 'Good', classes: 'table-extra-padding' },
+        { html: '15&nbsp;km', classes: 'table-extra-padding' },
+        { html: '7.5&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '7.5 units', classes: 'table-heavy-border' }
+      ]
+    ])
+  })
 })
