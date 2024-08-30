@@ -141,7 +141,8 @@ describe('getMatchedHabitats', () => {
     const habitats = [
       { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 },
       { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0 },
-      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5 }
+      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 3 }
     ]
 
     const result = getMatchedHabitats(habitats)
@@ -173,8 +174,14 @@ describe('getMatchedHabitats', () => {
         { html: '1.5&nbsp;units', classes: 'table-extra-padding' }
       ],
       [
+        { text: 'River' },
+        { html: 'Good' },
+        { html: '0.5&nbsp;km' },
+        { html: '3.0&nbsp;units' }
+      ],
+      [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '1.5 units', classes: 'table-heavy-border' }
+        { text: '4.5 units', classes: 'table-heavy-border' }
       ]
     ])
   })
