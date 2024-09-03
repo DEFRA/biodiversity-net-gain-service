@@ -116,7 +116,7 @@ describe(url, () => {
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: 'Confirm development and habitat details',
+            title: 'Confirm development details',
             isLocked: true,
             status: 'CANNOT START YET',
             url: '/combined-case/development-project-information'
