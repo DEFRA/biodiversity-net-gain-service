@@ -269,8 +269,9 @@ const checkPlanningAuthoritiesRoute = (startUrl, nextUrl, altNextUrl) => routeDe
 const checkLegalAgreementDetailsRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [],
-  () => {
-    return nextUrl
+  (session) => {
+    const checkAndSubmitJourneyRoute = session.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+    return checkAndSubmitJourneyRoute || nextUrl
   }
 )
 
