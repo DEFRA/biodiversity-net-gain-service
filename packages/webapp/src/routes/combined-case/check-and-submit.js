@@ -28,15 +28,15 @@ export const getMatchedHabitats = (habitats) => {
   let totalWatercourseUnits = 0
 
   habitats.forEach(item => {
-    const habitatUnitsDelivered = item?.habitatUnitsDelivered || 0
+    const habitatUnitsDelivered = item.habitatUnitsDelivered || 0
 
-    if (item?.state === 'Habitat') {
+    if (item.state === 'Habitat') {
       habitatGroups.habitat.push(item)
       totalHabitatUnits += habitatUnitsDelivered
-    } else if (item?.state === 'Hedge') {
+    } else if (item.state === 'Hedge') {
       habitatGroups.hedgerow.push(item)
       totalHedgeUnits += habitatUnitsDelivered
-    } else if (item?.state === 'Watercourse') {
+    } else if (item.state === 'Watercourse') {
       habitatGroups.watercourse.push(item)
       totalWatercourseUnits += habitatUnitsDelivered
     }
@@ -49,10 +49,10 @@ export const getMatchedHabitats = (habitats) => {
       items.forEach((item, index) => {
         const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
         habitatDetails.push([
-          { text: item?.habitatType ?? '', ...baseRow },
-          { html: item?.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
-          { html: `${item?.size ?? ''}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits ?? ''}`, ...baseRow },
-          { html: `${(item?.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
+          { text: item.habitatType ?? '', ...baseRow },
+          { html: item.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
+          { html: `${item.size ?? ''}&nbsp;${displayUnitMap[item?.measurementUnits] ?? item?.measurementUnits ?? ''}`, ...baseRow },
+          { html: `${(item.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
         ])
       })
       habitatDetails.push([
