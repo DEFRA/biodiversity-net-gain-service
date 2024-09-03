@@ -33,15 +33,10 @@ const getAllocationHabitats = session => {
   const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
 
   return {
-    allocated: (matchedHabitats || []).map(m => {
-      return {
-        habitatId: m.matchedHabitatId,
-        area: m.size,
-        module: m.module,
-        state: m.state,
-        measurementUnits: m.measurementUnits
-      }
-    })
+    allocated: (matchedHabitats || []).map(m => ({
+      habitatId: m.matchedHabitatId,
+      area: m.size
+    }))
   }
 }
 

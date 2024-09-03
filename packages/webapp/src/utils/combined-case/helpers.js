@@ -1,10 +1,20 @@
 import constants from '../constants.js'
+import crypto from 'crypto'
 
-let habitatReferenceCounter = 0
+const randomString = (length, chars) => {
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    const randomIndex = crypto.randomInt(0, chars.length)
+    result += chars[randomIndex]
+  }
+  return result
+}
+
+const randomIntegerString = length => randomString(length, '0123456789')
+const randomCharString = length => randomString(length, 'ABCDEFGHJKMNPRTUVWXY')
+const generateHabitatReference = () => `HAB-${randomIntegerString(8)}-P${randomCharString(4)}`
+
 let ownReferenceCounter = 0
-
-const generateHabitatReference = () => `HAB-00000000-${habitatReferenceCounter++}`
-
 const generateOwnReference = () => `${ownReferenceCounter++}`
 
 const getHabitatType = (identifier, details) => {
@@ -67,13 +77,15 @@ const processMetricData = session => {
           const condition = habitat.Condition
 
           if (habitatType && condition) {
+            habitat.generatedId = isAllocation ? generateOwnReference() : generateHabitatReference()
+
             habitats.push({
               habitatType,
               condition,
               sheet,
               module: getModule(sheet),
               state: getState(sheet),
-              id: isAllocation ? generateOwnReference() : generateHabitatReference(),
+              id: habitat.generatedId,
               size: habitat['Length (km)'] ?? habitat['Area (hectares)'],
               measurementUnits: 'Length (km)' in habitat ? 'kilometres' : 'hectares',
               rowNum: habitat?.rowNum,

@@ -184,21 +184,31 @@ export const getHabitatsFromMetric = (metricData, habitatIdIdentifier = 'habitat
   )
 
   const proposed = proposedIdentifiers.flatMap(identifier =>
-    metricData[identifier].filter(details => 'Condition' in details).map(details => ({
-      [habitatIdIdentifier]: details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number'],
-      habitatType: getHabitatType(identifier, details),
-      baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
-      module: getModule(identifier),
-      state: getState(identifier),
-      condition: details.Condition,
-      strategicSignificance: details['Strategic significance'],
-      advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
-      delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
-      area: details['Length (km)'] ?? details['Area (hectares)'],
-      measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
-      ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
-      ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
-    }))
+    metricData[identifier].filter(details => 'Condition' in details).map(details => {
+      let habitatId
+
+      if (habitatIdIdentifier === 'habitatId') {
+        habitatId = details.generatedId ?? ''
+      } else {
+        habitatId = details['Habitat reference Number'] ? String(details['Habitat reference Number']) : details['Habitat reference Number']
+      }
+
+      return {
+        [habitatIdIdentifier]: habitatId,
+        habitatType: getHabitatType(identifier, details),
+        baselineReference: details['Baseline ref'] ? String(details['Baseline ref']) : '',
+        module: getModule(identifier),
+        state: getState(identifier),
+        condition: details.Condition,
+        strategicSignificance: details['Strategic significance'],
+        advanceCreation: details['Habitat created in advance (years)'] ?? details['Habitat enhanced in advance (years)'],
+        delayedCreation: details['Delay in starting habitat creation (years)'] ?? details['Delay in starting habitat enhancement (years)'],
+        area: details['Length (km)'] ?? details['Area (hectares)'],
+        measurementUnits: 'Length (km)' in details ? 'kilometres' : 'hectares',
+        ...(details['Extent of encroachment'] ? { encroachmentExtent: details['Extent of encroachment'] } : {}),
+        ...(details['Extent of encroachment for both banks'] ? { encroachmentExtentBothBanks: details['Extent of encroachment for both banks'] } : {})
+      }
+    })
   )
 
   return { baseline, proposed }

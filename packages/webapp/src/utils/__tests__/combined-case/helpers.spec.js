@@ -2,16 +2,13 @@ import constants from '../../constants.js'
 
 describe('Combined Case Habitat Match Utility Functions', () => {
   beforeEach(() => {
-    global.habitatReferenceCounter = 0
     global.ownReferenceCounter = 0
   })
 
   test('generateHabitatReference increments correctly', () => {
     jest.isolateModules(() => {
       const { generateHabitatReference } = require('../../combined-case/helpers.js')
-      expect(generateHabitatReference()).toBe('HAB-00000000-0')
-      expect(generateHabitatReference()).toBe('HAB-00000000-1')
-      expect(generateHabitatReference()).toBe('HAB-00000000-2')
+      expect(generateHabitatReference()).toMatch(/^HAB-\d{8}-P[ABCDEFGHJKMNPRTUVWXY]{4}$/)
     })
   })
 
