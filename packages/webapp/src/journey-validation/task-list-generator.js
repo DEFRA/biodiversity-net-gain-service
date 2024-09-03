@@ -32,34 +32,35 @@ const STATUSES = {
 
 const replaceStatusesWithDisplayStatuses = taskList => {
   const statusText = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+  const statusHtml = (status, id) => `<span id="${id}-status">${statusText(status)}</span>`
 
-  const statusTag = (status, tagClass) => {
+  const statusTag = (status, tagClass, id) => {
     return {
       tag:
         {
-          text: statusText(status),
+          html: statusHtml(status, id),
           classes: tagClass
         }
     }
   }
 
-  const statusNoTag = status => {
+  const statusNoTag = (status, id) => {
     return {
-      text: statusText(status)
+      html: statusHtml(status, id)
     }
   }
 
   const DISPLAY_STATUSES = {
-    [STATUSES.NOT_STARTED]: statusTag(STATUSES.NOT_STARTED, 'govuk-tag--grey'),
-    [STATUSES.IN_PROGRESS]: statusTag(STATUSES.IN_PROGRESS, 'govuk-tag--blue'),
-    [STATUSES.CANNOT_START_YET]: statusTag(STATUSES.CANNOT_START_YET, 'govuk-tag--grey'),
-    [STATUSES.COMPLETE]: statusNoTag(STATUSES.COMPLETE),
-    UNKNOWN_STATUS: statusTag(STATUSES.COMPLETE, 'govuk-tag--grey')
+    [STATUSES.NOT_STARTED]: (id) => statusTag(STATUSES.NOT_STARTED, 'govuk-tag--grey', id),
+    [STATUSES.IN_PROGRESS]: (id) => statusTag(STATUSES.IN_PROGRESS, 'govuk-tag--blue', id),
+    [STATUSES.CANNOT_START_YET]: (id) => statusTag(STATUSES.CANNOT_START_YET, 'govuk-tag--grey', id),
+    [STATUSES.COMPLETE]: (id) => statusNoTag(STATUSES.COMPLETE, id),
+    UNKNOWN_STATUS: (id) => statusTag(STATUSES.COMPLETE, 'govuk-tag--grey', id)
   }
 
   taskList.forEach(task => {
     task.items.forEach(item => {
-      item.status = DISPLAY_STATUSES[item.status] || DISPLAY_STATUSES.UNKNOWN_STATUS
+      item.status = DISPLAY_STATUSES[item.status](item.id) || DISPLAY_STATUSES.UNKNOWN_STATUS(item.id)
     })
   })
 }
@@ -138,7 +139,7 @@ const getTaskItems = (task, session) => {
   const calculatedStatus = checkTaskStatus(task, session)
   return {
     id: task.id,
-    title: { text: task.title },
+    title: { html: `<span id='${task.id}'>${task.title}</span>` },
     status: calculatedStatus.status,
     href: calculatedStatus.url
   }
