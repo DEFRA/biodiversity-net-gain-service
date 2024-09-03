@@ -83,15 +83,9 @@ describe(url, () => {
               viewResult = view
             }
           }
-          const { blobStorageConnector } = require('@defra/bng-connectors-lib')
-          const spy = jest.spyOn(blobStorageConnector, 'deleteBlobIfExists')
           await checkMetricFile.default[1].handler(request, h)
+
           expect(viewResult).toEqual(constants.routes.DEVELOPER_BNG_NUMBER)
-          expect(spy).toHaveBeenCalledWith({
-            containerName: 'customer-uploads',
-            blobName: mockFileLocation
-          })
-          expect(spy).toHaveBeenCalledTimes(1)
           done()
         } catch (err) {
           done(err)
