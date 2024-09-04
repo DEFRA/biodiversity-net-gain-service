@@ -27,7 +27,8 @@ const STATUSES = {
   NOT_STARTED: constants.DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS: constants.IN_PROGRESS_REGISTRATION_TASK_STATUS,
   COMPLETE: constants.COMPLETE_REGISTRATION_TASK_STATUS,
-  CANNOT_START_YET: constants.CANNOT_START_YET_STATUS
+  CANNOT_START_YET: constants.CANNOT_START_YET_STATUS,
+  NOT_STARTED_YET: constants.NOT_STARTED_YET_STATUS
 }
 
 const replaceStatusesWithDisplayStatuses = taskList => {
@@ -52,6 +53,7 @@ const replaceStatusesWithDisplayStatuses = taskList => {
 
   const DISPLAY_STATUSES = {
     [STATUSES.NOT_STARTED]: (id) => statusTag(STATUSES.NOT_STARTED, 'govuk-tag--grey', id),
+    [STATUSES.NOT_STARTED_YET]: (id) => statusTag(STATUSES.NOT_STARTED_YET, 'govuk-tag--grey', id),
     [STATUSES.IN_PROGRESS]: (id) => statusTag(STATUSES.IN_PROGRESS, 'govuk-tag--blue', id),
     [STATUSES.CANNOT_START_YET]: (id) => statusTag(STATUSES.CANNOT_START_YET, 'govuk-tag--grey', id),
     [STATUSES.COMPLETE]: (id) => statusNoTag(STATUSES.COMPLETE, id),
@@ -240,7 +242,7 @@ const getTaskList = (journey, session) => {
   // set the href to undefined so it cannot be visited (the status defaults to CANNOT_START_YET so we don't need to
   // change it).
   if (canSubmit) {
-    lastItem.status = STATUSES.NOT_STARTED
+    lastItem.status = STATUSES.NOT_STARTED_YET
   } else {
     lastItem.href = undefined
   }
