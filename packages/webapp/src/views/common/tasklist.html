@@ -10,22 +10,16 @@
             <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ taskListSubHeading }}</h2>
             <p class="govuk-body govuk-!-margin-bottom-4">You have completed {{ completedTasks }} of {{ totalSections }} sections.</p>
             {% if applicationSaveNotice %}
-              {{ govukInsetText({
-                  text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
-              }) }}
+                {{ govukInsetText({
+                    text: "Your application is saved as you complete each page. You can leave and come back at any time to continue the application."
+                }) }}
             {% endif %}
-            <ol class="app-task-list govuk-!-padding-top-3">
-                {% for task in tasks.taskList %}
-                    <li>
-                        <h2 class="app-task-list__section">{{ task.taskTitle }}</h2>
-                        <ul class="app-task-list__items">
-                            {{ govukTaskList({
-                                items: task.items
-                            }) }}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ol>
+            {% for task in tasks.taskList %}
+                <h2 class="govuk-heading-m">{{ task.taskTitle }}</h2>
+                {{ govukTaskList({
+                    items: task.items
+                }) }}
+            {% endfor %}
         </div>
     </div>
     {% include "common/assisted-digital-helpline.html" %}
