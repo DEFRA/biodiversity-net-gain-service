@@ -3,9 +3,6 @@ import constants from '../../../utils/constants.js'
 
 const url = constants.routes.COMBINED_CASE_TASK_LIST
 
-const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
-const cannotStartYetStatus = { tag: { classes: 'govuk-tag--grey', text: 'Cannot start yet' } }
-
 describe(url, () => {
   describe('GET', () => {
     let getOptions
@@ -44,8 +41,13 @@ describe(url, () => {
         items: [
           {
             id: 'add-applicant-information',
-            title: { text: 'Add details about the applicant' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-applicant-information'>Add details about the applicant</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-applicant-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/agent-acting-for-client'
           }
         ]
@@ -57,20 +59,35 @@ describe(url, () => {
         items: [
           {
             id: 'add-land-ownership',
-            title: { text: 'Add land ownership details' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-land-ownership'>Add land ownership details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-land-ownership-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/upload-ownership-proof'
           },
           {
             id: 'add-land-boundary',
-            title: { text: 'Add biodiversity gain site boundary details' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-land-boundary'>Add biodiversity gain site boundary details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-land-boundary-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/upload-land-boundary'
           },
           {
             id: 'add-habitat-information',
-            title: { text: 'Add habitat baseline, creation and enhancements' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-habitat-information'>Add habitat baseline, creation and enhancements</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-habitat-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/upload-metric'
           }
         ]
@@ -82,14 +99,24 @@ describe(url, () => {
         items: [
           {
             id: 'add-legal-agreement',
-            title: { text: 'Add legal agreement details' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-legal-agreement'>Add legal agreement details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-legal-agreement-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/legal-agreement-type'
           },
           {
             id: 'add-local-land-charge-search-certificate',
-            title: { text: 'Add local land charge search certificate' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-local-land-charge-search-certificate'>Add local land charge search certificate</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-local-land-charge-search-certificate-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: '/combined-case/upload-local-land-charge'
           }
         ]
@@ -105,21 +132,36 @@ describe(url, () => {
         items: [
           {
             id: 'planning-decision-notice',
-            title: { text: 'Add planning decision notice' },
+            title: { html: "<span id='planning-decision-notice'>Add planning decision notice</span>" },
             isLocked: true,
-            status: cannotStartYetStatus
+            status: {
+              tag: {
+                html: '<span id="planning-decision-notice-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           },
           {
             id: 'match-available-habitats',
-            title: { text: 'Match available habitats' },
+            title: { html: "<span id='match-available-habitats'>Match available habitats</span>" },
             isLocked: true,
-            status: cannotStartYetStatus
+            status: {
+              tag: {
+                html: '<span id="match-available-habitats-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: { text: 'Confirm development and habitat details' },
+            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development and habitat details</span>" },
             isLocked: true,
-            status: cannotStartYetStatus
+            status: {
+              tag: {
+                html: '<span id="confirm-dev-and-habitat-details-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           }
         ]
       })
@@ -129,7 +171,12 @@ describe(url, () => {
           {
             id: 'check-your-answers',
             title: { text: 'Check your answers before you submit them' },
-            status: cannotStartYetStatus
+            status: {
+              tag: {
+                html: '<span id="check-your-answers-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           }
         ]
       })
