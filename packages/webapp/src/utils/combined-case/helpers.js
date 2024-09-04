@@ -89,6 +89,7 @@ const processMetricData = session => {
               size: habitat['Length (km)'] ?? habitat['Area (hectares)'],
               measurementUnits: 'Length (km)' in habitat ? 'kilometres' : 'hectares',
               rowNum: habitat?.rowNum,
+              offsiteReference: habitat['Off-site reference'] ? String(habitat['Off-site reference']) : '',
               processed: false
             })
           }
