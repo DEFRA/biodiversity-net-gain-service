@@ -1,8 +1,6 @@
 import { submitGetRequest } from '../helpers/server.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
-const notStartedStatus = { tag: { classes: 'govuk-tag--grey', text: 'Not started' } }
-
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 
 describe(url, () => {
@@ -42,8 +40,13 @@ describe(url, () => {
         taskTitle: 'Statutory biodiversity metric',
         items: [
           {
-            title: { text: 'Upload statutory biodiversity metric' },
-            status: notStartedStatus,
+            title: { html: "<span id='upload-metric'>Upload statutory biodiversity metric</span>" },
+            status: {
+              tag: {
+                html: '<span id="upload-metric-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
             id: 'upload-metric'
           }
@@ -55,8 +58,13 @@ describe(url, () => {
         taskTitle: 'Development information',
         items: [
           {
-            title: { text: 'Add development project information' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-devlopment-project-information'>Add development project information</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           }
@@ -68,8 +76,13 @@ describe(url, () => {
         taskTitle: 'Statutory biodiversity credits',
         items: [
           {
-            title: { text: 'Add statutory biodiversity credits' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-credits'>Add statutory biodiversity credits</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-credits-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
             id: 'add-credits'
           }
@@ -81,8 +94,13 @@ describe(url, () => {
         taskTitle: 'Purchase order',
         items: [
           {
-            title: { text: 'Add a purchase order number, if you have one' },
-            status: notStartedStatus,
+            title: { html: "<span id='add-purchase-order'>Add a purchase order number, if you have one</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-purchase-order-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
             id: 'add-purchase-order'
           }
@@ -94,8 +112,13 @@ describe(url, () => {
         taskTitle: 'Customer due diligence (anti-money laundering)',
         items: [
           {
-            title: { text: 'Complete customer due diligence' },
-            status: notStartedStatus,
+            title: { html: "<span id='customer-due-diligence'>Complete customer due diligence</span>" },
+            status: {
+              tag: {
+                html: '<span id="customer-due-diligence-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
             id: 'customer-due-diligence'
           }
@@ -107,8 +130,13 @@ describe(url, () => {
         taskTitle: 'Terms and conditions',
         items: [
           {
-            title: { text: 'Accept terms and conditions' },
-            status: notStartedStatus,
+            title: { html: "<span id='terms-and-conditions'>Accept terms and conditions</span>" },
+            status: {
+              tag: {
+                html: '<span id="terms-and-conditions-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
             id: 'terms-and-conditions'
           }
