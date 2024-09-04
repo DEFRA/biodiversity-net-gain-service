@@ -1,4 +1,6 @@
 import constants from './constants.js'
+import paymentConstants from '../payment/constants.js'
+import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import {
   getApplicant,
@@ -10,7 +12,6 @@ import {
   getLocalPlanningAuthorities,
   getHectares,
   getGridReference,
-  getPayment,
   getLandowners
 } from './shared-application.js'
 
@@ -43,6 +44,16 @@ const getAllocationHabitats = session => {
     })
   }
 }
+
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.COMBINED, getCombinedCaseReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
+const getCombinedCaseReference = session => session.get(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE) || ''
 
 const application = (session, account) => {
   const isLegalAgreementTypeS106 = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE) === '759150000'
@@ -79,7 +90,7 @@ const application = (session, account) => {
       files: getFiles(session),
       applicationReference: getApplicationReference(session),
       submittedOn: new Date().toISOString(),
-      payment: getPayment(session, getApplicationReference(session))
+      payment: getPayment(session)
     }
   }
 
