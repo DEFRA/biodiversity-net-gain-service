@@ -96,7 +96,7 @@ const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
 
 const habitatHint = habitat =>
-  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition`
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition / Row ${habitat.rowNum}`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
