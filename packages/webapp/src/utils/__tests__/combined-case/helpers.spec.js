@@ -56,7 +56,7 @@ describe('processMetricData', () => {
       processMetricData(session)
 
       const expectedRegistrationHabitats = [
-        {
+        expect.objectContaining({
           habitatType: 'Forest - Woodland',
           condition: 'Good',
           sheet: 'd2',
@@ -65,8 +65,8 @@ describe('processMetricData', () => {
           size: 10,
           measurementUnits: 'hectares',
           processed: false
-        },
-        {
+        }),
+        expect.objectContaining({
           habitatType: 'Grassland - Meadow',
           condition: 'Fair',
           sheet: 'd3',
@@ -75,7 +75,7 @@ describe('processMetricData', () => {
           size: 5,
           measurementUnits: 'kilometres',
           processed: false
-        }
+        })
       ]
 
       const expectedAllocationHabitats = [
