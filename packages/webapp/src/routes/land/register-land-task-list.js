@@ -6,10 +6,10 @@ const handlers = {
     const { taskList, totalTasks, completedTasks, canSubmit } = getTaskList(constants.applicationTypes.REGISTRATION, request.yar)
 
     return h.view(constants.views.REGISTER_LAND_TASK_LIST, {
-      registrationTasks: { taskList },
-      registrationCompletedTasks: completedTasks,
+      canSubmit,
+      completedTasks,
       totalSections: totalTasks,
-      canSubmit
+      tasks: { taskList }
     })
   }
 }

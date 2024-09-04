@@ -18,10 +18,9 @@ describe(url, () => {
       await submitGetRequest({ url })
     })
 
-    it('should render view with no completed task: ENV ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = N', done => {
+    it('should render view with no completed task', done => {
       jest.isolateModules(async () => {
         try {
-          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
           let viewResult, contextResult
           const h = {
             view: (view, context) => {
@@ -40,60 +39,90 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[0]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[0]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Applicant information',
-            tasks: [
+            items: [
               {
-                title: 'Add details about the applicant',
-                status: 'NOT STARTED',
-                url: '/land/agent-acting-for-client',
+                title: { html: "<span id='add-applicant-information'>Add details about the applicant</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-applicant-information-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/agent-acting-for-client',
                 id: 'add-applicant-information'
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { html: "<span id='add-land-ownership'>Add land ownership details</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-land-ownership-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/upload-land-boundary',
+                title: { html: "<span id='add-land-boundary'>Add biodiversity gain site boundary details</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-land-boundary-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-land-boundary',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { html: "<span id='add-habitat-information'>Add habitat baseline, creation and enhancements</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-habitat-information-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
           })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
+          expect(contextResult.tasks.taskList[2]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Legal information',
-            tasks: [
+            items: [
               {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
+                title: { html: "<span id='add-legal-agreement'>Add legal agreement details</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-legal-agreement-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/legal-agreement-type',
                 id: 'add-legal-agreement'
               },
               {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
+                title: { html: "<span id='add-local-land-charge-search-certificate'>Add local land charge search certificate</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-local-land-charge-search-certificate-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-local-land-charge',
                 id: 'add-local-land-charge-search-certificate'
               }
             ]
@@ -105,153 +134,6 @@ describe(url, () => {
       })
     })
 
-    it('should render view with no completed task: ENV ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = null', done => {
-      jest.isolateModules(async () => {
-        try {
-          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = null
-          let viewResult, contextResult
-          const h = {
-            view: (view, context) => {
-              viewResult = view
-              contextResult = context
-            }
-          }
-          const redisMap = new Map()
-          const request = {
-            yar: redisMap
-          }
-
-          const registerTaskList = require('../../../routes/land/register-land-task-list')
-          await registerTaskList.default[0].handler(request, h)
-
-          const response = await submitGetRequest(getOptions)
-          expect(response.statusCode).toBe(200)
-          expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
-            dependantIds: [],
-            id: null,
-            taskTitle: 'Land information',
-            tasks: [
-              {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
-                id: 'add-land-ownership'
-              },
-              {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/upload-land-boundary',
-                id: 'add-land-boundary'
-              },
-              {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
-                id: 'add-habitat-information'
-              }
-            ]
-          })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
-            dependantIds: [],
-            id: null,
-            taskTitle: 'Legal information',
-            tasks: [
-              {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
-                id: 'add-legal-agreement'
-              },
-              {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
-                id: 'add-local-land-charge-search-certificate'
-              }
-            ]
-          })
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it.skip('should render view with no completed task if geospatial enabled', done => {
-      jest.isolateModules(async () => {
-        try {
-          let viewResult, contextResult
-          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-          const h = {
-            view: (view, context) => {
-              viewResult = view
-              contextResult = context
-            }
-          }
-          const redisMap = new Map()
-          const request = {
-            yar: redisMap
-          }
-
-          const registerTaskList = require('../../../routes/land/register-land-task-list')
-          await registerTaskList.default[0].handler(request, h)
-
-          const response = await submitGetRequest(getOptions)
-          expect(response.statusCode).toBe(200)
-          expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
-            dependantIds: [],
-            id: null,
-            taskTitle: 'Land information',
-            tasks: [
-              {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
-                id: 'add-land-ownership'
-              },
-              {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'NOT STARTED',
-                url: '/land/choose-land-boundary-upload',
-                id: 'add-land-boundary'
-              },
-              {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
-                id: 'add-habitat-information'
-              }
-            ]
-          })
-          expect(contextResult.registrationTasks.taskList[2]).toEqual({
-            dependantIds: [],
-            id: null,
-            taskTitle: 'Legal information',
-            tasks: [
-              {
-                title: 'Add legal agreement details',
-                status: 'NOT STARTED',
-                url: '/land/legal-agreement-type',
-                id: 'add-legal-agreement'
-              },
-              {
-                title: 'Add local land charge search certificate',
-                status: 'NOT STARTED',
-                url: '/land/upload-local-land-charge',
-                id: 'add-local-land-charge-search-certificate'
-              }
-            ]
-          })
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
     it('should render view with legal completed task', done => {
       jest.isolateModules(async () => {
         try {
@@ -282,33 +164,42 @@ describe(url, () => {
           const response = await submitGetRequest(getOptions)
           expect(response.statusCode).toBe(200)
           expect(viewResult).toEqual('land/register-land-task-list')
-          expect(contextResult.registrationTasks.taskList.length).toEqual(4)
-          expect(contextResult.registrationTasks.taskList[1]).toEqual({
+          expect(contextResult.tasks.taskList.length).toEqual(4)
+          expect(contextResult.tasks.taskList[1]).toEqual({
             dependantIds: [],
             id: null,
             taskTitle: 'Land information',
-            tasks: [
+            items: [
               {
-                title: 'Add land ownership details',
-                status: 'NOT STARTED',
-                url: '/land/upload-ownership-proof',
+                title: { html: "<span id='add-land-ownership'>Add land ownership details</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-land-ownership-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-ownership-proof',
                 id: 'add-land-ownership'
               },
               {
-                title: 'Add biodiversity gain site boundary details',
-                status: 'COMPLETED',
-                url: '/land/check-land-boundary-details',
+                title: { html: "<span id='add-land-boundary'>Add biodiversity gain site boundary details</span>" },
+                status: { html: '<span id="add-land-boundary-status">Completed</span>' },
+                href: '/land/check-land-boundary-details',
                 id: 'add-land-boundary'
               },
               {
-                title: 'Add habitat baseline, creation and enhancements',
-                status: 'NOT STARTED',
-                url: '/land/upload-metric',
+                title: { html: "<span id='add-habitat-information'>Add habitat baseline, creation and enhancements</span>" },
+                status: {
+                  tag: {
+                    html: '<span id="add-habitat-information-status">Not started</span>',
+                    classes: 'govuk-tag--grey'
+                  }
+                },
+                href: '/land/upload-metric',
                 id: 'add-habitat-information'
               }
             ]
           })
-
           done()
         } catch (err) {
           done(err)
