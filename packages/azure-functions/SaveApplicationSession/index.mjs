@@ -34,7 +34,8 @@ export default async function (context, req) {
       const referenceMap = {
         registration: 'application-reference',
         allocation: 'developer-app-reference',
-        creditspurchase: 'credits-purchase-application-reference'
+        creditspurchase: 'credits-purchase-application-reference',
+        combinedcase: 'combined-case-application-reference'
       }
       return referenceMap[applicationType.toLowerCase()] || redisKeys.applicationReference
     }

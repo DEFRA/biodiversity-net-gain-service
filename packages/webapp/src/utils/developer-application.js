@@ -2,27 +2,7 @@ import constants from './constants.js'
 import paymentConstants from '../payment/constants.js'
 import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
-import path from 'path'
-
-const getApplicant = (account, session) => ({
-  id: account.idTokenClaims.contactId,
-  role: getApplicantRole(session)
-})
-
-const getApplicantRole = session => {
-  const applicantIsAgent = session.get(constants.redisKeys.DEVELOPER_IS_AGENT)
-  const organisationId = session.get(constants.redisKeys.ORGANISATION_ID)
-  let applicantRole
-
-  if (applicantIsAgent === 'yes') {
-    applicantRole = 'agent'
-  } else if (organisationId) {
-    applicantRole = 'organisation'
-  } else {
-    applicantRole = 'individual'
-  }
-  return applicantRole
-}
+import { getApplicant, getFile, getGainSite } from './shared-application.js'
 
 const getClientDetails = session => {
   const clientType = session.get(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
@@ -86,15 +66,6 @@ const getHabitats = session => {
   return { allocated }
 }
 
-const getFile = (session, fileType, filesize, fileLocation, optional) => ({
-  contentMediaType: session.get(fileType),
-  fileType: fileType.replace('-file-type', ''),
-  fileSize: session.get(filesize),
-  fileLocation: session.get(fileLocation),
-  fileName: session.get(fileLocation) && path.basename(session.get(fileLocation)),
-  optional
-})
-
 const getFiles = session => {
   const consentToUseGainSiteOptional = session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === 'yes'
   const writtenAuthorisationOptional = session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === 'no'
@@ -104,22 +75,6 @@ const getFiles = session => {
     getFile(session, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_TYPE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_SIZE, constants.redisKeys.DEVELOPER_CONSENT_TO_USE_GAIN_SITE_FILE_LOCATION, consentToUseGainSiteOptional),
     getFile(session, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_TYPE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_FILE_SIZE, constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION, writtenAuthorisationOptional)
   ]
-}
-
-const getGainSite = session => {
-  const gainSiteReference = session.get(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
-  const habitat = metricData.habitatOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  const hedge = metricData.hedgeOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  const waterCourse = metricData.waterCourseOffSiteGainSiteSummary.find(item => item['Gain site reference'] === gainSiteReference)
-  return {
-    reference: gainSiteReference,
-    offsiteUnitChange: {
-      habitat: habitat ? parseFloat(habitat['Habitat Offsite unit change per gain site (Post SRM)']) : 0,
-      hedge: hedge ? parseFloat(hedge['Hedge Offsite unit change per gain site (Post SRM)']) : 0,
-      watercourse: waterCourse ? parseFloat(waterCourse['Watercourse Offsite unit change per gain site (Post SRM)']) : 0
-    }
-  }
 }
 
 const getLpaCode = name => {
@@ -139,12 +94,11 @@ const getAllocationReference = session => session.get(constants.redisKeys.DEVELO
 
 const application = (session, account) => {
   const stringOrNull = value => value ? String(value) : null
-
   const planningAuthorityName = stringOrNull(session.get(constants.redisKeys.DEVELOPER_PLANNING_AUTHORITY_LIST))
 
   const applicationJson = {
     developerRegistration: {
-      applicant: getApplicant(account, session),
+      applicant: getApplicant(account, session, constants.redisKeys.DEVELOPER_IS_AGENT, 'organisation', 'individual'),
       isLandownerLeaseholder: session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER),
       gainSite: getGainSite(session),
       habitats: getHabitats(session),

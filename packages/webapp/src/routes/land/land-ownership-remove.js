@@ -8,7 +8,9 @@ const handlers = {
     const ownershipProofToRemove = landOwnershipProofs[id]?.fileName
 
     if (!ownershipProofToRemove) {
-      return h.redirect(constants.routes.LAND_OWNERSHIP_PROOF_LIST)
+      const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+      const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+      return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST : constants.routes.LAND_OWNERSHIP_PROOF_LIST)
     }
 
     return h.view(constants.views.LAND_OWNERSHIP_REMOVE, {
@@ -35,7 +37,11 @@ const handlers = {
       landOwnershipProofs.splice(id, 1)
       request.yar.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, landOwnershipProofs)
     }
-    return h.redirect(landOwnershipProofs.length > 0 ? constants.routes.LAND_OWNERSHIP_PROOF_LIST : constants.routes.UPLOAD_LAND_OWNERSHIP)
+    const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+    const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+    const proofListRoute = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST : constants.routes.LAND_OWNERSHIP_PROOF_LIST
+    const uploadRoute = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_OWNERSHIP : constants.routes.UPLOAD_LAND_OWNERSHIP
+    return h.redirect(landOwnershipProofs.length > 0 ? proofListRoute : uploadRoute)
   }
 }
 

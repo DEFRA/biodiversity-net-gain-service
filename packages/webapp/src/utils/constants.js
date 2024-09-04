@@ -61,6 +61,10 @@ const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information'
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS = ['/combined-case/check-applicant-information', '/combined-case/check-and-submit']
+const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-boundary-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
 
@@ -255,12 +259,14 @@ const uploadTypes = {
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer,
-  ...creditsPurchaseConstants.setCreditReferer
+  ...creditsPurchaseConstants.setCreditReferer,
+  ...combinedCaseConstants.setCombinedRefer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...developerConstants.clearDeveloperReferer
+  ...developerConstants.clearDeveloperReferer,
+  ...combinedCaseConstants.clearCombinedRefer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
@@ -295,7 +301,8 @@ const applicantTypes = {
 const primaryPages = {
   [REGISTRATION]: [`/${lojConstants.routes.REGISTER_LAND_TASK_LIST}`, `/${lojConstants.routes.CHECK_AND_SUBMIT}`],
   [ALLOCATION]: [`/${developerConstants.routes.DEVELOPER_TASKLIST}`, `/${developerConstants.routes.DEVELOPER_CHECK_AND_SUBMIT}`],
-  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS]
+  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS],
+  [COMBINED_CASE]: [`/${combinedCaseConstants.routes.COMBINED_CASE_TASK_LIST}`, `/${combinedCaseConstants.routes.COMBINED_CASE_CHECK_AND_SUBMIT}`]
 }
 
 export default Object.freeze({
@@ -349,6 +356,10 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
+  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
+  COMBINED_CASE_METRIC_VALID_REFERRERS,
+  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
   reusedRoutes
 })

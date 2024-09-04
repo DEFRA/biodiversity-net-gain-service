@@ -17,7 +17,7 @@ const geospatialOrLandBoundaryContext = request => {
       landBoundaryFileName: request.yar.get(constants.redisKeys.GEOSPATIAL_FILE_NAME),
       gridReference: request.yar.get(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE),
       areaInHectare: `${request.yar.get(constants.redisKeys.GEOSPATIAL_HECTARES)} ha`,
-      checkLandBoundaryLink: constants.routes.CHECK_GEOSPATIAL_FILE
+      checkLandBoundaryLink: isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_GEOSPATIAL_FILE : constants.routes.CHECK_GEOSPATIAL_FILE
     }
   } else {
     return {

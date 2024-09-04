@@ -12,6 +12,7 @@ export const IS_PRODUCTION = process.env.NODE_ENV === 'production' || process.en
 export const SERVICE_HOME_URL = process.env.SERVICE_HOME_URL || 'http://localhost:3000'
 export const AMENDMENT_GUIDE_URL_ALLOCATION = process.env.AMENDMENT_GUIDE_URL_ALLOCATION || 'https://www.gov.uk/guidance/amend-a-registration-or-allocation-or-remove-a-registration'
 export const AMENDMENT_GUIDE_URL_REGISTRATION = process.env.AMENDMENT_GUIDE_URL_REGISTRATION || 'https://www.gov.uk/guidance/amend-a-registration-or-allocation-or-remove-a-registration'
+export const SERVICE_NAME = process.env.SERVICE_NAME || 'Manage biodiversity gains'
 
 // DefraId Config
 export const DEFRA_ID = {

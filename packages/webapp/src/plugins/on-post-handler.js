@@ -83,15 +83,15 @@ const saveApplicationSession = async request => {
 
   // Use the correct Redis key for the application type.
   const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
-  let applicationReferenceRedisKey = constants.redisKeys.APPLICATION_REFERENCE
 
-  if (applicationType === constants.applicationTypes.ALLOCATION) {
-    applicationReferenceRedisKey = constants.redisKeys.DEVELOPER_APP_REFERENCE
+  const applicationTypeMap = {
+    [constants.applicationTypes.REGISTRATION]: constants.redisKeys.APPLICATION_REFERENCE,
+    [constants.applicationTypes.ALLOCATION]: constants.redisKeys.DEVELOPER_APP_REFERENCE,
+    [constants.applicationTypes.CREDITS_PURCHASE]: creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE,
+    [constants.applicationTypes.COMBINED_CASE]: constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE
   }
 
-  if (applicationType === constants.applicationTypes.CREDITS_PURCHASE) {
-    applicationReferenceRedisKey = creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_APPLICATION_REFERENCE
-  }
+  const applicationReferenceRedisKey = applicationTypeMap[applicationType]
 
   if (request.yar.get(applicationReferenceRedisKey)) {
     // Persist the session data asynchronously and allow the user to progress without waiting.

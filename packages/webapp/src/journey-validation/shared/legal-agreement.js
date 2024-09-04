@@ -10,7 +10,7 @@ const legalAgreementTypeRoute = (startUrl, nextUrl, altNextUrl) => routeDefiniti
     const legalAgreementType = session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
 
     if (legalAgreementType !== constants.LEGAL_AGREEMENT_DOCUMENTS[3].id) {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
       return referrerUrl || nextUrl
     } else {
       return altNextUrl
@@ -55,7 +55,7 @@ const checkLegalAgreementFilesRoute = (startUrl, nextUrl, altNextUrl, alt1NextUr
   (session) => {
     const checkLegalAgreement = session.get(constants.redisKeys.LEGAL_AGREEMENT_FILES_CHECKED)
     const legalAgreementType = getLegalAgreementDocumentType(session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
     if (checkLegalAgreement === 'no') {
       return nextUrl
     } else if (checkLegalAgreement === 'yes') {
@@ -80,7 +80,7 @@ const addResponsibleBodyConversationConvenantRoute = (startUrl, nextUrl, altNext
   startUrl,
   [constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
     return referrerUrl || nextUrl
   }
 )
@@ -92,7 +92,7 @@ const checkResponsibleBodiesRoute = (startUrl, nextUrl, altNextUrl) => routeDefi
     const { addAnotherResponsibleBody } = request.payload
     if (addAnotherResponsibleBody === 'yes') {
       session.set(constants.redisKeys.RESPONSIBLE_BODIES_CHECKED, addAnotherResponsibleBody)
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
       return (referrerUrl || nextUrl)
     }
     return altNextUrl
@@ -139,7 +139,7 @@ const addLandownerIndividualRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
     return (referrerUrl || nextUrl)
   }
 )
@@ -151,7 +151,7 @@ const checkLandownersRoute = (startUrl, nextUrl, altNextUrl) => routeDefinition(
     const { addAnotherLandowner } = request.payload
     if (addAnotherLandowner === 'yes') {
       session.set(constants.redisKeys.ADDED_LANDOWNERS_CHECKED, addAnotherLandowner)
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
       return (referrerUrl || nextUrl)
     }
     return altNextUrl
@@ -164,7 +164,7 @@ const habitatPlanLegalAgreementRoute = (startUrl, nextUrl, altNextUrl) => routeD
   (session, request) => {
     const { isHabitatIncludeLegalAgreement } = request.payload
     if (isHabitatIncludeLegalAgreement === 'Yes') {
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
       return (referrerUrl || nextUrl)
     } else {
       return altNextUrl
@@ -194,7 +194,7 @@ const checkHabitatPlanFileRoute = (startUrl, nextUrl, altNextUrl) => routeDefini
       return nextUrl
     } else if (checkHabitatPlan === 'yes') {
       session.set(constants.redisKeys.HABITAT_PLAN_FILE_OPTION, 'yes')
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
       const redirectUrl = referrerUrl ||
         altNextUrl
       return redirectUrl
@@ -216,7 +216,7 @@ const enhancementWorksStartDateRoute = (startUrl, nextUrl) => routeDefinition(
     constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION
   ],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
     return (referrerUrl || nextUrl)
   }
 )
@@ -229,7 +229,7 @@ const habitatEnhancementsEndDateRoute = (startUrl, nextUrl) => routeDefinition(
     constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION
   ],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
     return (referrerUrl || nextUrl)
   }
 )
@@ -269,8 +269,42 @@ const checkPlanningAuthoritiesRoute = (startUrl, nextUrl, altNextUrl) => routeDe
 const checkLegalAgreementDetailsRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [],
-  () => {
-    return nextUrl
+  (session) => {
+    const checkAndSubmitJourneyRoute = session.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+    return checkAndSubmitJourneyRoute || nextUrl
+  }
+)
+
+const changeTypeLegalAgreement = (startUrl, nextUrl, nextUrl1) => routeDefinition(
+  startUrl,
+  [],
+  (session, request) => {
+    const { changeLegalAgreementType } = request.payload
+
+    if (changeLegalAgreementType === 'yes') {
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_FILES)
+      request.yar.clear(constants.redisKeys.PLANNING_AUTHORTITY_LIST)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS)
+      request.yar.clear(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO)
+      request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY)
+      request.yar.clear(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY)
+      request.yar.clear(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_OPTION)
+      request.yar.clear(constants.redisKeys.LEGAL_AGREEMENT_RESPONSIBLE_BODIES)
+      request.yar.clear(constants.redisKeys.REFERER)
+      return nextUrl
+    } else if (changeLegalAgreementType === 'no') {
+      const referrerUrl = getValidReferrerUrl(session, ['/combined-case/check-and-submit', '/land/check-and-submit'])
+      return referrerUrl || nextUrl1
+    } else {
+      const message = 'Select yes if you want to change the type of legal agreement'
+      throw new FormError(message, {
+        text: message,
+        href: '#changeLegalTypeAgreement'
+      })
+    }
   }
 )
 
@@ -295,5 +329,6 @@ export {
   needAddAllPlanningAuthoritiesRoute,
   addPlanningAuthorityRoute,
   checkPlanningAuthoritiesRoute,
-  checkLegalAgreementDetailsRoute
+  checkLegalAgreementDetailsRoute,
+  changeTypeLegalAgreement
 }
