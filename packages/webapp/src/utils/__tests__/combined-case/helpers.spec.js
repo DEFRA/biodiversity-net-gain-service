@@ -62,7 +62,6 @@ describe('processMetricData', () => {
           sheet: 'd2',
           module: 'Created',
           state: 'Habitat',
-          id: 'HAB-00000000-0',
           size: 10,
           measurementUnits: 'hectares',
           processed: false
@@ -73,7 +72,6 @@ describe('processMetricData', () => {
           sheet: 'd3',
           module: 'Enhanced',
           state: 'Habitat',
-          id: 'HAB-00000000-1',
           size: 5,
           measurementUnits: 'kilometres',
           processed: false
