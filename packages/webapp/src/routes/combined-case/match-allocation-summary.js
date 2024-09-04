@@ -17,7 +17,7 @@ const handlers = {
       const matchedHabitat = (matchingHabitats || []).find((matchingHabitat) => matchingHabitat?.id === habitat.matchedHabitatId)
       return {
         text: `${habitat.habitatType} (${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} Condition)`,
-        value: matchedHabitat ? `${matchedHabitat.size} ${matchedHabitat.measurementUnits} / ${matchedHabitat.condition} Condition` : '',
+        value: matchedHabitat ? `${matchedHabitat.size} ${matchedHabitat.measurementUnits} / ${matchedHabitat.condition} Condition / Row ${matchedHabitat.rowNum}` : '',
         valueDataTestId: `habitat-${index + 1}`,
         href: `${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${index + 1}`,
         visuallyHiddenText: habitat.habitatType,
