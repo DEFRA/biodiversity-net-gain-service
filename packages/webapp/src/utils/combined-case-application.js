@@ -60,30 +60,33 @@ const calculateGainSite = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
 
-  const habitats = matchedHabitats.filter(h => h.state === 'Habitat')
-  const hedges = matchedHabitats.filter(h => h.state === 'Hedge')
-  const watercourses = matchedHabitats.filter(h => h.state === 'Watercourse')
+  const habitats = matchedHabitats.filter(h => h.state === 'Habitat' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const hedges = matchedHabitats.filter(h => h.state === 'Hedge' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const watercourses = matchedHabitats.filter(h => h.state === 'Watercourse' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const habitatRefs = [...new Set(habitats)]
+  const hedgeRefs = [...new Set(hedges)]
+  const watercourseRefs = [...new Set(watercourses)]
 
   let habitatTotal = 0
   let hedgeTotal = 0
   let watercourseTotal = 0
 
-  habitats.forEach(h => {
-    const summary = metricData.habitatOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h.offsiteReference)
+  habitatRefs.forEach(h => {
+    const summary = metricData.habitatOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
     if (summary) {
       habitatTotal += parseFloat(summary['Habitat Offsite unit change per gain site (Post SRM)'])
     }
   })
 
-  hedges.forEach(h => {
-    const summary = metricData.hedgeOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h.offsiteReference)
+  hedgeRefs.forEach(h => {
+    const summary = metricData.hedgeOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
     if (summary) {
       hedgeTotal += parseFloat(summary['Hedge Offsite unit change per gain site (Post SRM)'])
     }
   })
 
-  watercourses.forEach(h => {
-    const summary = metricData.waterCourseOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h.offsiteReference)
+  watercourseRefs.forEach(h => {
+    const summary = metricData.waterCourseOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
     if (summary) {
       watercourseTotal += parseFloat(summary['Watercourse Offsite unit change per gain site (Post SRM)'])
     }
