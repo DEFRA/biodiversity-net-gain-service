@@ -7,8 +7,11 @@ import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     if (!context.fileName || !context.fileSize) {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return isCombinedCase
+        ? h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+        : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
     return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },
