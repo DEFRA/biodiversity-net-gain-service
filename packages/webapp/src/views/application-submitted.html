@@ -90,8 +90,7 @@
         <li>we need more information from you</li>
         <li>your application has been successful or not </li>
       </ul>
-
-      {% if payment.caseType == "allocation" %}
+      {% if payment.caseType == "allocation" or payment.caseType == "combined"  %}
         <h2 class="govuk-heading-m">How to discharge a BNG planning condition</h2>
         <p>If you are a developer or an agent for a developer, you will not be able to discharge your BNG planning condition until the local planning authority has reviewed what has been recorded on the biodiversity gain sites register and approved your biodiversity gain plan.</p>
       {% endif %}

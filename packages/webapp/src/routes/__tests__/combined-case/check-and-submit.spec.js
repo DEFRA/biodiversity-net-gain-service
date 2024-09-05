@@ -75,7 +75,7 @@ describe(url, () => {
 
       await postHandler({ yar: session, auth, payload }, h)
       expect(h.view).not.toHaveBeenCalled()
-      expect(h.redirect).toHaveBeenCalledWith(constants.routes.APPLICATION_SUBMITTED)
+      expect(h.redirect).toHaveBeenCalledWith(constants.routes.COMBINED_CASE_CONFIRMATION)
     })
 
     it('should fail if backend errors', async () => {

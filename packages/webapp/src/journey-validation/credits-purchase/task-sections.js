@@ -58,10 +58,12 @@ const termsAndConditions = taskDefinition(
 
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain information',
-  tasks: [{
+  items: [{
     id: 'check-your-answers',
-    title: 'Check your answers before you submit them',
-    url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
+    title: {
+      text: 'Check your answers and submit information'
+    },
+    href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }

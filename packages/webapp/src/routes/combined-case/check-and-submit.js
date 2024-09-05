@@ -21,8 +21,9 @@ const handlers = {
       return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
     }
 
+    request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
+
     const applicationDetails = application(request.yar, request.auth.credentials.account).combinedCase
-    console.log(JSON.stringify(applicationDetails, null, 2))
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
     return h.view(
@@ -59,7 +60,7 @@ const handlers = {
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcombinedcaseapplication`, value)
     request.yar.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, result.applicationReference)
-    return h.redirect(constants.routes.APPLICATION_SUBMITTED)
+    return h.redirect(constants.routes.COMBINED_CASE_CONFIRMATION)
   }
 }
 

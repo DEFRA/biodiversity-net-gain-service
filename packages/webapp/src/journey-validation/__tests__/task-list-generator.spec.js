@@ -4,6 +4,8 @@ import { getTaskList } from '../task-list-generator.js'
 const testString = '1234'
 const session = new Session()
 
+const statusForDisplay = status => status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+
 const initialTaskInfo = {
   canSubmit: false,
   completedTasks: 0,
@@ -11,62 +13,96 @@ const initialTaskInfo = {
   taskList: [
     {
       taskTitle: 'Applicant information',
-      tasks: [
+      items: [
         {
-          title: 'Add details about the applicant',
-          status: 'NOT STARTED',
-          url: '/land/agent-acting-for-client',
+          title: { html: "<span id='add-applicant-information'>Add details about the applicant</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-applicant-information-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/agent-acting-for-client',
           id: 'add-applicant-information'
         }
       ]
     },
     {
       taskTitle: 'Land information',
-      tasks: [
+      items: [
         {
-          title: 'Add land ownership details',
-          status: 'NOT STARTED',
-          url: '/land/upload-ownership-proof',
+          title: { html: "<span id='add-land-ownership'>Add land ownership details</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-land-ownership-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/upload-ownership-proof',
           id: 'add-land-ownership'
         },
         {
-          title: 'Add biodiversity gain site boundary details',
-          status: 'NOT STARTED',
-          url: '/land/upload-land-boundary',
+          title: { html: "<span id='add-land-boundary'>Add biodiversity gain site boundary details</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-land-boundary-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/upload-land-boundary',
           id: 'add-land-boundary'
         },
         {
-          title: 'Add habitat baseline, creation and enhancements',
-          status: 'NOT STARTED',
-          url: '/land/upload-metric',
+          title: { html: "<span id='add-habitat-information'>Add habitat baseline, creation and enhancements</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-habitat-information-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/upload-metric',
           id: 'add-habitat-information'
         }
       ]
     },
     {
       taskTitle: 'Legal information',
-      tasks: [
+      items: [
         {
-          title: 'Add legal agreement details',
-          status: 'NOT STARTED',
-          url: '/land/legal-agreement-type',
+          title: { html: "<span id='add-legal-agreement'>Add legal agreement details</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-legal-agreement-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/legal-agreement-type',
           id: 'add-legal-agreement'
         },
         {
-          title: 'Add local land charge search certificate',
-          status: 'NOT STARTED',
-          url: '/land/upload-local-land-charge',
+          title: { html: "<span id='add-local-land-charge-search-certificate'>Add local land charge search certificate</span>" },
+          status: {
+            tag: {
+              html: '<span id="add-local-land-charge-search-certificate-status">Not started</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
+          href: '/land/upload-local-land-charge',
           id: 'add-local-land-charge-search-certificate'
         }
       ]
     },
     {
       taskTitle: 'Submit your biodiversity gain site information',
-      tasks: [
+      items: [
         {
-          title: 'Check your answers and submit information',
-          status: 'CANNOT START YET',
-          url: '/land/check-and-submit',
+          title: { text: 'Check your answers and submit information' },
+          status: {
+            tag: {
+              html: '<span id="check-your-answers-status">Cannot start yet</span>',
+              classes: 'govuk-tag--grey'
+            }
+          },
           id: 'check-your-answers'
         }
       ]
@@ -97,7 +133,7 @@ describe('journey validation task list', () => {
         session.set(constants.redisKeys.LAND_BOUNDARY_CHECKED, 'yes')
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
-        expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS)
+        expect(taskInfo.taskList[1].items[1].status.tag.html).toContain(statusForDisplay(constants.IN_PROGRESS_REGISTRATION_TASK_STATUS))
 
         done()
       } catch (err) {
@@ -118,7 +154,7 @@ describe('journey validation task list', () => {
         session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, testString)
 
         const taskInfo = getTaskList(constants.applicationTypes.REGISTRATION, session)
-        expect(taskInfo.taskList[1].tasks[1].status).toBe(constants.COMPLETE_REGISTRATION_TASK_STATUS)
+        expect(taskInfo.taskList[1].items[1].status.html).toContain(statusForDisplay(constants.COMPLETE_REGISTRATION_TASK_STATUS))
 
         done()
       } catch (err) {
