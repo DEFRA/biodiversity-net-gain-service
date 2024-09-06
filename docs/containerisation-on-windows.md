@@ -191,9 +191,7 @@ The instructions upto this point only need to be **performed once on your machin
 The instructions below will need to be executed **every time** you want to **start the project**.
 
 ## Hostname Resolution
-During local development, each Docker container name defined in a docker-compose file **must** be resolvable from the local loopback address of the development machine. This means that the name of the services provided in the docker-compose file must be added to the hosts file, so that the service can communicate with each other.
-For example, on a Linux development machine with a local loopback address of 127.0.0.1, /etc/hosts **must** be modified. This can be done by:
-entering the following into your WSL2 command window:
+When working on your local development environment with Docker, it’s essential that each Docker container’s name (as defined in your docker-compose file) can be resolved from your machine’s local loopback address. In practical terms, this means that the services listed in your docker-compose file need to be added to the hosts file. By doing so, these services can communicate with each other. For instance, if you’re using a Linux development machine with a local loopback address of 127.0.0.1, you’ll modify the **/etc/hosts** file accordingly. To achieve this, simply enter the following command in your WSL2 command window
 ```bash
 echo "127.0.0.1 azure_services azurite geoserver pgadmin postgis redis redis_commander" | sudo tee -a /etc/hosts
 ```
