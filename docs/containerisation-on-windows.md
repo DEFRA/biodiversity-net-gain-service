@@ -252,6 +252,7 @@ Ensure that all the tests pass before continuing the build process.
 At this point, the containerised substitutes for cloud infrastructure need starting:
 ```sh
 npm run docker:start-infrastructure
+npm run docker:start-dev-tools
 ```
 Move to a new terminal.
 Next, we need the serverless function app running.
