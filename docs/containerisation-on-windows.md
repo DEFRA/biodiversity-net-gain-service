@@ -213,8 +213,14 @@ Save and close using:
 'CTRL + X', respond with 'Y' to save changes, click Enter to close the window.
 ********HERE
 ## Development container build process
+
+Install the dependencies needed to run the project by running this command from the root directory:
+```bash
+npm i
+```
+
+To build the application images, local dev infrastructure and start containers locally that support development you'll need to run the following commands in the root directory of the project:
 ```sh
-# To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
 npm run docker:build-infrastructure
 npm run docker:start-test-double-infrastructure
@@ -249,7 +255,7 @@ cd packages/webapp
 source ../../docker/secrets/WEBAPP_ENV
 npm run start:dev
 ```
-Browse to localhost:3000 where everything should now be running and available.
+Browse to **localhost:3000** where everything should now be running and available.
 ## Docker tips
 You can view the running containers:
 ```sh
