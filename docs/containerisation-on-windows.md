@@ -276,6 +276,14 @@ source ../../docker/secrets/WEBAPP_ENV
 npm run start:dev
 ```
 Browse to **localhost:3000** where everything should now be running and available.
+## Common errors
+1. When trying to start the docker container that run the services, sometimes users get a permissions error with their postgis/postgis container (insert error here). 
+To fix this:
+      1. Open the infrastructure.yml change the postgres user to "root" 
+      2. run npm run docker:start-infrastructure 
+      3. once it's done run npm run docker:stop-infrastructure
+      4. revert the user back to "postgres" , and 
+      5. Finally run npm run docker:start-infrastructure it should be running with no issues
 ## Docker tips
 You can view the running containers:
 ```sh
@@ -304,12 +312,5 @@ A [Redis container](https://hub.docker.com/_/redis/) provides a substitute for [
 A [Postgres container](https://hub.docker.com/_/postgres/) provides a substitute for [Azure Database For Postgres](https://azure.microsoft.com/en-gb/services/postgresql/). A [pgadmin4 container](https://hub.docker.com/r/dpage/pgadmin4/#!) provides a Graphical User Interface for the Postgres container.
 ### Azure Storage
 An [Azurite container](https://hub.docker.com/_/microsoft-azure-storage-azurite) provides a substitute for [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction).
-## Common errors
-1. When trying to start the docker container that run the services, sometimes users get a permissions error with their postgis/postgis container (insert error here). 
-To fix this:
-      1. Open the infrastructure.yml change the postgres user to "root" 
-      2. run npm run docker:start-infrastructure 
-      3. once it's done run npm run docker:stop-infrastructure
-      4. revert the user back to "postgres" , and 
-      5. Finally run npm run docker:start-infrastructure it should be running with no issues
+
       
