@@ -3,7 +3,7 @@ import constants from '../../utils/constants.js'
 
 const url = constants.routes.MANAGE_BIODIVERSITY_GAINS
 const creditsPurchaseLink = '<a href="/credits-purchase/check-statutory-biodiversity-credits">Buy statutory biodiversity credits</a>'
-const combinedCaseLink = '<a href="/combined-case/combined-case-projects">Combined case projects</a>'
+const combinedCaseLink = '<a href="/combined-case/combined-case-projects">Register a gain site and record off site gains at the same time</a>'
 
 describe(url, () => {
   describe('GET', () => {
