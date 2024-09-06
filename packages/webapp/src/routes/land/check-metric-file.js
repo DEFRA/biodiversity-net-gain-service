@@ -26,10 +26,20 @@ const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
   const fileSize = request.yar.get(constants.redisKeys.METRIC_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
+
+  const registrationMetricUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION)
+  const developerMetricUploaded = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+
+  // Determine if both metrics have been uploaded
+  const bothMetricsUploaded = Boolean(registrationMetricUploaded) && Boolean(developerMetricUploaded)
+
   return {
     filename: fileLocation === null ? '' : path.parse(fileLocation).base,
     yesSelection: request.yar.get(constants.redisKeys.METRIC_UPLOADED_ANSWER),
-    fileSize: humanReadableFileSize
+    fileSize: humanReadableFileSize,
+    registrationMetricUploaded,
+    developerMetricUploaded,
+    bothMetricsUploaded
   }
 }
 
