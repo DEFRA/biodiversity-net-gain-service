@@ -1,3 +1,4 @@
+
 # Containerisation
 
 ## Usage
@@ -26,17 +27,18 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
 2. Restart your PC.
 
 3. Set Ubuntu 24.04 as Default:
-   To ensure you're running the version of Ubuntu you expect, open PowerShell and enter:
-   ```powershell
-   wsl --set-default Ubuntu-24.04
-   ```
+   
+   - To ensure you're running the version of Ubuntu you expect, open PowerShell and enter:
+      ```powershell
+      wsl --set-default Ubuntu-24.04
+      ```
 
 4. Verify installation:
    - Open PowerShell and run:
-     ```powershell
-     wsl --list --verbose
-     ```
-     Ubuntu 24.04 should be listed as the version.
+      ```powershell
+      wsl --list --verbose
+      ```
+      Ubuntu 24.04 should be listed as the version.
 5. Open WSL2 and update/upgrade Ubuntu:
    - Open WSL2 by opening PowerShell and entering:
      ```powershell
@@ -59,9 +61,9 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
 	sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs 2>/dev/null)-prod $(lsb_release -cs 2>/dev/null) main" > /etc/apt/sources.list.d/dotnetdev.list'
 	```
 	- Start the APT source update:
-	```bash
-	sudo apt-get update
-	```
+      ```bash
+      sudo apt-get update
+      ```
    - Install Azure core functions by running:
      ```bash
      sudo apt install azure-functions-core-tools-4
@@ -96,7 +98,7 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
 		
 	 
 	
-### Setting up Secrets
+## Setting up Secrets
 Before building and running the Docker containers, appropriate secrets files need creating in the [**Docker secrets**](../docker/secrets/) directory.
 | App     | Secret Name                  | Notes                                                                                                           |
 |---------|------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -188,7 +190,7 @@ See [GitHub actions workflow document](../.github/workflows/build.yaml) for buil
 The instructions upto this point only need to be **performed once on your machine**.
 The instructions below will need to be executed **every time** you want to **start the project**.
 
-### Hostname Resolution
+## Hostname Resolution
 During local development, each Docker container name defined in a docker-compose file **must** be resolvable from the local loopback address of the development machine. This means that the name of the services provided in the docker-compose file must be added to the hosts file, so that the service can communicate with each other.
 For example, on a Linux development machine with a local loopback address of 127.0.0.1, /etc/hosts **must** be modified. This can be done by:
 entering the following into your WSL2 command window:
@@ -212,7 +214,7 @@ Copy and paste the following entries above the comment saying "# The following l
 Save and close using:
 'CTRL + X', respond with 'Y' to save changes, click Enter to close the window.
 ********HERE
-### Development container build process
+## Development container build process
 ```sh
 # To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
@@ -250,7 +252,7 @@ source ../../docker/secrets/WEBAPP_ENV
 npm run start:dev
 ```
 Browse to localhost:3000 where everything should now be running and available.
-### Docker tips
+## Docker tips
 You can view the running containers:
 ```sh
 # view running containers
@@ -278,10 +280,12 @@ A [Redis container](https://hub.docker.com/_/redis/) provides a substitute for [
 A [Postgres container](https://hub.docker.com/_/postgres/) provides a substitute for [Azure Database For Postgres](https://azure.microsoft.com/en-gb/services/postgresql/). A [pgadmin4 container](https://hub.docker.com/r/dpage/pgadmin4/#!) provides a Graphical User Interface for the Postgres container.
 ### Azure Storage
 An [Azurite container](https://hub.docker.com/_/microsoft-azure-storage-azurite) provides a substitute for [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-introduction).
-### Common errors
-1. When trying to start the docker container that run the services, sometimes users get an error with their postgis/postgis container (insert error here). To fix:
+## Common errors
+1. When trying to start the docker container that run the services, sometimes users get a permissions error with their postgis/postgis container (insert error here). 
+To fix this:
       1. Open the infrastructure.yml change the postgres user to "root" 
       2. run npm run docker:start-infrastructure 
       3. once it's done run npm run docker:stop-infrastructure
       4. revert the user back to "postgres" , and 
       5. Finally run npm run docker:start-infrastructure it should be running with no issues
+      
