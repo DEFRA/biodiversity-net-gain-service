@@ -14,7 +14,7 @@ describe(url, () => {
           const http = require('../../../utils/http.js')
           const mockReference = 'BNGCRD-ABCDE-12345'
           const mockProjectName = 'mock project name'
-          const mockStatus = 'IN PROGRESS'
+          const mockStatus = 'In progress'
           const mockDate = new Date()
           http.postJson = jest.fn().mockImplementation(() => {
             return [{
