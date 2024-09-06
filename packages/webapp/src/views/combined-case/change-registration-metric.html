@@ -1,0 +1,50 @@
+{% extends 'form-layout.html' %}
+{% set pageHeading = "Are you sure you want to change your statutory biodiversity metric file?" %}
+
+{% block formContent %}
+<div class="govuk-body">
+    {% if err %}
+        {% include "errorbanner.html" %}
+    {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukRadios({
+                idPrefix: "changeRegistrationMetric",
+                name: "changeRegistrationMetric",
+                errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                    text: pageHeading,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    html: "<div class='govuk-hint'>Changing the statutory biodiversity metric file means you’ll need to upload a new development metric and match your habitats again.</div>"
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: "Yes, I want to change the statutory biodiversity metric file and match development habitats again",
+                        id: "change-registration-metric-yes",
+                        checked: changeRegistrationMetric === "yes"
+                    },
+                    {
+                        value: "no",
+                        text: "No, I do not want to change the statutory biodiversity metric file",
+                        id: "change-registration-metric-no",
+                        checked: changeRegistrationMetric === "no"
+                    }
+                ]
+            }) }}
+            {{ govukButton({
+                text: "Save and continue",
+                attributes: {
+                    id: "continue",
+                    "data-testid": "continue"
+                }
+            }) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
