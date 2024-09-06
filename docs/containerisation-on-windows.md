@@ -1,4 +1,3 @@
-
 # Containerisation
 
 ## Usage
@@ -27,7 +26,7 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
 2. Restart your PC.
 
 3. Set Ubuntu 24.04 as Default:
-   
+
    - To ensure you're running the version of Ubuntu you expect, open PowerShell and enter:
       ```powershell
       wsl --set-default Ubuntu-24.04
@@ -49,17 +48,17 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
      ```bash
      sudo apt update && sudo apt upgrade
      ```
-6. Install Azure core functions:
+6. Install Azure core functions in WSL2:
 	Instruction can also be found here: https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-csharp#install-the-azure-functions-core-tools
    - Install the Microsoft package repository GPG key, to validate package integrity:
-   ```bash
-	curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-	sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-	```
-	-Set up the APT source list before doing an APT update:
-	```bash
-	sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs 2>/dev/null)-prod $(lsb_release -cs 2>/dev/null) main" > /etc/apt/sources.list.d/dotnetdev.list'
-	```
+      ```bash
+      curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+      sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+      ```
+	- Set up the APT source list before doing an APT update:
+      ```bash
+      sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs 2>/dev/null)-prod $(lsb_release -cs 2>/dev/null) main" > /etc/apt/sources.list.d/dotnetdev.list'
+      ```
 	- Start the APT source update:
       ```bash
       sudo apt-get update
@@ -72,26 +71,35 @@ WSL2 is a Windows feature that allows you to run a Linux environment directly on
      ```bash
      func --version
      ```
-7. Install Git and clone the project:
+7. Install Node in WSL2 
+   - Install the latest version of NVM:
+      ```bash
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+      ```
+   - Install the latest LST version of NODE:
+      ```bash
+      nvm install --lts
+      ```
+8. Install Git and clone the project in WSL2:
    - Install Git with:
-     ```bash
-     sudo apt install git
-     ```
+      ```bash
+      sudo apt install git
+      ```
    - Clone the BNG project:
-   ```bash
-   git clone https://github.com/DEFRA/biodiversity-net-gain-service.git
-   ```
-   
-8. Install VSCode:
+      ```bash
+      git clone https://github.com/DEFRA/biodiversity-net-gain-service.git
+      ```
+
+9. Install VSCode in WSL2:
    - Change directory so that you're inside the BNG project and install VSCode by entering:
-     ```bash
-     code
+      ```bash
+      code
      ```
-	 Once opened install the wsl extension for VSCode by searching for 
-	 ```
-	 @exe:"wsl"
-	 ```
-9. Accessing wsl project folder from VSCode
+- Once opened install the wsl extension for VSCode by searching for 
+      ```
+      @exe:"wsl"
+      ```
+10. Accessing wsl project folder from VSCode
 	- Click the icon with two arrows pointing at each other (><) in the bottom left of the VSCode window. Hovering over the icon should show text saying "Open a Remote Window"
 	- Once the icon is clicked select the "Connect to WSL using Distro" option, click on the Ubuntu-24
 	- Open the cloned BNG folder by clicking File>Open Folder..., then select the "biodiversity-net-gain-service" from the dropdown, press Ok
@@ -106,7 +114,6 @@ Before building and running the Docker containers, appropriate secrets files nee
 | postgis | POSTGRES_PASSWORD            | In the Docker secrets directory, create a file called POSTGRES_PASSWORD containing the password                 |
 | postgis | DATABASE_VERSION_CONTROL_ENV | In the Docker secrets directory, create a file called DATABASE_VERSION_CONTROL_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [database-version-control](../packages/database-version-control/) directory. |
 | webapp  | WEBAPP_ENV                   | In the Docker secrets directory, create a file called WEBAPP_ENV containing the template below. For local development, this can be achieved by running the command **npm local:install** from the [webapp](../packages/webapp/) directory. |
-
 Create the four files shown in the table above, file names should match the 'Secret Names' in column 2
  
 ### DATABASE_VERSION_CONTROL_ENV template
@@ -123,7 +130,6 @@ export POSTGRES_BNG_CLIENT_ID=
 export POSTGRES_CONNECTION_STRING=
 ```
 Note that this secrets template is prepopulated with variables necessary for locally run containers. See the database-version-control ReadMe for further information on variables.
-
 ### WEBAPP_ENV template
 Populate the WEBAPP_ENV using this template:
 Note that this secrets template is prepopulated with variables necessary for locally run containers. See the webapp ReadMe for further information on variables.
@@ -189,7 +195,6 @@ export ENABLE_ROUTE_SUPPORT_FOR_COMBINED_CASE_JOURNEY="Y"
 See [GitHub actions workflow document](../.github/workflows/build.yaml) for build and CI details.
 The instructions upto this point only need to be **performed once on your machine**.
 The instructions below will need to be executed **every time** you want to **start the project**.
-
 ## Hostname Resolution
 When working on your local development environment with Docker, it’s essential that each Docker container’s name (as defined in your docker-compose file) can be resolved from your machine’s local loopback address. In practical terms, this means that the services listed in your docker-compose file need to be added to the hosts file. By doing so, these services can communicate with each other. For instance, if you’re using a Linux development machine with a local loopback address of 127.0.0.1, you’ll modify the **/etc/hosts** file accordingly. To achieve this, simply enter the following command in your WSL2 command window
 ```bash
@@ -213,12 +218,27 @@ Save and close using:
 'CTRL + X', respond with 'Y' to save changes, click Enter to close the window.
 ********HERE
 ## Development container build process
+Install the dependencies needed to run the project perform the following commands in the root directory of the BNG project:
 
-Install the dependencies needed to run the project by running this command from the root directory:
-```bash
-npm i
-```
+- Remove node modules:
+	```bash
+	rm -rf node_modules
+	```
 
+- Remove package-lock.json files:
+	```bash
+	rm package-lock.json
+	```
+	
+- Clear cache
+	```bash
+	npm cache clean --force
+	```
+	
+- Install required dependencies:
+	```bash
+	npm i
+	```
 To build the application images, local dev infrastructure and start containers locally that support development you'll need to run the following commands in the root directory of the project:
 ```sh
 npm run docker:build-services
