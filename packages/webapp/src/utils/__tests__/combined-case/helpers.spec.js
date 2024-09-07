@@ -34,13 +34,13 @@ describe('processMetricData', () => {
     session.get.mockImplementation((key) => {
       if (key === constants.redisKeys.METRIC_DATA) {
         return {
-          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10 }],
-          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5 }]
+          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10, 'Off-site reference': '1234' }],
+          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5, 'Off-site reference': '1234' }]
         }
       } else if (key === constants.redisKeys.DEVELOPER_METRIC_DATA) {
         return {
-          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15 }],
-          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2 }]
+          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15, 'Off-site reference': '1234' }],
+          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2, 'Off-site reference': '1234' }]
         }
       }
       return null
@@ -64,6 +64,7 @@ describe('processMetricData', () => {
           state: 'Habitat',
           size: 10,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
         }),
         expect.objectContaining({
@@ -74,6 +75,7 @@ describe('processMetricData', () => {
           state: 'Habitat',
           size: 5,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
         })
       ]
@@ -88,6 +90,7 @@ describe('processMetricData', () => {
           id: '0',
           size: 15,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
         },
         {
@@ -99,6 +102,7 @@ describe('processMetricData', () => {
           id: '1',
           size: 2,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
         }
       ]
