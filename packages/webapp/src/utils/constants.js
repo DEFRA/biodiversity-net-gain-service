@@ -67,6 +67,7 @@ const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-detai
 const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
+const JOURNEY_START_SECTION_ID = 'journey-start-section-id'
 const APPLICANT_INFORMATION_SECTION_ID = 'applicant-information'
 const LAND_OWNERSHIP_SECTION_ID = 'land-ownership'
 const LAND_BOUNDARY_SECTION_ID = 'land-boundary'
@@ -200,7 +201,8 @@ const redisKeys = {
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT,
-  PRIMARY_ROUTE
+  PRIMARY_ROUTE,
+  JOURNEY_START_SECTION_ID
 }
 
 let routes = {
