@@ -47,6 +47,7 @@ const getRegistrationDetails = (request, applicationDetails) => {
     ...geospatialOrLandBoundaryContext(request),
     ...applicationInformationContext(request.yar),
     landownershipFilesRows: getLandOwnershipRows(applicationDetails, applicationType),
+    landownershipFilesRowsForGenerateSummaryList: getLandOwnershipRowsForGenerateSummaryList(applicationDetails, applicationType),
     anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
@@ -85,6 +86,28 @@ const getLandOwnershipRows = (applicationDetails, applicationType) => {
             }
           ]
         }
+      }
+    )
+  }
+  return rows
+}
+
+const getLandOwnershipRowsForGenerateSummaryList = (applicationDetails, applicationType) => {
+  const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+  const changeHref = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST : constants.routes.LAND_OWNERSHIP_PROOF_LIST
+  const landOwnershipFileNames = getCombinedFileNamesByType(applicationDetails.files, 'land-ownership')
+  const rows = []
+  if (landOwnershipFileNames.length > 0) {
+    const fileText = getFileHeaderPrefix(landOwnershipFileNames)
+    rows.push(
+      {
+
+        text: `Proof of land ownership ${fileText} uploaded`,
+        value: landOwnershipFileNames.join('<br>'),
+        valueDataTestId: 'proof-land-ownership-file-name-value',
+        visuallyHiddenText: ' land boundary file',
+        href: changeHref,
+        show: true
       }
     )
   }

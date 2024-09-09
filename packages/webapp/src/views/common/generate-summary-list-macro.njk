@@ -5,6 +5,7 @@
 
     Parameters:
     - summary: A dictionary containing the configuration and data for the summary list. The key attribute is `rows` which contains an array of individual row configurations.
+    - summary.sectionId: If specified then a `journey-start-section-id` query param with this value will be appended to the Change links.
 
     Row Configuration:
     Each row configuration can have the following attributes:
@@ -68,7 +69,7 @@
                     actions: {
                         items: [
                             {
-                                href: item.href,
+                                href: (item.href + '?journey-start-section-id=' + summary.sectionId if summary.sectionId else item.href),
                                 text: 'Change',
                                 visuallyHiddenText: item.visuallyHiddenText,
                                 classes: item.actionClasses
