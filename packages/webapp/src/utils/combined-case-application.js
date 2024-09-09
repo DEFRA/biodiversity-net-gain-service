@@ -60,9 +60,9 @@ const calculateGainSite = session => {
   const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
   const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
 
-  const habitats = matchedHabitats.filter(h => h.state === 'Habitat' && h.matchedHabitatId).map(h => h.offsiteReference)
-  const hedges = matchedHabitats.filter(h => h.state === 'Hedge' && h.matchedHabitatId).map(h => h.offsiteReference)
-  const watercourses = matchedHabitats.filter(h => h.state === 'Watercourse' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const habitats = matchedHabitats?.filter(h => h.state === 'Habitat' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const hedges = matchedHabitats?.filter(h => h.state === 'Hedge' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const watercourses = matchedHabitats?.filter(h => h.state === 'Watercourse' && h.matchedHabitatId).map(h => h.offsiteReference)
   const habitatRefs = [...new Set(habitats)]
   const hedgeRefs = [...new Set(hedges)]
   const watercourseRefs = [...new Set(watercourses)]
