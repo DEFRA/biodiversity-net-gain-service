@@ -1,11 +1,20 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (_, h) => {
+  get: async (request, h) => {
     return h.view(constants.views.COMBINED_CASE_CHANGE_REGISTRATION_METRIC)
   },
-  post: async (_, h) => {
-    return h.view(constants.views.COMBINED_CASE_CHANGE_REGISTRATION_METRIC)
+  post: async (request, h) => {
+    // console.log('request', request)
+    const changeRegistrationMetric = request.payload.changeRegistrationMetric
+
+    if (changeRegistrationMetric === 'yes') {
+      console.log('changeRegistrationMetric YESSSSSS')
+      return h.redirect('upload-metric')
+    } else {
+      console.log('changeRegistrationMetric NOOOOOOO')
+      return h.redirect('tasklist')
+    }
   }
 }
 
