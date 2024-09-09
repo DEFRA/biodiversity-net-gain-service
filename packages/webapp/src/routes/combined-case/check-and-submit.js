@@ -31,7 +31,7 @@ const handlers = {
       {
         ...getRegistrationDetails(request, applicationDetails),
         ...getDeveloperDetails(request, request.yar, currentOrganisation),
-        SECTION_IDS: constants.SECTION_IDS
+        ...constants.SECTION_IDS
       }
     )
   },
