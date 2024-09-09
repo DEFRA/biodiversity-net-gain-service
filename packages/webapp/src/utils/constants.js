@@ -67,6 +67,12 @@ const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-detai
 const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
+const APPLICANT_INFORMATION_SECTION_ID = 'applicant-information'
+const LAND_OWNERSHIP_SECTION_ID = 'land-ownership'
+const LAND_BOUNDARY_SECTION_ID = 'land-boundary'
+const BIODIVERSITY_METRIC_SECTION_ID = 'biodiversity-metric'
+const LEGAL_AGREEMENT_SECTION_ID = 'legal-agreement'
+const ALLOCATION_INFORMATION_SECTION_ID = 'allocation-information'
 
 const applicationTypes = {
   REGISTRATION,
@@ -305,6 +311,15 @@ const primaryPages = {
   [COMBINED_CASE]: [`/${combinedCaseConstants.routes.COMBINED_CASE_TASK_LIST}`, `/${combinedCaseConstants.routes.COMBINED_CASE_CHECK_AND_SUBMIT}`]
 }
 
+const SECTION_IDS = {
+  APPLICANT_INFORMATION_SECTION_ID,
+  LAND_OWNERSHIP_SECTION_ID,
+  LAND_BOUNDARY_SECTION_ID,
+  BIODIVERSITY_METRIC_SECTION_ID,
+  LEGAL_AGREEMENT_SECTION_ID,
+  ALLOCATION_INFORMATION_SECTION_ID
+}
+
 export default Object.freeze({
   applicationTypes,
   applicantTypes,
@@ -361,5 +376,6 @@ export default Object.freeze({
   COMBINED_CASE_METRIC_VALID_REFERRERS,
   COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
-  reusedRoutes
+  reusedRoutes,
+  SECTION_IDS
 })

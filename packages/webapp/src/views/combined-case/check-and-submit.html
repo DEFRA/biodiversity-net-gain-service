@@ -72,18 +72,18 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
 
-      <h2 class="govuk-heading-m">Applicant information</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.APPLICANT_INFORMATION_SECTION_ID }}">Applicant information</h2>
       {% include "common/applicant-information.html" %}
 
       <!--Land ownership-->
-      <h2 class="govuk-heading-m">Land ownership</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.LAND_OWNERSHIP_SECTION_ID }}">Land ownership</h2>
       {{ govukSummaryList({
         classes: 'govuk-!-margin-bottom-9',
         rows: landownershipFilesRows
       }) }}
 
       <!--Land boundary-->
-      <h2 class="govuk-heading-m">Biodiversity gain site boundary</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.LAND_BOUNDARY_SECTION_ID }}">Biodiversity gain site boundary</h2>
 
       {% set landBoundaryUploadTypeElement = {
         key: {
@@ -178,7 +178,7 @@
       }) }}
 
       <!--Biodiversity Metric-->
-      <h2 class="govuk-heading-m">Statutory biodiversity metric and habitat declarations</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.BIODIVERSITY_METRIC_SECTION_ID }}">Statutory biodiversity metric and habitat declarations</h2>
 
       {{ govukSummaryList({
         classes: 'govuk-!-margin-bottom-9',
@@ -238,14 +238,14 @@
       }) }}
 
       <!-- Legal agreement -->
-      <h2 class="govuk-heading-m">Legal information</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.LEGAL_AGREEMENT_SECTION_ID }}">Legal information</h2>
       {% set showLocalLandCharge = true %}
       {% set hrefPath = '/combined-case' %}
       {% include "common/legal-agreement-summary.html" %}
 
 
       <!-- Allocation information -->
-      <h2 class="govuk-heading-m">Allocation information</h2>
+      <h2 class="govuk-heading-m" id="{{ SECTION_IDS.ALLOCATION_INFORMATION_SECTION_ID }}">Allocation information</h2>
 
       {{ generateSummaryList({
         rows: developmentInfoRowList,
