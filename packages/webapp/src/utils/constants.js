@@ -277,6 +277,13 @@ for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`
 }
 
+// The answerIdHandler plugin tracks which item is being changed on specific pages so we focus on that item when the
+// user returns to the page. The answerIdRoutes array specifies which pages we do this for. Note that we must define
+// this _after_ we've added `/` to the start of each route as our matching in answerIdHandler will fail otherwise.
+const answerIdRoutes = [
+  routes.COMBINED_CASE_CHECK_AND_SUBMIT
+]
+
 const minStartDates = {
   LEGAL_AGREEMENT_MIN_START_DATE,
   HABITAT_WORKS_MIN_START_DATE,
@@ -363,5 +370,6 @@ export default Object.freeze({
   COMBINED_CASE_METRIC_VALID_REFERRERS,
   COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
-  reusedRoutes
+  reusedRoutes,
+  answerIdRoutes
 })

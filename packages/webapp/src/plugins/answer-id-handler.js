@@ -27,8 +27,8 @@ const answerIdHandler = {
           return h.redirect(url.toString())
         }
 
-        // We only need to check if the user came from a specific answer on check and submit
-        if (request.path !== constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT) {
+        // We only need to check if the user came from a specific answer on pages specified in constants.answerIdRoutes
+        if (!constants.answerIdRoutes.includes(request.path)) {
           return h.continue
         }
 
