@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 
 const handlers = {
-  get: async (request, h) => {
+  get: async (_, h) => {
     return h.view(constants.views.COMBINED_CASE_CHANGE_REGISTRATION_METRIC)
   },
   post: async (request, h) => {
@@ -9,10 +9,21 @@ const handlers = {
     const changeRegistrationMetric = request.payload.changeRegistrationMetric
 
     if (changeRegistrationMetric === 'yes') {
-      console.log('changeRegistrationMetric YESSSSSS')
+      // clear registration metric data
+      //      registration metric data will be removed by upload-metric.js
+      // clear developer metric data
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_DATA)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME)
+
+      // clear matching data
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+
       return h.redirect('upload-metric')
     } else {
-      console.log('changeRegistrationMetric NOOOOOOO')
       return h.redirect('tasklist')
     }
   }
