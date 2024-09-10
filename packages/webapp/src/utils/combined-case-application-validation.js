@@ -22,13 +22,12 @@ const combinedCaseValidation = Joi.object({
       then: applicantAddressSchema,
       otherwise: Joi.forbidden()
     }),
+    organisation: Joi.object({
+      id: Joi.string().required(),
+      address: applicantAddressSchema
+    }).optional(),
     registrationDetails: Joi.object({
       landowners: Joi.object(),
-      organisation: Joi.object({
-        id: Joi.string().required(),
-        address: applicantAddressSchema
-      }).optional(),
-      // BNGP-4130-relax-metric-check-and-submit-validation
       habitats: Joi.object({
         baseline: Joi.array().items(
           Joi.object({
