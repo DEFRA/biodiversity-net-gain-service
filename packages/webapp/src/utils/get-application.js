@@ -40,6 +40,8 @@ const getApplication = async (request, h, applicationType) => {
       await saveApplicationSessionIfNeeded(request.yar, true)
       // Restore session to Yar object.
       request.yar.set(session)
+      // Clear any value of JOURNEY_START_ANSWER_ID as this is not relevant when reloading an application
+      request.yar.clear(constants.redisKeys.JOURNEY_START_ANSWER_ID)
 
       // Redirect to task list or dashboard if unknown applicationType
       const route = applicationTypeRoutes[applicationType]
