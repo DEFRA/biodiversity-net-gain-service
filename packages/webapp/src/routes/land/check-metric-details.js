@@ -6,8 +6,11 @@ import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/t
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.HABITAT_INFO)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      return isCombinedCase
+        ? h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+        : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
