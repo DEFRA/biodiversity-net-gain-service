@@ -27,18 +27,26 @@ const answerIdHandler = {
           return h.redirect(url.toString())
         }
 
+        // If the user breaks out of the journey (for example, by clicking the service name in the header) then we want
+        // to clear journey-start-answer-id to ensure the user isn't taken to an answer that is no longer relevant when
+        // they next visit the page they came from. We check to see if they're visiting a page outside of any regular
+        // journey (as defined in constants.answerIdClearRoutes) and clear journey-start-answer-id if so.
+        if (constants.answerIdClearRoutes.includes(request.path)) {
+          request.yar.clear(constants.redisKeys.JOURNEY_START_ANSWER_ID)
+          await request.yar.commit(h)
+        }
+
         // We only need to check if the user came from a specific answer on pages specified in constants.answerIdRoutes
         if (!constants.answerIdRoutes.includes(request.path)) {
           return h.continue
         }
 
         const journeyStartAnswerId = request.yar.get(constants.redisKeys.JOURNEY_START_ANSWER_ID, true)
+        // We manually commit changes because the `true` option cleared any existing value
+        await request.yar.commit(h)
         if (!journeyStartAnswerId) {
           return h.continue
         }
-
-        // The `true` option when reading from yar cleared any existing value; we must manually commit the change inside onPreResponse
-        await request.yar.commit(h)
 
         const url = new URL(request.url)
         url.hash = `#${journeyStartAnswerId}`

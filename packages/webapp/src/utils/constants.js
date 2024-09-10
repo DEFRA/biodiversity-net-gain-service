@@ -284,6 +284,12 @@ const answerIdRoutes = [
   routes.COMBINED_CASE_CHECK_AND_SUBMIT
 ]
 
+// The answerIdClearRoutes array specifies pages where we clear any stored answer id because they signify a user has
+// "broken out" of their journey and therefore any stored answer id is no longer relevant.
+const answerIdClearRoutes = [
+  routes.COMBINED_CASE_PROJECTS
+]
+
 const minStartDates = {
   LEGAL_AGREEMENT_MIN_START_DATE,
   HABITAT_WORKS_MIN_START_DATE,
@@ -371,5 +377,6 @@ export default Object.freeze({
   COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
   reusedRoutes,
-  answerIdRoutes
+  answerIdRoutes,
+  answerIdClearRoutes
 })

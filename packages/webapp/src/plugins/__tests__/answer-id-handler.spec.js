@@ -38,6 +38,14 @@ describe('answer-id-handler', () => {
     expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toBeUndefined()
   })
 
+  it('Should clear the value of JOURNEY_START_ANSWER_ID but not redirect if the path is specified in constants.answerIdClearRoutes', async () => {
+    const application = JSON.parse(testApplication.dataString)
+    application[constants.redisKeys.JOURNEY_START_ANSWER_ID] = 'test-answer-id'
+    const response = await submitGetRequest({ url: constants.routes.COMBINED_CASE_PROJECTS }, 200, application, { expectedNumberOfPostJsonCalls: 1 }) // This route makes a postJson call so we need to specify this in our call to submitGetRequest
+    expect(forwardedUrl(response).pathname).toBeUndefined()
+    expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toBeUndefined()
+  })
+
   it('Should not redirect if path is not combined case check and submit', async () => {
     const application = JSON.parse(testApplication.dataString)
     application[constants.redisKeys.JOURNEY_START_ANSWER_ID] = 'test-answer-id'
