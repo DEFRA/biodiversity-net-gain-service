@@ -30,8 +30,7 @@ const handlers = {
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
       {
         ...getRegistrationDetails(request, applicationDetails),
-        ...getDeveloperDetails(request, request.yar, currentOrganisation),
-        ...constants.SECTION_IDS
+        ...getDeveloperDetails(request, request.yar, currentOrganisation)
       }
     )
   },
