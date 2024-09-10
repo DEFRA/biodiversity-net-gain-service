@@ -105,6 +105,7 @@ const getLandOwnershipRowsForGenerateSummaryList = (applicationDetails, applicat
         text: `Proof of land ownership ${fileText} uploaded`,
         value: landOwnershipFileNames.join('<br>'),
         valueDataTestId: 'proof-land-ownership-file-name-value',
+        valueId: 'proof-land-ownership-file-name-value',
         visuallyHiddenText: ' land boundary file',
         href: changeHref,
         show: true

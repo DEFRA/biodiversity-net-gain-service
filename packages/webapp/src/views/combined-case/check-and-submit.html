@@ -92,27 +92,30 @@
             text: 'File uploaded',
             value: landBoundaryFileName,
             valueDataTestId: 'land-boundary-file-name-value',
+            valueId: 'land-boundary-file-name-value',
             visuallyHiddenText: ' land boundary file',
             href: checkLandBoundaryLink,
             show: true
           },
           {
-            "text": "Grid reference",
-            "value": gridReference,
-            "valueDataTestId": "grid-reference-value",
-            "visuallyHiddenText": " grid reference",
-            "href": reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE,
-            "classes": hideClass(geospatial),
-            "show": true
+            text: 'Grid reference',
+            value: gridReference,
+            valueDataTestId: 'grid-reference-value',
+            valueId: 'grid-reference-value',
+            visuallyHiddenText: ' grid reference',
+            href: reusedRoutes.COMBINED_CASE_ADD_GRID_REFERENCE,
+            classes: hideClass(geospatial),
+            show: true
           },
           {
-            "text": "Area in hectares",
-            "value": areaInHectare,
-            "valueDataTestId": "area-in-hectares-value",
-            "visuallyHiddenText": " area in hectares",
-            "href": reusedRoutes.COMBINED_CASE_ADD_HECTARES,
-            "classes": hideClass(geospatial),
-            "show": true
+            text: "Area in hectares",
+            value: areaInHectare,
+            valueDataTestId: 'area-in-hectares-value',
+            valueId: 'area-in-hectares-value',
+            visuallyHiddenText: ' area in hectares',
+            href: reusedRoutes.COMBINED_CASE_ADD_HECTARES,
+            classes: hideClass(geospatial),
+            show: true
           }
         ],
         sectionId: LAND_BOUNDARY_SECTION_ID
@@ -124,28 +127,31 @@
         classes: 'govuk-!-margin-bottom-9',
         rows: [
           {
-            "text": "Statutory biodiversity metric file uploaded",
-            "value": getFileNameByType(application.files, 'metric'),
-            "valueDataTestId": "metric-file-name-value",
-            "visuallyHiddenText": " Biodiversity Metric file",
-            "href": reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC,
-            "show": true
+            text: 'Statutory biodiversity metric file uploaded',
+            value: getFileNameByType(application.files, 'metric'),
+            valueDataTestId: 'metric-file-name-value',
+            valueId: 'metric-file-name-value',
+            visuallyHiddenText: ' Biodiversity Metric file',
+            href: reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC,
+            show: true
           },
           {
-            "text": "Habitat baseline information is correct",
-            "value": "Yes",
-            "valueDataTestId": "baseline-biodiversity-value-declaration",
-            "visuallyHiddenText": " Baseline biodiversity value declaration",
-            "href": reusedRoutes.COMBINED_CASE_CHECK_HABITAT_BASELINE,
-            "show": true
+            text: 'Habitat baseline information is correct',
+            value: 'Yes',
+            valueDataTestId: 'baseline-biodiversity-value-declaration',
+            valueId: 'baseline-biodiversity-value-declaration',
+            visuallyHiddenText: ' Baseline biodiversity value declaration',
+            href: reusedRoutes.COMBINED_CASE_CHECK_HABITAT_BASELINE,
+            show: true
           },
           {
-            "text": "Habitat creation and enhancement information is correct",
-            "value": "Yes",
-            "valueDataTestId": "habitat-creation-and-enhancement-declaration",
-            "visuallyHiddenText": " Habitat creation and enhancement declaration",
-            "href": reusedRoutes.COMBINED_CASE_CHECK_HABITAT_CREATED,
-            "show": true
+            text: 'Habitat creation and enhancement information is correct',
+            value: 'Yes',
+            valueDataTestId: 'habitat-creation-and-enhancement-declaration',
+            valueId: 'habitat-creation-and-enhancement-declaration',
+            visuallyHiddenText: ' Habitat creation and enhancement declaration',
+            href: reusedRoutes.COMBINED_CASE_CHECK_HABITAT_CREATED,
+            show: true
           }
         ],
         sectionId: BIODIVERSITY_METRIC_SECTION_ID
