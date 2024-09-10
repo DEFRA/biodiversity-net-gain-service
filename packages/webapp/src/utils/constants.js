@@ -281,7 +281,8 @@ for (const [key, value] of Object.entries(routes)) {
 // user returns to the page. The answerIdRoutes array specifies which pages we do this for. Note that we must define
 // this _after_ we've added `/` to the start of each route as our matching in answerIdHandler will fail otherwise.
 const answerIdRoutes = [
-  routes.COMBINED_CASE_CHECK_AND_SUBMIT
+  routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+  routes.COMBINED_CASE_TASK_LIST
 ]
 
 // The answerIdClearRoutes array specifies pages where we clear any stored answer id because they signify a user has

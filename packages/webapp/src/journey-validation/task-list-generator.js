@@ -137,13 +137,14 @@ const getIndividualTaskStatus = (session, taskId) => {
   return status
 }
 
-const getTaskItems = (task, session) => {
+// enableJourneyStart paramater is used to enable the journey-start-answer-id query param as used by the answerIdHandler
+const getTaskItems = (task, session, enableJourneyStart) => {
   const calculatedStatus = checkTaskStatus(task, session)
   return {
     id: task.id,
     title: { html: `<span id='${task.id}'>${task.title}</span>` },
     status: calculatedStatus.status,
-    href: calculatedStatus.url
+    href: enableJourneyStart ? `${calculatedStatus.url}?journey-start-answer-id=${task.id}` : calculatedStatus.url
   }
 }
 
@@ -151,7 +152,7 @@ const retrieveTask = (routeDefinitions, startUrl) => {
   return routeDefinitions.find(route => route.startUrl === startUrl) || null
 }
 
-const generateTaskList = (taskSections, session) => {
+const generateTaskList = (taskSections, session, enableJourneyStart = false) => {
   const locked = (section, taskList) => {
     if (section.dependantIds && section.dependantIds.length > 0) {
       for (const dependantId of section.dependantIds) {
@@ -169,7 +170,7 @@ const generateTaskList = (taskSections, session) => {
 
   const taskList = taskSections.map(section => ({
     taskTitle: section.title,
-    items: section.tasks.map(task => getTaskItems(task, session)),
+    items: section.tasks.map(task => getTaskItems(task, session, enableJourneyStart)),
     id: section.id,
     dependantIds: section.dependantIds
   }))
@@ -213,7 +214,7 @@ const getTaskList = (journey, session) => {
       taskList.push(structuredClone(allocationCheckYourAnswers))
       break
     case constants.applicationTypes.COMBINED_CASE:
-      taskList = generateTaskList(combinedCaseTaskSections, session)
+      taskList = generateTaskList(combinedCaseTaskSections, session, true)
       taskList.push(structuredClone(combinedCaseCheckYourAnswers))
       break
     default:
