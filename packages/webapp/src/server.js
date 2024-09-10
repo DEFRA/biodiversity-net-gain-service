@@ -9,7 +9,7 @@ import logging from './plugins/logging.js'
 import session from './plugins/session.js'
 import cache from './plugins/cache.js'
 import header from './plugins/header.js'
-import sectionIdHandler from './plugins/section-id-handler.js'
+import answerIdHandler from './plugins/answer-id-handler.js'
 import onPreHandler from './plugins/on-pre-handler.js'
 import onPostHandler from './plugins/on-post-handler.js'
 import primaryPage from './plugins/primary-page.js'
@@ -46,7 +46,7 @@ const init = async server => {
   await server.register(logging)
   await server.register(session)
   await server.register(Blipp)
-  await server.register(sectionIdHandler)
+  await server.register(answerIdHandler)
   await server.register(onPreHandler)
   await server.register(onPostHandler)
   await server.register(primaryPage)

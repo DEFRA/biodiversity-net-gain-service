@@ -67,7 +67,7 @@ const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-detai
 const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
-const JOURNEY_START_SECTION_ID = 'journey-start-section-id'
+const JOURNEY_START_ANSWER_ID = 'journey-start-answer-id'
 
 const applicationTypes = {
   REGISTRATION,
@@ -196,7 +196,7 @@ const redisKeys = {
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT,
   PRIMARY_ROUTE,
-  JOURNEY_START_SECTION_ID
+  JOURNEY_START_ANSWER_ID
 }
 
 let routes = {
