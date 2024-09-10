@@ -13,7 +13,6 @@ const handlers = {
         : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
 
     const registrationMetricUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     const developerMetricUploaded = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
