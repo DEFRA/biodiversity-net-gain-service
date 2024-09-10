@@ -5,7 +5,7 @@ $govuk-fonts-path: '#{$govuk-assets-path}fonts/';
 $govuk-global-styles: true;
 $govuk-font-family: "Arial", sans-serif !important;
 
-@import "node_modules/govuk-frontend/govuk/all";
+@import "node_modules/govuk-frontend/dist/govuk/all";
 @import "node_modules/@ministryofjustice/frontend/moj/all";
 @import "./patterns/login-nav";
 @import "./patterns/summary-list";

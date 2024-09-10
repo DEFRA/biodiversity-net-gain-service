@@ -99,6 +99,21 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.REGISTER_LAND_TASK_LIST)
     })
+
+    it('should redirect to the combined case task list if this is a combined case application and required data is not found', async () => {
+      redisMap.set(constants.redisKeys.LAND_OWNERSHIP_PROOFS, [])
+      const request = {
+        yar: redisMap,
+        query: { id: '2' },
+        _route: {
+          path: '/combined-case/check-ownership-proof-file'
+        }
+      }
+
+      await checkOwnershipProofFile[0].handler(request, h)
+
+      expect(viewResult).toEqual(constants.routes.COMBINED_CASE_TASK_LIST)
+    })
   })
 
   describe('POST', () => {
