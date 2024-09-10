@@ -35,16 +35,26 @@
             {% set errorHtmlAttribute = 'class="govuk-error-message"' %}
         {% endif %}
 
+        {% set idAttribute = '' %}
+        {% if item.valueId %}
+            {% set idAttribute = 'id="' + item.valueId + '"' %}
+        {% endif %}
+
+        {% set dataTestIdAttribute = '' %}
+        {% if item.valueDataTestId %}
+            {% set dataTestIdAttribute = 'data-testid="' + item.valueDataTestId + '"' %}
+        {% endif %}
+
         {# Only process rows which are flagged for display #}
         {% if item.show == true %}
             {# Set the value HTML #}
             {% if item.subList == true %}
                 {% set valueHtml %}
-                  {% include "common/summary-sub-list.html" %}
+                    {% include "common/summary-sub-list.html" %}
                 {% endset %}
             {% else %}
                 {% set valueHtml %}
-                  <span id="{{item.valueId}}}" data-testid="{{item.valueDataTestId}}" {{errorHtmlAttribute}}>{{item.value | safe}}</span>
+                    <span {{ idAttribute | safe }} {{ dataTestIdAttribute | safe }} {{errorHtmlAttribute}}>{{item.value | safe}}</span>
                 {% endset %}
             {% endif %}
             {# Construct each row and append to rows array #}
@@ -69,7 +79,7 @@
                     actions: {
                         items: [
                             {
-                                href: (item.href + '?journey-start-section-id=' + summary.sectionId if summary.sectionId else item.href),
+                                href: (item.href + '?journey-start-section-id=' + item.valueId if item.valueId else item.href),
                                 text: 'Change',
                                 visuallyHiddenText: item.visuallyHiddenText,
                                 classes: item.actionClasses
