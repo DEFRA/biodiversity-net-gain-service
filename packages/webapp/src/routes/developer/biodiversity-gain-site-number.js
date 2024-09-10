@@ -33,9 +33,17 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
   // Allow a specific mock value for acceptance tests so that we don't need to add test
   // values to the production system. If mock value is set and matches what is entered,
   // then don't call API and don't raise an error
+  console.log(`\nbgsNumber: ${bgsNumber}`)
+  console.log(`BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE: ${BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE}`)
+  console.log(`process.env.BACKEND_API_MOCK_BGS_FOR_ACCEPTANCE: ${process.env.BACKEND_API_MOCK_BGS_FOR_ACCEPTANCE}`)
   if (BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE && bgsNumber === BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE) {
+    console.log('Accepting mock value')
     return null
+  } else {
+    console.log(`${bgsNumber} did not match ${BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE}`)
   }
+
+  console.log('Here')
 
   if (!bgsNumber.trim()) {
     errorText = 'Enter your biodiversity gain site number'
