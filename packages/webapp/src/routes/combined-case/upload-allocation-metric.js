@@ -2,6 +2,7 @@ import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { processSuccessfulUpload, processErrorUpload, maximumFileSizeExceeded } from '../../utils/developer-upload-metric.js'
+import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -11,6 +12,17 @@ const handlers = {
     })
   },
   post: async (request, h) => {
+    const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+
+    if (metricUploadLocation) {
+      await deleteBlobFromContainers(metricUploadLocation)
+      request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+      request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
+      request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+    }
+
     const uploadConfig = buildConfig({
       sessionId: request.yar.id,
       fileExt: constants.metricFileExt,

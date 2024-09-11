@@ -56,6 +56,32 @@ describe(url, () => {
         }
       })
     })
+    it('should redirect to COMBINED_CASE_TASK_LIST view if this is a combined case application mandatory data missing', done => {
+      jest.isolateModules(async () => {
+        try {
+          const checkLandBoundary = require('../../land/check-land-boundary-details')
+          const redisMap = new Map()
+          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
+          let redirectArgs = ''
+          const request = {
+            yar: redisMap,
+            _route: {
+              path: '/combined-case/check-land-boundary-details'
+            }
+          }
+          const h = {
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+          await checkLandBoundary.default[0].handler(request, h)
+          expect(redirectArgs).toEqual([constants.routes.COMBINED_CASE_TASK_LIST])
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
   describe('POST', () => {
     it('should flow to register task list', done => {

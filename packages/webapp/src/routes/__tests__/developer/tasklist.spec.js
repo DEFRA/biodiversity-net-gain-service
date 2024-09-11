@@ -38,11 +38,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Applicant information',
-        tasks: [
+        items: [
           {
-            title: 'Add details about the applicant',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
+            title: { html: "<span id='applicant-details'>Add details about the applicant</span>" },
+            status: {
+              tag: {
+                html: '<span id="applicant-details-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
             id: 'applicant-details'
           }
         ]
@@ -51,34 +56,53 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add biodiversity gain site details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            title: { html: "<span id='gain-site-allocation-info'>Add biodiversity gain site details</span>" },
+            status: {
+              tag: {
+                html: '<span id="gain-site-allocation-info-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_BNG_NUMBER,
             id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { html: "<span id='add-devlopment-project-information'>Add development project details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Upload planning decision notice',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
+            title: { html: "<span id='planning-decision-notice'>Upload planning decision notice</span>" },
+            status: {
+              tag: {
+                html: '<span id="planning-decision-notice-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_UPLOAD_PLANNING_DECISION_NOTICE,
             id: 'planning-decision-notice'
           }
         ]
       })
       expect(contextResult.tasks.taskList[2]).toEqual({
         taskTitle: 'Submit your off-site gains information',
-        tasks: [
+        items: [
           {
-            title: 'Check your answers and submit',
-            status: 'CANNOT START YET',
-            url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+            title: { text: 'Check your answers and submit' },
+            status: {
+              tag: {
+                html: '<span id="check-your-answers-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
             id: 'check-your-answers'
           }
         ]
@@ -116,23 +140,33 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add biodiversity gain site details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_BNG_NUMBER,
+            title: { html: "<span id='gain-site-allocation-info'>Add biodiversity gain site details</span>" },
+            status: {
+              tag: {
+                html: '<span id="gain-site-allocation-info-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_BNG_NUMBER,
             id: 'gain-site-allocation-info'
           },
           {
-            title: 'Add development project details',
-            status: 'NOT STARTED',
-            url: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { html: "<span id='add-devlopment-project-information'>Add development project details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           },
           {
-            title: 'Upload planning decision notice',
-            status: 'COMPLETED',
-            url: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
+            title: { html: "<span id='planning-decision-notice'>Upload planning decision notice</span>" },
+            status: { html: '<span id="planning-decision-notice-status">Completed</span>' },
+            href: constants.routes.DEVELOPER_CHECK_PLANNING_DECISION_NOTICE_FILE,
             id: 'planning-decision-notice'
           }
         ]

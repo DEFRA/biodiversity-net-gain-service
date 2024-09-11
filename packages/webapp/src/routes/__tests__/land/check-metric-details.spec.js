@@ -52,6 +52,32 @@ describe(url, () => {
         }
       })
     })
+    it('should redirect to COMBINED_CASE_TASK_LIST view if a combined case application and mandatory data is missing', done => {
+      jest.isolateModules(async () => {
+        try {
+          const getHandler = checkMetricDetails[0].handler
+          const redisMap = new Map()
+          redisMap.set(constants.redisKeys.METRIC_LOCATION, undefined)
+          let redirectArgs = ''
+          const request = {
+            yar: redisMap,
+            _route: {
+              path: '/combined-case/check-metric-details'
+            }
+          }
+          const h = {
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+          await getHandler(request, h)
+          expect(redirectArgs).toEqual([constants.routes.COMBINED_CASE_TASK_LIST])
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
   describe('POST', () => {
     it('Should flow to register task list', async () => {

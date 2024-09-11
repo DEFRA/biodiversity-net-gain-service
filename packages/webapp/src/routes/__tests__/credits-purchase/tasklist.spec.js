@@ -38,11 +38,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Statutory biodiversity metric',
-        tasks: [
+        items: [
           {
-            title: 'Upload statutory biodiversity metric',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
+            title: { html: "<span id='upload-metric'>Upload statutory biodiversity metric</span>" },
+            status: {
+              tag: {
+                html: '<span id="upload-metric-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
             id: 'upload-metric'
           }
         ]
@@ -51,11 +56,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Development information',
-        tasks: [
+        items: [
           {
-            title: 'Add development project information',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+            title: { html: "<span id='add-devlopment-project-information'>Add development project information</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
             id: 'add-devlopment-project-information'
           }
         ]
@@ -64,11 +74,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Statutory biodiversity credits',
-        tasks: [
+        items: [
           {
-            title: 'Add statutory biodiversity credits',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
+            title: { html: "<span id='add-credits'>Add statutory biodiversity credits</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-credits-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
             id: 'add-credits'
           }
         ]
@@ -77,11 +92,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Purchase order',
-        tasks: [
+        items: [
           {
-            title: 'Add a purchase order number, if you have one',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
+            title: { html: "<span id='add-purchase-order'>Add a purchase order number, if you have one</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-purchase-order-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER,
             id: 'add-purchase-order'
           }
         ]
@@ -90,11 +110,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Customer due diligence (anti-money laundering)',
-        tasks: [
+        items: [
           {
-            title: 'Complete customer due diligence',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
+            title: { html: "<span id='customer-due-diligence'>Complete customer due diligence</span>" },
+            status: {
+              tag: {
+                html: '<span id="customer-due-diligence-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
             id: 'customer-due-diligence'
           }
         ]
@@ -103,11 +128,16 @@ describe(url, () => {
         dependantIds: [],
         id: null,
         taskTitle: 'Terms and conditions',
-        tasks: [
+        items: [
           {
-            title: 'Accept terms and conditions',
-            status: 'NOT STARTED',
-            url: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
+            title: { html: "<span id='terms-and-conditions'>Accept terms and conditions</span>" },
+            status: {
+              tag: {
+                html: '<span id="terms-and-conditions-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
             id: 'terms-and-conditions'
           }
         ]
