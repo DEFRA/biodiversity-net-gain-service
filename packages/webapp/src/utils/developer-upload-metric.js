@@ -52,11 +52,9 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
   }
 
   if (applicationType === constants.applicationTypes.COMBINED_CASE) {
-    // Check for matches
     processMetricData(request.yar)
     const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
     const registrationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
-
     const hasMatches = allocationHabitats.some(allocationHabitat => (getMatchingHabitats(allocationHabitat, registrationHabitats)).length > 0)
 
     request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
