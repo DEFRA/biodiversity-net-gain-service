@@ -143,7 +143,7 @@ const getMatchedHabitatsHtml = (habitats) => {
   let totalWatercourseUnits = 0
 
   habitats.forEach(item => {
-    if (Object.hasOwn(item, 'habitatUnitsDelivered')) {
+    if (item && Object.hasOwn(item, 'habitatUnitsDelivered')) {
       const habitatUnitsDelivered = item.habitatUnitsDelivered
 
       if (item.state === 'Habitat') {
@@ -169,7 +169,7 @@ const getMatchedHabitatsHtml = (habitats) => {
       items.forEach((item, index) => {
         const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
 
-        if (requiredProperties.every(prop => Object.hasOwn(item, prop))) {
+        if (item && requiredProperties.every(prop => Object.hasOwn(item, prop))) {
           itemsAdded += 1
           habitatDetails.push([
             { text: item.habitatType, ...baseRow },
