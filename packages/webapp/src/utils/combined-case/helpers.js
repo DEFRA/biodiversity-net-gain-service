@@ -122,6 +122,70 @@ const summariseHabitatMatches = (registrationHabitats, allocationHabitats) => {
   return matches
 }
 
+const displayUnitMap = {
+  hectares: 'ha',
+  kilometres: 'km'
+}
+
+const getMatchedHabitatsHtml = (habitats) => {
+  if (!habitats) {
+    return []
+  }
+
+  const habitatGroups = {
+    habitat: [],
+    hedgerow: [],
+    watercourse: []
+  }
+
+  let totalHabitatUnits = 0
+  let totalHedgeUnits = 0
+  let totalWatercourseUnits = 0
+
+  habitats.forEach(item => {
+    const habitatUnitsDelivered = item.habitatUnitsDelivered || 0
+
+    if (item.state === 'Habitat') {
+      habitatGroups.habitat.push(item)
+      totalHabitatUnits += habitatUnitsDelivered
+    } else if (item.state === 'Hedge') {
+      habitatGroups.hedgerow.push(item)
+      totalHedgeUnits += habitatUnitsDelivered
+    } else if (item.state === 'Watercourse') {
+      habitatGroups.watercourse.push(item)
+      totalWatercourseUnits += habitatUnitsDelivered
+    }
+  })
+
+  const habitatDetails = []
+
+  const addItemsWithTotal = (total, totalLabel, padFirstRow, items = []) => {
+    if (total > 0) {
+      items.forEach((item, index) => {
+        const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
+        if (item) {
+          habitatDetails.push([
+            { text: item.habitatType ?? '', ...baseRow },
+            { html: item.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
+            { html: `${item.size ?? ''}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits ?? ''}`, ...baseRow },
+            { html: `${(item.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
+          ])
+        }
+      })
+      habitatDetails.push([
+        { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
+        { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
+      ])
+    }
+  }
+
+  addItemsWithTotal(totalHabitatUnits, 'Total habitat units', false, habitatGroups.habitat)
+  addItemsWithTotal(totalHedgeUnits, 'Total hedgerow units', true, habitatGroups.hedgerow)
+  addItemsWithTotal(totalWatercourseUnits, 'Total watercourse units', true, habitatGroups.watercourse)
+
+  return habitatDetails
+}
+
 export {
   generateOwnReference,
   generateHabitatReference,
@@ -132,5 +196,6 @@ export {
   habitatHint,
   getHabitatType,
   getState,
-  getModule
+  getModule,
+  getMatchedHabitatsHtml
 }

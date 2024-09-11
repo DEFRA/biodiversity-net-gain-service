@@ -6,76 +6,10 @@ import getDeveloperDetails from '../../utils/get-developer-check-and-submit-deta
 import combinedCaseApplicationValidation from '../../utils/combined-case-application-validation.js'
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
-
-const displayUnitMap = {
-  hectares: 'ha',
-  kilometres: 'km'
-}
-
-export const getMatchedHabitats = (habitats) => {
-  if (!habitats) {
-    return []
-  }
-
-  const habitatGroups = {
-    habitat: [],
-    hedgerow: [],
-    watercourse: []
-  }
-
-  let totalHabitatUnits = 0
-  let totalHedgeUnits = 0
-  let totalWatercourseUnits = 0
-
-  habitats.forEach(item => {
-    const habitatUnitsDelivered = item.habitatUnitsDelivered || 0
-
-    if (item.state === 'Habitat') {
-      habitatGroups.habitat.push(item)
-      totalHabitatUnits += habitatUnitsDelivered
-    } else if (item.state === 'Hedge') {
-      habitatGroups.hedgerow.push(item)
-      totalHedgeUnits += habitatUnitsDelivered
-    } else if (item.state === 'Watercourse') {
-      habitatGroups.watercourse.push(item)
-      totalWatercourseUnits += habitatUnitsDelivered
-    }
-  })
-
-  const habitatDetails = []
-
-  const addItemsWithTotal = (total, totalLabel, padFirstRow, items = []) => {
-    if (total > 0) {
-      items.forEach((item, index) => {
-        const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
-        if (item) {
-          habitatDetails.push([
-            { text: item.habitatType ?? '', ...baseRow },
-            { html: item.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
-            { html: `${item.size ?? ''}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits ?? ''}`, ...baseRow },
-            { html: `${(item.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
-          ])
-        }
-      })
-      habitatDetails.push([
-        { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-        { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
-      ])
-    }
-  }
-
-  addItemsWithTotal(totalHabitatUnits, 'Total habitat units', false, habitatGroups.habitat)
-  addItemsWithTotal(totalHedgeUnits, 'Total hedgerow units', true, habitatGroups.hedgerow)
-  addItemsWithTotal(totalWatercourseUnits, 'Total watercourse units', true, habitatGroups.watercourse)
-
-  return habitatDetails
-}
+import { getMatchedHabitatsHtml } from '../../utils/combined-case/helpers.js'
 
 const handlers = {
   get: (request, h) => {
-    const habitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
-    const matchedHabitats = getMatchedHabitats(habitats)
-
     const appSubmitted = request.yar.get(constants.redisKeys.COMBINED_CASE_APPLICATION_SUBMITTED)
 
     if (appSubmitted) {
@@ -91,9 +25,9 @@ const handlers = {
     request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
 
     const applicationDetails = application(request.yar, request.auth.credentials.account).combinedCase
-    console.log('applicationDetails', JSON.stringify(applicationDetails, null, 2))
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
+    const matchedHabitats = getMatchedHabitatsHtml(request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING))
 
     return h.view(
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
@@ -111,6 +45,7 @@ const handlers = {
     if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
       const claims = request.auth.credentials.account.idTokenClaims
       const { currentOrganisation } = getOrganisationDetails(claims)
+      const matchedHabitats = getMatchedHabitatsHtml(request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING))
       const err = [{
         text: 'You must confirm you have read the terms and conditions',
         href: '#termsAndConditionsConfirmed'
@@ -119,6 +54,7 @@ const handlers = {
         {
           ...getRegistrationDetails(request, applicationDetails),
           ...getDeveloperDetails(request, request.yar, currentOrganisation),
+          matchedHabitats,
           err
         })
     }
