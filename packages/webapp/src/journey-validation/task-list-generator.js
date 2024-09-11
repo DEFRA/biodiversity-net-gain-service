@@ -137,7 +137,7 @@ const getIndividualTaskStatus = (session, taskId) => {
   return status
 }
 
-// enableJourneyStart paramater is used to enable the journey-start-answer-id query param as used by the answerIdHandler
+// enableJourneyStart parameter is used to enable the journey-start-answer-id query param as used by the answerIdHandler
 const getTaskItems = (task, session, enableJourneyStart) => {
   const calculatedStatus = checkTaskStatus(task, session)
   return {
