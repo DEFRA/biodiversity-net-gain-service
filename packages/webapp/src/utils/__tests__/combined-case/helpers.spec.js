@@ -363,7 +363,7 @@ describe('getMatchedHabitatsHtml', () => {
       { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 },
       { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0 },
       { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5 },
-      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 3 }
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'chains', habitatUnitsDelivered: 3 }
     ]
 
     const result = getMatchedHabitatsHtml(habitats)
@@ -397,7 +397,7 @@ describe('getMatchedHabitatsHtml', () => {
       [
         { text: 'River' },
         { html: 'Good' },
-        { html: '0.5&nbsp;km' },
+        { html: '0.5&nbsp;chains' },
         { html: '3.0&nbsp;units' }
       ],
       [
