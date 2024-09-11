@@ -17,13 +17,13 @@ const combinedCaseValidation = Joi.object({
       id: Joi.string().required(),
       role: Joi.string().valid('agent', 'landowner', 'representative').required()
     }),
+    landownerAddress: Joi.when('applicant.role', {
+      is: 'landowner',
+      then: applicantAddressSchema,
+      otherwise: Joi.forbidden()
+    }),
     registrationDetails: Joi.object({
       landowners: Joi.object(),
-      landownerAddress: Joi.when('applicant.role', {
-        is: 'landowner',
-        then: applicantAddressSchema,
-        otherwise: Joi.forbidden()
-      }),
       organisation: Joi.object({
         id: Joi.string().required(),
         address: applicantAddressSchema
