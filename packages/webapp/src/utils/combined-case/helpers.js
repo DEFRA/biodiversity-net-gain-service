@@ -143,17 +143,19 @@ const getMatchedHabitatsHtml = (habitats) => {
   let totalWatercourseUnits = 0
 
   habitats.forEach(item => {
-    const habitatUnitsDelivered = item.habitatUnitsDelivered || 0
+    if (Object.hasOwn(item, 'habitatUnitsDelivered')) {
+      const habitatUnitsDelivered = item.habitatUnitsDelivered
 
-    if (item.state === 'Habitat') {
-      habitatGroups.habitat.push(item)
-      totalHabitatUnits += habitatUnitsDelivered
-    } else if (item.state === 'Hedge') {
-      habitatGroups.hedgerow.push(item)
-      totalHedgeUnits += habitatUnitsDelivered
-    } else if (item.state === 'Watercourse') {
-      habitatGroups.watercourse.push(item)
-      totalWatercourseUnits += habitatUnitsDelivered
+      if (item.state === 'Habitat') {
+        habitatGroups.habitat.push(item)
+        totalHabitatUnits += habitatUnitsDelivered
+      } else if (item.state === 'Hedge') {
+        habitatGroups.hedgerow.push(item)
+        totalHedgeUnits += habitatUnitsDelivered
+      } else if (item.state === 'Watercourse') {
+        habitatGroups.watercourse.push(item)
+        totalWatercourseUnits += habitatUnitsDelivered
+      }
     }
   })
 
