@@ -341,7 +341,7 @@ describe('getModule', () => {
 })
 
 describe('getMatchedHabitatsHtml', () => {
-  const { getMatchedHabitatsHtml } = require('../../combined-case/check-and-submit.js')
+  const { getMatchedHabitatsHtml } = require('../../combined-case/helpers.js')
 
   it('should return an empty array if no habitats are matched', () => {
     const result = getMatchedHabitatsHtml([])
@@ -405,6 +405,20 @@ describe('getMatchedHabitatsHtml', () => {
         { text: '4.5 units', classes: 'table-heavy-border' }
       ]
     ])
+  })
+
+  it('should handle undefined/null habitat entry', () => {
+    const habitats = [undefined, null]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([])
+  })
+
+  it('should handle missing habitat entries', () => {
+    const habitats = [{ state: 'Habitat', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 }]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([])
   })
 
   it('should handle habitatUnitsDelivered being undefined', () => {

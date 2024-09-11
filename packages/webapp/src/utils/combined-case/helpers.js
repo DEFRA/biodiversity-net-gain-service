@@ -161,21 +161,29 @@ const getMatchedHabitatsHtml = (habitats) => {
 
   const addItemsWithTotal = (total, totalLabel, padFirstRow, items = []) => {
     if (total > 0) {
+      const requiredProperties = ['habitatType', 'condition', 'size', 'measurementUnits', 'habitatUnitsDelivered']
+      let itemsAdded = 0
+
       items.forEach((item, index) => {
         const baseRow = index === 0 && padFirstRow ? { classes: 'table-extra-padding' } : {}
-        if (item) {
+
+        if (requiredProperties.every(prop => Object.hasOwn(item, prop))) {
+          itemsAdded += 1
           habitatDetails.push([
-            { text: item.habitatType ?? '', ...baseRow },
-            { html: item.condition?.replace(/ /g, '&nbsp;') ?? '', ...baseRow },
-            { html: `${item.size ?? ''}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits ?? ''}`, ...baseRow },
-            { html: `${(item.habitatUnitsDelivered ?? 0).toFixed(1)}&nbsp;units`, ...baseRow }
+            { text: item.habitatType, ...baseRow },
+            { html: item.condition.replace(/ /g, '&nbsp;'), ...baseRow },
+            { html: `${item.size}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits}`, ...baseRow },
+            { html: `${(item.habitatUnitsDelivered).toFixed(1)}&nbsp;units`, ...baseRow }
           ])
         }
       })
-      habitatDetails.push([
-        { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-        { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
-      ])
+
+      if (itemsAdded > 0) {
+        habitatDetails.push([
+          { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
+          { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
+        ])
+      }
     }
   }
 
