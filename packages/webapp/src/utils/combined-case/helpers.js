@@ -128,7 +128,7 @@ const displayUnitMap = {
 }
 
 const getMatchedHabitatsHtml = (habitats) => {
-  habitats = habitats.filter(h => h.matchedHabitatId)
+  habitats = habitats?.filter(h => h?.matchedHabitatId)
 
   if (!habitats) {
     return []

@@ -360,10 +360,11 @@ describe('getMatchedHabitatsHtml', () => {
 
   it('should group habitats by state and calculate totals', () => {
     const habitats = [
-      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 },
-      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0 },
-      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5 },
-      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'chains', habitatUnitsDelivered: 3 }
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0, matchedHabitatId: 2 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5, matchedHabitatId: 3 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'chains', habitatUnitsDelivered: 3, matchedHabitatId: 4 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 1.2, measurementUnits: 'km', habitatUnitsDelivered: 3 }
     ]
 
     const result = getMatchedHabitatsHtml(habitats)
@@ -415,21 +416,21 @@ describe('getMatchedHabitatsHtml', () => {
   })
 
   it('should handle missing habitat entries', () => {
-    const habitats = [{ state: 'Habitat', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 }]
+    const habitats = [{ state: 'Habitat', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 }]
 
     const result = getMatchedHabitatsHtml(habitats)
     expect(result).toEqual([])
   })
 
   it('should handle habitatUnitsDelivered being undefined', () => {
-    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares' }
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', matchedHabitatId: 1 }
     const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
 
     expect(habitatUnitsDelivered).toBe(0)
   })
 
   it('should handle habitatUnitsDelivered being defined', () => {
-    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5 }
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 }
     const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
 
     expect(habitatUnitsDelivered).toBe(5.5)
@@ -437,8 +438,8 @@ describe('getMatchedHabitatsHtml', () => {
 
   it('should handle habitatUnitsDelivered being undefined', () => {
     const habitats = [
-      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares' },
-      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres' }
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', matchedHabitatId: 1 },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', matchedHabitatId: 1 }
     ]
 
     const result = getMatchedHabitatsHtml(habitats)
@@ -447,7 +448,7 @@ describe('getMatchedHabitatsHtml', () => {
 
   it('should handle Watercourse state', () => {
     const habitats = [
-      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 15, measurementUnits: 'kilometres', habitatUnitsDelivered: 7.5 }
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 15, measurementUnits: 'kilometres', habitatUnitsDelivered: 7.5, matchedHabitatId: 1 }
     ]
 
     const result = getMatchedHabitatsHtml(habitats)
