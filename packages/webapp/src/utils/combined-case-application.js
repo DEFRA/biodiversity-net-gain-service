@@ -72,21 +72,21 @@ const calculateGainSite = session => {
   let watercourseTotal = 0
 
   habitatRefs.forEach(h => {
-    const summary = metricData.habitatOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
+    const summary = metricData.habitatOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
     if (summary) {
       habitatTotal += parseFloat(summary['Habitat Offsite unit change per gain site (Post SRM)'])
     }
   })
 
   hedgeRefs.forEach(h => {
-    const summary = metricData.hedgeOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
+    const summary = metricData.hedgeOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
     if (summary) {
       hedgeTotal += parseFloat(summary['Hedge Offsite unit change per gain site (Post SRM)'])
     }
   })
 
   watercourseRefs.forEach(h => {
-    const summary = metricData.waterCourseOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === h)
+    const summary = metricData.waterCourseOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
     if (summary) {
       watercourseTotal += parseFloat(summary['Watercourse Offsite unit change per gain site (Post SRM)'])
     }
