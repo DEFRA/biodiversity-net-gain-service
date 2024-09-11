@@ -101,7 +101,6 @@ const getLandOwnershipRowsForGenerateSummaryList = (applicationDetails, applicat
     const fileText = getFileHeaderPrefix(landOwnershipFileNames)
     rows.push(
       {
-
         text: `Proof of land ownership ${fileText} uploaded`,
         value: landOwnershipFileNames.join('<br>'),
         valueDataTestId: 'proof-land-ownership-file-name-value',
