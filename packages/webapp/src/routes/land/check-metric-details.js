@@ -12,18 +12,16 @@ const handlers = {
         ? h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
         : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
+
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
 
-    const registrationMetricUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-    const developerMetricUploaded = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-
     // Determine if both metrics have been uploaded
-    const bothMetricsUploaded = Boolean(registrationMetricUploaded) && Boolean(developerMetricUploaded)
+    const bothMetricsUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION) && request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
 
     return h.view(constants.views.CHECK_METRIC_DETAILS, {
       filename: path.basename(metricUploadLocation),
       urlPath: isCombinedCase ? '/combined-case' : '/land',
-      bothMetricsUploaded
+      changeMetricUrl: bothMetricsUploaded ? '/change-registration-metric' : '/check-metric-file'
     })
   },
   post: async (request, h) => {

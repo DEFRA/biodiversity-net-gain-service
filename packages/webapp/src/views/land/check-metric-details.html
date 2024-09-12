@@ -21,13 +21,9 @@
                     {{ filename }}
                   </dd>
                   <dd class="govuk-summary-list__actions">
-                    {% if bothMetricsUploaded %}
-                      <a class="govuk-link" href="{{ urlPath }}/change-registration-metric">
-                    {% else %}
-                      <a class="govuk-link" href="{{ urlPath }}/check-metric-file">
-                    {% endif %}
-                        Change<span class="govuk-visually-hidden"> statutory biodiversity metric file</span>
-                      </a>
+                    <a class="govuk-link" href="{{ urlPath }}{{ changeMetricUrl }}">
+                      Change<span class="govuk-visually-hidden"> statutory biodiversity metric file</span>
+                    </a>
                   </dd>
                 </div>
                 <div class="govuk-summary-list__row">

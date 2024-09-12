@@ -5,16 +5,26 @@ import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
-    return h.view(constants.views.CHECK_UPLOAD_METRIC, getContext(request))
+    const context = getContext(request)
+
+    // Determine the URL based on whether both metrics have been uploaded
+    const changeMetricUrl = context.bothMetricsUploaded
+      ? `${context.urlPath}/change-registration-metric`
+      : `${context.urlPath}/check-metric-file`
+
+    // Redirect to the appropriate URL if it's different from the current path
+    if (request.path !== changeMetricUrl) {
+      return h.redirect(changeMetricUrl)
+    }
+
+    return h.view(constants.views.CHECK_UPLOAD_METRIC, context)
   },
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
-    const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
 
     return getNextStep(request, h, (e) => {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
-        filename: path.basename(metricUploadLocation),
         ...getContext(request),
         err: [e]
       })
@@ -27,19 +37,18 @@ const getContext = request => {
   const fileSize = request.yar.get(constants.redisKeys.METRIC_FILE_SIZE)
   const humanReadableFileSize = getHumanReadableFileSize(fileSize)
 
-  const registrationMetricUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION)
-  const developerMetricUploaded = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-
   // Determine if both metrics have been uploaded
-  const bothMetricsUploaded = Boolean(registrationMetricUploaded) && Boolean(developerMetricUploaded)
+  const bothMetricsUploaded = request.yar.get(constants.redisKeys.METRIC_LOCATION) && request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+
+  // Determine the URL path based on the route
+  const urlPath = (request?._route?.path || '').startsWith('/combined-case') ? '/combined-case' : '/land'
 
   return {
-    filename: fileLocation === null ? '' : path.parse(fileLocation).base,
+    filename: fileLocation ? path.basename(fileLocation) : '',
     yesSelection: request.yar.get(constants.redisKeys.METRIC_UPLOADED_ANSWER),
     fileSize: humanReadableFileSize,
-    registrationMetricUploaded,
-    developerMetricUploaded,
-    bothMetricsUploaded
+    bothMetricsUploaded,
+    urlPath
   }
 }
 

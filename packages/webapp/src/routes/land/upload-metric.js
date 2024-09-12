@@ -11,12 +11,27 @@ const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
   await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
+
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
 
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
   }
+
+  // force replay of developer metric upload and habitat matching if user uploads a new registration metric
+  // clear developer metric data
+  request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
+  request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE)
+  request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE)
+  request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME)
+
+  // clear matching data
+  request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+  request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+
+  // set new metric data
   request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
