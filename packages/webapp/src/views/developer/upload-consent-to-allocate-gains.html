@@ -56,15 +56,8 @@
         </div>
       </details>
 
-      <div class="govuk-button-group">
-        {{ govukButton({
-          text: "Save and upload",
-          attributes: {
-            id: "continue",
-            "data-testid": "continue"
-          }
-        }) }}
-        <a class="govuk-link" href="/signout">Or save progress and come back later</a>
+      {% include "common/save-and-upload-button-group.html" %}
+
       </div>
     </div>
   </div>
