@@ -21,10 +21,12 @@ const handlers = {
   },
   post: async (request, h) => {
     const checkUploadMetric = request.payload.checkUploadMetric
+    const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
 
     return getNextStep(request, h, (e) => {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
+        filename: path.basename(metricUploadLocation),
         ...getContext(request),
         err: [e]
       })
