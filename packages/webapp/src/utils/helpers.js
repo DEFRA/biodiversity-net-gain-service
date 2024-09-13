@@ -370,6 +370,9 @@ const setInpageLinks = (context, path) => {
   } else if (path.includes('/developer')) {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3POwdzJF7AISB8i'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_datEcyFZVxYdMjk'
+  } else if (path.includes('/combined-case')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_6u70qkCWfbLwq2yBNG'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_1S4qMTuTxMiyrxsBNG'
   } else {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO'
