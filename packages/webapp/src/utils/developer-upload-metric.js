@@ -43,7 +43,8 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
     const error = {
       err: [
         {
-          text: 'The uploaded metric does not contain the off-site reference entered.'
+          text: 'The uploaded metric does not contain the off-site reference entered.',
+          href: UPLOAD_METRIC_ID
         }
       ]
     }
@@ -63,7 +64,10 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
     if (!hasMatches) {
       const error = {
         err: [
-          { text: 'The habitats in your development metric cannot be matched to any habitats in your registration metric. Please check both metrics to ensure the details are correct.' }
+          {
+            text: 'The habitats in your development metric cannot be matched to any habitats in your registration metric. Please check both metrics to ensure the details are correct.',
+            href: UPLOAD_METRIC_ID
+          }
         ]
       }
       await deleteBlobFromContainers(result.config.blobConfig.blobName)
