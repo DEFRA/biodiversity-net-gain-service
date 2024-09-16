@@ -455,35 +455,23 @@ export default {
     ],
     habitatOffSiteGainSiteSummary: [
       {
-        'Gain site reference': 1234,
-        'Habitat Offsite unit change per gain site (Post SRM)': 2.7706089322595426
-      },
-      {
-        'Gain site reference': 'BNGREG-0001',
-        'Habitat Offsite unit change per gain site (Post SRM)': 11.7927807827911
-      },
-      {
-        'Gain site reference': 'BNGREG-0002',
-        'Habitat Offsite unit change per gain site (Post SRM)': 10.19391249922896
-      },
-      {
-        'Gain site reference': 'BNGREG-0003',
-        'Habitat Offsite unit change  per gain site (Post SRM)': 11.092471223327998
+        'Gain site reference': 'BGS-111 222 333',
+        'Habitat Offsite unit change per gain site (Post SRM)': 10.59
       }
     ],
     hedgeOffSiteGainSiteSummary: [
       {
         'Gain site reference': 1234,
-        'Hedge Offsite unit change per gain site (Post SRM)': 1.1017262107027603
+        'Hedge Offsite unit change per gain site (Post SRM)': 2.15
       },
       {
-        'Gain site reference': 'BNGREG-0001',
-        'Hedge Offsite unit change per gain site (Post SRM)': 0.5790828803015999
+        'Gain site reference': 'BGS-111 222 333',
+        'Hedge Offsite unit change per gain site (Post SRM)': 7.32
       }
     ],
     waterCourseOffSiteGainSiteSummary: [
       {
-        'Gain site reference': 1234,
+        'Gain site reference': 'BGS-111 222 333',
         'Watercourse Offsite unit change per gain site (Post SRM)': '0'
       }
     ],
@@ -511,86 +499,6 @@ export default {
   'developer/landowner-or-leaseholder': 'yes',
   'developer-is-agent': 'no',
   'contact-id': 'mock contact id',
-  registrationTaskDetails: {
-    taskList: [
-      {
-        taskTitle: 'Applicant information',
-        tasks: [
-          {
-            title: 'Add details about the applicant',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-applicant-information',
-            startTaskUrl: '/land/agent-acting-for-client',
-            inProgressUrl: '',
-            id: 'add-applicant-information'
-          }
-        ]
-      },
-      {
-        taskTitle: 'Land information',
-        tasks: [
-          {
-            title: 'Add land ownership details',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/ownership-proof-list',
-            startTaskUrl: '/land/upload-ownership-proof',
-            inProgressUrl: '',
-            id: 'add-land-ownership'
-          },
-          {
-            title: 'Add biodiversity gain site boundary details',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-land-boundary-details',
-            startTaskUrl: '/land/choose-land-boundary-upload',
-            inProgressUrl: '/land/add-grid-reference',
-            id: 'add-land-boundary'
-          },
-          {
-            title: 'Add habitat baseline, creation and enhancements',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-metric-details',
-            startTaskUrl: '/land/upload-metric',
-            inProgressUrl: '/land/check-metric-details',
-            id: 'add-habitat-information'
-          }
-        ]
-      },
-      {
-        taskTitle: 'Legal information',
-        tasks: [
-          {
-            title: 'Add legal agreement details',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-legal-agreement-details',
-            startTaskUrl: '/land/legal-agreement-type',
-            inProgressUrl: '/land/add-legal-agreement-parties',
-            id: 'add-legal-agreement'
-          },
-          {
-            title: 'Add local land charge search certificate',
-            status: 'COMPLETED',
-            completedTaskUrl: '/land/check-local-land-charge-file',
-            startTaskUrl: '/land/upload-local-land-charge',
-            inProgressUrl: '',
-            id: 'add-local-land-charge-search-certificate'
-          }
-        ]
-      },
-      {
-        taskTitle: 'Submit your biodiversity gain site information',
-        tasks: [
-          {
-            title: 'Check your answers and submit information',
-            status: 'CANNOT START YET',
-            completedTaskUrl: '/land/check-and-submit',
-            startTaskUrl: '/land/check-and-submit',
-            inProgressUrl: '',
-            id: 'check-your-answers'
-          }
-        ]
-      }
-    ]
-  },
   fullname: 'Test Name',
   'email-value': 'test@test.com',
   yes: 'yes',
@@ -717,5 +625,77 @@ export default {
     }
   ],
   'landowner-individual-organisation-key': 'individual',
-  'legal-agreement-files-checked': 'yes'
+  'legal-agreement-files-checked': 'yes',
+  'combined-case-allocation-habitats-processing': [
+    {
+      habitatType: 'Grassland - Modified grassland',
+      condition: 'Good',
+      sheet: 'd3',
+      module: 'Enhanced',
+      state: 'Habitat',
+      id: '0',
+      size: 1,
+      measurementUnits: 'hectares',
+      rowNum: 12,
+      offsiteReference: 'BGS-111 222 333',
+      processed: true,
+      matchedHabitatId: 'HAB-44291675-PCDRF'
+    },
+    {
+      habitatType: 'Woodland and forest - Other woodland; mixed',
+      condition: 'Good',
+      sheet: 'd3',
+      module: 'Enhanced',
+      state: 'Habitat',
+      id: '1',
+      size: 0.5,
+      measurementUnits: 'hectares',
+      rowNum: 13,
+      offsiteReference: 'BGS-111 222 333',
+      processed: true,
+      matchedHabitatId: 'HAB-12345678-PABCD'
+    },
+    {
+      habitatType: 'Native hedgerow with trees',
+      condition: 'Good',
+      sheet: 'e2',
+      module: 'Created',
+      state: 'Hedge',
+      id: '2',
+      size: 0.3,
+      measurementUnits: 'kilometres',
+      rowNum: 10,
+      offsiteReference: 'BGS-111 222 333',
+      processed: true,
+      matchedHabitatId: 'HAB-12345679-PABCF'
+    },
+    {
+      habitatType: 'Native hedgerow - associated with bank or ditch',
+      condition: 'Moderate',
+      sheet: 'e3',
+      module: 'Enhanced',
+      state: 'Hedge',
+      id: '3',
+      size: 0.3,
+      measurementUnits: 'kilometres',
+      rowNum: 10,
+      offsiteReference: 1234,
+      processed: true,
+      matchedHabitatId: 'HAB-52345679-PJBCF'
+    },
+    {
+      habitatType: 'Ditches',
+      condition: 'Good',
+      sheet: 'f3',
+      module: 'Enhanced',
+      state: 'Watercourse',
+      id: '3',
+      size: 0.3,
+      measurementUnits: 'kilometres',
+      rowNum: 11,
+      offsiteReference: 'BGS-111 222 333',
+      processed: true,
+      matchedHabitatId: 'HAB-12545679-PYBCF'
+    }
+  ]
 }
