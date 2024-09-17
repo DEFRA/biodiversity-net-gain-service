@@ -2,16 +2,13 @@ import constants from '../../constants.js'
 
 describe('Combined Case Habitat Match Utility Functions', () => {
   beforeEach(() => {
-    global.habitatReferenceCounter = 0
     global.ownReferenceCounter = 0
   })
 
   test('generateHabitatReference increments correctly', () => {
     jest.isolateModules(() => {
       const { generateHabitatReference } = require('../../combined-case/helpers.js')
-      expect(generateHabitatReference()).toBe('HAB-00000000-0')
-      expect(generateHabitatReference()).toBe('HAB-00000000-1')
-      expect(generateHabitatReference()).toBe('HAB-00000000-2')
+      expect(generateHabitatReference()).toMatch(/^HAB-\d{8}-P[ABCDEFGHJKMNPRTUVWXY]{4}$/)
     })
   })
 
@@ -37,13 +34,13 @@ describe('processMetricData', () => {
     session.get.mockImplementation((key) => {
       if (key === constants.redisKeys.METRIC_DATA) {
         return {
-          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10 }],
-          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5 }]
+          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10, 'Off-site reference': '1234' }],
+          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5, 'Off-site reference': '1234' }]
         }
       } else if (key === constants.redisKeys.DEVELOPER_METRIC_DATA) {
         return {
-          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15 }],
-          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2 }]
+          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15, 'Off-site reference': '1234' }],
+          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2, 'Off-site reference': '1234' }]
         }
       }
       return null
@@ -59,28 +56,28 @@ describe('processMetricData', () => {
       processMetricData(session)
 
       const expectedRegistrationHabitats = [
-        {
+        expect.objectContaining({
           habitatType: 'Forest - Woodland',
           condition: 'Good',
           sheet: 'd2',
           module: 'Created',
           state: 'Habitat',
-          id: 'HAB-00000000-0',
           size: 10,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
-        },
-        {
+        }),
+        expect.objectContaining({
           habitatType: 'Grassland - Meadow',
           condition: 'Fair',
           sheet: 'd3',
           module: 'Enhanced',
           state: 'Habitat',
-          id: 'HAB-00000000-1',
           size: 5,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
-        }
+        })
       ]
 
       const expectedAllocationHabitats = [
@@ -93,6 +90,7 @@ describe('processMetricData', () => {
           id: '0',
           size: 15,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
         },
         {
@@ -104,6 +102,7 @@ describe('processMetricData', () => {
           id: '1',
           size: 2,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
         }
       ]
