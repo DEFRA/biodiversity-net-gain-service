@@ -194,5 +194,25 @@ describe(url, () => {
       await submitPostRequest(postOptions)
       expect(spy.mock.calls[0][0]).not.toContain('code=')
     })
+
+    it('Should accept mock BGS value (used for acceptance test) if configured and matches bgsNumber, bypassing API call', async () => {
+      jest.mock('@hapi/wreck')
+      const spy = jest.spyOn(wreck, 'get')
+      jest.replaceProperty(BACKEND_API, 'MOCK_BGS_FOR_ACCEPTANCE', 'test123')
+
+      postOptions.payload.bgsNumber = 'test123'
+      await submitPostRequest(postOptions)
+      expect(spy).toHaveBeenCalledTimes(0)
+    })
+
+    it('Should ignore mock BGS value (used for acceptance test) if configured and doesn\'t matches bgsNumber, not bypassing API call', async () => {
+      jest.mock('@hapi/wreck')
+      const spy = jest.spyOn(wreck, 'get')
+      jest.replaceProperty(BACKEND_API, 'MOCK_BGS_FOR_ACCEPTANCE', 'test123')
+
+      postOptions.payload.bgsNumber = 'notTest123'
+      await submitPostRequest(postOptions)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
   })
 })
