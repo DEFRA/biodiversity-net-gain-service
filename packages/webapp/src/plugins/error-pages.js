@@ -1,3 +1,5 @@
+import getApplicantContext from '../utils/get-applicant-context.js'
+
 const errorPages = {
   name: 'error-pages',
   register: server => {
@@ -9,8 +11,6 @@ const errorPages = {
         // processing the request
         const statusCode = response.output.statusCode
 
-        // In the event of 404
-        // return the `404` view
         if (statusCode === 404) {
           return h.view('404').code(statusCode)
         }
@@ -23,7 +23,21 @@ const errorPages = {
         })
 
         // The return the `500` view
-        return h.view('500').code(statusCode)
+        const { representing, organisation } = getApplicantContext(request.auth.credentials.account, request.yar)
+        const accountInfo = request.auth.credentials.account.idTokenClaims
+
+        const context = {
+          auth: {
+            firstName: accountInfo.firstName,
+            lastName: accountInfo.lastName
+          }
+        }
+
+        if (organisation) {
+          context.auth.representing = representing
+        }
+
+        return h.view('500', context).code(statusCode)
       }
       return h.continue
     })
