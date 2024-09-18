@@ -6,7 +6,11 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
-          <p class="govuk-body">Try again later.</p>
+          {% if metricValidationError %}
+            <p class="govuk-body">{{ metricValidationError }}</p>
+          {% else %}  
+            <p class="govuk-body">Try again later.</p>
+          {% endif %}
         </div>
       </div>
     </div>

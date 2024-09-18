@@ -28,7 +28,7 @@ const errorPages = {
           return h.view('404', context).code(statusCode)
         }
 
-        // Handle other errors and add additional context if authenticated
+        // Add additional context if authenticated
         if (request.auth?.credentials) {
           const { representing, organisation } = getApplicantContext(request.auth.credentials.account, request.yar)
           const accountInfo = request.auth.credentials.account.idTokenClaims
@@ -40,7 +40,17 @@ const errorPages = {
           }
         }
 
-        // Return the 500 view with context
+        // Handle 500 errors
+        const referer = request.headers.referer
+        if (statusCode === 500 && referer && referer.endsWith('/check-and-submit')) {
+          const errorContext = {
+            ...context,
+            metricValidationError: 'Your application could not be submitted.  This could be because of an error in a metric file that you uploaded.  Please check your metric file(s) for any data errors'
+          }
+          return h.view('500', errorContext).code(statusCode)
+        }
+
+        // Return the generic 500 view
         return h.view('500', context).code(statusCode)
       }
 
