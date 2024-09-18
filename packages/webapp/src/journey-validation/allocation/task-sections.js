@@ -40,10 +40,12 @@ const gainSiteAllocationInformation = taskDefinition(
 
 const checkYourAnswers = {
   taskTitle: 'Submit your off-site gains information',
-  tasks: [{
+  items: [{
     id: 'check-your-answers',
-    title: 'Check your answers and submit',
-    url: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+    title: {
+      text: 'Check your answers and submit'
+    },
+    href: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }

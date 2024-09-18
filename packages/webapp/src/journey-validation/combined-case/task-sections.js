@@ -102,10 +102,12 @@ const tasksById = {
 
 const checkYourAnswers = {
   taskTitle: 'Submit your biodiversity gain information',
-  tasks: [{
+  items: [{
     id: 'check-your-answers',
-    title: 'Check your answers before you submit them',
-    url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+    title: {
+      text: 'Check your answers before you submit them'
+    },
+    href: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
     status: constants.CANNOT_START_YET_STATUS
   }]
 }

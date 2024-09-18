@@ -38,12 +38,17 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-app-info',
         taskTitle: 'Applicant information',
-        tasks: [
+        items: [
           {
             id: 'add-applicant-information',
-            title: 'Add details about the applicant',
-            status: 'NOT STARTED',
-            url: '/combined-case/agent-acting-for-client'
+            title: { html: "<span id='add-applicant-information'>Add details about the applicant</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-applicant-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/agent-acting-for-client'
           }
         ]
       })
@@ -51,24 +56,39 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-land-info',
         taskTitle: 'Land information',
-        tasks: [
+        items: [
           {
             id: 'add-land-ownership',
-            title: 'Add land ownership details',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-ownership-proof'
+            title: { html: "<span id='add-land-ownership'>Add land ownership details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-land-ownership-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/upload-ownership-proof'
           },
           {
             id: 'add-land-boundary',
-            title: 'Add biodiversity gain site boundary details',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-land-boundary'
+            title: { html: "<span id='add-land-boundary'>Add biodiversity gain site boundary details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-land-boundary-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/upload-land-boundary'
           },
           {
             id: 'add-habitat-information',
-            title: 'Add habitat baseline, creation and enhancements',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-metric'
+            title: { html: "<span id='add-habitat-information'>Add habitat baseline, creation and enhancements</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-habitat-information-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/upload-metric'
           }
         ]
       })
@@ -76,18 +96,28 @@ describe(url, () => {
         dependantIds: [],
         id: 'cc-legal-info',
         taskTitle: 'Legal information',
-        tasks: [
+        items: [
           {
             id: 'add-legal-agreement',
-            title: 'Add legal agreement details',
-            status: 'NOT STARTED',
-            url: '/combined-case/legal-agreement-type'
+            title: { html: "<span id='add-legal-agreement'>Add legal agreement details</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-legal-agreement-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/legal-agreement-type'
           },
           {
             id: 'add-local-land-charge-search-certificate',
-            title: 'Add local land charge search certificate',
-            status: 'NOT STARTED',
-            url: '/combined-case/upload-local-land-charge'
+            title: { html: "<span id='add-local-land-charge-search-certificate'>Add local land charge search certificate</span>" },
+            status: {
+              tag: {
+                html: '<span id="add-local-land-charge-search-certificate-status">Not started</span>',
+                classes: 'govuk-tag--grey'
+              }
+            },
+            href: '/combined-case/upload-local-land-charge'
           }
         ]
       })
@@ -99,38 +129,54 @@ describe(url, () => {
         ],
         id: 'cc-allocation-info',
         taskTitle: 'Allocation information',
-        tasks: [
+        items: [
           {
             id: 'planning-decision-notice',
-            title: 'Add planning decision notice',
+            title: { html: "<span id='planning-decision-notice'>Add planning decision notice</span>" },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/upload-planning-decision-notice'
+            status: {
+              tag: {
+                html: '<span id="planning-decision-notice-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           },
           {
             id: 'match-available-habitats',
-            title: 'Match available habitats',
+            title: { html: "<span id='match-available-habitats'>Match available habitats</span>" },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/upload-allocation-metric'
+            status: {
+              tag: {
+                html: '<span id="match-available-habitats-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: 'Confirm development details',
+            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development and habitat details</span>" },
             isLocked: true,
-            status: 'CANNOT START YET',
-            url: '/combined-case/development-project-information'
+            status: {
+              tag: {
+                html: '<span id="confirm-dev-and-habitat-details-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           }
         ]
       })
       expect(contextResult.tasks.taskList[4]).toEqual({
         taskTitle: 'Submit your biodiversity gain information',
-        tasks: [
+        items: [
           {
             id: 'check-your-answers',
-            title: 'Check your answers before you submit them',
-            url: '/combined-case/check-and-submit',
-            status: 'CANNOT START YET'
+            title: { text: 'Check your answers before you submit them' },
+            status: {
+              tag: {
+                html: '<span id="check-your-answers-status">Cannot start yet</span>',
+                classes: 'govuk-tag--grey'
+              }
+            }
           }
         ]
       })

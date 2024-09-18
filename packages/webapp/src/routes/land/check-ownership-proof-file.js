@@ -8,7 +8,10 @@ const handlers = {
   get: async (request, h) => {
     const context = getContext(request)
     if (!context.fileName || !context.fileSize) {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+      return isCombinedCase
+        ? h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+        : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
     return h.view(constants.views.CHECK_PROOF_OF_OWNERSHIP, context)
   },
