@@ -35,11 +35,8 @@ const errorPages = {
 
           context.auth = {
             firstName: accountInfo.firstName,
-            lastName: accountInfo.lastName
-          }
-
-          if (organisation) {
-            context.auth.representing = representing
+            lastName: accountInfo.lastName,
+            ...(organisation && { representing })
           }
         }
 

@@ -13,6 +13,7 @@ describe('error-pages', () => {
       url: '/sdgfdfghdfghdf'
     })
     expect(response.statusCode).toEqual(404)
+    expect(response.result).toContain('Page not found')
   })
 
   it('it handles internal error', async () => {
@@ -21,5 +22,6 @@ describe('error-pages', () => {
       url: '/error'
     })
     expect(response.statusCode).toEqual(500)
+    expect(response.result).toContain('Sorry, there is a problem with the service')
   })
 })
