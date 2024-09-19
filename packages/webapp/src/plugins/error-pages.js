@@ -42,7 +42,7 @@ const errorPages = {
 
         // Handle 500 errors
         const referer = request.headers.referer
-        if (statusCode === 500 && referer && referer.endsWith('/check-and-submit')) {
+        if (statusCode === 500 && referer?.endsWith('/check-and-submit')) {
           const errorContext = {
             ...context,
             metricValidationError: 'Your application could not be submitted.  This could be because of an error in a metric file that you uploaded.  Please check your metric file(s) for any data errors'
