@@ -38,4 +38,18 @@ describe('error-pages', () => {
     expect(response.result).toContain('Your application could not be submitted')
     expect(response.result).toContain('Please check your metric file(s)')
   })
+
+  it('should continue processing for non-error responses', async () => {
+    const server = await getServer()
+
+    // Send a normal request that should not trigger the custom error handling
+    const response = await server.inject({
+      method: 'GET',
+      url: '/'
+    })
+
+    // Check that the response is normal and no error handling is triggered
+    expect(response.statusCode).toEqual(302)
+    expect(response.result).toBeDefined()
+  })
 })
