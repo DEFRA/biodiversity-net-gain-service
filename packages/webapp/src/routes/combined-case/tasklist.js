@@ -3,9 +3,6 @@ import { getTaskList } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
   get: async (request, h) => {
-    // todo temp as no new combined case route
-    request.yar.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.COMBINED_CASE)
-
     const { taskList, totalTasks, completedTasks, canSubmit } = getTaskList(constants.applicationTypes.COMBINED_CASE, request.yar)
 
     request.yar.clear(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
