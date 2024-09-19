@@ -2,16 +2,13 @@ import constants from '../../constants.js'
 
 describe('Combined Case Habitat Match Utility Functions', () => {
   beforeEach(() => {
-    global.habitatReferenceCounter = 0
     global.ownReferenceCounter = 0
   })
 
   test('generateHabitatReference increments correctly', () => {
     jest.isolateModules(() => {
       const { generateHabitatReference } = require('../../combined-case/helpers.js')
-      expect(generateHabitatReference()).toBe('HAB-00000000-0')
-      expect(generateHabitatReference()).toBe('HAB-00000000-1')
-      expect(generateHabitatReference()).toBe('HAB-00000000-2')
+      expect(generateHabitatReference()).toMatch(/^HAB-\d{8}-P[ABCDEFGHJKMNPRTUVWXY]{4}$/)
     })
   })
 
@@ -37,13 +34,13 @@ describe('processMetricData', () => {
     session.get.mockImplementation((key) => {
       if (key === constants.redisKeys.METRIC_DATA) {
         return {
-          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10 }],
-          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5 }]
+          d2: [{ 'Broad habitat': 'Forest', 'Proposed habitat': 'Woodland', Condition: 'Good', 'Area (hectares)': 10, 'Off-site reference': '1234' }],
+          d3: [{ 'Proposed Broad Habitat': 'Grassland', 'Proposed habitat': 'Meadow', Condition: 'Fair', 'Length (km)': 5, 'Off-site reference': '1234' }]
         }
       } else if (key === constants.redisKeys.DEVELOPER_METRIC_DATA) {
         return {
-          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15 }],
-          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2 }]
+          e2: [{ 'Habitat type': 'Wetland', Condition: 'Poor', 'Area (hectares)': 15, 'Off-site reference': '1234' }],
+          f3: [{ 'Proposed habitat': 'Stream', Condition: 'Excellent', 'Length (km)': 2, 'Off-site reference': '1234' }]
         }
       }
       return null
@@ -59,28 +56,28 @@ describe('processMetricData', () => {
       processMetricData(session)
 
       const expectedRegistrationHabitats = [
-        {
+        expect.objectContaining({
           habitatType: 'Forest - Woodland',
           condition: 'Good',
           sheet: 'd2',
           module: 'Created',
           state: 'Habitat',
-          id: 'HAB-00000000-0',
           size: 10,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
-        },
-        {
+        }),
+        expect.objectContaining({
           habitatType: 'Grassland - Meadow',
           condition: 'Fair',
           sheet: 'd3',
           module: 'Enhanced',
           state: 'Habitat',
-          id: 'HAB-00000000-1',
           size: 5,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
-        }
+        })
       ]
 
       const expectedAllocationHabitats = [
@@ -93,6 +90,7 @@ describe('processMetricData', () => {
           id: '0',
           size: 15,
           measurementUnits: 'hectares',
+          offsiteReference: '1234',
           processed: false
         },
         {
@@ -104,6 +102,7 @@ describe('processMetricData', () => {
           id: '1',
           size: 2,
           measurementUnits: 'kilometres',
+          offsiteReference: '1234',
           processed: false
         }
       ]
@@ -337,5 +336,132 @@ describe('getModule', () => {
       expect(getModule('e3')).toBe('Enhanced')
       expect(getModule('f3')).toBe('Enhanced')
     })
+  })
+})
+
+describe('getMatchedHabitatsHtml', () => {
+  const { getMatchedHabitatsHtml } = require('../../combined-case/helpers.js')
+
+  it('should return an empty array if no habitats are matched', () => {
+    const result = getMatchedHabitatsHtml([])
+    expect(result).toEqual([])
+  })
+
+  it('should return an empty array when habitats is null', () => {
+    const result = getMatchedHabitatsHtml(null)
+    expect(result).toEqual([])
+  })
+
+  it('should return an empty array when habitats is undefined', () => {
+    const result = getMatchedHabitatsHtml(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('should group habitats by state and calculate totals', () => {
+    const habitats = [
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0, matchedHabitatId: 2 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: 1.5, matchedHabitatId: 3 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'chains', habitatUnitsDelivered: 3, matchedHabitatId: 4 },
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 1.2, measurementUnits: 'km', habitatUnitsDelivered: 3 }
+    ]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([
+      [
+        { text: 'Grassland' },
+        { html: 'Good' },
+        { html: '10&nbsp;ha' },
+        { html: '5.5&nbsp;units' }
+      ],
+      [
+        { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '5.5 units', classes: 'table-heavy-border' }
+      ],
+      [
+        { text: 'Native hedgerow', classes: 'table-extra-padding' },
+        { html: 'Fair', classes: 'table-extra-padding' },
+        { html: '12&nbsp;km', classes: 'table-extra-padding' },
+        { html: '3.0&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '3.0 units', classes: 'table-heavy-border' }
+      ],
+      [
+        { text: 'River', classes: 'table-extra-padding' },
+        { html: 'Poor', classes: 'table-extra-padding' },
+        { html: '0.5&nbsp;km', classes: 'table-extra-padding' },
+        { html: '1.5&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'River' },
+        { html: 'Good' },
+        { html: '0.5&nbsp;chains' },
+        { html: '3.0&nbsp;units' }
+      ],
+      [
+        { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '4.5 units', classes: 'table-heavy-border' }
+      ]
+    ])
+  })
+
+  it('should handle undefined/null habitat entry', () => {
+    const habitats = [undefined, null]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([])
+  })
+
+  it('should handle missing habitat entries', () => {
+    const habitats = [{ state: 'Habitat', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 }]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([])
+  })
+
+  it('should handle habitatUnitsDelivered being undefined', () => {
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', matchedHabitatId: 1 }
+    const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+
+    expect(habitatUnitsDelivered).toBe(0)
+  })
+
+  it('should handle habitatUnitsDelivered being defined', () => {
+    const habitat = { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', habitatUnitsDelivered: 5.5, matchedHabitatId: 1 }
+    const habitatUnitsDelivered = habitat.habitatUnitsDelivered || 0
+
+    expect(habitatUnitsDelivered).toBe(5.5)
+  })
+
+  it('should handle habitatUnitsDelivered being undefined', () => {
+    const habitats = [
+      { state: 'Habitat', habitatType: 'Grassland', condition: 'Good', size: 10, measurementUnits: 'hectares', matchedHabitatId: 1 },
+      { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', matchedHabitatId: 1 }
+    ]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([])
+  })
+
+  it('should handle Watercourse state', () => {
+    const habitats = [
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 15, measurementUnits: 'kilometres', habitatUnitsDelivered: 7.5, matchedHabitatId: 1 }
+    ]
+
+    const result = getMatchedHabitatsHtml(habitats)
+    expect(result).toEqual([
+      [
+        { text: 'River', classes: 'table-extra-padding' },
+        { html: 'Good', classes: 'table-extra-padding' },
+        { html: '15&nbsp;km', classes: 'table-extra-padding' },
+        { html: '7.5&nbsp;units', classes: 'table-extra-padding' }
+      ],
+      [
+        { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
+        { text: '7.5 units', classes: 'table-heavy-border' }
+      ]
+    ])
   })
 })
