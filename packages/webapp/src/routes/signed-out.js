@@ -6,11 +6,13 @@ const signedOut = {
   options: {
     auth: false
   },
-  handler: (_request, h) => {
+  handler: (request, h) => {
+    const app = request?.query?.app
+
     const options = {
-      continueRegistration: !_request?.query?.app,
-      continueAllocation: _request?.query?.app === constants.applicationTypes.ALLOCATION.toLowerCase(),
-      continueCredits: _request?.query?.app === constants.applicationTypes.CREDITS_PURCHASE.toLowerCase()
+      continueRegistration: app === constants.applicationTypes.REGISTRATION.toLowerCase(),
+      continueAllocation: app === constants.applicationTypes.ALLOCATION.toLowerCase(),
+      continueCredits: app === constants.applicationTypes.CREDITS_PURCHASE.toLowerCase()
     }
 
     return h.view(constants.views.SIGNED_OUT, options)
