@@ -24,4 +24,18 @@ describe('error-pages', () => {
     expect(response.statusCode).toEqual(500)
     expect(response.result).toContain('Sorry, there is a problem with the service')
   })
+
+  it('handles 500 error with referer /check-and-submit', async () => {
+    const response = await getServer().inject({
+      method: 'GET',
+      url: '/error',
+      headers: {
+        referer: '/check-and-submit'
+      }
+    })
+
+    expect(response.statusCode).toEqual(500)
+    expect(response.result).toContain('Your application could not be submitted')
+    expect(response.result).toContain('Please check your metric file(s)')
+  })
 })
