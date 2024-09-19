@@ -12,6 +12,12 @@ const handlers = {
     const metricUploadLocation = request.yar.get(constants.redisKeys.METRIC_LOCATION)
     request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
 
+    // If the metric file is changing then we clear any previously matched habitats as they're no longer valid
+    if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+      request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+    }
+
     return getNextStep(request, h, (e) => {
       return h.view(constants.views.CHECK_UPLOAD_METRIC, {
         filename: path.basename(metricUploadLocation),

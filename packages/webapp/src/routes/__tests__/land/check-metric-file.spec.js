@@ -80,5 +80,27 @@ describe(url, () => {
         }
       })
     })
+    it('clears any matched habitats if the user selects no', async () => {
+      postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.NO
+      const sessionData = {
+        [constants.redisKeys.APPLICATION_TYPE]: constants.applicationTypes.REGISTRATION,
+        [constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS]: {
+          habitatType: 'Sparsely vegetated land - Calaminarian grasslands',
+          condition: 'Good',
+          sheet: 'd3',
+          module: 'Enhanced',
+          state: 'Habitat',
+          id: '0',
+          size: 2,
+          measurementUnits: 'hectares',
+          rowNum: 12,
+          processed: false
+        },
+        [constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE]: true
+      }
+      await submitPostRequest(postOptions, 302, sessionData)
+      expect(sessionData).not.toHaveProperty(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+      expect(sessionData).not.toHaveProperty(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+    })
   })
 })
