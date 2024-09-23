@@ -17,6 +17,14 @@ async function processSuccessfulUpload (result, request, h) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(constants.views.UPLOAD_METRIC, validationError)
   }
+
+  // Clear any previously matched combined case habitats as they're no longer valid after uploading a new file
+  const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+  if (isCombinedCase) {
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+  }
+
   request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
