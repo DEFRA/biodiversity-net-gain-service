@@ -65,11 +65,7 @@ const combinedCaseValidation = Joi.object({
             area: Joi.number(),
             measurementUnits: Joi.string().valid('hectares', 'kilometres')
           })
-        ),
-        allocated: Joi.array().items(Joi.object({
-          habitatId: Joi.string().allow(''),
-          area: Joi.number().required()
-        }))
+        )
       }),
       habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
       gainSiteReference: Joi.string().allow(''),
@@ -127,6 +123,12 @@ const combinedCaseValidation = Joi.object({
           hedge: Joi.number().required(),
           watercourse: Joi.number().required()
         }).required()
+      }).required(),
+      habitats: Joi.object({
+        allocated: Joi.array().items(Joi.object({
+          habitatId: Joi.string().allow(''),
+          area: Joi.number().required()
+        })).required()
       }).required(),
       development: Joi.object({
         localPlanningAuthority: Joi.object({
