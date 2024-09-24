@@ -61,6 +61,8 @@ const handlers = {
       return getNextStep(request, h)
     }
 
+    // User wants to upload a new file so clear the "ownership proof is complete" key
+    request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY)
     return getNextStep(request, h)
   }
 }

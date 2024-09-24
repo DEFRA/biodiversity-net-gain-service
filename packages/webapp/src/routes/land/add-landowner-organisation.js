@@ -75,7 +75,9 @@ const handlers = {
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
     const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
-    return h.redirect(referrerUrl || constants.routes.CHECK_LANDOWNERS)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    const checkLandownersUrl = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS : constants.routes.CHECK_LANDOWNERS
+    return h.redirect(referrerUrl || checkLandownersUrl)
   }
 }
 

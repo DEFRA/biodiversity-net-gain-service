@@ -154,7 +154,7 @@ describe(url, () => {
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development and habitat details</span>" },
+            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development details</span>" },
             isLocked: true,
             status: {
               tag: {

@@ -2,6 +2,7 @@ import { deleteBlobFromContainers } from './azure-storage.js'
 import { getMetricFileValidationErrors, getMaximumFileSizeExceededView } from './helpers.js'
 import constants from './constants.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { processMetricData, getMatchingHabitats } from './combined-case/helpers.js'
 
 export const UPLOAD_METRIC_ID = '#uploadMetric'
 
@@ -42,13 +43,38 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
     const error = {
       err: [
         {
-          text: 'The uploaded metric does not contain the off-site reference entered.'
+          text: 'The uploaded metric does not contain the off-site reference entered.',
+          href: UPLOAD_METRIC_ID
         }
       ]
     }
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
     return h.view(view, error)
   }
+
+  if (applicationType === constants.applicationTypes.COMBINED_CASE) {
+    processMetricData(request.yar)
+    const allocationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    const registrationHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
+    const hasMatches = allocationHabitats.some(allocationHabitat => (getMatchingHabitats(allocationHabitat, registrationHabitats)).length > 0)
+
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_REGISTRATION_HABITATS)
+
+    if (!hasMatches) {
+      const error = {
+        err: [
+          {
+            text: 'The habitats in your development metric cannot be matched to any habitats in your registration metric. Please check both metrics to ensure the details are correct.',
+            href: UPLOAD_METRIC_ID
+          }
+        ]
+      }
+      await deleteBlobFromContainers(result.config.blobConfig.blobName)
+      return h.view(view, error)
+    }
+  }
+
   return h.redirect(view === constants.views.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC ? constants.routes.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC : constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
 }
 
