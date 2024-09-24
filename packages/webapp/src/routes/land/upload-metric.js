@@ -27,9 +27,12 @@ async function processSuccessfulUpload (result, request, h) {
   request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_DATA)
   request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_FILE_NAME)
 
-  // clear matching data
-  request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
-  request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+  // Clear any previously matched combined case habitats as they're no longer valid after uploading a new file
+  const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+  if (isCombinedCase) {
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
+    request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
+  }
 
   // set new metric data
   request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)

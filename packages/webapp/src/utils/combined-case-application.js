@@ -20,7 +20,10 @@ const getOrganisation = session => ({
   address: getAddress(session)
 })
 
-const getHabitats = metricData => getHabitatsFromMetric(metricData)
+const getHabitats = session => ({
+  ...getHabitatsFromMetric(session.get(constants.redisKeys.METRIC_DATA)),
+  ...getAllocationHabitats(session)
+})
 
 const getApplicationReference = session => session.get(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE) || ''
 
@@ -110,7 +113,7 @@ const application = (session, account) => {
     combinedCase: {
       applicant: getApplicant(account, session, constants.redisKeys.IS_AGENT),
       registrationDetails: {
-        habitats: getHabitats(session.get(constants.redisKeys.METRIC_DATA)),
+        habitats: getHabitats(session),
         landBoundaryGridReference: getGridReference(session),
         landBoundaryHectares: getHectares(session),
         legalAgreementType: session.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE),
@@ -123,7 +126,6 @@ const application = (session, account) => {
       },
       allocationDetails: {
         gainSite: calculateGainSite(session),
-        habitats: getAllocationHabitats(session),
         development: {
           localPlanningAuthority: {
             code: getLpaCode(planningAuthorityName),
