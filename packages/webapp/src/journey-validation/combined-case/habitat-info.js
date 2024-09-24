@@ -46,7 +46,7 @@ const habitatInfoJourneys = [
         ...UPLOAD_METRIC.sessionKeys,
         ...CHECK_UPLOAD_METRIC.sessionKeys
       ],
-      [ANY, ANY, ANY, ANY, 'yes']
+      [ANY, ANY, ANY, ANY]
     ),
     journeyStepFromRoute(CHECK_HABITAT_BASELINE, [true]),
     journeyStepFromRoute(CHECK_HABITAT_CREATED, [true])

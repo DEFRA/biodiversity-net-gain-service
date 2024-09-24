@@ -25,14 +25,6 @@ describe('application', () => {
     expect(app.combinedCase.applicant.role).toEqual('agent')
   })
 
-  it('Filters out habitats correctly based on gain site number', () => {
-    session.values[constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER] = 'GAIN-1234'
-
-    const app = application(session, account)
-    const habitat = app.combinedCase.allocationDetails.gainSite.offsiteUnitChange.habitat
-    expect(habitat).toEqual(0)
-  })
-
   it('Adds client details if applicant is agent, and includes written authorisation', () => {
     const firstName = 'John'
     const lastName = 'Doe'
@@ -199,5 +191,18 @@ describe('application', () => {
     const app = application(session, account)
     expect(app.combinedCase.applicant.role).toEqual('landowner')
     expect(app.combinedCase.landownerAddress.type).toEqual('uk')
+  })
+
+  it('Adds allocated habitats', () => {
+    const app = application(session, account)
+    expect(app.combinedCase.registrationDetails.habitats.allocated.length).toEqual(5)
+  })
+
+  it('Calculates offsite unit change', () => {
+    const app = application(session, account)
+    const offsiteUnitChange = app.combinedCase.allocationDetails.gainSite.offsiteUnitChange
+    expect(offsiteUnitChange.habitat).toEqual(10.59)
+    expect(offsiteUnitChange.hedge).toEqual(9.47)
+    expect(offsiteUnitChange.watercourse).toEqual(0)
   })
 })

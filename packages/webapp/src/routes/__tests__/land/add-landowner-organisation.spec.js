@@ -82,6 +82,23 @@ describe(url, () => {
 
       expect(viewResult).toEqual(constants.routes.CHECK_LANDOWNERS)
     })
+    it('should add landowner to legal agreement and redirect to COMBINED_CASE_CHECK_LANDOWNERS page when this is a combined case request', async () => {
+      const request = {
+        yar: redisMap,
+        payload: {
+          organisationName: 'org3',
+          emailAddress: 'me@me.com'
+        },
+        query: {},
+        _route: {
+          path: '/combined-case/add-landowner-organisation'
+        }
+      }
+
+      await addLandownerOrganisations.default[1].handler(request, h)
+
+      expect(viewResult).toEqual(constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS)
+    })
     it('should return an error for empty id in query string', async () => {
       const queryUrl = url + '?id='
       const response = await submitPostRequest({ url: queryUrl }, 400)
