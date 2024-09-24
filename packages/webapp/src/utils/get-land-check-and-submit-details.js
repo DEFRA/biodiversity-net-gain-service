@@ -81,7 +81,7 @@ const getLandOwnershipRows = (applicationDetails, applicationType) => {
             {
               href: changeHref,
               text: 'Change',
-              visuallyHiddenText: ' land boundary file'
+              visuallyHiddenText: ' proof of land ownership file'
             }
           ]
         }
