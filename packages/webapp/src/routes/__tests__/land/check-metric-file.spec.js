@@ -11,11 +11,35 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+
     it('should redirect to the developer journey task list if a developer journey is in progress', async () => {
       const redisMap = new Map()
       redisMap.set(constants.redisKeys.APPLICATION_TYPE, constants.applicationTypes.ALLOCATION)
       const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
       expect(response.headers.location).toEqual(constants.routes.DEVELOPER_TASKLIST)
+    })
+
+    it('should redirect to change-registration-metric if both metrics are uploaded for /land', async () => {
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.METRIC_LOCATION, 'metric-location')
+      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'developer-metric-location')
+      const response = await submitGetRequest({ url }, 302, Object.fromEntries(redisMap))
+      expect(response.headers.location).toEqual('/land/change-registration-metric')
+    })
+
+    it('should redirect to change-registration-metric if both metrics are uploaded for /combined-case', async () => {
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.METRIC_LOCATION, 'metric-location')
+      redisMap.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, 'developer-metric-location')
+      const response = await submitGetRequest({ url: constants.reusedRoutes.COMBINED_CASE_CHECK_UPLOAD_METRIC }, 302, Object.fromEntries(redisMap))
+      expect(response.headers.location).toEqual('/combined-case/change-registration-metric')
+    })
+
+    it('should stay on the current view if no metrics are uploaded', async () => {
+      const redisMap = new Map()
+      redisMap.set(constants.redisKeys.METRIC_LOCATION, null)
+      const response = await submitGetRequest({ url }, 200, Object.fromEntries(redisMap))
+      expect(response.headers.location).toBeUndefined()
     })
   })
 
@@ -27,6 +51,7 @@ describe(url, () => {
         payload: {}
       }
     })
+
     it('should allow confirmation that the correct metric file has been uploaded', async () => {
       postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.YES
       const sessionData = {}
@@ -34,7 +59,7 @@ describe(url, () => {
       await submitPostRequest(postOptions, 302, sessionData)
     })
 
-    it('should allow an alternative metric file to be uploaded ', async () => {
+    it('should allow an alternative metric file to be uploaded', async () => {
       const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
       postOptions.payload.checkUploadMetric = constants.confirmLandBoundaryOptions.NO
       const sessionData = {}
@@ -45,10 +70,12 @@ describe(url, () => {
     })
 
     it('should detect an invalid response from user', async () => {
+      postOptions.payload.checkUploadMetric = 'invalid'
       const sessionData = {}
       sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.REGISTRATION
       await submitPostRequest(postOptions, 500, sessionData)
     })
+
     it('Ensure page uses referrer if is set on post', done => {
       jest.isolateModules(async () => {
         try {

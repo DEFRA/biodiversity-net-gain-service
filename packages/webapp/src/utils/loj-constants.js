@@ -124,6 +124,7 @@ const FULL_NAME = 'fullname'
 const LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS = 'legal-agreement-landowner-conservation-convenants'
 const LANDOWNERS = 'landowners'
 const REFERER = 'referer'
+const CHECK_AND_SUBMIT_JOURNEY_ROUTE = 'check-and-submit-journey-route'
 const EMAIL_VALUE = 'email-value'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
@@ -236,6 +237,7 @@ export default {
     HABITAT_ENHANCEMENTS_END_DATE_OPTION,
     METRIC_UPLOADED_ANSWER,
     REFERER,
+    CHECK_AND_SUBMIT_JOURNEY_ROUTE,
     EMAIL_VALUE,
     LANDOWNER_TYPE,
     DEFRA_ACCOUNT_DETAILS_CONFIRMED,

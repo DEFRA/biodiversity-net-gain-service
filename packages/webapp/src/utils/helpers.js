@@ -5,7 +5,6 @@ import Joi from 'joi'
 import constants from './constants.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-import { deleteBlobFromContainers } from './azure-storage.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -371,6 +370,9 @@ const setInpageLinks = (context, path) => {
   } else if (path.includes('/developer')) {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3POwdzJF7AISB8i'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_datEcyFZVxYdMjk'
+  } else if (path.includes('/combined-case')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_6u70qkCWfbLwq2y'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_1S4qMTuTxMiyrxs'
   } else {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO'
@@ -812,12 +814,6 @@ const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedire
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED, checkUploadMetric)
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
-    await deleteBlobFromContainers(metricUploadLocation)
-    request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-    request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
-    request.yar.clear(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS)
-    request.yar.clear(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
     return h.redirect(noRedirectRoute)
   } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
     return h.redirect(yesRedirectRoute)

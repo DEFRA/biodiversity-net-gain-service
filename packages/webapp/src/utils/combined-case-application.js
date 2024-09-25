@@ -1,16 +1,17 @@
 import constants from './constants.js'
+import paymentConstants from '../payment/constants.js'
+import savePayment from '../payment/save-payment.js'
 import { getLpaNamesAndCodes } from './get-lpas.js'
 import {
   getApplicant,
-  getGainSite,
   getClientDetails,
   getAddress,
   getHabitatsFromMetric,
   getFiles,
+  getFile,
   getLocalPlanningAuthorities,
   getHectares,
   getGridReference,
-  getPayment,
   getLandowners
 } from './shared-application.js'
 
@@ -32,15 +33,71 @@ const getAllocationHabitats = session => {
   const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
 
   return {
-    allocated: (matchedHabitats || []).map(m => {
-      return {
-        habitatId: m.matchedHabitatId,
-        area: m.size,
-        module: m.module,
-        state: m.state,
-        measurementUnits: m.measurementUnits
-      }
-    })
+    allocated: (matchedHabitats || []).filter(m => m.matchedHabitatId).map(m => ({
+      habitatId: m.matchedHabitatId,
+      area: m.size
+    }))
+  }
+}
+
+const getPayment = session => {
+  const payment = savePayment(session, paymentConstants.COMBINED, getCombinedCaseReference(session))
+  return {
+    reference: payment.reference,
+    method: payment.type
+  }
+}
+
+const getCombinedCaseReference = session => session.get(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE) || ''
+
+const getRegistrationAndAllocationFiles = session => ([
+  ...getFiles(session),
+  getFile(session, constants.redisKeys.DEVELOPER_METRIC_FILE_TYPE, constants.redisKeys.DEVELOPER_METRIC_FILE_SIZE, constants.redisKeys.DEVELOPER_METRIC_LOCATION, false),
+  getFile(session, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_TYPE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_FILE_SIZE, constants.redisKeys.DEVELOPER_PLANNING_DECISION_NOTICE_LOCATION, false)
+])
+
+const calculateGainSite = session => {
+  const metricData = session.get(constants.redisKeys.DEVELOPER_METRIC_DATA)
+  const matchedHabitats = session.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
+
+  const habitats = matchedHabitats?.filter(h => h.state === 'Habitat' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const hedges = matchedHabitats?.filter(h => h.state === 'Hedge' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const watercourses = matchedHabitats?.filter(h => h.state === 'Watercourse' && h.matchedHabitatId).map(h => h.offsiteReference)
+  const habitatRefs = [...new Set(habitats)]
+  const hedgeRefs = [...new Set(hedges)]
+  const watercourseRefs = [...new Set(watercourses)]
+
+  let habitatTotal = 0
+  let hedgeTotal = 0
+  let watercourseTotal = 0
+
+  habitatRefs.forEach(h => {
+    const summary = metricData.habitatOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
+    if (summary) {
+      habitatTotal += parseFloat(summary['Habitat Offsite unit change per gain site (Post SRM)'])
+    }
+  })
+
+  hedgeRefs.forEach(h => {
+    const summary = metricData.hedgeOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
+    if (summary) {
+      hedgeTotal += parseFloat(summary['Hedge Offsite unit change per gain site (Post SRM)'])
+    }
+  })
+
+  watercourseRefs.forEach(h => {
+    const summary = metricData.waterCourseOffSiteGainSiteSummary?.find(item => String(item['Gain site reference']) === String(h))
+    if (summary) {
+      watercourseTotal += parseFloat(summary['Watercourse Offsite unit change per gain site (Post SRM)'])
+    }
+  })
+
+  return {
+    offsiteUnitChange: {
+      habitat: habitatTotal,
+      hedge: hedgeTotal,
+      watercourse: watercourseTotal
+    }
   }
 }
 
@@ -65,7 +122,7 @@ const application = (session, account) => {
         ...(isLegalAgreementTypeS106 ? { planningObligationLPAs: getLocalPlanningAuthorities(session.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)) } : {})
       },
       allocationDetails: {
-        gainSite: getGainSite(session),
+        gainSite: calculateGainSite(session),
         habitats: getAllocationHabitats(session),
         development: {
           localPlanningAuthority: {
@@ -76,10 +133,10 @@ const application = (session, account) => {
           name: session.get(constants.redisKeys.DEVELOPER_DEVELOPMENT_NAME)
         }
       },
-      files: getFiles(session),
+      files: getRegistrationAndAllocationFiles(session),
       applicationReference: getApplicationReference(session),
       submittedOn: new Date().toISOString(),
-      payment: getPayment(session, getApplicationReference(session))
+      payment: getPayment(session)
     }
   }
 

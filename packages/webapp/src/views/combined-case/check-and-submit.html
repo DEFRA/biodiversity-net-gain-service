@@ -2,7 +2,6 @@
 
 {% from "common/generate-summary-list-macro.njk" import generateSummaryList %}
 
-{% set serviceName = "CHANGE ME" %}
 {% set pageHeading = "Check your answers before submitting your information" %}
 
   {% set developmentInfoRowList = [
@@ -50,16 +49,6 @@
       'href': developmentInfo.metricFileNameUrl,
       'visuallyHiddenText': ' metric file name',
       'show': true
-    },
-    {
-      'text': 'Matched Habitats',
-      'value': developmentInfo.matchedHabitatItems,
-      'valueDataTestId': 'habitats-value',
-      'valueId': 'habitats-value',
-      'href': developmentInfo.matchHabitatsChangeUrl,
-      'visuallyHiddenText': ' habitats',
-      'show': true,
-      'subList': true
     }
   ] %}
 
@@ -69,7 +58,7 @@
     {% include "errorbanner.html" %}
   {% endif %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-three-quarters">
       <h1 class="govuk-heading-l">{{ pageHeading }}</h1>
 
       <h2 class="govuk-heading-m">Applicant information</h2>
@@ -215,6 +204,21 @@
       {{ generateSummaryList({
         rows: developmentInfoRowList,
         classes: 'govuk-!-margin-bottom-9'
+      }) }}
+
+      <!-- Summary of habitats being used -->
+      {{ govukTable({
+        caption: "Summary of habitats being used",
+        captionClasses: "govuk-table__caption--m",
+        firstCellIsHeader: true,
+        classes: "govuk-table--small-text-until-tablet",
+        head: [
+          { text: "Habitat" },
+          { text: "Condition" },
+          { text: "Size" },
+          { html: "Biodiversity&nbsp;units" }
+        ],
+        rows: matchedHabitats
       }) }}
 
       <h2 class="govuk-heading-m">Terms and conditions</h2>

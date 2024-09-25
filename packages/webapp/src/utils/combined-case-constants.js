@@ -87,7 +87,9 @@ const routes = {
   COMBINED_CASE_CONTINUE_PROJECT: 'combined-case/continue-combined-case-project',
   COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project',
   COMBINED_CASE_MATCH_ALLOCATION_SUMMARY: 'combined-case/match-allocation-summary',
-  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
+  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats',
+  COMBINED_CASE_CONFIRMATION: 'combined-case/application-submitted',
+  COMBINED_CASE_CHANGE_REGISTRATION_METRIC: 'combined-case/change-registration-metric'
 }
 
 const redisKeys = {

@@ -17,18 +17,17 @@ const combinedCaseValidation = Joi.object({
       id: Joi.string().required(),
       role: Joi.string().valid('agent', 'landowner', 'representative').required()
     }),
+    landownerAddress: Joi.when('applicant.role', {
+      is: 'landowner',
+      then: applicantAddressSchema,
+      otherwise: Joi.forbidden()
+    }),
+    organisation: Joi.object({
+      id: Joi.string().required(),
+      address: applicantAddressSchema
+    }).optional(),
     registrationDetails: Joi.object({
       landowners: Joi.object(),
-      landownerAddress: Joi.when('applicant.role', {
-        is: 'landowner',
-        then: applicantAddressSchema,
-        otherwise: Joi.forbidden()
-      }),
-      organisation: Joi.object({
-        id: Joi.string().required(),
-        address: applicantAddressSchema
-      }).optional(),
-      // BNGP-4130-relax-metric-check-and-submit-validation
       habitats: Joi.object({
         baseline: Joi.array().items(
           Joi.object({
@@ -127,11 +126,8 @@ const combinedCaseValidation = Joi.object({
       }).required(),
       habitats: Joi.object({
         allocated: Joi.array().items(Joi.object({
-          habitatId: Joi.string().required(),
-          area: Joi.number().required(),
-          module: Joi.string().valid('Baseline', 'Created', 'Enhanced').required(),
-          state: Joi.string().valid('Habitat', 'Hedge', 'Watercourse').required(),
-          measurementUnits: Joi.string().valid('hectares', 'kilometres').required()
+          habitatId: Joi.string().allow(''),
+          area: Joi.number().required()
         })).required()
       }).required(),
       development: Joi.object({

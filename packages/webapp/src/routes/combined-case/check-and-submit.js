@@ -6,6 +6,7 @@ import getDeveloperDetails from '../../utils/get-developer-check-and-submit-deta
 import combinedCaseApplicationValidation from '../../utils/combined-case-application-validation.js'
 import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
+import { getMatchedHabitatsHtml } from '../../utils/combined-case/helpers.js'
 
 const handlers = {
   get: (request, h) => {
@@ -21,15 +22,19 @@ const handlers = {
       return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
     }
 
+    request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
+
     const applicationDetails = application(request.yar, request.auth.credentials.account).combinedCase
-    console.log(JSON.stringify(applicationDetails, null, 2))
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
+    const matchedHabitats = getMatchedHabitatsHtml(request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING))
+
     return h.view(
       constants.views.COMBINED_CASE_CHECK_AND_SUBMIT,
       {
         ...getRegistrationDetails(request, applicationDetails),
-        ...getDeveloperDetails(request, request.yar, currentOrganisation)
+        ...getDeveloperDetails(request, request.yar, currentOrganisation),
+        matchedHabitats
       }
     )
   },
@@ -40,6 +45,7 @@ const handlers = {
     if (request.payload.termsAndConditionsConfirmed !== 'Yes') {
       const claims = request.auth.credentials.account.idTokenClaims
       const { currentOrganisation } = getOrganisationDetails(claims)
+      const matchedHabitats = getMatchedHabitatsHtml(request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING))
       const err = [{
         text: 'You must confirm you have read the terms and conditions',
         href: '#termsAndConditionsConfirmed'
@@ -48,6 +54,7 @@ const handlers = {
         {
           ...getRegistrationDetails(request, applicationDetails),
           ...getDeveloperDetails(request, request.yar, currentOrganisation),
+          matchedHabitats,
           err
         })
     }
@@ -59,7 +66,7 @@ const handlers = {
 
     const result = await postJson(`${constants.AZURE_FUNCTION_APP_URL}/processcombinedcaseapplication`, value)
     request.yar.set(constants.redisKeys.COMBINED_CASE_APPLICATION_REFERENCE, result.applicationReference)
-    return h.redirect(constants.routes.APPLICATION_SUBMITTED)
+    return h.redirect(constants.routes.COMBINED_CASE_CONFIRMATION)
   }
 }
 

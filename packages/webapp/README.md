@@ -48,7 +48,10 @@ warning: other service dependencies will be missing, install and run from root o
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 | LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
 | SERVICE_NAME | Service name as used in the GOV UK header (defaults to 'Manage biodiversity gains') | N |
-
+| BACKEND_API_BASE_URL | URL for API to backend resources, if not set resorts to local mock address | N |
+| BACKEND_API_SUBSCRIPTION_KEY | Subscription key to connect to APIM for backend API, if not set resorts to local mock value | N |
+| BACKEND_API_CODE_QUERY_PARAMETER | Query code parameter to pass to APIM | N | 
+| BACKEND_API_MOCK_BGS_FOR_ACCEPTANCE | Mock BGS number for pipeline acceptance tests to bypass API checks, only used if set | N |
 
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.
 
