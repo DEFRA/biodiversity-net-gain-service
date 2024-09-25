@@ -372,37 +372,37 @@ describe('getMatchedHabitatsHtml', () => {
         { text: 'Grassland' },
         { html: 'Good' },
         { html: '10&nbsp;ha' },
-        { html: '5.5&nbsp;units' }
+        { html: '5.50&nbsp;units', format: 'numeric' }
       ],
       [
         { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '5.5 units', classes: 'table-heavy-border' }
+        { text: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'Native hedgerow', classes: 'table-extra-padding' },
         { html: 'Fair', classes: 'table-extra-padding' },
         { html: '12&nbsp;km', classes: 'table-extra-padding' },
-        { html: '3.0&nbsp;units', classes: 'table-extra-padding' }
+        { html: '3.00&nbsp;units', classes: 'table-extra-padding', format: 'numeric' }
       ],
       [
         { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.0 units', classes: 'table-heavy-border' }
+        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'River', classes: 'table-extra-padding' },
         { html: 'Poor', classes: 'table-extra-padding' },
         { html: '0.5&nbsp;km', classes: 'table-extra-padding' },
-        { html: '1.5&nbsp;units', classes: 'table-extra-padding' }
+        { html: '1.50&nbsp;units', classes: 'table-extra-padding', format: 'numeric' }
       ],
       [
         { text: 'River' },
         { html: 'Good' },
         { html: '0.5&nbsp;chains' },
-        { html: '3.0&nbsp;units' }
+        { html: '3.00&nbsp;units', format: 'numeric' }
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '4.5 units', classes: 'table-heavy-border' }
+        { text: '4.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })
@@ -446,37 +446,37 @@ describe('getMatchedHabitatsHtml', () => {
         { text: 'Grassland' },
         { html: 'Good' },
         { html: '10&nbsp;ha' },
-        { html: '5.5&nbsp;units' }
+        { html: '5.50&nbsp;units', format: 'numeric' }
       ],
       [
         { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '5.5 units', classes: 'table-heavy-border' }
+        { text: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'Native hedgerow', classes: 'table-extra-padding' },
         { html: 'Fair', classes: 'table-extra-padding' },
         { html: '12&nbsp;km', classes: 'table-extra-padding' },
-        { html: '3.0&nbsp;units', classes: 'table-extra-padding' }
+        { html: '3.00&nbsp;units', classes: 'table-extra-padding', format: 'numeric' }
       ],
       [
         { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.0 units', classes: 'table-heavy-border' }
+        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'River', classes: 'table-extra-padding' },
         { html: 'Poor', classes: 'table-extra-padding' },
         { html: '0.5&nbsp;km', classes: 'table-extra-padding' },
-        { html: '0.0&nbsp;units', classes: 'table-extra-padding' }
+        { html: '0.00&nbsp;units', classes: 'table-extra-padding', format: 'numeric' }
       ],
       [
         { text: 'River' },
         { html: 'Good' },
         { html: '0.5&nbsp;chains' },
-        { html: '3.0&nbsp;units' }
+        { html: '3.00&nbsp;units', format: 'numeric' }
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.0 units', classes: 'table-heavy-border' }
+        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })
@@ -492,11 +492,11 @@ describe('getMatchedHabitatsHtml', () => {
         { text: 'River', classes: 'table-extra-padding' },
         { html: 'Good', classes: 'table-extra-padding' },
         { html: '15&nbsp;km', classes: 'table-extra-padding' },
-        { html: '7.5&nbsp;units', classes: 'table-extra-padding' }
+        { html: '7.50&nbsp;units', classes: 'table-extra-padding', format: 'numeric' }
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '7.5 units', classes: 'table-heavy-border' }
+        { text: '7.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })

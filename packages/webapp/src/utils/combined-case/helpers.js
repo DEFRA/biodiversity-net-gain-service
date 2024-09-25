@@ -191,7 +191,7 @@ const getMatchedHabitatsHtml = (habitats) => {
             { text: item.habitatType, ...baseRow },
             { html: item.condition.replace(/ /g, '&nbsp;'), ...baseRow },
             { html: `${item.size}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits}`, ...baseRow },
-            { html: `${isNaN(habitatUnits) ? 0.0 : Number(habitatUnits).toFixed(1)}&nbsp;units`, ...baseRow }
+            { html: `${isNaN(habitatUnits) ? 0.0 : Number(habitatUnits).toFixed(2)}&nbsp;units`, format: 'numeric', ...baseRow }
           ])
         }
       })
@@ -199,7 +199,7 @@ const getMatchedHabitatsHtml = (habitats) => {
       if (itemsAdded > 0) {
         habitatDetails.push([
           { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-          { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
+          { text: `${total.toFixed(2)}&nbsp;units`, classes: 'table-heavy-border', format: 'numeric' }
         ])
       }
     }
