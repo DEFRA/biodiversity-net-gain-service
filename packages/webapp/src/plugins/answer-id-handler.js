@@ -15,9 +15,12 @@ const answerIdHandler = {
           return h.continue
         }
 
-        // If we have a journey-start-answer-id query param then store its value and remove it from the url
+        // If we have a journey-start-answer-id query param then store its value on the and remove it from the url
         if (request.query['journey-start-answer-id']) {
-          request.yar.set(constants.redisKeys.JOURNEY_START_ANSWER_ID, request.query['journey-start-answer-id'])
+          // We treat JOURNEY_START_ANSWER_ID as a call stack so we need to retrieve the existing value or initialise a new one
+          const callStack = request.yar.get(constants.redisKeys.JOURNEY_START_ANSWER_ID) || []
+          callStack.push(request.query['journey-start-answer-id'])
+          request.yar.set(constants.redisKeys.JOURNEY_START_ANSWER_ID, callStack)
 
           // We have to manually commit yar changes inside an onPreResponse handler
           await request.yar.commit(h)
@@ -41,12 +44,15 @@ const answerIdHandler = {
           return h.continue
         }
 
-        const journeyStartAnswerId = request.yar.get(constants.redisKeys.JOURNEY_START_ANSWER_ID, true)
-        // We manually commit changes because the `true` option cleared any existing value
-        await request.yar.commit(h)
-        if (!journeyStartAnswerId) {
+        const callStack = request.yar.get(constants.redisKeys.JOURNEY_START_ANSWER_ID) || []
+        if (callStack.length === 0) {
           return h.continue
         }
+
+        // Pop the most recent id off the stack and write the resulting stack back
+        const journeyStartAnswerId = callStack.pop()
+        request.yar.set(constants.redisKeys.JOURNEY_START_ANSWER_ID, callStack)
+        await request.yar.commit(h)
 
         const url = new URL(request.url)
         url.hash = `#${journeyStartAnswerId}`
