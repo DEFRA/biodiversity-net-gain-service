@@ -68,6 +68,7 @@ const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-leg
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const PRIMARY_ROUTE = 'primary-route'
 const JOURNEY_START_ANSWER_ID = 'journey-start-answer-id'
+const JOURNERY_START_ANSWER_ID_HANDLED = 'journey-start-answer-id-handled'
 
 const applicationTypes = {
   REGISTRATION,
@@ -196,7 +197,8 @@ const redisKeys = {
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT,
   PRIMARY_ROUTE,
-  JOURNEY_START_ANSWER_ID
+  JOURNEY_START_ANSWER_ID,
+  JOURNERY_START_ANSWER_ID_HANDLED
 }
 
 let routes = {
@@ -278,11 +280,14 @@ for (const [key, value] of Object.entries(routes)) {
 }
 
 // The answerIdHandler plugin tracks which item is being changed on specific pages so we focus on that item when the
-// user returns to the page. The answerIdRoutes array specifies which pages we do this for. Note that we must define
-// this _after_ we've added `/` to the start of each route as our matching in answerIdHandler will fail otherwise.
+// user returns to the page. The answerIdRoutes array specifies which pages we do this for -- these will likely be the
+// task list, check and submit, and any "mini" check and submit pages. Note that we must define this _after_ we've added
+// `/` to the start of each route as our matching in answerIdHandler will fail otherwise.
 const answerIdRoutes = [
+  routes.COMBINED_CASE_TASK_LIST,
   routes.COMBINED_CASE_CHECK_AND_SUBMIT,
-  routes.COMBINED_CASE_TASK_LIST
+  reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION,
+  reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS
 ]
 
 // The answerIdClearRoutes array specifies pages where we clear any stored answer id because they signify a user has
