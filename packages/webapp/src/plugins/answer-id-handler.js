@@ -11,6 +11,11 @@ const answerIdHandler = {
 
     register: (server, _options) => {
       server.ext('onPreResponse', async (request, h) => {
+        // Only proceed if a session is initialised; otherwise we'll get errors when we read/write a non-existant session
+        if (!request.yar._store) {
+          return h.continue
+        }
+
         // We don't need to handle public assets
         if (request.path.includes('/public/')) {
           return h.continue
