@@ -18,7 +18,7 @@ describe('answer-id-handler', () => {
   it('Should store journey-start-answer-id query param, remove it from url, and forward to the resulting page with no hash defined', async () => {
     const application = JSON.parse(testApplication.dataString)
     const response = await submitGetRequest({ url: `${constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE}?journey-start-answer-id=test-answer-id` }, 302, application)
-    expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toEqual('test-answer-id')
+    expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toEqual(['test-answer-id'])
     expect(forwardedUrl(response).pathname).toEqual(constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE)
     expect(forwardedUrl(response).hash).toBeFalsy()
   })
@@ -29,13 +29,13 @@ describe('answer-id-handler', () => {
     expect(forwardedUrl(response).pathname).toBeUndefined()
   })
 
-  it('Should redirect to url with hash and clear the value of JOURNEY_START_ANSWER_ID if the path is combined case check and submit, and journey-start-answer-id is present', async () => {
+  it('Should redirect to url with hash and remove the value from JOURNEY_START_ANSWER_ID if the path is combined case check and submit, and journey-start-answer-id is present', async () => {
     const application = JSON.parse(testApplication.dataString)
-    application[constants.redisKeys.JOURNEY_START_ANSWER_ID] = 'test-answer-id'
+    application[constants.redisKeys.JOURNEY_START_ANSWER_ID] = ['test-answer-id-1', 'test-answer-id-2']
     const response = await submitGetRequest({ url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT }, 302, application)
     expect(forwardedUrl(response).pathname).toEqual(constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
-    expect(forwardedUrl(response).hash).toEqual('#test-answer-id')
-    expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toBeUndefined()
+    expect(forwardedUrl(response).hash).toEqual('#test-answer-id-2')
+    expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toEqual(['test-answer-id-1'])
   })
 
   it('Should clear the value of JOURNEY_START_ANSWER_ID but not redirect if the path is specified in constants.answerIdClearRoutes', async () => {
