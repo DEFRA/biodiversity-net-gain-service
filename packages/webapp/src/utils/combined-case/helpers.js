@@ -199,7 +199,7 @@ const getMatchedHabitatsHtml = (habitats) => {
       if (itemsAdded > 0) {
         habitatDetails.push([
           { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-          { text: `${total.toFixed(2)}&nbsp;units`, classes: 'table-heavy-border', format: 'numeric' }
+          { html: `${total.toFixed(2)}&nbsp;units`, classes: 'table-heavy-border', format: 'numeric' }
         ])
       }
     }

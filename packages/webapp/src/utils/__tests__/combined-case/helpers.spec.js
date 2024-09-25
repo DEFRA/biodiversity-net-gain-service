@@ -376,7 +376,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'Native hedgerow', classes: 'table-extra-padding' },
@@ -386,7 +386,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'River', classes: 'table-extra-padding' },
@@ -402,7 +402,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '4.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '4.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })
@@ -450,7 +450,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total habitat units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '5.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'Native hedgerow', classes: 'table-extra-padding' },
@@ -460,7 +460,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total hedgerow units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ],
       [
         { text: 'River', classes: 'table-extra-padding' },
@@ -482,7 +482,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '3.00&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })
@@ -502,7 +502,7 @@ describe('getMatchedHabitatsHtml', () => {
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
-        { text: '7.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
+        { html: '7.50&nbsp;units', classes: 'table-heavy-border', format: 'numeric' }
       ]
     ])
   })
