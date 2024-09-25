@@ -27,7 +27,7 @@ const d3OffSiteHabitatEnhancement = {
   substitutions: {
     __EMPTY: 'Area (hectares)',
     __EMPTY_3: 'Condition',
-    __EMPTY_5: 'Habitat units delivered',
+    __EMPTY_6: 'Habitat units delivered',
     'Habitat enhanced in advance (years) ': 'Habitat enhanced in advance (years)',
     'Proposed Habitat': 'Proposed habitat',
     ' Distinctiveness change': 'Distinctiveness change',
