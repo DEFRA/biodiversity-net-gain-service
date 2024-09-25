@@ -19,7 +19,7 @@ const e2OffSiteHedgeCreation = {
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],
   substitutions: {
-    __EMPTY: 'Hedge units delivered',
+    __EMPTY_1: 'Hedge units delivered',
     'Condition ': 'Condition',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
     'Habitat reference ': 'Habitat reference Number'

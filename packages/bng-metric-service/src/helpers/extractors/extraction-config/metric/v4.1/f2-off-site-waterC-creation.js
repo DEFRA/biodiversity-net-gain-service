@@ -21,7 +21,7 @@ const f2OffSiteWaterCCreation = {
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],
   substitutions: {
-    __EMPTY: 'Watercourse units delivered',
+    __EMPTY_1: 'Watercourse units delivered',
     'Condition ': 'Condition',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
     'Length km': 'Length (km)',
