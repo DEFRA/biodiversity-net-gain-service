@@ -191,7 +191,7 @@ const getMatchedHabitatsHtml = (habitats) => {
             { text: item.habitatType, ...baseRow },
             { html: item.condition.replace(/ /g, '&nbsp;'), ...baseRow },
             { html: `${item.size}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits}`, ...baseRow },
-            { html: `${isNaN(habitatUnits) ? 0.00 : Number(habitatUnits).toFixed(2)}&nbsp;units`, format: 'numeric', ...baseRow }
+            { html: `${isNaN(habitatUnits) ? '0.00' : Number(habitatUnits).toFixed(2)}&nbsp;units`, format: 'numeric', ...baseRow }
           ])
         }
       })

@@ -437,7 +437,7 @@ describe('getMatchedHabitatsHtml', () => {
       { state: 'Hedge', habitatType: 'Native hedgerow', condition: 'Fair', size: 12, measurementUnits: 'kilometres', habitatUnitsDelivered: 3.0, matchedHabitatId: 2 },
       { state: 'Watercourse', habitatType: 'River', condition: 'Poor', size: 0.5, measurementUnits: 'kilometres', habitatUnitsDelivered: '', matchedHabitatId: 3 },
       { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 0.5, measurementUnits: 'chains', habitatUnitsDelivered: 3, matchedHabitatId: 4 },
-      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 1.2, measurementUnits: 'km', habitatUnitsDelivered: 3 }
+      { state: 'Watercourse', habitatType: 'River', condition: 'Good', size: 1.2, measurementUnits: 'km', habitatUnitsDelivered: 'abc', matchedHabitatId: 5 }
     ]
 
     const result = getMatchedHabitatsHtml(habitats)
@@ -473,6 +473,12 @@ describe('getMatchedHabitatsHtml', () => {
         { html: 'Good' },
         { html: '0.5&nbsp;chains' },
         { html: '3.00&nbsp;units', format: 'numeric' }
+      ],
+      [
+        { text: 'River' },
+        { html: 'Good' },
+        { html: '1.2&nbsp;km' },
+        { html: '0.00&nbsp;units', format: 'numeric' }
       ],
       [
         { text: 'Total watercourse units', colspan: 3, classes: 'table-heavy-border' },
