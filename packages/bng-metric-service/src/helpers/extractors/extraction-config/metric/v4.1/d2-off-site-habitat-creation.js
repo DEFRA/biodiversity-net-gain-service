@@ -24,7 +24,7 @@ const d2OffSiteHabitatCreation = {
     __EMPTY_1: 'Proposed habitat',
     __EMPTY_3: 'Area (hectares)',
     __EMPTY_6: 'Condition',
-    __EMPTY_8: 'Habitat units delivered',
+    __EMPTY_9: 'Habitat units delivered',
     'Habitat created in advance (years) ': 'Habitat created in advance (years)',
     'Habitat reference ': 'Habitat reference Number'
   }
