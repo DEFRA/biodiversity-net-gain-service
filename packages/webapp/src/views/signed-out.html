@@ -9,7 +9,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <div class="govuk-panel govuk-panel--confirmation">
+      <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
         <h1 class="govuk-panel__title">
           {{ pageHeading }}
         </h1>
@@ -18,9 +18,13 @@
         </div>
       </div>
 
-      <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">{{ content.heading }}</h2>
+      {% if content.heading %}
+        <h2 id="return-to-application" class="govuk-heading-m">{{ content.heading }}</h2>
+      {% endif %}
 
-      <a href="/signin">{{ content.text }}</a>
+      <div>
+        <a href="/signin">{{ content.text }}</a>
+      </div>
     </div>
 </div>
 {% endblock %}

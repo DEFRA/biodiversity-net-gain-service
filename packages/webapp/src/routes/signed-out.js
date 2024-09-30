@@ -23,7 +23,7 @@ const signedOut = {
         content = { heading: 'Combined cases', text: 'Sign in to continue with an application to register a gain site and record off site gains at the same time' }
         break
       default:
-        content = { heading: 'Manage biodiversity gains', text: 'Sign in to begin an application' }
+        content = { text: 'Sign in again to resume an existing application or start a new one' }
     }
 
     return h.view(constants.views.SIGNED_OUT, { content })
