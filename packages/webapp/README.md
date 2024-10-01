@@ -14,6 +14,7 @@ warning: other service dependencies will be missing, install and run from root o
 
 | name    | description | mandatory |
 |---------|-------------|-----------|
+| APPLICATIONINSIGHTS_CONNECTION_STRING | Connection string to log to App Insights in Azure | N |
 | AZURE_STORAGE_ACCOUNT | Microsoft Azure or Azurite storage account name| Y |
 | AZURE_STORAGE_ACCESS_KEY | Microsoft Azure or Azurite storage account shared access key | Y |
 | ORDNANCE_SURVEY_API_KEY | Key used to access Ordnance Survey APIs | Y |
