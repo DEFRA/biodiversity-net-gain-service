@@ -45,4 +45,31 @@ describe('Signout handler', () => {
     expect(auth.logout).toHaveBeenCalledTimes(1)
     expect(auth.getLogoutUrl).toHaveBeenCalledTimes(1)
   })
+  it('Should determine the application type from APPLICATION_TYPE if present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const sessionData = {
+      [constants.redisKeys.APPLICATION_TYPE]: 'Registration'
+    }
+    await submitGetRequest({ url }, 302, sessionData)
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('Registration')
+  })
+  it('Should determine the application type from the referer header if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/land/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('Registration')
+  })
 })
