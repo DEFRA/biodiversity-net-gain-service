@@ -1,6 +1,6 @@
 import constants from '../utils/constants.js'
 
-const home = {
+const healthy = {
   method: 'GET',
   path: constants.routes.HEALTHY,
   options: {
@@ -9,4 +9,4 @@ const home = {
   handler: (request, h) => h.response('ok')
 }
 
-export default home
+export default healthy
