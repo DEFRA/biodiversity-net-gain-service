@@ -29,6 +29,7 @@ const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
 const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
+const HEALTHY = 'healthy'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -200,6 +201,7 @@ const redisKeys = {
 let routes = {
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
+  HEALTHY,
   SIGNIN,
   SIGNIN_CALLBACK,
   SIGNOUT,
