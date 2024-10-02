@@ -1,49 +1,17 @@
-import developerConstants from './developer-constants.js'
-import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 import lojConstants from './loj-constants.js'
-import disabledRoutesContants from './disabled-routes-constants.js'
-import creditsPurchaseConstants from './credits-purchase-constants.js'
+import developerConstants from './developer-constants.js'
 import combinedCaseConstants from './combined-case-constants.js'
+import creditsPurchaseConstants from './credits-purchase-constants.js'
+import disabledRoutesContants from './disabled-routes-constants.js'
+import { NODE_ENV, AZURE_FUNCTION_APP_URL, AMENDMENT_GUIDE_URL_ALLOCATION, AMENDMENT_GUIDE_URL_REGISTRATION } from './config.js'
 
-const APPLICATION_TYPE = 'application-type'
-const DOCUMENT_UPLOAD = 'documentUpload'
-const GEOSPATIAL_DATA = 'geospatialData'
-const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
-const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
-const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
-const NO = 'no'
-const NO_AGAIN = 'noAgain'
-const HABITAT_WORKS_MIN_START_DATE = MINIMUM_START_DATE
-const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
-const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
-const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
-const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
-const NOT_STARTED_YET_STATUS = 'NOT STARTED YET'
-const CANNOT_START_YET_STATUS = 'CANNOT START YET'
-const YES = 'yes'
-const AWAITING_PROCESSING = 'AwaitingProcessing'
-const SUCCESS = 'Success'
-const FILE_INACCESSIBLE = 'FileInaccessible'
-const QUARANTINED = 'Quarantined'
-const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
-const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
-const TEST_SEED_DATA = 'test/seed-data'
-const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
-const SIGNIN = 'signin'
-const SIGNIN_CALLBACK = 'signin/callback'
-const SIGNOUT = 'signout'
-const SIGNED_OUT = 'signed-out'
-const CONTACT_ID = 'contact-id'
-const ORGANISATION_ID = 'organisation-id'
+// Application Sections
 const REGISTRATION = 'Registration'
 const ALLOCATION = 'Allocation'
-const CREDITS_PURCHASE = 'CreditsPurchase'
 const COMBINED_CASE = 'CombinedCase'
-const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
-const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
-const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
-const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
-const BLOB_STORAGE_CONTAINER = 'customer-uploads'
+const CREDITS_PURCHASE = 'CreditsPurchase'
+
+// Application Types
 const AGENT = 'Agent'
 const CITIZEN = 'Citizen'
 const EMPLOYEE = 'Employee'
@@ -53,39 +21,122 @@ const INTERNATIONAL = 'international'
 const UK = 'uk'
 const INDIVIDUAL = 'individual'
 const ORGANISATION = 'organisation'
+
+// Boolean Values
+const NO = 'no'
+const YES = 'yes'
+
+// Dates
+const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
+const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
+const HABITAT_WORKS_MIN_START_DATE = MINIMUM_START_DATE
+const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
+
+// File Processing Statuses
+const AWAITING_PROCESSING = 'AwaitingProcessing'
+const FILE_INACCESSIBLE = 'FileInaccessible'
+const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
+const QUARANTINED = 'Quarantined'
+const SUCCESS = 'Success'
+const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
+
+// File Upload
+const BLOB_STORAGE_CONTAINER = 'customer-uploads'
+const DOCUMENT_UPLOAD = 'documentUpload'
 const MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED = 'multipleProofsOfPermissionRequired'
+
+// Geospatial Data
+const GEOSPATIAL_DATA = 'geospatialData'
+const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
+
+// Identifiers
+const CONTACT_ID = 'contact-id'
+const ORGANISATION_ID = 'organisation-id'
+
+const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
+
+// Routes
 const ACCESSIBILITY_STATEMENT = 'accessibility-statement'
+const APPLICATION_SUBMITTED = 'application-submitted'
+const APPLICATION_TYPE = 'application-type'
 const COOKIES = 'cookies'
+const MANAGE_BIODIVERSITY_GAINS = 'manage-biodiversity-gains'
+const PRE_AUTHENTICATION_ROUTE = 'pre-authentication-route'
+const PRIMARY_ROUTE = 'primary-route'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT = 'save-application-session-on-signout'
+const SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE = 'save-application-session-on-signout-or-journey-change'
+const SIGNIN = 'signin'
+const SIGNIN_CALLBACK = 'signin/callback'
+const SIGNOUT = 'signout'
+const SIGNED_OUT = 'signed-out'
+
+// Task Statuses
+const CANNOT_START_YET_STATUS = 'CANNOT START YET'
+const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
+const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
+const NOT_STARTED_YET_STATUS = 'NOT STARTED YET'
+
+// Test Data
+const TEST_API_GAINSITE = 'test/api/gainsite'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
 const TEST_CREDITS_PURCHASE_DATA = 'test/seed-credits-purchase-data'
-const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information', '/land/check-and-submit']
-const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
-const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
-const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
+const TEST_SEED_DATA = 'test/seed-data'
+
+// Valid Referrers
 const COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS = ['/combined-case/check-applicant-information', '/combined-case/check-and-submit']
 const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-boundary-details', '/combined-case/check-and-submit']
-const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
 const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
-const TEST_API_GAINSITE = 'test/api/gainsite'
-const PRIMARY_ROUTE = 'primary-route'
+const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
+const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information', '/land/check-and-submit']
+const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
+const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
+
+// ================================================================================= //
+
+// Options
 
 const applicationTypes = {
-  REGISTRATION,
   ALLOCATION,
+  COMBINED_CASE,
   CREDITS_PURCHASE,
-  COMBINED_CASE
+  REGISTRATION
+}
+
+const ADDRESS_IS_UK = {
+  NO,
+  YES
 }
 
 const ADDRESS_TYPES = {
   INTERNATIONAL,
   UK
 }
-const APPLICATION_SUBMITTED = 'application-submitted'
-const TEST_DEVELOPER_SEED_DATA = 'test/seed-developer-data'
-const LEGAL_AGREEMENT_TYPE_CONSERVATION = 'Conservation covenant'
+
+const APPLICANT_IS_AGENT = {
+  NO,
+  YES
+}
+
+const CHECK_UPLOAD_METRIC_OPTIONS = {
+  NO,
+  YES
+}
 
 const confirmFileUploadOptions = {
   NO,
-  NO_AGAIN,
+  YES
+}
+
+const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
+  NO,
+  YES
+}
+
+const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
+  NO,
   YES
 }
 
@@ -94,39 +145,13 @@ const landBoundaryUploadTypes = {
   DOCUMENT_UPLOAD
 }
 
-const LEGAL_AGREEMENT_FILE_EXT = [
-  '.doc',
-  '.docx',
-  '.pdf'
-]
-const LOCAL_LAND_CHARGE_FILE_EXT = [
-  '.doc',
-  '.docx',
-  '.pdf'
-]
-const LEGAL_LAND_BOUNDARY_FILE_EXT = [
-  '.doc',
-  '.docx',
-  '.jpg',
-  '.png',
-  '.pdf'
-]
-
-const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = [
-  '.geojson',
-  '.gpkg',
-  '.zip'
-]
-
-const METRIC_FILE_EXT = [
-  '.xlsm',
-  '.xlsx'
-]
-const LAND_OWNERSHIP_FILE_EXT = [
-  '.doc',
-  '.docx',
-  '.pdf'
-]
+// File Extensions
+const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = ['.geojson', '.gpkg', '.zip']
+const LAND_OWNERSHIP_FILE_EXT = ['.doc', '.docx', '.pdf']
+const LEGAL_AGREEMENT_FILE_EXT = ['.doc', '.docx', '.pdf']
+const LEGAL_LAND_BOUNDARY_FILE_EXT = ['.doc', '.docx', '.jpg', '.png', '.pdf']
+const LOCAL_LAND_CHARGE_FILE_EXT = ['.doc', '.docx', '.pdf']
+const METRIC_FILE_EXT = ['.xlsm', '.xlsx']
 
 const LEGAL_AGREEMENT_DOCUMENTS = [
   {
@@ -138,7 +163,7 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150001',
     type: 'conservationCovenant',
-    text: LEGAL_AGREEMENT_TYPE_CONSERVATION,
+    text: 'Conservation covenant',
     htmlId: 'conservation-covenant'
   },
   {
@@ -153,36 +178,6 @@ const LEGAL_AGREEMENT_DOCUMENTS = [
     htmlId: 'dont-have-document'
   }
 ]
-
-const CONFIRM_DEVELOPMENT_DETAILS = {
-  NO,
-  YES
-}
-
-const CHECK_UPLOAD_METRIC_OPTIONS = {
-  NO,
-  YES
-}
-
-const DEVELOPER_CONFIRM_OFF_SITE_GAIN = {
-  NO,
-  YES
-}
-
-const APPLICANT_IS_AGENT = {
-  NO,
-  YES
-}
-
-const ADDRESS_IS_UK = {
-  NO,
-  YES
-}
-
-const DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER = {
-  NO,
-  YES
-}
 
 const redisKeys = {
   ...developerConstants.redisKeys,
@@ -306,60 +301,59 @@ const primaryPages = {
 }
 
 export default Object.freeze({
-  applicationTypes,
+  ADDRESS_IS_UK,
+  ADDRESS_TYPES,
+  AMENDMENT_GUIDE_URL_ALLOCATION,
+  AMENDMENT_GUIDE_URL_REGISTRATION,
+  APPLICANT_IS_AGENT,
   applicantTypes,
-  individualOrOrganisationTypes,
+  applicationTypes,
+  AZURE_FUNCTION_APP_URL,
+  BLOB_STORAGE_CONTAINER,
+  CANNOT_START_YET_STATUS,
+  CHECK_UPLOAD_METRIC_OPTIONS,
+  clearReferer,
+  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
+  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
+  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
+  COMBINED_CASE_METRIC_VALID_REFERRERS,
+  COMPLETE_REGISTRATION_TASK_STATUS,
   confirmLandBoundaryOptions: confirmFileUploadOptions,
   confirmLegalAgreementOptions: confirmFileUploadOptions,
   confirmManagementPlanOptions: confirmFileUploadOptions,
-  managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
-  landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
-  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
-  lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
-  legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
-  localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
-  gridReferenceRegEx: GRID_REFERENCE_REGEX,
-  metricFileExt: METRIC_FILE_EXT,
-  landBoundaryUploadTypes,
-  redisKeys,
-  routes,
-  views,
-  uploadErrors,
-  threatScreeningStatusValues,
-  uploadTypes,
-  DEFAULT_REGISTRATION_TASK_STATUS,
-  IN_PROGRESS_REGISTRATION_TASK_STATUS,
-  LEGAL_AGREEMENT_TYPE_CONSERVATION,
-  COMPLETE_REGISTRATION_TASK_STATUS,
-  CANNOT_START_YET_STATUS,
-  NOT_STARTED_YET_STATUS,
-  setReferer,
-  clearReferer,
-  LEGAL_AGREEMENT_DOCUMENTS,
-  CONFIRM_DEVELOPMENT_DETAILS,
-  CHECK_UPLOAD_METRIC_OPTIONS,
-  minStartDates,
-  AZURE_FUNCTION_APP_URL,
-  AMENDMENT_GUIDE_URL_ALLOCATION,
-  AMENDMENT_GUIDE_URL_REGISTRATION,
-  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   consentFileExt: developerConstants.consentFileExt,
-  ...developerConstants.options,
-  BLOB_STORAGE_CONTAINER,
-  signInTypes,
-  APPLICANT_IS_AGENT,
-  ADDRESS_IS_UK,
-  ADDRESS_TYPES,
+  DEFAULT_REGISTRATION_TASK_STATUS,
+  DEVELOPER_CONFIRM_OFF_SITE_GAIN,
   DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER,
-  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED,
+  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
+  gridReferenceRegEx: GRID_REFERENCE_REGEX,
+  IN_PROGRESS_REGISTRATION_TASK_STATUS,
+  individualOrOrganisationTypes,
   LAND_APPLICANT_INFO_VALID_REFERRERS,
+  landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
+  landBoundaryUploadTypes,
   LAND_BOUNDARY_VALID_REFERRERS,
-  LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
-  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
-  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
-  COMBINED_CASE_METRIC_VALID_REFERRERS,
-  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
+  LAND_METRIC_VALID_REFERRERS,
+  lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
+  LEGAL_AGREEMENT_DOCUMENTS,
+  legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
+  LEGAL_AGREEMENT_TYPE_CONSERVATION,
+  localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
+  managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
+  metricFileExt: METRIC_FILE_EXT,
+  minStartDates,
+  MULTIPLE_PROOFS_OF_PERMISSION_REQUIRED,
+  NOT_STARTED_YET_STATUS,
   primaryPages,
-  reusedRoutes
+  redisKeys,
+  reusedRoutes,
+  routes,
+  setReferer,
+  signInTypes,
+  threatScreeningStatusValues,
+  uploadErrors,
+  uploadTypes,
+  views,
+  ...developerConstants.options
 })
