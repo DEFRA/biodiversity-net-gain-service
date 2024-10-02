@@ -76,7 +76,7 @@
         'valueDataTestId': 'legal-agreement-habitatplan-type-value',
         'valueId': 'add-legal-agreement-habitatplan-type-value',
         'href': hrefPath + '/habitat-plan-legal-agreement',
-        'visuallyHiddenText':  ' habitat management plan',
+        'visuallyHiddenText':  ' habitat management and monitoring plan included in legal agreement',
         'classes': '',
         'show':true
     },
@@ -86,7 +86,7 @@
         'valueDataTestId': 'habitat-plan-file-name-value',
         'valueId': 'add-habitat-plan-file-value',
         'href': hrefPath + '/check-habitat-plan-file',
-        'visuallyHiddenText':  ' habitat management plan file name',
+        'visuallyHiddenText':  ' habitat management and monitoring plan file',
         'classes': '',
         'show':habitatPlanIncludedLegalAgreement
     },
@@ -96,7 +96,7 @@
         'valueDataTestId': 'habitat-works-start-date-value',
         'valueId': 'add-habitat-works-start-date-value',
         'href': hrefPath + '/enhancement-works-start-date',
-        'visuallyHiddenText':  ' enhancement works start date',
+        'visuallyHiddenText':  ' habitat enhancement works start date',
         'classes': '',
         'show':true
     },
@@ -106,22 +106,21 @@
         'valueDataTestId': 'habitat-works-end-date-value',
         'valueId': 'add-habitat-works-end-date-value',
         'href': hrefPath + '/habitat-enhancements-end-date',
-        'visuallyHiddenText':  ' habitat enhancements end date',
+        'visuallyHiddenText':  ' habitat creation and enhancement requirement end date',
         'classes': '',
         'show':true
     },
     {
-      'text': 'Local land charge search certificate file uploaded',
-      'value': localLandChargeFileName,
-      'valueDataTestId': 'local-land-charge-file-name-value',
-      'valueId': 'add-local-land-charge-file-name-value',
-      'href': hrefPath + '/check-local-land-charge-file',
-      'visuallyHiddenText':  ' local land charge file',
-      'classes': '',
-      'show':showLocalLandCharge
-  }
-    
-] %}           
+        'text': 'Local land charge search certificate file uploaded',
+        'value': localLandChargeFileName,
+        'valueDataTestId': 'local-land-charge-file-name-value',
+        'valueId': 'add-local-land-charge-file-name-value',
+        'href': hrefPath + '/check-local-land-charge-file',
+        'visuallyHiddenText':  ' local land charge search certificate file',
+        'classes': '',
+        'show':showLocalLandCharge
+    } 
+] %}
 {{ generateSummaryList({
     rows: rowList,
     classes: 'govuk-!-margin-bottom-9'
