@@ -20,7 +20,6 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/identity": "^4.4.1",
     "@azure/service-bus": "^7.9.5",
     "@azure/storage-blob": "^12.16.0",
     "@azure/storage-queue": "^12.15.0",
