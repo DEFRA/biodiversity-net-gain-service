@@ -1,4 +1,5 @@
 import Hapi from '@hapi/hapi'
+import appInsights from 'applicationinsights'
 import crypto from 'crypto'
 import Inert from '@hapi/inert'
 import auth from './plugins/auth.js'
@@ -37,6 +38,11 @@ const createServer = async options => {
 }
 
 const init = async server => {
+  // Register app insights
+  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+    appInsights.setup().start()
+  }
+
   // Register the plugins
   await server.register(auth)
   await server.register(Inert)
