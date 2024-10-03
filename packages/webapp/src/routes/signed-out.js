@@ -10,7 +10,8 @@ const signedOut = {
     const options = {
       continueRegistration: !_request?.query?.app,
       continueAllocation: _request?.query?.app === constants.applicationTypes.ALLOCATION.toLowerCase(),
-      continueCredits: _request?.query?.app === constants.applicationTypes.CREDITS_PURCHASE.toLowerCase()
+      continueCredits: _request?.query?.app === constants.applicationTypes.CREDITS_PURCHASE.toLowerCase(),
+      continueCombinedCase: _request?.query?.app === constants.applicationTypes.COMBINED_CASE.toLowerCase()
     }
 
     return h.view(constants.views.SIGNED_OUT, options)

@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-metric-service",
-  "version": "1.170.0",
+  "version": "1.172.0",
   "private": false,
   "description": "Bio diversity data extractor",
   "type": "module",
