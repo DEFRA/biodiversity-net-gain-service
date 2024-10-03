@@ -13,6 +13,7 @@ const handlers = {
       h,
       constants.routes.COMBINED_CASE_UPLOAD_ALLOCATION_METRIC,
       constants.routes.COMBINED_CASE_MATCH_HABITATS,
+      constants.routes.COMBINED_CASE_MATCH_ALLOCATION_SUMMARY,
       constants.views.COMBINED_CASE_CHECK_UPLOAD_ALLOCATION_METRIC,
       href
     )
