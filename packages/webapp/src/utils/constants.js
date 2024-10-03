@@ -195,6 +195,7 @@ const redisKeys = {
 let routes = {
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
+  HEALTHY,
   SIGNIN,
   SIGNIN_CALLBACK,
   SIGNOUT,
