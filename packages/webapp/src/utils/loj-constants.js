@@ -1,4 +1,4 @@
-const PUBLIC_ROUTES = 'public-routes'
+// Routes constants
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
@@ -41,7 +41,6 @@ const CHECK_LAND_BOUNDARY = 'land/check-land-boundary-file'
 const UPLOAD_METRIC = 'land/upload-metric'
 const CHECK_UPLOAD_METRIC = 'land/check-metric-file'
 const ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT = 'land/add-responsible-body-conservation-covenant'
-const CHECK_YOUR_DETAILS = 'land/check-your-details'
 const REGISTER_LAND_TASK_LIST = 'land/register-land-task-list'
 const CHECK_LAND_BOUNDARY_DETAILS = 'land/check-land-boundary-details'
 const NEED_BOUNDARY_FILE = 'land/need-boundary-file'
@@ -69,7 +68,6 @@ const CONTINUE_REGISTRATION = 'land/continue-registration'
 const NEW_REGISTRATION = 'land/new-registration'
 const AGENT_ACTING_FOR_CLIENT = 'land/agent-acting-for-client'
 const IS_AGENT = 'is-agent'
-// const LAND_OWNERSHIP_LIST = 'land/land-ownership-list'
 const LAND_OWNERSHIP_PROOF_LIST = 'land/ownership-proof-list'
 const LAND_OWNERSHIP_PROOF_LIST_KEY = 'land-ownership-proof-list-key'
 const LAND_OWNERSHIP_REMOVE = 'land/land-ownership-remove'
@@ -78,11 +76,9 @@ const APPLICATION_REFERENCE = 'application-reference'
 const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const HABITAT_PLAN_FILE_OPTION = 'habitat-plan-file-option'
-const METRIC_UPLOAD_KEY = 'metric-upload-key'
 const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
 const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
 const REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION = 'reprojected-geospatial-upload-location'
-const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
 const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
 const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
 const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
@@ -97,8 +93,6 @@ const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LOCAL_LAND_CHARGE_CHECKED = 'local-land-charge-checked'
 const HABITAT_PLAN_CHECKED = 'habitat-plan-checked'
-const LEGAL_AGREEMENT_FILE_SIZE = 'legal-agreement-file-size'
-const LEGAL_AGREEMENT_FILE_TYPE = 'legal-agreement-file-type'
 const LOCAL_LAND_CHARGE_FILE_TYPE = 'local-land-charge-file-type'
 const HABITAT_PLAN_FILE_TYPE = 'habitat-plan-file-type'
 const LEGAL_AGREEMENT_FILES = 'legal-agreement-files'
@@ -112,10 +106,8 @@ const LEGAL_AGREEMENT_RESPONSIBLE_BODIES = 'legal-agreement-reponsible-bodies'
 const LAND_OWNERSHIP_FILE_SIZE = 'land-ownership-file-size'
 const LAND_OWNERSHIP_LOCATION = 'land-ownership-location'
 const LAND_OWNERSHIP_CHECKED = 'land-ownership-checked'
-const LAND_OWNERSHIP_FILE_TYPE = 'land-ownership-file-type'
 const LAND_BOUNDARY_CHECKED = 'land-boundary-checked'
 const METRIC_FILE_CHECKED = 'metric-file-checked'
-const LEGAL_AGREEMENT_START_DATE_KEY = 'legal-agreement-start-date'
 const HABITAT_ENHANCEMENTS_END_DATE_KEY = 'habitat-enhancements-end-date'
 const ENHANCEMENT_WORKS_START_DATE_KEY = 'enhancement-works-start-date'
 const HABITAT_ENHANCEMENTS_END_DATE_OPTION = 'legal-agreement-end-date-option'
@@ -200,7 +192,6 @@ export default {
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LANDOWNER,
     GEOSPATIAL_UPLOAD_LOCATION,
-    GEOSPATIAL_MAP_CONFIG,
     GEOSPATIAL_UPLOAD_TYPE,
     GEOSPATIAL_FILE_NAME,
     GEOSPATIAL_FILE_SIZE,
@@ -230,8 +221,6 @@ export default {
     LOCAL_LAND_CHARGE_LOCATION,
     HABITAT_PLAN_LOCATION,
     LEGAL_AGREEMENT_DOCUMENT_TYPE,
-    LEGAL_AGREEMENT_FILE_SIZE,
-    LEGAL_AGREEMENT_FILE_TYPE,
     LOCAL_LAND_CHARGE_FILE_TYPE,
     HABITAT_PLAN_FILE_TYPE,
     LEGAL_AGREEMENT_FILE_OPTION,
@@ -241,11 +230,9 @@ export default {
     IS_AGENT,
     LEGAL_AGREEMENT_RESPONSIBLE_BODIES,
     METRIC_FILE_TYPE,
-    METRIC_UPLOAD_KEY,
     LAND_OWNERSHIP_LOCATION,
     LAND_OWNERSHIP_FILE_SIZE,
     LAND_OWNERSHIP_CHECKED,
-    LAND_OWNERSHIP_FILE_TYPE,
     METRIC_LOCATION,
     METRIC_FILE_SIZE,
     METRIC_DATA,
@@ -254,7 +241,6 @@ export default {
     FULL_NAME,
     LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS,
     LANDOWNERS,
-    LEGAL_AGREEMENT_START_DATE_KEY,
     HABITAT_ENHANCEMENTS_END_DATE_KEY,
     ENHANCEMENT_WORKS_START_DATE_OPTION,
     ENHANCEMENT_WORKS_START_DATE_KEY,
@@ -334,7 +320,6 @@ export default {
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
-    PUBLIC_ROUTES,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
@@ -398,7 +383,6 @@ export default {
   },
   setLojReferer: [
     CHECK_AND_SUBMIT,
-    CHECK_YOUR_DETAILS,
     LAND_OWNERSHIP_PROOF_LIST,
     CHECK_LEGAL_AGREEMENT_DETAILS,
     CHECK_LAND_BOUNDARY_DETAILS,
