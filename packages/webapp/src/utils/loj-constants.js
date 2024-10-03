@@ -1,4 +1,4 @@
-// Routes constants
+const PUBLIC_ROUTES = 'public-routes'
 const ADD_GRID_REFERENCE = 'land/add-grid-reference'
 const ADD_HECTARES = 'land/add-hectares'
 const UPLOAD_LOCAL_LAND_CHARGE = 'land/upload-local-land-charge'
@@ -320,6 +320,7 @@ export default {
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
+    PUBLIC_ROUTES,
     UPLOAD_METRIC,
     UPLOAD_LEGAL_AGREEMENT,
     UPLOAD_LOCAL_LAND_CHARGE,
