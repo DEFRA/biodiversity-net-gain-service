@@ -16,7 +16,7 @@ const createUploadMetricRoute = (uploadRoute, checkRoute) => routeDefinition(
 
 const createCheckUploadMetricRoute = (checkRoute, uploadRoute, nextRoute) => routeDefinition(
   checkRoute,
-  [constants.redisKeys.METRIC_FILE_CHECKED],
+  [],
   (session) => {
     const checkUploadMetric = session.get(constants.redisKeys.METRIC_FILE_CHECKED)
     if (checkUploadMetric === 'no') {

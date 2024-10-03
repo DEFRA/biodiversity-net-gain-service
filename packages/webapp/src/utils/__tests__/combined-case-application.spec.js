@@ -195,7 +195,7 @@ describe('application', () => {
 
   it('Adds allocated habitats', () => {
     const app = application(session, account)
-    expect(app.combinedCase.registrationDetails.habitats.allocated.length).toEqual(5)
+    expect(app.combinedCase.allocationDetails.habitats.allocated.length).toEqual(5)
   })
 
   it('Calculates offsite unit change', () => {
