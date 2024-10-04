@@ -21,7 +21,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@defra/bng-errors-lib": "1.173.0",
-    "gdal-async": "^3.8.3",
+    "gdal-async": "^3.9.2",
     "geodesy": "^2.4.0"
   },
   "devDependencies": {
