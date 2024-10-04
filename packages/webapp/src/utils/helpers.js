@@ -808,14 +808,20 @@ const getDeveloperCheckMetricFileContext = request => {
   }
 }
 
-const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, viewTemplate, href) => {
+const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, matchHabitatsCompleteRedirectRoute, viewTemplate, href) => {
   const checkUploadMetric = request.payload.checkUploadMetric
   const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED, checkUploadMetric)
+  const matchHabitatsComplete = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
     return h.redirect(noRedirectRoute)
-  } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+  }
+
+  if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+    if (matchHabitatsComplete) {
+      return h.redirect(matchHabitatsCompleteRedirectRoute)
+    }
     return h.redirect(yesRedirectRoute)
   }
 

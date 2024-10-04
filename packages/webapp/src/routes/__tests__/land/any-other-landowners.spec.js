@@ -30,7 +30,7 @@ describe(url, () => {
     it('Should continue journey to HABITAT_PLAN_LEGAL_AGREEMENT if no is chosen', async () => {
       postOptions.payload.anyOtherLOValue = 'no'
       const res = await submitPostRequest(postOptions, 302, sessionData)
-      expect(res.headers.location).toEqual(constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT)
+      expect(res.headers.location).toEqual(constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS)
     })
 
     it('Should fail journey if no answer', async () => {
