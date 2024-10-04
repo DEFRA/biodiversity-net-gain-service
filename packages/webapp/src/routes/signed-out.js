@@ -20,7 +20,7 @@ const signedOut = {
         content = { heading: 'Your statutory biodiversity credits', text: 'Sign in to continue with a statutory biodiversity credits purchase' }
         break
       case constants.applicationTypes.COMBINED_CASE.toLocaleLowerCase():
-        content = { heading: 'Combined cases', text: 'Sign in to continue with an application to register a gain site and record off site gains at the same time' }
+        content = { heading: 'Combined cases', text: 'Sign in to continue with site registration and record off-site gains for a development' }
         break
       default:
         content = { text: 'Sign in again to resume an existing application or start a new one' }

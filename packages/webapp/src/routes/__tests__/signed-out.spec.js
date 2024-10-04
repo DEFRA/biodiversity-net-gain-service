@@ -35,7 +35,7 @@ describe(url, () => {
       const response = await submitGetRequest({ url: `${url}?app=${constants.applicationTypes.COMBINED_CASE.toLowerCase()}` })
       expect(response.statusCode).toBe(200)
       expect(response.payload).toContain('Combined cases')
-      expect(response.payload).toContain('Sign in to continue with an application to register a gain site and record off site gains at the same time')
+      expect(response.payload).toContain('Sign in to continue with site registration and record off-site gains for a development')
     })
   })
 })
