@@ -28,7 +28,6 @@ const DOWNLOAD_LEGAL_AGREEMENT = 'land/download-legal-agreement-file'
 const DOWNLOAD_LOCAL_LAND_CHARGE_FILE = 'land/download-local-land-charge-file'
 const DOWNLOAD_HABITAT_PLAN_FILE = 'land/download-habitat-plan-file'
 const DOWNLOAD_LAND_BOUNDARY = 'land/download-land-boundary-file'
-const DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY = 'land/download-geospatial-land-boundary-file'
 const DOWNLOAD_METRIC_FILE = 'land/download-metric-file'
 const DOWNLOAD_LAND_OWNERSHIP = 'land/download-land-ownership-file'
 const DOWNLOAD_WRITTEN_AUTHORISATION = 'land/download-written-authorisation-file'
@@ -79,21 +78,10 @@ const LEGAL_AGREEMENT_FILE_OPTION = 'legal-agreement-file-option'
 const LOCAL_LAND_CHARGE_FILE_OPTION = 'local-land-charge-file-option'
 const HABITAT_PLAN_FILE_OPTION = 'habitat-plan-file-option'
 const METRIC_UPLOAD_KEY = 'metric-upload-key'
-const GEOSPATIAL_UPLOAD_LOCATION = 'geospatial-location'
-const ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION = 'original-geospatial-upload-location'
-const REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION = 'reprojected-geospatial-upload-location'
-const GEOSPATIAL_MAP_CONFIG = 'geospatial-map-config'
-const LAND_BOUNDARY_MAP_CONFIG = 'land-boundary-map-config'
-const GEOSPATIAL_FILE_NAME = 'geospatial_filename'
-const GEOSPATIAL_FILE_SIZE = 'geospatial-file-size'
 const LOCAL_LAND_CHARGE_FILE_SIZE = 'local-land-charge-file-size'
 const HABITAT_PLAN_FILE_SIZE = 'habitat-plan-file-size'
 const TEMP_LAND_OWNERSHIP_PROOF = 'temp_land_ownership_proof'
 const HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO = 'habitat-plan-legal-agreement-document-included-yes-no'
-const REPROJECTED_GEOSPATIAL_FILE_SIZE = 'reprojected-geospatial-file-size'
-const GEOSPATIAL_FILE_TYPE = 'geospatial-file-type'
-const GEOSPATIAL_HECTARES = 'geospatial-hectares'
-const GEOSPATIAL_GRID_REFERENCE = 'geospatial-grid-reference'
 const LEGAL_AGREEMENT_CHECKED = 'legal-agreement-checked'
 const LOCAL_LAND_CHARGE_CHECKED = 'local-land-charge-checked'
 const HABITAT_PLAN_CHECKED = 'habitat-plan-checked'
@@ -138,7 +126,6 @@ const LANDOWNERS = 'landowners'
 const REFERER = 'referer'
 const CHECK_AND_SUBMIT_JOURNEY_ROUTE = 'check-and-submit-journey-route'
 const EMAIL_VALUE = 'email-value'
-const GEOSPATIAL_UPLOAD_TYPE = 'geospatial-land-boundary'
 const LEGAL_AGREEMENT_UPLOAD_TYPE = 'legal-agreement'
 const LOCAL_LAND_CHARGE_UPLOAD_TYPE = 'local-land-charge'
 const HABITAT_PLAN_UPLOAD_TYPE = 'habitat-plan'
@@ -194,25 +181,13 @@ const ANY_OTHER_LANDOWNERS = 'land/any-other-landowners'
 export default {
   redisKeys: {
     APPLICATION_REFERENCE,
-    ORIGINAL_GEOSPATIAL_UPLOAD_LOCATION,
-    REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION,
     REMOVE_LOCAL_PLANNING_AUTHORITY,
     REMOVE_RESPONSIBLE_BODY,
     REMOVE_LANDOWNER,
-    GEOSPATIAL_UPLOAD_LOCATION,
-    GEOSPATIAL_MAP_CONFIG,
-    GEOSPATIAL_UPLOAD_TYPE,
-    GEOSPATIAL_FILE_NAME,
-    GEOSPATIAL_FILE_SIZE,
-    REPROJECTED_GEOSPATIAL_FILE_SIZE,
     LOCAL_LAND_CHARGE_FILE_SIZE,
     HABITAT_PLAN_FILE_SIZE,
     TEMP_LAND_OWNERSHIP_PROOF,
     HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO,
-    GEOSPATIAL_FILE_TYPE,
-    GEOSPATIAL_HECTARES,
-    GEOSPATIAL_GRID_REFERENCE,
-    LAND_BOUNDARY_MAP_CONFIG,
     LAND_BOUNDARY_UPLOAD_TYPE,
     LAND_BOUNDARY_LOCATION,
     LAND_BOUNDARY_FILE_SIZE,
@@ -330,7 +305,6 @@ export default {
     DOWNLOAD_LOCAL_LAND_CHARGE_FILE,
     DOWNLOAD_HABITAT_PLAN_FILE,
     DOWNLOAD_LAND_BOUNDARY,
-    DOWNLOAD_GEOSPATIAL_LAND_BOUNDARY,
     DOWNLOAD_METRIC_FILE,
     DOWNLOAD_LAND_OWNERSHIP,
     DOWNLOAD_WRITTEN_AUTHORISATION,
@@ -387,7 +361,6 @@ export default {
     ANY_OTHER_LANDOWNERS
   },
   uploadTypes: {
-    GEOSPATIAL_UPLOAD_TYPE,
     LEGAL_AGREEMENT_UPLOAD_TYPE,
     LOCAL_LAND_CHARGE_UPLOAD_TYPE,
     HABITAT_PLAN_UPLOAD_TYPE,

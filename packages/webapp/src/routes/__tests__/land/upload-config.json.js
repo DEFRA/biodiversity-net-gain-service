@@ -32,11 +32,6 @@ const uploadTestConfig = [{
   hasError: true,
   filePath: 'packages/webapp/src/__mock-data__/uploads/legal-agreements/legal-agreement.pdf'
 }, {
-  uploadType: 'geospatial-land-boundary',
-  url: constants.routes.UPLOAD_GEOSPATIAL_LAND_BOUNDARY,
-  hasError: true,
-  filePath: 'packages/webapp/src/__mock-data__/uploads/geospatial-land-boundaries/geopackage-land-boundary-4326.gpkg'
-}, {
   uploadType: constants.uploadTypes.DEVELOPER_METRIC_UPLOAD_TYPE,
   url: constants.routes.DEVELOPER_UPLOAD_METRIC,
   hasError: true,
