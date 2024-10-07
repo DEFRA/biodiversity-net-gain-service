@@ -11,8 +11,6 @@ export default {
   entry: {
     core: './client/js/core.js',
     addPlanningAuthority: './client/js/pages/land/add-planning-authority.js',
-    checkAndSubmit: './client/js/pages/land/check-and-submit.js',
-    checkLandBoundaryDetails: './client/js/pages/land/check-land-boundary-details.js',
     emailEntry: './client/js/pages/developer/email-entry.js'
   },
   output: {

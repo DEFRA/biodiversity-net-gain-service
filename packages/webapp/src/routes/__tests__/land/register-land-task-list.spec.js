@@ -137,7 +137,6 @@ describe(url, () => {
     it('should render view with legal completed task', done => {
       jest.isolateModules(async () => {
         try {
-          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
           let viewResult, contextResult
           const h = {
             view: (view, context) => {
