@@ -31,7 +31,6 @@ const handlers = {
     const errors = request.yar.get(PURCHASE_ORDER_ERRORS)
 
     request.yar.clear(PURCHASE_ORDER_ERRORS)
-    request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
       purchaseOrderUsed,
