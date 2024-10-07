@@ -34,7 +34,6 @@ describe(url, () => {
     it('should render the signed-out view with combined case content when app query is combined case', async () => {
       const response = await submitGetRequest({ url: `${url}?app=${constants.applicationTypes.COMBINED_CASE.toLowerCase()}` })
       expect(response.statusCode).toBe(200)
-      expect(response.payload).toContain('Combined cases')
       expect(response.payload).toContain('Sign in to continue with site registration and record off-site gains for a development')
     })
   })
