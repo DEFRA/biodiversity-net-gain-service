@@ -43,7 +43,6 @@ describe(url, () => {
     })
 
     it('should detect an invalid response from user', async () => {
-      postOptions.payload.confirmGeospatialLandBoundary = 'invalid'
       await submitPostRequest(postOptions, 500, sessionData)
     })
     it('Ensure page uses referer if is set on post and grid reference is present', done => {
