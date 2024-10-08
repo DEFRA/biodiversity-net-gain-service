@@ -23,7 +23,6 @@ describe('Routes', () => {
   })
 
   it('should return disable routes if env variables are defined or value is Y', async () => {
-    process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'Y'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'Y'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'Y'
@@ -33,12 +32,7 @@ describe('Routes', () => {
 
     const { default: disabledRoutes } = require('../../utils/disabled-routes-constants.js')
     expect(disabledRoutes).toStrictEqual({
-      CHECK_GEOSPATIAL_FILE: 'land/check-geospatial-file',
-      UPLOAD_GEOSPATIAL_LAND_BOUNDARY: 'land/upload-geospatial-file',
-      GEOSPATIAL_LAND_BOUNDARY: 'land/geospatial-land-boundary',
-      CHOOSE_LAND_BOUNDARY_UPLOAD: 'land/choose-land-boundary-upload',
       DEVELOPER_EMAIL_ENTRY: 'developer/email-entry',
-      OS_API_TOKEN: 'land/os-api-token',
       ...developerConstants.routes,
       ...creditsEstimationConstants.routes,
       ...creditsPurchaseConstants.routes,
@@ -47,7 +41,6 @@ describe('Routes', () => {
   })
 
   it('should not return disabled routes if env variables are not defined or value is N', async () => {
-    process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_LAND_BOUNDARY_UPLOAD = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL = 'N'
     process.env.ENABLE_ROUTE_SUPPORT_FOR_DEV_JOURNEY = 'N'

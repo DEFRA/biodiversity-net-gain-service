@@ -7,7 +7,6 @@ import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
-const GEOSPATIAL_DATA = 'geospatialData'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
 const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
 const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
@@ -93,7 +92,6 @@ const confirmFileUploadOptions = {
 }
 
 const landBoundaryUploadTypes = {
-  GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
 }
 
@@ -113,12 +111,6 @@ const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.jpg',
   '.png',
   '.pdf'
-]
-
-const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = [
-  '.geojson',
-  '.gpkg',
-  '.zip'
 ]
 
 const METRIC_FILE_EXT = [
@@ -337,7 +329,6 @@ export default Object.freeze({
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
-  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,

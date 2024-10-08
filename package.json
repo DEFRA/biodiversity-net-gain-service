@@ -121,7 +121,6 @@
       "<rootDir>/packages/connectors-lib/jest.config.cjs",
       "<rootDir>/packages/database-version-control/jest.config.js",
       "<rootDir>/packages/errors-lib/package.json",
-      "<rootDir>/packages/geoprocessing-service/jest.config.cjs",
       "<rootDir>/packages/utils-lib/jest.config.cjs",
       "<rootDir>/packages/webapp/jest.config.cjs"
     ],
@@ -129,7 +128,6 @@
     "testRunner": "jest-circus/runner",
     "silent": true,
     "transformIgnorePatterns": [
-      "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)",
       "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
     ]
   },
