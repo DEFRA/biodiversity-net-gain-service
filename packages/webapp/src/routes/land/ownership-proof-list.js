@@ -11,7 +11,7 @@ const getCustomizedHTML = (item, index, isCombinedCase = false) => {
       items: [{
         href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_REMOVE : constants.routes.LAND_OWNERSHIP_REMOVE}?id=${index}`,
         text: 'Remove',
-        visuallyHiddenText: 'Remove ' + item + ' from the list'
+        visuallyHiddenText: `${item.fileName} from the list`
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
     },

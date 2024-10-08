@@ -1,6 +1,6 @@
 {
   "name": "@defra/bng-connectors-lib",
-  "version": "1.162.0",
+  "version": "1.177.0",
   "type": "module",
   "private": false,
   "description": "A library providing connectivity functionality for the Biodiversity Net Gain service",
@@ -20,14 +20,14 @@
   "author": "Department for Environment, Food and Rural Affairs <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs>",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@azure/service-bus": "^7.9.2",
+    "@azure/service-bus": "^7.9.5",
     "@azure/storage-blob": "^12.16.0",
     "@azure/storage-queue": "^12.15.0",
-    "@defra/bng-utils-lib": "1.162.0",
+    "@defra/bng-utils-lib": "1.177.0",
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@defra/bng-azure-storage-test-utils": "1.162.0"
+    "@defra/bng-azure-storage-test-utils": "1.177.0"
   },
   "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }

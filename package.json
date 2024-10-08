@@ -36,7 +36,7 @@
     "babel-jest": "^29.7.0",
     "detect-secrets": "^1.0.6",
     "eslint": "^8.56.0",
-    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-html": "^8.1.2",
     "eslint-plugin-jest": "^27.6.0",
     "jest": "^29.7.0",
     "lerna": "^6.6.2",
@@ -121,7 +121,6 @@
       "<rootDir>/packages/connectors-lib/jest.config.cjs",
       "<rootDir>/packages/database-version-control/jest.config.js",
       "<rootDir>/packages/errors-lib/package.json",
-      "<rootDir>/packages/geoprocessing-service/jest.config.cjs",
       "<rootDir>/packages/utils-lib/jest.config.cjs",
       "<rootDir>/packages/webapp/jest.config.cjs"
     ],
@@ -129,7 +128,6 @@
     "testRunner": "jest-circus/runner",
     "silent": true,
     "transformIgnorePatterns": [
-      "<rootDir>/packages/geoprocessing-service/node_modules/(?!(geodesy)/)",
       "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
     ]
   },
