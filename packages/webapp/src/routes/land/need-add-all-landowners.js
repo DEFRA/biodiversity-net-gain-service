@@ -9,7 +9,9 @@ const handlers = {
   },
   post: async (request, h) => {
     request.yar.set(constants.redisKeys.NEED_ADD_ALL_LANDOWNERS_CHECKED, true)
-    return h.redirect(constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    const redirectUrl = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LANDOWNER_INDIVIDUAL_ORGANISATION : constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION
+    return h.redirect(redirectUrl)
   }
 }
 export default [{
