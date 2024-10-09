@@ -7,6 +7,7 @@ export const getToken = async () => {
   const currentTime = Math.floor(Date.now() / 1000)
 
   if (cachedToken && tokenExpiration && currentTime < tokenExpiration) {
+    console.log('Returning cached token...')
     return cachedToken
   }
 
@@ -20,6 +21,7 @@ export const getToken = async () => {
   })
 
   try {
+    console.log('Fetching fresh token...')
     const response = await fetch(tokenUrl, {
       method: 'POST',
       headers: {
@@ -32,10 +34,15 @@ export const getToken = async () => {
       throw new Error(`Failed to fetch token: ${response.statusText}`)
     }
 
+    console.log('Token successfully fetched!')
+
     const data = await response.json()
 
     cachedToken = data.access_token
     tokenExpiration = currentTime + data.expires_in
+
+    const expirationDate = new Date(tokenExpiration * 1000)
+    console.log(`Token expires: ${expirationDate.toLocaleString()}`)
 
     return cachedToken
   } catch (error) {
