@@ -88,7 +88,7 @@ const CHECK_RESPONSIBLE_BODIES = checkResponsibleBodiesRoute(
 const OTHER_LANDOWNERS = otherLandownersRoute(
   constants.reusedRoutes.COMBINED_CASE_ANY_OTHER_LANDOWNERS,
   constants.reusedRoutes.COMBINED_CASE_LANDOWNER_INDIVIDUAL_ORGANISATION,
-  constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS
+  constants.reusedRoutes.COMBINED_CASE_HABITAT_PLAN_LEGAL_AGREEMENT
 )
 
 // // land/landowner-conservation-covenant-individual-organisation

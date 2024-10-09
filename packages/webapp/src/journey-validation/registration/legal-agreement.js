@@ -81,7 +81,7 @@ const CHECK_RESPONSIBLE_BODIES = checkResponsibleBodiesRoute(
 const OTHER_LANDOWNERS = otherLandownersRoute(
   constants.routes.ANY_OTHER_LANDOWNERS,
   constants.routes.LANDOWNER_INDIVIDUAL_ORGANISATION,
-  constants.routes.CHECK_LEGAL_AGREEMENT_DETAILS
+  constants.routes.HABITAT_PLAN_LEGAL_AGREEMENT
 )
 
 // // land/landowner-conservation-covenant-individual-organisation
