@@ -1,5 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
-import { getFormattedDate } from '../../../utils/helpers.js'
+import { getFormattedDateTime } from '../../../utils/helpers.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
@@ -28,7 +28,7 @@ describe(url, () => {
           expect(res.payload).toContain(mockReference)
           expect(res.payload).toContain(mockProjectName)
           expect(res.payload).toContain(mockStatus)
-          expect(res.payload).toContain(getFormattedDate(mockDate))
+          expect(res.payload).toContain(getFormattedDateTime(mockDate))
           done()
         } catch (err) {
           done(err)
