@@ -4,82 +4,8 @@ import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional, getValidReferrerUrl
 } from '../../utils/helpers.js'
+
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
-
-const handlers = {
-  get: (request, h) => {
-    const lpaNames = getLpaNames(filePathAndName)
-
-    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
-
-    const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
-    const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
-    const developmentName = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
-
-    return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-      selectedLpa,
-      lpaNames,
-      planningApplicationRef,
-      developmentName
-    })
-  },
-  post: (request, h) => {
-    const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
-
-    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
-    const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
-
-    const errors = lpaErrorHandler(selectedLpa, refLpaNames)
-
-    if (!planningApplicationRef) {
-      errors.planningApplicationRefError = {
-        text: 'Enter a planning application reference',
-        href: '#planning-application-reference-value'
-      }
-    }
-
-    if (!developmentName) {
-      errors.developmentNameError = {
-        text: 'Enter a development reference',
-        href: '#development-name-value'
-      }
-    }
-
-    if (errors && Object.values(errors).some((el) => el !== undefined)) {
-      const err = []
-      Object.keys(errors).forEach(item => {
-        err.push(errors[item])
-      })
-
-      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-        err,
-        errors,
-        lpaNames: refLpaNames,
-        selectedLpa,
-        planningApplicationRef,
-        developmentName
-      })
-    } else {
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
-      request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
-      const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
-      return h.redirect(referrerUrl || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
-    }
-  }
-}
-
-export default [{
-  method: 'GET',
-  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
-  handler: handlers.get,
-  options: validateIdGetSchemaOptional
-}, {
-  method: 'POST',
-  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
-  handler: handlers.post,
-  options: validateIdGetSchemaOptional
-}]
 
 /**
  * Handles Local Planning Authority errors
@@ -110,3 +36,70 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
 
   return errors
 }
+
+const handlers = {
+  get: (request, h) => {
+    const lpaNames = getLpaNames(filePathAndName)
+    request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
+
+    const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
+    const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
+    const developmentName = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
+
+    const errors = request.yar.get('errors') || null
+    request.yar.clear('errors')
+
+    return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
+      selectedLpa,
+      lpaNames,
+      planningApplicationRef,
+      developmentName,
+      err: errors
+    })
+  },
+  post: (request, h) => {
+    const { localPlanningAuthority, planningApplicationRef, developmentName } = request.payload
+    const refLpaNames = request.yar.get(constants.redisKeys.REF_LPA_NAMES) ?? []
+    const selectedLpa = Array.isArray(localPlanningAuthority) ? localPlanningAuthority[0] : localPlanningAuthority
+
+    const errors = lpaErrorHandler(selectedLpa, refLpaNames)
+
+    if (!planningApplicationRef) {
+      errors.planningApplicationRefError = {
+        text: 'Enter a planning application reference',
+        href: '#planning-application-reference-value'
+      }
+    }
+
+    if (!developmentName) {
+      errors.developmentNameError = {
+        text: 'Enter a development reference',
+        href: '#development-name-value'
+      }
+    }
+
+    if (errors && Object.values(errors).some((el) => el !== undefined)) {
+      request.yar.set('errors', Object.values(errors))
+      return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
+    }
+
+    request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST, selectedLpa)
+    request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF, planningApplicationRef)
+    request.yar.set(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME, developmentName)
+
+    const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
+    return h.redirect(referrerUrl || creditsConstants.routes.CREDITS_PURCHASE_TASK_LIST)
+  }
+}
+
+export default [{
+  method: 'GET',
+  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+  handler: handlers.get,
+  options: validateIdGetSchemaOptional
+}, {
+  method: 'POST',
+  path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
+  handler: handlers.post,
+  options: validateIdGetSchemaOptional
+}]
