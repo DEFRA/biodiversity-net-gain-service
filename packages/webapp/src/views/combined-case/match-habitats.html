@@ -11,66 +11,72 @@
     <div class="govuk-grid-column-two-thirds">
     
       <span class="govuk-caption-l">Step {{ currentPage }} of {{ numberOfPages }}</span>
-      <h1 class="govuk-heading-l">
-        {{ pageHeading }}
-      </h1>
+      {% call govukFieldset({
+        legend: {
+          text: pageHeading,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l govuk-!-margin-bottom-6"
+        }
+      }) %}
 
-      {% if firstPage %}
-        <p class="govuk-hint">There must be enough habitat available on the gain site being registered to meet the allocation to a development</p>
-        <p class="govuk-body">Your application may be delayed, or rejected, if the area or length of allocated habitat is greater than the available habitat shown for your gain site.</p>  
-      {% endif %}
-      
-      <h2 class="govuk-heading-m">Habitats being allocated to your development project</h2>
+        {% if firstPage %}
+          <p class="govuk-hint">There must be enough habitat available on the gain site being registered to meet the allocation to a development</p>
+          <p class="govuk-body">Your application may be delayed, or rejected, if the area or length of allocated habitat is greater than the available habitat shown for your gain site.</p>  
+        {% endif %}
         
-      <p class="govuk-body">Taken from the {{ sheetName }} sheet (row {{ rowNum }}) in your <strong>development project</strong> metric.</p>
+        <h2 class="govuk-heading-m">Habitats being allocated to your development project</h2>
 
-      {{ govukInsetText({
-        text: selectedHabitatText
-      }) }}
+        <p class="govuk-body">Taken from the {{ sheetName }} sheet (row {{ rowNum }}) in your <strong>development project</strong> metric.</p>
 
-      {% if numberOfMatches %}
-        <h2 class="govuk-heading-m">{{ numberOfMatchesText.heading }}</h2>
-        <p class="govuk-body">Taken from your <strong>registration</strong> metric</p>
-        <p class="govuk-body">{{ numberOfMatchesText.selectionMessage }}</p>
-      {% endif %}
-      {% if showErrorMessage %}
-        {{ govukRadios({
-          idPrefix: "matchHabitats",
-          name: "matchHabitats",
-          items: matchedHabitatItems,
-          errorMessage: {
-            text: "Select a habitat to match"
+        {{ govukInsetText({
+          text: selectedHabitatText
+        }) }}
+
+        {% if numberOfMatches %}
+          <h2 class="govuk-heading-m">{{ numberOfMatchesText.heading }}</h2>
+          <p class="govuk-body">Taken from your <strong>registration</strong> metric</p>
+          <p class="govuk-body">{{ numberOfMatchesText.selectionMessage }}</p>
+        {% endif %}
+        {% if showErrorMessage %}
+          {{ govukRadios({
+            idPrefix: "matchHabitats",
+            name: "matchHabitats",
+            items: matchedHabitatItems,
+            errorMessage: {
+              text: "Select a habitat to match"
+            }
+          }) }}
+        {% endif %}
+        {% if noErrorMessage %}
+          {{ govukRadios({
+            idPrefix: "matchHabitats",
+            name: "matchHabitats",
+            items: matchedHabitatItems
+          }) }}
+        {% endif %}
+
+        {% if displayNoMatches %}
+          <p>There are no matching habitat items.</p>
+        {% endif %}
+
+        <!-- Required for passing the currentPage value -->
+        {{ govukInput({
+          type: "hidden",
+          name: "currentPage",
+          value: currentPage,
+          attributes: {
+            style: "display: none;"
           }
         }) }}
-      {% endif %}
-      {% if noErrorMessage %}
-        {{ govukRadios({
-          idPrefix: "matchHabitats",
-          name: "matchHabitats",
-          items: matchedHabitatItems
+
+        {{ govukButton({
+          text: "Save and continue",
+          attributes: {
+            id: "continue"
+          }
         }) }}
-      {% endif %}
 
-      {% if displayNoMatches %}
-        <p>There are no matching habitat items.</p>
-      {% endif %}
-
-      <!-- Required for passing the currentPage value -->
-      {{ govukInput({
-        type: "hidden",
-        name: "currentPage",
-        value: currentPage,
-        attributes: {
-          style: "display: none;"
-        }
-      }) }}
-
-      {{ govukButton({
-        text: "Save and continue",
-        attributes: {
-          id: "continue"
-        }
-      }) }}
+      {% endcall %}
     </div>
   </div>
 </div>
