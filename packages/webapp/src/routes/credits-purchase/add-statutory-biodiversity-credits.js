@@ -14,8 +14,16 @@ const handlers = {
     const inputValues = (previousCostCalculation)
       ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
       : {}
+    const errorMessages = request.yar.get('errorMessages') || null
+    const errorList = request.yar.get('errorList') || null
+
+    request.yar.clear('errorMessages')
+    request.yar.clear('errorList')
+
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CREDITS_SELECTION, {
       inputValues,
+      errorMessages,
+      err: errorList,
       backLink
     })
   },
@@ -34,12 +42,11 @@ const validationFailAction = (request, h, err) => {
     charLengthErrorMessage
   })
 
-  return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CREDITS_SELECTION, {
-    errorMessages,
-    backLink,
-    inputValues: { ...request.payload },
-    err: errorList
-  }).takeover()
+  request.yar.set('errorMessages', errorMessages)
+  request.yar.set('errorList', errorList)
+  request.yar.set('inputValues', request.payload)
+
+  return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION).takeover()
 }
 
 export default [
