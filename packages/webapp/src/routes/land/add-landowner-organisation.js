@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty.js'
 import constants from '../../utils/constants.js'
-import { validateTextInput, checkForDuplicate, emailValidator, getLegalAgreementDocumentType, validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
+import { validateTextInput, checkForDuplicate, emailValidator, getLegalAgreementDocumentType, validateIdGetSchemaOptional } from '../../utils/helpers.js'
 
 const organisationNameID = '#organisationName'
 const emailID = '#emailAddress'
@@ -74,10 +74,9 @@ const handlers = {
       landownerOrganisations.push(organisation)
     }
     request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, landownerOrganisations)
-    const referrerUrl = getValidReferrerUrl(request.yar, constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS)
     const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     const checkLandownersUrl = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_LANDOWNERS : constants.routes.CHECK_LANDOWNERS
-    return h.redirect(referrerUrl || checkLandownersUrl)
+    return h.redirect(checkLandownersUrl)
   }
 }
 
