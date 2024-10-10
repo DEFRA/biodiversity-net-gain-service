@@ -25,14 +25,6 @@ describe('application', () => {
     expect(app.combinedCase.applicant.role).toEqual('agent')
   })
 
-  it('Filters out habitats correctly based on gain site number', () => {
-    session.values[constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER] = 'GAIN-1234'
-
-    const app = application(session, account)
-    const habitat = app.combinedCase.allocationDetails.gainSite.offsiteUnitChange.habitat
-    expect(habitat).toEqual(0)
-  })
-
   it('Adds client details if applicant is agent, and includes written authorisation', () => {
     const firstName = 'John'
     const lastName = 'Doe'
@@ -157,38 +149,6 @@ describe('application', () => {
     expect(app.combinedCase.registrationDetails.planningObligationLPAs).toStrictEqual([])
   })
 
-  it('Should return geospatialData for getLandBoundaryFile', () => {
-    const fileSize = 100
-    const fileName = 'bar'
-    const fileLocation = `foo/${fileName}`
-
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, fileSize)
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, fileLocation)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-
-    const app = application(session, account)
-    const file = app.combinedCase.files.find(f => f.fileType === 'geojson')
-    expect(file.fileSize).toEqual(fileSize)
-    expect(file.fileLocation).toEqual(fileLocation)
-    expect(file.fileName).toEqual(fileName)
-  })
-
-  it('Should return geospatialData for getLandBoundaryFile using getGeospatialFileAttributes', () => {
-    const fileSize = 100
-    const fileName = 'bar'
-    const fileLocation = `foo/${fileName}`
-
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, fileSize)
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, fileLocation)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-
-    const app = application(session, account)
-    const file = app.combinedCase.files.find(f => f.fileType === 'geojson')
-    expect(file.fileSize).toEqual(fileSize)
-    expect(file.fileLocation).toEqual(fileLocation)
-    expect(file.fileName).toEqual(fileName)
-  })
-
   it('Adds organisation client details', () => {
     const orgName = 'Client Org'
 
@@ -199,5 +159,18 @@ describe('application', () => {
     const app = application(session, account)
     expect(app.combinedCase.applicant.role).toEqual('landowner')
     expect(app.combinedCase.landownerAddress.type).toEqual('uk')
+  })
+
+  it('Adds allocated habitats', () => {
+    const app = application(session, account)
+    expect(app.combinedCase.allocationDetails.habitats.allocated.length).toEqual(5)
+  })
+
+  it('Calculates offsite unit change', () => {
+    const app = application(session, account)
+    const offsiteUnitChange = app.combinedCase.allocationDetails.gainSite.offsiteUnitChange
+    expect(offsiteUnitChange.habitat).toEqual(10.59)
+    expect(offsiteUnitChange.hedge).toEqual(9.47)
+    expect(offsiteUnitChange.watercourse).toEqual(0)
   })
 })

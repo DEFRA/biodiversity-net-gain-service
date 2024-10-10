@@ -119,7 +119,7 @@ describe('Registration module', () => {
 
     const confirmDevAndHabitatDetails = taskDefinition(
       'confirm-dev-and-habitat-details',
-      'Confirm development and habitat details',
+      'Confirm development details',
       constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION,
       constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION,
       addDevelopmentProjectInformationJourneys

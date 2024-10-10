@@ -8,16 +8,19 @@
   {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l" tabindex="-1">
-          {{ pageHeading }}
-        </h1>
-
         {{ govukRadios({
             id: "isAddressUk",
             idPrefix: "isAddressUk",
             name: "isAddressUk",
             hint: {
               html: "<div class='govuk-hint'>This must match your " + ("client's " if isApplicantAgent === 'yes' else "") + "address on the legal agreement</div>"
+            },
+            fieldset: {
+              legend: {
+                text: pageHeading,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
             },
             errorMessage: err[0],
             items: [

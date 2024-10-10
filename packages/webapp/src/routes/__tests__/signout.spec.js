@@ -45,4 +45,91 @@ describe('Signout handler', () => {
     expect(auth.logout).toHaveBeenCalledTimes(1)
     expect(auth.getLogoutUrl).toHaveBeenCalledTimes(1)
   })
+  it('Should determine the application type from APPLICATION_TYPE if present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const sessionData = {
+      [constants.redisKeys.APPLICATION_TYPE]: 'Registration'
+    }
+    await submitGetRequest({ url }, 302, sessionData)
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('Registration')
+  })
+  it('Should determine application type as Registration for a `land` url referer if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/land/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('Registration')
+  })
+  it('Should determine application type as Allocation for a `developer` url referer if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/developer/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('Allocation')
+  })
+  it('Should determine application type as CreditsPurchase for a `credits-purchase` url referer if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/credits-purchase/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('CreditsPurchase')
+  })
+  it('Should determine application type as CombinedCase for a `combined-case` url referer if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/combined-case/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith('CombinedCase')
+  })
+  it('Should determine application type as `null` by default from the referer header if APPLICATION_TYPE is not present', async () => {
+    auth.getLogoutUrl = jest.fn().mockImplementation(() => {
+      return {
+        href: 'logout-url'
+      }
+    })
+    const options = {
+      url,
+      headers: {
+        referer: 'http://localhost:3000/test-url'
+      }
+    }
+    await submitGetRequest(options, 302, {})
+    expect(auth.getLogoutUrl).toHaveBeenCalledWith(null)
+  })
 })

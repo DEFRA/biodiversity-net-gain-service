@@ -14,10 +14,9 @@ warning: other service dependencies will be missing, install and run from root o
 
 | name    | description | mandatory |
 |---------|-------------|-----------|
+| APPLICATIONINSIGHTS_CONNECTION_STRING | Connection string to log to App Insights in Azure | N |
 | AZURE_STORAGE_ACCOUNT | Microsoft Azure or Azurite storage account name| Y |
 | AZURE_STORAGE_ACCESS_KEY | Microsoft Azure or Azurite storage account shared access key | Y |
-| ORDNANCE_SURVEY_API_KEY | Key used to access Ordnance Survey APIs | Y |
-| ORDNANCE_SURVEY_API_SECRET | Secret used to access Ordnance Survey APIs | Y |
 | MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB | Maximum size of a geospatial land boundary upload (in megabytes) | Y |
 | SESSION_COOKIE_PASSWORD | Password for the session cookie | N |
 | UPLOAD_PROCESSING_TIMEOUT_MILLIS | Upload processing timeout in milliseconds (defaults to 30000) | N |
@@ -42,7 +41,6 @@ warning: other service dependencies will be missing, install and run from root o
 | BACS_ACCOUNT_NUMBER | Natural England Bacs account number | Y |
 | BACS_SWIFT_CODE | Natural England Bacs SWIFT / BIC code | Y |
 | DISABLED_ROUTES | Used to enable/disable features and routes in form of string with semicolon | N |
-| ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL | Feature flag of geospatial support in the landowner journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_ADDITIONAL_EMAIL | Feature flag for additional email in the developer journey | Y |
 | ENABLE_ROUTE_SUPPORT_FOR_CREDIT_ESTIMATION_JOURNEY | Feature flag for credits estimation journey | Y |
@@ -51,7 +49,10 @@ warning: other service dependencies will be missing, install and run from root o
 | DEFRA_ID_MOCK | Disables defra ID integration | N |
 | LOG_LEVEL | [Pino logging level](https://github.com/pinojs/pino/blob/HEAD/docs/api.md#logger-instance) (defaults to warn) | N |
 | SERVICE_NAME | Service name as used in the GOV UK header (defaults to 'Manage biodiversity gains') | N |
-
+| BACKEND_API_BASE_URL | URL for API to backend resources, if not set resorts to local mock address | N |
+| BACKEND_API_SUBSCRIPTION_KEY | Subscription key to connect to APIM for backend API, if not set resorts to local mock value | N |
+| BACKEND_API_CODE_QUERY_PARAMETER | Query code parameter to pass to APIM | N | 
+| BACKEND_API_MOCK_BGS_FOR_ACCEPTANCE | Mock BGS number for pipeline acceptance tests to bypass API checks, only used if set | N |
 
 If HTTP triggered functions in the [azure-functions](../azure-functions/) package are accessed through an API Gateway, the environment variable **must** reference the API Gateway accordingly.
 

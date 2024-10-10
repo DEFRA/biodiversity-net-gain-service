@@ -4,7 +4,7 @@ import constants from '../../utils/constants.js'
 import applicant from '../../__mocks__/applicant.js'
 
 describe('application', () => {
-  it.only('Should have the correct number of habitats', () => {
+  it('Should have the correct number of habitats', () => {
     const session = applicationSession()
     const app = application(session, applicant)
 
@@ -12,25 +12,6 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.habitats.proposed.length).toEqual(9)
   })
 
-  it('Should set the geojson file if a WGS84 geospatial file has been uploaded', () => {
-    const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
-    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_UPLOAD_LOCATION, 'test-location/reprojectedToOsgb36/file.geojson')
-    session.set(constants.redisKeys.REPROJECTED_GEOSPATIAL_FILE_SIZE, '0.051')
-    session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.files[4].fileType).toEqual('geojson')
-    expect(app.landownerGainSiteRegistration.files[4].fileSize).toEqual('0.051')
-    expect(app.landownerGainSiteRegistration.files[4].fileName).toEqual('file.geojson')
-    expect(app.landownerGainSiteRegistration.landBoundaryGridReference).toEqual('ST123456')
-    expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
-  })
   it('Should set the legal agreement files', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, [
@@ -55,24 +36,8 @@ describe('application', () => {
     expect(legalAgreementFiles.length).toEqual(2)
     expect(legalAgreementFiles[0].fileName).toEqual('legal-agreement.doc')
   })
-  it('Should set the geojson file if an OSGB36 geospatial file has been uploaded', () => {
-    const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_LOCATION, undefined)
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_UPLOAD_LOCATION, 'test-location/file.geojson')
-    session.set(constants.redisKeys.GEOSPATIAL_FILE_SIZE, '0.05')
-    session.set(constants.redisKeys.GEOSPATIAL_GRID_REFERENCE, 'ST123456')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.files[4].fileType).toEqual('geojson')
-    expect(app.landownerGainSiteRegistration.files[4].fileSize).toEqual('0.05')
-    expect(app.landownerGainSiteRegistration.files[4].fileName).toEqual('file.geojson')
-    expect(app.landownerGainSiteRegistration.landBoundaryGridReference).toEqual('ST123456')
-    expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
-  })
-  it('Should set the land boundary file if no geospatial file has been uploaded', () => {
+
+  it('Should set the land boundary file when uploaded', () => {
     const session = applicationSession()
     const app = application(session, applicant)
 
@@ -100,7 +65,7 @@ describe('application', () => {
     expect(app.landownerGainSiteRegistration.conservationCovernantResponsibleBodies).toBeInstanceOf(Array)
     expect(app.landownerGainSiteRegistration.conservationCovernantResponsibleBodies.length).toBeGreaterThan(1)
   })
-  it('Should set land boundary file if no geospatial file is uploaded', () => {
+  it('Should set land boundary file when uploaded', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_TYPE, 'application/pdf')
     session.set(constants.redisKeys.LAND_BOUNDARY_FILE_SIZE, '0.01')
@@ -117,19 +82,12 @@ describe('application', () => {
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files.filter(file => file.fileType === 'legal-agreement')).toEqual([])
   })
-  it('Should correctly handle getHectares when geospatial data is not uploaded', () => {
+  it('Should correctly handle getHectares when uploaded', () => {
     const session = applicationSession()
     session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'otherType')
     session.set(constants.redisKeys.LAND_BOUNDARY_HECTARES, 3)
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(3)
-  })
-  it('Should correctly handle getHectares when geospatial data is uploaded', () => {
-    const session = applicationSession()
-    session.set(constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE, 'geospatialData')
-    session.set(constants.redisKeys.GEOSPATIAL_HECTARES, 5)
-    const app = application(session, applicant)
-    expect(app.landownerGainSiteRegistration.landBoundaryHectares).toEqual(5)
   })
 
   it('Should correctly handle getLandOwnershipFiles when there are no land ownerships', () => {
@@ -147,16 +105,14 @@ describe('application', () => {
         fileLocation: '627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf',
         fileName: 'lopfile2.pdf',
         fileSize: 13264,
-        fileType: 'land-ownership',
-        optional: false
+        fileType: 'land-ownership'
       },
       {
         contentMediaType: 'application/pdf',
         fileLocation: '627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile1.pdf',
         fileName: 'lopfile1.pdf',
         fileSize: 13264,
-        fileType: 'land-ownership',
-        optional: false
+        fileType: 'land-ownership'
       }
     ])
     const app = application(session, applicant)
@@ -178,16 +134,14 @@ describe('application', () => {
         fileLocation: '627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile2.pdf',
         fileName: 'lopfile2.pdf',
         fileSize: 13264,
-        fileType: 'land-ownership',
-        optional: false
+        fileType: 'land-ownership'
       },
       {
         contentMediaType: 'application/pdf',
         fileLocation: '627560b8-cf81-4291-b640-2a2f91bd588b/land-ownership/lopfile1.pdf',
         fileName: 'lopfile1.pdf',
         fileSize: 13264,
-        fileType: 'land-ownership',
-        optional: false
+        fileType: 'land-ownership'
       }])
   })
   it('Should correctly handle an application by an agent representing an individual with a UK address', () => {
@@ -445,7 +399,6 @@ describe('application', () => {
     session.set(constants.redisKeys.IS_AGENT, 'yes')
     const app = application(session, applicant)
     expect(app.landownerGainSiteRegistration.files[8].fileType).toEqual('written-authorisation')
-    expect(app.landownerGainSiteRegistration.files[8].optional).toEqual(false)
   })
   it('Should delete written authorisation file if not is-agent and file is blank', () => {
     const session = applicationSession()

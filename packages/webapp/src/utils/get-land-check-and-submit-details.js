@@ -13,7 +13,7 @@ import {
   getFileName,
   getLocalPlanningAuthorities
 } from './helpers.js'
-import geospatialOrLandBoundaryContext from '../routes/land/helpers/geospatial-or-land-boundary-context.js'
+import landBoundaryContext from '../routes/land/helpers/land-boundary-context.js'
 import applicationInformationContext from '../routes/land/helpers/applicant-information.js'
 
 const getRegistrationDetails = (request, applicationDetails) => {
@@ -44,9 +44,10 @@ const getRegistrationDetails = (request, applicationDetails) => {
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
-    ...geospatialOrLandBoundaryContext(request),
+    ...landBoundaryContext(request),
     ...applicationInformationContext(request.yar),
     landownershipFilesRows: getLandOwnershipRows(applicationDetails, applicationType),
+    landownershipFilesRowsForGenerateSummaryList: getLandOwnershipRowsForGenerateSummaryList(applicationDetails, applicationType),
     anyOtherLO: request.yar.get(constants.redisKeys.ANY_OTHER_LANDOWNERS_CHECKED)
   }
 }
@@ -81,10 +82,32 @@ const getLandOwnershipRows = (applicationDetails, applicationType) => {
             {
               href: changeHref,
               text: 'Change',
-              visuallyHiddenText: ' land boundary file'
+              visuallyHiddenText: ' proof of land ownership file'
             }
           ]
         }
+      }
+    )
+  }
+  return rows
+}
+
+const getLandOwnershipRowsForGenerateSummaryList = (applicationDetails, applicationType) => {
+  const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+  const changeHref = isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST : constants.routes.LAND_OWNERSHIP_PROOF_LIST
+  const landOwnershipFileNames = getCombinedFileNamesByType(applicationDetails.files, 'land-ownership')
+  const rows = []
+  if (landOwnershipFileNames.length > 0) {
+    const fileText = getFileHeaderPrefix(landOwnershipFileNames)
+    rows.push(
+      {
+        text: `Proof of land ownership ${fileText} uploaded`,
+        value: landOwnershipFileNames.join('<br>'),
+        valueDataTestId: 'proof-land-ownership-file-name-value',
+        valueId: 'proof-land-ownership-file-name-value',
+        visuallyHiddenText: ' land boundary file',
+        href: changeHref,
+        show: true
       }
     )
   }

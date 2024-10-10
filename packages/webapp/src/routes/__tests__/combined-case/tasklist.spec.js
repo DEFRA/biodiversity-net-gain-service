@@ -48,7 +48,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/agent-acting-for-client'
+            href: '/combined-case/agent-acting-for-client?journey-start-answer-id=add-applicant-information'
           }
         ]
       })
@@ -66,7 +66,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/upload-ownership-proof'
+            href: '/combined-case/upload-ownership-proof?journey-start-answer-id=add-land-ownership'
           },
           {
             id: 'add-land-boundary',
@@ -77,7 +77,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/upload-land-boundary'
+            href: '/combined-case/upload-land-boundary?journey-start-answer-id=add-land-boundary'
           },
           {
             id: 'add-habitat-information',
@@ -88,7 +88,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/upload-metric'
+            href: '/combined-case/upload-metric?journey-start-answer-id=add-habitat-information'
           }
         ]
       })
@@ -106,7 +106,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/legal-agreement-type'
+            href: '/combined-case/legal-agreement-type?journey-start-answer-id=add-legal-agreement'
           },
           {
             id: 'add-local-land-charge-search-certificate',
@@ -117,7 +117,7 @@ describe(url, () => {
                 classes: 'govuk-tag--grey'
               }
             },
-            href: '/combined-case/upload-local-land-charge'
+            href: '/combined-case/upload-local-land-charge?journey-start-answer-id=add-local-land-charge-search-certificate'
           }
         ]
       })
@@ -154,7 +154,7 @@ describe(url, () => {
           },
           {
             id: 'confirm-dev-and-habitat-details',
-            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development and habitat details</span>" },
+            title: { html: "<span id='confirm-dev-and-habitat-details'>Confirm development details</span>" },
             isLocked: true,
             status: {
               tag: {
