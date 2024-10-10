@@ -2,6 +2,7 @@ import path from 'path'
 import { getHumanReadableFileSize, getValidReferrerUrl } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -24,7 +25,7 @@ const handlers = {
       const referrerUrl = getValidReferrerUrl(request.yar, ['/credits-purchase/check-and-submit'])
       return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, {
+    return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC, {
       filename: path.basename(metricUploadLocation),
       ...getContext(request),
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
@@ -57,9 +58,9 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]
