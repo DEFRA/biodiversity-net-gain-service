@@ -201,5 +201,57 @@ describe(url, () => {
         }
       })
     })
+    it('should redirect to the referer if it is set', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
+          const request = {
+            yar: redisMap
+          }
+          const referer = 'some-referer'
+          redisMap.set(constants.redisKeys.REFERER, referer)
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          await confirmOffsiteGainOptions.default[1].handler(request, h)
+          expect(viewResult).toEqual(referer)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+    it('should redirect to the journey entry point if referer is not set', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          let viewResult
+          const confirmOffsiteGainOptions = require('../../developer/confirm-off-site-gain.js')
+          const request = {
+            yar: redisMap
+          }
+          const journeyEntryPoint = 'some-journey-entry-point'
+          redisMap.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, journeyEntryPoint)
+          const h = {
+            redirect: (view) => {
+              viewResult = view
+            },
+            view: (view) => {
+              viewResult = view
+            }
+          }
+          await confirmOffsiteGainOptions.default[1].handler(request, h)
+          expect(viewResult).toEqual(journeyEntryPoint)
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
   })
 })

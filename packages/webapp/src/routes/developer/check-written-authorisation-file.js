@@ -22,22 +22,28 @@ const handlers = {
     const checkWrittenAuthorisation = request.payload.checkWrittenAuthorisation
     const context = getContext(request)
     request.yar.set(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_CHECKED, checkWrittenAuthorisation)
-    if (checkWrittenAuthorisation === 'no') {
-      await deleteBlobFromContainers(context.fileLocation)
-      request.yar.clear(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
-      return h.redirect(constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
-    } else if (checkWrittenAuthorisation === 'yes') {
-      const nextRoute = request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
-        ? constants.routes.DEVELOPER_TASKLIST
-        : constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
-      return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || nextRoute)
-    } else {
+
+    if (checkWrittenAuthorisation !== 'yes' && checkWrittenAuthorisation !== 'no') {
       context.err = [{
         text: 'Select yes if this is the correct file',
         href: '#check-upload-correct-yes'
       }]
       return h.view(constants.views.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE, context)
     }
+
+    if (checkWrittenAuthorisation === 'no') {
+      await deleteBlobFromContainers(context.fileLocation)
+      request.yar.clear(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
+      return h.redirect(constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION)
+    }
+
+    const referrer = request.yar.get(constants.redisKeys.REFERER, true)
+    const journeyEntryPoint = request.yar.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE) || constants.routes.DEVELOPER_TASKLIST
+    const nextRoute = request.yar.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      ? journeyEntryPoint
+      : constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
+
+    return h.redirect(referrer || nextRoute)
   }
 }
 

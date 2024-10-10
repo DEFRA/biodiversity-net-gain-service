@@ -11,8 +11,11 @@ const handlers = {
     const { isApplicantAgent } = request.payload
 
     // Force replay of full journey if switching between agent and non-agent application
+    // Also clear responses which no longer apply
     if (request.yar.get(constants.redisKeys.DEVELOPER_IS_AGENT) !== isApplicantAgent) {
       request.yar.clear(constants.redisKeys.REFERER)
+      request.yar.clear(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
+      request.yar.clear(constants.redisKeys.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
     }
 
     request.yar.set(constants.redisKeys.DEVELOPER_IS_AGENT, isApplicantAgent)

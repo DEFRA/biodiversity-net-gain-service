@@ -59,5 +59,22 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('Select yes if this is the correct file')
     })
+
+    it('should redirect to consent to allocate gains if not a landowner', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS)
+    })
+
+    it('should redirect to check and submit if user is a landowner and started their journey there', async () => {
+      postOptions.payload.checkWrittenAuthorisation = 'yes'
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      sessionData[constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE] = 'check-and-submit'
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe('check-and-submit')
+    })
   })
 })
