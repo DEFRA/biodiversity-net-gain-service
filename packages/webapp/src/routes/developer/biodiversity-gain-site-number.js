@@ -31,6 +31,13 @@ const getStatusErrorMessage = status => {
 const checkBGSNumber = async (bgsNumber, hrefId) => {
   let errorText
 
+  // Allow a specific mock value for acceptance tests so that we don't need to add test
+  // values to the production system. If mock value is set and matches what is entered,
+  // then don't call API and don't raise an error
+  if (BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE && bgsNumber === BACKEND_API.MOCK_BGS_FOR_ACCEPTANCE) {
+    return null
+  }
+
   if (!bgsNumber.trim()) {
     errorText = 'Enter your biodiversity gain site number'
   } else {

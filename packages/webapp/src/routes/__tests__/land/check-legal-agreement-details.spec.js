@@ -49,7 +49,7 @@ describe('Legal Agreement controller tests', () => {
       })
     })
 
-    it(`should render the ${url.substring(1)} view with some of the missing data`, done => {
+    it('should redirect to REGISTER_LAND_TASK_LIST view if mandatory data missing', done => {
       jest.isolateModules(async () => {
         try {
           const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
@@ -69,6 +69,36 @@ describe('Legal Agreement controller tests', () => {
           }
           await legalAgreementDetails.default[0].handler(request, h)
           expect(redirectArgs).toEqual([constants.routes.REGISTER_LAND_TASK_LIST])
+          done()
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should redirect to COMBINED_CASE_TASK_LIST view if a combined case application and mandatory data is missing', done => {
+      jest.isolateModules(async () => {
+        try {
+          const legalAgreementDetails = require('../../land/check-legal-agreement-details.js')
+          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
+          let redirectArgs = ''
+          const request = {
+            yar: redisMap,
+            _route: {
+              path: '/combined-case/check-legal-agreement-details'
+            }
+          }
+          redisMap.set(constants.redisKeys.HABITAT_PLAN_LEGAL_AGREEMENT_DOCUMENT_INCLUDED_YES_NO, 'No')
+          redisMap.set(constants.redisKeys.HABITAT_PLAN_LOCATION, undefined)
+          redisMap.set(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY, null)
+          redisMap.set(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY, null)
+          const h = {
+            redirect: (...args) => {
+              redirectArgs = args
+            }
+          }
+          await legalAgreementDetails.default[0].handler(request, h)
+          expect(redirectArgs).toEqual([constants.routes.COMBINED_CASE_TASK_LIST])
           done()
         } catch (err) {
           done(err)

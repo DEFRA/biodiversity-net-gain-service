@@ -42,10 +42,12 @@ describe('Registration module', () => {
   it('should define the correct checkYourAnswers object', () => {
     expect(checkYourAnswers).toEqual({
       taskTitle: 'Submit your biodiversity gain information',
-      tasks: [{
+      items: [{
         id: 'check-your-answers',
-        title: 'Check your answers before you submit them',
-        url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+        title: {
+          text: 'Check your answers before you submit them'
+        },
+        href: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT,
         status: constants.CANNOT_START_YET_STATUS
       }]
     })
@@ -117,7 +119,7 @@ describe('Registration module', () => {
 
     const confirmDevAndHabitatDetails = taskDefinition(
       'confirm-dev-and-habitat-details',
-      'Confirm development and habitat details',
+      'Confirm development details',
       constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION,
       constants.reusedRoutes.COMBINED_CASE_DEVELOPMENT_PROJECT_INFORMATION,
       addDevelopmentProjectInformationJourneys

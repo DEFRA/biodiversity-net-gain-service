@@ -5,7 +5,6 @@ import Joi from 'joi'
 import constants from './constants.js'
 import validator from 'email-validator'
 import habitatTypeMap from './habitatTypeMap.js'
-import { deleteBlobFromContainers } from './azure-storage.js'
 
 const isoDateFormat = 'YYYY-MM-DD'
 const postcodeRegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?\d[A-Za-z0-9]? ?\d[A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/ // https://stackoverflow.com/a/51885364
@@ -107,9 +106,9 @@ const validateAndParseISOString = isoString => {
   }
 }
 
-const getFormattedDate = dateString => {
+const getFormattedDateTime = dateString => {
   const date = moment.utc(dateString)
-  return date.isValid() && date.format('D MMMM YYYY')
+  return date.isValid() && date.format('D MMMM YYYY, h:mma')
 }
 
 const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
@@ -371,6 +370,9 @@ const setInpageLinks = (context, path) => {
   } else if (path.includes('/developer')) {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3POwdzJF7AISB8i'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_datEcyFZVxYdMjk'
+  } else if (path.includes('/combined-case')) {
+    context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_6u70qkCWfbLwq2y'
+    context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_1S4qMTuTxMiyrxs'
   } else {
     context.onPageSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_9tnVJvL4YghCqNM'
     context.applicationSubmittedSurveyLink = 'https://defragroup.eu.qualtrics.com/jfe/form/SV_3epSJpZ7sS79UiO'
@@ -806,18 +808,20 @@ const getDeveloperCheckMetricFileContext = request => {
   }
 }
 
-const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, viewTemplate, href) => {
+const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, matchHabitatsCompleteRedirectRoute, viewTemplate, href) => {
   const checkUploadMetric = request.payload.checkUploadMetric
   const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-  request.yar.set(constants.redisKeys.METRIC_FILE_CHECKED, checkUploadMetric)
+  request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED, checkUploadMetric)
+  const matchHabitatsComplete = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
-    await deleteBlobFromContainers(metricUploadLocation)
-    request.yar.clear(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
-    request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-    request.yar.clear(constants.redisKeys.DEVELOPER_OFF_SITE_GAIN_CONFIRMED)
     return h.redirect(noRedirectRoute)
-  } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+  }
+
+  if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+    if (matchHabitatsComplete) {
+      return h.redirect(matchHabitatsCompleteRedirectRoute)
+    }
     return h.redirect(yesRedirectRoute)
   }
 
@@ -861,7 +865,7 @@ export {
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
-  getFormattedDate,
+  getFormattedDateTime,
   validateTextInput,
   formatDateBefore,
   getMinDateCheckError,

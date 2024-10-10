@@ -7,7 +7,6 @@ import combinedCaseConstants from './combined-case-constants.js'
 
 const APPLICATION_TYPE = 'application-type'
 const DOCUMENT_UPLOAD = 'documentUpload'
-const GEOSPATIAL_DATA = 'geospatialData'
 const GRID_REFERENCE_REGEX = /^([STNHOstnho][A-Za-z]\s?)(\d{5}\s?\d{5}|\d{4}\s?\d{4}|\d{3}\s?\d{3}|\d{2}\s?\d{2}|\d{1}\s?\d{1})$/
 const MINIMUM_START_DATE = '2020-01-30T00:00:00.000Z'
 const LEGAL_AGREEMENT_MIN_START_DATE = MINIMUM_START_DATE
@@ -18,6 +17,7 @@ const MANAGEMENT_MONITORING_MIN_START_DATE = MINIMUM_START_DATE
 const DEFAULT_REGISTRATION_TASK_STATUS = 'NOT STARTED'
 const IN_PROGRESS_REGISTRATION_TASK_STATUS = 'IN PROGRESS'
 const COMPLETE_REGISTRATION_TASK_STATUS = 'COMPLETED'
+const NOT_STARTED_YET_STATUS = 'NOT STARTED YET'
 const CANNOT_START_YET_STATUS = 'CANNOT START YET'
 const YES = 'yes'
 const AWAITING_PROCESSING = 'AwaitingProcessing'
@@ -27,6 +27,8 @@ const QUARANTINED = 'Quarantined'
 const FAILED_TO_VIRUS_SCAN = 'FailedToVirusScan'
 const XSS_VULNERABILITY_FOUND = 'XSSVulnerabilityFound'
 const TEST_SEED_DATA = 'test/seed-data'
+const TEST_COMBINED_CASE_SEED_DATA = 'test/seed-combined-case-data'
+const HEALTHY = 'healthy'
 const SIGNIN = 'signin'
 const SIGNIN_CALLBACK = 'signin/callback'
 const SIGNOUT = 'signout'
@@ -59,9 +61,15 @@ const LAND_APPLICANT_INFO_VALID_REFERRERS = ['/land/check-applicant-information'
 const LAND_BOUNDARY_VALID_REFERRERS = ['/land/check-land-boundary-details', '/land/check-and-submit']
 const LAND_METRIC_VALID_REFERRERS = ['/land/check-metric-details', '/land/check-and-submit']
 const LAND_LEGAL_AGREEMENT_VALID_REFERRERS = ['/land/check-legal-agreement-details', '/land/check-and-submit']
+const COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS = ['/combined-case/check-applicant-information', '/combined-case/check-and-submit']
+const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-boundary-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
+const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
 const VIEW_DATA = 'viewData'
 const PRIMARY_ROUTE = 'primary-route'
+const JOURNEY_START_ANSWER_ID = 'journey-start-answer-id'
+const JOURNERY_START_ANSWER_ID_HANDLED = 'journey-start-answer-id-handled'
 
 const applicationTypes = {
   REGISTRATION,
@@ -85,7 +93,6 @@ const confirmFileUploadOptions = {
 }
 
 const landBoundaryUploadTypes = {
-  GEOSPATIAL_DATA,
   DOCUMENT_UPLOAD
 }
 
@@ -105,12 +112,6 @@ const LEGAL_LAND_BOUNDARY_FILE_EXT = [
   '.jpg',
   '.png',
   '.pdf'
-]
-
-const GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT = [
-  '.geojson',
-  '.gpkg',
-  '.zip'
 ]
 
 const METRIC_FILE_EXT = [
@@ -190,12 +191,15 @@ const redisKeys = {
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT,
   VIEW_DATA,
-  PRIMARY_ROUTE
+  PRIMARY_ROUTE,
+  JOURNEY_START_ANSWER_ID,
+  JOURNERY_START_ANSWER_ID_HANDLED
 }
 
 let routes = {
   ...lojConstants.routes,
   MANAGE_BIODIVERSITY_GAINS,
+  HEALTHY,
   SIGNIN,
   SIGNIN_CALLBACK,
   SIGNOUT,
@@ -214,7 +218,8 @@ const testRoutes = {
   TEST_SEED_DATA,
   TEST_DEVELOPER_SEED_DATA,
   TEST_CREDITS_PURCHASE_DATA,
-  TEST_API_GAINSITE
+  TEST_API_GAINSITE,
+  TEST_COMBINED_CASE_SEED_DATA
 }
 
 if (NODE_ENV === 'development' || NODE_ENV === 'test') {
@@ -254,12 +259,14 @@ const uploadTypes = {
 const setReferer = [
   ...lojConstants.setLojReferer,
   ...developerConstants.setDeveloperReferer,
-  ...creditsPurchaseConstants.setCreditReferer
+  ...creditsPurchaseConstants.setCreditReferer,
+  ...combinedCaseConstants.setCombinedRefer
 ]
 
 // Add a route to clearReferer to break the above setReferer chain
 const clearReferer = [
-  ...developerConstants.clearDeveloperReferer
+  ...developerConstants.clearDeveloperReferer,
+  ...combinedCaseConstants.clearCombinedRefer
 ]
 
 const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
@@ -267,6 +274,23 @@ const views = { ...{ INTERNAL_SERVER_ERROR: '500' }, ...routes }
 for (const [key, value] of Object.entries(routes)) {
   routes[key] = `/${value}`
 }
+
+// The answerIdHandler plugin tracks which item is being changed on specific pages so we focus on that item when the
+// user returns to the page. The answerIdRoutes array specifies which pages we do this for -- these will likely be the
+// task list, check and submit, and any "mini" check and submit pages. Note that we must define this _after_ we've added
+// `/` to the start of each route as our matching in answerIdHandler will fail otherwise.
+const answerIdRoutes = [
+  routes.COMBINED_CASE_TASK_LIST,
+  routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+  reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION,
+  reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS
+]
+
+// The answerIdClearRoutes array specifies pages where we clear any stored answer id because they signify a user has
+// "broken out" of their journey and therefore any stored answer id is no longer relevant.
+const answerIdClearRoutes = [
+  routes.COMBINED_CASE_PROJECTS
+]
 
 const minStartDates = {
   LEGAL_AGREEMENT_MIN_START_DATE,
@@ -294,7 +318,8 @@ const applicantTypes = {
 const primaryPages = {
   [REGISTRATION]: [`/${lojConstants.routes.REGISTER_LAND_TASK_LIST}`, `/${lojConstants.routes.CHECK_AND_SUBMIT}`],
   [ALLOCATION]: [`/${developerConstants.routes.DEVELOPER_TASKLIST}`, `/${developerConstants.routes.DEVELOPER_CHECK_AND_SUBMIT}`],
-  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS]
+  [CREDITS_PURCHASE]: [creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST, creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_YOUR_ANSWERS],
+  [COMBINED_CASE]: [`/${combinedCaseConstants.routes.COMBINED_CASE_TASK_LIST}`, `/${combinedCaseConstants.routes.COMBINED_CASE_CHECK_AND_SUBMIT}`]
 }
 
 export default Object.freeze({
@@ -306,7 +331,6 @@ export default Object.freeze({
   confirmManagementPlanOptions: confirmFileUploadOptions,
   managementPlanFileExt: LEGAL_AGREEMENT_FILE_EXT,
   landBoundaryFileExt: LEGAL_LAND_BOUNDARY_FILE_EXT,
-  geospatialLandBoundaryFileExt: GEOSPATIAL_LEGAL_LAND_BOUNDARY_FILE_EXT,
   lanOwnerFileExt: LAND_OWNERSHIP_FILE_EXT,
   legalAgreementFileExt: LEGAL_AGREEMENT_FILE_EXT,
   localLandChargeFileExt: LOCAL_LAND_CHARGE_FILE_EXT,
@@ -324,6 +348,7 @@ export default Object.freeze({
   LEGAL_AGREEMENT_TYPE_CONSERVATION,
   COMPLETE_REGISTRATION_TASK_STATUS,
   CANNOT_START_YET_STATUS,
+  NOT_STARTED_YET_STATUS,
   setReferer,
   clearReferer,
   LEGAL_AGREEMENT_DOCUMENTS,
@@ -347,6 +372,12 @@ export default Object.freeze({
   LAND_BOUNDARY_VALID_REFERRERS,
   LAND_METRIC_VALID_REFERRERS,
   LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+  COMBINED_CASE_APPLICANT_INFO_VALID_REFERRERS,
+  COMBINED_CASE_BOUNDARY_VALID_REFERRERS,
+  COMBINED_CASE_METRIC_VALID_REFERRERS,
+  COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS,
   primaryPages,
-  reusedRoutes
+  reusedRoutes,
+  answerIdRoutes,
+  answerIdClearRoutes
 })

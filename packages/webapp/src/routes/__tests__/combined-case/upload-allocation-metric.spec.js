@@ -11,6 +11,22 @@ const metricFiles = [
   `${mockDataPath}/metric-file-4.1-feb24.xlsm`
 ]
 
+const mockHabitat = {
+  'Baseline habitat': 'Grassland - Modified grassland',
+  'Total habitat area': 1,
+  'Proposed Broad Habitat': 'Wetland',
+  'Condition change': 'Lower Distinctiveness Habitat - Good',
+  'Habitat enhanced in advance (years)': 0,
+  'Delay in starting habitat enhancement (years)': 0,
+  'Off-site reference': 'BGS-111 222 333',
+  'Area (hectares)': 1,
+  Condition: 'Good',
+  'Habitat units delivered': 7.027257226998999,
+  'Proposed habitat': 'Lowland raised bog',
+  'Distinctiveness change': 'Low - V.High',
+  'Habitat reference Number': '1234DEF'
+}
+
 describe('Metric file upload controller tests', () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
@@ -260,6 +276,7 @@ describe('Metric file upload controller tests', () => {
         }
       })
     })
+
     it('should return validation error message if fails isDraftVersion', (done) => {
       jest.isolateModules(async () => {
         try {
@@ -307,9 +324,67 @@ describe('Metric file upload controller tests', () => {
     })
 
     it('should handle failAction of upload route', async () => {
-      const expectedStatuCode = 415
-      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatuCode)
-      expect(res.statusCode).toEqual(expectedStatuCode)
+      const expectedStatusCode = 415
+      const res = await submitPostRequest({ url, payload: { parse: true } }, expectedStatusCode)
+      expect(res.statusCode).toEqual(expectedStatusCode)
+    })
+
+    it('should succeed if habitat matches found', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = getBaseConfig()
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
+          uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
+          uploadConfig.sessionData[constants.redisKeys.METRIC_DATA] = {
+            d3: [{ ...mockHabitat }]
+          }
+          uploadConfig.postProcess.metricData = {
+            d3: [{ ...mockHabitat }],
+            validation: {
+              isSupportedVersion: true,
+              isOffsiteDataPresent: true,
+              areOffsiteTotalsCorrect: true,
+              isDraftVersion: false
+            }
+          }
+          await uploadFile(uploadConfig)
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
+    })
+
+    it('should return error message if no habitat matches found', (done) => {
+      jest.isolateModules(async () => {
+        try {
+          const uploadConfig = getBaseConfig()
+          uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
+          uploadConfig.hasError = true
+          uploadConfig.sessionData[constants.redisKeys.APPLICATION_TYPE] = constants.applicationTypes.COMBINED_CASE
+          uploadConfig.sessionData[constants.redisKeys.METRIC_DATA] = {
+            d3: [{ ...mockHabitat }]
+          }
+          uploadConfig.postProcess.metricData = {
+            d3: [],
+            validation: {
+              isSupportedVersion: true,
+              isOffsiteDataPresent: true,
+              areOffsiteTotalsCorrect: true,
+              isDraftVersion: false
+            }
+          }
+          const response = await uploadFile(uploadConfig)
+          expect(response.result).toContain('The habitats in your development metric cannot be matched to any habitats in your registration metric. Please check both metrics to ensure the details are correct.')
+          setImmediate(() => {
+            done()
+          })
+        } catch (err) {
+          done(err)
+        }
+      })
     })
   })
 })

@@ -5,13 +5,17 @@ import { getIndividualTaskStatus, getNextStep } from '../../journey-validation/t
 const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.APPLICANT_INFO)
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      if (isCombinedCase) {
+        return h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+      } else {
+        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      }
     }
     return h.view(constants.views.CHECK_APPLICANT_INFORMATION, applicationInformationContext(request.yar))
   },
   post: async (request, h) => {
-    // return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     return getNextStep(request, h)
   }
 }

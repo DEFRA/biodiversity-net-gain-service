@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import { getLegalAgreementDocumentType } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const getCustomizedHTML = (item, index) => {
+const getCustomizedHTML = (item, index, isCombinedCase) => {
   return {
     key: {
       text: item.responsibleBodyName,
@@ -10,10 +10,10 @@ const getCustomizedHTML = (item, index) => {
     },
     actions: {
       items: [{
-        href: `${constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT}?id=${index}`,
+        href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT : constants.routes.ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT}?id=${index}`,
         text: 'Change'
       }, {
-        href: `${constants.routes.REMOVE_RESPONSIBLE_BODY}?id=${index}`,
+        href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_REMOVE_RESPONSIBLE_BODY : constants.routes.REMOVE_RESPONSIBLE_BODY}?id=${index}`,
         text: 'Remove'
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
@@ -27,7 +27,8 @@ const handlers = {
     if (legalAgreementResponsibleBodies.length === 0) {
       return h.redirect(constants.routes.NEED_ADD_ALL_RESPONSIBLE_BODIES)
     }
-    const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index))
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+    const legalAgreementResponsibleBodiesWithAction = legalAgreementResponsibleBodies.map((currElement, index) => getCustomizedHTML(currElement, index, isCombinedCase))
     const legalAgreementType = getLegalAgreementDocumentType(
       request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_DOCUMENT_TYPE))?.toLowerCase()
     const { ADD_RESPONSIBLE_BODY_CONVERSATION_COVENANT, REMOVE_RESPONSIBLE_BODY } = constants.routes

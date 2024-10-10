@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import constants from './constants.js'
 
-const applicantAddressSchema = Joi.object({
+export const applicantAddressSchema = Joi.object({
   type: Joi.string().valid('uk', 'international').required(),
   line1: Joi.string().required(),
   line2: Joi.string(),
@@ -117,7 +117,7 @@ const applicationValidation = Joi.object({
     habitatPlanIncludedLegalAgreementYesNo: Joi.string().valid('Yes', 'No').required(),
     files: Joi.array().items(
       Joi.object({
-        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'geojson', 'written-authorisation').required(),
+        fileType: Joi.string().valid('legal-agreement', 'local-land-charge', 'habitat-plan', 'land-boundary', 'metric', 'land-ownership', 'written-authorisation').required(),
         contentMediaType: Joi.when('optional', {
           is: true,
           then: Joi.string().allow(null),

@@ -1,7 +1,7 @@
 import constants from '../../utils/constants.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
-const getCustomizedHTML = (item, index) => {
+const getCustomizedHTML = (item, index, isCombinedCase = false) => {
   return {
     key: {
       text: item.fileName,
@@ -9,9 +9,9 @@ const getCustomizedHTML = (item, index) => {
     },
     actions: {
       items: [{
-        href: `${constants.routes.LAND_OWNERSHIP_REMOVE}?id=${index}`,
+        href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_REMOVE : constants.routes.LAND_OWNERSHIP_REMOVE}?id=${index}`,
         text: 'Remove',
-        visuallyHiddenText: 'Remove ' + item + ' from the list'
+        visuallyHiddenText: `${item.fileName} from the list`
       }],
       classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
     },
@@ -20,17 +20,19 @@ const getCustomizedHTML = (item, index) => {
 }
 const handlers = {
   get: async (request, h) => {
+    const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+    const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
     const landOwnershipProofs = request.yar.get(constants.redisKeys.LAND_OWNERSHIP_PROOFS)
-    const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index))
+    const landOwnershipsList = (landOwnershipProofs || []).map((currElement, index) => getCustomizedHTML(currElement, index, isCombinedCase))
 
     // (Ref:BGNP-4124) Redirecting to the register land task list if there is no one file added.
     // And to avoid looping back navigation from upload ownership proof.
     const { referer } = request.headers || ''
     if (landOwnershipsList.length === 0) {
       if (referer && referer.indexOf(constants.routes.LAND_OWNERSHIP_PROOF_LIST) > -1) {
-        return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+        return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_REGISTER_LAND_TASK_LIST : constants.routes.REGISTER_LAND_TASK_LIST)
       } else {
-        return h.redirect(constants.routes.UPLOAD_LAND_OWNERSHIP)
+        return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_UPLOAD_LAND_OWNERSHIP : constants.routes.UPLOAD_LAND_OWNERSHIP)
       }
     }
 
@@ -59,6 +61,8 @@ const handlers = {
       return getNextStep(request, h)
     }
 
+    // User wants to upload a new file so clear the "ownership proof is complete" key
+    request.yar.clear(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY)
     return getNextStep(request, h)
   }
 }

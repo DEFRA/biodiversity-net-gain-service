@@ -40,13 +40,14 @@ const handlers = {
       })
     }
     let updatedLegalAgreementFiles
+    const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
     if (legalAgreementFileToRemove === 'yes') {
       await deleteBlobFromContainers(legalAgreementFile.location)
       updatedLegalAgreementFiles = legalAgreementFiles.filter(item => item.id !== id)
       request.yar.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, updatedLegalAgreementFiles)
-      if (updatedLegalAgreementFiles.length === 0) { return h.redirect(constants.routes.NEED_ADD_ALL_LEGAL_FILES) }
+      if (updatedLegalAgreementFiles.length === 0) { return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_NEED_ADD_ALL_LEGAL_FILES : constants.routes.NEED_ADD_ALL_LEGAL_FILES) }
     }
-    return h.redirect(constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
+    return h.redirect(isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_FILES : constants.routes.CHECK_LEGAL_AGREEMENT_FILES)
   }
 }
 

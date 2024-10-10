@@ -56,9 +56,19 @@ const {
     CHECK_HABITAT_PLAN_FILE,
     HABITAT_ENHANCEMENTS_END_DATE,
     ADD_PLANNING_AUTHORITY,
-    CHECK_PLANNING_AUTHORITIES
+    CHECK_PLANNING_AUTHORITIES,
+    LAND_OWNERSHIP_REMOVE,
+    CHANGE_TYPE_LEGAL_AGREEMENT,
+    CHANGE_CLIENT_INDIVIDUAL_ORGANISATION,
+    CHANGE_ACTING_ON_BEHALF_OF_CLIENT,
+    CHANGE_APPLYING_INDIVIDUAL_ORGANISATION,
+    REMOVE_LANDOWNER,
+    REMOVE_RESPONSIBLE_BODY,
+    REMOVE_LEGAL_AGREEMENT_FILE,
+    NEED_ADD_ALL_LANDOWNERS
   }
 } = landConstants
+
 const {
   routes: {
     DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
@@ -76,7 +86,10 @@ const routes = {
   COMBINED_CASE_PROJECTS: 'combined-case/combined-case-projects',
   COMBINED_CASE_CONTINUE_PROJECT: 'combined-case/continue-combined-case-project',
   COMBINED_CASE_NEW_PROJECT: 'combined-case/new-combined-case-project',
-  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats'
+  COMBINED_CASE_MATCH_ALLOCATION_SUMMARY: 'combined-case/match-allocation-summary',
+  COMBINED_CASE_MATCH_HABITATS: 'combined-case/match-habitats',
+  COMBINED_CASE_CONFIRMATION: 'combined-case/application-submitted',
+  COMBINED_CASE_CHANGE_REGISTRATION_METRIC: 'combined-case/change-registration-metric'
 }
 
 const redisKeys = {
@@ -86,7 +99,11 @@ const redisKeys = {
   COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING: 'combined-case-allocation-habitats-processing',
   COMBINED_CASE_REGISTRATION_HABITATS: 'combined-case-registration-habitats',
   COMBINED_CASE_SELECTED_HABITAT_ID: 'combined-case-selected-habitat-id',
-  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete'
+  COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE: 'combined-case-match-available-habitats-complete',
+  COMBINED_CASE_APPLICATION_SUBMITTED: 'combined-case-application-submitted',
+  COMBINED_CASE_APPLICATION_REFERENCE: 'combined-case-application-reference',
+  COMBINED_CASE_MATCH_HABITAT_NOT_CHECKED: 'combined-case-match-habitat-not-checked',
+  COMBINED_CASE_MATCH_HABITAT_NO_MATCHES: 'combined-case-match-habitat-no-matches'
 }
 
 const views = Object.fromEntries(
@@ -150,7 +167,16 @@ const routesToReuse = [
   `/${CHECK_HABITAT_PLAN_FILE}`,
   `/${HABITAT_ENHANCEMENTS_END_DATE}`,
   `/${ADD_PLANNING_AUTHORITY}`,
-  `/${CHECK_PLANNING_AUTHORITIES}`
+  `/${CHECK_PLANNING_AUTHORITIES}`,
+  `/${LAND_OWNERSHIP_REMOVE}`,
+  `/${CHANGE_TYPE_LEGAL_AGREEMENT}`,
+  `/${CHANGE_CLIENT_INDIVIDUAL_ORGANISATION}`,
+  `/${CHANGE_ACTING_ON_BEHALF_OF_CLIENT}`,
+  `/${CHANGE_APPLYING_INDIVIDUAL_ORGANISATION}`,
+  `/${REMOVE_LANDOWNER}`,
+  `/${REMOVE_RESPONSIBLE_BODY}`,
+  `/${REMOVE_LEGAL_AGREEMENT_FILE}`,
+  `/${NEED_ADD_ALL_LANDOWNERS}`
 ]
 
 const reusedRoutePath = (baseUrl, originalRoute) => {
@@ -217,14 +243,40 @@ const reusedRoutes = {
   COMBINED_CASE_CHECK_HABITAT_PLAN_FILE: reusedRoutePath(baseUrl, CHECK_HABITAT_PLAN_FILE),
   COMBINED_CASE_HABITAT_ENHANCEMENTS_END_DATE: reusedRoutePath(baseUrl, HABITAT_ENHANCEMENTS_END_DATE),
   COMBINED_CASE_ADD_PLANNING_AUTHORITY: reusedRoutePath(baseUrl, ADD_PLANNING_AUTHORITY),
-  COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES)
+  COMBINED_CASE_CHECK_PLANNING_AUTHORITIES: reusedRoutePath(baseUrl, CHECK_PLANNING_AUTHORITIES),
+  COMBINED_CASE_REGISTER_LAND_TASK_LIST: reusedRoutePath(baseUrl, REGISTER_LAND_TASK_LIST),
+  COMBINED_CASE_LAND_OWNERSHIP_REMOVE: reusedRoutePath(baseUrl, LAND_OWNERSHIP_REMOVE),
+  COMBINED_CASE_CHANGE_TYPE_LEGAL_AGREEMENT: reusedRoutePath(baseUrl, CHANGE_TYPE_LEGAL_AGREEMENT),
+  COMBINED_CASE_CHANGE_CLIENT_INDIVIDUAL_ORGANISATION: reusedRoutePath(baseUrl, CHANGE_CLIENT_INDIVIDUAL_ORGANISATION),
+  COMBINED_CASE_CHANGE_ACTING_ON_BEHALF_OF_CLIENT: reusedRoutePath(baseUrl, CHANGE_ACTING_ON_BEHALF_OF_CLIENT),
+  COMBINED_CASE_CHANGE_APPLYING_INDIVIDUAL_ORGANISATION: reusedRoutePath(baseUrl, CHANGE_APPLYING_INDIVIDUAL_ORGANISATION),
+  COMBINED_CASE_REMOVE_LANDOWNER: reusedRoutePath(baseUrl, REMOVE_LANDOWNER),
+  COMBINED_CASE_REMOVE_RESPONSIBLE_BODY: reusedRoutePath(baseUrl, REMOVE_RESPONSIBLE_BODY),
+  COMBINED_CASE_REMOVE_LEGAL_AGREEMENT_FILE: reusedRoutePath(baseUrl, REMOVE_LEGAL_AGREEMENT_FILE),
+  COMBINED_CASE_NEED_ADD_ALL_LANDOWNERS: reusedRoutePath(baseUrl, NEED_ADD_ALL_LANDOWNERS)
 }
+
+const setCombinedRefer = [
+  routes.COMBINED_CASE_CHECK_AND_SUBMIT,
+  reusedRoutes.COMBINED_CASE_LAND_OWNERSHIP_PROOF_LIST.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_LEGAL_AGREEMENT_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_METRIC_DETAILS.replace(/^\//, ''),
+  reusedRoutes.COMBINED_CASE_CHECK_APPLICANT_INFORMATION.replace(/^\//, '')
+]
+
+const clearCombinedRefer = [
+  reusedRoutes.COMBINED_CASE_UPLOAD_METRIC.replace(/^\//, ''),
+  routes.COMBINED_CASE_TASK_LIST
+]
 
 export default {
   routes,
-  views,
   redisKeys,
+  views,
   routesToReuse,
   reusedRoutes,
-  baseUrl
+  baseUrl,
+  setCombinedRefer,
+  clearCombinedRefer
 }

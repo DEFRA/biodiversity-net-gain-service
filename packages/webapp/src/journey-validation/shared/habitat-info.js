@@ -16,14 +16,14 @@ const createUploadMetricRoute = (uploadRoute, checkRoute) => routeDefinition(
 
 const createCheckUploadMetricRoute = (checkRoute, uploadRoute, nextRoute) => routeDefinition(
   checkRoute,
-  [constants.redisKeys.METRIC_FILE_CHECKED],
+  [],
   (session) => {
     const checkUploadMetric = session.get(constants.redisKeys.METRIC_FILE_CHECKED)
     if (checkUploadMetric === 'no') {
       return uploadRoute
     } else if (checkUploadMetric === 'yes') {
       session.set(constants.redisKeys.METRIC_UPLOADED_ANSWER, true)
-      const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
+      const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_METRIC_VALID_REFERRERS, ...constants.COMBINED_CASE_METRIC_VALID_REFERRERS])
       return referrerUrl || nextRoute
     } else {
       const message = 'Select yes if this is the correct file'
@@ -39,7 +39,7 @@ const createCheckHabitatBaselineRoute = (checkRoute, nextRoute) => routeDefiniti
   checkRoute,
   [constants.redisKeys.METRIC_HABITAT_BASELINE_CHECKED],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_METRIC_VALID_REFERRERS, ...constants.COMBINED_CASE_METRIC_VALID_REFERRERS])
     return referrerUrl || nextRoute
   }
 )
@@ -48,7 +48,7 @@ const createCheckHabitatCreatedRoute = (checkRoute, nextRoute) => routeDefinitio
   checkRoute,
   [constants.redisKeys.METRIC_HABITAT_CREATED_CHECKED],
   (session) => {
-    const referrerUrl = getValidReferrerUrl(session, constants.LAND_METRIC_VALID_REFERRERS)
+    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_METRIC_VALID_REFERRERS, ...constants.COMBINED_CASE_METRIC_VALID_REFERRERS])
     return referrerUrl || nextRoute
   }
 )

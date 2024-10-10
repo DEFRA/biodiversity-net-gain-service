@@ -235,7 +235,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       button.addEventListener('click', function () {
         setTimeout(function () {
           button.setAttribute('disabled', 'disabled')
-          button.classList.add('govuk-button--disabled')
           button.setAttribute('aria-disabled', 'true')
           button.innerHTML = 'Uploading'
         }, 0)

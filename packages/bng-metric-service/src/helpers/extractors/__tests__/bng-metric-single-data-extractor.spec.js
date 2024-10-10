@@ -18,7 +18,7 @@ describe('BNG data extractor test', () => {
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, options)
 
     expect(response.d1OffSiteHabitatBaseline.length).toEqual(6)
-    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(10)
+    expect(Object.keys(response.d1OffSiteHabitatBaseline[0]).length).toEqual(11)
     expect(response.d1OffSiteHabitatBaseline[0].Ref).toEqual(1)
     expect(response.d1OffSiteHabitatBaseline[0]['Broad habitat']).toEqual('Cropland')
     expect(response.d1OffSiteHabitatBaseline[0]['Habitat type']).toEqual('Cereal crops')
@@ -31,7 +31,7 @@ describe('BNG data extractor test', () => {
     expect(response.d1OffSiteHabitatBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.d2OffSiteHabitatCreation.length).toEqual(4)
-    expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(10)
+    expect(Object.keys(response.d2OffSiteHabitatCreation[0]).length).toEqual(11)
     expect(response.d2OffSiteHabitatCreation[0]['Broad habitat']).toEqual('Grassland')
     expect(response.d2OffSiteHabitatCreation[0]['Proposed habitat']).toEqual('Other neutral grassland')
     expect((response.d2OffSiteHabitatCreation[0]['Area (hectares)']).toFixed(2)).toEqual('2.00')
@@ -44,7 +44,7 @@ describe('BNG data extractor test', () => {
     expect(response.d2OffSiteHabitatCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.d3OffSiteHabitatEnhancement.length).toEqual(3)
-    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(15)
+    expect(Object.keys(response.d3OffSiteHabitatEnhancement[0]).length).toEqual(16)
     expect(response.d3OffSiteHabitatEnhancement[0]['Baseline ref']).toEqual(3)
     expect(response.d3OffSiteHabitatEnhancement[0]['Baseline habitat']).toEqual('Grassland - Modified grassland')
     expect(response.d3OffSiteHabitatEnhancement[0]['Proposed habitat']).toEqual('Other neutral grassland')
@@ -61,7 +61,7 @@ describe('BNG data extractor test', () => {
     expect(response.d3OffSiteHabitatEnhancement[0]['Off-site reference']).toEqual(1234)
 
     expect(response.e1OffSiteHedgeBaseline.length).toEqual(2)
-    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(10)
+    expect(Object.keys(response.e1OffSiteHedgeBaseline[0]).length).toEqual(11)
     expect(response.e1OffSiteHedgeBaseline[0].Ref).toEqual(1)
     expect(response.e1OffSiteHedgeBaseline[0]['Habitat type']).toEqual('Native hedgerow')
     expect(response.e1OffSiteHedgeBaseline[0]['Length (km)']).toEqual(0.3)
@@ -74,7 +74,7 @@ describe('BNG data extractor test', () => {
     expect(response.e1OffSiteHedgeBaseline[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.e2OffSiteHedgeCreation.length).toEqual(2)
-    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(9)
+    expect(Object.keys(response.e2OffSiteHedgeCreation[0]).length).toEqual(10)
     expect(response.e2OffSiteHedgeCreation[0]['Habitat type']).toEqual('Species-rich native hedgerow')
     expect(response.e2OffSiteHedgeCreation[0]['Length (km)']).toEqual(0.074)
     expect(response.e2OffSiteHedgeCreation[0].Condition).toEqual('Good')
@@ -85,7 +85,7 @@ describe('BNG data extractor test', () => {
     expect(response.e2OffSiteHedgeCreation[0]['Off-site reference']).toEqual('BNGREG-0001')
     expect(response.e2OffSiteHedgeCreation[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
-    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(12)
+    expect(Object.keys(response.e3OffSiteHedgeEnhancement[0]).length).toEqual(13)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline ref']).toEqual(1)
     expect(response.e3OffSiteHedgeEnhancement[0]['Baseline habitat']).toEqual('Native hedgerow')
     expect(response.e3OffSiteHedgeEnhancement[0]['Length (km)']).toEqual(0.226)
@@ -99,7 +99,7 @@ describe('BNG data extractor test', () => {
     expect(response.e3OffSiteHedgeEnhancement[0].Distinctiveness).toEqual('Medium')
 
     expect(response.f1OffSiteWaterCBaseline.length).toEqual(2)
-    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(11)
+    expect(Object.keys(response.f1OffSiteWaterCBaseline[0]).length).toEqual(12)
     expect(response.f1OffSiteWaterCBaseline[0].Ref).toEqual(1)
     expect(response.f1OffSiteWaterCBaseline[0]['Watercourse type']).toEqual('Other rivers and streams')
     expect(response.f1OffSiteWaterCBaseline[0]['Length (km)']).toEqual(1)
@@ -112,10 +112,10 @@ describe('BNG data extractor test', () => {
     expect(response.f1OffSiteWaterCBaseline[0]['Strategic significance']).toEqual('Location ecologically desirable but not in local strategy')
 
     expect(response.f2OffSiteWaterCCreation.length).toEqual(1)
-    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(2)
+    expect(Object.keys(response.f2OffSiteWaterCCreation[0]).length).toEqual(3)
 
     expect(response.f3OffSiteWaterCEnhancement.length).toEqual(2)
-    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(13)
+    expect(Object.keys(response.f3OffSiteWaterCEnhancement[0]).length).toEqual(14)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline ref']).toEqual(1)
     expect(response.f3OffSiteWaterCEnhancement[0]['Baseline habitat']).toEqual('Other rivers and streams')
     expect(response.f3OffSiteWaterCEnhancement[0]['Proposed habitat']).toEqual('Other rivers and streams')
@@ -131,17 +131,17 @@ describe('BNG data extractor test', () => {
     expect(response.f3OffSiteWaterCEnhancement[0]['Strategic significance']).toEqual('Area/compensation not in local strategy/ no local strategy')
 
     expect(response.habitatOffSiteGainSiteSummary.length).toEqual(4)
-    expect(Object.keys(response.habitatOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(Object.keys(response.habitatOffSiteGainSiteSummary[0]).length).toEqual(3)
     expect(response.habitatOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
     expect(response.habitatOffSiteGainSiteSummary[0]['Habitat Offsite unit change per gain site (Post SRM)']).toEqual(2.7349064528779197)
 
     expect(response.hedgeOffSiteGainSiteSummary.length).toEqual(2)
-    expect(Object.keys(response.hedgeOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(Object.keys(response.hedgeOffSiteGainSiteSummary[0]).length).toEqual(3)
     expect(response.hedgeOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
     expect(response.hedgeOffSiteGainSiteSummary[0]['Hedge Offsite unit change per gain site (Post SRM)']).toEqual(1.1017262107027603)
 
     expect(response.watercourseOffSiteGainSiteSummary.length).toEqual(1)
-    expect(Object.keys(response.watercourseOffSiteGainSiteSummary[0]).length).toEqual(2)
+    expect(Object.keys(response.watercourseOffSiteGainSiteSummary[0]).length).toEqual(3)
     expect(response.watercourseOffSiteGainSiteSummary[0]['Gain site reference']).toEqual(1234)
     expect(response.watercourseOffSiteGainSiteSummary[0]['Watercourse Offsite unit change per gain site (Post SRM)']).toEqual(17.713784810433)
 
@@ -229,7 +229,7 @@ describe('BNG data extractor test', () => {
     }
 
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
-    expect(Object.keys(response.test[0]).length).toEqual(4)
+    expect(Object.keys(response.test[0]).length).toEqual(5)
     expect(response.test[0]['Broad habitat']).toBe(undefined)
   })
 
@@ -250,7 +250,7 @@ describe('BNG data extractor test', () => {
 
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
     expect(response.test.length).toEqual(5)
-    response.test.forEach(element => expect(Object.keys(element)).toEqual([baselineRef, habitatType]))
+    response.test.forEach(element => expect(Object.keys(element)).toEqual([baselineRef, habitatType, 'rowNum']))
   })
 
   it('Should rejects with an error if a stream error occurs', async () => {
@@ -282,7 +282,7 @@ describe('BNG data extractor test', () => {
     }
 
     const response = await bngMetricDataExtractor.extractContent(readableStreamv4, { extractionConfiguration })
-    expect(Object.keys(response.test[0]).length).toEqual(1)
+    expect(Object.keys(response.test[0]).length).toEqual(2)
     expect(response.test[0].Condition).toBe(undefined)
   })
 

@@ -1,4 +1,5 @@
 import Hapi from '@hapi/hapi'
+import appInsights from 'applicationinsights'
 import crypto from 'crypto'
 import Inert from '@hapi/inert'
 import auth from './plugins/auth.js'
@@ -9,6 +10,7 @@ import logging from './plugins/logging.js'
 import session from './plugins/session.js'
 import cache from './plugins/cache.js'
 import header from './plugins/header.js'
+import answerIdHandler from './plugins/answer-id-handler.js'
 import onPreHandler from './plugins/on-pre-handler.js'
 import onPostHandler from './plugins/on-post-handler.js'
 import redirectView from './plugins/redirect-view.js'
@@ -37,6 +39,11 @@ const createServer = async options => {
 }
 
 const init = async server => {
+  // Register app insights
+  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+    appInsights.setup().start()
+  }
+
   // Register the plugins
   await server.register(auth)
   await server.register(Inert)
@@ -46,6 +53,7 @@ const init = async server => {
   await server.register(logging)
   await server.register(session)
   await server.register(Blipp)
+  await server.register(answerIdHandler)
   await server.register(onPreHandler)
   await server.register(onPostHandler)
   await server.register(redirectView)
@@ -80,7 +88,7 @@ const init = async server => {
       // Set the nonce in the context
       response.source.context.nonce = nonce
       // Set CSP header if response allows setting headers
-      const scriptHash = '+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='
+      const scriptHash = 'GUQ5ad8JK5KmEWmROf3LZd9ge94daqNvd8xy9YS1iDw='
       // This is a hash of the inline script in GDS template. It is added to the CSP to except the in-line
       const csp = 'default-src \'self\'; ' +
             `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'sha256-${scriptHash}' www.googletagmanager.com; ` +

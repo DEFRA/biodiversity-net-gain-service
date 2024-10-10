@@ -5,7 +5,6 @@ import {
   journeyStep,
   journeyStepFromRoute
 } from '../utils.js'
-import { getValidReferrerUrl } from '../../utils/helpers.js'
 
 const UPLOAD_LAND_OWNERSHIP = routeDefinition(
   constants.routes.UPLOAD_LAND_OWNERSHIP,
@@ -35,8 +34,8 @@ const LAND_OWNERSHIP_PROOF_LIST = routeDefinition(
   (session) => {
     const landOwnershipProofListKey = session.get(constants.redisKeys.LAND_OWNERSHIP_PROOF_LIST_KEY)
     if (landOwnershipProofListKey) {
-      const referrerUrl = getValidReferrerUrl(session, ['/land/check-and-submit'])
-      return referrerUrl || constants.routes.REGISTER_LAND_TASK_LIST
+      const checkAndSubmitJourneyRoute = session.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE)
+      return checkAndSubmitJourneyRoute || constants.routes.REGISTER_LAND_TASK_LIST
     } else {
       return constants.routes.UPLOAD_LAND_OWNERSHIP
     }

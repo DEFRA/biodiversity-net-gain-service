@@ -1,4 +1,4 @@
-{% extends 'developer-form-layout.html' %}
+{% extends 'form-layout.html' %}
 
 {% set pageHeading = ("Is your client" if isApplicantAgent === 'yes' else "Are you") + " the landowner or leaseholder?" %}
 {% block formContent %}
@@ -8,15 +8,18 @@
         {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l" tabindex="-1">
-                    {{ pageHeading }}
-                </h1>
-
                 {{ govukRadios({
                     id: "landownerOrLeaseholder",
                     idPrefix: "landownerOrLeaseholder",
                     name: "landownerOrLeaseholder",
                     errorMessage: err[0],
+                    fieldset: {
+                        legend: {
+                            text: pageHeading,
+                            isPageHeading: true,
+                            classes: "govuk-fieldset__legend--l"
+                        }
+                    },
                     items: [
                         {
                             value: "yes",

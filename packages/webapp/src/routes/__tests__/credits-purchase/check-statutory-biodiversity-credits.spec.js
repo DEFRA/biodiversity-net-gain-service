@@ -1,5 +1,5 @@
 import { submitGetRequest } from '../helpers/server.js'
-import { getFormattedDate } from '../../../utils/helpers.js'
+import { getFormattedDateTime } from '../../../utils/helpers.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_APPLICATION_LIST
@@ -14,7 +14,7 @@ describe(url, () => {
           const http = require('../../../utils/http.js')
           const mockReference = 'BNGCRD-ABCDE-12345'
           const mockProjectName = 'mock project name'
-          const mockStatus = 'IN PROGRESS'
+          const mockStatus = 'In progress'
           const mockDate = new Date()
           http.postJson = jest.fn().mockImplementation(() => {
             return [{
@@ -28,7 +28,7 @@ describe(url, () => {
           expect(res.payload).toContain(mockReference)
           expect(res.payload).toContain(mockProjectName)
           expect(res.payload).toContain(mockStatus)
-          expect(res.payload).toContain(getFormattedDate(mockDate))
+          expect(res.payload).toContain(getFormattedDateTime(mockDate))
           done()
         } catch (err) {
           done(err)

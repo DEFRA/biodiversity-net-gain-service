@@ -26,41 +26,9 @@
       <!--Land boundary-->
       <h2 class="govuk-heading-m">Biodiversity gain site boundary</h2>
 
-      {% set landBoundaryUploadTypeElement = {
-        key: {
-            text: "Land boundary file type"
-        },
-        value: {
-          html: "<span data-testid=\"land-boundary-file-type-value\">" + landBoundaryUploadType + "</span>"
-        },
-        actions: {
-          items: [
-              {
-                  href: routes.CHOOSE_LAND_BOUNDARY_UPLOAD if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else routes.UPLOAD_LAND_BOUNDARY,
-                  text: "Change",
-                  visuallyHiddenText: " land boundary file",
-                  attributes: {
-                      id: "check-land-boundary-file-type"
-                  }
-              }
-          ]
-        }
-      } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
-
-      {% set landBoundaryOnAMapElement = {
-        key: {
-          text: "Land boundary on a map"
-        },
-        classes: hideClass(documentOrImage) + ' defra-js-show hidden',
-        value: {
-          html: "<div id=\"map\" data-testid=\"land-boundary-map-value\" class=\"map map--location\" tabindex=\"0\"></div>"
-        }
-      } if ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL === 'Y' else undefined %}
-
       {{ govukSummaryList({
         classes: "govuk-!-margin-bottom-9",
         rows: [
-          landBoundaryUploadTypeElement,
           {
             key: {
               text: "File uploaded"
@@ -78,7 +46,6 @@
               ]
             }
           },
-          landBoundaryOnAMapElement,
           {
             key: {
               text: "Grid reference"
@@ -91,8 +58,7 @@
                 {
                   href: routes.ADD_GRID_REFERENCE,
                   text: "Change",
-                  visuallyHiddenText: " grid reference",
-                  classes: hideClass(geospatial)
+                  visuallyHiddenText: " grid reference"
                 }
               ]
             }
@@ -109,8 +75,7 @@
                 {
                   href: routes.ADD_HECTARES,
                   text: "Change",
-                  visuallyHiddenText: " area in hectares",
-                  classes: hideClass(geospatial)
+                  visuallyHiddenText: " area in hectares"
                 }
               ]
             }
@@ -181,7 +146,9 @@
       <!-- Legal agreement -->
       <h2 class="govuk-heading-m">Legal information</h2>
       {% set showLocalLandCharge = true %}
+      {% set hrefPath = '/land' %}
       {% include "common/legal-agreement-summary.html" %}
+
       <h2 class="govuk-heading-m">Terms and conditions</h2>
       <p class="govuk-body">You need to <a href="https://www.gov.uk/guidance/biodiversity-gain-sites-register-terms-and-conditions" class="govuk-link" rel="noreferrer noopener" target="_blank">read the full terms and conditions (opens in new tab)</a> for registering a biodiversity gain site before you submit your information.</p>
       {{ govukCheckboxes({
@@ -204,7 +171,7 @@
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
+          <span class="govuk-visually-hidden">Warning</span>
           You may have to pay a fine if you have given false information.
         </strong>
       </div>
@@ -219,11 +186,4 @@
 {% endblock %}
 {% block bodyEnd %}
     {{ super() }}
-    {% if geospatial %}
-    <script src="{{ assetPath }}/js/checkAndSubmit.js"></script>
-    <script>
-      const safeMapConfig = {{ mapConfig | dump | safe }}
-      checkAndSubmit.initialiseMap(safeMapConfig)
-    </script>
-    {% endif %}
 {% endblock %}

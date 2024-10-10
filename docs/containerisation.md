@@ -12,7 +12,7 @@ Docker based containerisation is used for the following:
 
 ### Hostname Resolution
 
-During local development each Docker container name defined in a docker-compose file **must** be resolvable from the local loopback address of
+During local development each Docker container name defined in a docker compose file **must** be resolvable from the local loopback address of
 the development machine. For example, on a Linux development machine with a local loopback address of 127.0.0.1, /etc/hosts **must** be modified
 to include the following entries:
 
@@ -61,8 +61,6 @@ export SESSION_COOKIE_PASSWORD=the-password-must-be-at-least-32-characters-long
 export AZURE_STORAGE_ACCOUNT=devstoreaccount1
 export AZURE_STORAGE_ACCESS_KEY="Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
 export AZURE_BLOB_SERVICE_URL="http://azurite:10000/devstoreaccount1"
-export ORDNANCE_SURVEY_API_KEY=""
-export ORDNANCE_SURVEY_API_SECRET=""
 export MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB="50"
 export SERVICE_HOME_URL="http://localhost:3000"
 export DEFRA_ID_SESSION_COOKIE_PASSWORD=""

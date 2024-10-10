@@ -17,7 +17,10 @@ const handlers = {
   get: async (request, h) => {
     const registrationTaskStatus = getIndividualTaskStatus(request.yar, REGISTRATIONCONSTANTS.LEGAL_AGREEMENT)
     if (registrationTaskStatus !== 'COMPLETED') {
-      return h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
+      const isCombinedCase = (request?._route?.path || '').startsWith('/combined-case')
+      return isCombinedCase
+        ? h.redirect(constants.routes.COMBINED_CASE_TASK_LIST)
+        : h.redirect(constants.routes.REGISTER_LAND_TASK_LIST)
     }
     return h.view(constants.views.CHECK_LEGAL_AGREEMENT_DETAILS, {
       listArray,
@@ -30,6 +33,9 @@ const handlers = {
 }
 
 const getContext = request => {
+  const applicationType = request.yar.get(constants.redisKeys.APPLICATION_TYPE)
+  const isCombinedCase = applicationType === constants.applicationTypes.COMBINED_CASE
+  const hrefPath = isCombinedCase ? '/combined-case' : '/land'
   const legalAgreementFileNames = getLegalAgreementFileNames(request.yar.get(constants.redisKeys.LEGAL_AGREEMENT_FILES))
   const legalAgreementFileHeaderPrefix = getFileHeaderPrefix(legalAgreementFileNames)
   return {
@@ -44,7 +50,8 @@ const getContext = request => {
     HabitatWorksStartDate: getDateString(request.yar.get(constants.redisKeys.ENHANCEMENT_WORKS_START_DATE_KEY), 'start date'),
     HabitatWorksEndDate: getDateString(request.yar.get(constants.redisKeys.HABITAT_ENHANCEMENTS_END_DATE_KEY), 'end date'),
     localPlanningAuthorities: getLocalPlanningAuthorities(request.yar.get(constants.redisKeys.PLANNING_AUTHORTITY_LIST)),
-    hideClass
+    hideClass,
+    hrefPath
   }
 }
 
