@@ -70,7 +70,7 @@ const init = async server => {
         { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
         { key: 'X-XSS-Protection', value: '1; mode=block' },
         { key: 'Strict-Transport-Security', value: 'max-age=15768000;' },
-        { key: 'Cache-Control', value: 'no-cache' },
+        { key: 'Cache-Control', value: 'no-cache, no-store' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'interest-cohort=()' }
       ]
