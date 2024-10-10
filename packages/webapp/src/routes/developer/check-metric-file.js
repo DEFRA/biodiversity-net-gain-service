@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getDeveloperCheckMetricFileContext, checkDeveloperUploadMetric } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const href = '#check-upload-correct-yes'
 const handlers = {
@@ -26,9 +27,9 @@ const getContext = request => {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

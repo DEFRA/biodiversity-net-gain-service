@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import { BACKEND_API } from '../../utils/config.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import wreck from '@hapi/wreck'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const getGainSiteApiUrl = bgsNumber => {
   const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
@@ -80,7 +81,7 @@ const handlers = {
     const error = await checkBGSNumber(bgsNumber, '#bgsNumber')
     if (error) {
       request.yar.clear(constants.redisKeys.BIODIVERSITY_NET_GAIN_NUMBER)
-      return h.view(constants.views.DEVELOPER_BNG_NUMBER, {
+      return h.redirectView(constants.views.DEVELOPER_BNG_NUMBER, {
         bgsNumber,
         err: error
       })
@@ -105,9 +106,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_BNG_NUMBER,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_BNG_NUMBER,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

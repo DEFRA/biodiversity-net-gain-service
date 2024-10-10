@@ -825,7 +825,7 @@ const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedire
     return h.redirect(yesRedirectRoute)
   }
 
-  return h.view(viewTemplate, {
+  return h.redirectView(viewTemplate, {
     filename: path.basename(metricUploadLocation),
     ...getDeveloperCheckMetricFileContext(request),
     err: [

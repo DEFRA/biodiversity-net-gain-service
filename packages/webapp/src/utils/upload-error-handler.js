@@ -26,7 +26,7 @@ function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, uns
 }
 
 function buildErrorResponse (h, message, route, elementID) {
-  return h.view(route, {
+  return h.redirectView(route, {
     err: [{
       text: message,
       href: elementID

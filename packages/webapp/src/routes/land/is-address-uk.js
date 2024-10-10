@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const handlers = {
@@ -14,7 +15,6 @@ const handlers = {
     const isAddressUk = request.payload.isAddressUk
     const isApplicantAgent = request.yar.get(constants.redisKeys.IS_AGENT)
     request.yar.set(constants.redisKeys.IS_ADDRESS_UK_KEY, isAddressUk)
-
     return getNextStep(request, h, (e) => {
       return h.view(constants.views.IS_ADDRESS_UK, {
         err: [e],
@@ -28,9 +28,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.IS_ADDRESS_UK,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.IS_ADDRESS_UK,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

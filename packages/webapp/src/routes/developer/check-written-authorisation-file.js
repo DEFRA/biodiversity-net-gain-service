@@ -2,6 +2,7 @@ import constants from '../../utils/constants.js'
 import path from 'path'
 import { getHumanReadableFileSize, isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const getContext = request => {
   const fileLocation = request.yar.get(constants.redisKeys.DEVELOPER_WRITTEN_AUTHORISATION_LOCATION)
@@ -36,7 +37,7 @@ const handlers = {
         text: 'Select yes if this is the correct file',
         href: '#check-upload-correct-yes'
       }]
-      return h.view(constants.views.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE, context)
+      return h.redirectView(constants.views.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE, context)
     }
   }
 }
@@ -44,9 +45,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_CHECK_WRITTEN_AUTHORISATION_FILE,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

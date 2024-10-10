@@ -6,6 +6,7 @@ import getDeveloperClientContext from '../../utils/get-developer-client-context.
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const DEVELOPER_WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
@@ -52,11 +53,11 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_WRITTEN_AUTHORISATION,
-  handler: handlers.post,
+  handler: addRedirectViewUsed(handlers.post),
   options:
     generatePayloadOptions(
       DEVELOPER_WRITTEN_AUTHORISATION_ID,

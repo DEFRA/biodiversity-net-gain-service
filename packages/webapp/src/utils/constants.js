@@ -66,6 +66,7 @@ const COMBINED_CASE_BOUNDARY_VALID_REFERRERS = ['/combined-case/check-land-bound
 const COMBINED_CASE_METRIC_VALID_REFERRERS = ['/combined-case/check-metric-details', '/combined-case/check-and-submit']
 const COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS = ['/combined-case/check-legal-agreement-details', '/combined-case/check-and-submit']
 const TEST_API_GAINSITE = 'test/api/gainsite'
+const VIEW_DATA = 'viewData'
 const PRIMARY_ROUTE = 'primary-route'
 const JOURNEY_START_ANSWER_ID = 'journey-start-answer-id'
 const JOURNERY_START_ANSWER_ID_HANDLED = 'journey-start-answer-id-handled'
@@ -189,6 +190,7 @@ const redisKeys = {
   SAVE_APPLICATION_SESSION_ON_SIGNOUT_OR_JOURNEY_CHANGE,
   PRE_AUTHENTICATION_ROUTE,
   SAVE_APPLICATION_SESSION_ON_SIGNOUT,
+  VIEW_DATA,
   PRIMARY_ROUTE,
   JOURNEY_START_ANSWER_ID,
   JOURNERY_START_ANSWER_ID_HANDLED

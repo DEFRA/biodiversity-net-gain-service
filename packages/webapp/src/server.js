@@ -13,6 +13,7 @@ import header from './plugins/header.js'
 import answerIdHandler from './plugins/answer-id-handler.js'
 import onPreHandler from './plugins/on-pre-handler.js'
 import onPostHandler from './plugins/on-post-handler.js'
+import redirectView from './plugins/redirect-view.js'
 import primaryPage from './plugins/primary-page.js'
 import Blipp from 'blipp'
 import { KEEP_ALIVE_TIMEOUT_MS, SERVER_PORT, SERVICE_HOME_URL } from './utils/config.js'
@@ -55,6 +56,7 @@ const init = async server => {
   await server.register(answerIdHandler)
   await server.register(onPreHandler)
   await server.register(onPostHandler)
+  await server.register(redirectView)
   await server.register(primaryPage)
   await server.register({
     plugin: header,

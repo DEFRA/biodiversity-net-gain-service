@@ -1,6 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 const errorText = 'Select a nationality from the dropdown list'
 const duplicateNationalitiesErrorText = 'Remove duplicate nationality'
 
@@ -58,7 +59,7 @@ const handlers = {
           }
           return null
         })
-        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
+        return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
           nationalitySelects: getNationalitySelects(nationalities),
           backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
           err: errorMessages
@@ -66,7 +67,7 @@ const handlers = {
       }
     } else {
       // Displaying error if no nationality selected
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
         nationalitySelects: getNationalitySelects(nationalities),
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
         err: [{
@@ -81,9 +82,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

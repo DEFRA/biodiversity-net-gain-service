@@ -5,6 +5,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { getMetricFileValidationErrors } from '../../utils/helpers.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
 const backLink = constants.routes.CREDITS_PURCHASE_TASK_LIST
@@ -13,7 +14,7 @@ const processSuccessfulUpload = async (result, request, h) => {
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_CREDIT_METRIC_ID, false)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+    return h.redirectView(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
       ...validationError,
       backLink
     })
@@ -60,12 +61,12 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
   path: constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC,
-  handler: handlers.post,
+  handler: addRedirectViewUsed(handlers.post),
   options:
     generatePayloadOptions(
       UPLOAD_CREDIT_METRIC_ID,

@@ -5,6 +5,7 @@ import { postJson } from '../../utils/http.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
 import { getTaskList } from '../../journey-validation/task-list-generator.js'
 import getRegistrationDetails from '../../utils/get-land-check-and-submit-details.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -40,7 +41,7 @@ const handlers = {
 
       const applicationDetails = application(request.yar, request.auth.credentials.account).landownerGainSiteRegistration
 
-      return h.view(constants.views.CHECK_AND_SUBMIT, { ...getRegistrationDetails(request, applicationDetails), err })
+      return h.redirectView(constants.views.CHECK_AND_SUBMIT, { ...getRegistrationDetails(request, applicationDetails), err })
     }
 
     const { value, error } = applicationValidation.validate(application(request.yar, request.auth.credentials.account))
@@ -58,9 +59,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.CHECK_AND_SUBMIT,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

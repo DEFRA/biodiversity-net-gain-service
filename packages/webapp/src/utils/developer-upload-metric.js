@@ -27,7 +27,7 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID)
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(view, validationError)
+    return h.redirectView(view, validationError)
   }
 
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_LOCATION, result.config.blobConfig.blobName)
@@ -49,7 +49,7 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
       ]
     }
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(view, error)
+    return h.redirectView(view, error)
   }
 
   if (applicationType === constants.applicationTypes.COMBINED_CASE) {
@@ -81,28 +81,28 @@ export const processSuccessfulUpload = async (result, request, h, view) => {
 export const processErrorUpload = (err, h, view) => {
   switch (err.message) {
     case constants.uploadErrors.notValidMetric:
-      return h.view(view, {
+      return h.redirectView(view, {
         err: [{
           text: 'The selected file is not a valid Metric',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.emptyFile:
-      return h.view(view, {
+      return h.redirectView(view, {
         err: [{
           text: 'The selected file is empty',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.noFile:
-      return h.view(view, {
+      return h.redirectView(view, {
         err: [{
           text: 'Select a statutory biodiversity metric',
           href: UPLOAD_METRIC_ID
         }]
       })
     case constants.uploadErrors.unsupportedFileExt:
-      return h.view(view, {
+      return h.redirectView(view, {
         err: [{
           text: 'The selected file must be an XLSM or XLSX',
           href: UPLOAD_METRIC_ID
@@ -112,21 +112,21 @@ export const processErrorUpload = (err, h, view) => {
       return maximumFileSizeExceeded(h, view)
     default:
       if (err instanceof ThreatScreeningError) {
-        return h.view(view, {
+        return h.redirectView(view, {
           err: [{
             text: constants.uploadErrors.malwareScanFailed,
             href: UPLOAD_METRIC_ID
           }]
         })
       } else if (err instanceof MalwareDetectedError) {
-        return h.view(view, {
+        return h.redirectView(view, {
           err: [{
             text: constants.uploadErrors.threatDetected,
             href: UPLOAD_METRIC_ID
           }]
         })
       } else {
-        return h.view(view, {
+        return h.redirectView(view, {
           err: [{
             text: constants.uploadErrors.uploadFailure,
             href: UPLOAD_METRIC_ID

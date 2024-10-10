@@ -31,6 +31,9 @@ describe(url, () => {
       view: (view, context) => {
         viewResult = view
       },
+      redirectView: (view, context) => {
+        viewResult = view
+      },
       redirect: (view, context) => {
         viewResult = view
       }
@@ -259,6 +262,9 @@ describe(url, () => {
           let viewResult = ''
           const h = {
             view: (view) => {
+              viewResult = view
+            },
+            redirectView: (view) => {
               viewResult = view
             }
           }

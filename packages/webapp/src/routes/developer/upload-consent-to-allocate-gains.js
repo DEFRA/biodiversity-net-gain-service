@@ -4,6 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { isAgentAndNotLandowner } from '../../utils/helpers.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID = '#uploadWrittenConsentToAllocateGains'
 
@@ -48,12 +49,12 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 },
 {
   method: 'POST',
   path: constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS,
-  handler: handlers.post,
+  handler: addRedirectViewUsed(handlers.post),
   options:
     generatePayloadOptions(
       DEVELOPER_WRITTEN_CONSENT_TO_ALLOCATE_GAINS_ID,

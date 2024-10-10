@@ -1,4 +1,5 @@
 import constants from '../../utils/constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -22,7 +23,7 @@ const handlers = {
     } else if (isApplicantAgent === 'no') {
       return h.redirect(request.yar.get(constants.redisKeys.REFERER, true) || constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER)
     } else {
-      return h.view(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
+      return h.redirectView(constants.views.DEVELOPER_AGENT_ACTING_FOR_CLIENT, {
         isApplicantAgent,
         err: [{
           text: 'Select yes if you are an agent acting on behalf of a client',
@@ -36,9 +37,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: constants.routes.DEVELOPER_AGENT_ACTING_FOR_CLIENT,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]
