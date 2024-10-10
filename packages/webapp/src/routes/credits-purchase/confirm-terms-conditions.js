@@ -1,4 +1,5 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: async (request, h) => {
@@ -8,7 +9,7 @@ const handlers = {
   post: async (request, h) => {
     const consent = request.payload.termsAndConditions
     if (!consent) {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_TERMS_AND_CONDITIONS, {
+      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_TERMS_AND_CONDITIONS, {
         err: [{
           text: 'Check the box to confirm you have read the terms and conditions',
           href: '#termsAndConditions'
@@ -24,9 +25,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]
