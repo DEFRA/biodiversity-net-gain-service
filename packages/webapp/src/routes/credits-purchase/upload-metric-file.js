@@ -7,16 +7,14 @@ import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 
 const UPLOAD_CREDIT_METRIC_ID = '#uploadMetric'
-const backLink = constants.routes.CREDITS_PURCHASE_TASK_LIST
 
 const processSuccessfulUpload = async (result, request, h) => {
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_CREDIT_METRIC_ID, false)
+
   if (validationError) {
     await deleteBlobFromContainers(result.config.blobConfig.blobName)
-    return h.view(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
-      ...validationError,
-      backLink
-    })
+    request.yar.set('errors', validationError.err)
+    return h.redirect(constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
   }
 
   request.yar.set(constants.redisKeys.CREDITS_PURCHASE_METRIC_LOCATION, result.config.blobConfig.blobName)
@@ -29,7 +27,15 @@ const processSuccessfulUpload = async (result, request, h) => {
 }
 
 const handlers = {
-  get: async (request, h) => h.view(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, { backLink }),
+  get: async (request, h) => {
+    const errors = request.yar.get('errors') || null
+    request.yar.clear('errors')
+
+    return h.view(constants.views.CREDITS_PURCHASE_UPLOAD_METRIC, {
+      backLink: constants.routes.CREDITS_PURCHASE_TASK_LIST,
+      err: errors
+    })
+  },
   post: async (request, h) => {
     const uploadConfig = buildConfig({
       sessionId: request.yar.id,
@@ -51,7 +57,6 @@ const handlers = {
         noFileErrorMessage: 'Select a statutory biodiversity metric',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
-        // backlink?
       })
     }
   }
@@ -71,6 +76,5 @@ export default [{
       UPLOAD_CREDIT_METRIC_ID,
       process.env.MAX_METRIC_UPLOAD_MB,
       constants.views.CREDITS_PURCHASE_UPLOAD_METRIC
-      // backLink
     )
 }]

@@ -1,6 +1,8 @@
 import { checked, validateLengthOfCharsLessThan50, getValidReferrerUrl } from '../../utils/helpers.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 
+const PURCHASE_ORDER_ERRORS = 'purchaseOrderErrors'
+
 const validateData = (purchaseOrderUsed, purchaseOrderNumber) => {
   let error = {}
   if (!purchaseOrderUsed) {
@@ -26,11 +28,15 @@ const handlers = {
   get: (request, h) => {
     const purchaseOrderUsed = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_USED)
     const purchaseOrderNumber = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER)
+    const errors = request.yar.get(PURCHASE_ORDER_ERRORS)
+
+    request.yar.clear(PURCHASE_ORDER_ERRORS)
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
       purchaseOrderUsed,
       purchaseOrderNumber,
       checked,
+      ...errors,
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
     })
   },
@@ -41,13 +47,9 @@ const handlers = {
 
     const error = validateData(purchaseOrderUsed, purchaseOrderNumber)
     if (error) {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
-        purchaseOrderNumber,
-        purchaseOrderUsed,
-        checked,
-        ...error,
-        backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
-      })
+      request.yar.set(PURCHASE_ORDER_ERRORS, error)
+      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER)
     } else if (purchaseOrderUsed === 'yes') {
       request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_PURCHASE_ORDER_NUMBER, purchaseOrderNumber)
     } else {
