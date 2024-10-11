@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { getMatchingHabitats } from '../../utils/combined-case/helpers.js'
+import { getSheetName } from './match-habitats.js'
 
 const handlers = {
   get: (request, h) => {
@@ -15,9 +16,10 @@ const handlers = {
     const matchedHabitats = (habitats || []).map((habitat, index) => {
       const matchingHabitats = getMatchingHabitats(habitat, registrationHabitats)
       const matchedHabitat = (matchingHabitats || []).find((matchingHabitat) => matchingHabitat?.id === habitat.matchedHabitatId)
+      const sheetName = getSheetName(habitat.sheet)
       return {
         text: `${habitat.habitatType} (${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} Condition)`,
-        value: matchedHabitat ? `${matchedHabitat.size} ${matchedHabitat.measurementUnits} / ${matchedHabitat.condition} Condition / Row&nbsp${matchedHabitat.rowNum}` : '',
+        value: matchedHabitat ? `${matchedHabitat.size} ${matchedHabitat.measurementUnits} / ${matchedHabitat.condition} Condition / ${sheetName} sheet (row&nbsp;${matchedHabitat.rowNum})` : '',
         valueDataTestId: `habitat-${index + 1}`,
         href: `${constants.routes.COMBINED_CASE_MATCH_HABITATS}?page=${index + 1}`,
         visuallyHiddenText: habitat.habitatType,

@@ -110,8 +110,8 @@ const processMetricData = session => {
 const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
 
-const habitatHint = habitat =>
-  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition / Row ${habitat.rowNum}`
+const habitatHint = (habitat, sheetName) =>
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition / ${sheetName} sheet (row ${habitat.rowNum})`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
