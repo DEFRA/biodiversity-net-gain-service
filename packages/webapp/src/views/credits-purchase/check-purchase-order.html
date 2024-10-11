@@ -35,7 +35,7 @@
                             value: "yes",
                             text: "Yes",
                             id: "purchaseOrderUsedYes",
-                            checked: checked(purchaseOrderUsed, "yes"),
+                            checked: purchaseOrderUsed === "yes",
                             conditional: {
                                 html: govukInput({
                                     label: {
@@ -53,7 +53,7 @@
                             value: "no",
                             text: "No",
                             id: "purchaseOrderUsedNo",
-                            checked: checked(purchaseOrderUsed, "no")
+                            checked: purchaseOrderUsed === "no"
                         }
                     ]
                 }) }}

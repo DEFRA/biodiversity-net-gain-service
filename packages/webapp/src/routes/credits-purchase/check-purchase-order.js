@@ -1,4 +1,4 @@
-import { checked, validateLengthOfCharsLessThan50, getValidReferrerUrl } from '../../utils/helpers.js'
+import { validateLengthOfCharsLessThan50, getValidReferrerUrl } from '../../utils/helpers.js'
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
@@ -31,7 +31,6 @@ const handlers = {
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
       purchaseOrderUsed,
       purchaseOrderNumber,
-      checked,
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
     })
   },
@@ -45,7 +44,6 @@ const handlers = {
       return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_PURCHASE_ORDER, {
         purchaseOrderNumber,
         purchaseOrderUsed,
-        checked,
         ...error,
         backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
       })
