@@ -4,17 +4,20 @@ import {
   validateAndParseISOString,
   validateDate, getValidReferrerUrl
 } from '../../utils/helpers.js'
-import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const handlers = {
   get: (request, h) => {
     const { day, month, year } = validateAndParseISOString(request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH))
+
+    const errors = request.yar.get('errors') || null
+    request.yar.clear('errors')
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
       dateClasses,
       day,
       month,
       year,
+      err: errors,
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME
     })
   },
@@ -23,16 +26,13 @@ const handlers = {
     const { day, month, year, dateAsISOString, context } = validateDate(request.payload, ID, 'date of birth, for example 31 3 1980', 'Date of birth', true)
 
     if (context.err) {
-      return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
-        day,
-        month,
-        year,
-        dateClasses,
-        ...context,
-        backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME
-      })
+      request.yar.set('errors', context.err)
+      request.yar.set('formData', { day, month, year })
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     }
+
     request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH, dateAsISOString)
+
     const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
     return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
   }
@@ -41,9 +41,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-  handler: addRedirectViewUsed(handlers.get)
+  handler: handlers.get
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-  handler: addRedirectViewUsed(handlers.post)
+  handler: handlers.post
 }]
