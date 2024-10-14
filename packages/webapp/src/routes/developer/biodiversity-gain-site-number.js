@@ -1,5 +1,6 @@
 import constants from '../../utils/constants.js'
 import { BACKEND_API } from '../../utils/config.js'
+import { getToken } from '../../utils/oauth.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import wreck from '@hapi/wreck'
 
@@ -27,6 +28,19 @@ const getStatusErrorMessage = status => {
   }
 }
 
+const determineHeaders = async (BACKEND_API) => {
+  if (BACKEND_API.USE_OAUTH) {
+    const oauthToken = await getToken()
+    return {
+      Authorization: oauthToken
+    }
+  }
+
+  return {
+    'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
+  }
+}
+
 const checkBGSNumber = async (bgsNumber, hrefId) => {
   let errorText
 
@@ -42,12 +56,12 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
   } else {
     const gainsiteUrl = getGainSiteApiUrl(bgsNumber)
 
+    const headers = await determineHeaders(BACKEND_API)
+
     try {
       const { payload } = await wreck.get(gainsiteUrl.href, {
         json: true,
-        headers: {
-          'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
-        }
+        headers
       })
 
       if (payload.gainsiteStatus !== 'Registered') {
