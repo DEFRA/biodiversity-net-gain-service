@@ -18,6 +18,10 @@ describe(url, () => {
       },
       redirect: (view, context) => {
         viewResult = view
+      },
+      redirectView: (view, context) => {
+        viewResult = view
+        resultContext = context
       }
     }
 
