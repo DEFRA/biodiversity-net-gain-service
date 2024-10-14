@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import {
   getMatchingHabitats,
   habitatDescription,
-  habitatHint,
+  habitatSummary,
   processMetricData
 } from '../../utils/combined-case/helpers.js'
 
@@ -26,11 +26,11 @@ const getUnprocessedHabitatItems =
   }))
 
 const getMatchedHabitatItems =
-  regHabitats => regHabitats.filter(habitat => !habitat.processed).map(habitat => ({
+  (regHabitats, sheetName) => regHabitats.filter(habitat => !habitat.processed).map(habitat => ({
     value: habitat.id,
     text: habitat.habitatType,
     hint: {
-      text: habitatHint(habitat)
+      html: habitatSummary(habitat, sheetName)
     }
   }))
 
@@ -69,8 +69,8 @@ const handlers = {
     const selectedHabitat = allocationHabitats.find(habitat => habitat.id === selectedHabitatId)
     const selectedHabitatText = `${selectedHabitat.habitatType} (${selectedHabitat.size} ${selectedHabitat.measurementUnits} / ${selectedHabitat.condition} condition)`
     const matchingHabitats = getMatchingHabitats(selectedHabitat, registrationHabitats)
-    const matchedHabitatItems = getMatchedHabitatItems(matchingHabitats)
     const sheetName = getSheetName(selectedHabitat.sheet)
+    const matchedHabitatItems = getMatchedHabitatItems(matchingHabitats, sheetName)
     const safeCurrentPage = Math.max(1, Math.min(currentPage, numberOfPages))
 
     const processedHabitats = request.yar.get(constants.redisKeys.COMBINED_CASE_ALLOCATION_HABITATS_PROCESSING)
