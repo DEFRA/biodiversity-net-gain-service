@@ -10,13 +10,15 @@ const handlers = {
     const { day, month, year } = validateAndParseISOString(request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DATE_OF_BIRTH))
 
     const errors = request.yar.get('errors') || null
+    const formData = request.yar.get('formData') || { day, month, year }
     request.yar.clear('errors')
+    request.yar.clear('formData')
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_DATE_OF_BIRTH, {
       dateClasses,
-      day,
-      month,
-      year,
+      day: formData.day,
+      month: formData.month,
+      year: formData.year,
       err: errors,
       backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME
     })
