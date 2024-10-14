@@ -2,7 +2,7 @@ import constants from '../../utils/constants.js'
 import {
   getMatchingHabitats,
   habitatDescription,
-  habitatHint,
+  habitatSummary,
   processMetricData
 } from '../../utils/combined-case/helpers.js'
 
@@ -30,7 +30,7 @@ const getMatchedHabitatItems =
     value: habitat.id,
     text: habitat.habitatType,
     hint: {
-      text: habitatHint(habitat, sheetName)
+      html: habitatSummary(habitat, sheetName)
     }
   }))
 
