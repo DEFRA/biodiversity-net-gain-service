@@ -11,7 +11,7 @@ const backLink = creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST
 const handlers = {
   get: async (request, h) => {
     const previousCostCalculation = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION)
-    const inputValues = (previousCostCalculation)
+    const formData = (previousCostCalculation)
       ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
       : {}
     const errorMessages = request.yar.get('errorMessages') || null
@@ -21,7 +21,7 @@ const handlers = {
     request.yar.clear('errorList')
 
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CREDITS_SELECTION, {
-      inputValues,
+      formData,
       errorMessages,
       err: errorList,
       backLink
@@ -44,7 +44,7 @@ const validationFailAction = (request, h, err) => {
 
   request.yar.set('errorMessages', errorMessages)
   request.yar.set('errorList', errorList)
-  request.yar.set('inputValues', request.payload)
+  request.yar.set('formData', request.payload)
 
   return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION).takeover()
 }
