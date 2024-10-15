@@ -1,9 +1,7 @@
 import creditsConstants from '../../utils/credits-purchase-constants.js'
 import constants from '../../utils/loj-constants.js'
 import { getLpaNames } from '../../utils/get-lpas.js'
-import {
-  validateIdGetSchemaOptional, getValidReferrerUrl
-} from '../../utils/helpers.js'
+import { validateIdGetSchemaOptional, getValidReferrerUrl } from '../../utils/helpers.js'
 
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
@@ -21,19 +19,12 @@ const lpaErrorHandler = (selectedLpa, refLpaNames) => {
       text: 'Enter and select a local planning authority',
       href: '#localPlanningAuthorityErr'
     }
-
-    return errors
-  }
-
-  if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
+  } else if (refLpaNames.length > 0 && !refLpaNames.includes(selectedLpa)) {
     errors.invalidLocalPlanningAuthorityError = {
       text: 'Enter a valid local planning authority',
       href: '#invalidLocalPlanningAuthorityError'
     }
-
-    return errors
   }
-
   return errors
 }
 
@@ -42,18 +33,32 @@ const handlers = {
     const lpaNames = getLpaNames(filePathAndName)
     request.yar.set(constants.redisKeys.REF_LPA_NAMES, lpaNames)
 
-    const selectedLpa = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST)
-    const planningApplicationRef = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF)
-    const developmentName = request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
+    const formData = request.yar.get('formData') || {
+      selectedLpa: request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_AUTHORITY_LIST),
+      planningApplicationRef: request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_PLANNING_APPLICATION_REF),
+      developmentName: request.yar.get(creditsConstants.redisKeys.CREDITS_PURCHASE_DEVELOPMENT_NAME)
+    }
 
     const errors = request.yar.get('errors') || null
+
+    if (errors) {
+      if (errors.some(error => error.href === '#localPlanningAuthorityErr' || error.href === '#invalidLocalPlanningAuthorityError')) {
+        formData.selectedLpa = ''
+      }
+      if (errors.some(error => error.href === '#planning-application-reference-value')) {
+        formData.planningApplicationRef = ''
+      }
+      if (errors.some(error => error.href === '#development-name-value')) {
+        formData.developmentName = ''
+      }
+    }
+
     request.yar.clear('errors')
+    request.yar.clear('formData')
 
     return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
-      selectedLpa,
       lpaNames,
-      planningApplicationRef,
-      developmentName,
+      ...formData,
       err: errors
     })
   },
@@ -79,6 +84,7 @@ const handlers = {
     }
 
     if (errors && Object.values(errors).some((el) => el !== undefined)) {
+      request.yar.set('formData', { selectedLpa, planningApplicationRef, developmentName })
       request.yar.set('errors', Object.values(errors))
       return h.redirect(creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION)
     }
