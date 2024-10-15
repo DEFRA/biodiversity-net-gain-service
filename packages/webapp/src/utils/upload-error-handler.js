@@ -2,7 +2,7 @@ import constants from './constants.js'
 import { getMaximumFileSizeExceededView } from './helpers.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
-function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, unsupportedFileExtErrorMessage, maximumFileSize }) {
+function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, unsupportedFileExtErrorMessage, invalidFileTypeErrorMessage, maximumFileSize }) {
   switch (err.message) {
     case constants.uploadErrors.maximumFileSizeExceeded:
       return buildErrorResponse(h, `The selected file must not be larger than ${maximumFileSize}MB`, route, elementID)
@@ -12,6 +12,8 @@ function processErrorUpload ({ err, h, route, elementID, noFileErrorMessage, uns
       return buildErrorResponse(h, noFileErrorMessage, route, elementID)
     case constants.uploadErrors.unsupportedFileExt:
       return buildErrorResponse(h, unsupportedFileExtErrorMessage || 'The selected file must be a DOC, DOCX or PDF', route, elementID)
+    case constants.uploadErrors.invalidFileType:
+      return buildErrorResponse(h, invalidFileTypeErrorMessage || 'The selected file must be a valid DOC, DOCX or PDF', route, elementID)
     case constants.uploadErrors.notValidMetric:
       return buildErrorResponse(h, 'The selected file is not a valid Metric', route, elementID)
     default:

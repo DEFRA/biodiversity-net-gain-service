@@ -51,6 +51,7 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.METRIC_UPLOAD_TYPE,
       fileExt: constants.metricFileExt,
+      fileType: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
       maxFileSize: parseInt(process.env.MAX_METRIC_UPLOAD_MB) * 1024 * 1024,
       postProcess: true
     })
@@ -66,6 +67,7 @@ const handlers = {
         elementID: UPLOAD_METRIC_ID,
         noFileErrorMessage: 'Select a statutory biodiversity metric',
         unsupportedFileExtErrorMessage: 'The selected file must be an XLSM or XLSX',
+        invalidFileTypeErrorMessage: 'The selected file must be a valid XLSM or XLSX',
         maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB
       })
     }
