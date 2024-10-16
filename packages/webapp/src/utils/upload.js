@@ -84,7 +84,7 @@ const handlePart = async (logger, part, config, uploadResult) => {
   } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
     uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
     part.resume()
-  } else if (config.fileValidationConfig?.fileType && !config.fileValidationConfig.fileType.includes(detectedFileType.mime)) {
+  } else if (config.checkFileType && config.fileValidationConfig?.fileType && !config.fileValidationConfig.fileType.includes(detectedFileType.mime)) {
     uploadResult.errorMessage = constants.uploadErrors.invalidFileType
     part.resume()
   } else if (fileSize * 100 === 0) {
