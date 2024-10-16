@@ -32,10 +32,10 @@ const getCustomizedHTML = (item, index, isCombinedCase) => {
       },
       actions: {
         items: [{
-          href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_ADD_LANDOWNER_ORGANISATION : constants.routes.ADD_LANDOWNER_ORGANISATION}?id=${index}`,
+          href: `${constants.routes.ADD_LANDOWNER_ORGANISATION}?id=${index}`,
           text: 'Change'
         }, {
-          href: `${isCombinedCase ? constants.reusedRoutes.COMBINED_CASE_REMOVE_LANDOWNER : constants.routes.REMOVE_LANDOWNER}?id=${index}`,
+          href: `${constants.routes.REMOVE_LANDOWNER}?id=${index}`,
           text: 'Remove'
         }],
         classes: 'govuk-summary-list__key govuk-!-font-weight-regular hmrc-summary-list__key'
