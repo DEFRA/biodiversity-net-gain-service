@@ -7,7 +7,23 @@ describe(url, () => {
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
+    it('should render the view with the correct error message when the terms and conditions have not been confirmed', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Check the box to confirm you have read the terms and conditions',
+            href: '#termsAndConditions'
+          }
+        ],
+        consent: false
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Check the box to confirm you have read the terms and conditions')
+    })
   })
+
   describe('POST', () => {
     let postOptions
     beforeEach(() => {
@@ -23,9 +39,8 @@ describe(url, () => {
     })
     it('Should stop journey if consent not ticked', async () => {
       postOptions.payload.termsAndConditions = undefined
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Check the box to confirm you have read the terms and conditions')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_TERMS_AND_CONDITIONS)
     })
   })
 })
