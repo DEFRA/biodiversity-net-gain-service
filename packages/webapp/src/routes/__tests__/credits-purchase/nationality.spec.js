@@ -44,6 +44,39 @@ describe(url, () => {
       expect(res.payload).toContain(mockNationalities.nationality1)
       expect(res.payload).toContain(mockNationalities.nationality2)
     })
+
+    it('should render the view with the correct error message when no option is selected', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Select a nationality from the dropdown list',
+            href: '#nationality1'
+          }
+        ],
+        hasAtLeastOneNationality: false
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Select a nationality from the dropdown list')
+    })
+
+    it('should render the view with the correct error message when duplicate nationalities are selected', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Remove duplicate nationality',
+            href: '#nationality1'
+          }
+        ],
+        hasAtLeastOneNationality: true,
+        isUnique: false
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Remove duplicate nationality')
+    })
   })
 
   describe('POST', () => {
@@ -69,16 +102,14 @@ describe(url, () => {
 
     it('Should fail journey if user doesnt select a nationality', async () => {
       postOptions.payload = mockNationalitiesNone
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Select a nationality from the dropdown list')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
     })
 
-    it('Should fail journey and display an error if user selects duplicate nationalities', async () => {
+    it('Should fail journey if user selects duplicate nationalities', async () => {
       postOptions.payload = mockNationalitiesDuplicates
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Remove duplicate nationality')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
     })
   })
 })
