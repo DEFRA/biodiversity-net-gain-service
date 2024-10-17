@@ -115,17 +115,21 @@ const handlePart = async (logger, part, config, uploadResult) => {
 
     // Await chunk processing to detect file type
     initialChunk = await chunkPromise
-    const detectedFileType = await fileTypeFromBuffer(initialChunk)
-    const validFileType = config.checkFileType && config.fileValidationConfig?.fileType && !config.fileValidationConfig.fileType.includes(detectedFileType.mime)
-    if (!detectedFileType || validFileType) {
-      uploadResult.errorMessage = constants.uploadErrors.invalidFileType
+
+    const fileExtension = path.extname(filename.toLowerCase())
+
+    const validFileExtension = config.fileValidationConfig?.fileExt && config.fileValidationConfig.fileExt.includes(fileExtension)
+    if (!validFileExtension) {
+      uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
       part.resume()
       return
     }
 
-    const validFileExtension = config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))
-    if (validFileExtension) {
-      uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
+    // TODO: Account for the fact that we've found a .doc file can be detected as .cfb
+    const detectedFileType = await fileTypeFromBuffer(initialChunk)
+    const validFileType = config.checkFileType && config.fileValidationConfig?.fileType && `.${detectedFileType?.ext}` === fileExtension
+    if (!detectedFileType || !validFileType) {
+      uploadResult.errorMessage = `${constants.uploadErrors.invalidFileType}: ${detectedFileType.ext || 'No file type detected'}`
       part.resume()
       return
     }

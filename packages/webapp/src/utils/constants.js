@@ -123,16 +123,6 @@ const LAND_OWNERSHIP_FILE_EXT = [
   '.pdf'
 ]
 
-const FILE_TYPES = {
-  '.xlsm': 'application/vnd.ms-excel.sheet.macroEnabled.12',
-  '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  '.doc': 'application/msword',
-  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  '.pdf': 'application/pdf',
-  '.jpg': 'image/jpeg',
-  '.png': 'image/png'
-}
-
 const LEGAL_AGREEMENT_DOCUMENTS = [
   {
     id: '759150000',
@@ -352,7 +342,6 @@ export default Object.freeze({
   uploadErrors,
   threatScreeningStatusValues,
   uploadTypes,
-  FILE_TYPES,
   DEFAULT_REGISTRATION_TASK_STATUS,
   IN_PROGRESS_REGISTRATION_TASK_STATUS,
   LEGAL_AGREEMENT_TYPE_CONSERVATION,
