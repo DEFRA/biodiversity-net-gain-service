@@ -25,6 +25,7 @@ async function processSuccessfulUpload (result, request, h) {
     confirmed: false
   }
   request.yar.set(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF, tempFileDetails)
+  request.yar.set(constants.redisKeys.LAND_OWNERSHIP_LOCATION, result.config.blobConfig.blobName)
   return getNextStep(request, h)
 }
 
