@@ -43,40 +43,34 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Number of credits must be 10 characters or fewer')
     })
-
-    it
-
   })
 
   describe('POST', () => {
     let postOptions
-  
+
     beforeEach(() => {
       postOptions = {
         url,
         payload: {}
       }
     })
-  
+
     it('should continue to the cost page when valid input is provided', async () => {
       postOptions.payload = { a1: '1', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
       const res = await submitPostRequest(postOptions, 302)
       expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_COST)
     })
-  
+
     it('should not continue journey if validation fails due to long input', async () => {
       postOptions.payload = { a1: '12345678910', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
       const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION)
     })
-  
+
     it('should not continue journey if no input is provided', async () => {
       postOptions.payload = { a1: '', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
       const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
       expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION)
     })
   })
-  
-  
-
 })

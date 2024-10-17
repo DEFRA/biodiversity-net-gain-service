@@ -1,5 +1,5 @@
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitPostRequest } from '../helpers/server.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
