@@ -15,7 +15,8 @@ const buildBlobConfig = (sessionId, config) => {
 const buildFileValidationConfig = config => {
   config.fileValidationConfig = {
     fileExt: config.fileExt,
-    maxFileSize: config.maxFileSize
+    maxFileSize: config.maxFileSize,
+    checkFileType: config.checkFileType ?? false
   }
 }
 
