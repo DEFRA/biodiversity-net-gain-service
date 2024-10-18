@@ -107,8 +107,16 @@ const validateAndParseISOString = isoString => {
 }
 
 const getFormattedDateTime = dateString => {
-  const date = moment.utc(dateString)
-  return date.isValid() && date.format('D MMMM YYYY, h:mma')
+  const date = new Date(dateString)
+  return date.toLocaleString('en-GB', {
+    timeZone: 'Europe/London',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  })
 }
 
 const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
