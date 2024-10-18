@@ -127,9 +127,11 @@ const handlePart = async (logger, part, config, uploadResult) => {
 
     // TODO: Account for the fact that we've found a .doc file can be detected as .cfb
     const detectedFileType = await fileTypeFromBuffer(initialChunk)
-    const validFileType = config.checkFileType && config.fileValidationConfig?.fileType && `.${detectedFileType?.ext}` === fileExtension
-    if (!detectedFileType || !validFileType) {
-      uploadResult.errorMessage = `${constants.uploadErrors.invalidFileType}: ${detectedFileType.ext || 'No file type detected'}`
+    const invalidFileType = `.${detectedFileType?.ext}` !== fileExtension
+    if (config.checkFileType && (!detectedFileType || invalidFileType)) {
+      // TODO: Logging here for dev purposes only -- can removed in production
+      logger.info(`File with extension ${fileExtension} detected as ${detectedFileType?.ext ?? 'unknown'}`)
+      uploadResult.errorMessage = constants.uploadErrors.invalidFileType
       part.resume()
       return
     }
