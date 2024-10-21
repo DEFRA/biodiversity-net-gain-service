@@ -28,6 +28,23 @@ const getExpectedErrorCode = (uploadConfig) => {
   return 302
 }
 
+const getNumberOfPostJsonCalls = (uploadConfig) => {
+  return uploadConfig.hasError ||
+    uploadConfig.generateFormDataError ||
+    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
+    uploadConfig.generateMissingCoordinateReferenceSystemError ||
+    uploadConfig.generateInvalidLayerCountError ||
+    uploadConfig.generateInvalidFeatureCountError ||
+    uploadConfig.generateOutsideEnglandError ||
+    uploadConfig.generateInvalidUploadError ||
+    uploadConfig.generateUnexpectedValidationError ||
+    uploadConfig.generateThreatDetectedError ||
+    uploadConfig.generateThreatScreeningFailure ||
+    uploadConfig.generateHandleEventsError
+    ? 0
+    : 1
+}
+
 const uploadFile = async (uploadConfig) => {
   // uploadConfig.redirectExpected should be set `true` for upload pages that have been refactored to use the PRG pattern
   const expectedResponseCode = uploadConfig.redirectExpected
@@ -179,19 +196,3 @@ const addOnPreAuth = async (sessionData) => {
 }
 
 export { startServer, submitGetRequest, submitPostRequest, uploadFile }
-function getNumberOfPostJsonCalls (uploadConfig) {
-  return uploadConfig.hasError ||
-    uploadConfig.generateFormDataError ||
-    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
-    uploadConfig.generateMissingCoordinateReferenceSystemError ||
-    uploadConfig.generateInvalidLayerCountError ||
-    uploadConfig.generateInvalidFeatureCountError ||
-    uploadConfig.generateOutsideEnglandError ||
-    uploadConfig.generateInvalidUploadError ||
-    uploadConfig.generateUnexpectedValidationError ||
-    uploadConfig.generateThreatDetectedError ||
-    uploadConfig.generateThreatScreeningFailure ||
-    uploadConfig.generateHandleEventsError
-    ? 0
-    : 1
-}
