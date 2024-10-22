@@ -58,15 +58,15 @@ describe(url, () => {
         taskTitle: 'Development information',
         items: [
           {
-            title: { html: "<span id='add-devlopment-project-information'>Add development project information</span>" },
+            title: { html: "<span id='add-development-project-information'>Add development project information</span>" },
             status: {
               tag: {
-                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                html: '<span id="add-development-project-information-status">Not started</span>',
                 classes: 'govuk-tag--grey'
               }
             },
             href: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'add-devlopment-project-information'
+            id: 'add-development-project-information'
           }
         ]
       })

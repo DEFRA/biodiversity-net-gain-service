@@ -14,8 +14,8 @@ const applicantDetails = taskDefinition(
   applicantDetailsJourneys
 )
 
-const addDevlopmentProjectInformation = taskDefinition(
-  'add-devlopment-project-information',
+const addDevelopmentProjectInformation = taskDefinition(
+  'add-development-project-information',
   'Add development project details',
   constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
   constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
@@ -54,7 +54,7 @@ const taskSections = [
   taskSectionDefinition('Applicant information', [applicantDetails]),
   taskSectionDefinition('Development information', [
     gainSiteAllocationInformation,
-    addDevlopmentProjectInformation,
+    addDevelopmentProjectInformation,
     planningDecisionNotice
   ])
 ]

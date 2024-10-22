@@ -16,8 +16,8 @@ const uploadMetric = taskDefinition(
   uploadMetricJourneys
 )
 
-const addDevlopmentProjectInformation = taskDefinition(
-  'add-devlopment-project-information',
+const addDevelopmentProjectInformation = taskDefinition(
+  'add-development-project-information',
   'Add development project information',
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
   creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
@@ -70,7 +70,7 @@ const checkYourAnswers = {
 
 const taskSections = [
   taskSectionDefinition('Statutory biodiversity metric', [uploadMetric]),
-  taskSectionDefinition('Development information', [addDevlopmentProjectInformation]),
+  taskSectionDefinition('Development information', [addDevelopmentProjectInformation]),
   taskSectionDefinition('Statutory biodiversity credits', [addCredits]),
   taskSectionDefinition('Purchase order', [purchaseOrder]),
   taskSectionDefinition('Customer due diligence (anti-money laundering)', [customerDueDiligence]),

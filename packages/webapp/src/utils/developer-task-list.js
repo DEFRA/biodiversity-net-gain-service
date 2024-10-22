@@ -59,7 +59,7 @@ const developerTaskList = {
           completedTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
           startTaskUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
           inProgressUrl: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-          id: 'add-devlopment-project-information'
+          id: 'add-development-project-information'
 
         }
       ]
