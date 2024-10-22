@@ -54,7 +54,12 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
         errorText = getStatusErrorMessage(payload.gainsiteStatus)
       }
     } catch (err) {
-      errorText = 'The gain site reference was not recognised - enter a reference for an approved gain site.'
+      if (err?.output?.statusCode === 404) {
+        errorText = 'The gain site reference was not recognised - enter a reference for an approved gain site.'
+      } else {
+        errorText = 'Something went wrong when checking gain site reference error - please try again later.'
+        console.log(err)
+      }
     }
   }
 
