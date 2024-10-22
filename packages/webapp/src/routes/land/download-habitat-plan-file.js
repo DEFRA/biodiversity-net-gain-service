@@ -6,7 +6,7 @@ const downloadHabitatPlanFile = async (request, h) => {
   const blobName = request.yar.get(constants.redisKeys.HABITAT_PLAN_LOCATION)
   const config = {
     blobName,
-    containerName: 'trusted'
+    containerName: constants.BLOB_STORAGE_CONTAINER
   }
   const buffer = await blobStorageConnector.downloadToBufferIfExists(request.logger, config)
   return h.response(buffer).header('Content-Disposition', 'attachment; filename= ' + path.basename(blobName))
