@@ -573,11 +573,15 @@ const maximumSizeExceeded = (h, { href, maximumFileSize, view }) => {
     view
   })
 }
+
+// Extracted to a separate function for use in handlers refactored for the POST/REDIRECT/GET pattern
+const maximumFileSizeExceededError = maximumFileSize => `The selected file must not be larger than ${maximumFileSize}MB`
+
 const getMaximumFileSizeExceededView = config => {
   return config.h.view(config.view, {
     err: [
       {
-        text: `The selected file must not be larger than ${config.maximumFileSize}MB`,
+        text: maximumFileSizeExceededError(config.maximumFileSize),
         href: config.href
       }
     ]
@@ -879,6 +883,7 @@ export {
   getDateString,
   getErrById,
   getMaximumFileSizeExceededView,
+  maximumFileSizeExceededError,
   maximumSizeExceeded,
   getHumanReadableFileSize,
   getMetricFileValidationErrors,

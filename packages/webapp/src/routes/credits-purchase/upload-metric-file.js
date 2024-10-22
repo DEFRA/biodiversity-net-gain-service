@@ -2,7 +2,7 @@ import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/credits-purchase-constants.js'
 import { uploadFile } from '../../utils/upload.js'
-import { getMetricFileValidationErrors, getMaximumFileSizeExceededView } from '../../utils/helpers.js'
+import { getMetricFileValidationErrors, maximumFileSizeExceededError } from '../../utils/helpers.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { ThreatScreeningError, MalwareDetectedError } from '@defra/bng-errors-lib'
 
@@ -14,7 +14,7 @@ const processErrorUpload = (err, request, h) => {
     [constants.uploadErrors.emptyFile]: 'The selected file is empty',
     [constants.uploadErrors.noFile]: 'Select a statutory biodiversity metric',
     [constants.uploadErrors.unsupportedFileExt]: 'The selected file must be an XLSM or XLSX',
-    [constants.uploadErrors.maximumFileSizeExceeded]: maximumFileSizeExceeded
+    [constants.uploadErrors.maximumFileSizeExceeded]: maximumFileSizeExceededError(process.env.MAX_METRIC_UPLOAD_MB)
   }
 
   let errorDetails
@@ -45,15 +45,6 @@ const processErrorUpload = (err, request, h) => {
   request.yar.set('errors', errorDetails.err)
 
   return h.redirect(constants.routes.CREDITS_PURCHASE_UPLOAD_METRIC)
-}
-
-const maximumFileSizeExceeded = (h, view) => {
-  return getMaximumFileSizeExceededView({
-    h,
-    href: UPLOAD_CREDIT_METRIC_ID,
-    maximumFileSize: process.env.MAX_METRIC_UPLOAD_MB,
-    view
-  })
 }
 
 const processSuccessfulUpload = async (result, request, h) => {
