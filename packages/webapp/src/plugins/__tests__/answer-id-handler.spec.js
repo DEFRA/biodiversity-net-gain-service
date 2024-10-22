@@ -5,7 +5,7 @@ import testApplication from '../../__mock-data__/test-application.js'
 describe('answer-id-handler', () => {
   const forwardedUrl = response => {
     if (!response.headers.location) return {}
-    const { pathname, hash } = new URL(response.headers.location)
+    const [pathname, hash] = response.headers.location.split('#')
     return { pathname, hash }
   }
 
@@ -20,7 +20,7 @@ describe('answer-id-handler', () => {
     const response = await submitGetRequest({ url: `${constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE}?journey-start-answer-id=test-answer-id` }, 302, application)
     expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toEqual(['test-answer-id'])
     expect(forwardedUrl(response).pathname).toEqual(constants.reusedRoutes.COMBINED_CASE_CHECK_PLANNING_DECISION_NOTICE_FILE)
-    expect(forwardedUrl(response).hash).toBeFalsy()
+    expect(forwardedUrl(response).hash).toBeUndefined()
   })
 
   it('Should not redirect if journey-start-answer-id is not present', async () => {
@@ -34,7 +34,7 @@ describe('answer-id-handler', () => {
     application[constants.redisKeys.JOURNEY_START_ANSWER_ID] = ['test-answer-id-1', 'test-answer-id-2']
     const response = await submitGetRequest({ url: constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT }, 302, application)
     expect(forwardedUrl(response).pathname).toEqual(constants.routes.COMBINED_CASE_CHECK_AND_SUBMIT)
-    expect(forwardedUrl(response).hash).toEqual('#test-answer-id-2')
+    expect(forwardedUrl(response).hash).toEqual('test-answer-id-2')
     expect(application[constants.redisKeys.JOURNEY_START_ANSWER_ID]).toEqual(['test-answer-id-1'])
   })
 
