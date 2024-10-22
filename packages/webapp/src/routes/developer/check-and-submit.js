@@ -23,6 +23,8 @@ const handlers = {
     const claims = request.auth.credentials.account.idTokenClaims
     const { currentOrganisation } = getOrganisationDetails(claims)
 
+    request.yar.set(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE, constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+
     return h.view(constants.views.DEVELOPER_CHECK_AND_SUBMIT, {
       ...getApplicationDetails(request, request.yar, currentOrganisation),
       backLink: constants.routes.DEVELOPER_TASKLIST

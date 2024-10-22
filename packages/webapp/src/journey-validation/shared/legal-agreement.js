@@ -142,9 +142,8 @@ const landownerIndivOrgRoute = (startUrl, nextUrl, altNextUrl) => routeDefinitio
 const addLandownerIndividualRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS],
-  (session) => {
-    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
-    return (referrerUrl || nextUrl)
+  () => {
+    return nextUrl
   }
 )
 

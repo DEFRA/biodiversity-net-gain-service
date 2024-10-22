@@ -79,5 +79,14 @@ describe(url, () => {
       expect(res.payload).toContain('There is a problem')
       expect(res.payload).toContain('Check box to confirm your Defra account details are up to date')
     })
+    it('Should redirect to check and submit if user is not an agent, is a landowner and started their journey there', async () => {
+      postOptions.payload.defraAccountDetailsConfirmed = 'true'
+      const sessionData = {}
+      sessionData[constants.redisKeys.DEVELOPER_IS_AGENT] = constants.APPLICANT_IS_AGENT.NO
+      sessionData[constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER] = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      sessionData[constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE] = '/check-and-submit'
+      const res = await submitPostRequest(postOptions, 302, sessionData)
+      expect(res.headers.location).toEqual('/check-and-submit')
+    })
   })
 })

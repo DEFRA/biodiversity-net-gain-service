@@ -1,15 +1,17 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-
-            <h1 class="govuk-heading-l">
-                {{ pageHeading }}
-            </h1>
-
             {{ govukRadios({
                 idPrefix: "individualOrOrganisation",
                 name: "individualOrOrganisation",
                 id: "individualOrOrganisation",
                 errorMessage: err[0],
+                fieldset: {
+                    legend: {
+                        text: pageHeading,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
                 items: [
                     {
                         value: "individual",

@@ -4,7 +4,7 @@ import FormData from 'form-data'
 import fs from 'fs'
 import streamToPromise from 'stream-to-promise'
 import { isUploadComplete } from '@defra/bng-azure-storage-test-utils'
-import { CoordinateSystemValidationError, ThreatScreeningError, ValidationError, uploadGeospatialLandBoundaryErrorCodes, uploadWrittenConsentErrorCodes, MalwareDetectedError } from '@defra/bng-errors-lib'
+import { ThreatScreeningError, ValidationError, uploadWrittenConsentErrorCodes, MalwareDetectedError } from '@defra/bng-errors-lib'
 import constants from '../../../utils/constants.js'
 import onPreAuth from '../../../__mocks__/on-pre-auth.js'
 
@@ -80,26 +80,7 @@ const uploadFile = async (uploadConfig) => {
       uploadComplete = false
     }
 
-    if (uploadConfig.generateInvalidCoordinateReferenceSystemError) {
-      const errorMessage = 'The selected file must use either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
-      throw new CoordinateSystemValidationError(
-        'mockAuthorityCode', uploadGeospatialLandBoundaryErrorCodes.INVALID_COORDINATE_SYSTEM, errorMessage)
-    } else if (uploadConfig.generateMissingCoordinateReferenceSystemError) {
-      const errorMessage = 'The selected file must specify use of either the Ordnance Survey Great Britain 1936 (OSGB36) or World Geodetic System 1984 (WGS84) coordinate reference system'
-      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.MISSING_COORDINATE_SYSTEM, errorMessage)
-    } else if (uploadConfig.generateInvalidLayerCountError) {
-      const errorMessage = 'The selected file must only contain one layer'
-      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_LAYER_COUNT, errorMessage)
-    } else if (uploadConfig.generateInvalidFeatureCountError) {
-      const errorMessage = 'The selected file must only contain one polygon'
-      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_FEATURE_COUNT, errorMessage)
-    } else if (uploadConfig.generateOutsideEnglandError) {
-      const errorMessage = 'Entire land boundary must be in England'
-      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.OUTSIDE_ENGLAND, errorMessage)
-    } else if (uploadConfig.generateInvalidUploadError) {
-      const errorMessage = 'The selected file must be a GeoJSON, Geopackage or Shape file'
-      throw new ValidationError(uploadGeospatialLandBoundaryErrorCodes.INVALID_UPLOAD, errorMessage)
-    } else if (uploadConfig.generateUnexpectedValidationError) {
+    if (uploadConfig.generateUnexpectedValidationError) {
       const errorMessage = 'Unexpected valdation error'
       throw new ValidationError('UNEXPECTED-ERROR-CODE', errorMessage)
     } else if (uploadConfig.generateThreatDetectedError) {

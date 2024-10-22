@@ -106,9 +106,9 @@ const validateAndParseISOString = isoString => {
   }
 }
 
-const getFormattedDate = dateString => {
+const getFormattedDateTime = dateString => {
   const date = moment.utc(dateString)
-  return date.isValid() && date.format('D MMMM YYYY')
+  return date.isValid() && date.format('D MMMM YYYY, h:mma')
 }
 
 const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
@@ -865,7 +865,7 @@ export {
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
-  getFormattedDate,
+  getFormattedDateTime,
   validateTextInput,
   formatDateBefore,
   getMinDateCheckError,
