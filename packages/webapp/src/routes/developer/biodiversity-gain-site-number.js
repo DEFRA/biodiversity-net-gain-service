@@ -32,7 +32,7 @@ const determineHeaders = async (BACKEND_API) => {
   if (BACKEND_API.USE_OAUTH) {
     const oauthToken = await getToken()
     return {
-      Authorization: oauthToken
+      Authorization: `Bearer ${oauthToken}`
     }
   }
 
