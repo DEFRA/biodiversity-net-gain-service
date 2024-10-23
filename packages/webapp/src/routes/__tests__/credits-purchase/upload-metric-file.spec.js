@@ -131,7 +131,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
-          uploadConfig.redirectExpected = true
+          uploadConfig.redirectExpected = false // redirectExpected is false as filesize check returns a GET request if it fails
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
           expect(res.result).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
