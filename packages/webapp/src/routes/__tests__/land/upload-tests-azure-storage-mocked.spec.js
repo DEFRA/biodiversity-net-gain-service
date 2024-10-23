@@ -12,90 +12,70 @@ describe('Upload controller tests with azure storage mocked', () => {
     })
 
     uploadTestConfig.forEach((config) => {
-      it(`${config.uploadType} - Should returned Malware detected error if Malware detected`, (done) => {
-        jest.isolateModules(async () => {
-          try {
-            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-              return {
-                'Malware Scanning scan result': 'Malicious',
-                'Malware Notes': 'Mocked scan result for Azurite blob storage'
-              }
-            })
-
-            const res = await uploadFile(config)
-            expect(res.payload).toContain('There is a problem')
-            expect(res.payload).toContain(constants.uploadErrors.threatDetected)
-
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
-          }
-        })
+      beforeEach(() => {
+        config.redirectExpected = config.uploadType.startsWith('credits')
       })
 
-      it(`${config.uploadType} - Should returned Malware failed error if Malware scan returns error`, (done) => {
-        jest.isolateModules(async () => {
-          try {
-            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-              return {
-                'Malware Scanning scan result': 'Scan failed - internal service error.',
-                'Malware Notes': 'Mocked scan result for Azurite blob storage'
-              }
-            })
-
-            const res = await uploadFile(config)
-            expect(res.payload).toContain('There is a problem')
-            expect(res.payload).toContain(constants.uploadErrors.malwareScanFailed)
-
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
+      it(`${config.uploadType} - Should return Malware detected error if Malware detected`, async () => {
+        azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+          return {
+            'Malware Scanning scan result': 'Malicious',
+            'Malware Notes': 'Mocked scan result for Azurite blob storage'
           }
         })
+
+        if (config.redirectExpected) {
+          await uploadFile(config)
+        } else {
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.threatDetected)
+        }
       })
 
-      it(`${config.uploadType} - Should returned Malware failed error if Malware scan returns nothing`, (done) => {
-        jest.isolateModules(async () => {
-          try {
-            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-              return {}
-            })
-
-            const res = await uploadFile(config)
-            expect(res.payload).toContain('There is a problem')
-            expect(res.payload).toContain(constants.uploadErrors.malwareScanFailed)
-
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
+      it(`${config.uploadType} - Should return Malware failed error if Malware scan returns error`, async () => {
+        azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+          return {
+            'Malware Scanning scan result': 'Scan failed - internal service error.',
+            'Malware Notes': 'Mocked scan result for Azurite blob storage'
           }
         })
+
+        if (config.redirectExpected) {
+          await uploadFile(config)
+        } else {
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.malwareScanFailed)
+        }
       })
 
-      it(`${config.uploadType} - Should returned file cannot be uploaded if Malware scan throws an error`, (done) => {
-        jest.isolateModules(async () => {
-          try {
-            azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
-              throw new Error('unit test error')
-            })
-
-            const res = await uploadFile(config)
-            expect(res.payload).toContain('There is a problem')
-            expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
-
-            setImmediate(() => {
-              done()
-            })
-          } catch (err) {
-            done(err)
-          }
+      it(`${config.uploadType} - Should return Malware failed error if Malware scan returns nothing`, async () => {
+        azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+          return {}
         })
+
+        if (config.redirectExpected) {
+          await uploadFile(config)
+        } else {
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.malwareScanFailed)
+        }
+      })
+
+      it(`${config.uploadType} - Should return file cannot be uploaded if Malware scan throws an error`, async () => {
+        azureStorage.uploadStreamAndAwaitScan = jest.fn().mockImplementation(() => {
+          throw new Error('unit test error')
+        })
+
+        if (config.redirectExpected) {
+          await uploadFile(config)
+        } else {
+          const res = await uploadFile(config)
+          expect(res.payload).toContain('There is a problem')
+          expect(res.payload).toContain(constants.uploadErrors.uploadFailure)
+        }
       })
     })
   })
