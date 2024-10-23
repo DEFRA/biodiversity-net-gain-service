@@ -2,6 +2,7 @@ import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import calculateCost from '../../credits/calculate.js'
 import Joi from 'joi'
 import { creditsValidationFailAction, creditsValidationSchema } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const defaultErrorMessage = { text: 'Enter at least one credit from the metric up to 2 decimal places, like 23.75' }
 const charLengthErrorMessage = { text: 'Number of credits must be 10 characters or fewer' }
@@ -14,7 +15,7 @@ const handlers = {
     const inputValues = (previousCostCalculation)
       ? Object.fromEntries(previousCostCalculation.tierCosts.map(({ tier, unitAmount, _ }) => [tier, unitAmount]))
       : {}
-    return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CREDITS_SELECTION, {
+    return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_CREDITS_SELECTION, {
       inputValues,
       backLink
     })
@@ -46,7 +47,7 @@ export default [
   {
     method: 'GET',
     path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION,
-    handler: handlers.get
+    handler: addRedirectViewUsed(handlers.get)
   },
   {
     method: 'POST',
@@ -57,6 +58,6 @@ export default [
         failAction: validationFailAction
       }
     },
-    handler: handlers.post
+    handler: addRedirectViewUsed(handlers.post)
   }
 ]
