@@ -21,6 +21,111 @@ describe(url, () => {
       expect(res.payload).toContain(goodMonth)
       expect(res.payload).toContain(goodYear)
     })
+
+    it('should render the view with the correct error message when no date of birth is entered', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Enter the date of birth, for example 31 3 1980',
+            href: '#dob-day'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter the date of birth, for example 31 3 1980')
+    })
+
+    it('should render the view with the correct error message when user doesnt enter a day', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must include a day',
+            href: '#dob-day'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must include a day')
+    })
+
+    it('should render the view with the correct error message when user doesnt enter a month', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must include a month',
+            href: '#dob-month'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must include a month')
+    })
+
+    it('should render the view with the correct error message when user doesnt enter a year', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must include a year',
+            href: '#dob-year'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must include a year')
+    })
+
+    it('should render the view with the correct error message when user enters a day that isnt a number', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must be a real date',
+            href: '#dob-day'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must be a real date')
+    })
+
+    it('should render the view with the correct error message when user enters a month that isnt a number', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must be a real date',
+            href: '#dob-month'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must be a real date')
+    })
+
+    it('should render the view with the correct error message when user enters a year that isnt a number', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Date of birth must be a real date',
+            href: '#dob-year'
+          }
+        ]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Date of birth must be a real date')
+    })
   })
 
   describe('POST', () => {
@@ -41,60 +146,53 @@ describe(url, () => {
     })
 
     it('Should fail journey if user enters nothing', async () => {
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter the date of birth, for example 31 3 1980')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user doesnt enter a day', async () => {
       postOptions.payload['dob-month'] = goodMonth
       postOptions.payload['dob-year'] = goodYear
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must include a day')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user doesnt enter a month', async () => {
       postOptions.payload['dob-day'] = goodDay
       postOptions.payload['dob-year'] = goodYear
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must include a month')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user doesnt enter a year', async () => {
       postOptions.payload['dob-day'] = goodDay
       postOptions.payload['dob-month'] = goodMonth
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must include a year')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user enters a day that isnt a number', async () => {
       postOptions.payload['dob-day'] = 'abc'
       postOptions.payload['dob-month'] = goodMonth
       postOptions.payload['dob-year'] = goodYear
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must be a real date')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user enters a month that isnt a number', async () => {
       postOptions.payload['dob-day'] = goodDay
       postOptions.payload['dob-month'] = 'abc'
       postOptions.payload['dob-year'] = goodYear
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must be a real date')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
 
     it('Should fail journey if user enters a year that isnt a number', async () => {
       postOptions.payload['dob-day'] = goodDay
       postOptions.payload['dob-month'] = goodMonth
       postOptions.payload['dob-year'] = 'abc'
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Date of birth must be a real date')
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH)
     })
   })
 })
