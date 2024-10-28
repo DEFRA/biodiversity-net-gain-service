@@ -72,13 +72,7 @@
                   "
                 }) }}
 
-                {{ govukButton({
-                    text: "Upload",
-                    attributes: {
-                        id: "continue",
-                        "data-testid": "continue"
-                    }
-                }) }}
+                {% include "common/save-and-upload-button-group.html" %}
             </div>
         </div>
     </div>
