@@ -69,15 +69,15 @@ describe(url, () => {
             id: 'gain-site-allocation-info'
           },
           {
-            title: { html: "<span id='add-devlopment-project-information'>Add development project details</span>" },
+            title: { html: "<span id='add-development-project-information'>Add development project details</span>" },
             status: {
               tag: {
-                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                html: '<span id="add-development-project-information-status">Not started</span>',
                 classes: 'govuk-tag--grey'
               }
             },
             href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'add-devlopment-project-information'
+            id: 'add-development-project-information'
           },
           {
             title: { html: "<span id='planning-decision-notice'>Upload planning decision notice</span>" },
@@ -153,15 +153,15 @@ describe(url, () => {
             id: 'gain-site-allocation-info'
           },
           {
-            title: { html: "<span id='add-devlopment-project-information'>Add development project details</span>" },
+            title: { html: "<span id='add-development-project-information'>Add development project details</span>" },
             status: {
               tag: {
-                html: '<span id="add-devlopment-project-information-status">Not started</span>',
+                html: '<span id="add-development-project-information-status">Not started</span>',
                 classes: 'govuk-tag--grey'
               }
             },
             href: constants.routes.DEVELOPER_DEVELOPMENT_PROJECT_INFORMATION,
-            id: 'add-devlopment-project-information'
+            id: 'add-development-project-information'
           },
           {
             title: { html: "<span id='planning-decision-notice'>Upload planning decision notice</span>" },
