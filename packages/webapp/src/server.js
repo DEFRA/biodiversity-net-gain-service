@@ -1,4 +1,5 @@
 import Hapi from '@hapi/hapi'
+import appInsights from 'applicationinsights'
 import crypto from 'crypto'
 import Inert from '@hapi/inert'
 import auth from './plugins/auth.js'
@@ -9,6 +10,7 @@ import logging from './plugins/logging.js'
 import session from './plugins/session.js'
 import cache from './plugins/cache.js'
 import header from './plugins/header.js'
+import answerIdHandler from './plugins/answer-id-handler.js'
 import onPreHandler from './plugins/on-pre-handler.js'
 import onPostHandler from './plugins/on-post-handler.js'
 import primaryPage from './plugins/primary-page.js'
@@ -36,6 +38,11 @@ const createServer = async options => {
 }
 
 const init = async server => {
+  // Register app insights
+  if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+    appInsights.setup().start()
+  }
+
   // Register the plugins
   await server.register(auth)
   await server.register(Inert)
@@ -45,6 +52,7 @@ const init = async server => {
   await server.register(logging)
   await server.register(session)
   await server.register(Blipp)
+  await server.register(answerIdHandler)
   await server.register(onPreHandler)
   await server.register(onPostHandler)
   await server.register(primaryPage)

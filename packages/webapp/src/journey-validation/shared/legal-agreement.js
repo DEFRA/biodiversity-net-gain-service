@@ -108,7 +108,11 @@ const otherLandownersRoute = (startUrl, nextUrl, altNextUrl) => routeDefinition(
       return nextUrl
     } else if (anyOtherLOValue === 'no') {
       session.set(constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS, null)
-      return altNextUrl
+      const referrerUrl = getValidReferrerUrl(session, [
+        ...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS,
+        ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS
+      ])
+      return referrerUrl || altNextUrl
     } else {
       const message = 'Select yes if there are any other landowners or leaseholders'
       const href = '#anyOtherLO-yes'
@@ -138,9 +142,8 @@ const landownerIndivOrgRoute = (startUrl, nextUrl, altNextUrl) => routeDefinitio
 const addLandownerIndividualRoute = (startUrl, nextUrl) => routeDefinition(
   startUrl,
   [constants.redisKeys.LEGAL_AGREEMENT_LANDOWNER_CONSERVATION_CONVENANTS],
-  (session) => {
-    const referrerUrl = getValidReferrerUrl(session, [...constants.LAND_LEGAL_AGREEMENT_VALID_REFERRERS, ...constants.COMBINED_CASE_LEGAL_AGREEMENT_VALID_REFERRERS])
-    return (referrerUrl || nextUrl)
+  () => {
+    return nextUrl
   }
 )
 

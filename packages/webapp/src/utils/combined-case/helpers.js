@@ -110,8 +110,8 @@ const processMetricData = session => {
 const habitatDescription = habitat =>
   `${habitat.habitatType} || ${habitat.condition} || ${habitat.size} ${habitat.measurementUnits} || ${habitat.module} || ${habitat.state}`
 
-const habitatHint = habitat =>
-  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition`
+const habitatSummary = (habitat, sheetName) =>
+  `${habitat.size} ${habitat.measurementUnits} / ${habitat.condition} condition / ${sheetName} sheet (row&nbsp;${habitat.rowNum})`
 
 const getMatchingHabitats = (habitat, habitatList) => habitatList.filter(h =>
   h.state === habitat.state &&
@@ -159,7 +159,7 @@ const getMatchedHabitatsHtml = (habitats) => {
 
   habitats.forEach(item => {
     if (item && Object.hasOwn(item, 'habitatUnitsDelivered')) {
-      const habitatUnitsDelivered = item.habitatUnitsDelivered
+      const habitatUnitsDelivered = isNaN(item.habitatUnitsDelivered) ? 0 : Number(item.habitatUnitsDelivered)
 
       if (item.state === 'Habitat') {
         habitatGroups.habitat.push(item)
@@ -186,11 +186,12 @@ const getMatchedHabitatsHtml = (habitats) => {
 
         if (item && requiredProperties.every(prop => Object.hasOwn(item, prop))) {
           itemsAdded += 1
+          const habitatUnits = item.habitatUnitsDelivered
           habitatDetails.push([
             { text: item.habitatType, ...baseRow },
             { html: item.condition.replace(/ /g, '&nbsp;'), ...baseRow },
             { html: `${item.size}&nbsp;${displayUnitMap[item.measurementUnits] ?? item.measurementUnits}`, ...baseRow },
-            { html: `${(item.habitatUnitsDelivered).toFixed(1)}&nbsp;units`, ...baseRow }
+            { html: `${isNaN(habitatUnits) ? '0.00' : Number(habitatUnits).toFixed(2)}&nbsp;units`, format: 'numeric', ...baseRow }
           ])
         }
       })
@@ -198,7 +199,7 @@ const getMatchedHabitatsHtml = (habitats) => {
       if (itemsAdded > 0) {
         habitatDetails.push([
           { text: totalLabel, colspan: 3, classes: 'table-heavy-border' },
-          { text: `${total.toFixed(1)} units`, classes: 'table-heavy-border' }
+          { html: `${total.toFixed(2)}&nbsp;units`, classes: 'table-heavy-border', format: 'numeric' }
         ])
       }
     }
@@ -218,7 +219,7 @@ export {
   habitatDescription,
   getMatchingHabitats,
   summariseHabitatMatches,
-  habitatHint,
+  habitatSummary,
   getHabitatType,
   getState,
   getModule,

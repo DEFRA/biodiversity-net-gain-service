@@ -106,9 +106,17 @@ const validateAndParseISOString = isoString => {
   }
 }
 
-const getFormattedDate = dateString => {
-  const date = moment.utc(dateString)
-  return date.isValid() && date.format('D MMMM YYYY')
+const getFormattedDateTime = dateString => {
+  const date = new Date(dateString)
+  return date.toLocaleString('en-GB', {
+    timeZone: 'Europe/London',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  })
 }
 
 const formatDateBefore = (isoString, format = 'D MMMM YYYY') => moment.utc(isoString).subtract(1, 'day').format(format)
@@ -808,14 +816,20 @@ const getDeveloperCheckMetricFileContext = request => {
   }
 }
 
-const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, viewTemplate, href) => {
+const checkDeveloperUploadMetric = async (request, h, noRedirectRoute, yesRedirectRoute, matchHabitatsCompleteRedirectRoute, viewTemplate, href) => {
   const checkUploadMetric = request.payload.checkUploadMetric
   const metricUploadLocation = request.yar.get(constants.redisKeys.DEVELOPER_METRIC_LOCATION)
   request.yar.set(constants.redisKeys.DEVELOPER_METRIC_FILE_CHECKED, checkUploadMetric)
+  const matchHabitatsComplete = request.yar.get(constants.redisKeys.COMBINED_CASE_MATCH_AVAILABLE_HABITATS_COMPLETE)
 
   if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.NO) {
     return h.redirect(noRedirectRoute)
-  } else if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+  }
+
+  if (checkUploadMetric === constants.CHECK_UPLOAD_METRIC_OPTIONS.YES) {
+    if (matchHabitatsComplete) {
+      return h.redirect(matchHabitatsCompleteRedirectRoute)
+    }
     return h.redirect(yesRedirectRoute)
   }
 
@@ -859,7 +873,7 @@ export {
   validateIdGetSchemaOptional,
   validateAndParseISOString,
   isDate1LessThanDate2,
-  getFormattedDate,
+  getFormattedDateTime,
   validateTextInput,
   formatDateBefore,
   getMinDateCheckError,

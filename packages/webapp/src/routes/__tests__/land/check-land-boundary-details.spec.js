@@ -7,80 +7,12 @@ const combinedCaseUrl = constants.reusedRoutes.COMBINED_CASE_CHECK_LAND_BOUNDARY
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
       const res = await submitGetRequest({ url }, 200)
       expect(res.payload).not.toContain('File type')
     })
     it(`should render the ${combinedCaseUrl.substring(1)} view`, async () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'N'
       const res = await submitGetRequest({ url: combinedCaseUrl }, 200)
       expect(res.payload).not.toContain('File type')
-    })
-    it(`should render the ${url.substring(1)} view if geospatial enabled`, async () => {
-      process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-      const sessionData = {}
-      sessionData[`${constants.redisKeys.FULL_NAME}`] = 'Test User'
-      sessionData[`${constants.redisKeys.ROLE_KEY}`] = 'test'
-      sessionData[`${constants.redisKeys.EMAIL_VALUE}`] = 'test@example.com'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_GRID_REFERENCE}`] = 'SE170441'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_HECTARES}`] = 2
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_UPLOAD_TYPE}`] = 'geospatialData'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_LOCATION}`] = '800376c7-8652-4906-8848-70a774578dfe/land-boundary/legal-agreement.doc'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_FILE_SIZE}`] = 0.01
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_FILE_TYPE}`] = 'application/msword'
-      sessionData[`${constants.redisKeys.LAND_BOUNDARY_CHECKED}`] = 'yes'
-      const res = await submitGetRequest({ url }, 200, sessionData)
-      expect(res.payload).toContain('Geospatial file')
-    })
-    it('should redirect to REGISTER_LAND_TASK_LIST view if mandatory data missing', done => {
-      jest.isolateModules(async () => {
-        try {
-          const checkLandBoundary = require('../../land/check-land-boundary-details')
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
-          let redirectArgs = ''
-          const request = {
-            yar: redisMap
-          }
-          process.env.ENABLE_ROUTE_SUPPORT_FOR_GEOSPATIAL = 'Y'
-          const h = {
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-          await checkLandBoundary.default[0].handler(request, h)
-          expect(redirectArgs).toEqual([constants.routes.REGISTER_LAND_TASK_LIST])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-    it('should redirect to COMBINED_CASE_TASK_LIST view if this is a combined case application mandatory data missing', done => {
-      jest.isolateModules(async () => {
-        try {
-          const checkLandBoundary = require('../../land/check-land-boundary-details')
-          const redisMap = new Map()
-          redisMap.set(constants.redisKeys.LEGAL_AGREEMENT_FILES, undefined)
-          let redirectArgs = ''
-          const request = {
-            yar: redisMap,
-            _route: {
-              path: '/combined-case/check-land-boundary-details'
-            }
-          }
-          const h = {
-            redirect: (...args) => {
-              redirectArgs = args
-            }
-          }
-          await checkLandBoundary.default[0].handler(request, h)
-          expect(redirectArgs).toEqual([constants.routes.COMBINED_CASE_TASK_LIST])
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
     })
   })
   describe('POST', () => {
@@ -93,9 +25,6 @@ describe(url, () => {
           const checkLandBoundary = require('../../land/check-land-boundary-details')
           const request = {
             yar: redisMap,
-            payload: {
-              confirmGeospatialLandBoundary: undefined
-            },
             path: checkLandBoundary.default[1].path
           }
           const h = {

@@ -45,5 +45,31 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200)
       expect(response.payload).toContain('Select yes if this is the correct file')
     })
+
+    it('should redirect to referer if set and response is yes', async () => {
+      postOptions.payload.checkConsentToAllocateGains = 'yes'
+      const referer = 'some-referer'
+      const sessionData = {
+        [constants.redisKeys.REFERER]: referer
+      }
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe(referer)
+    })
+
+    it('should redirect to journey entry point if referer is not set and response is yes', async () => {
+      postOptions.payload.checkConsentToAllocateGains = 'yes'
+      const journeyEntryPoint = 'some-journey-entry-point'
+      const sessionData = {
+        [constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE]: journeyEntryPoint
+      }
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.headers.location).toBe(journeyEntryPoint)
+    })
+
+    it('should default to redirecting to tasklist if neither referer nor journey entry point is set and response is yes', async () => {
+      postOptions.payload.checkConsentToAllocateGains = 'yes'
+      const response = await submitPostRequest(postOptions, 302)
+      expect(response.headers.location).toBe(constants.routes.DEVELOPER_TASKLIST)
+    })
   })
 })
