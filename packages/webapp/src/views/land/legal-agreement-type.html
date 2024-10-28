@@ -8,57 +8,61 @@
         {% if err %}
             {% include "errorbanner.html" %}
         {% endif %}
-        {% set idPrefix = 'checkLegalAgreement' %}
-        {% set name = 'checkLegalAgreement' %}
-        {% set id = 'check-upload-correct-yes' %}
-        {{ govukFieldset({
-            legend: {
-                text: pageHeading,
-                classes: "govuk-fieldset__legend--l",
-                isPageHeading: true
-            }
-        }) }}
-        {{ govukRadios({
-            idPrefix: prefix,
-            name: "legalAgreementType",
-            id: "legalAgreementType",
-            hint: {
-                html: "<div class='govuk-hint'>You need a legal agreement to secure the habitat works and <br>management of the biodiversity gain site for at least 30 years.
-                        </div>"
-            },
-            errorMessage: err[0],
-            items: [
-              {
-                value: types[1].id,
-                text: types[1].text,
-                id: types[1].htmlId,
-                checked: (documentType === types[1].id)
-              },
-              {
-                value: types[0].id,
-                text: types[0].text,
-                id: types[0].htmlId,
-                checked: (documentType === types[0].id)
-              }
-            ]
-        }) }}
-        {{ govukDetails({
-            summaryText: "What to do if you have no legal agreement",
-            html: "
-                <p>You need to upload a legal agreement.</p>
-                <p>This must be either a:</p>
-                <ul class='govuk-list govuk-list--bullet'>
-                    <li><a href='https://www.gov.uk/guidance/getting-and-using-a-conservation-covenant-agreement'>conservation covenant</a></li>
-                    <li><a href='https://www.gov.uk/guidance/planning-obligations'>planning obligation (Section 106 agreement)</a></li>
-                </ul>
-            "
-        }) }}
-        {{ govukButton({
-            text: 'Continue',
-            attributes: {
-                id: "continue",
-                "data-testid": "Save and continue"
-            }
-        }) }}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                {% set idPrefix = 'checkLegalAgreement' %}
+                {% set name = 'checkLegalAgreement' %}
+                {% set id = 'check-upload-correct-yes' %}
+                {{ govukRadios({
+                    idPrefix: prefix,
+                    name: "legalAgreementType",
+                    id: "legalAgreementType",
+                    hint: {
+                        text: "You need a legal agreement to secure the habitat works and management of the biodiversity gain site for at least 30 years. We will check the legal agreement after you submit the application."
+                    },
+                    errorMessage: err[0],
+                    fieldset: {
+                        legend: {
+                        text: pageHeading,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    items: [
+                    {
+                        value: types[1].id,
+                        text: types[1].text,
+                        id: types[1].htmlId,
+                        checked: (documentType === types[1].id)
+                    },
+                    {
+                        value: types[0].id,
+                        text: types[0].text,
+                        id: types[0].htmlId,
+                        checked: (documentType === types[0].id)
+                    }
+                    ]
+                }) }}
+                {{ govukDetails({
+                    summaryText: "What to do if you have no legal agreement",
+                    html: "
+                        <p>You need to upload a legal agreement.</p>
+                        <p>This must be either a:</p>
+                        <ul class='govuk-list govuk-list--bullet'>
+                            <li><a href='https://www.gov.uk/guidance/getting-and-using-a-conservation-covenant-agreement'>conservation covenant</a></li>
+                            <li><a href='https://www.gov.uk/guidance/planning-obligations'>planning obligation (Section 106 agreement)</a></li>
+                        </ul>
+                    "
+                }) }}
+                {{ govukButton({
+                    text: 'Continue',
+                    attributes: {
+                        id: "continue",
+                        "data-testid": "Save and continue"
+                    }
+                }) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
