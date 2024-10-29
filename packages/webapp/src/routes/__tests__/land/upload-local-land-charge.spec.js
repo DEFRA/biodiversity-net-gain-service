@@ -35,7 +35,7 @@ describe('Local Land Charge upload controller tests', () => {
     it('should upload local land charge document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/local-land-charge.pdf`
