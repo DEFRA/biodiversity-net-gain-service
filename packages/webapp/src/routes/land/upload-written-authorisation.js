@@ -3,14 +3,16 @@ import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainersWithCheck } from '../../utils/azure-storage.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
 const WRITTEN_AUTHORISATION_ID = '#writtenAuthorisation'
 
 async function processSuccessfulUpload (result, request, h) {
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, true))
-  request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, result.config.blobConfig.blobName)
+  const blobPath = result.config.blobConfig.blobName
+  const previousBlobPath = request.yar.get(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, true)
+  await deleteBlobFromContainersWithCheck(blobPath, previousBlobPath)
+  request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_LOCATION, blobPath)
   request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.WRITTEN_AUTHORISATION_FILE_TYPE, result.fileType)
   request.logger.info(`${new Date().toUTCString()} Received written authorisation data for ${result.config.blobConfig.blobName.substring(result.config.blobConfig.blobName.lastIndexOf('/') + 1)}`)

@@ -32,7 +32,7 @@ describe('Proof of ownership upload controller tests', () => {
     it('should upload written authorisation document to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
             referer: 'http://localhost:30000/land/check-written-authorisation-file'
