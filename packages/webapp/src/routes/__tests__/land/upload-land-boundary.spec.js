@@ -36,7 +36,7 @@ describe('Land boundary upload controller tests', () => {
       jest.isolateModules(async () => {
         try {
           jest.mock('../../../utils/azure-storage.js')
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/legal-agreement.pdf`
