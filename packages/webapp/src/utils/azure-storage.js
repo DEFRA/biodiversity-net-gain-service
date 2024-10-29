@@ -47,10 +47,20 @@ const uploadStreamAndAwaitScan = async (logger, config, stream, maxAttempts = 20
 }
 
 const deleteBlobFromContainers = async blobName => {
+  console.log(`${new Date().toUTCString()} ${blobName} is about to be deleted`)
   await blobStorageConnector.deleteBlobIfExists({
     containerName: constants.BLOB_STORAGE_CONTAINER,
     blobName
   })
+  console.log(`${new Date().toUTCString()} ${blobName} has been deleted`)
 }
 
-export { uploadStreamAndAwaitScan, deleteBlobFromContainers }
+const deleteBlobFromContainersWithCheck = async (blobPath, previousBlobPath) => {
+  console.log(`${new Date().toUTCString()} ${blobPath} is about to be checked for deletion`)
+  if (blobPath !== previousBlobPath) {
+    console.log(`${new Date().toUTCString()} ${blobPath} has been passed to deleteBlobFromContainers`)
+    await deleteBlobFromContainers(previousBlobPath)
+  }
+}
+
+export { uploadStreamAndAwaitScan, deleteBlobFromContainers, deleteBlobFromContainersWithCheck }
