@@ -1,13 +1,13 @@
 import { BACKEND_API } from './config.js'
+import wreck from '@hapi/wreck'
 
 let cachedToken = null
 let tokenExpiration = null
 
-export const getToken = async () => {
+const getToken = async () => {
   const currentTime = Math.floor(Date.now() / 1000)
 
   if (cachedToken && tokenExpiration && currentTime < tokenExpiration) {
-    console.log('Returning cached token...')
     return cachedToken
   }
 
@@ -21,32 +21,56 @@ export const getToken = async () => {
   })
 
   try {
-    console.log('Fetching fresh token...')
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
+    const { payload } = await wreck.post(tokenUrl, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body
+      payload: body.toString(),
+      json: true
     })
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch token: ${response.statusText}`)
-    }
-
-    console.log('Token successfully fetched!')
-
-    const data = await response.json()
-
-    cachedToken = data.access_token
-    tokenExpiration = currentTime + data.expires_in
-
-    const expirationDate = new Date(tokenExpiration * 1000)
-    console.log(`Token expires: ${expirationDate.toLocaleString()}`)
+    cachedToken = payload.access_token
+    tokenExpiration = currentTime + payload.expires_in
 
     return cachedToken
   } catch (error) {
     console.error('Error fetching OAuth token:', error)
     throw error
   }
+}
+
+export default async (url, options = {}, maxAttempts = 5) => {
+  let attempts = 0
+  let error
+
+  while (attempts < maxAttempts) {
+    attempts++
+
+    try {
+      const token = await getToken()
+      const headers = {
+        ...options.headers,
+        Authorization: `Bearer ${token}`
+      }
+
+      const { payload } = await wreck.get(url, {
+        ...options,
+        headers,
+        json: true
+      })
+
+      return payload
+    } catch (err) {
+      if (err.output?.statusCode === 401) {
+        console.log(`Attempt ${attempts}: Token rejected, refreshing...`)
+        // Invalidate the token to fetch a new one
+        cachedToken = null
+      } else {
+        error = err
+        break
+      }
+    }
+  }
+
+  throw error || new Error('Max attempts reached without successful response')
 }

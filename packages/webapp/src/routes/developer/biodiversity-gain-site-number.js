@@ -1,8 +1,7 @@
 import constants from '../../utils/constants.js'
 import { BACKEND_API } from '../../utils/config.js'
-import { getToken } from '../../utils/oauth.js'
+import getWithAuth from '../../utils/oauth.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
-import wreck from '@hapi/wreck'
 
 const getGainSiteApiUrl = bgsNumber => {
   const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
@@ -28,19 +27,6 @@ const getStatusErrorMessage = status => {
   }
 }
 
-const determineHeaders = async (BACKEND_API) => {
-  if (BACKEND_API.USE_OAUTH) {
-    const oauthToken = await getToken()
-    return {
-      Authorization: `Bearer ${oauthToken}`
-    }
-  }
-
-  return {
-    'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
-  }
-}
-
 const checkBGSNumber = async (bgsNumber, hrefId) => {
   let errorText
 
@@ -56,13 +42,8 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
   } else {
     const gainsiteUrl = getGainSiteApiUrl(bgsNumber)
 
-    const headers = await determineHeaders(BACKEND_API)
-
     try {
-      const { payload } = await wreck.get(gainsiteUrl.href, {
-        json: true,
-        headers
-      })
+      const payload = await getWithAuth(gainsiteUrl.href)
 
       if (payload.gainsiteStatus !== 'Registered') {
         errorText = getStatusErrorMessage(payload.gainsiteStatus)
