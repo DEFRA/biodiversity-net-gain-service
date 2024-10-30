@@ -39,6 +39,7 @@ const getToken = async () => {
   }
 }
 
+// TODO: Tidy up parameters
 export default async (url, options = {}, maxAttempts = 5) => {
   let attempts = 0
   let error
