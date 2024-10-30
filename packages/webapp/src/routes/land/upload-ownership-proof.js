@@ -13,7 +13,7 @@ const LAND_OWNERSHIP_ID = '#landOwnership'
 async function processSuccessfulUpload (result, request, h) {
   const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
   if (tempFile && !tempFile.confirmed) {
-    await deleteBlobFromContainersWithCheck(tempFile.fileLocation)
+    await deleteBlobFromContainersWithCheck(result.config.blobConfig.blobName, tempFile.fileLocation)
   }
   const tempFileDetails = {
     id: generateUniqueId(),
