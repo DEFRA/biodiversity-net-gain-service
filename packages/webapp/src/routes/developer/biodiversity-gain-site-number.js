@@ -1,6 +1,6 @@
 import constants from '../../utils/constants.js'
 import { BACKEND_API } from '../../utils/config.js'
-import getWithAuth from '../../utils/oauth.js'
+import getWithAuth from '../../utils/get-with-auth.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
 const getGainSiteApiUrl = bgsNumber => {
