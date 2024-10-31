@@ -1,5 +1,6 @@
-import { BACKEND_API } from './config.js'
 import wreck from '@hapi/wreck'
+import { BACKEND_API } from './config.js'
+import { logger } from '@defra/bng-utils-lib'
 
 const MAX_ATTEMPTS = 5
 
@@ -36,7 +37,7 @@ const getToken = async () => {
 
     return cachedToken
   } catch (error) {
-    console.error('Error fetching OAuth token:', error)
+    logger.error(`Error fetching OAuth token: ${error}`)
     throw error
   }
 }
