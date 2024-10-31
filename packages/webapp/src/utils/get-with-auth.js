@@ -47,6 +47,19 @@ export const resetTokenCache = ({ token = null, expiration = null } = {}) => {
   tokenExpiration = expiration
 }
 
+const determineHeaders = async () => {
+  if (BACKEND_API.USE_OAUTH) {
+    const oauthToken = await getToken()
+    return {
+      Authorization: `Bearer ${oauthToken}`
+    }
+  }
+
+  return {
+    'Ocp-Apim-Subscription-Key': BACKEND_API.SUBSCRIPTION_KEY
+  }
+}
+
 export default async (url) => {
   let attempts = 0
 
@@ -54,10 +67,7 @@ export default async (url) => {
     attempts++
 
     try {
-      const token = await getToken()
-      const headers = {
-        Authorization: `Bearer ${token}`
-      }
+      const headers = await determineHeaders()
 
       const { payload } = await wreck.get(url, {
         headers,
@@ -66,8 +76,8 @@ export default async (url) => {
 
       return payload
     } catch (err) {
-      if (err.output?.statusCode === 401) {
-        // Invalidate the token to fetch a new one
+      if (err.output?.statusCode === 401 && BACKEND_API.USE_OAUTH) {
+        // Invalidate the token to fetch a new one. We only need to do this if we're using OAuth.
         cachedToken = null
       } else {
         throw err
