@@ -1,9 +1,12 @@
+import Boom from '@hapi/boom'
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/constants.js'
-import wreck from '@hapi/wreck'
+import getWithAuth from '../../../utils/get-with-auth.js'
 import { BACKEND_API } from '../../../utils/config.js'
 import { SessionMap } from '../../../utils/sessionMap.js'
 const url = constants.routes.DEVELOPER_BNG_NUMBER
+
+jest.mock('../../../utils/get-with-auth.js')
 
 describe(url, () => {
   describe('GET', () => {
@@ -33,59 +36,73 @@ describe(url, () => {
 
     it('Should continue journey if valid BGS number provided', async () => {
       postOptions.payload.bgsNumber = 'BGS-010124001'
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       const res = await submitPostRequest(postOptions)
       expect(res.headers.location).toEqual('/developer/upload-metric-file')
     })
 
     it('Should fail journey if BGS number blank', async () => {
       const res = await submitPostRequest(postOptions, 500)
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       expect(res.payload).toContain('Sorry, there is a problem with the service')
     })
 
     it('Should show appropriate error if only spaces provided', async () => {
       postOptions.payload.bgsNumber = ''
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('Enter your biodiversity gain site number')
     })
 
     it('Should show appropriate error if BGS number is in active state', async () => {
       postOptions.payload.bgsNumber = 'active '
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'active' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This gain site registration is not complete - wait until you have confirmation.')
     })
 
     it('Should show appropriate error if BGS number is in rejected state', async () => {
       postOptions.payload.bgsNumber = ' rejected'
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'rejected' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This reference is for a rejected application - enter a reference for an approved gain site.')
     })
 
     it('Should show appropriate error if BGS number does not exist', async () => {
       postOptions.payload.bgsNumber = '  doesNotExist  '
+      getWithAuth.mockImplementationOnce(() => {
+        throw Boom.notFound()
+      })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('The gain site reference was not recognised - enter a reference for an approved gain site.')
     })
 
     it('Should show appropriate error if BGS number is in removed state', async () => {
       postOptions.payload.bgsNumber = 'removed'
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'removed' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This reference is for a gain site which is no longer registered.')
     })
 
     it('Should show appropriate error if BGS number is in internally removed state', async () => {
       postOptions.payload.bgsNumber = 'internally-removed'
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'internally-removed' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This reference is for a gain site which is no longer registered.')
     })
 
     it('Should show appropriate error if BGS number is in inactive state', async () => {
       postOptions.payload.bgsNumber = 'inactive'
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'inactive' })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('This reference is for a gain site which has been withdrawn from registration.')
     })
 
     it('Should show appropriate error if BGS number return unknown error', async () => {
       postOptions.payload.bgsNumber = 'default-error'
+      getWithAuth.mockImplementationOnce(() => {
+        throw Boom.badRequest()
+      })
       const res = await submitPostRequest(postOptions, 200)
       expect(res.payload).toContain('There was a problem checking your gain site reference - please try again later.')
     })
@@ -105,6 +122,7 @@ describe(url, () => {
           bgsNumber: 'BGS-010124001'
         }
       }
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'Registered' })
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_UPLOAD_METRIC)
@@ -127,6 +145,7 @@ describe(url, () => {
           bgsNumber
         }
       }
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'Registered' })
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
@@ -149,6 +168,7 @@ describe(url, () => {
           bgsNumber
         }
       }
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'Registered' })
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
@@ -170,49 +190,46 @@ describe(url, () => {
           bgsNumber
         }
       }
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'Registered' })
       const developerBgsNumber = require('../../developer/biodiversity-gain-site-number')
       await developerBgsNumber.default[1].handler(request, h)
       expect(viewResult).toBe(constants.routes.DEVELOPER_UPLOAD_METRIC)
     })
 
     it('Should call the API with a `code` query param if one is configured', async () => {
-      jest.mock('@hapi/wreck')
-      const spy = jest.spyOn(wreck, 'get')
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', 'test123')
 
       postOptions.payload.bgsNumber = 'BGS-010124001'
       await submitPostRequest(postOptions)
-      expect(spy.mock.calls[0][0]).toContain('code=test123')
+      expect(getWithAuth.mock.calls[0][0]).toContain('code=test123')
     })
 
     it('Should not call the API with a `code` query param if one is not configured', async () => {
-      jest.mock('@hapi/wreck')
-      const spy = jest.spyOn(wreck, 'get')
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       jest.replaceProperty(BACKEND_API, 'CODE_QUERY_PARAMETER', undefined)
 
       postOptions.payload.bgsNumber = 'BGS-010124001'
       await submitPostRequest(postOptions)
-      expect(spy.mock.calls[0][0]).not.toContain('code=')
+      expect(getWithAuth.mock.calls[0][0]).not.toContain('code=')
     })
 
     it('Should accept mock BGS value (used for acceptance test) if configured and matches bgsNumber, bypassing API call', async () => {
-      jest.mock('@hapi/wreck')
-      const spy = jest.spyOn(wreck, 'get')
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       jest.replaceProperty(BACKEND_API, 'MOCK_BGS_FOR_ACCEPTANCE', 'test123')
 
       postOptions.payload.bgsNumber = 'test123'
       await submitPostRequest(postOptions)
-      expect(spy).toHaveBeenCalledTimes(0)
+      expect(getWithAuth).toHaveBeenCalledTimes(0)
     })
 
     it('Should ignore mock BGS value (used for acceptance test) if configured and doesn\'t matches bgsNumber, not bypassing API call', async () => {
-      jest.mock('@hapi/wreck')
-      const spy = jest.spyOn(wreck, 'get')
+      getWithAuth.mockResolvedValueOnce({ gainsiteStatus: 'registered' })
       jest.replaceProperty(BACKEND_API, 'MOCK_BGS_FOR_ACCEPTANCE', 'test123')
 
       postOptions.payload.bgsNumber = 'notTest123'
       await submitPostRequest(postOptions)
-      expect(spy).toHaveBeenCalledTimes(1)
+      expect(getWithAuth).toHaveBeenCalledTimes(1)
     })
   })
 })

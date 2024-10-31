@@ -42,7 +42,6 @@ const getToken = async () => {
 // TODO: Tidy up parameters
 export default async (url, options = {}, maxAttempts = 5) => {
   let attempts = 0
-  let error
 
   while (attempts < maxAttempts) {
     attempts++
@@ -67,11 +66,10 @@ export default async (url, options = {}, maxAttempts = 5) => {
         // Invalidate the token to fetch a new one
         cachedToken = null
       } else {
-        error = err
-        break
+        throw err
       }
     }
   }
 
-  throw error || new Error('Max attempts reached without successful response')
+  throw new Error('Max attempts reached without successful response')
 }

@@ -3,7 +3,7 @@ import { BACKEND_API } from '../../utils/config.js'
 import getWithAuth from '../../utils/get-with-auth.js'
 import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
 
-const getGainSiteApiUrl = bgsNumber => {
+const getGainsiteApiUrl = bgsNumber => {
   const url = new URL(`${BACKEND_API.BASE_URL}gainsite/${bgsNumber}`)
   if (BACKEND_API.CODE_QUERY_PARAMETER) {
     url.searchParams.set('code', BACKEND_API.CODE_QUERY_PARAMETER)
@@ -12,7 +12,11 @@ const getGainSiteApiUrl = bgsNumber => {
 }
 
 const getStatusErrorMessage = status => {
-  switch (status.toLowerCase()) {
+  if (!status) {
+    return null
+  }
+
+  switch (status) {
     case 'active':
       return 'This gain site registration is not complete - wait until you have confirmation.'
     case 'rejected':
@@ -22,14 +26,45 @@ const getStatusErrorMessage = status => {
       return 'This reference is for a gain site which is no longer registered.'
     case 'inactive':
       return 'This reference is for a gain site which has been withdrawn from registration.'
+    case 'not-found':
+      return 'The gain site reference was not recognised - enter a reference for an approved gain site.'
+    case 'empty':
+      return 'Enter your biodiversity gain site number'
     default:
       return 'There was a problem checking your gain site reference - please try again later.'
   }
 }
 
-const checkBGSNumber = async (bgsNumber, hrefId) => {
-  let errorText
+const determineGainsiteStatus = async (bgsNumber) => {
+  if (!bgsNumber.trim()) {
+    return 'empty'
+  }
 
+  try {
+    const gainsiteUrl = getGainsiteApiUrl(bgsNumber)
+    const payload = await getWithAuth(gainsiteUrl.href)
+
+    if (typeof payload.gainsiteStatus !== 'string') {
+      throw Error()
+    }
+
+    const lowerCaseStatus = payload.gainsiteStatus.toLowerCase()
+
+    if (lowerCaseStatus !== 'registered') {
+      return payload.gainsiteStatus.toLowerCase()
+    }
+  } catch (err) {
+    if (err.isBoom && err.output.statusCode === 404) {
+      return 'not-found'
+    } else {
+      return 'generic-error'
+    }
+  }
+
+  return null
+}
+
+const checkBGSNumber = async (bgsNumber, hrefId) => {
   // Allow a specific mock value for acceptance tests so that we don't need to add test
   // values to the production system. If mock value is set and matches what is entered,
   // then don't call API and don't raise an error
@@ -37,21 +72,8 @@ const checkBGSNumber = async (bgsNumber, hrefId) => {
     return null
   }
 
-  if (!bgsNumber.trim()) {
-    errorText = 'Enter your biodiversity gain site number'
-  } else {
-    const gainsiteUrl = getGainSiteApiUrl(bgsNumber)
-
-    try {
-      const payload = await getWithAuth(gainsiteUrl.href)
-
-      if (payload.gainsiteStatus !== 'Registered') {
-        errorText = getStatusErrorMessage(payload.gainsiteStatus)
-      }
-    } catch (err) {
-      errorText = 'The gain site reference was not recognised - enter a reference for an approved gain site.'
-    }
-  }
+  const gainsiteStatus = await determineGainsiteStatus(bgsNumber)
+  const errorText = getStatusErrorMessage(gainsiteStatus)
 
   if (errorText) {
     return [{
