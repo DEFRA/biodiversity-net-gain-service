@@ -5,7 +5,6 @@ jest.mock('@hapi/wreck')
 
 describe('getWithAuth', () => {
   const mockUrl = 'https://mock-url.com/api/data'
-  const mockOptions = {}
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -24,7 +23,7 @@ describe('getWithAuth', () => {
       })
     })
 
-    const result = await getWithAuth(mockUrl, mockOptions)
+    const result = await getWithAuth(mockUrl)
 
     expect(wreck.post).not.toHaveBeenCalled()
     expect(wreck.get).toHaveBeenCalledWith(mockUrl, expect.objectContaining({
@@ -52,7 +51,7 @@ describe('getWithAuth', () => {
       })
     })
 
-    const result = await getWithAuth(mockUrl, mockOptions)
+    const result = await getWithAuth(mockUrl)
 
     expect(wreck.post).toHaveBeenCalled()
     expect(wreck.get).toHaveBeenCalledWith(mockUrl, expect.objectContaining({

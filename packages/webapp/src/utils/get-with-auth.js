@@ -1,6 +1,8 @@
 import { BACKEND_API } from './config.js'
 import wreck from '@hapi/wreck'
 
+const MAX_ATTEMPTS = 5
+
 let cachedToken = null
 let tokenExpiration = null
 
@@ -44,21 +46,19 @@ export const resetTokenCache = ({ token = null, expiration = null } = {}) => {
   tokenExpiration = expiration
 }
 
-export default async (url, options = {}, maxAttempts = 5) => {
+export default async (url) => {
   let attempts = 0
 
-  while (attempts < maxAttempts) {
+  while (attempts < MAX_ATTEMPTS) {
     attempts++
 
     try {
       const token = await getToken()
       const headers = {
-        ...options.headers,
         Authorization: `Bearer ${token}`
       }
 
       const { payload } = await wreck.get(url, {
-        ...options,
         headers,
         json: true
       })
