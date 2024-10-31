@@ -53,4 +53,10 @@ const deleteBlobFromContainers = async blobName => {
   })
 }
 
-export { uploadStreamAndAwaitScan, deleteBlobFromContainers }
+const deleteBlobFromContainersWithCheck = async (blobPath, previousBlobPath) => {
+  if (blobPath !== previousBlobPath) {
+    await deleteBlobFromContainers(previousBlobPath)
+  }
+}
+
+export { uploadStreamAndAwaitScan, deleteBlobFromContainers, deleteBlobFromContainersWithCheck }

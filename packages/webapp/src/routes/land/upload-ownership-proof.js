@@ -4,7 +4,7 @@ import { uploadFile } from '../../utils/upload.js'
 import { generatePayloadOptions } from '../../utils/generate-payload-options.js'
 import { processErrorUpload } from '../../utils/upload-error-handler.js'
 import { generateUniqueId } from '../../utils/helpers.js'
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainersWithCheck } from '../../utils/azure-storage.js'
 import path from 'path'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
 
@@ -13,7 +13,7 @@ const LAND_OWNERSHIP_ID = '#landOwnership'
 async function processSuccessfulUpload (result, request, h) {
   const tempFile = request.yar.get(constants.redisKeys.TEMP_LAND_OWNERSHIP_PROOF)
   if (tempFile && !tempFile.confirmed) {
-    await deleteBlobFromContainers(tempFile.fileLocation)
+    await deleteBlobFromContainersWithCheck(result.config.blobConfig.blobName, tempFile.fileLocation)
   }
   const tempFileDetails = {
     id: generateUniqueId(),

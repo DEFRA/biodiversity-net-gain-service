@@ -28,7 +28,7 @@ describe('Habitat Plan upload controller tests', () => {
     it('should upload habitat plan document to cloud storage and delete previous upload', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = Object.assign({}, baseConfig)
           uploadConfig.headers = {
             referer: `http://localhost:3000${url}`
