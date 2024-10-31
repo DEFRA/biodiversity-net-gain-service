@@ -39,7 +39,11 @@ const getToken = async () => {
   }
 }
 
-// TODO: Tidy up parameters
+export const resetTokenCache = ({ token = null, expiration = null } = {}) => {
+  cachedToken = token
+  tokenExpiration = expiration
+}
+
 export default async (url, options = {}, maxAttempts = 5) => {
   let attempts = 0
 
@@ -62,7 +66,6 @@ export default async (url, options = {}, maxAttempts = 5) => {
       return payload
     } catch (err) {
       if (err.output?.statusCode === 401) {
-        console.log(`Attempt ${attempts}: Token rejected, refreshing...`)
         // Invalidate the token to fetch a new one
         cachedToken = null
       } else {
