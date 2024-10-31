@@ -1,4 +1,4 @@
-import { deleteBlobFromContainers } from '../../utils/azure-storage.js'
+import { deleteBlobFromContainers, deleteBlobFromContainersWithCheck } from '../../utils/azure-storage.js'
 import { buildConfig } from '../../utils/build-upload-config.js'
 import constants from '../../utils/constants.js'
 import { uploadFile } from '../../utils/upload.js'
@@ -10,7 +10,9 @@ import { getNextStep } from '../../journey-validation/task-list-generator.js'
 const UPLOAD_METRIC_ID = '#uploadMetric'
 
 async function processSuccessfulUpload (result, request, h) {
-  await deleteBlobFromContainers(request.yar.get(constants.redisKeys.METRIC_LOCATION, true))
+  const blobPath = result.config.blobConfig.blobName
+  const previousBlobPath = request.yar.get(constants.redisKeys.METRIC_LOCATION, true)
+  await deleteBlobFromContainersWithCheck(blobPath, previousBlobPath)
 
   const validationError = getMetricFileValidationErrors(result.postProcess.metricData?.validation, UPLOAD_METRIC_ID, true)
 
@@ -35,7 +37,7 @@ async function processSuccessfulUpload (result, request, h) {
   }
 
   // set new metric data
-  request.yar.set(constants.redisKeys.METRIC_LOCATION, result.config.blobConfig.blobName)
+  request.yar.set(constants.redisKeys.METRIC_LOCATION, blobPath)
   request.yar.set(constants.redisKeys.METRIC_FILE_SIZE, result.fileSize)
   request.yar.set(constants.redisKeys.METRIC_FILE_TYPE, result.fileType)
   request.yar.set(constants.redisKeys.METRIC_DATA, result.postProcess.metricData)

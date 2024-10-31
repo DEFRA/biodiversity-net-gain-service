@@ -46,9 +46,8 @@ const answerIdHandler = {
           request.yar.set(constants.redisKeys.JOURNERY_START_ANSWER_ID_HANDLED, true)
           await request.yar.commit(h)
 
-          const url = new URL(request.url)
-          url.searchParams.delete('journey-start-answer-id')
-          return h.redirect(url.toString())
+          // We redirect to request.url.pathname as this is the relative path without the query string
+          return h.redirect(request.url.pathname)
         }
 
         // Check to see if the user is visiting a page outside of any regular journey and clear journey-start-answer-id
@@ -77,10 +76,8 @@ const answerIdHandler = {
         request.yar.set(constants.redisKeys.JOURNERY_START_ANSWER_ID_HANDLED, true)
         await request.yar.commit(h)
 
-        // Add the anchor id to the url and redirect to the resulting url
-        const url = new URL(request.url)
-        url.hash = `#${journeyStartAnswerId}`
-        return h.redirect(url.toString())
+        // Add the anchor id to the relative path and redirect to the result
+        return h.redirect(`${request.url.pathname}#${journeyStartAnswerId}`)
       })
     }
   }

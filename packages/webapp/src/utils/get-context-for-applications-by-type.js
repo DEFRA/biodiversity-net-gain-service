@@ -1,5 +1,5 @@
 import constants from './constants.js'
-import { getFormattedDate } from './helpers.js'
+import { getFormattedDateTime } from './helpers.js'
 import { postJson } from './http.js'
 
 const getContextForAllocations = (contactId, organisationId) => getContext(contactId, organisationId, constants.applicationTypes.ALLOCATION)
@@ -19,7 +19,7 @@ const getContext = async (contactId, organisationId, applicationType) => {
 const formatApplication = application => {
   return {
     ...application,
-    lastUpdated: getFormattedDate(application.lastUpdated)
+    lastUpdated: getFormattedDateTime(application.lastUpdated)
   }
 }
 

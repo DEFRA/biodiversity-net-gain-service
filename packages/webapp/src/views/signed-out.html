@@ -9,7 +9,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <div class="govuk-panel govuk-panel--confirmation">
+      <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-6">
         <h1 class="govuk-panel__title">
           {{ pageHeading }}
         </h1>
@@ -18,29 +18,13 @@
         </div>
       </div>
 
-      {% if continueRegistration %}
-        <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">Your registrations</h2>
-
-        <a href="/signin">Sign in to continue with a registration</a>
+      {% if content.heading %}
+        <h2 id="return-to-application" class="govuk-heading-m">{{ content.heading }}</h2>
       {% endif %}
 
-      {% if continueAllocation %}
-        <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">Development projects</h2>
-
-        <a href="/signin">Sign in to continue with a development project</a>
-      {% endif %}
-
-      {% if continueCredits %}
-        <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">Your statutory biodiversity credits</h2>
-
-        <a href="/signin">Sign in to continue with a statutory biodiversity credits purchase</a>
-      {% endif %}
-
-      {% if continueCombinedCase %}
-        <h2 id="return-to-application" class="govuk-heading-m govuk-!-padding-top-4">Combined cases</h2>
-
-        <a href="/signin">Sign in to continue with an application to register a gain site and record off site gains at the same time</a>
-      {% endif %}
+      <div>
+        <a href="/signin">{{ content.text }}</a>
+      </div>
     </div>
 </div>
 {% endblock %}

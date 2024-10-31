@@ -34,11 +34,13 @@ const handlers = {
   }
 }
 
-const redirect = (session, h) => {
+const redirect = (session, _h) => {
   if (session.get(constants.redisKeys.DEVELOPER_IS_AGENT) === constants.APPLICANT_IS_AGENT.YES) {
     return constants.routes.DEVELOPER_LANDOWNER_OR_LEASEHOLDER
   } else if (session.get(constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER) === constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES) {
-    return constants.routes.DEVELOPER_TASKLIST
+    // CHECK_AND_SUBMIT_JOURNEY_ROUTE will be the check and submit url if we started our journey there so we want to
+    // redirect there if it exists to ensure we return to where we started
+    return session.get(constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE) || constants.routes.DEVELOPER_TASKLIST
   } else {
     return constants.routes.DEVELOPER_UPLOAD_CONSENT_TO_ALLOCATE_GAINS
   }

@@ -66,5 +66,33 @@ describe(url, () => {
       const response = await submitPostRequest(postOptions, 200, sessionData)
       expect(response.payload).toContain('Select yes if you are the landowner or leaseholder')
     })
+    it("Should redirect to check and submit if the question was already answered and the answer didn't change", async () => {
+      const sessionData = {
+        [constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER]: constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES,
+        [constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE]: constants.routes.DEVELOPER_CHECK_AND_SUBMIT
+      }
+      postOptions.payload.landownerOrLeaseholder = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.request.response.headers.location).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+    })
+    it('Should redirect to check and submit if the question was already answered and the answer changed from NO to YES', async () => {
+      const sessionData = {
+        [constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER]: constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO,
+        [constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE]: constants.routes.DEVELOPER_CHECK_AND_SUBMIT
+      }
+      postOptions.payload.landownerOrLeaseholder = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.request.response.headers.location).toBe(constants.routes.DEVELOPER_CHECK_AND_SUBMIT)
+    })
+    it('Should redirect as normal if the question was already answered and the answer changed from YES to NO', async () => {
+      const sessionData = {
+        [constants.redisKeys.DEVELOPER_LANDOWNER_OR_LEASEHOLDER]: constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.YES,
+        [constants.redisKeys.CHECK_AND_SUBMIT_JOURNEY_ROUTE]: constants.routes.DEVELOPER_CHECK_AND_SUBMIT,
+        [constants.redisKeys.DEVELOPER_IS_AGENT]: constants.APPLICANT_IS_AGENT.YES
+      }
+      postOptions.payload.landownerOrLeaseholder = constants.DEVELOPER_IS_LANDOWNER_OR_LEASEHOLDER.NO
+      const response = await submitPostRequest(postOptions, 302, sessionData)
+      expect(response.request.response.headers.location).toBe(constants.routes.DEVELOPER_CLIENT_INDIVIDUAL_ORGANISATION)
+    })
   })
 })

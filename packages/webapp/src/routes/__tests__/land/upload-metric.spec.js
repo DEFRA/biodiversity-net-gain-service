@@ -39,7 +39,7 @@ describe('Metric file upload controller tests', () => {
     it('should upload metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.1.xlsm`
@@ -61,7 +61,7 @@ describe('Metric file upload controller tests', () => {
     it('should upload feb24 format metric file to cloud storage', (done) => {
       jest.isolateModules(async () => {
         try {
-          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainers')
+          const spy = jest.spyOn(azureStorage, 'deleteBlobFromContainersWithCheck')
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = false
           uploadConfig.filePath = `${mockDataPath}/metric-file-4.1-feb24.xlsm`
@@ -247,7 +247,7 @@ describe('Metric file upload controller tests', () => {
           config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -273,7 +273,7 @@ describe('Metric file upload controller tests', () => {
           config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file does not have enough data')
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
@@ -299,7 +299,7 @@ describe('Metric file upload controller tests', () => {
           config.sessionData[`${constants.redisKeys.APPLICATION_TYPE}`] = constants.applicationTypes.REGISTRATION
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must not be a draft version')
-          expect(spy).toHaveBeenCalledTimes(2)
+          expect(spy).toHaveBeenCalledTimes(1)
           setImmediate(() => {
             done()
           })
