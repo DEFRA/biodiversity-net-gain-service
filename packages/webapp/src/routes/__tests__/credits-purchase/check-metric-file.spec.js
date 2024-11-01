@@ -1,5 +1,5 @@
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
-import { submitPostRequest } from '../helpers/server.js'
+import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC
 const mockDataPath = 'packages/webapp/src/__mock-data__/uploads/metric-file'
@@ -41,6 +41,22 @@ describe(url, () => {
       await checkMetricFile.default[0].handler(request, h)
       expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
       expect(contextResult.filename).toEqual('')
+    })
+
+    it('should render the view with the correct error message when user doesnt select yes or no', async () => {
+      const sessionData = {
+        errors: [
+          {
+            text: 'Select yes if this is the statutory biodiversity metric file your local planning authority reviewed with your biodiversity net gain statement',
+            href: '#check-upload-correct-yes'
+          }
+        ],
+        checkUploadMetric: ''
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Select yes if this is the statutory biodiversity metric file your local planning authority reviewed with your biodiversity net gain statement')
     })
   })
 
@@ -96,9 +112,9 @@ describe(url, () => {
       postOptions.payload.checkUploadMetric = creditsPurchaseConstants.creditsCheckUploadMetric.YES
       await submitPostRequest(postOptions)
     })
-    it('should detect an invalid response from user', async () => {
-      postOptions.payload.checkUploadMetric = 'invalid'
-      await submitPostRequest(postOptions, 500)
+    it('should not continue journey if user doesnt select an option', async () => {
+      const res = await submitPostRequest(postOptions, 302)
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_UPLOAD_METRIC)
     })
   })
 })

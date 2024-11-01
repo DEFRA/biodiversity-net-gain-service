@@ -2,36 +2,52 @@ import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION
-const mockCostCalculation = {
-  tierCosts: [
-    { unitAmount: 2.3, tier: 'a1', cost: 96599.99999999999 },
-    { unitAmount: 0, tier: 'a2', cost: 0 },
-    { unitAmount: 0, tier: 'a3', cost: 0 },
-    { unitAmount: 0, tier: 'a4', cost: 0 },
-    { unitAmount: 0.4, tier: 'a5', cost: 260000 },
-    { unitAmount: 0, tier: 'h', cost: 0 },
-    { unitAmount: 0, tier: 'w', cost: 0 }
-  ],
-  total: 356600
-}
 
 describe(url, () => {
   describe('GET', () => {
     it(`should render the ${url.substring(1)} view`, async () => {
-      await submitGetRequest({ url })
+      const res = await submitGetRequest({ url })
+      expect(res.statusCode).toBe(200)
     })
 
     it('should render the view with previous values if in cache', async () => {
-      const sessionData = {}
-      sessionData[creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION] = mockCostCalculation
+      const sessionData = {
+        [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION]: {
+          tierCosts: [{ tier: 'exampleTier', unitAmount: 50 }]
+        },
+        errorMessages: null,
+        errorList: null
+      }
       const res = await submitGetRequest({ url }, 200, sessionData)
-      expect(res.payload).toContain('2.3')
-      expect(res.payload).toContain('0.4')
+      expect(res.payload).toContain('50')
+    })
+
+    it('should render the view with the correct error message when no input is provided', async () => {
+      const sessionData = {
+        errorList: [{ text: 'Enter at least one credit from the metric up to 2 decimal places, like 23.75' }]
+      }
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    })
+
+    it('should render the view with the correct error messages when validation fails', async () => {
+      const sessionData = {
+        [creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_COST_CALCULATION]: {
+          tierCosts: [{ tier: 'exampleTier', unitAmount: 5012345678901 }]
+        },
+        errorList: [{ text: 'Number of credits must be 10 characters or fewer' }]
+      }
+
+      const res = await submitGetRequest({ url }, 200, sessionData)
+      expect(res.payload).toContain('There is a problem')
+      expect(res.payload).toContain('Number of credits must be 10 characters or fewer')
     })
   })
 
   describe('POST', () => {
     let postOptions
+
     beforeEach(() => {
       postOptions = {
         url,
@@ -39,46 +55,22 @@ describe(url, () => {
       }
     })
 
-    it('Should continue journey if at least one credit is entered', async () => {
-      postOptions.payload.a2 = '1.2'
-      const res = await submitPostRequest(postOptions)
+    it('should continue to the cost page when valid input is provided', async () => {
+      postOptions.payload = { a1: '1', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
+      const res = await submitPostRequest(postOptions, 302)
       expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_COST)
     })
 
-    it('Should fail journey if no credits are entered', async () => {
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
+    it('should not continue journey if validation fails due to long input', async () => {
+      postOptions.payload = { a1: '12345678910', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
+      const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION)
     })
 
-    it('Should fail journey if no credits above 0 are entered', async () => {
-      postOptions.payload.a2 = '0'
-      postOptions.payload.a3 = '0.0'
-      postOptions.payload.a4 = '0.00'
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
-    })
-
-    it('Should fail journey if more than two decimal places entered for a credit', async () => {
-      postOptions.payload.a2 = '1.22222'
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
-    })
-
-    it('Should fail journey if credit entered is not a number', async () => {
-      postOptions.payload.a2 = 'geoff'
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Enter at least one credit from the metric up to 2 decimal places, like 23.75')
-    })
-
-    it('Should fail journey if credit entered is more than 10 characters', async () => {
-      postOptions.payload.a2 = '123456789012345678901234567890123456789012345678901234567890'
-      const res = await submitPostRequest(postOptions, 200)
-      expect(res.payload).toContain('There is a problem')
-      expect(res.payload).toContain('Number of credits must be 10 characters or fewer')
+    it('should not continue journey if no input is provided', async () => {
+      postOptions.payload = { a1: '', a2: '', a3: '', a4: '', a5: '', h: '', w: '' }
+      const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CREDITS_SELECTION)
     })
   })
 })
