@@ -1,4 +1,4 @@
-FROM        node:18-alpine
+FROM        node:20-alpine
 LABEL       author="DEFRA"
 
 # The Google Tag Manager ID is available to anyone who uses the web application.

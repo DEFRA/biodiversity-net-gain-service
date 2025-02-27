@@ -11,7 +11,7 @@ beforeEach(async () => {
   jest.resetAllMocks()
   context = new Context()
   await recreateContainers(),
-  await recreateQueues()
+    await recreateQueues()
 })
 
 const getContext = () => {

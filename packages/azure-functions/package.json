@@ -5,7 +5,7 @@
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "engine-strict": true,
   "scripts": {

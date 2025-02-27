@@ -4,7 +4,7 @@ import {
   validateIdGetSchemaOptional
 } from '../../utils/helpers.js'
 import { getNextStep } from '../../journey-validation/task-list-generator.js'
-const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
+const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.js'
 
 const handlers = {
   get: (request, h) => {

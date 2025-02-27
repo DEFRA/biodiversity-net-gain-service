@@ -17,7 +17,7 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
 }
