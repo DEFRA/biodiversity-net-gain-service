@@ -20,7 +20,7 @@ services:
   # # Postgres + Postgis on port 5432
   # ##############################################################################################################
   postgis:
-    image: postgis/postgis:13-3.2-alpine
+    image: postgis/postgis:16-3.5-alpine
     user: "postgres"
     ports:
       - "5432:5432"
