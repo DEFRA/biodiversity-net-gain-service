@@ -17,7 +17,8 @@
         </h1>
 
         <div id="location-upload-hint">
-          <p>The file should be:</p>
+          <p>This should show the boundary of the land you want to register as a biodiversity gain site.</p>
+          <p>The file should be:</p> 
           <ul class="govuk-list govuk-list--bullet">
             <li>a DOC, DOCX, JPG, PNG or PDF</li>
             <li>no larger than 50MB</li>
@@ -32,16 +33,9 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-          <p class="govuk-!-padding-top-3">
-            <a href="/land/need-boundary-file">I do not have a file showing the boundary of the biodiversity gain site</a>
-          </p>
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
+
+          {% include "common/save-and-upload-button-group.html" %}
+
       </div>
     </div>
   </div>
