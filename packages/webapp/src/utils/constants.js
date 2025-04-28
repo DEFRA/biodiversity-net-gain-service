@@ -235,7 +235,8 @@ const uploadErrors = {
   malwareScanFailed: 'File malware scan failed',
   unsupportedFileExt: 'Unsupported file extension',
   noFileScanResponse: 'Timed out awaiting anti virus scan result',
-  notValidMetric: 'Workbook is not a valid metric'
+  notValidMetric: 'Workbook is not a valid metric',
+  invalidFileType: 'Invalid file type'
 }
 
 const threatScreeningStatusValues = {

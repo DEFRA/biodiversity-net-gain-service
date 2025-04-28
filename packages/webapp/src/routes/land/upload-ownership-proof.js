@@ -38,6 +38,7 @@ const handlers = {
       sessionId: request.yar.id,
       uploadType: constants.uploadTypes.LAND_OWNERSHIP_UPLOAD_TYPE,
       fileExt: constants.lanOwnerFileExt,
+      checkFileType: true,
       maxFileSize: parseInt(process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB) * 1024 * 1024
     })
     try {
@@ -51,6 +52,7 @@ const handlers = {
         route: constants.views.UPLOAD_LAND_OWNERSHIP,
         elementID: LAND_OWNERSHIP_ID,
         noFileErrorMessage: 'Select a proof of land ownership file',
+        invalidFileTypeErrorMessage: 'The selected file must be a valid DOC, DOCX or PDF',
         maximumFileSize: process.env.MAX_GEOSPATIAL_LAND_BOUNDARY_UPLOAD_MB
       })
     }

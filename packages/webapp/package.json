@@ -52,6 +52,7 @@
     "blipp": "4.0.2",
     "crypto": "^1.0.1",
     "email-validator": "^2.0.4",
+    "file-type": "^19.6.0",
     "govuk-frontend": "5.4.0",
     "hapi-pino": "12.1.0",
     "isomorphic-dompurify": "^2.16.0",

@@ -1,4 +1,5 @@
 import path from 'path'
+import { fileTypeFromBuffer } from 'file-type'
 import { uploadStreamAndAwaitScan, deleteBlobFromContainers } from './azure-storage.js'
 import multiparty from 'multiparty'
 import constants from './constants.js'
@@ -60,36 +61,91 @@ const uploadFile = async (logger, request, config) => {
 }
 
 const handlePart = async (logger, part, config, uploadResult) => {
-  const fileSizeInBytes = part.byteCount
-  const fileSize = parseFloat(parseFloat(part.byteCount / 1024 / 1024).toFixed(config.fileValidationConfig?.maximumDecimalPlaces || 2))
+  const fileSizeInBytes = part.byteCount || 0
   const filename = part.filename
 
-  // Delay throwing errors until the form is closed.
   if (!filename) {
     uploadResult.errorMessage = constants.uploadErrors.noFile
     part.resume()
-  } else if (isXSSVulnerable(filename)) {
-    throw new Error(constants.uploadErrors.uploadFailure)
-  } else if (config.fileValidationConfig?.fileExt && !config.fileValidationConfig.fileExt.includes(path.extname(filename.toLowerCase()))) {
-    uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
+    return
+  }
+
+  if (isXSSVulnerable(filename)) {
+    uploadResult.errorMessage = constants.uploadErrors.uploadFailure
     part.resume()
-  } else if (fileSize * 100 === 0) {
+    return
+  }
+
+  if (fileSizeInBytes === 0) {
     uploadResult.errorMessage = constants.uploadErrors.emptyFile
     part.resume()
-  } else if (fileSizeInBytes > config.fileValidationConfig.maxFileSize) {
-    uploadResult.errorMessage = constants.uploadErrors.maximumFileSizeExceeded
-    part.resume()
-  } else {
-    logger.info(`${new Date().toUTCString()} Uploading ${filename}`)
-    uploadResult.fileSize = fileSizeInBytes
-    uploadResult.filename = filename
-    uploadResult.fileType = part.headers['content-type']
+    return
+  }
 
+  // Capture the initial chunk of the stream for file type detection purposes while it continues to upload
+  const chunks = []
+  let initialChunk
+
+  // Asynchronously collect the initial chunk while allowing the stream to flow
+  const chunkPromise = new Promise((resolve, reject) => {
+    part.on('data', (chunk) => {
+      // Only the first chunk is collected as this should be enough for file type detection
+      if (chunks.length === 0) {
+        chunks.push(chunk)
+        resolve(Buffer.concat(chunks))
+      }
+    })
+
+    part.on('error', reject)
+    part.on('end', () => {
+      // Handle edge case where no data is present
+      if (chunks.length === 0) {
+        resolve(Buffer.concat(chunks))
+      }
+    })
+  })
+
+  try {
+    // Start file upload stream while we process the first chunk
     const uploadConfig = JSON.parse(JSON.stringify(config))
     uploadConfig.blobConfig.blobName = `${config.blobConfig.blobName}${filename}`
-    const tags = await uploadStreamAndAwaitScan(logger, uploadConfig, part)
+
+    // Upload stream happens while chunk is processed
+    const uploadPromise = uploadStreamAndAwaitScan(logger, uploadConfig, part)
+
+    // Await chunk processing to detect file type
+    initialChunk = await chunkPromise
+
+    const fileExtension = path.extname(filename.toLowerCase())
+
+    const validFileExtension = config.fileValidationConfig?.fileExt && config.fileValidationConfig.fileExt.includes(fileExtension)
+    if (!validFileExtension) {
+      uploadResult.errorMessage = constants.uploadErrors.unsupportedFileExt
+      part.resume()
+      return
+    }
+
+    // TODO: Account for the fact that we've found a .doc file can be detected as .cfb
+    const detectedFileType = await fileTypeFromBuffer(initialChunk)
+    const invalidFileType = `.${detectedFileType?.ext}` !== fileExtension
+    if (config.checkFileType && (!detectedFileType || invalidFileType)) {
+      // TODO: Logging here for dev purposes only -- can removed in production
+      logger.info(`File with extension ${fileExtension} detected as ${detectedFileType?.ext ?? 'unknown'}`)
+      uploadResult.errorMessage = constants.uploadErrors.invalidFileType
+      part.resume()
+      return
+    }
+
+    // Ensure file continues to be uploaded
+    const tags = await uploadPromise
     uploadResult.tags = tags
     uploadResult.config = uploadConfig
+    uploadResult.fileSize = fileSizeInBytes
+    uploadResult.filename = filename
+    uploadResult.fileType = detectedFileType.mime
+  } catch (err) {
+    logger.error(`Upload failed for ${filename}: ${err.message}`)
+    uploadResult.errorMessage = constants.uploadErrors.uploadFailure
   }
 }
 
