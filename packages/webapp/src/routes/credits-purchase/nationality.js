@@ -1,6 +1,7 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import { getNationalityTextAndValues } from '../../utils/get-nationalities.js'
 import { getValidReferrerUrl } from '../../utils/helpers.js'
+
 const errorText = 'Select a nationality from the dropdown list'
 const duplicateNationalitiesErrorText = 'Remove duplicate nationality'
 
@@ -30,50 +31,55 @@ const handlers = {
   get: (request, h) => {
     const enteredNationalities = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY)
 
+    const errors = request.yar.get('errors') || null
+    request.yar.clear('errors')
+
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
       nationalitySelects: getNationalitySelects(enteredNationalities),
-      backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH
+      backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
+      err: errors
     })
   },
   post: (request, h) => {
     const nationalities = request.payload
-    const nonEmptyNationalities = Object.values(nationalities).filter(nationality => nationality !== '')
+    const nonEmptyNationalities = Object.values(nationalities).filter(n => n !== '')
     const hasAtLeastOneNationality = nonEmptyNationalities.length > 0
-    if (hasAtLeastOneNationality) {
-      const isUnique = nonEmptyNationalities.length === new Set(Object.values(nonEmptyNationalities)).size
+    const errors = []
 
-      // checking that unique nationalities have been selected
-      if (isUnique) {
-        request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
-        const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
-        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
-      } else {
-        // generating errors based on number of duplicates
-        const errorMessages = Object.values(nationalities).map((nationality, indexOfFirstOccurance) => {
-          if (Object.values(nationalities).indexOf(nationality) !== indexOfFirstOccurance && nationality !== '') {
-            return {
-              text: duplicateNationalitiesErrorText,
-              href: `#nationality${indexOfFirstOccurance + 1}`
-            }
-          }
-          return null
-        })
-        return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
-          nationalitySelects: getNationalitySelects(nationalities),
-          backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-          err: errorMessages
+    // If no nationality is selected, return early with error
+    if (!hasAtLeastOneNationality) {
+      errors.push({
+        text: errorText,
+        href: '#nationality1'
+      })
+      request.yar.set('errors', errors)
+      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
+    }
+
+    const isUnique = nonEmptyNationalities.length === new Set(nonEmptyNationalities).size
+
+    // If nationalities are unique, store and redirect
+    if (isUnique) {
+      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
+      const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+      return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_CUSTOMER_DUE_DILIGENCE)
+    }
+
+    // Generate errors for duplicate nationalities
+    Object.values(nationalities).forEach((nationality, indexOfFirstOccurance) => {
+      if (Object.values(nationalities).indexOf(nationality) !== indexOfFirstOccurance && nationality !== '') {
+        errors.push({
+          text: duplicateNationalitiesErrorText,
+          href: `#nationality${indexOfFirstOccurance + 1}`
         })
       }
-    } else {
-      // Displaying error if no nationality selected
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_NATIONALITY, {
-        nationalitySelects: getNationalitySelects(nationalities),
-        backLink: creditsPurchaseConstants.routes.CREDITS_PURCHASE_DATE_OF_BIRTH,
-        err: [{
-          text: errorText,
-          href: '#nationality1'
-        }]
-      })
+    })
+
+    if (errors.length > 0) {
+      request.yar.set('errors', errors)
+      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_NATIONALITY, nationalities)
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_NATIONALITY)
     }
   }
 }

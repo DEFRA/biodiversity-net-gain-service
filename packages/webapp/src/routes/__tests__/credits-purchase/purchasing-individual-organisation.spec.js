@@ -1,5 +1,5 @@
 import creditsPurchaseConstants from '../../../utils/credits-purchase-constants.js'
-import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
+import { submitPostRequest } from '../helpers/server.js'
 
 const url = creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG
 
@@ -14,26 +14,41 @@ const organisationSignInErrorMessage = `
 const creditsIndividualOrOganisation = require('../../credits-purchase/purchasing-individual-organisation.js')
 
 describe(url, () => {
-  const redisMap = new Map()
-  describe('GET', () => {
-    let viewResult, contextResult
+  let viewResult
+  let h
+  let redisMap
+  let contextResult
+  let request
 
-    const h = {
+  beforeEach(() => {
+    h = {
       view: (view, context) => {
         viewResult = view
         contextResult = context
+      },
+      redirect: (url) => {
+        viewResult = url
       }
     }
 
-    it(`should render the ${url.substring(1)} view without any selection`, async () => {
-      await submitGetRequest({ url }, 200, { 'estimator-credits-user-type': 'individual' }, { expectedNumberOfPostJsonCalls: 0 })
-    })
+    redisMap = new Map()
 
+    request = {
+      yar: {
+        get: (key) => redisMap.get(key),
+        set: (key, value) => redisMap.set(key, value),
+        clear: (key) => redisMap.delete(key)
+      }
+    }
+  })
+
+  describe('GET', () => {
     it(`should render the ${url.substring(1)} view with individual selected`, async () => {
       jest.isolateModules(async () => {
         redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
 
-        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        await creditsIndividualOrOganisation.default[0].handler(request, h)
+
         expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
       })
@@ -43,12 +58,49 @@ describe(url, () => {
       jest.isolateModules(async () => {
         redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
 
-        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        await creditsIndividualOrOganisation.default[0].handler(request, h)
+
         expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
         expect(contextResult.userType).toEqual(creditsPurchaseConstants.applicantTypes.ORGANISATION)
       })
     })
+
+    it('should render the view with the correct error message when user doesnt select individual or organisation', async () => {
+      jest.isolateModules(async () => {
+        redisMap.set('errorMessages', ['Select if you are applying as an individual or as part of an organisation'])
+        redisMap.set('errorList', [{ text: 'Select if you are applying as an individual or as part of an organisation', href: '#creditsIndividualOrganisation' }])
+        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, '')
+
+        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
+        expect(contextResult.errorMessages).toEqual(['Select if you are applying as an individual or as part of an organisation'])
+        expect(contextResult.err).toEqual([{ text: 'Select if you are applying as an individual or as part of an organisation', href: '#creditsIndividualOrganisation' }])
+      })
+    })
+
+    it('should render the view with the correct error message when individual is chosen and signed in representing an organisation', async () => {
+      jest.isolateModules(async () => {
+        redisMap.set('errorMessages', [individualSignInErrorMessage])
+        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.INDIVIDUAL)
+
+        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
+        expect(contextResult.errorMessages).toEqual([individualSignInErrorMessage])
+      })
+    })
+
+    it('should render the view with the correct error message when organisation is chosen and signed in as an individual', async () => {
+      jest.isolateModules(async () => {
+        redisMap.set('errorMessages', [organisationSignInErrorMessage])
+        redisMap.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE, creditsPurchaseConstants.applicantTypes.ORGANISATION)
+
+        await creditsIndividualOrOganisation.default[0].handler({ yar: redisMap }, h)
+        expect(viewResult).toEqual(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
+        expect(contextResult.errorMessages).toEqual([organisationSignInErrorMessage])
+      })
+    })
   })
+
   describe('POST', () => {
     const userSignInWithOrganisationLinkedToDefraAccountAuth = {
       strategy: 'session-auth',
@@ -91,40 +143,43 @@ describe(url, () => {
         payload: {}
       }
     })
+
     it('should redirect to the check Defra account details page when individual is chosen and signed in as an individual', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.INDIVIDUAL
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
       expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
     })
+
     it('should redirect to the check Defra account details page when organisation is chosen and signed in representing an organisation', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.ORGANISATION
       postOptions.auth = organisationAuth
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
       expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
     })
+
     it('should redisplay the credits individual or organisation page when no applicant type is chosen', async () => {
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.payload).toContain('There is a problem')
-      expect(response.payload).toContain('Select if you are applying as an individual or as part of an organisation')
+      const res = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
+      expect(res.headers.location).toEqual(creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
     })
+
     it('should redirect to the Defra account not linked page when organisation is chosen, the user signed is in as an individual and no organisation is linked to their Defra account', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.ORGANISATION
       const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 1 })
       expect(response.request.response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_DEFRA_ACCOUNT_NOT_LINKED)
     })
+
     it('should redisplay the credits individual or organisation page when organisation is chosen, the user signed is in as an individual and at least one organisation is linked to their Defra account', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.ORGANISATION
       postOptions.auth = userSignInWithOrganisationLinkedToDefraAccountAuth
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.payload).toContain('There is a problem')
-      expect(response.payload).toContain(individualSignInErrorMessage)
+      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
+      expect(response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
     })
+
     it('should redisplay the credits individual or organisation page when individual is chosen and signed in representing an organisation', async () => {
       postOptions.payload.userType = creditsPurchaseConstants.applicantTypes.INDIVIDUAL
       postOptions.auth = organisationAuth
-      const response = await submitPostRequest(postOptions, 200)
-      expect(response.payload).toContain('There is a problem')
-      expect(response.payload).toContain(organisationSignInErrorMessage)
+      const response = await submitPostRequest(postOptions, 302, null, { expectedNumberOfPostJsonCalls: 0 })
+      expect(response.headers.location).toBe(creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG)
     })
   })
 })

@@ -28,8 +28,28 @@ const getExpectedErrorCode = (uploadConfig) => {
   return 302
 }
 
+const getNumberOfPostJsonCalls = (uploadConfig) => {
+  return uploadConfig.hasError ||
+    uploadConfig.generateFormDataError ||
+    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
+    uploadConfig.generateMissingCoordinateReferenceSystemError ||
+    uploadConfig.generateInvalidLayerCountError ||
+    uploadConfig.generateInvalidFeatureCountError ||
+    uploadConfig.generateOutsideEnglandError ||
+    uploadConfig.generateInvalidUploadError ||
+    uploadConfig.generateUnexpectedValidationError ||
+    uploadConfig.generateThreatDetectedError ||
+    uploadConfig.generateThreatScreeningFailure ||
+    uploadConfig.generateHandleEventsError
+    ? 0
+    : 1
+}
+
 const uploadFile = async (uploadConfig) => {
-  const expectedResponseCode = getExpectedErrorCode(uploadConfig)
+  // uploadConfig.redirectExpected should be set `true` for upload pages that have been refactored to use the PRG pattern
+  const expectedResponseCode = uploadConfig.redirectExpected
+    ? 302
+    : getExpectedErrorCode(uploadConfig)
 
   const formData = new FormData()
 
@@ -57,21 +77,9 @@ const uploadFile = async (uploadConfig) => {
     delete options.headers
   }
 
-  const expectedNumberOfPostJsonCalls =
-    uploadConfig.hasError ||
-    uploadConfig.generateFormDataError ||
-    uploadConfig.generateInvalidCoordinateReferenceSystemError ||
-    uploadConfig.generateMissingCoordinateReferenceSystemError ||
-    uploadConfig.generateInvalidLayerCountError ||
-    uploadConfig.generateInvalidFeatureCountError ||
-    uploadConfig.generateOutsideEnglandError ||
-    uploadConfig.generateInvalidUploadError ||
-    uploadConfig.generateUnexpectedValidationError ||
-    uploadConfig.generateThreatDetectedError ||
-    uploadConfig.generateThreatScreeningFailure ||
-    uploadConfig.generateHandleEventsError
-      ? 0
-      : 1
+  const expectedNumberOfPostJsonCalls = uploadConfig.redirectExpected
+    ? 1
+    : getNumberOfPostJsonCalls(uploadConfig)
 
   const { postProcess } = require('../../../utils/file-post-process.js')
   postProcess.mockImplementation(async (uploadType, blobName, containerName) => {
@@ -101,6 +109,16 @@ const uploadFile = async (uploadConfig) => {
 
   if (uploadConfig.sessionData) await addOnPreAuth(uploadConfig.sessionData)
   const response = await submitRequest(options, expectedResponseCode, { expectedNumberOfPostJsonCalls })
+
+  if (uploadConfig.redirectExpected) {
+    const options = {
+      url: response.headers.location,
+      method: 'GET'
+    }
+    const redirectedResponse = await submitRequest(options, 200, { expectedNumberOfPostJsonCalls })
+    return redirectedResponse
+  }
+
   return response
 }
 

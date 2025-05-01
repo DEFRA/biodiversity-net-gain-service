@@ -75,6 +75,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/wrong-extension.txt`
+          uploadConfig.redirectExpected = true
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
           expect(res.result).toContain('The selected file must be an XLSM or XLSX')
@@ -92,6 +93,7 @@ describe('Metric file upload controller tests', () => {
         try {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
+          uploadConfig.redirectExpected = true
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
           expect(res.result).toContain('Select a statutory biodiversity metric')
@@ -110,6 +112,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/empty-metric-file.xlsx`
+          uploadConfig.redirectExpected = true
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
           expect(res.result).toContain('The selected file is empty')
@@ -128,6 +131,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/big-metric.xlsx`
+          uploadConfig.redirectExpected = false // redirectExpected is false as filesize check returns a GET request if it fails
           const res = await uploadFile(uploadConfig)
           expect(res.result).toContain('There is a problem')
           expect(res.result).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
@@ -147,6 +151,7 @@ describe('Metric file upload controller tests', () => {
           const uploadConfig = getBaseConfig()
           uploadConfig.hasError = true
           uploadConfig.filePath = `${mockDataPath}/50MB.xlsx`
+          uploadConfig.redirectExpected = true
           const res = await uploadFile(uploadConfig)
           expect(res.payload).toContain('There is a problem')
           expect(res.payload).toContain(`The selected file must not be larger than ${process.env.MAX_METRIC_UPLOAD_MB}MB`)
@@ -167,6 +172,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
+          config.redirectExpected = true
           const response = await uploadFile(config)
           expect(response.payload).toContain('The selected file could not be uploaded - try again')
           setImmediate(() => {
@@ -191,6 +197,7 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
+          config.redirectExpected = true
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must use the statutory biodiversity metric')
           expect(spy).toHaveBeenCalledTimes(1)
@@ -215,6 +222,7 @@ describe('Metric file upload controller tests', () => {
             isOffsiteDataPresent: false,
             areOffsiteTotalsCorrect: false
           }
+          config.redirectExpected = true
           const response = await uploadFile(config)
           expect(response.result).not.toContain('The selected file does not have enough data')
           setImmediate(() => {
@@ -240,6 +248,7 @@ describe('Metric file upload controller tests', () => {
             areOffsiteTotalsCorrect: true,
             isDraftVersion: true
           }
+          config.redirectExpected = true
           const response = await uploadFile(config)
           expect(response.result).toContain('The selected file must not be a draft version')
           expect(spy).toHaveBeenCalledTimes(1)
@@ -259,6 +268,7 @@ describe('Metric file upload controller tests', () => {
           config.filePath = `${mockDataPath}/metric-file.xlsx`
           config.generateHandleEventsError = true
           config.hasError = true
+          config.redirectExpected = true
           const response = await uploadFile(config)
           expect(response.payload).toContain(creditsPurchaseConstants.uploadErrors.uploadFailure)
           setImmediate(() => {

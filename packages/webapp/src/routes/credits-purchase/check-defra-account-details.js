@@ -23,31 +23,35 @@ const handlers = {
     // their account details are correct based on who they are representing in the current session.
     request.yar.clear(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED)
 
+    const errors = request.yar.get('errors') || null
+    request.yar.clear('errors')
+
     return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
       ...getUserDetails(request),
+      err: errors,
       backLink
     })
   },
   post: async (request, h) => {
     const defraAccountDetailsConfirmed = request.payload.defraAccountDetailsConfirmed
-    if (defraAccountDetailsConfirmed) {
-      request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
-      const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
-      const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
-      if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
-        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
-      } else {
-        return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
-      }
+
+    if (!defraAccountDetailsConfirmed) {
+      request.yar.set('errors', [{
+        text: 'You must confirm your Defra account details are up to date',
+        href: '#defraAccountDetailsConfirmed'
+      }])
+      return h.redirect(creditsPurchaseConstants.routes.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS)
+    }
+
+    request.yar.set(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_DEFRA_ACCOUNT_DETAILS_CONFIRMED, defraAccountDetailsConfirmed)
+
+    const userType = request.yar.get(creditsPurchaseConstants.redisKeys.CREDITS_PURCHASE_USER_TYPE)
+    const referrerUrl = getValidReferrerUrl(request.yar, creditsPurchaseConstants.CREDITS_PURCHASE_CDD_VALID_REFERRERS)
+
+    if (userType === creditsPurchaseConstants.applicantTypes.INDIVIDUAL) {
+      return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_MIDDLE_NAME)
     } else {
-      return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_CHECK_DEFRA_ACCOUNT_DETAILS, {
-        ...getUserDetails(request),
-        backLink,
-        err: [{
-          text: 'You must confirm your Defra account details are up to date',
-          href: '#defraAccountDetailsConfirmed'
-        }]
-      })
+      return h.redirect(referrerUrl || creditsPurchaseConstants.routes.CREDITS_PURCHASE_TASK_LIST)
     }
   }
 }
