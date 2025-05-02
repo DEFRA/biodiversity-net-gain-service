@@ -1,5 +1,6 @@
 import creditsPurchaseConstants from '../../utils/credits-purchase-constants.js'
 import getOrganisationDetails from '../../utils/get-organisation-details.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
 
 const individualSignInErrorMessage = `
   You cannot purchase statutory biodiversity credits as an organisation because the Defra account you’re signed into is linked to an individual.
@@ -18,7 +19,7 @@ const getContext = request => {
 }
 
 const getErrorView = (h, request, errorMessage) => {
-  return h.view(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG, {
+  return h.redirectView(creditsPurchaseConstants.views.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG, {
     backLink,
     err: [{
       text: errorMessage,
@@ -66,9 +67,9 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
-  handler: handlers.get
+  handler: addRedirectViewUsed(handlers.get)
 }, {
   method: 'POST',
   path: creditsPurchaseConstants.routes.CREDITS_PURCHASE_INDIVIDUAL_OR_ORG,
-  handler: handlers.post
+  handler: addRedirectViewUsed(handlers.post)
 }]

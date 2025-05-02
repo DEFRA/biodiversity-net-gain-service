@@ -4,6 +4,8 @@ import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional, getValidReferrerUrl
 } from '../../utils/helpers.js'
+import { addRedirectViewUsed } from '../../utils/redirect-view-handler.js'
+
 const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
 
 const handlers = {
@@ -51,7 +53,7 @@ const handlers = {
         err.push(errors[item])
       })
 
-      return h.view(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
+      return h.redirectView(creditsConstants.views.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION, {
         err,
         errors,
         lpaNames: refLpaNames,
@@ -72,12 +74,12 @@ const handlers = {
 export default [{
   method: 'GET',
   path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
-  handler: handlers.get,
+  handler: addRedirectViewUsed(handlers.get),
   options: validateIdGetSchemaOptional
 }, {
   method: 'POST',
   path: creditsConstants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION,
-  handler: handlers.post,
+  handler: addRedirectViewUsed(handlers.post),
   options: validateIdGetSchemaOptional
 }]
 
