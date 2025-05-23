@@ -161,7 +161,7 @@ docker rm {container id or container name}
 Alternaively, see the docker related NPM scripts in [package.json](../package.json) for additional stop commands includng `npm run docker:stop` to stop all containers
 
 ## Toubleshoot
-### Postgit Container
+### Postgis Container
 On linux postgis container might failed due to permission issues, and there are few tips to resolve it as follows;
 1. Check logs of postgis container
     It will show this error
