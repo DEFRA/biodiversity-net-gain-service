@@ -10,7 +10,7 @@ beforeEach(async () => {
   process.env = { ...ORIGINAL_ENV }
   jest.resetAllMocks()
   context = new Context()
-  await recreateContainers(),
+  await recreateContainers()
   await recreateQueues()
 })
 

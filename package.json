@@ -87,51 +87,10 @@
       }
     }
   },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "<rootDir>/**/src/**/*.js",
-      "<rootDir>/**/src/**/*.cjs",
-      "<rootDir>/**/*.mjs",
-      "<rootDir>/**/ProcessTrustedFile/**/*.js",
-      "<rootDir>/**/Shared/**/*.js",
-      "!<rootDir>/**/__tests__/**",
-      "!<rootDir>/**/__mocks__/**"
-    ],
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/packages/connectors-lib/src/azure-service-bus-connector.js"
-    ],
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 90,
-        "lines": 90,
-        "statements": 90
-      }
-    },
-    "projects": [
-      "<rootDir>/packages/azure-functions/jest.config.cjs",
-      "<rootDir>/packages/azure-storage-test-utils/jest.config.cjs",
-      "<rootDir>/packages/azurite-bootstrap-service/jest.config.cjs",
-      "<rootDir>/packages/bng-metric-service/jest.config.cjs",
-      "<rootDir>/packages/connectors-lib/jest.config.cjs",
-      "<rootDir>/packages/database-version-control/jest.config.js",
-      "<rootDir>/packages/errors-lib/package.json",
-      "<rootDir>/packages/utils-lib/jest.config.cjs",
-      "<rootDir>/packages/webapp/jest.config.cjs"
-    ],
-    "testEnvironment": "node",
-    "testRunner": "jest-circus/runner",
-    "silent": true,
-    "transformIgnorePatterns": [
-      "<rootDir>/packages/webapp/node_modules/@defra/(?!(ngr-to-bng)/)"
-    ]
-  },
   "dependencies": {
-    "npm": "^10.5.0"
+    "npm": "^10.8.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

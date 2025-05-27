@@ -82,7 +82,7 @@ See [Github actions workflow document](../.github/workflows/build.yaml) for buil
 # To build the application images, local dev infrastructure and start containers locally that support development
 npm run docker:build-services
 npm run docker:build-infrastructure
-docker:start-test-double-infrastructure
+npm run docker:start-test-double-infrastructure
 
 # At this point unit tests can be run that make use of the azurite container for test doubles.
 # To run linting and tests (from repository root)
@@ -159,6 +159,22 @@ docker rm {container id or container name}
 ```
 
 Alternaively, see the docker related NPM scripts in [package.json](../package.json) for additional stop commands includng `npm run docker:stop` to stop all containers
+
+## Toubleshoot
+### Postgis Container
+On linux postgis container might failed due to permission issues, and there are few tips to resolve it as follows;
+1. Check logs of postgis container
+    It will show this error
+    ```sh
+    chmod: /var/lib/postgresql/data: Operation not permitted
+    The files belonging to this database system will be owned by user "postgres".
+    This user must also own the server process.
+    ```
+    To resolve this issue, check user id of postgres and change the owner of /docker/volume/postgis
+
+    ```sh
+    sudo chown -R <user id/name>:<group id/name> /docker/volume/postgis
+    ``` 
 
 ## Cloud Service Containers
 

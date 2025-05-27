@@ -4,7 +4,7 @@ import { getLpaNames } from '../../utils/get-lpas.js'
 import {
   validateIdGetSchemaOptional, getValidReferrerUrl
 } from '../../utils/helpers.js'
-const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.json'
+const filePathAndName = './src/utils/ref-data/lpas-names-and-ids.js'
 
 const handlers = {
   get: (request, h) => {

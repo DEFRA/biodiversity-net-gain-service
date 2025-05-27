@@ -31,6 +31,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "^4.0.0",
-    "@slonik/migrator": "0.12.0"
+    "@slonik/migrator": "0.12.0",
+    "pg": "^8.11.6"
   }
 }
