@@ -332,5 +332,10 @@ export default Object.freeze([
   { name: 'Old Oak and Park Royal Development Corporation LPA', id: 'E60000330' },
   { name: 'Buckinghamshire LPA', id: 'E60000331' },
   { name: 'North Northamptonshire LPA', id: 'E60000332' },
-  { name: 'West Northamptonshire LPA', id: 'E60000333' }
+  { name: 'West Northamptonshire LPA', id: 'E60000333' },
+  { name: 'Kingâ€™s Lynn and West Norfolk LPA', id: 'E60000334' },
+  { name: 'Cumberland LPA', id: 'E60000335' },
+  { name: 'Westmorland and Furness LPA', id: 'E60000336' },
+  { name: 'North Yorkshire LPA', id: 'E60000337' },
+  { name: 'Somerset LPA', id: 'E60000338' }
 ])
