@@ -337,5 +337,5 @@ export default Object.freeze([
   { name: 'Cumberland LPA', id: 'E60000335' },
   { name: 'Westmorland and Furness LPA', id: 'E60000336' },
   { name: 'North Yorkshire LPA', id: 'E60000337' },
-  { name: 'Somerset LPA', id: 'E60000338' }
+  { name: 'Somerset LPA', id: 'E60000338' },
 ])
