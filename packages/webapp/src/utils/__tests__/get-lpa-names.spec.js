@@ -5,7 +5,7 @@ describe('getLpaNames', () => {
     const expectedToInclude = ['Secretary of State', 'County Durham LPA']
     const lpaNames = getLpaNames()
 
-    expect(lpaNames).toHaveLength(339)
+    expect(lpaNames).toHaveLength(338)
     expect(lpaNames).toEqual(expect.arrayContaining(expectedToInclude))
   })
 
@@ -16,7 +16,7 @@ describe('getLpaNames', () => {
     ]
     const lpaNamesAndCodes = getLpaNamesAndCodes()
 
-    expect(lpaNamesAndCodes).toHaveLength(339)
+    expect(lpaNamesAndCodes).toHaveLength(338)
     expect(lpaNamesAndCodes).toEqual(expect.arrayContaining(expectedToInclude))
   })
 })
