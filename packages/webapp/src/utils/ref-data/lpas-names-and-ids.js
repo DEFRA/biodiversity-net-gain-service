@@ -178,7 +178,7 @@ export default Object.freeze([
   { name: 'Breckland LPA', id: 'E60000176' },
   { name: 'Broadland LPA', id: 'E60000177' },
   { name: 'Great Yarmouth LPA', id: 'E60000178' },
-  { name: "King's Lynn and West Norfolk LPA", id: 'E60000179' },
+  { name: 'Kingâ€™s Lynn and West Norfolk LPA', id: 'E60000179' },
   { name: 'North Norfolk LPA', id: 'E60000180' },
   { name: 'Norwich LPA', id: 'E60000181' },
   { name: 'South Norfolk LPA', id: 'E60000182' },
@@ -333,9 +333,8 @@ export default Object.freeze([
   { name: 'Buckinghamshire LPA', id: 'E60000331' },
   { name: 'North Northamptonshire LPA', id: 'E60000332' },
   { name: 'West Northamptonshire LPA', id: 'E60000333' },
-  { name: 'Kingâ€™s Lynn and West Norfolk LPA', id: 'E60000334' },
-  { name: 'Cumberland LPA', id: 'E60000335' },
-  { name: 'Westmorland and Furness LPA', id: 'E60000336' },
-  { name: 'North Yorkshire LPA', id: 'E60000337' },
-  { name: 'Somerset LPA', id: 'E60000338' }
+  { name: 'Cumberland LPA', id: 'E60000334' },
+  { name: 'Westmorland and Furness LPA', id: 'E60000335' },
+  { name: 'North Yorkshire LPA', id: 'E60000336' },
+  { name: 'Somerset LPA', id: 'E60000337' }
 ])
