@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 
 const randomReferenceString = (length) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const chars = '0123456789ABCDEFGHJKMNPRTUVWXY'
   let result = ''
   for (let i = 0; i < length; i++) {
     const randomIndex = crypto.randomInt(0, chars.length)
