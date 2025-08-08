@@ -1,6 +1,9 @@
 import { submitGetRequest, submitPostRequest } from '../helpers/server.js'
 import constants from '../../../utils/credits-purchase-constants.js'
-import lojConstants from '../../../utils/loj-constants.js'
+import { getLpaNames } from '../../../utils/get-lpas.js'
+
+jest.mock('../../../utils/get-lpas.js')
+
 const url = constants.routes.CREDITS_PURCHASE_DEVELOPMENT_PROJECT_INFORMATION
 
 describe(url, () => {
@@ -23,14 +26,13 @@ describe(url, () => {
 
     redisMap = new Map()
     redisMap.set(constants.redisKeys.PLANNING_AUTHORTITY_LIST, ['Planning Authority 1', 'Planning Authority 2'])
-    redisMap.set(lojConstants.redisKeys.REF_LPA_NAMES, ['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
 
     developmentProjectInformation = require('../../credits-purchase/development-project-information.js')
+
+    getLpaNames.mockReturnValue(['Northumberland LPA', 'Middlesbrough LPA', 'Planning Authority 1', 'Planning Authority 2', 'Planning Authority 3'])
   })
 
   describe('GET', () => {
-    jest.mock('../../../utils/get-lpas.js')
-
     it(`should render the ${url.substring(1)} view`, async () => {
       await submitGetRequest({ url })
     })
