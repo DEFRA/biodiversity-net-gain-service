@@ -2,8 +2,15 @@
 
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% set pageHeading = "Upload written authorisation to apply" %}
+
+{% if isIndividual %}
+  {% set clientOrOrganisationName = clientsName.value.firstName + " " + clientsName.value.lastName %}
+{% else %}
+  {% set clientOrOrganisationName = clientsOrganisationName %}
+{% endif %}
 
 {% block formContent %}
     <div class="govuk-body">
@@ -30,7 +37,7 @@
                     {% else %}
                     <b>{{ clientsOrganisationName }}'s</b>
                     {% endif %}
-                    authorisation for you to act on their behalf
+                    authorisation for you to act on their behalf, dated within the last 2 months
                   </li>
                   {% if isIndividual %}
                     <li>their name and signature</li>
@@ -55,32 +62,17 @@
                     }
                 }) }}
 
-                <details class="govuk-details">
-                  <summary class="govuk-details__summary">
-                    <span class="govuk-details__summary-text">
-                      What to do if you have no written authorisation
-                    </span>
-                  </summary>
-                  <div class="govuk-details__text">
-                    <p>You can <a href="#">download an 'Authorise an agent' form</a> and ask 
-                      <strong>                    
-                        {% if isIndividual %}
-                          {{ clientsName.value.firstName }} {{ clientsName.value.lastName }}
-                        {% else %}
-                          {{ clientsOrganisationName }}
-                        {% endif %}
-                      </strong> to complete it.</p>
+                {{ govukInsetText({
+                  html: "
+                    <h3>What to do if you have no written authorisation</h3>
+                    <p>You can <a href='https://www.gov.uk/government/publications/authorise-an-agent-to-act-your-behalf-form' target='_blank' rel='noopener'>download an 'Authorise an agent' form (opens in new tab)</a> and ask
+                      <strong>" + clientOrOrganisationName + "</strong> to complete it.
+                    </p>
                     <p>You can then come back to this application and upload the completed form as written authorisation to apply.</p>
-                  </div>
-                </details>
-
-                {{ govukButton({
-                    text: "Upload",
-                    attributes: {
-                        id: "continue",
-                        "data-testid": "continue"
-                    }
+                  "
                 }) }}
+
+                {% include "common/save-and-upload-button-group.html" %}
             </div>
         </div>
     </div>

@@ -67,16 +67,8 @@
                     <p>You can then come back to this application and upload the completed form as written authorisation to apply.</p>
                 </div>
 
-                <div class="govuk-button-group">
-                  {{ govukButton({
-                    text: "Save and upload",
-                    attributes: {
-                      id: "continue",
-                      "data-testid": "continue"
-                    }
-                  }) }}
-                  <a class="govuk-link" href="/signout">Or save progress and come back later</a>
-                </div>
+                {% include "common/save-and-upload-button-group.html" %}
+
             </div>
         </div>
     </div>

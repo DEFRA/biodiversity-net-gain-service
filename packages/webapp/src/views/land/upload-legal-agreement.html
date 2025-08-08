@@ -1,7 +1,9 @@
 {% extends 'multipart-form-layout.html' %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 {% set pageHeading = "Upload the " + legalAgreementType %}
+{% set summaryText = "What to do if you have no " + legalAgreementType %}
 
 {% block formContent %}
   <div class="govuk-body">
@@ -33,16 +35,25 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-          <p class="govuk-!-padding-top-3">
-            <a href="/land/need-legal-agreement">I do not have a {{legalAgreementType}}</a>
-          </p>
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
+
+          {{ govukDetails({
+            summaryText: "What to do if you have no legal agreement",
+            html: "
+            <p>You need to upload a legal agreement that:</p>
+            <ul class='govuk-list govuk-list--bullet'>
+              <li>secures the habitat enhancements on the land</li>
+              <li>is for at least 30 years</li>
+            </ul>
+            <p>This must be either a:</p>
+            <ul class='govuk-list govuk-list--bullet'>
+              <li><a href='https://www.gov.uk/guidance/getting-and-using-a-conservation-covenant-agreement'>conservation covenant</a></li>
+              <li><a href='https://www.gov.uk/guidance/planning-obligations'>planning obligation (Section 106 agreement)</a></li>
+            </ul>
+            "
           }) }}
+
+          {% include "common/save-and-upload-button-group.html" %}
+
       </div>
     </div>
   </div>

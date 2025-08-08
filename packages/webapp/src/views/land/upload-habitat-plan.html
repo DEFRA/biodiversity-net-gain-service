@@ -31,14 +31,8 @@
               classes: "govuk-visually-hidden"
             }
           }) }}
-          {{ govukButton({
-            text: "Upload",
-            attributes: {
-              id: "continue",
-              "data-testid": "continue"
-            }
-          }) }}
-          <p><a href="/land/need-habitat-plan">I do not have the habitat management and monitoring plan</a></p>
+          {% include "common/save-and-upload-button-group.html" %}
+
       </div>
     </div>
   </div>
