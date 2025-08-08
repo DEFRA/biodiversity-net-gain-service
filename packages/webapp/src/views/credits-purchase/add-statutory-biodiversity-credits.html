@@ -21,7 +21,10 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+          <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+        </legend> 
       <p class="govuk-body">The information you require to get an estimate from this service can be found in the 'unit shortfall summary' tab, from the results menu, in the statutory biodiversity metric calculation tool.</p>
       <p class="govuk-body">Enter the number of credits from the statutory biodiversity metric calculation tool, up to 2 decimal places, like 23.75.</p>
 
@@ -171,6 +174,7 @@
           }
         }) }}
       </form>
+    </fieldset>
     </div>
   </div>
 {% endblock %}
