@@ -19,9 +19,7 @@ const initDatabase = async () => {
     await pool.query(`CREATE DATABASE ${dbName};`)
   } else {
     console.log(`Database ${dbName} already exists, skipping creation...`)
-    let result = await pool.query('select current_user;')
-    console.log(result.rows)
-    result = await pool.query('select current_database();')
+    const result = await pool.query("select * from pgaadauth_create_principal('TSTBNGWEBFA4401', false, false);")
     console.log(result.rows)
   }
   await pool.end()
