@@ -19,6 +19,10 @@ const initDatabase = async () => {
     await pool.query(`CREATE DATABASE ${dbName};`)
   } else {
     console.log(`Database ${dbName} already exists, skipping creation...`)
+    let result = await pool.query('select current_user;')
+    console.log(result.rows)
+    result = await pool.query('select current_database();')
+    console.log(result.rows)
   }
   await pool.end()
 }
