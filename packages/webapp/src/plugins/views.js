@@ -21,6 +21,16 @@ const views = {
             autoescape: true,
             watch: false
           })
+
+          // To handle .toFixed(2) errors globally, especially when rendering numbers that might be undefined, null, or non-numeric
+          options.compileOptions.environment.addFilter('safeToFixed', function (value, digits = 2) {
+            const num = parseFloat(value)
+            if (isNaN(num)) {
+              return '' // or return '0.00' or any fallback
+            }
+            return num.toFixed(digits)
+          })
+
           return next()
         }
       }

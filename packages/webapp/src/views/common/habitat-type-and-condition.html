@@ -20,7 +20,7 @@
           </span>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          {% if item.amount %} {{ item.amount.toFixed(2) }} {% endif %}
+          {% if item.amount %} {{ item.amount | safeToFixed(2) }} {% endif %}
         </td>
       </tr>
       {% endfor %}
@@ -30,7 +30,7 @@
           Total
         </th>
         <td class="govuk-table__cell govuk-table__cell--numeric" data-testid={{ habitat.dataTestId }}>
-          {{ habitat.total.toFixed(2) }}
+          {{ habitat.total | safeToFixed(2) }}
         </td>
       </tr>
     </tbody>

@@ -329,26 +329,30 @@ const combineHabitats = habitatTypeAndCondition => {
 }
 
 const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) => {
-  const filteredMetricData = {}
-  const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
+  try {
+    const filteredMetricData = {}
+    const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
 
-  sheetLabels.forEach(label => {
-    filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
+    sheetLabels.forEach(label => {
+      filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
 
-    // calculate the area based on the filtered out habitats and add to the habitat array
-    // as the last entry, this is then used by habitatTypeAndConditionMapper later
-    const unitKey = habitatTypeMap[label].unitKey
-    const measurementTotal = filteredMetricData[label].reduce((acc, cur) => {
-      const habitatArea = cur[unitKey] ?? 0
-      return acc + habitatArea
-    }, 0)
-    filteredMetricData[label].push({
-      [unitKey]: measurementTotal
+      // calculate the area based on the filtered out habitats and add to the habitat array
+      // as the last entry, this is then used by habitatTypeAndConditionMapper later
+      const unitKey = habitatTypeMap[label].unitKey
+      const measurementTotal = filteredMetricData[label].reduce((acc, cur) => {
+        const habitatArea = cur[unitKey] ?? 0
+        return acc + habitatArea
+      }, 0)
+      filteredMetricData[label].push({
+        [unitKey]: measurementTotal
+      })
     })
-  })
 
-  const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
-  return combineHabitats(habitats)
+    const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
+    return combineHabitats(habitats)
+  } catch (error) {
+    console.error('Error at extractAllocationHabitatsByGainSiteNumber:', error)
+  }
 }
 
 const validateName = (fullName, hrefId) => {
