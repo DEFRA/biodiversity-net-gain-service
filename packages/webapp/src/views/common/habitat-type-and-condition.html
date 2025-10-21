@@ -30,9 +30,7 @@
           Total
         </th>
         <td class="govuk-table__cell govuk-table__cell--numeric" data-testid={{ habitat.dataTestId }}>
-          {% if habitat.total %}
           {{ habitat.total | safeToFixed(2) }}
-          {% endif %}
         </td>
       </tr>
     </tbody>

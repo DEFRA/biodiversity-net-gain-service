@@ -332,10 +332,10 @@ const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) =
   try {
     const filteredMetricData = {}
     const sheetLabels = ['d2', 'd3', 'e2', 'e3', 'f2', 'f3']
-  
+
     sheetLabels.forEach(label => {
       filteredMetricData[label] = metricData[label].filter(habitat => String(habitat['Off-site reference']) === gainSiteNumber)
-  
+
       // calculate the area based on the filtered out habitats and add to the habitat array
       // as the last entry, this is then used by habitatTypeAndConditionMapper later
       const unitKey = habitatTypeMap[label].unitKey
@@ -347,11 +347,11 @@ const extractAllocationHabitatsByGainSiteNumber = (metricData, gainSiteNumber) =
         [unitKey]: measurementTotal
       })
     })
-  
+
     const habitats = habitatTypeAndConditionMapper(['d2', 'd3', 'e2', 'e3', 'f2', 'f3'], filteredMetricData)
     return combineHabitats(habitats)
   } catch (error) {
-    console.error("Error at extractAllocationHabitatsByGainSiteNumber:", error)
+    console.error('Error at extractAllocationHabitatsByGainSiteNumber:', error)
   }
 }
 
