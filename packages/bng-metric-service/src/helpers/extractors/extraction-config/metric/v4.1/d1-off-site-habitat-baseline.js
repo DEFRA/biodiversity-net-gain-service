@@ -19,6 +19,8 @@ const d1OffSiteHabitatBaseline = {
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AF259',
+  // Hidden sequential row-number column used to find the real last data row, confirmed from the workbook structure
+  rowExtent: { method: 'sequentialRefColumn', refColumn: 'D' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],

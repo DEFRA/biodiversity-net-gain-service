@@ -19,6 +19,8 @@ const e1OffSiteHedgeBaseline = {
   titleCellAddress: 'B3',
   startCell: 'B9',
   endCell: 'AB258',
+  // Hidden sequential row-number column used to find the real last data row, confirmed from the workbook structure
+  rowExtent: { method: 'sequentialRefColumn', refColumn: 'B' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],

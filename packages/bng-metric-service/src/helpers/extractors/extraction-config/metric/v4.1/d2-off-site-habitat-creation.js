@@ -16,6 +16,8 @@ const d2OffSiteHabitatCreation = {
   titleCellAddress: 'D3',
   startCell: 'D10',
   endCell: 'AG257',
+  // Hidden sequential row-number column used to find the real last data row, confirmed from the workbook structure
+  rowExtent: { method: 'sequentialRefColumn', refColumn: 'B' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

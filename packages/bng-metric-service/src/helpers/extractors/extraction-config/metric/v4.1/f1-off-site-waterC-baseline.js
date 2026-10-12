@@ -20,6 +20,8 @@ const f1OffSiteWaterCBaseline = {
   titleCellAddress: 'B3',
   startCell: 'C9',
   endCell: 'AH258',
+  // Hidden sequential row-number column used to find the real last data row, confirmed from the workbook structure
+  rowExtent: { method: 'sequentialRefColumn', refColumn: 'C' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [[baselineRef, totalUnits]],
