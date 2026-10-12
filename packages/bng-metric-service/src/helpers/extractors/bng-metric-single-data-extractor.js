@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import xslx from 'xlsx'
 import isMetricWorkbook from './validation-config/is-metric-workbook.js'
+import { detectTotalsRow } from './extraction-config/row-extent.js'
 
 class BngMetricSingleDataExtractor {
   extractContent = async (contentInputStream, { extractionConfiguration, validationConfiguration }) => {
@@ -48,8 +49,9 @@ class BngMetricSingleDataExtractor {
       return null
     } else {
       const sheetTitle = worksheet[extractionConfiguration.titleCellAddress]?.v || extractionConfiguration.sheetName
-      if (extractionConfiguration.endCell) {
-        worksheet['!ref'] = `${extractionConfiguration.startCell}:${extractionConfiguration.endCell}` // Update sheet range
+      const endCell = this.#resolveEndCell(worksheet, extractionConfiguration)
+      if (endCell) {
+        worksheet['!ref'] = `${extractionConfiguration.startCell}:${endCell}` // Update sheet range
       } else {
         worksheet['!ref'] = `${extractionConfiguration.startCell}:${worksheet['!ref'].split(':')[1]}`
       }
@@ -80,6 +82,22 @@ class BngMetricSingleDataExtractor {
 
       return data
     }
+  }
+
+  // Sheets with rowExtent metadata get their real last row detected from the workbook structure,
+  // falling back to the configured endCell if the structure can't be recognised
+  #resolveEndCell = (worksheet, extractionConfiguration) => {
+    if (!extractionConfiguration.endCell) {
+      return null
+    }
+    if (!extractionConfiguration.rowExtent) {
+      return extractionConfiguration.endCell
+    }
+
+    const legacyRow = parseInt(extractionConfiguration.endCell.match(/\d+/)[0], 10)
+    const column = extractionConfiguration.endCell.match(/[A-Z]+/)[0]
+    const detectedRow = detectTotalsRow(worksheet, extractionConfiguration)
+    return `${column}${detectedRow || legacyRow}`
   }
 
   #performSubstitution = (data, extractionConfiguration) => {
