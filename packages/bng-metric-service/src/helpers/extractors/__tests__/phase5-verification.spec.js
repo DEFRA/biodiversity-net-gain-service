@@ -110,6 +110,34 @@ const extractSheet = async (extractionConfiguration, buffer) => {
   return response.sheet
 }
 
+// Enhancement tabs E-3, F-3: no structural signal of their own, so their last row is derived from
+// D-3's detected totals row. D-3 is populated in the same workbook purely so that sibling lookup works.
+const buildSiblingDerivedEnhancementWorkbook = (targetConfig, rowCount) => {
+  const workbook = xslx.utils.book_new()
+  addGateSheets(workbook)
+
+  const d3HeaderRow = startRowOf(d3OffSiteHabitatEnhancement.startCell)
+  const d3Aoa = Array.from({ length: d3HeaderRow - 1 }, () => [])
+  d3Aoa.push(d3OffSiteHabitatEnhancement.cellHeaders)
+  for (let i = 1; i <= rowCount; i++) {
+    d3Aoa.push(d3OffSiteHabitatEnhancement.cellHeaders.map((header, idx) => (idx === 0 ? i : `v${idx}-${i}`)))
+  }
+  const d3Sheet = xslx.utils.aoa_to_sheet(d3Aoa, { origin: `${columnOf(d3OffSiteHabitatEnhancement.startCell)}1` })
+  setCell(d3Sheet, `U${d3HeaderRow + rowCount + 1}`, 'Total habitat area')
+  xslx.utils.book_append_sheet(workbook, d3Sheet, d3OffSiteHabitatEnhancement.sheetName)
+
+  const targetHeaderRow = startRowOf(targetConfig.startCell)
+  const targetAoa = Array.from({ length: targetHeaderRow - 1 }, () => [])
+  targetAoa.push(targetConfig.cellHeaders)
+  for (let i = 1; i <= rowCount; i++) {
+    targetAoa.push(targetConfig.cellHeaders.map((header, idx) => (idx === 0 ? i : `v${idx}-${i}`)))
+  }
+  const targetSheet = xslx.utils.aoa_to_sheet(targetAoa, { origin: `${columnOf(targetConfig.startCell)}1` })
+  xslx.utils.book_append_sheet(workbook, targetSheet, targetConfig.sheetName)
+
+  return xslx.write(workbook, { type: 'buffer', bookType: 'xlsx' })
+}
+
 // Old (v1.0.3-era) legacy row counts confirmed from the Phase 1 workbook diff
 const sequentialRefCases = [
   { name: 'D-1 Off-Site Habitat Baseline', config: d1OffSiteHabitatBaseline, legacyMax: 248, build: buildBaselineWorkbook },
@@ -145,20 +173,17 @@ describe('Phase 5 verification: rows 1, old legacy maximum and new 350 maximum p
     })
   })
 
-  describe('E-3 and F-3 (known limitation: legacy row boundary only, confirmed by earlier decision)', () => {
-    // startCell row 11 is the header; endCell row 258 is hard-coded, so rows 12-258 inclusive (247 rows) is the ceiling
-    const legacyMaxRows = 247
-
-    it('E-3 Off-Site Hedge Enhancement only reads up to its legacy row boundary, even when more rows exist', async () => {
-      const buffer = buildBaselineWorkbook(e3OffSiteHedgeEnhancement, legacyMaxRows + 13)
+  describe('E-3 and F-3 (derived from D-3 via sibling-offset detection)', () => {
+    it.each([1, 248, 350])('E-3 Off-Site Hedge Enhancement reads exactly %i row(s), including rows beyond the old maximum', async rowCount => {
+      const buffer = buildSiblingDerivedEnhancementWorkbook(e3OffSiteHedgeEnhancement, rowCount)
       const rows = await extractSheet(e3OffSiteHedgeEnhancement, buffer)
-      expect(rows.length).toEqual(legacyMaxRows)
+      expect(rows.length).toEqual(rowCount)
     })
 
-    it('F-3 Off-Site WaterC Enhancement only reads up to its legacy row boundary, even when more rows exist', async () => {
-      const buffer = buildBaselineWorkbook(f3OffSiteWaterCEnhancement, legacyMaxRows + 13)
+    it.each([1, 248, 350])('F-3 Off-Site WaterC Enhancement reads exactly %i row(s), including rows beyond the old maximum', async rowCount => {
+      const buffer = buildSiblingDerivedEnhancementWorkbook(f3OffSiteWaterCEnhancement, rowCount)
       const rows = await extractSheet(f3OffSiteWaterCEnhancement, buffer)
-      expect(rows.length).toEqual(legacyMaxRows)
+      expect(rows.length).toEqual(rowCount)
     })
   })
 })

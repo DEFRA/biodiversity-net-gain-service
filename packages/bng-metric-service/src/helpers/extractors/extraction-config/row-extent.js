@@ -63,4 +63,17 @@ const detectTotalsRow = (worksheet, extractionConfiguration) => {
   return null
 }
 
-export { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow }
+// Sheets with no structural signal of their own (e.g. E-3, F-3) derive their last row from a sibling
+// sheet's detected totals row plus a fixed offset confirmed from the same release's workbook evidence.
+const resolveSiblingDerivedRow = (workbook, extractionConfiguration) => {
+  const { siblingSheetConfig, offset } = extractionConfiguration.rowExtent
+  const siblingWorksheet = workbook.Sheets[siblingSheetConfig.sheetName]
+  if (!siblingWorksheet) {
+    return null
+  }
+
+  const siblingRow = detectTotalsRow(siblingWorksheet, siblingSheetConfig)
+  return siblingRow ? siblingRow + offset : null
+}
+
+export { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow, resolveSiblingDerivedRow }
