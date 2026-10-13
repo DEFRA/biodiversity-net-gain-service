@@ -1,4 +1,15 @@
-import { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow } from '../row-extent.js'
+import { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow, findSumFormulaTotalsRow } from '../row-extent.js'
+
+describe('findSumFormulaTotalsRow', () => {
+  it('finds the SUM formula cell below the header in the given column', () => {
+    const worksheet = { P12: { v: 1 }, P362: { v: 5, f: 'SUM(P12:P361)' } }
+    expect(findSumFormulaTotalsRow(worksheet, { column: 'P', startCell: 'B11' })).toEqual(362)
+  })
+
+  it('returns null when no SUM formula exists in the column', () => {
+    expect(findSumFormulaTotalsRow({ P362: { v: 5 } }, { column: 'P', startCell: 'B11' })).toBeNull()
+  })
+})
 
 const buildSequentialWorksheet = (refColumn, startRow, rowCount) => {
   const worksheet = {}

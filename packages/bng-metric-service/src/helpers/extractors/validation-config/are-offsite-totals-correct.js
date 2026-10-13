@@ -1,5 +1,5 @@
 import configuration from '../extraction-config/configuration.js'
-import { detectTotalsRow } from '../extraction-config/row-extent.js'
+import { detectTotalsRow, findSumFormulaTotalsRow } from '../extraction-config/row-extent.js'
 
 const sheetConfig = configuration['v4.1']
 const tolerance = 0.00000001
@@ -11,7 +11,10 @@ const resolveTotalsCell = (workbook, extractionConfiguration, column, legacyRow)
   if (!worksheet) {
     return undefined
   }
-  const row = detectTotalsRow(worksheet, extractionConfiguration) || legacyRow
+  const detectedRow = extractionConfiguration.rowExtent?.method === 'siblingOffset'
+    ? findSumFormulaTotalsRow(worksheet, { column, startCell: extractionConfiguration.startCell })
+    : detectTotalsRow(worksheet, extractionConfiguration)
+  const row = detectedRow || legacyRow
   return worksheet[`${column}${row}`]?.v
 }
 

@@ -76,4 +76,17 @@ const resolveSiblingDerivedRow = (workbook, extractionConfiguration) => {
   return siblingRow ? siblingRow + offset : null
 }
 
-export { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow, resolveSiblingDerivedRow }
+// Sheets with no label or ref column (E-3, F-3) still total their column with a SUM() formula; the
+// sibling offset to D-3 differs between layouts, so the formula's own position is the reliable signal.
+const findSumFormulaTotalsRow = (worksheet, { column, startCell, maxSearchRows = 1000 }) => {
+  const startRow = rowFromCellAddress(startCell) + 1
+  for (let row = startRow; row < startRow + maxSearchRows; row++) {
+    if (/^SUM\(/i.test(worksheet[`${column}${row}`]?.f || '')) {
+      return row
+    }
+  }
+
+  return null
+}
+
+export { findSequentialTotalsRow, findLabelledTotalsRow, detectTotalsRow, resolveSiblingDerivedRow, findSumFormulaTotalsRow }
