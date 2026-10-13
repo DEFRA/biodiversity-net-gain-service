@@ -32,13 +32,13 @@ E-3/F-3 have no totals label or sequential ref column of their own. Their last r
 | Release label | Numeric `Start!D8` | Row capacity change | Branch | Compatibility assessment | Status |
 |---|---|---|---|---|---|
 | 1.0.3 (baseline) | 4.1 | ~246–248 rows | – | – | Supported |
-| 1.1.0 (DRAFT) | 4.1 (unchanged) | 350 rows | `feature/metric-1.1.0-compat` | `packages/bng-metric-service/COMPATIBILITY_ASSESSMENT.md` | In review |
+| 1.1.0 (DRAFT) | 4.1 (unchanged) | 350 rows | `feature/metric-1.1.0-compat` | – | In review |
 
 ## Process for a new release
 
 1. Get the previous and new workbooks, and confirm the release name with whoever requested the update.
 2. Compare the workbooks (sheet/row/formula/label diffs) — this is normally done in the separate `metric-file-agent` repo, which produces a structural diff report.
-3. Write/update `packages/bng-metric-service/COMPATIBILITY_ASSESSMENT.md` covering every file in this package that depends on workbook structure.
+3. Write/update the compatibility review notes for every file in this package that depends on workbook structure.
 4. Branch as `feature/metric-<version>-compat` and commit in small, reviewable steps: config/constants → detection logic → parser refactor → rules → tests. Run lint and the full test suite after every commit.
 5. Never remove or narrow support for a version already in this table.
 6. Update this register's two tables above, and list any workbook defects to raise with the client separately (do not let code depend on them).
