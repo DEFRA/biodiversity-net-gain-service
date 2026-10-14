@@ -1,3 +1,5 @@
+import d3OffSiteHabitatEnhancement from './d3-off-site-habitat-enhancement.js'
+
 const headers = [
   'Baseline ref',
   'Baseline habitat',
@@ -18,7 +20,10 @@ const f3OffSiteWaterCEnhancement = {
   sheetName: 'F-3 Off-Site WaterC Enhancement',
   titleCellAddress: 'B3',
   startCell: 'B11',
-  endCell: 'AT258',
+  endCell: 'AT',
+  // No structural signal of its own; last row is derived from D-3's detected totals row (confirmed
+  // exact for the legacy file from the Phase 1 workbook diff; legacyRow is the fallback if that fails)
+  rowExtent: { method: 'siblingOffset', siblingSheetConfig: d3OffSiteHabitatEnhancement, offset: -1, legacyRow: 258 },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],
