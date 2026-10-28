@@ -19,5 +19,8 @@
     "pino": "^8.17.2",
     "pino-pretty": "10.3.1"
   },
-  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593"
+  "gitHead": "60287317d32d49979b2cff915fbc9ae5fc9e4593",
+  "overrides": {
+    "@azure/msal-node": "^7.1.2"
+  }
 }

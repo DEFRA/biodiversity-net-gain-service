@@ -1,4 +1,5 @@
 docker/secrets
 docker/volumes
 **/node_modules
+.git
 packages/azure-functions/local.settings.json

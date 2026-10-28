@@ -5,7 +5,7 @@
   "type": "module",
   "description": "A set of Node.js Microsoft Azure functions associated with processing an application to the Biodiversity Net Gain Register",
   "engines": {
-    "node": ">=20"
+    "node": ">=24.22.1"
   },
   "engine-strict": true,
   "scripts": {
@@ -32,5 +32,8 @@
   },
   "devDependencies": {
     "@defra/bng-azure-storage-test-utils": "1.193.0"
+  },
+  "overrides": {
+    "@azure/msal-node": "^7.1.2"
   }
 }
