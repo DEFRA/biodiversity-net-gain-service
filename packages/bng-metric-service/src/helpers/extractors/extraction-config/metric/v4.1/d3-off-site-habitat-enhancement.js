@@ -21,6 +21,8 @@ const d3OffSiteHabitatEnhancement = {
   titleCellAddress: 'E3',
   startCell: 'E11',
   endCell: 'AU259',
+  // No sequential row-number column on this sheet; the real last data row is found by searching for the totals-row label
+  rowExtent: { method: 'totalsLabel' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],

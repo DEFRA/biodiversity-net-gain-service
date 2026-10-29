@@ -15,6 +15,8 @@ const e2OffSiteHedgeCreation = {
   titleCellAddress: 'B3',
   startCell: 'B11',
   endCell: 'AE260',
+  // Hidden sequential row-number column used to find the real last data row, confirmed from the workbook structure
+  rowExtent: { method: 'sequentialRefColumn', refColumn: 'B' },
   cellHeaders: headers,
   columnsToBeRemoved: [],
   rowsToBeRemovedTemplate: [],
