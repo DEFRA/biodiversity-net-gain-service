@@ -63,7 +63,8 @@
     "pacote": "^21.5.1",
     "@nrwl/devkit": "npm:@nx/devkit@^22.7.10",
     "sigstore": "^5.0.0",
-    "libnpmpublish": "^11.2.1"
+    "libnpmpublish": "^11.2.1",
+    "re2js": "^2.9.1"
   },
   "standard": {
     "env": [
